@@ -25,6 +25,72 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 
 cli publish --platform mp-weixin --project 项目名称 --upload true --appid 小程序appid --description 发布描述 --version 发布版本 --privatekey 小程序上传密钥文件 --robot 2
 
+## 文件说明
+
+```
+├── LICENSE
+├── README.md
+├── env // 环境变量配置
+├── favicon.ico
+├── index.html
+├── manifest.config.ts
+├── package.json --- 项目版本约束 配置
+├── pages.config.ts
+├── pnpm-lock.yaml
+├── src        -- 项目主要代码
+│ ├── App.vue
+│ ├── components
+│ ├── env.d.ts
+│ ├── hooks
+│ │ ├── useRequest.ts
+│ │ └── useUpload.ts
+│ ├── interceptors
+│ │ ├── index.ts
+│ │ ├── prototype.ts
+│ │ ├── request.ts
+│ │ └── route.ts
+│ ├── layouts    --- 主要结构配置
+│ │ ├── default.vue
+│ ├── main.ts
+│ ├── manifest.json
+│ ├── pages
+│ │ ├── about
+│ │ └── index
+│ │ └── index.vue
+│ ├── pages-sub  ------分包
+│ │ └── demo
+│ ├── pages.json
+│ ├── service
+│ │ └── index
+│ │ └── foo.ts
+│ ├── static
+│ │ ├── app
+│ │ │ └── icons
+│ │ ├── images
+│ │ ├── logo.svg
+│ ├── store
+│ │ ├── index.ts
+│ │ └── user.ts
+│ ├── style
+│ │ ├── iconfont.css
+│ │ └── index.scss
+│ ├── types
+│ │ ├── auto-import.d.ts
+│ │ ├── global.d.ts
+│ │ ├── shims-uni.d.ts
+│ │ └── uni-pages.d.ts
+│ ├── typings.ts
+│ ├── uni.scss
+│ ├── uni_modules
+│ └── utils
+│ ├── http.ts
+│ ├── index.ts
+│ └── platform.ts
+├── tsconfig.json
+├── uno.config.ts
+└── vite.config.ts
+```
+
 ## UI地址
 
 [wot-design 框架](https://wot-design-uni.pages.dev/)
