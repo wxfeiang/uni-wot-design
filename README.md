@@ -27,7 +27,7 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 
 ## UI地址
 
-[tmui 框架](https://wot-design-uni.pages.dev/)
+[wot-design 框架](https://wot-design-uni.pages.dev/)
 
 ## 代码提交相关
 
