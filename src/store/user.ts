@@ -21,12 +21,16 @@ export const useUserStore = defineStore(
     }
     const isLogined = computed(() => !!userInfo.value.token)
 
+    function getAuthorization() {
+      return userInfo.value?.token ? { authorization: `Bearer ${userInfo.value?.token}` } : {}
+    }
     return {
       userInfo,
       setUserInfo,
       clearUserInfo,
       isLogined,
       reset,
+      getAuthorization,
     }
   },
   {

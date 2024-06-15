@@ -74,6 +74,7 @@
     "bin-wrapper": "npm:bin-wrapper-china"
   },
   "dependencies": {
+    "@alova/adapter-uniapp": "^1.2.2",
     "@dcloudio/uni-app": "3.0.0-4010420240430001",
     "@dcloudio/uni-app-plus": "3.0.0-4010420240430001",
     "@dcloudio/uni-components": "3.0.0-4010420240430001",
@@ -88,6 +89,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-4010420240430001",
     "@dcloudio/uni-mp-xhs": "3.0.0-4010420240430001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4010420240430001",
+    "alova": "^2.21.3",
     "czg": "^1.9.2",
     "dayjs": "1.11.10",
     "pinia": "2.0.36",

@@ -81,6 +81,7 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useUpload: typeof import('../hooks/useUpload')['default']
   const useUpload2: typeof import('../hooks/useUpload2')['default']
+  const useVerify: typeof import('../hooks/useVerify')['default']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']
@@ -171,6 +172,7 @@ declare module 'vue' {
     readonly useRequest: UnwrapRef<typeof import('../hooks/useRequest')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
+    readonly useVerify: UnwrapRef<typeof import('../hooks/useVerify')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
@@ -254,6 +256,7 @@ declare module '@vue/runtime-core' {
     readonly useRequest: UnwrapRef<typeof import('../hooks/useRequest')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
+    readonly useVerify: UnwrapRef<typeof import('../hooks/useVerify')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

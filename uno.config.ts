@@ -1,12 +1,12 @@
 // uno.config.ts
 import {
-  type Preset,
   defineConfig,
-  presetUno,
   presetAttributify,
   presetIcons,
+  presetUno,
   transformerDirectives,
   transformerVariantGroup,
+  type Preset,
 } from 'unocss'
 
 import { presetApplet, presetRemRpx, transformerAttributify } from 'unocss-applet'
@@ -76,6 +76,31 @@ export default defineConfig({
     ],
     ['pt-safe', { 'padding-top': 'env(safe-area-inset-top)' }],
     ['pb-safe', { 'padding-bottom': 'env(safe-area-inset-bottom)' }],
+    [
+      /^truncate-(\d+)$/,
+      ([, d]) => ({
+        overflow: 'hidden',
+        display: '-webkit-box',
+        'text-overflow': 'ellipsis',
+        '-webkit-line-clamp': d,
+        '-webkit-box-orient': 'vertical',
+      }),
+    ],
+    [
+      /^center-text-(\d+)$/,
+      ([, d]) => ({
+        height: `${d}px`,
+        'align-items': 'center',
+        'line-height': `${Number(d) - 2}px`,
+      }),
+    ],
+    [
+      /^wh-(\d+)$/,
+      ([, d]) => ({
+        width: `${d}px`,
+        height: `${d}px`,
+      }),
+    ],
   ],
 })
 

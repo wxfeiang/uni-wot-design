@@ -12,7 +12,7 @@ interface ImportMetaEnv {
   /** 网站标题，应用名称 */
   readonly VITE_APP_TITLE: string
   /** 服务端口号 */
-  readonly VITE_SERVER_PORT: string
+  readonly VITE_SERVER_PORT: number
   /** 后台接口地址 */
   readonly VITE_SERVER_BASEURL: string
   /** H5是否需要代理 */
@@ -23,7 +23,9 @@ interface ImportMetaEnv {
   readonly VITE_UPLOAD_BASEURL: string
   /** 是否清除console */
   readonly VITE_DELETE_CONSOLE: string
-  // 更多环境变量...
+
+  /** 网络请求超时 */
+  readonly VITE_SERVER_TIME_OUT: number
 }
 
 interface ImportMeta {

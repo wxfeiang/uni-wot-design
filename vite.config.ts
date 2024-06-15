@@ -1,7 +1,7 @@
-import path from 'node:path'
-import dayjs from 'dayjs'
-import { defineConfig, loadEnv } from 'vite'
 import Uni from '@dcloudio/vite-plugin-uni'
+import dayjs from 'dayjs'
+import path from 'node:path'
+import { defineConfig, loadEnv } from 'vite'
 // @see https://uni-helper.js.org/vite-plugin-uni-pages
 import UniPages from '@uni-helper/vite-plugin-uni-pages'
 // @see https://uni-helper.js.org/vite-plugin-uni-layouts
@@ -12,9 +12,9 @@ import UniPlatform from '@uni-helper/vite-plugin-uni-platform'
 // @see https://github.com/uni-helper/vite-plugin-uni-manifest
 import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 // @see https://unocss.dev/
+import { visualizer } from 'rollup-plugin-visualizer'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import { visualizer } from 'rollup-plugin-visualizer'
 import ViteRestart from 'vite-plugin-restart'
 
 // https://vitejs.dev/config/
@@ -35,6 +35,7 @@ export default ({ command, mode }) => {
   console.log('UNI_PLATFORM -> ', UNI_PLATFORM) // 得到 mp-weixin, h5, app 等
 
   const env = loadEnv(mode, path.resolve(process.cwd(), 'env'))
+  console.log('🥟[env]:', env)
   const {
     VITE_APP_PORT,
     VITE_SERVER_BASEURL,
@@ -135,7 +136,9 @@ export default ({ command, mode }) => {
             [VITE_APP_PROXY_PREFIX]: {
               target: VITE_SERVER_BASEURL,
               changeOrigin: true,
-              rewrite: (path) => path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), ''),
+              rewrite: (path) => {
+                return path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), VITE_APP_PROXY_PREFIX)
+              },
             },
           }
         : undefined,
