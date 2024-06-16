@@ -17,7 +17,7 @@
   // }
   "Print unibest Vue3 SFC": {
     "scope": "vue",
-    "prefix": "v3",
+    "prefix": "uwt",
     "body": [
       "<route lang=\"json5\" type=\"page\">",
       "{",
