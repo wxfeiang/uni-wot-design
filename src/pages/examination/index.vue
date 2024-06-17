@@ -135,11 +135,6 @@ const end = (e) => {
   </wd-navbar>
   <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
     <view>
-      <view>
-        <wd-tag type="primary" mark>单选题</wd-tag>
-        {{ cList[0].name }}
-      </view>
-
       <wd-radio-group v-model="cList[0].seValue">
         <wd-radio :value="c.value" v-for="(c, j) in cList[0].list" :key="j">
           {{ c.name }}
