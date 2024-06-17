@@ -90,6 +90,7 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "useVerify": true
+    "useVerify": true,
+    "useCoordinate": true
   }
 }

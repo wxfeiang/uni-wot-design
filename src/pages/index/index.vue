@@ -3,52 +3,203 @@
 {
   style: {
     navigationStyle: 'custom',
-    navigationBarTitleText: '首页',
+    navigationBarTitleText: '考试',
   },
 }
 </route>
 <template>
-  <view
-    class="bg-white overflow-hidden pt-2 px-4"
-    :style="{ marginTop: safeAreaInsets?.top + 'px' }"
-  >
-    <view class="mt-12">
-      <image src="/static/logo.svg" alt="" class="w-28 h-28 block mx-auto" />
-    </view>
-    <view class="text-center text-4xl main-title-color truncate">unibest</view>
-    <view class="text-center text-2xl mt-2 mb-8">最好用的 uniapp 开发模板</view>
+  <wd-swiper
+    :list="swiperList"
+    autoplay
+    :current="0"
+    @click="handleClick"
+    @change="onChange"
+    height="120"
+  ></wd-swiper>
 
-    <view class="text-justify max-w-100 m-auto text-4 indent mb-2 truncate-2">
-      {{ description }}
-    </view>
-    <view class="text-center mt-8">
-      当前平台是：
-      <text class="text-green-500">{{ PLATFORM.platform }}</text>
-    </view>
-    <view class="text-center mt-4">
-      模板分支是：
-      <text class="text-green-500">base</text>
-    </view>
-    <wd-button type="error">危险按钮</wd-button>
+  <view class="bg-white mt-1">
+    <wd-tabs v-model="tab" swipeable>
+      <template v-for="(item, index) in list" :key="index">
+        <wd-tab :title="item.name" class="border-b-1px">
+          <wd-row :gutter="10">
+            <wd-col :span="8">
+              <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
+                <view class="mx-auto text-center">
+                  <wd-img :width="40" :height="40" round :src="c.icon" />
+                </view>
+                <view class="text-center text-xs">{{ c.name }}</view>
+              </view>
+            </wd-col>
+            <wd-col :span="8">
+              <view class="flex flex-col mt-50px">
+                <view v-for="(c, j) in item.conter.center" :key="j">
+                  <view class="mx-auto text-center py-10px mt-25px">
+                    <wd-img :width="60" :height="60" round :src="c.icon" />
+                  </view>
+                </view>
+              </view>
+            </wd-col>
+            <wd-col :span="8">
+              <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
+                <view class="mx-auto text-center">
+                  <wd-img :width="40" :height="40" round :src="c.icon" />
+                </view>
+                <view class="text-center text-xs">{{ c.name }}</view>
+              </view>
+            </wd-col>
+          </wd-row>
+        </wd-tab>
+      </template>
+    </wd-tabs>
   </view>
+  <wd-gap bg-color="#4D80F0"></wd-gap>
 </template>
 
 <script lang="ts" setup>
-import PLATFORM from '@/utils/platform'
+const tab = ref<number>(0)
+const swiperList = ref([
+  'https://unpkg.com/wot-design-uni-assets/redpanda.jpg',
+  'https://unpkg.com/wot-design-uni-assets/capybara.jpg',
+  'https://unpkg.com/wot-design-uni-assets/panda.jpg',
+  'https://img.yzcdn.cn/vant/cat.jpeg',
+  'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+])
 
+const list = ref([
+  {
+    name: '科目一',
+    value: 1,
+    conter: {
+      left: [
+        {
+          name: 'vip课程',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '专项练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '图标练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '新规',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+      ],
+      center: [
+        {
+          name: '顺序练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '模拟考试',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+      ],
+      right: [
+        {
+          name: '精简题库',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '随机练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '错题',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '排行',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+      ],
+    },
+  },
+  {
+    name: '科目四',
+    value: 2,
+    conter: {
+      left: [
+        {
+          name: '课程',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '专项练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '图标练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '新规',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+      ],
+      center: [
+        {
+          name: '顺序练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '模拟考试',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+      ],
+      right: [
+        {
+          name: '精简题库',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '随机练习',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '错题',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+        {
+          name: '排行',
+          value: 1,
+          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+        },
+      ],
+    },
+  },
+])
+
+function handleClick(e) {
+  console.log(e)
+}
+function onChange(e) {
+  console.log(e)
+}
 defineOptions({
   name: 'Home',
-})
-
-// 获取屏幕边界到安全区域距离
-const { safeAreaInsets } = uni.getSystemInfoSync()
-const author = ref('wxfeiang')
-const description = ref(
-  'unibest 是一个集成了多种工具和技术的 uniapp 开发模板，由 uniapp + Vue3 + Ts + Vite4 + UnoCss + UniUI + VSCode 构建，模板具有代码提示、自动格式化、统一配置、代码片段等功能，并内置了许多常用的基本组件和基本功能，让你编写 uniapp 拥有 best 体验。',
-)
-
-onLoad(() => {
-  console.log(author)
 })
 </script>
 
