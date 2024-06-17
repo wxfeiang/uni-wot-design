@@ -1,9 +1,4 @@
 /**
- * 交互反馈
- * https://uniapp.dcloud.io/api/ui/prompt.html
- */
-
-/**
  * 显示消息提示框
  * @param title
  * @param options
