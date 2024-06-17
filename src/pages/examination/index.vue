@@ -9,6 +9,7 @@
 
 <script lang="ts" setup>
 import { chunk } from 'lodash-es'
+import Problem from './components/problem.vue'
 
 const current1 = ref(1)
 const list1 = ref([
@@ -31,7 +32,7 @@ const anList = ref([
   {
     name: '请选择下列数据1111',
     type: 'radio',
-    seValue: '',
+    answer: '',
     list: [
       {
         name: '但安逸',
@@ -54,7 +55,7 @@ const anList = ref([
   {
     name: '请选择下列数据222222222',
     type: 'radio',
-    seValue: '',
+    answer: '',
     list: [
       {
         name: '但安逸',
@@ -69,7 +70,7 @@ const anList = ref([
   {
     name: '请选择下列数据3333333',
     type: 'radio',
-    seValue: '',
+    answer: '',
     list: [
       {
         name: '但安逸',
@@ -135,11 +136,7 @@ const end = (e) => {
   </wd-navbar>
   <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
     <view>
-      <wd-radio-group v-model="cList[0].seValue">
-        <wd-radio :value="c.value" v-for="(c, j) in cList[0].list" :key="j">
-          {{ c.name }}
-        </wd-radio>
-      </wd-radio-group>
+      <Problem :list="cList[0]"></Problem>
     </view>
   </view>
 </template>

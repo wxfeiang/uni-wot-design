@@ -1,14 +1,19 @@
-export interface ProBlemList {
+export interface Options {
+  name: string | number
+  value: string | number
+}
+
+export interface ProBlemItemList {
   // 题目名称
   name: string
   // 题目类型
-  type: string | number
+  type: 'checkbox' | 'radio' | 'boolean' | 'input'
 
   // 题目答案
   answer: string | number
 
   // 答案列表
-  options: string[]
+  options: Options[]
 
   // 题目解析
   explain?: string
