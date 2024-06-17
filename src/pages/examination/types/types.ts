@@ -1,6 +1,7 @@
 export interface Options {
   name: string | number
   value: string | number
+  activeName: string | number // 当前项的
 }
 
 export interface ProBlemItemList {
@@ -11,6 +12,9 @@ export interface ProBlemItemList {
 
   // 题目答案
   answer: string | number
+
+  // 当前选中的答案
+  currentAnswer: string | number
 
   // 答案列表
   options: Options[]
@@ -39,3 +43,5 @@ export interface ProBlemItemList {
   // 是否正确
   isRight?: boolean
 }
+
+export type Mode = 1 | 2 | 3

@@ -32,31 +32,31 @@ const anList = ref([
   {
     name: '请选择下列数据1111',
     type: 'radio',
-    answer: '',
-    list: [
+    answer: '2',
+    options: [
       {
-        name: '但安逸',
-        value: 1,
+        name: '单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radioGroup的value',
+        value: '1sdsds',
       },
       {
         name: 'daasdnasdnl',
-        value: 1,
+        value: '2',
       },
       {
-        name: 'asudiasnd',
-        value: 1,
+        name: '单选框选中时的值。会自动匹配radioGroup单选框选中时的值。会自动匹配radioGroup',
+        value: '3',
       },
       {
         name: '爱疯vv你',
-        value: 1,
+        value: '4',
       },
     ],
   },
   {
     name: '请选择下列数据222222222',
-    type: 'radio',
+    type: 'boolean',
     answer: '',
-    list: [
+    options: [
       {
         name: '但安逸',
         value: 1,
@@ -69,9 +69,9 @@ const anList = ref([
   },
   {
     name: '请选择下列数据3333333',
-    type: 'radio',
+    type: 'checkbox',
     answer: '',
-    list: [
+    options: [
       {
         name: '但安逸',
         value: 1,
@@ -129,9 +129,9 @@ const end = (e) => {
 </script>
 
 <template>
-  <wd-navbar left-arrow>
+  <wd-navbar fixed placeholder left-arrow>
     <template #title>
-      <wd-segmented :options="list1" v-model:value="current1"></wd-segmented>
+      <wd-segmented :options="list1" v-model:value="current1" class="mt-5px"></wd-segmented>
     </template>
   </wd-navbar>
   <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
