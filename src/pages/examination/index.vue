@@ -9,22 +9,22 @@
 
 <script lang="ts" setup>
 import { chunk } from 'lodash-es'
-import Problem from './components/problem.vue'
+import Problem from './components/Problem.vue'
 
-const current1 = ref(1)
-const list1 = ref([
+const cuMode = ref(1)
+const navTitle = ref([
   {
-    value: '考试',
+    value: 1,
     disabled: false,
     payload: {
-      avatar: 'https://unpkg.com/wot-design-uni-assets/redpanda.jpg',
+      label: '答题模式',
     },
   },
   {
-    value: '练习',
+    value: 2,
     disabled: false,
     payload: {
-      avatar: 'https://unpkg.com/wot-design-uni-assets/capybara.jpg',
+      label: '背题模式',
     },
   },
 ])
@@ -35,8 +35,8 @@ const anList = ref([
     answer: '2',
     options: [
       {
-        name: '单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radioGroup的value',
-        value: '1sdsds',
+        name: '单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radio',
+        value: '1',
       },
       {
         name: 'daasdnasdnl',
@@ -53,9 +53,9 @@ const anList = ref([
     ],
   },
   {
-    name: '请选择下列数据222222222',
-    type: 'boolean',
-    answer: '',
+    name: '子仪豆豆讲',
+    type: 'radio',
+    answer: 3,
     options: [
       {
         name: '但安逸',
@@ -63,14 +63,37 @@ const anList = ref([
       },
       {
         name: 'daasdnasdnl',
+        value: 2,
+      },
+      {
+        name: '子仪豆豆',
+        value: 3,
+      },
+      {
+        name: '上海',
+        value: 4,
+      },
+    ],
+  },
+  {
+    name: '请选择下列数据222222222',
+    type: 'boolean',
+    answer: 1,
+    options: [
+      {
+        name: '但安逸',
         value: 1,
+      },
+      {
+        name: 'daasdnasdnl',
+        value: '23',
       },
     ],
   },
   {
     name: '请选择下列数据3333333',
     type: 'checkbox',
-    answer: '',
+    answer: 2,
     options: [
       {
         name: '但安逸',
@@ -78,7 +101,7 @@ const anList = ref([
       },
       {
         name: 'daasdnasdnl',
-        value: 1,
+        value: 2,
       },
     ],
   },
@@ -91,7 +114,7 @@ const cList = ref() // 获取当前数据
 list.value = chunk(anList.value, 1)
 cList.value = list.value[cIndex.value]
 
-const initData = (f?: number) => {
+const actionData = (f?: number) => {
   const l = list.value.length - 1
   if (f === 1) {
     cIndex.value = cIndex.value < l ? cIndex.value + 1 : l
@@ -117,26 +140,30 @@ const end = (e) => {
     console.log('🍇', '上下滑')
   } else {
     if (subX > 100) {
-      initData(0)
+      actionData(0)
     } else if (subX < -100) {
-      initData(1)
+      actionData(1)
     }
-    // else {
-    //
-    // }
   }
+}
+const changeTitle = (e) => {
+  console.log('🥧[e]:', e) //
 }
 </script>
 
 <template>
   <wd-navbar fixed placeholder left-arrow>
     <template #title>
-      <wd-segmented :options="list1" v-model:value="current1" class="mt-5px"></wd-segmented>
+      <wd-segmented :options="navTitle" v-model:value="cuMode" class="mt-5px" @change="changeTitle">
+        <template #label="{ option }">
+          {{ option.payload!.label }}
+        </template>
+      </wd-segmented>
     </template>
   </wd-navbar>
   <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
     <view>
-      <Problem :list="cList[0]"></Problem>
+      <Problem :list="cList[0]" :cMode="cuMode"></Problem>
     </view>
   </view>
 </template>

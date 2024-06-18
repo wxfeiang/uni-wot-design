@@ -1,21 +1,18 @@
-// @import './iconfont.css';
-
-.test {
-  // 可以通过 @apply 多个样式封装整体样式
-  @apply mt-4 ml-4;
-
-  padding-top: 4px;
-  color: red;
-}
-
 :root,
 page {
   font-family: 'San Francisco', Rotobo, arial, 'PingFang SC', 'Noto SansCJK', 'Microsoft Yahei',
     sans-serif;
 
-  // 修改按主题色
-  // --wot-color-theme: #37c2bc;
-
-  // 修改按钮背景色
-  // --wot-button-primary-bg-color: green;
+  // 答题正确
+  --color-an-success: #007aff;
+  // 答题错误
+  --color-an-error: #ff4949;
+  // 答题未做
+  --color-an-warning: #ffc000;
+  // 答题提示
+  --color-an-info: #1989fa;
+  // 答题背景
+  --color-an-background: #f3f4f5;
+  // 答题字体
+  --color-an-font: #333;
 }

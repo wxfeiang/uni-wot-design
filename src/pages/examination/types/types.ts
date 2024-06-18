@@ -1,14 +1,19 @@
 export interface Options {
   name: string | number
   value: string | number
-  activeName: string | number // 当前项的
+  // 当前项类名
+  activeName?: string | number
+  // 当前项是否选中
+  isActive?: boolean
+  // 当前项是否禁用
+  isDisabled?: boolean
 }
 
 export interface ProBlemItemList {
   // 题目名称
   name: string
   // 题目类型
-  type: 'checkbox' | 'radio' | 'boolean' | 'input'
+  type: 'checkbox' | 'radio' | 'boolean'
 
   // 题目答案
   answer: string | number
@@ -44,4 +49,9 @@ export interface ProBlemItemList {
   isRight?: boolean
 }
 
-export type Mode = 1 | 2 | 3
+// 模式
+export enum Mode {
+  examination,
+  answer,
+  practice,
+}
