@@ -170,6 +170,24 @@ const currentSelect = computed(() => {
         速记口诀
       </view>
     </view>
+
+    <view class="mt-30px" v-if="currentSelect.isShowAnswer">
+      <!-- TODO: vip 权限校验 -->
+      <dy-title title="本题技巧"></dy-title>
+      <view class="p-10px">
+        {{ props.list.explain || '死记硬背' }}
+      </view>
+    </view>
+  </view>
+  <wd-gap bg-color="#F3F7F8"></wd-gap>
+  <view class="p-10px bg-white" v-if="currentSelect.isShowAnswer">
+    <view class="text-center font-bold text-lg">题目解析</view>
+    <view class="">
+      <dy-title title="题目解析"></dy-title>
+      <view class="color-gray-500 py-10px">
+        {{ props.list.explain || '死记硬背' }}
+      </view>
+    </view>
   </view>
 </template>
 
