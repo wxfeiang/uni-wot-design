@@ -12,15 +12,17 @@ const props = defineProps({
     default: 1,
   },
 })
+
 // 初始化数据
 const initData = () => {
   console.log('🍜', props.cMode, props.list)
+
   if (props.cMode === 2) {
     props.list.options.forEach((item) => {
       item.activeName = item.value === props.list.answer ? 'success' : 'default'
     })
   } else if (props.cMode === 1) {
-    props.list.options.forEach((item) => {
+    props.list.options.forEach((item, index) => {
       console.log('🍢')
       item.activeName = 'default'
       // 找出答题过的
@@ -52,7 +54,7 @@ const changeAnswer = (e) => {
   // 改变当前题目状态
   props.list!.isAnswer = true // 标记当前题目已经答过
   // 改变选项颜色
-  props.list.options.forEach((item) => {
+  props.list.options.forEach((item, index) => {
     if (item.value === e.value) {
       item.isActive = true // 标记当前选项
     }
@@ -80,41 +82,32 @@ const changeAnswer = (e) => {
     }
   })
 }
-// 计算当前答案 和已选的答案
-const showAnswerObj = computed(() => {
-  const obj = {
-    answerIndex: null,
-    currentIndex: null,
-  }
-  if (props.list.isAnswer) {
-    // 正确答案的下标
-    const index = props.list.options.findIndex((item) => {
-      return item.value === props.list.answer
-    })
-    console.log('🌽[index]:', index)
-    // 当前答题的下标
-    const currentIndex = props.list.options.findIndex((item) => {
-      return item.value === props.list.currentAnswer
-    })
-    // 正确答案的下标
-    obj.answerIndex = index
-    // 当前答题的下标
-    obj.currentIndex = currentIndex
-  }
 
-  return obj
+// 标出正确答案/及显示所选答案
+const currentSelect = computed(() => {
+  const a = props.list.options.findIndex((item) => item.isActive)
+  const b = props.list.options.findIndex((item) => item.activeName === 'success') //
+  return {
+    // 当前选中
+    cIndex: a,
+    // 当前正确答案下标
+    rIndex: b,
+    // 当前选择了 对错状态
+    rSataus: a === b,
+    // 显示作答结果
+    isShowAnswer: props.cMode === 2 || (props.cMode === 1 && a > -1), // 这道题已经选择了
+  }
 })
 </script>
 
 <template>
-  <view class="p-10px">
-    <view class="mb-10px">
-      <wd-tag type="primary" mark>
+  <view class="p-10px bg-white">
+    <view class="my-10px">
+      <wd-tag mark bg-color="#1dacfa">
         {{ changeDict(answerType, list.type) }}
       </wd-tag>
       {{ list.name }}
     </view>
-
     <template v-if="list.type === 'radio' || list.type === 'boolean'">
       <wd-radio-group v-model="list!.currentAnswer" class="bg-transparent" @change="changeAnswer">
         <wd-radio
@@ -160,10 +153,23 @@ const showAnswerObj = computed(() => {
         <wd-button>确认答案</wd-button>
       </view>
     </template>
-  </view>
-  <view>
-    正确答案 : {{ answerIndex[showAnswerObj!.answerIndex] }}, 你的答案 :
-    {{ answerIndex[showAnswerObj!.currentIndex] }}
+
+    <view class="my-20px p-10px flex bg-coolgray-200" v-if="currentSelect.isShowAnswer">
+      <view class="mr-10px font-bold">
+        正确答案 :
+        <text class="text-lightblue">{{ answerIndex[currentSelect.rIndex] }}</text>
+      </view>
+      <view class="font-bold" v-if="props.cMode === 1 && currentSelect.cIndex > -1">
+        您的答案 :
+        <text :class="currentSelect.rSataus ? 'text-lightblue' : 'text-red-500'">
+          {{ answerIndex[currentSelect.cIndex] }}
+        </text>
+      </view>
+      <view class="text-lightblue ml-auto">
+        <wd-icon name="keywords" size="18px"></wd-icon>
+        速记口诀
+      </view>
+    </view>
   </view>
 </template>
 
