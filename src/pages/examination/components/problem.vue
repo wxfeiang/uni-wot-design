@@ -13,7 +13,7 @@ const props = defineProps({
   },
 })
 
-const initAnswer = ref()
+const initAnswer = ref(null)
 // 初始化数据
 const initData = () => {
   console.log('🍜', props.cMode, props.list)
@@ -42,10 +42,12 @@ const initData = () => {
   // 多选
   if (props.list.type === 'checkbox') {
     // TODO:在做
-    // initAnswer.value = props.list.currentAnswer
+
     const rArr = JSON.parse(props.list.answer)
 
     if (props.cMode === 2) {
+      props.list!.cacheDdata = props.list.currentAnswer
+      props.list!.currentAnswer = []
       props.list.options.forEach((item, index) => {
         item.activeName = 'default'
         rArr.forEach((i, j) => {
@@ -55,7 +57,19 @@ const initData = () => {
         })
       })
     } else if (props.cMode === 1) {
-      props.list.options.forEach((item, index) => {})
+      props.list!.currentAnswer = props.list!.cacheDdata
+      props.list.options.forEach((item, index) => {
+        item.activeName = 'default'
+        // 已经操作过的情况
+        if (props.list.isAnswer) {
+          if (item.isRight) {
+            item.activeName = 'success'
+          }
+          if (item.isActive && !item.isRight) {
+            item.activeName = 'error'
+          }
+        }
+      })
     }
   }
 }
@@ -228,7 +242,7 @@ watch(
           </view>
         </wd-checkbox>
       </wd-checkbox-group>
-      <view class="flex justify-center mt-30px">
+      <view class="flex justify-center mt-30px" v-if="props.cMode == 1 && !list.isAnswer">
         <wd-button class="w-80%" @click="sureCheckbox">确认答案</wd-button>
       </view>
     </template>

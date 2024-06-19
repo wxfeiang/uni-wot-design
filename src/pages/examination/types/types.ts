@@ -49,6 +49,11 @@ export interface ProBlemItemList {
 
   // 是否正确
   isRight?: boolean
+  // 当前数据需要缓存
+  isCache?: boolean
+
+  // 当前数据
+  cacheDdata?: any
 }
 
 // 模式
