@@ -11,6 +11,7 @@
     class="bg-white overflow-hidden pt-2 px-4"
     :style="{ marginTop: safeAreaInsets?.top + 'px' }"
   >
+    <dy-title title="这是标题组件"></dy-title>
     <RequestComp />
     <UploadComp />
   </view>
