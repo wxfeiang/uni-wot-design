@@ -30,25 +30,25 @@ const navTitle = ref([
 ])
 const anList = ref([
   {
-    name: '请选择下列数据1111',
-    type: 'radio',
-    answer: '2',
+    name: '下列描述正确的是?',
+    type: 'checkbox',
+    answer: '[1,3]',
     options: [
       {
-        name: '单选框选中时的值。会自动匹配radioGroup的value单选框选中时的值。会自动匹配radio',
-        value: '1',
+        name: '紫竹语嫣z',
+        value: 1,
       },
       {
-        name: 'daasdnasdnl',
-        value: '2',
+        name: '早起回家，上海无滤镜碧蓝色天空🉑真美呢[太开心][太开心][太开心]  ​​​',
+        value: 2,
       },
       {
-        name: '单选框选中时的值。会自动匹配radioGroup单选框选中时的值。会自动匹配radioGroup',
-        value: '3',
+        name: '感觉有精神寄托感觉更有动力 但是一旦没了也很痛苦不习惯，一个人生活总是有点不适应，总是会想有个人或者事情能当我的精神寄托，这是脆弱的表现吗？',
+        value: 3,
       },
       {
-        name: '爱疯vv你',
-        value: '4',
+        name: '如果雨过不天晴',
+        value: 4,
       },
     ],
     explain:

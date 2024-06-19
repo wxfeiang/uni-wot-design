@@ -12,14 +12,14 @@ export interface Options {
 export interface ProBlemItemList {
   // 题目名称
   name: string
-  // 题目类型
+  // 题目类型s
   type: 'checkbox' | 'radio' | 'boolean'
 
   // 题目答案
-  answer: string | number
+  answer: string
 
   // 当前选中的答案
-  currentAnswer: string | number
+  currentAnswer: string | number | string[] | number[]
 
   // 答案列表
   options: Options[]

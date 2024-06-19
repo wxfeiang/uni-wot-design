@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { changeDict } from '@/utils'
 import { answerIndex, answerType } from '@/utils/dict'
+import { orderBy } from 'lodash-es'
 import { Mode, ProBlemItemList } from '../types/types'
-
 const props = defineProps({
   list: {
     type: Object as PropType<ProBlemItemList>,
@@ -16,23 +16,60 @@ const props = defineProps({
 // 初始化数据
 const initData = () => {
   console.log('🍜', props.cMode, props.list)
+  //  单选
+  if (props.list.type === 'radio') {
+    console.log('🍞====radio')
+    if (props.cMode === 2) {
+      props.list.options.forEach((item) => {
+        item.activeName = item.value === props.list.answer ? 'success' : 'default'
+      })
+    } else if (props.cMode === 1) {
+      props.list.options.forEach((item, index) => {
+        console.log('🍢')
+        item.activeName = 'default'
+        // 找出答题过的
+        if (item.value === props.list.answer && props.list.isAnswer) {
+          item.activeName = 'success'
+        } else if (item.value === props.list.currentAnswer && item.isActive) {
+          // 找出打错的项目
+          item.activeName = 'error'
+        }
+      })
+    }
+  }
+  // 多选
+  if (props.list.type === 'checkbox') {
+    console.log('🍞====checkbox')
+    const rArr = JSON.parse(props.list.answer)
 
-  if (props.cMode === 2) {
-    props.list.options.forEach((item) => {
-      item.activeName = item.value === props.list.answer ? 'success' : 'default'
-    })
-  } else if (props.cMode === 1) {
-    props.list.options.forEach((item, index) => {
-      console.log('🍢')
-      item.activeName = 'default'
-      // 找出答题过的
-      if (item.value === props.list.answer && props.list.isAnswer) {
-        item.activeName = 'success'
-      } else if (item.value === props.list.currentAnswer && item.isActive) {
-        // 找出打错的项目
-        item.activeName = 'error'
-      }
-    })
+    if (props.cMode === 2) {
+      props.list.options.forEach((item, index) => {
+        rArr.forEach((i, j) => {
+          if (item.value === i) {
+            item.activeName = 'success'
+          }
+        })
+      })
+    } else if (props.cMode === 1) {
+      console.log('🦐', props.list)
+      props.list.options.forEach((item, index) => {
+        item.activeName = 'default'
+        // // 找出答题过的
+        rArr.forEach((i, j) => {
+          if (item.value === i && props.list.isAnswer) {
+            item.activeName = 'success'
+          } else {
+            item.activeName = 'default'
+          }
+        })
+        // if (item.value === props.list.answer && props.list.isAnswer) {
+        //   item.activeName = 'success'
+        // } else if (item.value === props.list.currentAnswer && item.isActive) {
+        //   // 找出打错的项目
+        //   item.activeName = 'error'
+        // }
+      })
+    }
   }
 }
 // 监听当前模式
@@ -48,7 +85,6 @@ watch(
 
 // 答题操作
 const changeAnswer = (e) => {
-  console.log('🍎[e]:', e, props.cMode, props.list)
   // 当前题目是否已经答过/背题
   if (props.list.isAnswer || props.cMode === 2) return false
   // 改变当前题目状态
@@ -98,6 +134,32 @@ const currentSelect = computed(() => {
     isShowAnswer: props.cMode === 2 || (props.cMode === 1 && a > -1), // 这道题已经选择了
   }
 })
+
+// 多选cao zuos
+const sureCheckbox = () => {
+  // if (!props.list.currentAnswer || props.list.currentAnswer.length < 2) {
+  //   Toast('请选择两个及以上答案!')
+  // }
+  props.list!.isAnswer = true // 标记当前已经作答
+  const a = props.list.currentAnswer as unknown as Array<number>
+  // const c = orderBy(props.list.currentAnswer as unknown as Array<number>) // 当前答案排序
+  const rArr = JSON.parse(props.list.answer)
+  const r = orderBy(rArr as unknown as Array<number>) // 正确答案排序
+
+  // a.forEach((item, index) => {
+  //   console.log('🍛', item)
+  //   r.forEach((i, j) => {
+  //     // eslint-disable-next-line eqeqeq
+  //     if (item == i) {
+  //       item.activeName = 'success'
+  //     }
+  //   })
+  // })
+}
+const toggle = (e) => {
+  console.log('🥕', e)
+  return false
+}
 </script>
 
 <template>
@@ -134,23 +196,34 @@ const currentSelect = computed(() => {
       </wd-radio-group>
     </template>
     <template v-if="list.type === 'checkbox'">
-      <wd-checkbox-group v-model="list!.currentAnswer">
+      <wd-checkbox-group
+        v-model="list!.currentAnswer"
+        class="dy-checkbox-default"
+        @toggle="toggle"
+        :disabled="props.cMode == 2"
+      >
         <wd-checkbox
           :modelValue="item.value"
           v-for="(item, index) in list.options"
           :key="index"
           class="py-10px"
         >
-          <view class="flex items-center">
-            <view class="an-text">
+          <view class="flex items-center" :class="item.activeName">
+            <view class="an-text a-text" v-if="item.activeName === 'success'">
+              <wd-icon name="check1" size="18px"></wd-icon>
+            </view>
+            <view class="an-text a-text" v-else-if="item.activeName === 'error'">
+              <wd-icon name="close" size="12px"></wd-icon>
+            </view>
+            <view class="an-text active" v-else>
               {{ answerIndex[index] }}
             </view>
-            <view class="flex-1 text-left">{{ item.name }}</view>
+            <view class="flex-1 text-left whitespace-break-spaces">{{ item.name }}</view>
           </view>
         </wd-checkbox>
       </wd-checkbox-group>
       <view class="flex justify-center mt-30px">
-        <wd-button>确认答案</wd-button>
+        <wd-button class="w-80%" @click="sureCheckbox">确认答案</wd-button>
       </view>
     </template>
 
@@ -184,7 +257,7 @@ const currentSelect = computed(() => {
     <view class="text-center font-bold text-lg">题目解析</view>
     <view class="">
       <dy-title title="题目解析"></dy-title>
-      <view class="color-gray-500 py-10px">
+      <view class="color-gray-500 p-10px">
         {{ props.list.explain || '死记硬背' }}
       </view>
     </view>
@@ -192,18 +265,21 @@ const currentSelect = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+@mixin band($f) {
+  background: var($f) !important;
+  @apply text-white;
+}
+
 .success {
   color: var(--color-an-success);
   .a-text {
-    background: var(--color-an-success);
-    @apply text-white;
+    @include band(--color-an-success);
   }
 }
 .error {
   color: var(--color-an-error);
   .a-text {
-    background: var(--color-an-error);
-    @apply text-white;
+    @include band(--color-an-error);
   }
 }
 
@@ -215,5 +291,19 @@ const currentSelect = computed(() => {
 
 .an-text {
   @apply mr-10px w-25px h-25px line-height-25px rounded-10000  shadow-md text-center;
+}
+.dy-checkbox-default {
+  :deep(.is-checked .success .an-text) {
+    @include band(--color-an-success);
+  }
+  :deep(.is-checked .error .an-text) {
+    @include band(--color-an-error);
+  }
+  :deep(.is-checked .an-text) {
+    @include band(--color-an-info);
+  }
+  :deep(.wd-checkbox.is-disabled .wd-checkbox__label) {
+    color: var(--wot-checkbox-label-color);
+  }
 }
 </style>
