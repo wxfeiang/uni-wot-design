@@ -7,6 +7,8 @@ export interface Options {
   isActive?: boolean
   // 当前项是否禁用
   isDisabled?: boolean
+  // 当前项是否正确
+  isRight?: boolean
 }
 
 export interface ProBlemItemList {
@@ -16,10 +18,10 @@ export interface ProBlemItemList {
   type: 'checkbox' | 'radio' | 'boolean'
 
   // 题目答案
-  answer: string
+  answer: any
 
   // 当前选中的答案
-  currentAnswer: string | number | string[] | number[]
+  currentAnswer: any
 
   // 答案列表
   options: Options[]
