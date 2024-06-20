@@ -9,9 +9,16 @@
 
 <script lang="ts" setup>
 import { chunk } from 'lodash-es'
-import Problem from './components/Problem.vue'
+import ProblemComp from './components/problem.vue'
+import TransitionComp from './components/transition.vue'
 
-const cuMode = ref(1)
+// 动画相关数据
+const position = ref('right')
+const transition = ref(null)
+
+const show = ref(false)
+
+const cuMode = ref(0)
 const navTitle = ref([
   {
     value: 1,
@@ -89,13 +96,20 @@ cList.value = list.value[cIndex.value]
 const actionData = (f?: number) => {
   const l = list.value.length - 1
   if (f === 1) {
+    position.value = 'right'
     cIndex.value = cIndex.value < l ? cIndex.value + 1 : l
+    if (cIndex.value === l) {
+      // 题目结束
+      // 交卷
+      // 退出
+    }
   } else if (f === 0) {
+    position.value = 'left'
     cIndex.value = cIndex.value > 0 ? cIndex.value - 1 : 0
   }
-  console.log('🍱[cList.value]:', cList.value)
-  // 获取当前数据
   cList.value = list.value[cIndex.value]
+
+  transition.value.custom()
 }
 const startData = reactive({
   clientX: 0,
@@ -119,15 +133,12 @@ const end = (e) => {
     }
   }
 }
-const changeTitle = (e) => {
-  console.log('🥧[e]:', e) //
-}
 </script>
 
 <template>
   <wd-navbar fixed placeholder left-arrow>
     <template #title>
-      <wd-segmented :options="navTitle" v-model:value="cuMode" class="mt-5px" @change="changeTitle">
+      <wd-segmented :options="navTitle" v-model:value="cuMode" class="mt-5px">
         <template #label="{ option }">
           {{ option.payload!.label }}
         </template>
@@ -136,11 +147,11 @@ const changeTitle = (e) => {
   </wd-navbar>
   <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
     <view>
-      <Problem :list="cList[0]" :cMode="cuMode"></Problem>
+      <Problem-Comp :list="cList[0]" :cMode="cuMode" @next="actionData(1)"></Problem-Comp>
     </view>
   </view>
+
+  <Transition-Comp :position="position" ref="transition" />
 </template>
 
-<style lang="scss" scoped>
-//TODO: 滚动动画
-</style>
+<style lang="scss" scoped></style>

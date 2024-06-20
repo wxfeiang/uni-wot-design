@@ -13,6 +13,11 @@ const props = defineProps({
     default: 1,
   },
 })
+const emit = defineEmits<{
+  (e: 'submit', value: any): void
+  (e: 'reset', value: any): void
+  (e: 'next'): void // 切换题目
+}>()
 // 初始化数据
 const initData = () => {
   //  单选
@@ -22,19 +27,7 @@ const initData = () => {
         item.activeName = item.value === props.list.answer ? 'success' : 'default'
       })
     } else if (props.cMode === 1) {
-      // 考试和答题模式
-      props.list.options.forEach((item, index) => {
-        item.activeName = 'default'
-        // 已经操作过的情况
-        if (props.list.isAnswer) {
-          if (item.isRight) {
-            item.activeName = 'success'
-          }
-          if (item.isActive && !item.isRight) {
-            item.activeName = 'error'
-          }
-        }
-      })
+      modelChange()
     }
   }
   // 多选
@@ -53,67 +46,78 @@ const initData = () => {
       })
     } else if (props.cMode === 1) {
       props.list!.currentAnswer = props.list!.cacheDdata
-      props.list.options.forEach((item, index) => {
-        item.activeName = 'default'
-        // 已经操作过的情况
-        if (props.list.isAnswer) {
-          if (item.isRight) {
-            item.activeName = 'success'
-          }
-          if (item.isActive && !item.isRight) {
-            item.activeName = 'error'
-          }
-        }
-      })
+      modelChange()
     }
   }
+}
+function modelChange() {
+  // 考试和答题模式
+  props.list.options.forEach((item, index) => {
+    item.activeName = 'default'
+    // 已经操作过的情况
+    if (props.list.isAnswer) {
+      if (item.isRight) {
+        item.activeName = 'success'
+      }
+      if (item.isActive && !item.isRight) {
+        item.activeName = 'error'
+      }
+    }
+  })
 }
 
 // 答题操作 单选
 const changeAnswer = (e) => {
   // 当前题目是否已经答过/背题
   if (props.list.isAnswer || props.cMode === 2) return
-  // 改变当前题目状态
-  props.list!.isAnswer = true // 标记当前题目已经答过
-  // 改变选项颜色
-  props.list.options.forEach((item, index) => {
-    if (item.value === e.value) {
-      item.isActive = true // 标记当前选项
-    }
-    item.isRight = item.value === props.list.answer
-    // 当前选项操作过
-    if (item.isActive) {
-      item.activeName = item.isRight ? 'success' : 'error'
-    }
-    if (!item.isActive && item.isRight) {
-      item.activeName = 'success' // 未作答正确标出正确答案
-    }
-  })
+  if (props.cMode === 1) {
+    // 改变当前题目状态
+    props.list!.isAnswer = true // 标记当前题目已经答过
+    // 改变选项颜色
+    props.list.options.forEach((item, index) => {
+      if (item.value === e.value) {
+        item.isActive = true // 标记当前选项
+      }
+      item.isRight = item.value === props.list.answer
+      // 当前选项操作过
+      if (item.isActive) {
+        item.activeName = item.isRight ? 'success' : 'error'
+      }
+      if (!item.isActive && item.isRight) {
+        item.activeName = 'success' // 未作答正确标出正确答案
+      }
+    })
+  }
+  emit('next')
 }
 // 答题操作 多选
 const sureCheckbox = () => {
   if (props.list!.isAnswer) {
     return
   }
-  if (!props.list.currentAnswer || props.list.currentAnswer.length < 2) {
-    return Toast('请选择两个及以上答案!')
-  }
-  const rArr = JSON.parse(props.list.answer)
-  props.list!.isAnswer = true // 标记当前已经作答
-  props.list.options.forEach((item, index) => {
-    if (props.list.currentAnswer.includes(item.value)) {
-      item.isActive = true // 标记当前选项
+  if (props.cMode === 1) {
+    if (!props.list.currentAnswer || props.list.currentAnswer.length < 2) {
+      return Toast('请选择两个及以上答案!')
     }
-    item.isRight = rArr.includes(item.value)
-    // 当前选项操作过
-    if (item.isActive) {
-      item.activeName = item.isRight ? 'success' : 'error'
-    }
+    const rArr = JSON.parse(props.list.answer)
+    props.list!.isAnswer = true // 标记当前已经作答
+    props.list.options.forEach((item, index) => {
+      if (props.list.currentAnswer.includes(item.value)) {
+        item.isActive = true // 标记当前选项
+      }
+      item.isRight = rArr.includes(item.value)
+      // 当前选项操作过
+      if (item.isActive) {
+        item.activeName = item.isRight ? 'success' : 'error'
+      }
 
-    if (!item.isActive && item.isRight) {
-      item.activeName = 'unseccess' // 未作答正确标出正确答案
-    }
-  })
+      if (!item.isActive && item.isRight) {
+        item.activeName = 'unseccess' // 未作答正确标出正确答案
+      }
+    })
+  }
+
+  emit('next')
 }
 
 // 标出正确答案/及显示所选答案
@@ -174,7 +178,11 @@ watch(
       {{ list.name }}
     </view>
     <template v-if="list.type === 'radio'">
-      <wd-radio-group v-model="list!.currentAnswer" class="bg-transparent" @change="changeAnswer">
+      <wd-radio-group
+        v-model="list!.currentAnswer"
+        class="bg-transparent dy-ischecked-default"
+        @change="changeAnswer"
+      >
         <wd-radio
           :value="item.value"
           v-for="(item, index) in list.options"
@@ -204,7 +212,7 @@ watch(
     <template v-if="list.type === 'checkbox'">
       <wd-checkbox-group
         v-model="list!.currentAnswer"
-        class="dy-checkbox-default"
+        class="dy-ischecked-default"
         :disabled="props.cMode == 2 || props.list.isAnswer"
       >
         <wd-checkbox
@@ -227,7 +235,10 @@ watch(
           </view>
         </wd-checkbox>
       </wd-checkbox-group>
-      <view class="flex justify-center mt-30px" v-if="props.cMode == 1 && !list.isAnswer">
+      <view
+        class="flex justify-center mt-30px"
+        v-if="props.cMode === 0 || (props.cMode == 1 && !list.isAnswer)"
+      >
         <wd-button class="w-80%" @click="sureCheckbox">确认答案</wd-button>
       </view>
     </template>
@@ -298,7 +309,7 @@ watch(
 .an-text {
   @apply mr-10px w-25px h-25px line-height-25px rounded-10000  shadow-md text-center;
 }
-.dy-checkbox-default {
+.dy-ischecked-default {
   :deep(.is-checked .success .an-text) {
     @include band(--color-an-success);
   }
