@@ -77,37 +77,6 @@ const anList = ref([
     explain:
       '驾驶机动车向左变更车道遇到这种情况要注意让行驾驶机动车向左变更车道遇到这种情况要注意让行',
   },
-
-  {
-    name: '请选择下列数据222222222',
-    type: 'boolean',
-    answer: 1,
-    options: [
-      {
-        name: '但安逸',
-        value: 1,
-      },
-      {
-        name: 'daasdnasdnl',
-        value: '23',
-      },
-    ],
-  },
-  {
-    name: '请选择下列数据3333333',
-    type: 'checkbox',
-    answer: 2,
-    options: [
-      {
-        name: '但安逸',
-        value: 1,
-      },
-      {
-        name: 'daasdnasdnl',
-        value: 2,
-      },
-    ],
-  },
 ])
 // 对页面数据分组
 const list = ref() // 分页数据

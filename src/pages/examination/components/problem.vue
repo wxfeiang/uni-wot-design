@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { changeDict } from '@/utils'
-import { answerIndex, answerType } from '@/utils/dict'
+import { answerIndex, answerType, getIndexStr } from '@/utils/dict'
 import { Toast } from '@/utils/uniapi/prompt'
+import { findIndex, isEqual, sortBy } from 'lodash-es'
 import { Mode, ProBlemItemList } from '../types/types'
 const props = defineProps({
   list: {
@@ -12,18 +13,15 @@ const props = defineProps({
     default: 1,
   },
 })
-
-const initAnswer = ref(null)
 // 初始化数据
 const initData = () => {
-  console.log('🍜', props.cMode, props.list)
   //  单选
   if (props.list.type === 'radio') {
     if (props.cMode === 2) {
       props.list.options.forEach((item) => {
         item.activeName = item.value === props.list.answer ? 'success' : 'default'
       })
-    } else {
+    } else if (props.cMode === 1) {
       // 考试和答题模式
       props.list.options.forEach((item, index) => {
         item.activeName = 'default'
@@ -41,10 +39,7 @@ const initData = () => {
   }
   // 多选
   if (props.list.type === 'checkbox') {
-    // TODO:在做
-
     const rArr = JSON.parse(props.list.answer)
-
     if (props.cMode === 2) {
       props.list!.cacheDdata = props.list.currentAnswer
       props.list!.currentAnswer = []
@@ -74,7 +69,7 @@ const initData = () => {
   }
 }
 
-// 答题操作
+// 答题操作 单选
 const changeAnswer = (e) => {
   // 当前题目是否已经答过/背题
   if (props.list.isAnswer || props.cMode === 2) return
@@ -86,61 +81,16 @@ const changeAnswer = (e) => {
       item.isActive = true // 标记当前选项
     }
     item.isRight = item.value === props.list.answer
-
-    if (item.isActive && item.isRight) {
-      item.activeName = 'success'
+    // 当前选项操作过
+    if (item.isActive) {
+      item.activeName = item.isRight ? 'success' : 'error'
     }
-    if (item.isActive && !item.isRight) {
-      item.activeName = 'error'
-    }
-    if (!item.isActive && item.value === props.list.answer) {
+    if (!item.isActive && item.isRight) {
       item.activeName = 'success' // 未作答正确标出正确答案
     }
-
-    // if (!props.cMode) {
-    //   // 考试模式只显示正确答案 ,不显示其他
-    //   if (e.value === props.list.answer && item.value === props.list.answer) {
-    //     console.log('对了', item)
-    //     item.activeName = 'success'
-    //   }
-    // } else if (props.cMode === 1) {
-    //   // 答题模式
-    //   if (e.value === props.list.answer && item.value === props.list.answer) {
-    //     console.log('对====了', item)
-    //     item.activeName = 'success'
-    //   } else if (e.value === item.value) {
-    //     // 当前值标出错误
-    //     item.activeName = 'error'
-    //     // 把对的值标出来
-    //   } else if (props.list.answer === item.value) {
-    //     item.activeName = 'success'
-    //   }
-    // } else if (props.cMode === 2) {
-    //   // 背题模式
-    //   console.log('🥓')
-    // }
   })
 }
-
-// 标出正确答案/及显示所选答案
-const currentSelect = computed(() => {
-  // TODO:判断多选
-  const a = props.list.options.findIndex((item) => item.isActive)
-  const b = props.list.options.findIndex((item) => item.activeName === 'success') //
-
-  return {
-    // 当前选中
-    cIndex: a,
-    // 当前正确答案下标
-    rIndex: b,
-    // 当前选择了 对错状态
-    rSataus: a === b,
-    // 显示作答结果
-    isShowAnswer: props.cMode === 2 || (props.cMode === 1 && a > -1), // 这道题已经选择了
-  }
-})
-
-// 多选cao zuos
+// 答题操作 多选
 const sureCheckbox = () => {
   if (props.list!.isAnswer) {
     return
@@ -148,26 +98,61 @@ const sureCheckbox = () => {
   if (!props.list.currentAnswer || props.list.currentAnswer.length < 2) {
     return Toast('请选择两个及以上答案!')
   }
-
   const rArr = JSON.parse(props.list.answer)
-
   props.list!.isAnswer = true // 标记当前已经作答
   props.list.options.forEach((item, index) => {
     if (props.list.currentAnswer.includes(item.value)) {
       item.isActive = true // 标记当前选项
     }
     item.isRight = rArr.includes(item.value)
-    if (item.isActive && item.isRight) {
-      item.activeName = 'success'
+    // 当前选项操作过
+    if (item.isActive) {
+      item.activeName = item.isRight ? 'success' : 'error'
     }
-    if (item.isActive && !item.isRight) {
-      item.activeName = 'error'
-    }
+
     if (!item.isActive && item.isRight) {
       item.activeName = 'unseccess' // 未作答正确标出正确答案
     }
   })
 }
+
+// 标出正确答案/及显示所选答案
+const currentSelect = computed(() => {
+  // 单选
+  let cIndex: any = null
+  let rIndex: any = null
+  if (props.list.type === 'radio') {
+    cIndex = props.list.options.findIndex((item) => item.isActive)
+    // 正确答案下标
+    rIndex = props.list.options.findIndex(
+      (item) => item.isRight || item.value === props.list.answer,
+    )
+  }
+  if (props.list.type === 'checkbox') {
+    // 正确答案下标
+    const rArr = JSON.parse(props.list.answer)
+    rIndex = rArr.map((item) => {
+      return findIndex(props.list.options, (o) => o.value === item)
+    })
+    // 当前选择答案的下标
+    const currentAnswer = props.list!.currentAnswer || []
+    const cIndexs = currentAnswer.map((item) => {
+      return findIndex(props.list.options, (o) => o.value === item)
+    })
+    cIndex = sortBy(cIndexs)
+  }
+  return {
+    // 当前选中
+    cIndex: getIndexStr(cIndex),
+    // 当前正确答案下标
+    rIndex: getIndexStr(rIndex),
+    // 当前选择了 对错状态
+    rSataus: isEqual(cIndex, rIndex),
+    // 显示作答结果
+    isShowAnswer: props.cMode === 2 || (props.cMode === 1 && props.list.isAnswer), // 这道题已经选择了
+  }
+})
+
 // 监听当前模式
 watch(
   () => [props.cMode, props.list],
@@ -188,7 +173,7 @@ watch(
       </wd-tag>
       {{ list.name }}
     </view>
-    <template v-if="list.type === 'radio' || list.type === 'boolean'">
+    <template v-if="list.type === 'radio'">
       <wd-radio-group v-model="list!.currentAnswer" class="bg-transparent" @change="changeAnswer">
         <wd-radio
           :value="item.value"
@@ -250,12 +235,12 @@ watch(
     <view class="my-20px p-10px flex bg-coolgray-200" v-if="currentSelect.isShowAnswer">
       <view class="mr-10px font-bold">
         正确答案 :
-        <text class="text-lightblue">{{ answerIndex[currentSelect.rIndex] }}</text>
+        <text class="text-lightblue">{{ currentSelect.rIndex }}</text>
       </view>
-      <view class="font-bold" v-if="props.cMode === 1 && currentSelect.cIndex > -1">
+      <view class="font-bold" v-if="props.cMode === 1 && currentSelect.cIndex">
         您的答案 :
         <text :class="currentSelect.rSataus ? 'text-lightblue' : 'text-red-500'">
-          {{ answerIndex[currentSelect.cIndex] }}
+          {{ currentSelect.cIndex }}
         </text>
       </view>
       <view class="text-lightblue ml-auto">

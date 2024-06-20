@@ -1,3 +1,4 @@
+import isArray from 'lodash-es/isArray'
 export const answerType = [
   {
     label: '单选题',
@@ -45,3 +46,15 @@ export const answerIndex = [
   'Y',
   'Z',
 ]
+
+export const getIndexStr = (data: any) => {
+  if (isArray(data)) {
+    return data
+      .map((item, index) => {
+        return answerIndex[item]
+      })
+      .join(',')
+  } else {
+    return answerIndex[data]
+  }
+}
