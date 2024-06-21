@@ -56,6 +56,9 @@
 </template>
 
 <script lang="ts" setup>
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
+import { routeTo } from '@/utils'
+
 const tab = ref<number>(0)
 const swiperList = ref([
   'https://unpkg.com/wot-design-uni-assets/redpanda.jpg',
@@ -194,6 +197,7 @@ const list = ref([
 
 function handleClick(e) {
   console.log(e)
+  routeTo('/pages/examination/index', NAVIGATE_TYPE.NAVIGATE_TO)
 }
 function onChange(e) {
   console.log(e)

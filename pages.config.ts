@@ -34,12 +34,6 @@ export default defineUniPages({
         text: '考试',
       },
       {
-        iconPath: 'static/tabbar/home.png',
-        selectedIconPath: 'static/tabbar/homeHL.png',
-        pagePath: 'pages/examination/index',
-        text: '报名',
-      },
-      {
         iconPath: 'static/tabbar/example.png',
         selectedIconPath: 'static/tabbar/exampleHL.png',
         pagePath: 'pages/about/about',

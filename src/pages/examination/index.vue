@@ -171,11 +171,13 @@ function submitAnswer() {
 <template>
   <wd-navbar fixed placeholder safeAreaInsetTop left-arrow>
     <template #title>
-      <wd-segmented :options="navTitle" v-model:value="cMode" class="mt-5px">
-        <template #label="{ option }">
-          {{ option.payload!.label }}
-        </template>
-      </wd-segmented>
+      <view class="mt-8px">
+        <wd-segmented :options="navTitle" v-model:value="cMode">
+          <template #label="{ option }">
+            {{ option.payload!.label }}
+          </template>
+        </wd-segmented>
+      </view>
     </template>
   </wd-navbar>
 

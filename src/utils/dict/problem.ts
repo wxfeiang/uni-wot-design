@@ -47,7 +47,7 @@ export const answerIndex = [
   'Z',
 ]
 
-export const getIndexStr = (data: any) => {
+export const getIndexStr = (data: number[] | number) => {
   if (isArray(data)) {
     return data
       .map((item, index) => {
