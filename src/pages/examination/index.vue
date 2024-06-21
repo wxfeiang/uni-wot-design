@@ -8,17 +8,21 @@
 </route>
 
 <script lang="ts" setup>
+import { Toast } from '@/utils/uniapi/prompt'
 import { chunk } from 'lodash-es'
+import { useMessage, useToast } from 'wot-design-uni'
 import ProblemComp from './components/problem.vue'
 import TransitionComp from './components/transition.vue'
-
+const { safeAreaInsets } = uni.getSystemInfoSync()
+const message = useMessage()
+const toast = useToast()
 // 动画相关数据
 const position = ref('right')
 const transition = ref(null)
 
 const show = ref(false)
 
-const cuMode = ref(0)
+const cMode = ref(0)
 const navTitle = ref([
   {
     value: 1,
@@ -93,23 +97,39 @@ const cList = ref() // 获取当前数据
 list.value = chunk(anList.value, 1)
 cList.value = list.value[cIndex.value]
 
+// 操作题目切换
 const actionData = (f?: number) => {
   const l = list.value.length - 1
-  if (f === 1) {
-    position.value = 'right'
-    cIndex.value = cIndex.value < l ? cIndex.value + 1 : l
-    if (cIndex.value === l) {
-      // 题目结束
-      // 交卷
-      // 退出
-    }
-  } else if (f === 0) {
-    position.value = 'left'
-    cIndex.value = cIndex.value > 0 ? cIndex.value - 1 : 0
-  }
-  cList.value = list.value[cIndex.value]
+  console.log('🍷', cIndex.value)
+  setTimeout(() => {
+    if (f === 1) {
+      position.value = 'right'
+      if (cIndex.value < l) {
+        cIndex.value++
+      } else {
+        cIndex.value = l
 
-  transition.value.custom()
+        if (cMode.value === 0) {
+          submitAnswer()
+        } else {
+          Toast('已经是最后一题了哦')
+        }
+
+        return false
+      }
+    } else if (f === 0) {
+      position.value = 'left'
+      if (cIndex.value > 0) {
+        cIndex.value--
+      } else {
+        cIndex.value = 0
+        Toast('已经是第一题了哦')
+        return false
+      }
+    }
+    transition.value.custom()
+    cList.value = list.value[cIndex.value]
+  }, 300)
 }
 const startData = reactive({
   clientX: 0,
@@ -133,21 +153,35 @@ const end = (e) => {
     }
   }
 }
+function submitAnswer() {
+  message
+    .confirm({
+      msg: '提示文案',
+      title: '标题',
+    })
+    .then(() => {
+      console.log('点击了确定按钮')
+    })
+    .catch(() => {
+      console.log('点击了取消按钮')
+    })
+}
 </script>
 
 <template>
-  <wd-navbar fixed placeholder left-arrow>
+  <wd-navbar fixed placeholder safeAreaInsetTop left-arrow>
     <template #title>
-      <wd-segmented :options="navTitle" v-model:value="cuMode" class="mt-5px">
+      <wd-segmented :options="navTitle" v-model:value="cMode" class="mt-5px">
         <template #label="{ option }">
           {{ option.payload!.label }}
         </template>
       </wd-segmented>
     </template>
   </wd-navbar>
+
   <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
     <view>
-      <Problem-Comp :list="cList[0]" :cMode="cuMode" @next="actionData(1)"></Problem-Comp>
+      <Problem-Comp :list="cList[0]" :cMode="cMode" @next="actionData(1)"></Problem-Comp>
     </view>
   </view>
 

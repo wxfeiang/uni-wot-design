@@ -25,7 +25,6 @@ defineExpose({
 
 <template>
   <view>
-    {{ position }}
     <wd-transition
       :show="customShow"
       name=""
@@ -40,7 +39,14 @@ defineExpose({
     />
   </view>
 </template>
-
+<script lang="ts">
+export default {
+  options: {
+    styleIsolation: 'shared',
+    virtualHost: true,
+  },
+}
+</script>
 <style lang="scss" scoped>
 :deep(.block2) {
   position: fixed;

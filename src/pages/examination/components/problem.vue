@@ -69,7 +69,7 @@ function modelChange() {
 // 答题操作 单选
 const changeAnswer = (e) => {
   // 当前题目是否已经答过/背题
-  if (props.list.isAnswer || props.cMode === 2) return
+  if (props.list.isAnswer || !props.list.currentAnswer || props.cMode === 2) return
   if (props.cMode === 1) {
     // 改变当前题目状态
     props.list!.isAnswer = true // 标记当前题目已经答过
@@ -180,17 +180,12 @@ watch(
     <template v-if="list.type === 'radio'">
       <wd-radio-group
         v-model="list!.currentAnswer"
-        class="bg-transparent dy-ischecked-default"
+        :disabled="props.cMode == 2 || props.list.isAnswer"
+        class="bg-transparent"
         @change="changeAnswer"
       >
-        <wd-radio
-          :value="item.value"
-          v-for="(item, index) in list.options"
-          :key="index"
-          class="p-10px"
-          :class="item.activeName"
-        >
-          <view class="flex items-center" :class="item.activeName">
+        <wd-radio :value="item.value" v-for="(item, index) in list.options" :key="index">
+          <view class="flex items-center p-10px" :class="item.activeName">
             <view class="an-text a-text" v-if="item.activeName === 'unseccess'">
               {{ answerIndex[index] }}
             </view>
@@ -219,9 +214,10 @@ watch(
           :modelValue="item.value"
           v-for="(item, index) in list.options"
           :key="index"
-          class="py-10px"
+          :class="item.activeName"
+          custom-class="custom-class"
         >
-          <view class="flex items-center" :class="item.activeName">
+          <view class="flex items-center p-10px" :class="item.activeName">
             <view class="an-text a-text" v-if="item.activeName === 'success'">
               <wd-icon name="check1" size="18px"></wd-icon>
             </view>
@@ -239,23 +235,26 @@ watch(
         class="flex justify-center mt-30px"
         v-if="props.cMode === 0 || (props.cMode == 1 && !list.isAnswer)"
       >
-        <wd-button class="w-80%" @click="sureCheckbox">确认答案</wd-button>
+        <wd-button block @click="sureCheckbox">确认答案</wd-button>
       </view>
     </template>
 
     <view class="my-20px p-10px flex bg-coolgray-200" v-if="currentSelect.isShowAnswer">
       <view class="mr-10px font-bold">
         正确答案 :
-        <text class="text-lightblue">{{ currentSelect.rIndex }}</text>
+        <text class="text-lightblue text-size-14px">{{ currentSelect.rIndex }}</text>
       </view>
       <view class="font-bold" v-if="props.cMode === 1 && currentSelect.cIndex">
         您的答案 :
-        <text :class="currentSelect.rSataus ? 'text-lightblue' : 'text-red-500'">
+        <text
+          class="text-size-14px"
+          :class="currentSelect.rSataus ? 'text-lightblue' : 'text-red-500'"
+        >
           {{ currentSelect.cIndex }}
         </text>
       </view>
       <view class="text-lightblue ml-auto">
-        <wd-icon name="keywords" size="18px"></wd-icon>
+        <wd-icon name="keywords" size="14px"></wd-icon>
         速记口诀
       </view>
     </view>
@@ -279,48 +278,58 @@ watch(
     </view>
   </view>
 </template>
-
+<script lang="ts">
+export default {
+  options: {
+    styleIsolation: 'shared',
+    virtualHost: true,
+  },
+}
+</script>
 <style lang="scss" scoped>
 @mixin band($f) {
   background: var($f) !important;
   @apply text-white;
 }
+.an-text {
+  @apply mr-10px w-25px h-25px line-height-25px rounded-10000  shadow-md text-center;
+}
 
 .unseccess,
 .success {
-  color: var(--color-an-success);
+  color: var(--color-an-success) !important;
   .a-text {
     @include band(--color-an-success);
   }
 }
 .error {
-  color: var(--color-an-error);
+  color: var(--color-an-error) !important;
   .a-text {
     @include band(--color-an-error);
   }
 }
-
+.default {
+  .a-text {
+    @include band(--color-an-error);
+  }
+}
 :deep(.wd-icon-check),
 :deep(.wd-checkbox__shape),
 :deep(.wd-radio__shape) {
   display: none !important;
 }
 
-.an-text {
-  @apply mr-10px w-25px h-25px line-height-25px rounded-10000  shadow-md text-center;
+:deep(.is-checked .success .an-text) {
+  @include band(--color-an-success);
 }
-.dy-ischecked-default {
-  :deep(.is-checked .success .an-text) {
-    @include band(--color-an-success);
-  }
-  :deep(.is-checked .error .an-text) {
-    @include band(--color-an-error);
-  }
-  :deep(.is-checked .an-text) {
-    @include band(--color-an-info);
-  }
-  :deep(.wd-checkbox.is-disabled .wd-checkbox__label) {
-    color: var(--wot-checkbox-label-color);
-  }
+:deep(.is-checked .error .an-text) {
+  @include band(--color-an-error);
+}
+:deep(.is-checked .an-text) {
+  @include band(--color-an-info);
+}
+:deep(.wd-checkbox__label),
+:deep(.wd-radio__label) {
+  color: var(--color-an-font) !important;
 }
 </style>
