@@ -1,5 +1,6 @@
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { pages, subPackages, tabBar } from '@/pages.json'
-
+import qs from 'qs'
 /** 判断当前页面是否是tabbar页  */
 export const getIsTabbar = () => {
   if (!tabBar) {
@@ -121,4 +122,20 @@ export const needLoginPages: string[] = getAllPages('needLogin').map((page) => p
  */
 export const changeDict = (data: any, value?: any, key?: string, val?: string) => {
   return data.find((item: any) => item[val || 'value'] === value)[key || 'label']
+}
+
+export const routeTo = (url: string, navType: NAVIGATE_TYPE, data?: any) => {
+  // TODO: 待完善
+  if (data) {
+    const queryStr = qs.stringify(data)
+    if (url.includes('?')) {
+      url += `&${queryStr}`
+    } else {
+      url += `?${queryStr}`
+    }
+  }
+  console.log('🍇', navType)
+  uni.navigateTo({
+    url,
+  })
 }
