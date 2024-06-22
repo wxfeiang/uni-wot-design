@@ -177,7 +177,10 @@ function submitAnswer() {
   console.log('🍪')
   // TODO: 跳转至结果页面
 }
-
+function finishAnswer() {
+  toast.loading('考试结束,自动提提交...')
+  submitAnswer()
+}
 onLoad((options: any) => {
   if (!options.cMode) {
     Toast('获取页面数据参数有误!')
@@ -190,18 +193,13 @@ onLoad((options: any) => {
   }
   cMode.value = options.cMode * 1
 })
-
-function finishAnswer() {
-  toast.loading('考试结束,自动提提交...')
-  submitAnswer()
-}
 </script>
 
 <template>
   <wd-navbar fixed placeholder safeAreaInsetTop left-arrow>
     <template #title>
       <view class="mt-8px">
-        <template v-if="cMode === 1">
+        <template v-if="cMode !== 0">
           <wd-segmented :options="navTitle" v-model:value="cMode">
             <template #label="{ option }">
               {{ option.payload!.label }}

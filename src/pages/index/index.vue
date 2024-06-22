@@ -28,22 +28,22 @@ const list = ref([
         {
           name: 'vip课程',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-vip1',
         },
         {
           name: '专项练习',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-zhuanxianglianxi',
         },
         {
           name: '图标练习',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-cuotishoucang',
         },
         {
           name: '新规',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-a-weibiaoti-2_huaban1',
         },
       ],
       center: [
@@ -62,50 +62,50 @@ const list = ref([
         {
           name: '精简题库',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-tiku',
         },
         {
           name: '随机练习',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-icon-suijilianxi',
         },
         {
           name: '错题',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-cuotishoucang',
         },
         {
           name: '排行',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-paihangbang',
         },
       ],
     },
   },
   {
     name: '科目四',
-    value: 2,
+    value: 1,
     conter: {
       left: [
         {
-          name: '课程',
+          name: 'vip课程',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-vip1',
         },
         {
           name: '专项练习',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-zhuanxianglianxi',
         },
         {
           name: '图标练习',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-cuotishoucang',
         },
         {
           name: '新规',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-a-weibiaoti-2_huaban1',
         },
       ],
       center: [
@@ -124,22 +124,22 @@ const list = ref([
         {
           name: '精简题库',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-guanwang_kehuanli_qitakehu_yewutongdian_xiangyingzijinxintuoxinguiyaoqiu',
         },
         {
           name: '随机练习',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-icon-suijilianxi',
         },
         {
           name: '错题',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-cuotishoucang',
         },
         {
           name: '排行',
           value: 1,
-          icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          icon: 'dy-icon-paihangbang',
         },
       ],
     },
@@ -171,32 +171,31 @@ defineOptions({
     <wd-tabs v-model="tab" swipeable>
       <template v-for="(item, index) in list" :key="index">
         <wd-tab :title="item.name">
-          <view class="border-1-solid-[#ccc]">
+          <view class="bd-1">
             <wd-row :gutter="10">
               <wd-col :span="8">
                 <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
                   <view class="mx-auto text-center">
-                    <wd-img :width="50" :height="50" round :src="c.icon" />
+                    <!-- <wd-img :width="50" :height="50" round :src="c.icon" /> -->
+                    <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
-                  <view class="text-center text-xs">{{ c.name }}</view>
+                  <view class="text-center text-xs leading-40px">{{ c.name }}</view>
                 </view>
               </wd-col>
               <wd-col :span="8">
                 <view class="flex flex-col mt-10px text-center">
                   <view v-for="(c, j) in item.conter.center" :key="j">
-                    <view class="mx-auto text-center py-10px mt-25px">
-                      <wd-img :width="80" :height="80" round :src="c.icon" />
-                    </view>
+                    <view class="mx-auto text-center py-10px mt-25px"></view>
                     <view>{{ c.name }}</view>
                   </view>
                 </view>
               </wd-col>
               <wd-col :span="8">
-                <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
+                <view v-for="(c, j) in item.conter.right" :key="j" class="py-15px">
                   <view class="mx-auto text-center">
-                    <wd-img :width="50" :height="50" round :src="c.icon" />
+                    <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
-                  <view class="text-center text-xs">{{ c.name }}</view>
+                  <view class="text-center text-xs leading-40px">{{ c.name }}</view>
                 </view>
               </wd-col>
             </wd-row>

@@ -71,10 +71,6 @@
           "style": {
             "navigationStyle": "custom"
           }
-        },
-        {
-          "path": "examination/utils/useAnswer",
-          "type": "page"
         }
       ]
     }

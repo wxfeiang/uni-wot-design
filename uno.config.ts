@@ -102,9 +102,9 @@ export default defineConfig({
       }),
     ],
     [
-      /^bd-(\d+)-(\t+)-(\c+)}$/,
-      ([, d, t, c]) => ({
-        border: `${d}px ${t} ${c} `,
+      /^bd-(\d+)$/,
+      ([, d]) => ({
+        border: `${d}px solid #f5f5f5`,
       }),
     ],
   ],
