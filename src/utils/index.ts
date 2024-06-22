@@ -1,5 +1,6 @@
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { pages, subPackages, tabBar } from '@/pages.json'
-
+import qs from 'qs'
 /** 判断当前页面是否是tabbar页  */
 export const getIsTabbar = () => {
   if (!tabBar) {
@@ -111,3 +112,54 @@ export const getNeedLoginPages = (): string[] => getAllPages('needLogin').map((p
  * 只得到 path 数组
  */
 export const needLoginPages: string[] = getAllPages('needLogin').map((page) => page.path)
+
+/**
+ * @description: 字典值解析
+ * @param {} data 字典数组
+ * @param {} value 当前比对值
+ * @param {} key  要比对的key
+ * @param {} val  要比对的val
+ */
+export const changeDict = (data: any, value?: any, key?: string, val?: string) => {
+  return data.find((item: any) => item[val || 'value'] === value)[key || 'label']
+}
+
+/**
+ * @description:  页面跳转
+ * @param {} options url  类型   数据
+ * @return {}
+ */
+export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
+  let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
+
+  if (data) {
+    const queryStr = qs.stringify(data)
+    if (url.includes('?')) {
+      url += `&${queryStr}`
+    } else {
+      url += `?${queryStr}`
+    }
+  }
+  if (navType === NAVIGATE_TYPE.NAVIGATE_BACK || !navType) {
+    uni.navigateBack({
+      delta: 1,
+    })
+    return
+  }
+  if (navType === NAVIGATE_TYPE.NAVIGATE_TO) {
+    uni.navigateTo({
+      url,
+    })
+    return
+  }
+  if (navType === NAVIGATE_TYPE.SWITCH_TAB) {
+    uni.switchTab({
+      url,
+    })
+  }
+  if (navType === NAVIGATE_TYPE.REDIRECT_TO) {
+    uni.redirectTo({
+      url,
+    })
+  }
+}
