@@ -1,5 +1,4 @@
 import { pages, subPackages, tabBar } from '@/pages.json'
-
 /** 判断当前页面是否是tabbar页  */
 export const getIsTabbar = () => {
   if (!tabBar) {
