@@ -124,8 +124,12 @@ export const changeDict = (data: any, value?: any, key?: string, val?: string) =
   return data.find((item: any) => item[val || 'value'] === value)[key || 'label']
 }
 
+/**
+ * @description:  页面跳转
+ * @param {} options url  类型   数据
+ * @return {}
+ */
 export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
-  // TODO: 待完善
   let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
 
   if (data) {
@@ -136,16 +140,26 @@ export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_
       url += `?${queryStr}`
     }
   }
+  if (navType === NAVIGATE_TYPE.NAVIGATE_BACK || !navType) {
+    uni.navigateBack({
+      delta: 1,
+    })
+    return
+  }
   if (navType === NAVIGATE_TYPE.NAVIGATE_TO) {
     uni.navigateTo({
       url,
     })
     return
   }
-  console.log('🍇', navType)
-  if (navType === NAVIGATE_TYPE.NAVIGATE_BACK) {
-    uni.navigateBack({
-      delta: 1,
+  if (navType === NAVIGATE_TYPE.SWITCH_TAB) {
+    uni.switchTab({
+      url,
+    })
+  }
+  if (navType === NAVIGATE_TYPE.REDIRECT_TO) {
+    uni.redirectTo({
+      url,
     })
   }
 }
