@@ -145,13 +145,14 @@ const currentSelect = computed(() => {
     })
     cIndex = sortBy(cIndexs)
   }
+  props.list!.isRight = isEqual(cIndex, rIndex)
   return {
     // 当前选中
     cIndex: getIndexStr(cIndex),
     // 当前正确答案下标
     rIndex: getIndexStr(rIndex),
     // 当前选择了 对错状态
-    rSataus: isEqual(cIndex, rIndex),
+    rSataus: props.list.isRight,
     // 显示作答结果
     isShowAnswer: props.cMode === 2 || (props.cMode === 1 && props.list.isAnswer), // 这道题已经选择了
   }

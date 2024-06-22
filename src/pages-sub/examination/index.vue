@@ -12,6 +12,7 @@ import { routeTo } from '@/utils'
 import { Toast } from '@/utils/uniapi/prompt'
 import { chunk } from 'lodash-es'
 import { useMessage, useToast } from 'wot-design-uni'
+import counAnswerCopm from './components/counAnswer.vue'
 import ProblemComp from './components/problem.vue'
 import TransitionComp from './components/transition.vue'
 
@@ -181,6 +182,11 @@ function finishAnswer() {
   toast.loading('考试结束,自动提提交...')
   submitAnswer()
 }
+
+// 顶部返回
+function handleClickLeft() {
+  uni.navigateBack()
+}
 onLoad((options: any) => {
   if (!options.cMode) {
     Toast('获取页面数据参数有误!')
@@ -196,7 +202,7 @@ onLoad((options: any) => {
 </script>
 
 <template>
-  <wd-navbar fixed placeholder safeAreaInsetTop left-arrow>
+  <wd-navbar fixed placeholder safeAreaInsetTop left-arrow @click-left="handleClickLeft">
     <template #title>
       <view class="mt-8px">
         <template v-if="cMode !== 0">
@@ -221,6 +227,7 @@ onLoad((options: any) => {
     </view>
   </view>
 
+  <counAnswer-Copm :cIndex="cIndex" :alist="anList" v-if="cMode !== 0"></counAnswer-Copm>
   <Transition-Comp :position="position" ref="transition" />
 </template>
 
