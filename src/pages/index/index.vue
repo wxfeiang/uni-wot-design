@@ -2,58 +2,10 @@
 <route lang="json5" type="home">
 {
   style: {
-    navigationStyle: 'custom',
-    navigationBarTitleText: '考试',
+    navigationBarTitleText: '考试类目',
   },
 }
 </route>
-<template>
-  <wd-swiper
-    :list="swiperList"
-    autoplay
-    :current="0"
-    @click="handleClick"
-    @change="onChange"
-    height="120"
-  ></wd-swiper>
-
-  <view class="bg-white mt-1">
-    <wd-tabs v-model="tab" swipeable>
-      <template v-for="(item, index) in list" :key="index">
-        <wd-tab :title="item.name" class="border-b-1px">
-          <wd-row :gutter="10">
-            <wd-col :span="8">
-              <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
-                <view class="mx-auto text-center">
-                  <wd-img :width="40" :height="40" round :src="c.icon" />
-                </view>
-                <view class="text-center text-xs">{{ c.name }}</view>
-              </view>
-            </wd-col>
-            <wd-col :span="8">
-              <view class="flex flex-col mt-50px">
-                <view v-for="(c, j) in item.conter.center" :key="j">
-                  <view class="mx-auto text-center py-10px mt-25px">
-                    <wd-img :width="60" :height="60" round :src="c.icon" />
-                  </view>
-                </view>
-              </view>
-            </wd-col>
-            <wd-col :span="8">
-              <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
-                <view class="mx-auto text-center">
-                  <wd-img :width="40" :height="40" round :src="c.icon" />
-                </view>
-                <view class="text-center text-xs">{{ c.name }}</view>
-              </view>
-            </wd-col>
-          </wd-row>
-        </wd-tab>
-      </template>
-    </wd-tabs>
-  </view>
-  <wd-gap bg-color="#4D80F0"></wd-gap>
-</template>
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
@@ -205,9 +157,54 @@ defineOptions({
   name: 'Home',
 })
 </script>
+<template>
+  <wd-swiper
+    :list="swiperList"
+    autoplay
+    :current="0"
+    @click="handleClick"
+    @change="onChange"
+    height="120"
+  ></wd-swiper>
 
-<style>
-.main-title-color {
-  color: #d14328;
-}
-</style>
+  <view class="bg-white mt-1">
+    <wd-tabs v-model="tab" swipeable>
+      <template v-for="(item, index) in list" :key="index">
+        <wd-tab :title="item.name">
+          <view class="border-1-solid-[#ccc]">
+            <wd-row :gutter="10">
+              <wd-col :span="8">
+                <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
+                  <view class="mx-auto text-center">
+                    <wd-img :width="50" :height="50" round :src="c.icon" />
+                  </view>
+                  <view class="text-center text-xs">{{ c.name }}</view>
+                </view>
+              </wd-col>
+              <wd-col :span="8">
+                <view class="flex flex-col mt-10px text-center">
+                  <view v-for="(c, j) in item.conter.center" :key="j">
+                    <view class="mx-auto text-center py-10px mt-25px">
+                      <wd-img :width="80" :height="80" round :src="c.icon" />
+                    </view>
+                    <view>{{ c.name }}</view>
+                  </view>
+                </view>
+              </wd-col>
+              <wd-col :span="8">
+                <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
+                  <view class="mx-auto text-center">
+                    <wd-img :width="50" :height="50" round :src="c.icon" />
+                  </view>
+                  <view class="text-center text-xs">{{ c.name }}</view>
+                </view>
+              </wd-col>
+            </wd-row>
+          </view>
+        </wd-tab>
+      </template>
+    </wd-tabs>
+  </view>
+  <wd-gap bg-color="#f5f5f5"></wd-gap>
+</template>
+<style></style>

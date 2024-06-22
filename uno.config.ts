@@ -101,6 +101,12 @@ export default defineConfig({
         height: `${d}px`,
       }),
     ],
+    [
+      /^bd-(\d+)-(\t+)-(\c+)}$/,
+      ([, d, t, c]) => ({
+        border: `${d}px ${t} ${c} `,
+      }),
+    ],
   ],
 })
 
