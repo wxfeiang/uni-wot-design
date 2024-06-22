@@ -53,15 +53,31 @@
       "style": {
         "navigationBarTitleText": "关于"
       }
-    },
-    {
-      "path": "pages/examination/index",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationStyle": "custom"
-      }
     }
   ],
-  "subPackages": []
+  "subPackages": [
+    {
+      "root": "pages-sub",
+      "pages": [
+        {
+          "path": "demo/index",
+          "type": "page",
+          "style": {
+            "navigationBarTitleText": "分包页面 标题"
+          }
+        },
+        {
+          "path": "examination/index",
+          "type": "page",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "examination/utils/useAnswer",
+          "type": "page"
+        }
+      ]
+    }
+  ]
 }

@@ -124,8 +124,10 @@ export const changeDict = (data: any, value?: any, key?: string, val?: string) =
   return data.find((item: any) => item[val || 'value'] === value)[key || 'label']
 }
 
-export const routeTo = (url: string, navType: NAVIGATE_TYPE, data?: any) => {
+export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
   // TODO: 待完善
+  let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
+
   if (data) {
     const queryStr = qs.stringify(data)
     if (url.includes('?')) {
@@ -134,8 +136,16 @@ export const routeTo = (url: string, navType: NAVIGATE_TYPE, data?: any) => {
       url += `?${queryStr}`
     }
   }
+  if (navType === NAVIGATE_TYPE.NAVIGATE_TO) {
+    uni.navigateTo({
+      url,
+    })
+    return
+  }
   console.log('🍇', navType)
-  uni.navigateTo({
-    url,
-  })
+  if (navType === NAVIGATE_TYPE.NAVIGATE_BACK) {
+    uni.navigateBack({
+      delta: 1,
+    })
+  }
 }

@@ -1,6 +1,5 @@
 <route lang="json5" type="page">
 {
-  layout: 'default',
   style: {
     navigationStyle: 'custom',
   },
@@ -8,21 +7,24 @@
 </route>
 
 <script lang="ts" setup>
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
+import { routeTo } from '@/utils'
 import { Toast } from '@/utils/uniapi/prompt'
 import { chunk } from 'lodash-es'
 import { useMessage, useToast } from 'wot-design-uni'
 import ProblemComp from './components/problem.vue'
 import TransitionComp from './components/transition.vue'
-const { safeAreaInsets } = uni.getSystemInfoSync()
+
 const message = useMessage()
 const toast = useToast()
 // 动画相关数据
 const position = ref('right')
 const transition = ref(null)
-
+// 考试时间
+const countDownTime = ref<number>(45 * 60 * 60 * 1000)
 const show = ref(false)
 
-const cMode = ref(0)
+const cMode = ref(null)
 const navTitle = ref([
   {
     value: 1,
@@ -100,7 +102,7 @@ cList.value = list.value[cIndex.value]
 // 操作题目切换
 const actionData = (f?: number) => {
   const l = list.value.length - 1
-  console.log('🍷', cIndex.value)
+
   setTimeout(() => {
     if (f === 1) {
       position.value = 'right'
@@ -110,7 +112,7 @@ const actionData = (f?: number) => {
         cIndex.value = l
 
         if (cMode.value === 0) {
-          submitAnswer()
+          comfirAnswer()
         } else {
           Toast('已经是最后一题了哦')
         }
@@ -124,6 +126,7 @@ const actionData = (f?: number) => {
       } else {
         cIndex.value = 0
         Toast('已经是第一题了哦')
+
         return false
       }
     }
@@ -153,18 +156,44 @@ const end = (e) => {
     }
   }
 }
-function submitAnswer() {
+
+// 交卷提示
+function comfirAnswer() {
   message
     .confirm({
-      msg: '提示文案',
-      title: '标题',
+      msg: '是否交卷?',
+      title: '提示',
     })
     .then(() => {
-      console.log('点击了确定按钮')
+      console.log('🍚')
     })
     .catch(() => {
-      console.log('点击了取消按钮')
+      console.log('🥓')
     })
+}
+
+// 交卷
+function submitAnswer() {
+  console.log('🍪')
+  // TODO: 跳转至结果页面
+}
+
+onLoad((options: any) => {
+  if (!options.cMode) {
+    Toast('获取页面数据参数有误!')
+    setTimeout(() => {
+      routeTo({
+        navType: NAVIGATE_TYPE.NAVIGATE_BACK,
+      })
+    }, 1000)
+    return false
+  }
+  cMode.value = options.cMode * 1
+})
+
+function finishAnswer() {
+  toast.loading('考试结束,自动提提交...')
+  submitAnswer()
 }
 </script>
 
@@ -172,11 +201,18 @@ function submitAnswer() {
   <wd-navbar fixed placeholder safeAreaInsetTop left-arrow>
     <template #title>
       <view class="mt-8px">
-        <wd-segmented :options="navTitle" v-model:value="cMode">
-          <template #label="{ option }">
-            {{ option.payload!.label }}
-          </template>
-        </wd-segmented>
+        <template v-if="cMode === 1">
+          <wd-segmented :options="navTitle" v-model:value="cMode">
+            <template #label="{ option }">
+              {{ option.payload!.label }}
+            </template>
+          </wd-segmented>
+        </template>
+        <template v-else>
+          <view class="pt-10px">
+            <wd-count-down :time="countDownTime" @finish="finishAnswer" />
+          </view>
+        </template>
       </view>
     </template>
   </wd-navbar>
