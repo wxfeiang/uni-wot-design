@@ -21,7 +21,7 @@ const emit = defineEmits<{
 // 初始化数据
 const initData = () => {
   //  单选
-  if (props.list.type === 'radio') {
+  if (props.list.type === 'radio' || props.list.type === 'boolean') {
     if (props.cMode === 2) {
       props.list.options.forEach((item) => {
         item.activeName = item.value === props.list.answer ? 'success' : 'default'
@@ -45,7 +45,10 @@ const initData = () => {
         })
       })
     } else if (props.cMode === 1) {
+      console.log('🍬')
       props.list!.currentAnswer = props.list!.cacheDdata
+        ? props.list!.cacheDdata
+        : props.list!.currentAnswer
       modelChange()
     }
   }
@@ -96,7 +99,7 @@ const sureCheckbox = () => {
     return
   }
   if (props.cMode === 1) {
-    if (!props.list.currentAnswer || props.list.currentAnswer.length < 2) {
+    if (!props.list.currentAnswer || props.list.currentAnswer.length < 1) {
       return Toast('请选择两个及以上答案!')
     }
     const rArr = JSON.parse(props.list.answer)
@@ -125,7 +128,7 @@ const currentSelect = computed(() => {
   // 单选
   let cIndex: any = null
   let rIndex: any = null
-  if (props.list.type === 'radio') {
+  if (props.list.type === 'radio' || props.list.type === 'boolean') {
     cIndex = props.list.options.findIndex((item) => item.isActive)
     // 正确答案下标
     rIndex = props.list.options.findIndex(
@@ -146,6 +149,7 @@ const currentSelect = computed(() => {
     cIndex = sortBy(cIndexs)
   }
   props.list!.isRight = isEqual(cIndex, rIndex)
+
   return {
     // 当前选中
     cIndex: getIndexStr(cIndex),
@@ -178,7 +182,7 @@ watch(
       </wd-tag>
       {{ list.name }}
     </view>
-    <template v-if="list.type === 'radio'">
+    <template v-if="list.type === 'radio' || list.type === 'boolean'">
       <wd-radio-group
         v-model="list!.currentAnswer"
         :disabled="props.cMode == 2 || props.list.isAnswer"

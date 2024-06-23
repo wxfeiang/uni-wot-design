@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { Toast } from '@/utils/uniapi/prompt'
+const emit = defineEmits<{
+  (e: 'toAnswer', value: number): void // 切换题目
+}>()
 const props = defineProps({
   alist: {
     type: Object, // 总数
@@ -29,7 +32,7 @@ const allStatus = computed(() => {
 })
 // 点击收藏
 function collect() {
-  props.alist[props.cIndex]!.isCollect = !props.alist[props.cIndex].isCollect
+  props.alist[props.cIndex]!.isCollect = !props.alist[props.cIndex]!.isCollect
   props.alist[props.cIndex]!.isCollect ? Toast('收藏成功') : Toast('取消收藏')
 }
 
@@ -57,6 +60,10 @@ function showActions() {
 function close() {
   show.value = false
 }
+function toAnswer(index: number) {
+  emit('toAnswer', index)
+  close()
+}
 </script>
 
 <template>
@@ -64,31 +71,48 @@ function close() {
   <view class="dy-footer">
     <view class="flex justify-between items-center h-100% px-10px">
       <view class="dy-icon" @click="collect">
-        <wd-icon name="star" size="22px" v-if="!props.alist[cIndex].isCollect"></wd-icon>
+        <wd-icon name="star" size="22px" v-if="!props.alist[cIndex]?.isCollect"></wd-icon>
         <wd-icon name="star-filled" size="22px" color="#ebde4f" v-else></wd-icon>
         收藏
       </view>
       <view class="dy-icon">
-        <view class="dy-icon mr-10px">
+        <view class="dy-icon mr-10px success">
           <view class="a-text">
-            <wd-icon name="check-circle-filled success" size="22px"></wd-icon>
+            <wd-icon name="check1" size="18px"></wd-icon>
           </view>
           <text>{{ allStatus.aIsRight }}</text>
         </view>
-        <view class="dy-icon mr-10px">
+        <view class="dy-icon mr-10px error">
           <view class="a-text">
-            <wd-icon name="close-circle-filled error" size="22px"></wd-icon>
+            <wd-icon name="close-normal" size="18px"></wd-icon>
           </view>
           <text>{{ allStatus.aNoIsRight }}</text>
         </view>
         <view class="dy-icon" @click="showActions">
           <wd-icon name="app" size="22px"></wd-icon>
-          <text>{{ props.cIndex + 1 }} / {{ alist.length }}</text>
+          <text>{{ props.cIndex + 1 }} / {{ props.alist.length }}</text>
         </view>
       </view>
     </view>
   </view>
-  <wd-action-sheet v-model="show" :panels="panels" @close="close" />
+  <wd-action-sheet v-model="show" @close="close" title="当前题目情况">
+    <view class="flex flex-wrap gap-15px p-15px max-h-500px overflow-y-auto">
+      <template v-for="(item, index) in props.alist" :key="item.id">
+        <template v-if="item.isAnswer">
+          <view
+            class="dy-item"
+            :class="item.isRight ? 'isRight' : 'isError'"
+            @click="toAnswer(index)"
+          >
+            {{ index + 1 }}
+          </view>
+        </template>
+        <template v-else>
+          <view class="dy-item" @click="toAnswer(index)">{{ index + 1 }}</view>
+        </template>
+      </template>
+    </view>
+  </wd-action-sheet>
 </template>
 <script lang="ts">
 export default {
@@ -99,6 +123,31 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@mixin band($f) {
+  background: var($f) !important;
+}
+.a-text {
+  @apply text-white;
+}
+.success {
+  color: var(--color-an-success) !important;
+  .a-text {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    @include band(--color-an-success);
+  }
+}
+.error {
+  color: var(--color-an-error) !important;
+  .a-text {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    @include band(--color-an-error);
+  }
+}
+
 .dy-footer {
   @apply fixed bottom-0 left-0 right-0 h-50px z-9 w-100% border-t-1px border-t-#ccc border-t-solid bg-white;
 }
@@ -108,21 +157,13 @@ export default {
     @apply mx-5px;
   }
 }
-
-@mixin band($f) {
-  background: var($f) !important;
-  @apply text-white;
+.dy-item {
+  @apply wh-40 rounded-100 text-center line-height-40px bd-#ccc;
 }
-.success {
-  color: var(--color-an-success) !important;
-  .a-text {
-    @include band(--color-an-success);
-  }
+.isRight {
+  @include band(--color-an-success);
 }
-.error {
-  color: var(--color-an-error) !important;
-  .a-text {
-    @include band(--color-an-error);
-  }
+.isError {
+  @include band(--color-an-error);
 }
 </style>

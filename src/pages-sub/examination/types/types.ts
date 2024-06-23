@@ -15,7 +15,7 @@ export interface ProBlemItemList {
   // 题目名称
   name: string
   // 题目类型
-  type: 'checkbox' | 'radio'
+  type: 'checkbox' | 'radio' | 'boolean'
 
   // 题目答案
   answer: any
