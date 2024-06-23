@@ -7,6 +7,7 @@ import { Mode, ProBlemItemList } from '../types/types'
 const props = defineProps({
   list: {
     type: Object as PropType<ProBlemItemList>,
+    required: true,
   },
   cMode: {
     type: Number as PropType<Mode>,

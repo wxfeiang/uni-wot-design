@@ -35,7 +35,6 @@ export default ({ command, mode }) => {
   console.log('UNI_PLATFORM -> ', UNI_PLATFORM) // 得到 mp-weixin, h5, app 等
 
   const env = loadEnv(mode, path.resolve(process.cwd(), 'env'))
-  console.log('🥟[env]:', env)
   const {
     VITE_APP_PORT,
     VITE_SERVER_BASEURL,

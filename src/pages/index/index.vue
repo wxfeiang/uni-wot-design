@@ -175,8 +175,7 @@ defineOptions({
             <wd-row :gutter="10">
               <wd-col :span="8">
                 <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
-                  <view class="mx-auto text-center">
-                    <!-- <wd-img :width="50" :height="50" round :src="c.icon" /> -->
+                  <view class="mx-auto text-center" @click="handleClick(index)">
                     <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
                   <view class="text-center text-xs leading-40px">{{ c.name }}</view>
@@ -192,7 +191,7 @@ defineOptions({
               </wd-col>
               <wd-col :span="8">
                 <view v-for="(c, j) in item.conter.right" :key="j" class="py-15px">
-                  <view class="mx-auto text-center">
+                  <view class="mx-auto text-center" @click="handleClick(index)">
                     <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
                   <view class="text-center text-xs leading-40px">{{ c.name }}</view>

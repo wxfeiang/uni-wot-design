@@ -51,7 +51,7 @@ function showActions() {
 function close() {
   show.value = false
 }
-function toAnswer(index: number) {
+function toAnswer(index) {
   emit('toAnswer', index)
   close()
 }
@@ -70,7 +70,7 @@ function submitAnswer() {
           <wd-icon name="star-filled" size="22px" color="#ebde4f" v-else></wd-icon>
           <text>收藏</text>
         </view>
-        <view class="ml-20px" v-i="props.cMode !== 0">
+        <view class="ml-20px" v-if="props.cMode !== 0">
           <wd-button size="small" @click="submitAnswer">交卷</wd-button>
         </view>
       </view>
@@ -97,7 +97,7 @@ function submitAnswer() {
   <wd-action-sheet v-model="show" @close="close" title="当前题目情况">
     <view class="flex flex-wrap gap-15px p-15px max-h-500px overflow-y-auto">
       <template v-for="(item, index) in props.alist" :key="item.id">
-        <template v-if="item.isAnswer">
+        <template v-if="item!.isAnswer">
           <view
             class="dy-item"
             :class="item.isRight ? 'isRight' : 'isError'"
