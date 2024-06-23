@@ -280,6 +280,10 @@ watch(
       <view class="color-gray-500 p-10px">
         {{ props.list.explain || '死记硬背' }}
       </view>
+      <view class="color-dark p-10px">
+        <text class="mr-10px">题目难度</text>
+        <wd-rate v-model="props.list!.difficulty" readonly />
+      </view>
     </view>
   </view>
 </template>

@@ -184,8 +184,9 @@ onLoad((options: any) => {
   <counAnswer-Copm
     :cIndex="cIndex"
     :alist="anList"
-    v-if="cMode !== 0"
+    :cMode="cMode"
     @toAnswer="toAnswer"
+    @submitAnswer="finishAnswer"
   ></counAnswer-Copm>
   <Transition-Comp :position="position" ref="transition" />
 </template>

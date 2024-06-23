@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Toast } from '@/utils/uniapi/prompt'
 const emit = defineEmits<{
+  (e: 'submitAnswer'): void
   (e: 'toAnswer', value: number): void // 切换题目
 }>()
 const props = defineProps({
@@ -11,6 +12,11 @@ const props = defineProps({
     // 当前位子
     type: Number,
     default: 0,
+  },
+  cMode: {
+    // 当前模式
+    type: Number,
+    default: 1,
   },
   placeholder: {
     type: Boolean,
@@ -37,22 +43,7 @@ function collect() {
 }
 
 const show = ref<boolean>(false)
-const panels = ref([
-  [
-    {
-      iconUrl:
-        '//img12.360buyimg.com/imagetools/jfs/t1/122016/33/6657/1362/5f0692a1E8708d245/e47299e5945a6956.png',
-      title: '微信好友',
-    },
-  ],
-  [
-    {
-      iconUrl:
-        '//img12.360buyimg.com/imagetools/jfs/t1/122016/33/6657/1362/5f0692a1E8708d245/e47299e5945a6956.png',
-      title: '微信好友',
-    },
-  ],
-])
+
 function showActions() {
   show.value = true
 }
@@ -64,16 +55,24 @@ function toAnswer(index: number) {
   emit('toAnswer', index)
   close()
 }
+function submitAnswer() {
+  emit('submitAnswer')
+}
 </script>
 
 <template>
   <view :class="props.placeholder ? props.height : ''"></view>
   <view class="dy-footer">
     <view class="flex justify-between items-center h-100% px-10px">
-      <view class="dy-icon" @click="collect">
-        <wd-icon name="star" size="22px" v-if="!props.alist[cIndex]?.isCollect"></wd-icon>
-        <wd-icon name="star-filled" size="22px" color="#ebde4f" v-else></wd-icon>
-        收藏
+      <view class="flex">
+        <view class="dy-icon" @click="collect">
+          <wd-icon name="star" size="22px" v-if="!props.alist[cIndex]?.isCollect"></wd-icon>
+          <wd-icon name="star-filled" size="22px" color="#ebde4f" v-else></wd-icon>
+          <text>收藏</text>
+        </view>
+        <view class="ml-20px" v-i="props.cMode !== 0">
+          <wd-button size="small" @click="submitAnswer">交卷</wd-button>
+        </view>
       </view>
       <view class="dy-icon">
         <view class="dy-icon mr-10px success">
@@ -161,9 +160,11 @@ export default {
   @apply wh-40 rounded-100 text-center line-height-40px bd-#ccc;
 }
 .isRight {
+  @apply text-white;
   @include band(--color-an-success);
 }
 .isError {
+  @apply text-white;
   @include band(--color-an-error);
 }
 </style>

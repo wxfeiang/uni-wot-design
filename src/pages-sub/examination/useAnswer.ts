@@ -7,7 +7,7 @@ const anList = ref([])
 // 对页面数据分组
 const list = ref() // 分页数据
 const cIndex = ref(0) // 获取总数下标
-const cList = ref() // 获取当前数据
+const cList = ref([]) // 获取当前数据
 
 const { send: getList, onSuccess: listSuccess } = getAnswerList({
   immediate: false,
