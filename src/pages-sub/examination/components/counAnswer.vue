@@ -94,7 +94,7 @@ function submitAnswer() {
       </view>
     </view>
   </view>
-  <wd-action-sheet v-model="show" @close="close" title="当前题目情况">
+  <wd-action-sheet v-model="show" @close="close" title="答题卡">
     <view class="flex flex-wrap gap-15px p-15px max-h-500px overflow-y-auto">
       <template v-for="(item, index) in props.alist" :key="item.id">
         <template v-if="item!.isAnswer">

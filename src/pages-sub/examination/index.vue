@@ -16,7 +16,7 @@ import counAnswerCopm from './components/counAnswer.vue'
 import ProblemComp from './components/problem.vue'
 import TransitionComp from './components/transition.vue'
 import useAnswer from './useAnswer'
-const { getList, anList, cIndex, list, cList } = useAnswer()
+const { getList, anList, cIndex, list, cList, listLoading } = useAnswer()
 const message = useMessage()
 const toast = useToast()
 // 动画相关数据
@@ -177,7 +177,8 @@ onLoad((options: any) => {
 
   <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
     <view>
-      <Problem-Comp :list="cList[0]" :cMode="cMode" @next="actionData(1)"></Problem-Comp>
+      <wd-loading type="outline" v-if="listLoading" />
+      <Problem-Comp :list="cList[0]" :cMode="cMode" @next="actionData(1)" v-else></Problem-Comp>
     </view>
   </view>
 

@@ -46,7 +46,6 @@ const initData = () => {
         })
       })
     } else if (props.cMode === 1) {
-      console.log('🍬')
       props.list!.currentAnswer = props.list!.cacheDdata
         ? props.list!.cacheDdata
         : props.list!.currentAnswer
@@ -221,7 +220,6 @@ watch(
           v-for="(item, index) in list.options"
           :key="index"
           :class="item.activeName"
-          custom-class="custom-class"
         >
           <view class="flex items-center p-10px" :class="item.activeName">
             <view class="an-text a-text" v-if="item.activeName === 'success'">

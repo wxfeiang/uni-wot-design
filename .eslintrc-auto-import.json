@@ -91,6 +91,18 @@
     "watchPostEffect": true,
     "watchSyncEffect": true,
     "useVerify": true,
-    "useCoordinate": true
+    "useCoordinate": true,
+    "acceptHMRUpdate": true,
+    "createPinia": true,
+    "defineStore": true,
+    "getActivePinia": true,
+    "mapActions": true,
+    "mapGetters": true,
+    "mapState": true,
+    "mapStores": true,
+    "mapWritableState": true,
+    "setActivePinia": true,
+    "setMapStoreSuffix": true,
+    "storeToRefs": true
   }
 }
