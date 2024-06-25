@@ -178,7 +178,9 @@ onLoad((options: any) => {
   <view @touchstart="start" @touchend="end" class="bg-[#f5f5f5]">
     <view>
       <wd-loading type="outline" v-if="listLoading" />
-      <Problem-Comp :list="cList" :cMode="cMode" @next="actionData(1)" v-else></Problem-Comp>
+      <view v-else>
+        <Problem-Comp :list="cList" :cMode="cMode" @next="actionData(1)"></Problem-Comp>
+      </view>
     </view>
   </view>
 

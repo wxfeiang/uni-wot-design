@@ -121,7 +121,7 @@ export const needLoginPages: string[] = getAllPages('needLogin').map((page) => p
  * @param {} val  要比对的val
  */
 export const changeDict = (data: any, value?: any, key?: string, val?: string) => {
-  return data.find((item: any) => item[val || 'value'] === value)[key || 'label']
+  return data.find((item: any) => item[val || 'value'] === value)?.[key || 'label']
 }
 
 /**

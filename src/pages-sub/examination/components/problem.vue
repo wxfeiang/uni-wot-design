@@ -200,7 +200,7 @@ watch(
             <view class="an-text a-text" v-else-if="item.activeName === 'error'">
               <wd-icon name="close" size="12px"></wd-icon>
             </view>
-            <view class="an-text active" v-else>
+            <view class="an-text" v-else>
               {{ answerIndex[index] }}
             </view>
 
@@ -333,7 +333,7 @@ export default {
 :deep(.is-checked .error .an-text) {
   @include band(--color-an-error);
 }
-:deep(.is-checked .an-text) {
+:deep(.is-checked .active) {
   @include band(--color-an-info);
 }
 :deep(.wd-checkbox__label),

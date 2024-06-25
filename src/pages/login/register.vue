@@ -8,8 +8,8 @@
 </route>
 
 <script lang="ts" setup>
-import useLogin from './utils/useLogin'
 import { routeTo } from '@/utils'
+import useLogin from './utils/useLogin'
 const { model, rules, loading, toRegister } = useLogin()
 const form = ref(null)
 const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
@@ -20,14 +20,14 @@ function toLogin() {
 </script>
 
 <template>
-  <view class="h-40 top pt-10 box-border">
+  <view class="h-40 top pt-8 box-border">
     <view class="flex justify-center">
       <wd-img :width="100" :height="100" :src="logo" round enable-preview />
     </view>
   </view>
-  <view class="px-30px py-10px mt-10">
+  <view class="px-30px py-10px mt-4.5">
     <wd-form ref="form" :model="model">
-      <view class="py-10px mb-10px">
+      <view class="py-10px mb-2">
         <view class="my-5px color-red">账号</view>
         <wd-input
           type="text"
@@ -37,7 +37,7 @@ function toLogin() {
           prop="username"
         />
       </view>
-      <view class="py-10px mb-20px">
+      <view class="py-10px mb-2">
         <view class="my-5px color-red">密码</view>
         <wd-input
           type="password"
@@ -50,7 +50,7 @@ function toLogin() {
       </view>
 
       <view>
-        <wd-button type="error" size="medium" @click="toRegister(form)" block :loading="loading">
+        <wd-button type="error" size="medium" @click="toRegister()" block :loading="loading">
           立 即 注 册
         </wd-button>
         <view class="mt-16px font-size-12px text-center color-coolgray">
