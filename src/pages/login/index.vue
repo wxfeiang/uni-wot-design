@@ -87,7 +87,7 @@ const otherLogins = ref([
         </view>
       </view>
 
-      <view class="fixed bottom-0 left-0 right-0">
+      <view class="fixed bottom-3 left-0 right-0">
         <view class="px-8 py-1">
           <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
             已阅读并同意
