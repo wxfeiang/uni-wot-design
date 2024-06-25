@@ -3,6 +3,6 @@ import { request } from '@/utils/http'
 import { useRequest } from 'alova'
 const answerList = baseUrlApi('/dymock/answer')
 
-export function getAnswerList(config: any) {
-  return useRequest(request.Post(answerList), { ...config })
+export function getAnswerList(params: any, config: any) {
+  return useRequest((newTodo) => request.Post(answerList, newTodo), { ...config })
 }

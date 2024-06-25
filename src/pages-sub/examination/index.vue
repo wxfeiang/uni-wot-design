@@ -15,8 +15,8 @@ import { useMessage, useToast } from 'wot-design-uni'
 import counAnswerCopm from './components/counAnswer.vue'
 import ProblemComp from './components/problem.vue'
 import TransitionComp from './components/transition.vue'
-import useAnswer from './useAnswer'
-const { getList, anList, cIndex, list, cList, listLoading } = useAnswer()
+import useAnswer from './utils/useAnswer'
+const { getList, anList, cIndex, cList, listLoading } = useAnswer()
 const message = useMessage()
 const toast = useToast()
 // 动画相关数据
@@ -46,7 +46,7 @@ const navTitle = ref([
 
 // 操作题目切换
 const actionData = (f?: number, index?: number) => {
-  const l = list.value.length - 1
+  const l = anList.value.length - 1
 
   setTimeout(() => {
     if (!index && index !== 0) {
@@ -80,7 +80,7 @@ const actionData = (f?: number, index?: number) => {
     }
 
     transition.value.custom()
-    cList.value = list.value[cIndex.value]
+    cList.value = anList.value[cIndex.value]
   }, 300)
 }
 const startData = reactive({
@@ -151,7 +151,7 @@ onLoad((options: any) => {
     return false
   }
   cMode.value = options.cMode * 1
-  getList()
+  getList(1)
 })
 </script>
 
@@ -175,10 +175,10 @@ onLoad((options: any) => {
     </template>
   </wd-navbar>
 
-  <view @touchstart="start" @touchend="end" class="h-100vh bg-[#f5f5f5]">
+  <view @touchstart="start" @touchend="end" class="bg-[#f5f5f5]">
     <view>
       <wd-loading type="outline" v-if="listLoading" />
-      <Problem-Comp :list="cList[0]" :cMode="cMode" @next="actionData(1)" v-else></Problem-Comp>
+      <Problem-Comp :list="cList" :cMode="cMode" @next="actionData(1)" v-else></Problem-Comp>
     </view>
   </view>
 

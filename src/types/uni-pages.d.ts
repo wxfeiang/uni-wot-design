@@ -7,12 +7,13 @@ interface NavigateToOptions {
   url: "/pages/index/index" |
        "/pages/about/about" |
        "/pages/login/index" |
+       "/pages/login/register" |
        "/pages-sub/examination/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/index/index" | "/pages/login/index"
+  url: "/pages/index/index" | "/pages/about/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

@@ -150,6 +150,9 @@ function handleClick(e) {
   console.log(e)
   routeTo({ url: '/pages-sub/examination/index', data: { cMode: 1 } })
 }
+function login() {
+  routeTo({ url: '/pages/login/index' })
+}
 function onChange(e) {
   console.log(e)
 }
@@ -158,14 +161,7 @@ defineOptions({
 })
 </script>
 <template>
-  <wd-swiper
-    :list="swiperList"
-    autoplay
-    :current="0"
-    @click="handleClick"
-    @change="onChange"
-    height="120"
-  ></wd-swiper>
+  <wd-swiper :list="swiperList" autoplay :current="0" @click="login" height="120"></wd-swiper>
 
   <view class="bg-white mt-1">
     <wd-tabs v-model="tab" swipeable>

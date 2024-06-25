@@ -271,7 +271,7 @@ watch(
       </view>
     </view>
   </view>
-  <wd-gap bg-color="#F3F7F8"></wd-gap>
+  <wd-gap bg-color="#F3F7F8" v-if="currentSelect.isShowAnswer"></wd-gap>
   <view class="p-10px bg-white" v-if="currentSelect.isShowAnswer">
     <view class="text-center font-bold text-lg">题目解析</view>
     <view class="">

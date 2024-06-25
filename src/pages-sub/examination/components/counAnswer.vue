@@ -62,6 +62,8 @@ function submitAnswer() {
 
 <template>
   <view :class="props.placeholder ? props.height : ''"></view>
+  <!-- // 占位在空标 防止塌陷 -->
+
   <view class="dy-footer">
     <view class="flex justify-between items-center h-100% px-10px">
       <view class="flex">
@@ -94,6 +96,7 @@ function submitAnswer() {
       </view>
     </view>
   </view>
+
   <wd-action-sheet v-model="show" @close="close" title="答题卡">
     <view class="flex flex-wrap gap-15px p-15px max-h-500px overflow-y-auto">
       <template v-for="(item, index) in props.alist" :key="item.id">
@@ -148,8 +151,9 @@ export default {
 }
 
 .dy-footer {
-  @apply fixed bottom-0 left-0 right-0 h-50px z-9 w-100% border-t-1px border-t-#ccc border-t-solid bg-white;
+  @apply fixed bottom-0 left-0 right-0 h-50px z-9 w-100%  bt-#ccc bg-white;
 }
+
 .dy-icon {
   @apply flex items-center;
   text {
