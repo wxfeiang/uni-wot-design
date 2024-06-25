@@ -98,9 +98,9 @@ const end = (e) => {
   if (subY > 50 || subY < -50) {
     console.log('🍇', '上下滑')
   } else {
-    if (subX > 100) {
+    if (subX > 5) {
       actionData(0)
-    } else if (subX < -100) {
+    } else if (subX < -5) {
       actionData(1)
     }
   }
@@ -175,12 +175,9 @@ onLoad((options: any) => {
     </template>
   </wd-navbar>
 
-  <view @touchstart="start" @touchend="end" class="bg-[#f5f5f5]">
+  <view @touchstart="start" @touchend="end" class="h-100vh pb-50px">
     <view>
-      <wd-loading type="outline" v-if="listLoading" />
-      <view v-else>
-        <Problem-Comp :list="cList" :cMode="cMode" @next="actionData(1)"></Problem-Comp>
-      </view>
+      <Problem-Comp :list="cList" :cMode="cMode" @next="actionData(1)"></Problem-Comp>
     </view>
   </view>
 
