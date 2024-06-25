@@ -20,12 +20,12 @@ function toLogin() {
 </script>
 
 <template>
-  <view class="h-150px top pt-20px box-border">
+  <view class="h-40 top pt-10 box-border">
     <view class="flex justify-center">
       <wd-img :width="100" :height="100" :src="logo" round enable-preview />
     </view>
   </view>
-  <view class="px-30px py-10px mt-20px">
+  <view class="px-30px py-10px mt-10">
     <wd-form ref="form" :model="model">
       <view class="py-10px mb-10px">
         <view class="my-5px color-red">账号</view>

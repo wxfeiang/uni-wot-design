@@ -47,7 +47,7 @@
       }
     },
     {
-      "path": "pages/about/about",
+      "path": "pages/about/index",
       "type": "page",
       "style": {
         "navigationBarTitleText": "关于"

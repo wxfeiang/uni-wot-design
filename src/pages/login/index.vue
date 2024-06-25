@@ -6,7 +6,6 @@
   },
 }
 </route>
-
 <script lang="ts" setup>
 import useLogin from './utils/useLogin'
 import { routeTo } from '@/utils'
@@ -35,14 +34,13 @@ const otherLogins = ref([
   },
 ])
 </script>
-
 <template>
-  <view class="h-150px top pt-20px box-border">
+  <view class="h-40 top pt-10 box-border">
     <view class="flex justify-center">
       <wd-img :width="100" :height="100" :src="logo" round enable-preview />
     </view>
   </view>
-  <view class="px-30px py-10px mt-20px">
+  <view class="px-30px py-10px mt-10">
     <wd-form ref="form" :model="model">
       <view class="py-10px mb-10px">
         <view class="my-5px color-blue">账号</view>
@@ -77,7 +75,7 @@ const otherLogins = ref([
         </view>
       </view>
 
-      <view class="mt-50px">
+      <view class="mt-10">
         <wd-divider>其他登录方式</wd-divider>
         <view class="flex justify-center items-center mt-20px gap-10px">
           <view
@@ -90,7 +88,7 @@ const otherLogins = ref([
       </view>
 
       <view class="fixed bottom-0 left-0 right-0">
-        <view class="px-20px py-10px">
+        <view class="px-8 py-10px">
           <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
             已阅读并同意
             <text class="color-#4d80f0">《在线考试及相关授权》</text>
@@ -100,20 +98,11 @@ const otherLogins = ref([
     </wd-form>
   </view>
 </template>
-<script lang="ts">
-export default {
-  options: {
-    styleIsolation: 'shared',
-    virtualHost: true,
-  },
-}
-</script>
 <style lang="scss" scoped>
 .top {
   clip-path: inset(0% 0% 10% 0% round 0% 0 44% 44%);
   background-image: linear-gradient(to bottom, rgb(22, 104, 235), rgb(110, 163, 247));
 }
-
 :deep(.label-class),
 :deep(.text-btn) {
   font-size: 12px !important;
