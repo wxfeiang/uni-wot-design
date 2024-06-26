@@ -20,6 +20,7 @@ const { getList, anList, cIndex, cList, listLoading } = useAnswer()
 
 const message = useMessage()
 const toast = useToast()
+const message2 = useMessage('wd-message-box-slot')
 // 动画相关数据
 const position = ref('right')
 const transition = ref(null)
@@ -66,12 +67,7 @@ const actionData = (f?: number, index?: number) => {
           cIndex.value++
         } else {
           cIndex.value = l
-          if (cMode.value === 0) {
-            comfirAnswer()
-          } else {
-            Toast('已经是最后一题了哦!')
-          }
-
+          Toast('已经是最后一题了哦!')
           return false
         }
       } else if (f === 0) {
@@ -115,30 +111,40 @@ const end = (e) => {
   }
 }
 
+const aIsNoAnswer = ref<number>(0)
+const current = ref<number>(100)
+const gradientColor = {
+  '0%': '#ffd01e',
+  '100%': '#ee0a12',
+}
 // 交卷提示
-function comfirAnswer() {
+function comfirAnswer(event?: any) {
+  aIsNoAnswer.value = event
+  // current.value = anList.value.length - event
   timePause()
-  message
+  message2
     .confirm({
-      msg: '请仔细检查是否有未做完的题目?',
-      title: '提示',
+      title: '交卷提示',
+      confirmButtonText: '继续答题',
+      cancelButtonText: '现在交卷',
     })
     .then(() => {
-      console.log('🍚')
-      submitAnswer()
+      timeStart()
     })
     .catch(() => {
-      timeStart()
+      submitAnswer()
     })
 }
 
 // 交卷
 function submitAnswer() {
-  console.log('交卷操作')
+  toast.loading('考试结束,正在提交数据...')
   // TODO: 跳转至结果页面
-  routeTo({
-    url: '/pages-sub/result/index',
-  })
+  setTimeout(() => {
+    routeTo({
+      url: '/pages-sub/result/index',
+    })
+  }, 3000)
 }
 // 完成答卷
 function finishAnswer() {
@@ -205,7 +211,12 @@ onLoad((options: any) => {
     @submitAnswer="comfirAnswer"
   ></counAnswer-Copm>
   <Transition-Comp :position="position" ref="transition" />
-  <view custom-class="custom-rate-class">sds</view>
+  <wd-message-box selector="wd-message-box-slot" custom-class="customMassage">
+    <wd-circle v-model="current" :strokeWidth="15" :color="aIsNoAnswer > 0 ? gradientColor : ''">
+      <view class="font-size-12px">未做题</view>
+      <view class="color-red">{{ aIsNoAnswer }} 题</view>
+    </wd-circle>
+  </wd-message-box>
 </template>
 
 <style lang="scss" scoped></style>

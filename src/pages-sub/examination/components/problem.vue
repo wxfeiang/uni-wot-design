@@ -127,6 +127,9 @@ const sureCheckbox = () => {
     })
   }
   if (props.cMode === 0) {
+    if (!props.list.currentAnswer || props.list.currentAnswer.length < 1) {
+      return Toast('请选择两个及以上答案!')
+    }
     props.list!.isAnswer = true // 标记当前已经作答
   }
 

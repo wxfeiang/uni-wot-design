@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Toast } from '@/utils/uniapi/prompt'
 const emit = defineEmits<{
-  (e: 'submitAnswer'): void
+  (e: 'submitAnswer', value: number): void
   (e: 'toAnswer', value: number): void // 切换题目
 }>()
 const props = defineProps({
@@ -30,6 +30,7 @@ const props = defineProps({
 const allStatus = computed(() => {
   let aIsRight = 0
   let aNoIsRight = 0
+  let aIsNoAnswer = 0
   if (props.cMode !== 0) {
     aIsRight = props.alist.filter((item) => item.isRight).length
     aNoIsRight = props.alist.filter((item) => !item.isRight && item.isAnswer).length
@@ -39,10 +40,13 @@ const allStatus = computed(() => {
     //   if (item.isAnswer) {
     //   }
     // })
+
+    aIsNoAnswer = props.alist.filter((item) => !item.isAnswer).length
   }
   return {
     aIsRight,
     aNoIsRight,
+    aIsNoAnswer,
   }
 })
 // 点击收藏
@@ -54,7 +58,6 @@ function collect() {
 const show = ref<boolean>(false)
 
 function showActions() {
-  console.log('🍰', props.alist)
   show.value = true
 }
 
@@ -66,7 +69,7 @@ function toAnswer(index) {
   close()
 }
 function submitAnswer() {
-  emit('submitAnswer')
+  emit('submitAnswer', allStatus.value.aIsNoAnswer)
 }
 </script>
 
