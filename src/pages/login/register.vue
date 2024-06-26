@@ -40,7 +40,7 @@ function toLogin() {
       <view class="py-10px mb-2">
         <view class="my-5px color-red">密码</view>
         <wd-input
-          type="password"
+          type="text"
           v-model="model.password"
           show-password
           placeholder="6-15数字字母组合密码"

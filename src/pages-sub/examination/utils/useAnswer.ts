@@ -21,7 +21,6 @@ const getList = async (size) => {
   }
   const data: any = await sendGetAnswer(params)
   anList.value = data
-  // list.value = chunk(anList.value, 1)
   cList.value = anList.value[cIndex.value]
 }
 
@@ -30,7 +29,6 @@ export default () => {
     getList,
     anList,
     cIndex,
-
     cList,
     listLoading,
   }

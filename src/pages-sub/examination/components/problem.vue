@@ -24,6 +24,8 @@ const initData = () => {
   //  单选
   if (props.list.type === 'radio' || props.list.type === 'boolean') {
     if (props.cMode === 2) {
+      props.list!.cacheDdata = props.list.currentAnswer
+      props.list!.currentAnswer = ''
       props.list.options.forEach((item) => {
         item.activeName = item.value === props.list.answer ? 'success' : 'default'
       })
@@ -46,14 +48,15 @@ const initData = () => {
         })
       })
     } else if (props.cMode === 1) {
-      props.list!.currentAnswer = props.list!.cacheDdata
-        ? props.list!.cacheDdata
-        : props.list!.currentAnswer
       modelChange()
     }
   }
 }
 function modelChange() {
+  props.list!.currentAnswer = props.list!.cacheDdata
+    ? props.list!.cacheDdata
+    : props.list!.currentAnswer
+
   // 考试和答题模式
   props.list.options.forEach((item, index) => {
     item.activeName = 'default'
@@ -71,8 +74,9 @@ function modelChange() {
 
 // 答题操作 单选
 const changeAnswer = (e) => {
-  // 当前题目是否已经答过/背题
-  if (props.list.isAnswer || !props.list.currentAnswer || props.cMode === 2) return
+  // 当前题目是否已经答过/背题 / props.list.isAnswer || !props.list.currentAnswer ||
+  if (props.cMode === 2) return
+
   if (props.cMode === 1) {
     // 改变当前题目状态
     props.list!.isAnswer = true // 标记当前题目已经答过
@@ -91,13 +95,16 @@ const changeAnswer = (e) => {
       }
     })
   }
+  if (props.cMode === 0) {
+    props.list!.isAnswer = true // 标记当前已经作答
+  }
   emit('next')
 }
 // 答题操作 多选
 const sureCheckbox = () => {
-  if (props.list!.isAnswer) {
-    return
-  }
+  // if (props.list!.isAnswer) {
+  //   return
+  // }
   if (props.cMode === 1) {
     if (!props.list.currentAnswer || props.list.currentAnswer.length < 1) {
       return Toast('请选择两个及以上答案!')
@@ -118,6 +125,9 @@ const sureCheckbox = () => {
         item.activeName = 'unseccess' // 未作答正确标出正确答案
       }
     })
+  }
+  if (props.cMode === 0) {
+    props.list!.isAnswer = true // 标记当前已经作答
   }
 
   emit('next')
@@ -148,7 +158,8 @@ const currentSelect = computed(() => {
     })
     cIndex = sortBy(cIndexs)
   }
-  props.list!.isRight = isEqual(cIndex, rIndex)
+
+  props.list!.isRight = props.cMode !== 0 ? isEqual(cIndex, rIndex) : false
 
   return {
     // 当前选中
@@ -185,7 +196,7 @@ watch(
     <template v-if="list.type === 'radio' || list.type === 'boolean'">
       <wd-radio-group
         v-model="list!.currentAnswer"
-        :disabled="props.cMode == 2 || props.list.isAnswer"
+        :disabled="props.cMode == 2 || (props.list.isAnswer && props.cMode == 1)"
         class="bg-transparent"
         @change="changeAnswer"
       >
@@ -200,7 +211,7 @@ watch(
             <view class="an-text a-text" v-else-if="item.activeName === 'error'">
               <wd-icon name="close" size="12px"></wd-icon>
             </view>
-            <view class="an-text" v-else>
+            <view class="an-text active" v-else>
               {{ answerIndex[index] }}
             </view>
 
@@ -213,7 +224,7 @@ watch(
       <wd-checkbox-group
         v-model="list!.currentAnswer"
         class="dy-ischecked-default"
-        :disabled="props.cMode == 2 || props.list.isAnswer"
+        :disabled="props.cMode == 2 || (props.list.isAnswer && props.cMode == 1)"
       >
         <wd-checkbox
           :modelValue="item.value"
@@ -236,19 +247,22 @@ watch(
         </wd-checkbox>
       </wd-checkbox-group>
       <view
-        class="flex justify-center mt-30px"
+        class="mt-30px mx-auto w-75%"
         v-if="props.cMode === 0 || (props.cMode == 1 && !list.isAnswer)"
       >
-        <wd-button block @click="sureCheckbox">确认答案</wd-button>
+        <wd-button type="primary" size="medium" @click="sureCheckbox" block>确认答案</wd-button>
       </view>
     </template>
 
-    <view class="my-20px p-10px flex bg-coolgray-200" v-if="currentSelect.isShowAnswer">
-      <view class="mr-10px font-bold">
+    <view
+      class="flex justify-between gap-5px my-20px p-5px bg-coolgray-200"
+      v-if="currentSelect.isShowAnswer"
+    >
+      <view class="font-500">
         正确答案 :
         <text class="text-lightblue text-size-14px">{{ currentSelect.rIndex }}</text>
       </view>
-      <view class="font-bold" v-if="props.cMode === 1 && currentSelect.cIndex">
+      <view class="font-500" v-if="props.cMode === 1 && currentSelect.cIndex">
         您的答案 :
         <text
           class="text-size-14px"

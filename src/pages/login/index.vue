@@ -55,7 +55,7 @@ const otherLogins = ref([
       <view class="py-2 mb-5">
         <view class="my-5px color-blue">密码</view>
         <wd-input
-          type="password"
+          type="text"
           v-model="model.password"
           show-password
           placeholder="请输入密码"

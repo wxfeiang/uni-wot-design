@@ -28,9 +28,18 @@ const props = defineProps({
   },
 })
 const allStatus = computed(() => {
-  const aIsRight = props.alist.filter((item) => item.isRight).length
-  const aNoIsRight = props.alist.filter((item) => !item.isRight && item.isAnswer).length
-
+  let aIsRight = 0
+  let aNoIsRight = 0
+  if (props.cMode !== 0) {
+    aIsRight = props.alist.filter((item) => item.isRight).length
+    aNoIsRight = props.alist.filter((item) => !item.isRight && item.isAnswer).length
+  } else {
+    // 考试模式
+    // props.alist.foeach((item) => {
+    //   if (item.isAnswer) {
+    //   }
+    // })
+  }
   return {
     aIsRight,
     aNoIsRight,
@@ -45,6 +54,7 @@ function collect() {
 const show = ref<boolean>(false)
 
 function showActions() {
+  console.log('🍰', props.alist)
   show.value = true
 }
 
@@ -72,23 +82,25 @@ function submitAnswer() {
           <wd-icon name="star-filled" size="22px" color="#ebde4f" v-else></wd-icon>
           <text>收藏</text>
         </view>
-        <view class="ml-4" v-if="props.cMode !== 0">
+        <view class="ml-4" v-if="props.cMode == 0">
           <wd-button size="small" @click="submitAnswer">交卷</wd-button>
         </view>
       </view>
       <view class="dy-icon">
-        <view class="dy-icon mr-10px success">
-          <view class="a-text">
-            <wd-icon name="check1" size="18px"></wd-icon>
+        <template v-if="props.cMode !== 0">
+          <view class="dy-icon mr-10px success">
+            <view class="a-text">
+              <wd-icon name="check1" size="18px"></wd-icon>
+            </view>
+            <text>{{ allStatus.aIsRight }}</text>
           </view>
-          <text>{{ allStatus.aIsRight }}</text>
-        </view>
-        <view class="dy-icon mr-10px error">
-          <view class="a-text">
-            <wd-icon name="close-normal" size="18px"></wd-icon>
+          <view class="dy-icon mr-10px error">
+            <view class="a-text">
+              <wd-icon name="close-normal" size="18px"></wd-icon>
+            </view>
+            <text>{{ allStatus.aNoIsRight }}</text>
           </view>
-          <text>{{ allStatus.aNoIsRight }}</text>
-        </view>
+        </template>
         <view class="dy-icon" @click="showActions">
           <wd-icon name="app" size="22px"></wd-icon>
           <text>{{ props.cIndex + 1 }} / {{ props.alist.length }}</text>
@@ -103,7 +115,7 @@ function submitAnswer() {
         <template v-if="item!.isAnswer">
           <view
             class="dy-item"
-            :class="item.isRight ? 'isRight' : 'isError'"
+            :class="item.isRight ? 'isRight' : props.cMode !== 0 ? 'isError' : 'isActive'"
             @click="toAnswer(index)"
           >
             {{ index + 1 }}
@@ -170,5 +182,9 @@ export default {
 .isError {
   @apply text-white;
   @include band(--color-an-error);
+}
+.isActive {
+  @apply text-white;
+  @include band(--color-an-info);
 }
 </style>

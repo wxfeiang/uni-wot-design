@@ -17,16 +17,26 @@ import ProblemComp from './components/problem.vue'
 import TransitionComp from './components/transition.vue'
 import useAnswer from './utils/useAnswer'
 const { getList, anList, cIndex, cList, listLoading } = useAnswer()
+
 const message = useMessage()
 const toast = useToast()
 // 动画相关数据
 const position = ref('right')
 const transition = ref(null)
 // 考试时间
+const countDown = ref<any>(null)
 const countDownTime = ref<number>(45 * 60 * 60 * 1000)
-const show = ref(false)
 
+function timePause() {
+  countDown.value.pause()
+}
+const timeStart = () => {
+  countDown.value.start()
+}
+
+// 当前展示类型
 const cMode = ref(null)
+// 顶部标题
 const navTitle = ref([
   {
     value: 1,
@@ -59,7 +69,7 @@ const actionData = (f?: number, index?: number) => {
           if (cMode.value === 0) {
             comfirAnswer()
           } else {
-            Toast('已经是最后一题了哦')
+            Toast('已经是最后一题了哦!')
           }
 
           return false
@@ -70,8 +80,7 @@ const actionData = (f?: number, index?: number) => {
           cIndex.value--
         } else {
           cIndex.value = 0
-          Toast('已经是第一题了哦')
-
+          Toast('已经是第一题了哦!')
           return false
         }
       }
@@ -81,7 +90,7 @@ const actionData = (f?: number, index?: number) => {
 
     transition.value.custom()
     cList.value = anList.value[cIndex.value]
-  }, 300)
+  }, 500)
 }
 const startData = reactive({
   clientX: 0,
@@ -96,11 +105,11 @@ const end = (e) => {
   const subX = e.changedTouches[0].clientX - startData.clientX
   const subY = e.changedTouches[0].clientY - startData.clientY
   if (subY > 50 || subY < -50) {
-    console.log('🍇', '上下滑')
+    console.log('手指上下滑')
   } else {
-    if (subX > 5) {
+    if (subX > 100) {
       actionData(0)
-    } else if (subX < -5) {
+    } else if (subX < -100) {
       actionData(1)
     }
   }
@@ -108,24 +117,30 @@ const end = (e) => {
 
 // 交卷提示
 function comfirAnswer() {
+  timePause()
   message
     .confirm({
-      msg: '是否交卷?',
+      msg: '请仔细检查是否有未做完的题目?',
       title: '提示',
     })
     .then(() => {
       console.log('🍚')
+      submitAnswer()
     })
     .catch(() => {
-      console.log('🥓')
+      timeStart()
     })
 }
 
 // 交卷
 function submitAnswer() {
-  console.log('🍪')
+  console.log('交卷操作')
   // TODO: 跳转至结果页面
+  routeTo({
+    url: '/pages-sub/result/index',
+  })
 }
+// 完成答卷
 function finishAnswer() {
   toast.loading('考试结束,自动提提交...')
   submitAnswer()
@@ -140,6 +155,7 @@ function handleClickLeft() {
 function toAnswer(event) {
   actionData(1, event)
 }
+
 onLoad((options: any) => {
   if (!options.cMode) {
     Toast('获取页面数据参数有误!')
@@ -151,7 +167,7 @@ onLoad((options: any) => {
     return false
   }
   cMode.value = options.cMode * 1
-  getList(1)
+  getList(cMode.value)
 })
 </script>
 
@@ -168,14 +184,14 @@ onLoad((options: any) => {
         </template>
         <template v-else>
           <view class="pt-10px">
-            <wd-count-down :time="countDownTime" @finish="finishAnswer" />
+            <wd-count-down :time="countDownTime" ref="countDown" @finish="finishAnswer" />
           </view>
         </template>
       </view>
     </template>
   </wd-navbar>
 
-  <view @touchstart="start" @touchend="end" class="h-100vh pb-50px">
+  <view @touchstart="start" @touchend="end" class="h-100vh pb-100px">
     <view>
       <Problem-Comp :list="cList" :cMode="cMode" @next="actionData(1)"></Problem-Comp>
     </view>
@@ -186,9 +202,10 @@ onLoad((options: any) => {
     :alist="anList"
     :cMode="cMode"
     @toAnswer="toAnswer"
-    @submitAnswer="finishAnswer"
+    @submitAnswer="comfirAnswer"
   ></counAnswer-Copm>
   <Transition-Comp :position="position" ref="transition" />
+  <view custom-class="custom-rate-class">sds</view>
 </template>
 
 <style lang="scss" scoped></style>

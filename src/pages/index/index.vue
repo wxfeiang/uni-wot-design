@@ -49,12 +49,14 @@ const list = ref([
       center: [
         {
           name: '顺序练习',
+          color: 'bg-blue',
           value: 1,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
         },
         {
           name: '模拟考试',
-          value: 1,
+          color: 'bg-teal',
+          value: 0,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
         },
       ],
@@ -111,12 +113,14 @@ const list = ref([
       center: [
         {
           name: '顺序练习',
+          color: 'bg-blue',
           value: 1,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
         },
         {
           name: '模拟考试',
-          value: 1,
+          color: 'bg-teal',
+          value: 0,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
         },
       ],
@@ -147,8 +151,7 @@ const list = ref([
 ])
 
 function handleClick(e) {
-  console.log(e)
-  routeTo({ url: '/pages-sub/examination/index', data: { cMode: 1 } })
+  routeTo({ url: '/pages-sub/examination/index', data: { cMode: e } })
 }
 function login() {
   routeTo({ url: '/pages/login/index' })
@@ -171,23 +174,29 @@ defineOptions({
             <wd-row :gutter="10">
               <wd-col :span="8">
                 <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
-                  <view class="mx-auto text-center" @click="handleClick(index)">
+                  <view class="mx-auto text-center" @click="handleClick(c.value)">
                     <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
                   <view class="text-center text-xs leading-40px">{{ c.name }}</view>
                 </view>
               </wd-col>
               <wd-col :span="8">
-                <view class="flex flex-col mt-10px text-center">
+                <view class="flex flex-col justify-around gap-10 text-center mt-10">
                   <view v-for="(c, j) in item.conter.center" :key="j">
-                    <view class="mx-auto text-center py-10px mt-25px"></view>
-                    <view>{{ c.name }}</view>
+                    <view
+                      class="flex flex-col gap-10px justify-center wh-100 mx-auto text-center py-10px box-border rounded-1000"
+                      :class="c.color"
+                      @click="handleClick(c.value)"
+                    >
+                      <view class="font-size-12px color-#fff">13/20</view>
+                      <view class="font-size-14px color-#fff">{{ c.name }}</view>
+                    </view>
                   </view>
                 </view>
               </wd-col>
               <wd-col :span="8">
                 <view v-for="(c, j) in item.conter.right" :key="j" class="py-15px">
-                  <view class="mx-auto text-center" @click="handleClick(index)">
+                  <view class="mx-auto text-center" @click="handleClick(c.value)">
                     <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
                   <view class="text-center text-xs leading-40px">{{ c.name }}</view>

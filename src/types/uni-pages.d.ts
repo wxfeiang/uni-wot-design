@@ -8,7 +8,8 @@ interface NavigateToOptions {
        "/pages/about/index" |
        "/pages/login/index" |
        "/pages/login/register" |
-       "/pages-sub/examination/index";
+       "/pages-sub/examination/index" |
+       "/pages-sub/result/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

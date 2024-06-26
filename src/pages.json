@@ -80,6 +80,15 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "result/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "结果页",
+            "navigationStyle": "custom"
+          }
         }
       ]
     }
