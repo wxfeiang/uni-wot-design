@@ -60,9 +60,9 @@ function toLogin() {
       </view>
 
       <view class="fixed bottom-0 left-0 right-0 flex justify-center">
-        <wd-button type="text">
+        <wd-button type="text" @click="toLogin">
           已有账号？
-          <text class="color-red" @click="toLogin">去登录</text>
+          <text class="color-red">去登录</text>
         </wd-button>
       </view>
     </wd-form>
