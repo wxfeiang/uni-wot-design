@@ -18,7 +18,7 @@ function login() {
 </script>
 <template>
   <view class="h-200px bg-blue-500"></view>
-  <view class="mt-[-100px] bg-white p-20px shadow rounded-10px w-80% mx-auto">
+  <view class="mt-[-130px] bg-white p-20px shadow rounded-10px w-80% mx-auto">
     <view class="flex items-center gap-10px">
       <view>
         <wd-img :width="60" :height="60" :src="anvter" round />
