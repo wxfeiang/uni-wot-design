@@ -33,7 +33,7 @@
       {
         "iconPath": "static/tabbar/example.png",
         "selectedIconPath": "static/tabbar/exampleHL.png",
-        "pagePath": "pages/about/index",
+        "pagePath": "pages/mine/index",
         "text": "我的"
       }
     ]
@@ -44,13 +44,6 @@
       "type": "home",
       "style": {
         "navigationBarTitleText": "考试类目"
-      }
-    },
-    {
-      "path": "pages/about/index",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "关于"
       }
     },
     {
@@ -67,6 +60,13 @@
       "layout": "default",
       "style": {
         "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/mine/index",
+      "type": "page",
+      "style": {
+        "navigationBarTitleText": "我的"
       }
     }
   ],
