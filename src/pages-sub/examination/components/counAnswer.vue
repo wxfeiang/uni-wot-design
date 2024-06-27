@@ -190,4 +190,7 @@ export default {
   @apply text-white;
   @include band(--color-an-info);
 }
+.currentName {
+  border: 1px solid #1890ff;
+}
 </style>

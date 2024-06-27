@@ -117,6 +117,7 @@ const gradientColor = {
   '0%': '#ffd01e',
   '100%': '#ee0a12',
 }
+const defaultColor = ref('#4d80f0')
 // 交卷提示
 function comfirAnswer(event?: any) {
   aIsNoAnswer.value = event
@@ -127,6 +128,7 @@ function comfirAnswer(event?: any) {
       title: '交卷提示',
       confirmButtonText: '继续答题',
       cancelButtonText: '现在交卷',
+      closeOnClickModal: false,
     })
     .then(() => {
       timeStart()
@@ -212,9 +214,19 @@ onLoad((options: any) => {
   ></counAnswer-Copm>
   <Transition-Comp :position="position" ref="transition" />
   <wd-message-box selector="wd-message-box-slot" custom-class="customMassage">
-    <wd-circle v-model="current" :strokeWidth="15" :color="aIsNoAnswer > 0 ? gradientColor : ''">
-      <view class="font-size-12px">未做题</view>
-      <view class="color-red">{{ aIsNoAnswer }} 题</view>
+    <wd-circle
+      v-model="current"
+      :strokeWidth="15"
+      :color="aIsNoAnswer > 0 ? gradientColor : defaultColor"
+    >
+      <view v-if="aIsNoAnswer > 0">
+        <view class="font-size-12px">未做题</view>
+        <view class="color-red">{{ aIsNoAnswer }} 题</view>
+      </view>
+      <view v-else>
+        <view class="font-size-12px">已完成</view>
+        <view class="color-blue">{{ anList.length }} 题</view>
+      </view>
     </wd-circle>
   </wd-message-box>
 </template>

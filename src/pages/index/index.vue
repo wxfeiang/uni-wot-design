@@ -50,11 +50,13 @@ const list = ref([
         {
           name: '顺序练习',
           color: 'bg-blue',
+          sName: '13/3000',
           value: 1,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
         },
         {
           name: '模拟考试',
+          sName: '仿真冲刺',
           color: 'bg-teal',
           value: 0,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
@@ -114,11 +116,13 @@ const list = ref([
         {
           name: '顺序练习',
           color: 'bg-blue',
+          sName: '13/3000',
           value: 1,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
         },
         {
           name: '模拟考试',
+          sName: '仿真冲刺',
           color: 'bg-teal',
           value: 0,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
@@ -188,7 +192,7 @@ defineOptions({
                       :class="c.color"
                       @click="handleClick(c.value)"
                     >
-                      <view class="font-size-12px color-#fff">13/20</view>
+                      <view class="font-size-12px color-#fff">{{ c.sName }}</view>
                       <view class="font-size-14px color-#fff">{{ c.name }}</view>
                     </view>
                   </view>

@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <view class="">sdcsdc</view>
+  <view class="h-200px bg-blue">asd</view>
 </template>
 
 <style lang="scss" scoped>
