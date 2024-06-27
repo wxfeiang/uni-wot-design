@@ -67,7 +67,12 @@ const actionData = (f?: number, index?: number) => {
           cIndex.value++
         } else {
           cIndex.value = l
-          Toast('已经是最后一题了哦!')
+          if (cMode.value === 0) {
+            Toast('题目都做完了!')
+          } else {
+            Toast('已经是最后一题了哦')
+          }
+
           return false
         }
       } else if (f === 0) {
@@ -76,6 +81,7 @@ const actionData = (f?: number, index?: number) => {
           cIndex.value--
         } else {
           cIndex.value = 0
+
           Toast('已经是第一题了哦!')
           return false
         }
@@ -112,7 +118,7 @@ const end = (e) => {
 }
 
 const aIsNoAnswer = ref<number>(0)
-const current = ref<number>(100)
+const current = ref<number>(0)
 const gradientColor = {
   '0%': '#ffd01e',
   '100%': '#ee0a12',
@@ -121,7 +127,9 @@ const defaultColor = ref('#4d80f0')
 // 交卷提示
 function comfirAnswer(event?: any) {
   aIsNoAnswer.value = event
-  // current.value = anList.value.length - event
+  const l = anList.value.length
+  current.value = Math.floor(((l - event) / l) * 100)
+
   timePause()
   message2
     .confirm({
@@ -145,8 +153,9 @@ function submitAnswer() {
   setTimeout(() => {
     routeTo({
       url: '/pages-sub/result/index',
+      navType: NAVIGATE_TYPE.REDIRECT_TO,
     })
-  }, 3000)
+  }, 100)
 }
 // 完成答卷
 function finishAnswer() {

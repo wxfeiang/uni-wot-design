@@ -157,6 +157,7 @@ export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_
       url,
     })
   }
+
   if (navType === NAVIGATE_TYPE.REDIRECT_TO) {
     uni.redirectTo({
       url,
