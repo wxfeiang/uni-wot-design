@@ -213,5 +213,24 @@ defineOptions({
     </wd-tabs>
   </view>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
+  <view class="pb-20px">
+    <wd-cell-group title="学习讲堂" value="更多"></wd-cell-group>
+    <scroll-view scroll-x class="navscroll">
+      <view class="flex overflow-x-auto gap-10px px-20px w-100%">
+        <view class="w-300px h-90px bg-dark text-center rounded-4">
+          <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+        </view>
+        <view class="w-300px h-90px bg-dark text-center rounded-4">
+          <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+        </view>
+        <view class="w-300px h-90px bg-dark text-center rounded-4">
+          <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <wd-gap bg-color="#f5f5f5"></wd-gap>
+  <view class="py-10px text-center color-coolgray font-size-12px">技术支持: 甘肃数嘉年科技</view>
 </template>
 <style></style>
