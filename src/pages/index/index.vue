@@ -29,21 +29,25 @@ const list = ref([
           name: 'vip课程',
           value: 1,
           icon: 'dy-icon-vip1',
+          mode: 1,
         },
         {
           name: '专项练习',
           value: 1,
           icon: 'dy-icon-zhuanxianglianxi',
+          mode: 1,
         },
         {
           name: '图标练习',
           value: 1,
           icon: 'dy-icon-cuotishoucang',
+          mode: 1,
         },
         {
           name: '新规',
           value: 1,
           icon: 'dy-icon-a-weibiaoti-2_huaban1',
+          mode: 1,
         },
       ],
       center: [
@@ -53,6 +57,7 @@ const list = ref([
           sName: '13/3000',
           value: 1,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          mode: 1,
         },
         {
           name: '模拟考试',
@@ -60,6 +65,7 @@ const list = ref([
           color: 'bg-teal',
           value: 0,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          mode: 0,
         },
       ],
       right: [
@@ -67,16 +73,19 @@ const list = ref([
           name: '精简题库',
           value: 1,
           icon: 'dy-icon-tiku',
+          mode: 1,
         },
         {
           name: '随机练习',
           value: 1,
           icon: 'dy-icon-icon-suijilianxi',
+          mode: 1,
         },
         {
           name: '错题',
           value: 1,
           icon: 'dy-icon-cuotishoucang',
+          mode: 1,
         },
         {
           name: '排行',
@@ -96,30 +105,35 @@ const list = ref([
           name: 'vip课程',
           value: 1,
           icon: 'dy-icon-vip1',
+          mode: 1,
         },
         {
           name: '专项练习',
           value: 1,
           icon: 'dy-icon-zhuanxianglianxi',
+          mode: 1,
         },
         {
           name: '图标练习',
           value: 1,
           icon: 'dy-icon-cuotishoucang',
+          mode: 1,
         },
         {
           name: '新规',
           value: 1,
           icon: 'dy-icon-a-weibiaoti-2_huaban1',
+          mode: 1,
         },
       ],
       center: [
         {
           name: '顺序练习',
           color: 'bg-blue',
-          sName: '13/3000',
+          sName: '20/3000',
           value: 1,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          mode: 1,
         },
         {
           name: '模拟考试',
@@ -127,6 +141,7 @@ const list = ref([
           color: 'bg-teal',
           value: 0,
           icon: 'https://unpkg.com/wot-design-uni-assets/meng.jpg',
+          mode: 0,
         },
       ],
       right: [
@@ -134,22 +149,26 @@ const list = ref([
           name: '精简题库',
           value: 1,
           icon: 'dy-icon-guanwang_kehuanli_qitakehu_yewutongdian_xiangyingzijinxintuoxinguiyaoqiu',
+          mode: 1,
         },
         {
           name: '随机练习',
           value: 1,
           icon: 'dy-icon-icon-suijilianxi',
+          mode: 1,
         },
         {
           name: '错题',
           value: 1,
           icon: 'dy-icon-cuotishoucang',
+          mode: 1,
         },
         {
           name: '排行',
           value: 1,
           icon: 'dy-icon-paihangbang',
           link: '/pages-sub/ranking/index',
+          mode: 1,
         },
       ],
     },
@@ -157,10 +176,12 @@ const list = ref([
 ])
 
 function handleClick(e) {
+  console.log('🍵[e]:', e)
+
   if (e.link) {
     routeTo({ url: e.link })
   } else {
-    routeTo({ url: '/pages-sub/examination/index', data: { cMode: e } })
+    routeTo({ url: '/pages-sub/examination/index', data: { cMode: e.mode } })
   }
 }
 function login() {
