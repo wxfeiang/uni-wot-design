@@ -9,6 +9,7 @@ interface NavigateToOptions {
        "/pages/login/register" |
        "/pages/mine/index" |
        "/pages-sub/examination/index" |
+       "/pages-sub/ranking/index" |
        "/pages-sub/result/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}

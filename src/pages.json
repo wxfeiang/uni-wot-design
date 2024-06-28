@@ -82,6 +82,14 @@
           }
         },
         {
+          "path": "ranking/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "排行榜"
+          }
+        },
+        {
           "path": "result/index",
           "type": "page",
           "layout": "default",
