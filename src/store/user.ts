@@ -1,4 +1,4 @@
-const initState = { nickname: '', avatar: '' }
+const initState = { nickname: '', avatar: '', name: '' }
 
 export const useUserStore = defineStore(
   'user',

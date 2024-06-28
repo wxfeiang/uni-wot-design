@@ -101,7 +101,7 @@ const otherLogins = ref([
 <style lang="scss" scoped>
 .top {
   clip-path: inset(0% 0% 10% 0% round 0% 0 44% 44%);
-  background-image: linear-gradient(to bottom, rgb(22, 104, 235), rgb(110, 163, 247));
+  background: linear-gradient(90deg, #2093fe, #44a1ff);
 }
 :deep(.label-class),
 :deep(.text-btn) {

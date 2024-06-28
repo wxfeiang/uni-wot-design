@@ -8,25 +8,39 @@
 <script lang="ts" setup>
 import useInfo from './utils/useInfo'
 
+import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 const anvter = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
 const { introduces, statistics, setInfo } = useInfo()
+const { isLogined, userInfo } = useUserStore()
 
 function login() {
   routeTo({ url: '/pages/login/index' })
 }
 </script>
 <template>
-  <view class="h-200px bg-blue-500"></view>
+  <view class="h-200px top"></view>
   <view class="mt-[-130px] bg-white p-20px shadow rounded-10px w-80% mx-auto">
     <view class="flex items-center gap-10px">
-      <view>
-        <wd-img :width="60" :height="60" :src="anvter" round />
-      </view>
-      <view @click="login">
-        <view class="font-bold">马上登录</view>
-        <view class="text-gray-400 font-size-12px mt-5px">考试 ,练习 ,一应俱全</view>
-      </view>
+      <template v-if="isLogined">
+        <view>
+          <wd-img :width="60" :height="60" :src="userInfo.avatar" round />
+        </view>
+
+        <view>
+          <view class="font-bold">{{ userInfo.name }}</view>
+          <view class="text-gray-400 font-size-12px mt-5px">在线练习</view>
+        </view>
+      </template>
+      <template v-else>
+        <view>
+          <wd-img :width="60" :height="60" :src="anvter" round />
+        </view>
+        <view @click="login">
+          <view class="font-bold">马上登录</view>
+          <view class="text-gray-400 font-size-12px mt-5px">考试 ,练习 ,一应俱全</view>
+        </view>
+      </template>
     </view>
 
     <view class="flex gap-10px mt-20px">
@@ -60,6 +74,17 @@ function login() {
       <wd-cell :title="item.name" is-link :icon="item.icon" />
     </template>
   </wd-cell-group>
+  <wd-gap bg-color="#F3F7F8"></wd-gap>
+  <template v-if="isLogined">
+    <view class="px-10 bg-#F3F7F8">
+      <wd-button block type="error">退出登录</wd-button>
+    </view>
+    <wd-gap bg-color="#F3F7F8"></wd-gap>
+  </template>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.top {
+  background: linear-gradient(90deg, #2093fe, #44a1ff);
+}
+</style>

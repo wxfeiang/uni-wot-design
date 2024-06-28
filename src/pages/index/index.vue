@@ -213,19 +213,17 @@ defineOptions({
     </wd-tabs>
   </view>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
-  <view class="pb-20px">
+  <view class="pb-10px">
     <wd-cell-group title="学习讲堂" value="更多"></wd-cell-group>
-    <scroll-view scroll-x class="navscroll">
-      <view class="flex overflow-x-auto gap-10px px-20px w-100%">
-        <view class="w-300px h-90px bg-dark text-center rounded-4">
-          <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
-        </view>
-        <view class="w-300px h-90px bg-dark text-center rounded-4">
-          <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
-        </view>
-        <view class="w-300px h-90px bg-dark text-center rounded-4">
-          <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
-        </view>
+    <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% px-20px">
+      <view class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px">
+        <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+      </view>
+      <view class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px">
+        <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+      </view>
+      <view class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px">
+        <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
       </view>
     </scroll-view>
   </view>
