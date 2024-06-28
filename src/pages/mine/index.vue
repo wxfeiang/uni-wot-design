@@ -10,12 +10,23 @@ import useInfo from './utils/useInfo'
 
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
+import { useMessage } from 'wot-design-uni'
 const anvter = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
-const { introduces, statistics, setInfo } = useInfo()
-const { isLogined, userInfo } = useUserStore()
-
+const { introduces, statistics, setInfo, LogOut, loading } = useInfo()
+const { isLogined, userInfo } = storeToRefs(useUserStore())
+const message = useMessage()
 function login() {
   routeTo({ url: '/pages/login/index' })
+}
+function logoutCimfirm() {
+  message
+    .confirm({
+      msg: '确定退出系统吗？',
+      title: '提示',
+    })
+    .then(() => {
+      LogOut()
+    })
 }
 </script>
 <template>
@@ -77,7 +88,7 @@ function login() {
   <wd-gap bg-color="#F3F7F8"></wd-gap>
   <template v-if="isLogined">
     <view class="px-10 bg-#F3F7F8">
-      <wd-button block type="error">退出登录</wd-button>
+      <wd-button block type="error" @click="logoutCimfirm">退出登录</wd-button>
     </view>
     <wd-gap bg-color="#F3F7F8"></wd-gap>
   </template>

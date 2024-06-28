@@ -76,8 +76,8 @@ export const downFile = (config: any) => {
 /**
  * 登出
  */
-export function logout() {
-  return request.Post(LOGIN_OUT, {})
+export function logout(config: any) {
+  return useRequest(request.Post(LOGIN_OUT), { ...config })
 }
 
 /**
