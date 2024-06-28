@@ -82,6 +82,7 @@ const list = ref([
           name: '排行',
           value: 1,
           icon: 'dy-icon-paihangbang',
+          link: '/pages-sub/ranking/index',
         },
       ],
     },
@@ -148,6 +149,7 @@ const list = ref([
           name: '排行',
           value: 1,
           icon: 'dy-icon-paihangbang',
+          link: '/pages-sub/ranking/index',
         },
       ],
     },
@@ -155,7 +157,11 @@ const list = ref([
 ])
 
 function handleClick(e) {
-  routeTo({ url: '/pages-sub/examination/index', data: { cMode: e } })
+  if (e.link) {
+    routeTo({ url: e.link })
+  } else {
+    routeTo({ url: '/pages-sub/examination/index', data: { cMode: e } })
+  }
 }
 function login() {
   routeTo({ url: '/pages/login/index' })
@@ -171,14 +177,14 @@ defineOptions({
   <wd-swiper :list="swiperList" autoplay :current="0" @click="login" height="120"></wd-swiper>
 
   <view class="bg-white mt-1">
-    <wd-tabs v-model="tab" swipeable>
+    <wd-tabs v-model="tab" swipeable sticky>
       <template v-for="(item, index) in list" :key="index">
         <wd-tab :title="item.name">
           <view class="bd-1">
             <wd-row :gutter="10">
               <wd-col :span="8">
                 <view v-for="(c, j) in item.conter.left" :key="j" class="py-15px">
-                  <view class="mx-auto text-center" @click="handleClick(c.value)">
+                  <view class="mx-auto text-center" @click="handleClick(c)">
                     <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
                   <view class="text-center text-xs leading-40px">{{ c.name }}</view>
@@ -190,7 +196,7 @@ defineOptions({
                     <view
                       class="flex flex-col gap-10px justify-center wh-100 mx-auto text-center py-10px box-border rounded-1000"
                       :class="c.color"
-                      @click="handleClick(c.value)"
+                      @click="handleClick(c)"
                     >
                       <view class="font-size-12px color-#fff">{{ c.sName }}</view>
                       <view class="font-size-14px color-#fff">{{ c.name }}</view>
@@ -200,7 +206,7 @@ defineOptions({
               </wd-col>
               <wd-col :span="8">
                 <view v-for="(c, j) in item.conter.right" :key="j" class="py-15px">
-                  <view class="mx-auto text-center" @click="handleClick(c.value)">
+                  <view class="mx-auto text-center" @click="handleClick(c)">
                     <i :class="`iconfont ${c.icon}`" class="text-30px"></i>
                   </view>
                   <view class="text-center text-xs leading-40px">{{ c.name }}</view>
