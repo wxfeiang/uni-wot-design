@@ -1,3 +1,5 @@
+import type { ExtractPropTypes, PropType } from 'vue'
+
 export interface Options {
   name: string | number
   value: string | number
@@ -62,3 +64,16 @@ export enum Mode {
   answer,
   practice,
 }
+
+export const problemsProps = {
+  list: {
+    type: Object as PropType<ProBlemItemList>,
+    required: true,
+  },
+  cMode: {
+    type: Number as PropType<Mode>,
+    default: 1,
+  },
+}
+
+export type problemProps = ExtractPropTypes<typeof problemsProps>

@@ -242,25 +242,37 @@ defineOptions({
   <wd-gap bg-color="#f5f5f5"></wd-gap>
   <view class="pb-10px">
     <view class="flex justify-between items-center py-10px px-20px bb-1px_solid_#f5f5f5">
-      <text class="font-bold">学习讲堂</text>
-      <text>
+      <view class="font-bold">学习讲堂</view>
+      <view>
         <wd-button type="text">
           <text class="color-#999999 font-size-12px">
             更多
             <wd-icon name="arrow-right" size="12px"></wd-icon>
           </text>
         </wd-button>
-      </text>
+      </view>
     </view>
     <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% px-20px">
       <view class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px">
-        <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+        <view class="font-bold color-white font-size-16px line-height-40px">
+          安全教育
+          <br />
+          知识
+        </view>
       </view>
       <view class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px">
-        <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+        <view class="font-bold color-white font-size-16px line-height-40px">
+          安全教育
+          <br />
+          知识
+        </view>
       </view>
       <view class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px">
-        <view class="font-bold color-white font-size-16px line-height-40px">安全教育知识</view>
+        <view class="font-bold color-white font-size-16px line-height-40px">
+          安全教育
+          <br />
+          知识
+        </view>
       </view>
     </scroll-view>
   </view>

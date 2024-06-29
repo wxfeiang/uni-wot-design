@@ -94,7 +94,6 @@
           "type": "page",
           "layout": "default",
           "style": {
-            "navigationBarTitleText": "结果页",
             "navigationStyle": "custom"
           }
         }

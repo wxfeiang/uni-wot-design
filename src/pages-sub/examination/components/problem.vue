@@ -3,17 +3,9 @@ import { changeDict } from '@/utils'
 import { answerIndex, answerType, getIndexStr } from '@/utils/dict'
 import { Toast } from '@/utils/uniapi/prompt'
 import { findIndex, isEqual, sortBy } from 'lodash-es'
-import { Mode, ProBlemItemList } from '../types/types'
-const props = defineProps({
-  list: {
-    type: Object as PropType<ProBlemItemList>,
-    required: true,
-  },
-  cMode: {
-    type: Number as PropType<Mode>,
-    default: 1,
-  },
-})
+import { problemsProps } from '../types/types'
+
+const props = defineProps(problemsProps)
 const emit = defineEmits<{
   (e: 'submit', value: any): void
   (e: 'reset', value: any): void

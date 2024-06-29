@@ -165,7 +165,10 @@ function finishAnswer() {
 
 // 顶部返回
 function handleClickLeft() {
-  uni.navigateBack()
+  routeTo({
+    url: '/pages/index/index',
+    navType: NAVIGATE_TYPE.SWITCH_TAB,
+  })
 }
 
 // 底部题目切换
