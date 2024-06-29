@@ -37,9 +37,24 @@ const props = defineProps({
       v-for="(item, index) in props.Rlist"
       :key="index"
     >
-      <view>
-        {{ item.rank }}
-      </view>
+      <template v-if="item.rank < 4">
+        <view class="relative px-10px mr-5px">
+          <view class="absolute top-[-19px] left-0 z-0">
+            <i class="iconfont dy-icon-paihangbang text-30px"></i>
+          </view>
+          <view class="absolute top-[-6px] left-3 z-0 font-size-12px color-#fff">
+            {{ item.rank }}
+          </view>
+        </view>
+      </template>
+      <template v-else>
+        <view class="relative px-10px mr-5px">
+          <view class="absolute top-[-6px] left-3 z-0 color-#666">
+            {{ item.rank }}
+          </view>
+        </view>
+      </template>
+
       <view class="mx-20px">
         <wd-img :width="40" :height="40" :src="item.avatar" round />
       </view>
@@ -50,7 +65,7 @@ const props = defineProps({
 
       <view
         class="text-right line-height-24px color-coolGray"
-        :class="item.rank < 3 ? 'color-red' : 'color-blue'"
+        :class="item.rank < 4 ? 'color-red' : 'color-blue'"
       >
         {{ item.time }}
       </view>

@@ -46,7 +46,13 @@ const tabList = [
             <template v-else>
               <view class="flex justify-between items-center px-20px py-10px bd-1px_solid_#f5f5f5">
                 <view class="flex items-center">
-                  <wd-img :width="50" :height="50" :src="userInfo.avatar" round />
+                  <wd-img
+                    :width="50"
+                    :height="50"
+                    :src="userInfo.avatar"
+                    round
+                    class="bg-coolGray"
+                  />
                   <text class="ml-10px">无考试成绩</text>
                 </view>
                 <view>
