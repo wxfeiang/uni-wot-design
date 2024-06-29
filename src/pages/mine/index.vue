@@ -1,12 +1,12 @@
 <route lang="json5">
 {
   style: {
-    navigationBarTitleText: '我的',
+    navigationStyle: 'custom',
   },
 }
 </route>
 <script lang="ts" setup>
-import useInfo from './utils/useInfo'
+import useInfo from './hooks/useInfo'
 
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'

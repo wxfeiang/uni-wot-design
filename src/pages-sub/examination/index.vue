@@ -15,7 +15,7 @@ import { useMessage, useToast } from 'wot-design-uni'
 import counAnswerCopm from './components/counAnswer.vue'
 import ProblemComp from './components/problem.vue'
 import TransitionComp from './components/transition.vue'
-import useAnswer from './utils/useAnswer'
+import useAnswer from './hooks/useAnswer'
 const { getList, anList, cIndex, cList, listLoading } = useAnswer()
 
 const message = useMessage()

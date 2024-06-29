@@ -8,7 +8,7 @@
 </route>
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import useLogin from './utils/useLogin'
+import useLogin from './hooks/useLogin'
 const { Login, model, rules, loading, read } = useLogin()
 const form = ref(null)
 const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
