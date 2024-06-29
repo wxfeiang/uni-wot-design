@@ -38,8 +38,10 @@ function handleClickRight(e) {
     @click-left="handleClickLeft"
   >
     <template #left>
-      <wd-icon name="arrow-left" size="16px"></wd-icon>
-      <view class="ml-10px font-size-14px">首页</view>
+      <view class="flex items-center">
+        <wd-icon name="arrow-left" size="16px"></wd-icon>
+        <view class="ml-10px font-size-14px">首页</view>
+      </view>
     </template>
   </wd-navbar>
 

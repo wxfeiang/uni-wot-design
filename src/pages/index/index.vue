@@ -278,6 +278,6 @@ defineOptions({
   </view>
 
   <wd-gap bg-color="#f5f5f5"></wd-gap>
-  <view class="py-10px text-center color-coolgray font-size-12px">技术支持: 甘肃数嘉年科技</view>
+  <view class="py-10px text-center color-coolgray font-size-12px">技术支持: 甘肃数嘉科技</view>
 </template>
 <style></style>
