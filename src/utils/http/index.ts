@@ -6,9 +6,13 @@ import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 import { API } from '@/service/model/baseModel'
 import { useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
+
+import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
 import { Toast } from '@/utils/uniapi/prompt'
 import { assign } from 'lodash-es'
-const BASE_URL = import.meta.env.VITE_SERVER_BASEURL
+// TODO: 区别基础地址 H5 需要
+const BASE_URL = import.meta.env.VITE_APP_PROXY_PREFIX
+
 const timeOut = import.meta.env.VITE_SERVER_TIME_OUT
 
 const HEADER = {
@@ -30,12 +34,12 @@ const alovaInstance = createAlova({
   // 在开发环境开启错误日志
   // errorLogger: process.env.NODE_ENV === devMode,
   // // 在开发环境开启缓存命中日志
-  // //cacheLogger: process.env.NODE_ENV === 'development',
+  // cacheLogger: process.env.NODE_ENV === 'development',
   timeout: timeOut,
   beforeRequest: (method) => {
     //
     const userStore = useUserStore()
-
+    beforeQuest(method)
     // 默认不是用全局加载状态。。。
     // Loading('加载中...');
     method.config.headers = assign(method.config.headers, HEADER, userStore.getAuthorization())
@@ -69,9 +73,16 @@ const alovaInstance = createAlova({
             // 上传处理
             return rawData
           }
+
           if (message === ResultEnum.TYPE) {
             return data as any
           }
+
+          // TODO: 处理白名单返回 处理正确数据返回
+
+          const resAllData = responseAes(response)
+          console.log('🍐[resAllData]:', resAllData)
+
           message && Toast(message)
           return Promise.reject(rawData)
         }

@@ -35,7 +35,6 @@ export default ({ command, mode }) => {
   console.log('UNI_PLATFORM -> ', UNI_PLATFORM) // 得到 mp-weixin, h5, app 等
 
   const env = loadEnv(mode, path.resolve(process.cwd(), 'env'))
-  console.log('🥟[env]:', env)
   const {
     VITE_APP_PORT,
     VITE_SERVER_BASEURL,
@@ -78,6 +77,12 @@ export default ({ command, mode }) => {
       UnoCSS(),
       AutoImport({
         imports: ['vue', 'uni-app'],
+        include: [
+          /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+          /\.vue$/,
+          /\.vue\?vue/, // .vue
+        ],
+
         dts: 'src/types/auto-import.d.ts',
         dirs: ['src/hooks'], // 自动导入 hooks
         eslintrc: { enabled: true },
@@ -131,11 +136,19 @@ export default ({ command, mode }) => {
       hmr: true,
       port: Number.parseInt(VITE_APP_PORT, 10),
       // 仅 H5 端生效，其他端不生效（其他端走build，不走devServer)
+
       proxy: JSON.parse(VITE_APP_PROXY)
         ? {
             [VITE_APP_PROXY_PREFIX]: {
               target: VITE_SERVER_BASEURL,
               changeOrigin: true,
+              secure: false, // 是否支持https
+              // bypass(req, res, options: any) {
+              //   const proxyURL = options.target + options.rewrite(req.url)
+              //   console.log('proxyURL', proxyURL)
+              //   req.headers['x-req-proxyURL'] = proxyURL // 设置未生效
+              //   res.setHeader('x-req-proxyURL', proxyURL) // 设置响应头可以看到
+              // },
               rewrite: (path) => {
                 return path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), VITE_APP_PROXY_PREFIX)
               },
