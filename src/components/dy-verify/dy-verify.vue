@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useImageVerify from './useImageVerify'
 const { getCodeUrl, codeImg } = useImageVerify()
+
 // vue3.2 版本不支持
 // defineOptions({
 //   name: "ReImageVerify",
@@ -9,20 +9,15 @@ const { getCodeUrl, codeImg } = useImageVerify()
 const props = defineProps({
   width: {
     type: Number || String,
-    default: 200,
+    default: 100,
   },
   height: {
     type: Number || String,
-    default: 50,
+    default: 30,
   },
 })
 </script>
 
 <template>
-  <wd-image
-    :width="props.width"
-    :height="props.height"
-    :src="codeImg"
-    @click="getCodeUrl"
-  ></wd-image>
+  <wd-img :width="props.width" :height="props.height" :src="codeImg" @click="getCodeUrl"></wd-img>
 </template>

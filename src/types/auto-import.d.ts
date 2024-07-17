@@ -88,9 +88,12 @@ declare global {
   const useAttrs: typeof import('vue')['useAttrs']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
+  const useImageVerify: typeof import('../hooks/useImageVerify')['default']
   const useNavbarWeixin: (typeof import('../hooks/useNavbarWeixin'))['default']
   const useRequest: typeof import('../hooks/useRequest')['default']
   const useSlots: typeof import('vue')['useSlots']
+  const useSystem: typeof import('../hooks/useSystemFig')['default']
+  const useSystemFig: typeof import('../hooks/useSystemFig')['default']
   const useUpload: typeof import('../hooks/useUpload')['default']
   const useUpload2: typeof import('../hooks/useUpload2')['default']
   const useVerify: typeof import('../hooks/useVerify')['default']
@@ -181,10 +184,10 @@ declare module 'vue' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
-    readonly useRequest: UnwrapRef<typeof import('../hooks/useRequest')['default']>
+    readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
-    readonly useVerify: UnwrapRef<typeof import('../hooks/useVerify')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
@@ -265,10 +268,10 @@ declare module '@vue/runtime-core' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
-    readonly useRequest: UnwrapRef<typeof import('../hooks/useRequest')['default']>
+    readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
-    readonly useVerify: UnwrapRef<typeof import('../hooks/useVerify')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

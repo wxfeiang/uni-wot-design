@@ -7,17 +7,7 @@ const RESCONFIG = '/captcha/getResponseConfig'
 const GETDOT = '/system/api/user/getDot'
 
 export const getDot = (config: any) => {
-  const methodInstance = request.Post(
-    GETDOT,
-    // {
-    //   useID: 1212,
-    // },
-    // {
-    //   params: {
-    //     test: 1,
-    //   },
-    // },
-  )
+  const methodInstance = request.Post(GETDOT)
   methodInstance.meta = {
     resAll: true,
     ignorEencrypt: true,
@@ -37,7 +27,6 @@ export const captchaConfig = (config: any) => {
     ignorEencrypt: true,
     resAll: true,
   }
-
   return useRequest(methodInstance, config)
 }
 

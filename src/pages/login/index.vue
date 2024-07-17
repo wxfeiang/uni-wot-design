@@ -29,6 +29,9 @@ const otherLogins = ref([
     color: '#e6162d',
   },
 ])
+const toRegister = () => {
+  console.log('🍯')
+}
 </script>
 <template>
   <view class="h-40 top pt-8 box-border">
@@ -45,7 +48,7 @@ const otherLogins = ref([
           v-model="model.na"
           placeholder="请输入手机号/邮箱"
           :rules="rules.na"
-          prop="username"
+          prop="na"
         />
       </view>
       <view class="py-2 mb-5">
@@ -56,17 +59,33 @@ const otherLogins = ref([
           show-password
           placeholder="请输入密码"
           :rules="rules.ps"
-          prop="password"
+          prop="ps"
         />
+      </view>
+      <view class="py-2 mb-5">
+        <view class="my-5px color-blue">验证码</view>
+        <wd-input
+          type="text"
+          v-model="model.co"
+          placeholder="请输入验证码"
+          :rules="rules.co"
+          use-suffix-slot
+          prop="co"
+          :maxlength="4"
+        >
+          <template #suffix>
+            <dy-verify />
+          </template>
+        </wd-input>
       </view>
 
       <view>
         <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
-        <!-- <view class="mt-4 color-gray text-center font-size-12px">
+        <view class="mt-4 color-gray text-center font-size-12px">
           <wd-button type="text" custom-class="text-btn" @click="toRegister">立即注册</wd-button>
           <text class="mx-10px">|</text>
           <wd-button type="text" custom-class="text-btn">忘记密码</wd-button>
-        </view> -->
+        </view>
       </view>
 
       <view class="mt-8">

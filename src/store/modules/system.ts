@@ -11,6 +11,7 @@ interface STSCONFIG {
   expandMap: any
   headerKey: string
   type: string
+  whiteList: string[]
 }
 
 export const useSystemStore = defineStore(
@@ -35,10 +36,12 @@ export const useSystemStore = defineStore(
     }
 
     function initSystemInfo() {
+      let status = false
       if (!resstrppd.value || !filterData.value || !dot.value) {
-        // useSystem(true)
-        return true
+        status = true
       }
+
+      return status
     }
     return {
       RESSTRPPD,
@@ -53,10 +56,7 @@ export const useSystemStore = defineStore(
       initSystemInfo,
     }
   },
-  // {
-  //   persist: {
-  //     // 持久化存储写法
-  //     enabled: true,
-  //   },
-  // },
+  {
+    persist: true,
+  },
 )

@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { onHide, onLaunch, onShow } from '@dcloudio/uni-app'
+import { useSystemStore } from '@/store'
 
-onLaunch(() => {
-  console.log('App Launch')
-})
-onShow(() => {
-  console.log('App Show')
-})
-onHide(() => {
-  console.log('App Hide')
-})
+// 初始化系统信息
+const systemStore = useSystemStore()
+// systemStore.initSystemInfo()
+useSystemFig(systemStore.initSystemInfo())
 </script>
 
 <style lang="scss">

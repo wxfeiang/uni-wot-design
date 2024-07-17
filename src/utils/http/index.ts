@@ -3,12 +3,10 @@ import { createAlova } from 'alova'
 
 import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 // eslint-disable-next-line import/named
-import { API } from '@/service/model/baseModel'
-import { useUserStore } from '@/store'
+import { useSystemStore, useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
 
 import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
-import { Toast } from '@/utils/uniapi/prompt'
 import { assign } from 'lodash-es'
 // TODO: 区别基础地址 H5 需要
 const BASE_URL = import.meta.env.VITE_APP_PROXY_PREFIX
@@ -37,7 +35,6 @@ const alovaInstance = createAlova({
   // cacheLogger: process.env.NODE_ENV === 'development',
   timeout: timeOut,
   beforeRequest: (method) => {
-    //
     const userStore = useUserStore()
     beforeQuest(method)
     // 默认不是用全局加载状态。。。
@@ -54,16 +51,15 @@ const alovaInstance = createAlova({
      */
     onSuccess: async (response, method) => {
       const { config, meta } = method
+
       const { enableDownload, enableUpload, responseType } = config as any
       // 返回所有结果
       const { statusCode, data: rawData } = response as any
-
+      const { msg, data, code } = rawData as any
       // 返回所有结果
       if (statusCode === 200 && (meta?.resAll || responseType)) {
         return response
       } else {
-        // 返回data
-        const { code, message, data } = rawData as API
         if (statusCode === 200) {
           if (enableDownload) {
             // 下载处理
@@ -73,23 +69,23 @@ const alovaInstance = createAlova({
             // 上传处理
             return rawData
           }
-
-          if (message === ResultEnum.TYPE) {
-            return data as any
-          }
-
           // TODO: 处理白名单返回 处理正确数据返回
-
+          const useSystem = useSystemStore()
+          if (useSystem.filterData.whiteList.includes(method.url)) {
+            return rawData
+          }
+          // 处理数据
           const resAllData = responseAes(response)
-          console.log('🍐[resAllData]:', resAllData)
-
-          message && Toast(message)
-          return Promise.reject(rawData)
+          const { data: rdata, code: rode, msg: rmsg } = resAllData
+          if (rode === ResultEnum.CODE) {
+            return rdata as any
+          } else {
+            rmsg && checkStatus(statusCode, rmsg || '')
+          }
+          return Promise.reject(resAllData)
         }
-
-        checkStatus(statusCode, message || '')
       }
-
+      checkStatus(statusCode, msg || '')
       return Promise.reject(rawData)
     },
 
