@@ -79,6 +79,8 @@ declare global {
   const useNavbarWeixin: (typeof import('../hooks/useNavbarWeixin'))['default']
   const useRequest: typeof import('../hooks/useRequest')['default']
   const useSlots: typeof import('vue')['useSlots']
+  const useSysLogin: typeof import('../hooks/useSysLogin')['default']
+  const useSyslogin: typeof import('../hooks/useSyslogin')['default']
   const useUpload: typeof import('../hooks/useUpload')['default']
   const useUpload2: typeof import('../hooks/useUpload2')['default']
   const useVerify: typeof import('../hooks/useVerify')['default']
@@ -171,6 +173,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useRequest: UnwrapRef<typeof import('../hooks/useRequest')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useSyslogin: UnwrapRef<typeof import('../hooks/useSyslogin')['default']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
     readonly useVerify: UnwrapRef<typeof import('../hooks/useVerify')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
@@ -255,6 +258,7 @@ declare module '@vue/runtime-core' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useRequest: UnwrapRef<typeof import('../hooks/useRequest')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useSyslogin: UnwrapRef<typeof import('../hooks/useSyslogin')['default']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
     readonly useVerify: UnwrapRef<typeof import('../hooks/useVerify')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>

@@ -90,6 +90,8 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "useVerify": true
+    "useVerify": true,
+    "useSysLogin": true,
+    "useSyslogin": true
   }
 }
