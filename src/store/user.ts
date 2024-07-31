@@ -22,7 +22,8 @@ export const useUserStore = defineStore(
     const isLogined = computed(() => !!userInfo.value.token)
 
     function getAuthorization() {
-      return userInfo.value?.token ? { authorization: `Bearer ${userInfo.value?.token}` } : {}
+      // Bearer 后端返回了
+      return userInfo.value?.token ? { authorization: `${userInfo.value?.token}` } : {}
     }
     return {
       userInfo,
