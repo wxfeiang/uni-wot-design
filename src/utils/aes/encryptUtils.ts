@@ -69,7 +69,6 @@ export function beforeQuest(method: any) {
     timestamp: getTimeStamp(),
     replay: uuid(),
   }
-  console.log('🍏', initParams)
 
   if (method.type === 'GET') {
     method.params = {
@@ -86,9 +85,8 @@ export function beforeQuest(method: any) {
 
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
-  console.log('🍵[method]:', method)
-  const a = createFilter(method)
-  return '1212'
+
+  createFilter(method)
 }
 
 // 返回数据cont处理配置

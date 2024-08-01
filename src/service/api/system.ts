@@ -21,14 +21,12 @@ export const getDot = (config: any) => {
  * @param params
  */
 export const captchaConfig = (config: any) => {
-  console.log('🍷api---------====')
   const methodInstance = request.Post(CONFIG)
   methodInstance.meta = {
     ignoreSign: true,
     ignorEencrypt: true,
     resAll: true,
   }
-  console.log('🍷====')
   return useRequest(methodInstance, config)
 }
 
