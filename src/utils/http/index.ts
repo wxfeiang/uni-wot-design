@@ -6,10 +6,9 @@ import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 import { useSystemStore, useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
 
+import { baseUrl } from '@/utils'
 import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
 import { assign } from 'lodash-es'
-// TODO: 区别基础地址 H5 需要
-const BASE_URL = import.meta.env.VITE_APP_PROXY_PREFIX
 
 const timeOut = import.meta.env.VITE_SERVER_TIME_OUT
 
@@ -23,7 +22,7 @@ const HEADER = {
  * @link
  */
 const alovaInstance = createAlova({
-  baseURL: BASE_URL,
+  baseURL: baseUrl(),
   ...AdapterUniapp({
     // /* #ifndef APP-PLUS */
     // mockRequest: isUseMock() ? mockAdapter : undefined, // APP 平台无法使用mock

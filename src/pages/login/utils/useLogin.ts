@@ -1,12 +1,18 @@
 import { Constant } from '@/enum/constant'
 
 import { login2, testToken } from '@/service/api/auth'
-import { useUserStore } from '@/store'
+import { useSystemStore, useUserStore } from '@/store'
 import { changePassword } from '@/utils/aes/jsencrypt'
 //
 import { useRequest } from 'alova'
 
+// 初始化系统信息
+const systemStore = useSystemStore()
+useSystemFig(systemStore.initSystemInfo())
+
+// 获取验证码
 const { getCodeUrl, codeflog } = useImageVerify()
+
 const authStore = useUserStore()
 const read = ref(false)
 const rules = {

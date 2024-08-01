@@ -216,23 +216,14 @@ export function createFilter<T>(method: T) {
         .substring(0, length)
 
       AES_KEY = key
-
       // #endif
       // #ifdef MP-WEIXIN
-      return new Promise((resolve, reject) => {
-        wx.getRandomValues({
-          length, // 生成 len 个字节长度的随机数,
-          success: (res: any) => {
-            const key = wx
-              .arrayBufferToBase64(res.randomValues)
-              .substring(0, length)
-              .toLocaleLowerCase()
-            AES_KEY = key
-
-            resolve(key)
-          },
-        })
-      })
+      let result = ''
+      const characters = '0123456789abcdefghijklmnopqrstuvwxyz'
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length))
+      }
+      AES_KEY = result
 
       // #endif
     },
