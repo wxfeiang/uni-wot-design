@@ -1,16 +1,27 @@
 <route lang="json5" type="home">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
+    'mp-alipay': {
+      transparentTitle: 'always',
+      titlePenetrate: 'YES',
+    },
   },
 }
 </route>
 <script lang="ts" setup>
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
+import { routeTo } from '@/utils'
 import useLogin from './utils/useLogin'
 const { Login, model, rules, read } = useLogin()
 const form = ref(null)
 const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
+
+const to = () => {
+  routeTo({ url: '/pages/aa/index', navType: NAVIGATE_TYPE.NAVIGATE_TO })
+}
 
 const otherLogins = ref([
   {
@@ -96,6 +107,7 @@ const toRegister = () => {
             :key="index"
             :class="item.icon"
             class="color-#4d80f0 font-size-20px"
+            @click="to"
           />
         </view>
       </view>

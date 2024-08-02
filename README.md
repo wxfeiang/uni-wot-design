@@ -248,19 +248,15 @@ Get(
 ## Router
 
 **注意：** 路由方法已经按需加载
-[路由插件地址](https://moonofweisheng.github.io/uni-mini-router/guide/introduction.html)
+
+> 项目需要登录后的页面过多 , 现在 不拦截的页面 必须加入
 
 ```
- {
-   "path": "pages/index/index",
-   "name":"Index",     // 路由名称
-    "meta": {
-     "ignoreAuth": true // 忽略校验 ,直接进入路由
-    },
-   "style": {
-    "navigationBarTitleText": "首页"
-   }
-  }
+needLogin: true
+```
+
+```
+needLogin: false, // false 表示需要登录 默认不需要配置
 
 ```
 

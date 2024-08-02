@@ -204,9 +204,10 @@ export function createFilter<T>(method: T) {
     },
 
     // 生成随机的加密key
+
     getAesKey: (len?: number) => {
       const length = len || 16
-      // #ifndef MP-WEIXIN
+      // #ifdef H5
       let key = ''
       if (API_ENCRYPR_TYPE === 'sm') {
         key = utils.md5(window.crypto.getRandomValues(new Uint32Array(1))[0] as any)
@@ -217,7 +218,7 @@ export function createFilter<T>(method: T) {
 
       AES_KEY = key
       // #endif
-      // #ifdef MP-WEIXIN
+      // #ifndef H5
       let result = ''
       const characters = '0123456789abcdefghijklmnopqrstuvwxyz'
       for (let i = 0; i < length; i++) {

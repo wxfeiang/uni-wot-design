@@ -21,6 +21,7 @@ type IUserInfo = {
   /** 微信的 openid，非微信没有这个字段 */
   openid?: string
   token?: string
+  tokenTime?: number // 当前时间戳
 }
 
 enum TestEnum {

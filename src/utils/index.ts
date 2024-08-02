@@ -76,7 +76,9 @@ export const getAllPages = (key = 'needLogin') => {
   // 这里处理主包
   const mainPages = [
     ...pages
-      .filter((page) => !key || page[key])
+      .filter((page) => {
+        return !(!key || page[key])
+      })
       .map((page) => ({
         ...page,
         path: `/${page.path}`,
@@ -145,7 +147,7 @@ export const randomStr = (length: number) => {
  */
 export const baseUrl = () => {
   if (PLATFORM.isH5) {
-    return import.meta.env.VITE_APP_PROXY_PREFI
+    return import.meta.env.VITE_APP_PROXY_PREFIX
   } else {
     return import.meta.env.VITE_SERVER_BASEURL + import.meta.env.VITE_APP_PROXY_PREFIX
   }
