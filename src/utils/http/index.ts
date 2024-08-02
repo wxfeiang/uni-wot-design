@@ -1,15 +1,15 @@
 import AdapterUniapp from '@alova/adapter-uniapp'
 import { createAlova } from 'alova'
+import VueHook from 'alova/vue'
 
 import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 // eslint-disable-next-line import/named
 import { useSystemStore, useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
 
+import { baseUrl } from '@/utils'
 import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
 import { assign } from 'lodash-es'
-// TODO: 区别基础地址 H5 需要
-const BASE_URL = import.meta.env.VITE_APP_PROXY_PREFIX
 
 const timeOut = import.meta.env.VITE_SERVER_TIME_OUT
 
@@ -22,8 +22,9 @@ const HEADER = {
  * alova 请求实例
  * @link
  */
+
 const alovaInstance = createAlova({
-  baseURL: BASE_URL,
+  baseURL: baseUrl(),
   ...AdapterUniapp({
     // /* #ifndef APP-PLUS */
     // mockRequest: isUseMock() ? mockAdapter : undefined, // APP 平台无法使用mock
@@ -33,13 +34,16 @@ const alovaInstance = createAlova({
   // errorLogger: process.env.NODE_ENV === devMode,
   // // 在开发环境开启缓存命中日志
   // cacheLogger: process.env.NODE_ENV === 'development',
+  statesHook: VueHook,
   timeout: timeOut,
   beforeRequest: (method) => {
     const userStore = useUserStore()
     beforeQuest(method)
     // 默认不是用全局加载状态。。。
     // Loading('加载中...');
-    method.config.headers = assign(method.config.headers, HEADER, userStore.getAuthorization())
+    if (!method.meta?.ignorToken) {
+      method.config.headers = assign(method.config.headers, HEADER, userStore.getAuthorization())
+    }
   },
 
   responsed: {

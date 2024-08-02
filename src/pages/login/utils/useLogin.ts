@@ -6,7 +6,9 @@ import { changePassword } from '@/utils/aes/jsencrypt'
 //
 import { useRequest } from 'alova'
 
+// 获取验证码
 const { getCodeUrl, codeflog } = useImageVerify()
+
 const authStore = useUserStore()
 const read = ref(false)
 const rules = {

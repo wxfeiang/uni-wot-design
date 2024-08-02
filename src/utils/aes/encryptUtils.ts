@@ -4,8 +4,8 @@ import { Decrypt, Encrypt } from '@/utils/aes/aesMgr'
 import { decrypt } from '@/utils/aes/jsencrypt'
 import { Base64 } from 'js-base64' // 引入
 import { md5 } from 'js-md5'
-import { v4 as uuidv4 } from 'uuid'
 import { createFilter } from './filter'
+import { uuid } from './uuid'
 
 const httpParam = {
   appKey: Constant.APP_KEY,
@@ -67,7 +67,7 @@ export function beforeQuest(method: any) {
   const initParams = {
     appKey: Constant.APP_KEY,
     timestamp: getTimeStamp(),
-    replay: uuidv4(),
+    replay: uuid(),
   }
 
   if (method.type === 'GET') {
@@ -86,8 +86,7 @@ export function beforeQuest(method: any) {
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
 
-  const a = createFilter(method)
-  // return
+  createFilter(method)
 }
 
 // 返回数据cont处理配置
@@ -103,8 +102,9 @@ export function changeRes(res: any, code: string) {
 }
 // 返回参数解密
 export function responseAes(res: any) {
-  const aesRes = decrypt(res.header.responsek || res.header.Responsek)
-  const aesResiv = decrypt(res.header.responsev || res.header.Responsev)
+  const aesRes = decrypt(res.header.responsek ?? res.header.ResponseK)
+  const aesResiv = decrypt(res.header.responsev ?? res.header.Responsev)
+
   if (!aesRes || !aesResiv) {
     return { msg: '解密出现问题了----' }
   }

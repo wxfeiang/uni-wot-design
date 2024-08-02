@@ -1,13 +1,13 @@
+import { TOKEN_OVER } from '@/utils/constant'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const initState = { nickname: '', avatar: '' }
+const initState = { nickname: '', avatar: '', tokenTime: new Date().getTime() }
 
 export const useUserStore = defineStore(
   'user',
   () => {
     const userInfo = ref<IUserInfo>({ ...initState })
-
     const setUserInfo = (val: IUserInfo) => {
       userInfo.value = val
     }
@@ -19,11 +19,18 @@ export const useUserStore = defineStore(
     const reset = () => {
       userInfo.value = { ...initState }
     }
+    // 是否已经登录
     const isLogined = computed(() => !!userInfo.value.token)
 
+    // token过期 ture
+    const isTokenExpired = computed(() => {
+      const date = new Date().getTime()
+      return date - userInfo.value.tokenTime > TOKEN_OVER
+    })
+
     function getAuthorization() {
-      // Bearer 后端返回了
-      return userInfo.value?.token ? { authorization: `${userInfo.value?.token}` } : {}
+      // Bearer 服务端已经返回了，可以不用再写
+      return userInfo.value?.token ? { authorization: `Bearer ${userInfo.value?.token}` } : {}
     }
     return {
       userInfo,
@@ -32,6 +39,7 @@ export const useUserStore = defineStore(
       isLogined,
       reset,
       getAuthorization,
+      isTokenExpired,
     }
   },
   {

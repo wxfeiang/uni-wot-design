@@ -28,67 +28,155 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 ## 文件说明
 
 ```
+.
+├── .commitlintrc.cjs
+├── .editorconfig
+├── .eslintignore
+├── .eslintrc-auto-import.json
+├── .eslintrc.cjs
+├── .gitignore
+├── .husky
+│   ├── \_
+│   │   ├── .gitignore
+│   │   └── husky.sh
+│   ├── commit-msg
+│   └── pre-commit
+├── .npmrc
+├── .prettierignore
+├── .prettierrc.cjs
+├── .stylelintignore
+├── .stylelintrc.cjs
+├── .vscode
+│   ├── extensions.json
+│   ├── settings.json
+│   └── vue3.code-snippets
 ├── LICENSE
 ├── README.md
-├── env // 环境变量配置
+├── env
+│   ├── .env
+│   ├── .env.development
+│   ├── .env.production
+│   └── .env.test
 ├── favicon.ico
 ├── index.html
 ├── manifest.config.ts
-├── package.json --- 项目版本约束 配置
+├── package.json
 ├── pages.config.ts
 ├── pnpm-lock.yaml
-├── src        -- 项目主要代码
-│ ├── App.vue
-│ ├── components
-│ ├── env.d.ts
-│ ├── hooks
-│ │ ├── useRequest.ts
-│ │ └── useUpload.ts
-│ ├── interceptors
-│ │ ├── index.ts
-│ │ ├── prototype.ts
-│ │ ├── request.ts
-│ │ └── route.ts
-│ ├── layouts    --- 主要结构配置
-│ │ ├── default.vue
-│ ├── main.ts
-│ ├── manifest.json
-│ ├── pages
-│ │ ├── about
-│ │ └── index
-│ │ └── index.vue
-│ ├── pages-sub  ------分包
-│ │ └── demo
-│ ├── pages.json
-│ ├── service
-│ │ └── index
-│ │ └── foo.ts
-│ ├── static
-│ │ ├── app
-│ │ │ └── icons
-│ │ ├── images
-│ │ ├── logo.svg
-│ ├── store
-│ │ ├── index.ts
-│ │ └── user.ts
-│ ├── style
-│ │ ├── iconfont.css
-│ │ └── index.scss
-│ ├── types
-│ │ ├── auto-import.d.ts
-│ │ ├── global.d.ts
-│ │ ├── shims-uni.d.ts
-│ │ └── uni-pages.d.ts
-│ ├── typings.ts
-│ ├── uni.scss
-│ ├── uni_modules
-│ └── utils
-│ ├── http.ts
-│ ├── index.ts
-│ └── platform.ts
+├── src
+│   ├── App.vue
+│   ├── components 自定义组件
+│   │   ├── .gitkeep
+│   │   ├── dy-title
+│   │   │   └── dy-title.vue
+│   │   └── dy-verify
+│   │   └── dy-verify.vue
+│   ├── enum
+│   │   ├── CacheEnum.ts
+│   │   ├── HttpCodeEnum.ts
+│   │   ├── RouteEnum.ts
+│   │   └── constant.ts
+│   ├── enums
+│   │   ├── appEnum.ts
+│   │   ├── cacheEnum.ts
+│   │   ├── constant.ts
+│   │   ├── httpEnum.ts
+│   │   ├── platformEnum.ts
+│   │   └── routerEnum.ts
+│   ├── env.d.ts
+│   ├── hooks ---自定义hooks
+│   │   ├── .gitkeep
+│   │   ├── useImageVerify.ts
+│   │   ├── useSystemFig.ts
+│   │   ├── useUpdateApp.ts
+│   │   └── useUpload.ts
+│   ├── interceptors ----- 类型提示
+│   │   ├── index.ts
+│   │   ├── prototype.ts
+│   │   ├── route.ts
+│   │   └── utils.ts
+│   ├── layouts ----- 根组件
+│   │   ├── default.vue
+│   │   └── demo.vue
+│   ├── main.ts
+│   ├── manifest.json
+│   ├── pages ------ 页面组件
+│   │   ├── index
+│   │   │   └── index.vue
+│   │   └── login
+│   │   ├── index.vue
+│   │   └── utils
+│   │   └── useLogin.ts
+│   ├── pages-sub ------ 所有的分包页面
+│   │   ├── demo
+│   │   │   └── index.vue
+│   │   └── ranking
+│   │   └── components
+│   ├── pages.json ------- 自动生成配置文件
+│   ├── service ------- 系统请求服务相关接口
+│   │   ├── api
+│   │   │   ├── auth.ts
+│   │   │   ├── source.ts
+│   │   │   ├── system.ts
+│   │   │   └── user.ts
+│   │   └── model ------- 请求定义类型提示
+│   │   ├── authModel.d.ts
+│   │   ├── baseModel.d.ts
+│   │   └── userModel.d.ts
+│   ├── static
+│   │   ├── app ----- app logo
+│   │   │   └── icons
+│   │   │   ├── 1024x1024.png
+│   │   │   ├── 120x120.png
+│   │   │   ├── 144x144.png
+
+│   │   ├── images
+│   │   │   └── .gitkeep
+│   │   ├── logo.svg
+│   │   └── tabbar
+│   │   ├── example.png
+│   │   ├── exampleHL.png
+│   │   ├── home.png
+│   │   ├── homeHL.png
+│   │   ├── personal.png
+│   │   └── personalHL.png
+│   ├── store -------- 全局数据状态管理文件
+│   │   ├── index.ts
+│   │   ├── modules
+│   │   │   └── system.ts
+│   │   └── user.ts
+│   ├── style
+│   │   ├── iconfont.css
+│   │   └── index.scss
+│   ├── types
+│   │   ├── auto-import.d.ts
+│   │   ├── global.d.ts
+│   │   ├── shims-uni.d.ts
+│   │   └── uni-pages.d.ts
+│   ├── typings.ts
+│   ├── uni.scss
+│   ├── uni_modules
+│   │   └── .gitkeep
+│   └── utils
+│   ├── aes ----------- 系统加解密相关
+│   │   ├── aesMgr.ts
+│   │   ├── base64Encode.ts
+│   │   ├── encryptUtils.ts
+│   │   ├── filter.ts
+│   │   ├── jsencrypt.ts
+│   │   └── uuid.ts
+│   ├── http
+│   │   ├── checkStatus.ts
+│   │   └── index.ts
+│   ├── index.ts
+│   ├── platform.ts
+│   └── uniapi
+│   ├── index.ts
+│   └── prompt.ts
 ├── tsconfig.json
 ├── uno.config.ts
 └── vite.config.ts
+
 ```
 
 ## UI地址
@@ -160,19 +248,15 @@ Get(
 ## Router
 
 **注意：** 路由方法已经按需加载
-[路由插件地址](https://moonofweisheng.github.io/uni-mini-router/guide/introduction.html)
+
+> 项目需要登录后的页面过多 , 现在 不拦截的页面 必须加入
 
 ```
- {
-   "path": "pages/index/index",
-   "name":"Index",     // 路由名称
-    "meta": {
-     "ignoreAuth": true // 忽略校验 ,直接进入路由
-    },
-   "style": {
-    "navigationBarTitleText": "首页"
-   }
-  }
+needLogin: true
+```
+
+```
+needLogin: false, // false 表示需要登录 默认不需要配置
 
 ```
 

@@ -94,6 +94,7 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useSystem: typeof import('../hooks/useSystemFig')['default']
   const useSystemFig: typeof import('../hooks/useSystemFig')['default']
+  const useUpdateApp: typeof import('../hooks/useUpdateApp')['default']
   const useUpload: typeof import('../hooks/useUpload')['default']
   const useUpload2: typeof import('../hooks/useUpload2')['default']
   const useVerify: typeof import('../hooks/useVerify')['default']
@@ -187,6 +188,7 @@ declare module 'vue' {
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
+    readonly useUpdateApp: UnwrapRef<typeof import('../hooks/useUpdateApp')['default']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
@@ -271,6 +273,7 @@ declare module '@vue/runtime-core' {
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
+    readonly useUpdateApp: UnwrapRef<typeof import('../hooks/useUpdateApp')['default']>
     readonly useUpload: UnwrapRef<typeof import('../hooks/useUpload')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>

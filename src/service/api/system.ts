@@ -27,6 +27,7 @@ export const captchaConfig = (config: any) => {
     ignorEencrypt: true,
     resAll: true,
   }
+
   return useRequest(methodInstance, config)
 }
 
@@ -58,6 +59,7 @@ export function getCode(config: any) {
   methodInstance.meta = {
     ignoreSign: true,
     ignorEencrypt: true,
+    ignorToken: true,
   }
 
   return useRequest(methodInstance, config)

@@ -1,5 +1,7 @@
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { pages, subPackages, tabBar } from '@/pages.json'
-
+import PLATFORM from '@/utils/platform'
+import qs from 'qs'
 /** 判断当前页面是否是tabbar页  */
 export const getIsTabbar = () => {
   if (!tabBar) {
@@ -74,7 +76,9 @@ export const getAllPages = (key = 'needLogin') => {
   // 这里处理主包
   const mainPages = [
     ...pages
-      .filter((page) => !key || page[key])
+      .filter((page) => {
+        return !(!key || page[key])
+      })
       .map((page) => ({
         ...page,
         path: `/${page.path}`,
@@ -121,4 +125,70 @@ export const needLoginPages: string[] = getAllPages('needLogin').map((page) => p
  */
 export const changeDict = (data: string[], value?: any, key?: string, val?: string) => {
   return data.filter((item: any) => item[val] === value)[key]
+}
+
+/**
+ * @description: 返回规定长度的随机字符串
+ * @param {} length
+ * @return {}
+ */
+export const randomStr = (length: number) => {
+  let result = ''
+  const characters = '0123456789abcdefghijklmnopqrstuvwxyz'
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+  return result
+}
+
+/**
+ * @description:  返回当前请求需要的baseUrl
+ * @return {}
+ */
+export const baseUrl = () => {
+  if (PLATFORM.isH5) {
+    return import.meta.env.VITE_APP_PROXY_PREFIX
+  } else {
+    return import.meta.env.VITE_SERVER_BASEURL + import.meta.env.VITE_APP_PROXY_PREFIX
+  }
+}
+
+/**
+ * @description:  页面跳转
+ * @param {} options url  类型   数据
+ * @return {}
+ */
+export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
+  let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
+
+  if (data) {
+    const queryStr = qs.stringify(data)
+    if (url.includes('?')) {
+      url += `&${queryStr}`
+    } else {
+      url += `?${queryStr}`
+    }
+  }
+  if (navType === NAVIGATE_TYPE.NAVIGATE_BACK || !navType) {
+    uni.navigateBack({
+      delta: 1,
+    })
+    return
+  }
+  if (navType === NAVIGATE_TYPE.NAVIGATE_TO) {
+    uni.navigateTo({
+      url,
+    })
+    return
+  }
+  if (navType === NAVIGATE_TYPE.SWITCH_TAB) {
+    uni.switchTab({
+      url,
+    })
+  }
+  if (navType === NAVIGATE_TYPE.REDIRECT_TO) {
+    uni.redirectTo({
+      url,
+    })
+  }
 }

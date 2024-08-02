@@ -43,8 +43,22 @@
       "path": "pages/login/index",
       "type": "home",
       "layout": "default",
+      "needLogin": true,
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "mp-alipay": {
+          "transparentTitle": "always",
+          "titlePenetrate": "YES"
+        }
+      }
+    },
+    {
+      "path": "pages/aa/index",
+      "type": "page",
+      "layout": "default",
+      "needLogin": false,
+      "style": {
+        "navigationBarTitleText": "ceshi 拦截"
       }
     },
     {

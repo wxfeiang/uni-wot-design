@@ -40,14 +40,13 @@ export const useSystemStore = defineStore(
       if (!resstrppd.value || !filterData.value || !dot.value) {
         status = true
       }
-
       return status
     }
+
     return {
       RESSTRPPD,
       fILTERDATA,
       DOT,
-
       appSecret,
       resstrppd,
       filterData,

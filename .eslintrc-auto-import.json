@@ -105,6 +105,7 @@
     "storeToRefs": true,
     "useSystem": true,
     "useImageVerify": true,
-    "useSystemFig": true
+    "useSystemFig": true,
+    "useUpdateApp": true
   }
 }
