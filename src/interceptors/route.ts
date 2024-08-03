@@ -6,6 +6,7 @@
  */
 import { useUserStore } from '@/store'
 import { needLoginPages as _needLoginPages, getNeedLoginPages } from '@/utils'
+import { Modal } from '@/utils/uniapi/prompt'
 
 // TODO Check
 const loginRoute = '/pages/login/index'
@@ -37,9 +38,18 @@ const navigateToInterceptor = {
     if (hasLogin) {
       return true
     }
-    const redirectRoute = `${loginRoute}?redirect=${encodeURIComponent(url)}`
-    uni.navigateTo({ url: redirectRoute })
-
+    Modal({
+      title: '提示',
+      content: '您还未登录,请先登录!',
+      showCancel: true,
+    }).then((res: any) => {
+      if (res.confirm) {
+        console.log()
+        // 重定向
+        const redirectRoute = `${loginRoute}?redirect=${encodeURIComponent(url)}`
+        uni.navigateTo({ url: redirectRoute })
+      }
+    })
     return false
   },
 }
