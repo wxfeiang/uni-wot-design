@@ -18,9 +18,8 @@ export const getIsTabbar = () => {
 }
 
 /**
- * 获取当前页面路由的 path 路劲和 redirectPath 路径
- * path 如 ‘/pages/login/index’
- * redirectPath 如 ‘/pages/demo/base/route-interceptor’
+ * @description: 获取当前页面路由的 path 路劲和 redirectPath 路径
+ * @return {}  path 如 ‘/pages/login/index’ redirectPath 如 ‘/pages/demo/base/route-interceptor’
  */
 export const currRoute = () => {
   // getCurrentPages() 至少有1个元素，所以不再额外判断
@@ -44,10 +43,11 @@ const ensureDecodeURIComponent = (url: string) => {
   }
   return url
 }
+
 /**
- * 解析 url 得到 path 和 query
- * 比如输入url: /pages/login/index?redirect=%2Fpages%2Fdemo%2Fbase%2Froute-interceptor
- * 输出: {path: /pages/login/index, query: {redirect: /pages/demo/base/route-interceptor}}
+ * @description:  * 解析 url 得到 path 和 query
+ * @param {} url: /pages/login/index?redirect=%2Fpages%2Fdemo%2Fbase%2Froute-interceptor
+ * @return {} {path: /pages/login/index, query: {redirect: /pages/demo/base/route-interceptor}}
  */
 export const getUrlObj = (url: string) => {
   const [path, queryStr] = url.split('?')
@@ -67,10 +67,11 @@ export const getUrlObj = (url: string) => {
   })
   return { path, query }
 }
+
 /**
- * 得到所有的需要登录的pages，包括主包和分包的
- * 这里设计得通用一点，可以传递key作为判断依据，默认是 needLogin, 与 route-block 配对使用
- * 如果没有传 key，则表示所有的pages，如果传递了 key, 则表示通过 key 过滤
+ * @description:  得到所有的需要登录的pages，包括主包和分包的
+ * @param {} key 这里设计得通用一点，可以传递key作为判断依据，默认是 needLogin, 与 route-block 配对使用
+ * @return {} 如果没有传 key，则表示所有的pages，如果传递了 key, 则表示通过 key 过滤
  */
 export const getAllPages = (key = 'needLogin') => {
   // 这里处理主包
@@ -105,14 +106,16 @@ export const getAllPages = (key = 'needLogin') => {
 }
 
 /**
- * 得到所有的需要登录的pages，包括主包和分包的
- * 只得到 path 数组
+ * @description: 得到所有的需要登录的pages，包括主包和分包的
+ * @param {} string
+ * @return {} 只得到 path 数组
  */
 export const getNeedLoginPages = (): string[] => getAllPages('needLogin').map((page) => page.path)
 
 /**
- * 得到所有的需要登录的pages，包括主包和分包的
- * 只得到 path 数组
+ * @description: 得到所有的需要登录的pages，包括主包和分包的
+ * @param {} getAllPages
+ * @return {} 只得到 path 数组
  */
 export const needLoginPages: string[] = getAllPages('needLogin').map((page) => page.path)
 
@@ -191,4 +194,41 @@ export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_
       url,
     })
   }
+}
+
+/**
+ * @description:  获取当前地址栏 url 参数 用于第三方进入
+ * @param {} key 传入的key
+ * @return {}  value
+ */
+export function getUrlKeyValue(key: string) {
+  // 从第一个?开始，且不包括#之后，并截取掉?的部分
+  let query = location.search.substring(1)
+  query = decodeURIComponent(query)
+  // 从#开始的部分，并转换成数组
+  const hash = location.hash.split('?')
+  // query和hash均没有参数
+  if (!query && hash.length < 2) {
+    return ''
+  }
+  // 先取query部分的参数进行匹配
+  let vars = query.split('&')
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=')
+    if (pair[0] === key) {
+      return pair[1]
+    }
+  }
+  // query没有参数，或者有参数但没找到，则取hash部分的参数
+  if (!hash[1]) {
+    return ''
+  }
+  vars = decodeURIComponent(hash[1]).split('&')
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=')
+    if (pair[0] === key) {
+      return pair[1]
+    }
+  }
+  return ''
 }

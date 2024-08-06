@@ -56,7 +56,6 @@
       "path": "pages/aa/index",
       "type": "page",
       "layout": "default",
-      "needLogin": false,
       "style": {
         "navigationBarTitleText": "ceshi 拦截"
       }

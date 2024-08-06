@@ -15,6 +15,7 @@ import { presetApplet, presetRemRpx, transformerAttributify } from 'unocss-apple
 // import { presetLegacyCompat } from '@unocss/preset-legacy-compat'
 
 const isMp = process.env?.UNI_PLATFORM?.startsWith('mp') ?? false
+const DIRECTION_MAPPIINGS = { t: 'top', r: 'right', b: 'bottom', l: 'left' }
 
 const presets: Preset[] = []
 if (isMp) {
@@ -100,6 +101,29 @@ export default defineConfig({
         width: `${d}px`,
         height: `${d}px`,
       }),
+    ],
+    [
+      /^b(t|r|b|l|d)-(.*)/,
+      ([, d, c]) => {
+        const direction = DIRECTION_MAPPIINGS[d] || ''
+        const p = direction ? `border-${direction}` : 'border'
+        const attrs = c.split('_')
+        if (
+          // 属性中不包含 border-style 则默认 solid
+          !attrs.some((item) =>
+            /^(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset)$/.test(item),
+          )
+        ) {
+          attrs.push('solid')
+        }
+        // 属性中不包含 border-width 则默认 1px
+        if (!attrs.some((item) => /^\d/.test(item))) {
+          attrs.push('1px')
+        }
+        return {
+          [p]: attrs.join(' '),
+        }
+      },
     ],
   ],
 })
