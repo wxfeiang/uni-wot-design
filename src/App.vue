@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useSystemStore } from '@/store'
 //
+onLaunch(() => {
+  useUpdateApp()
+})
 
-// 初始化系统信息
+// 初始化系统请求信息
 const systemStore = useSystemStore()
-console.log('🍱[systemStore]:', systemStore.initSystemInfo)
 useSystemFig(systemStore.initSystemInfo())
-useUpdateApp()
 </script>
 
 <style lang="scss">

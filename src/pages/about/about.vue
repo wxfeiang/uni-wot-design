@@ -8,7 +8,7 @@
 
 <template>
   <view
-    class="bg-white overflow-hidden pt-2 px-4"
+    class="bg-blue overflow-hidden pt-2 px-4"
     :style="{ marginTop: safeAreaInsets?.top + 'px' }"
   >
     <dy-title title="这是标题组件"></dy-title>
@@ -22,6 +22,7 @@ import RequestComp from './components/request.vue'
 import UploadComp from './components/upload.vue'
 
 // 获取屏幕边界到安全区域距离
+console.log('🍔', uni.getSystemInfoSync())
 const { safeAreaInsets } = uni.getSystemInfoSync()
 </script>
 

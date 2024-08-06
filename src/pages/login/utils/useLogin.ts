@@ -46,7 +46,6 @@ const Login = (form) => {
         }
         try {
           const data = await sendLogin2(newData.value)
-          console.log('🥘[data]:', data)
           authStore.setUserInfo(data)
           // 跳转到登录后的页面
         } catch (error) {

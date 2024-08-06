@@ -35,7 +35,7 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 ├── .eslintrc-auto-import.json
 ├── .eslintrc.cjs
 ├── .gitignore
-├── .husky
+├── .husky   ------ 规范化提交
 │   ├── \_
 │   │   ├── .gitignore
 │   │   └── husky.sh
@@ -46,13 +46,12 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 ├── .prettierrc.cjs
 ├── .stylelintignore
 ├── .stylelintrc.cjs
-├── .vscode
+├── .vscode   ---- 编辑气必备配置
 │   ├── extensions.json
 │   ├── settings.json
 │   └── vue3.code-snippets
-├── LICENSE
 ├── README.md
-├── env
+├── env    ----- 环境变量
 │   ├── .env
 │   ├── .env.development
 │   ├── .env.production
@@ -65,18 +64,18 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 ├── pnpm-lock.yaml
 ├── src
 │   ├── App.vue
-│   ├── components 自定义组件
+│   ├── components     -----自定义组件
 │   │   ├── .gitkeep
 │   │   ├── dy-title
 │   │   │   └── dy-title.vue
 │   │   └── dy-verify
-│   │   └── dy-verify.vue
-│   ├── enum
+│   │       └── dy-verify.vue
+│   ├── enum   ------枚举基础类型
 │   │   ├── CacheEnum.ts
 │   │   ├── HttpCodeEnum.ts
 │   │   ├── RouteEnum.ts
 │   │   └── constant.ts
-│   ├── enums
+│   ├── enums  ------枚举系统类型
 │   │   ├── appEnum.ts
 │   │   ├── cacheEnum.ts
 │   │   ├── constant.ts
@@ -181,9 +180,13 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 
 ## UI地址
 
-[wot-design 框架](https://wot-design-uni.pages.dev/)
+[unibest 框架](https://codercup.github.io/unibest-docs/)
+
+[wot-design UI库](https://wot-design-uni.pages.dev/)
 
 ## 代码提交相关
+
+pnpm cz
 
 # Commit Message 类型
 
@@ -266,3 +269,9 @@ needLogin: false, // false 表示需要登录 默认不需要配置
 
 - dy-(组件名) ====》文件夹名
   - dy-(组件名) ====》文件名
+
+## css
+
+采用原子类的写法 ,可以使用 @apply
+
+尽量不要单独自定义样式
