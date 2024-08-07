@@ -2,7 +2,7 @@
  * @Description: 自定义上传组件
  * @Date: 2024-08-06 14:55:48
  * @LastEditors: wxfeiang wxfeiang@qq.com
- * @LastEditTime: 2024-08-06 18:13:16
+ * @LastEditTime: 2024-08-07 15:43:29
  * @FilePath: /uni-wot-design/src/components/dy-upload/types.ts
  * Copyright (c) 2024 by ${git_name} email: ${git_email}, All Rights Reserved.
  */
@@ -28,7 +28,7 @@ export type ButtonSize = 'small' | 'medium' | 'large'
 export interface FilesList {
   name: string
   url: string
-  meta: any // 元信息
+  meta?: any // 元信息
 }
 export const uploadProps = {
   /**
@@ -52,7 +52,10 @@ export const uploadProps = {
    *  其他数据
    */
   formData: Object,
-
+  /**
+   *  使用自定义显示 (卡片上传...)
+   */
+  showFileDy: makeBooleanProp(false),
   /**
    *  默认图片只上传1张
    * */

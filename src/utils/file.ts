@@ -1,6 +1,12 @@
 import isEmpty from 'lodash-es/isEmpty'
 import { isArray, isString } from 'wot-design-uni/components/common/util'
 
+interface rightUlrOption {
+  key?: boolean // 标志
+  baseUrl?: string // 基础前缀
+  matchCharacters?: string // 分割字符
+}
+
 /**
  * @description: 拼接图片地址
  * @param {} data 图片list
@@ -26,18 +32,17 @@ export const changeDefaultFileList = (data: string | Array<any>, url: string) =>
 /**
  * @description: 转换出当前系统正确的文件地址
  * @param {} data 原始文件数据
- * @param {} matchCharacters  匹配字符
- * @param {} key false 替换  true 拼接
+ * @instance {} rightUlrOption  额外参数
  * @return {} src
  */
-
-export function rightFileUrl<T>(data: string, matchCharacters?: string, key?: boolean) {
-  const str = matchCharacters || 'XXXXXX'
+export function rightFileUrl(data: string, option: rightUlrOption) {
+  const baseUrl = option.baseUrl || import.meta.env.VITE_FILE_BASRURL
+  const str = option.matchCharacters || 'XXXXXX'
   if (!data) return ''
-  if (key) {
-    return `${import.meta.env.VITE_FILE_BASRURL}${data}`
+  if (option.key) {
+    return `${baseUrl}${data}`
   }
-  return data.replace(str, `${import.meta.env.VITE_FILE_BASRURL}`)
+  return data.replace(str, `${baseUrl}`)
 }
 
 /**

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { changeUploadUrl, rightFileUrl } from '@/utils/file'
 import { FilesList, uploadProps } from './types'
+defineOptions({
+  name: 'dy-upload',
+})
+
 const props = defineProps(uploadProps)
 
 // 额外参数
@@ -14,23 +18,22 @@ const emit = defineEmits<{
 }>()
 
 const fileList = ref<FilesList[]>([])
+const curFileList = ref<FilesList[]>([])
 
 // 初始化文件信息
 const initModelValues = () => {
-  // TODO: 待处理图片为空的情况
-  const arr = props.modelValue.split(',')
-  if (arr.length === 0) return (fileList.value = [])
-  console.log('🍏[arr.length]:', arr.length)
-  const narr = []
-  arr.forEach((item) => {
-    narr.push({
-      url: rightFileUrl(item, '', true),
-      name: item,
-      meta: { url: item, name: item },
+  console.log('🥩', props.defaultAttrs)
+  if (props.modelValue) {
+    const arr = props.modelValue.split(',')
+    const narr = []
+    arr.forEach((item) => {
+      curFileList.value.push({
+        url: rightFileUrl(item, { key: true }),
+        name: item, // 保留原始文件名路径
+      })
     })
-  })
-  fileList.value = narr
-  console.log('🍊[fileList.value ]:', fileList.value)
+    fileList.value = curFileList.value
+  }
 }
 // 初始化监听数据
 watch(
@@ -45,7 +48,7 @@ onMounted(async () => {
 })
 
 // 上传成功后 返回新的地址
-const handleChange1 = (e: any) => {
+const handleChange = (e: any) => {
   const str = changeUploadUrl(e.fileList)
   emit('update:modelValue', str)
 }
@@ -63,7 +66,11 @@ const handleChange1 = (e: any) => {
     :action="props.action"
     :header="props.header"
     :formData="{ ...defaultFormDarta, ...props.formData }"
-    @change="handleChange1"
-  ></wd-upload>
+    @change="handleChange"
+  >
+    <template v-if="props.showFileDy">
+      <slot></slot>
+    </template>
+  </wd-upload>
 </template>
 <style lang="scss" scoped></style>

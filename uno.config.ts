@@ -96,11 +96,20 @@ export default defineConfig({
       }),
     ],
     [
-      /^wh-(\d+)$/,
-      ([, d]) => ({
-        width: `${d}px`,
-        height: `${d}px`,
-      }),
+      /^wh-(full|\d+)(.*)/,
+      ([, d, c]) => {
+        if (d === 'full') {
+          return {
+            width: '100%',
+            height: '100%',
+          }
+        } else {
+          return {
+            width: `${d}${c || 'px'}`,
+            height: `${d}${c || 'px'}`,
+          }
+        }
+      },
     ],
     [
       /^b(t|r|b|l|d)-(.*)/,
