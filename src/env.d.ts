@@ -21,6 +21,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_PROXY_PREFIX: string // 一般是/api
   /** 上传图片地址 */
   readonly VITE_UPLOAD_BASEURL: string
+  /** 文件显示地址前缀 */
+  readonly VITE_FILE_BASRURL: string
   /** 是否清除console */
   readonly VITE_DELETE_CONSOLE: string
 
