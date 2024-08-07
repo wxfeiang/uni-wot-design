@@ -64,3 +64,52 @@ export const changeUploadUrl = (data: Array<any>) => {
     return str
   }
 }
+
+export function getprifileImg(data) {
+  console.log('🥤[data]:', data)
+  return new Promise((resolve) => {
+    // getprifile(data).then((res) => {
+
+    //   const arrayBuffer = new Uint8Array(res.data)
+    //   let base64 = "data:image/png;base64," + uni.arrayBufferToBase64(arrayBuffer)
+    //   resolve(base64)
+    // }).catch(err => {
+    //   resolve(err)
+    // })
+    const url = `${import.meta.env.VITE_FILE_BASRURL}${data}`
+    console.log('🍱[url=========]:', url)
+    resolve(url)
+  })
+}
+
+// this.listData.map(async (e) => {
+//   e.items.forEach((element) => {
+
+//     await getprifile({ path: e.shopLogoUrl }).then((res) => {
+//       let blob = new Blob([res]);
+//       e.shopLogoUrl = window.URL.createObjectURL(blob);
+//     });
+
+//   return e;
+// });
+// const initModelValues = () => {
+//   // TODO: 待处理图片为空的情况
+//   const arr = props.modelValue.split(',')
+//   let narr = []
+//   narr = arr.map((item) => {
+//     return {
+//       url: item,
+//       name: item,
+//       meta: { url: item, name: item },
+//     }
+//   })
+
+//   nextTick(() => {
+//     narr.map(async (item) => {
+//       item.url = await getprifileImg(item.url)
+//       return item
+//     })
+
+//     fileList.value = narr
+//   })
+// }
