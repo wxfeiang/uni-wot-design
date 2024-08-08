@@ -15,7 +15,7 @@ export const useUserStore = defineStore(
     const clearUserInfo = () => {
       userInfo.value = { ...initState }
     }
-    // 一般没有reset需求，不需要的可以删除
+    // 一般没有reset需求，不需要的可以删除 退出后调用
     const reset = () => {
       userInfo.value = { ...initState }
     }
@@ -30,8 +30,9 @@ export const useUserStore = defineStore(
 
     function getAuthorization() {
       // Bearer 服务端已经返回了，可以不用再写
-      return userInfo.value?.token ? { authorization: `Bearer ${userInfo.value?.token}` } : {}
+      return userInfo.value?.token ? { authorization: `${userInfo.value?.token}` } : {}
     }
+
     return {
       userInfo,
       setUserInfo,

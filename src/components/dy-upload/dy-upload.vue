@@ -22,17 +22,25 @@ const curFileList = ref<FilesList[]>([])
 
 // 初始化文件信息
 const initModelValues = () => {
-  console.log('🥩', props.defaultAttrs)
   if (props.modelValue) {
     const arr = props.modelValue.split(',')
-    const narr = []
-    arr.forEach((item) => {
-      curFileList.value.push({
-        url: rightFileUrl(item, { key: true }),
-        name: item, // 保留原始文件名路径
-      })
+    let narr = []
+    narr = arr.map((item) => {
+      return {
+        url: rightFileUrl(item),
+        name: item,
+        meta: { url: item, name: item },
+      }
     })
-    fileList.value = curFileList.value
+
+    nextTick(() => {
+      // narr.map(async (item) => {
+      //   item.url = await getprifileImg(item.url)
+      //   return item
+      // })
+
+      fileList.value = narr
+    })
   }
 }
 // 初始化监听数据
@@ -54,23 +62,39 @@ const handleChange = (e: any) => {
 }
 </script>
 <template>
-  <wd-upload
-    v-bind="props.defaultAttrs"
-    :file-list="fileList"
-    :image-mode="props.imageMode"
-    :limit="props.limit"
-    :multiple="props.multiple"
-    :disabled="props.disabled"
-    :name="props.name"
-    :show-limit-num="props.showFileList"
-    :action="props.action"
-    :header="props.header"
-    :formData="{ ...defaultFormDarta, ...props.formData }"
-    @change="handleChange"
-  >
-    <template v-if="props.showFileDy">
+  <template v-if="props.showFileDy">
+    <wd-upload
+      v-bind="props.defaultAttrs"
+      :file-list="fileList"
+      :image-mode="props.imageMode"
+      :limit="props.limit"
+      :multiple="props.multiple"
+      :disabled="props.disabled"
+      :name="props.name"
+      :show-limit-num="props.showFileList"
+      :action="props.action"
+      :header="props.header"
+      :formData="{ ...defaultFormDarta, ...props.formData }"
+      @change="handleChange"
+    >
       <slot></slot>
-    </template>
-  </wd-upload>
+    </wd-upload>
+  </template>
+  <template v-else>
+    <wd-upload
+      v-bind="props.defaultAttrs"
+      :file-list="fileList"
+      :image-mode="props.imageMode"
+      :limit="props.limit"
+      :multiple="props.multiple"
+      :disabled="props.disabled"
+      :name="props.name"
+      :show-limit-num="props.showFileList"
+      :action="props.action"
+      :header="props.header"
+      :formData="{ ...defaultFormDarta, ...props.formData }"
+      @change="handleChange"
+    ></wd-upload>
+  </template>
 </template>
 <style lang="scss" scoped></style>

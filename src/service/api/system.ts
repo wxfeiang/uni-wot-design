@@ -1,10 +1,15 @@
+import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 import { useRequest } from 'alova'
-const CONFIG = '/captcha/config'
-const CODE = '/captcha/getCode'
-const LOGIN = '/login'
-const RESCONFIG = '/captcha/getResponseConfig'
-const GETDOT = '/system/api/user/getDot'
+const CONFIG = baseUrlApi('/captcha/config')
+const CODE = baseUrlApi('/captcha/getCode')
+const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
+const GETDOT = baseUrlApi('/system/api/user/getDot')
+
+export const PRIVACY_UPLOAD = baseUrlApi('/system/file/minio/privacyUpload')
+export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
+
+export const PRIVACY_FILE_STREAM = baseUrlApi('/system/file/minio/getPrivacyFileStream')
 
 export const getDot = (config: any) => {
   const methodInstance = request.Post(GETDOT)
@@ -30,7 +35,11 @@ export const captchaConfig = (config: any) => {
 
   return useRequest(methodInstance, config)
 }
-
+/**
+ * @description: 获取响应配置
+ * @param {} config
+ * @return {}
+ */
 export const getResponseConfig = (config: any) => {
   const methodInstance = request.Post(RESCONFIG)
   methodInstance.meta = {
@@ -41,7 +50,6 @@ export const getResponseConfig = (config: any) => {
 
   return useRequest(methodInstance, config)
 }
-
 /**
  * 获取验证吗
  * @param params
@@ -65,29 +73,21 @@ export function getCode(config: any) {
   return useRequest(methodInstance, config)
 }
 
-/**
- * 登录
- * @param params
- */
-
-export function login(params: LoginParams, config: any) {
-  return useRequest(request.Post(LOGIN, params), { ...config })
-}
-
-// 列表测试
-
-export const getSpecial = (config: any) => {
+export function getFileParse(data: any, config: any) {
   const methodInstance = request.Post(
-    'product/api/decorationSpecial/getSpecialList',
+    PRIVACY_FILE_STREAM, // 请求地址
     {
-      shopId: '1650686449834549250',
-      applicationId: '1574601415183278081',
+      data,
     },
-    // {
-    //   params: {
-    //     test: 1,
-    //   },
-    // },
+    {
+      responseType: 'arraybuffer', // 配置参数
+    },
   )
+  methodInstance.meta = {
+    // ignoreSign: true,
+    // ignorEencrypt: true,
+    resAll: true,
+  }
+
   return useRequest(methodInstance, config)
 }

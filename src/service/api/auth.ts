@@ -1,6 +1,7 @@
+import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 import { useRequest } from 'alova'
-const LOGIN = '/system/api/helper/productLogin'
+const LOGIN = baseUrlApi('/system/api/helper/productLogin')
 const LOGIN_OUT = '/logout'
 const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'

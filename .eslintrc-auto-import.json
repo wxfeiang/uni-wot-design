@@ -106,6 +106,7 @@
     "useSystem": true,
     "useImageVerify": true,
     "useSystemFig": true,
-    "useUpdateApp": true
+    "useUpdateApp": true,
+    "useFilePase": true
   }
 }

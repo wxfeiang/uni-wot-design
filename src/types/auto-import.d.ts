@@ -88,6 +88,7 @@ declare global {
   const useAttrs: typeof import('vue')['useAttrs']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
+  const useFilePase: typeof import('../hooks/useFilePase')['default']
   const useImageVerify: typeof import('../hooks/useImageVerify')['default']
   const useNavbarWeixin: (typeof import('../hooks/useNavbarWeixin'))['default']
   const useRequest: typeof import('../hooks/useRequest')['default']
@@ -185,6 +186,7 @@ declare module 'vue' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
+    readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
@@ -269,6 +271,7 @@ declare module '@vue/runtime-core' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
+    readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>

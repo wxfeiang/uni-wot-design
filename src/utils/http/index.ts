@@ -7,7 +7,6 @@ import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 import { useSystemStore, useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
 
-import { baseUrl } from '@/utils'
 import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
 import { assign } from 'lodash-es'
 
@@ -24,7 +23,7 @@ const HEADER = {
  */
 
 const alovaInstance = createAlova({
-  baseURL: baseUrl(),
+  // baseURL: baseUrl(), //TODO:多服务配置情况下不需要基本前缀
   ...AdapterUniapp({
     // /* #ifndef APP-PLUS */
     // mockRequest: isUseMock() ? mockAdapter : undefined, // APP 平台无法使用mock
@@ -41,9 +40,11 @@ const alovaInstance = createAlova({
     beforeQuest(method)
     // 默认不是用全局加载状态。。。
     // Loading('加载中...');
-    if (!method.meta?.ignorToken) {
-      method.config.headers = assign(method.config.headers, HEADER, userStore.getAuthorization())
+    let token = {}
+    if (!method?.meta?.ignorToken) {
+      token = userStore.getAuthorization()
     }
+    method.config.headers = assign(method.config.headers, HEADER, token)
   },
 
   responsed: {

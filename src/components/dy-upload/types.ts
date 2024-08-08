@@ -2,11 +2,12 @@
  * @Description: 自定义上传组件
  * @Date: 2024-08-06 14:55:48
  * @LastEditors: wxfeiang wxfeiang@qq.com
- * @LastEditTime: 2024-08-07 15:43:29
+ * @LastEditTime: 2024-08-08 16:15:40
  * @FilePath: /uni-wot-design/src/components/dy-upload/types.ts
  * Copyright (c) 2024 by ${git_name} email: ${git_email}, All Rights Reserved.
  */
 
+import { UPLOAD_FILE } from '@/service/api/system'
 import { useUserStore } from '@/store'
 import { sign } from '@/utils/aes/encryptUtils'
 import type { ExtractPropTypes } from 'vue'
@@ -18,7 +19,8 @@ import {
 
 // const actionUrl = import.meta.env.VITE_UPLOAD_BASEURL
 const fliePrefix = import.meta.env.VITE_UPLOAD_BASEURL
-const actionUrl = 'http://47.99.93.97/v1/base/uploadLocal'
+// const actionUrl = 'http://47.99.93.97/v1/base/uploadLocal'
+const actionUrl = UPLOAD_FILE
 const userStore = useUserStore()
 const header = { sign: sign({ appkey: 'app' }), ...userStore.getAuthorization() }
 
@@ -77,7 +79,7 @@ export const uploadProps = {
   multiple: makeBooleanProp(true),
 
   /**
-   *  默认多图
+   *  默认尺寸
    */
   maxSize: makeNumberProp(2048),
   /**

@@ -35,11 +35,11 @@ export const changeDefaultFileList = (data: string | Array<any>, url: string) =>
  * @instance {} rightUlrOption  额外参数
  * @return {} src
  */
-export function rightFileUrl(data: string, option: rightUlrOption) {
-  const baseUrl = option.baseUrl || import.meta.env.VITE_FILE_BASRURL
-  const str = option.matchCharacters || 'XXXXXX'
+export function rightFileUrl(data: string, option?: rightUlrOption) {
+  const baseUrl = option?.baseUrl || import.meta.env.VITE_FILE_BASRURL
+  const str = option?.matchCharacters || 'XXXXXX'
   if (!data) return ''
-  if (option.key) {
+  if (option?.key) {
     return `${baseUrl}${data}`
   }
   return data.replace(str, `${baseUrl}`)
@@ -48,9 +48,10 @@ export function rightFileUrl(data: string, option: rightUlrOption) {
 /**
  * @description:  上传后最后返回的文件字符串
  * @param {} data 文件组
+ * @param {} key 文件key
  * @return {} url
  */
-export const changeUploadUrl = (data: Array<any>) => {
+export const changeUploadUrl = (data: Array<any>, key?: string) => {
   let str = ''
   if (isEmpty(data)) {
     return str
@@ -59,7 +60,7 @@ export const changeUploadUrl = (data: Array<any>) => {
       .map((i: any, index) => {
         if (i.response) {
           const p = JSON.parse(i.response)
-          return p.data.url
+          return key ? p.data[key] : p.data
         } else {
           return i.name
         }
@@ -71,7 +72,6 @@ export const changeUploadUrl = (data: Array<any>) => {
 }
 
 export function getprifileImg(data) {
-  console.log('🥤[data]:', data)
   return new Promise((resolve) => {
     // getprifile(data).then((res) => {
 
@@ -82,7 +82,7 @@ export function getprifileImg(data) {
     //   resolve(err)
     // })
     const url = `${import.meta.env.VITE_FILE_BASRURL}${data}`
-    console.log('🍱[url=========]:', url)
+
     resolve(url)
   })
 }
