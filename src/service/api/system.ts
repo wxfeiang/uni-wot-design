@@ -80,8 +80,7 @@ export function getCode(config: any) {
  */
 export function getFileParse(data: any, config: any) {
   const methodInstance = request.Post(
-    PRIVACY_FILE_STREAM, // 请求地址
-    data,
+    baseUrlApi('/base/captchaImage'), // 请求地址
     {
       responseType: 'arraybuffer', // 配置参数
     },

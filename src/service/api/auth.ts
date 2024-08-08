@@ -9,7 +9,7 @@ const TEST_TOKEN = '/employee/test'
  * 登录
  * @param params 初始参数()
  */
-export function sysLogin(params: any, config: any) {
+export function sysLogin(config: any) {
   return useRequest((newTodo) => request.Post(LOGIN, newTodo), { ...config })
 }
 /**
