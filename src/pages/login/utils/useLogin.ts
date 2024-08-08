@@ -1,6 +1,6 @@
 import { Constant } from '@/enum/constant'
 
-import { login2, testToken } from '@/service/api/auth'
+import { sysLogin, testToken } from '@/service/api/auth'
 import { useUserStore } from '@/store'
 import { changePassword } from '@/utils/aes/jsencrypt'
 //
@@ -22,13 +22,10 @@ const model = ref({
   co: '',
 })
 
-const { send: sendLogin2 } = login2(
-  {},
-  {
-    immediate: false,
-    loading: false,
-  },
-)
+const { send: sendLogin2 } = sysLogin({
+  immediate: false,
+  loading: false,
+})
 
 const newData = ref({})
 const Login = (form) => {

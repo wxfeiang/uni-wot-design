@@ -7,12 +7,9 @@ const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'
 /**
  * 登录
- * @param params
+ * @param params 初始参数()
  */
-export function login(params: LoginParams) {
-  return request.Post(LOGIN, params)
-}
-export function login2(params: any, config: any) {
+export function sysLogin(params: any, config: any) {
   return useRequest((newTodo) => request.Post(LOGIN, newTodo), { ...config })
 }
 /**

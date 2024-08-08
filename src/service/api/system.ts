@@ -54,7 +54,6 @@ export const getResponseConfig = (config: any) => {
  * 获取验证吗
  * @param params
  */
-
 export function getCode(config: any) {
   const methodInstance = request.Post(
     CODE, // 请求地址
@@ -73,19 +72,23 @@ export function getCode(config: any) {
   return useRequest(methodInstance, config)
 }
 
+/**
+ * @description: 解析加密图片
+ * @param {} data
+ * @param {} config
+ * @return {}
+ */
 export function getFileParse(data: any, config: any) {
   const methodInstance = request.Post(
     PRIVACY_FILE_STREAM, // 请求地址
-    {
-      data,
-    },
+    data,
     {
       responseType: 'arraybuffer', // 配置参数
     },
   )
   methodInstance.meta = {
-    // ignoreSign: true,
-    // ignorEencrypt: true,
+    ignoreSign: true,
+    ignorEencrypt: true,
     resAll: true,
   }
 

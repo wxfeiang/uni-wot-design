@@ -248,6 +248,29 @@ Get(
   );
 ```
 
+```
+带参数 携带额外信息
+export function sysLogin(params: any, config: any) {
+  console.log('🌯[params]:', params)
+  return useRequest(
+    (newTodo) =>
+      request.Post(
+        LOGIN, // 地址
+        newTodo, // 参数
+        {
+          // 其他
+          responseType: 'arraybuffer', // 配置参数
+          meta: {
+            token: '123456',
+          },
+        },
+      ),
+    { ...config },
+  )
+}
+
+```
+
 ## Router
 
 **注意：** 路由方法已经按需加载
