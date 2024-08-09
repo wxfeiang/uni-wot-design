@@ -28,28 +28,34 @@
         "iconPath": "static/tabbar/home.png",
         "selectedIconPath": "static/tabbar/homeHL.png",
         "pagePath": "pages/index/index",
-        "text": "考试"
+        "text": "首页"
       },
       {
         "iconPath": "static/tabbar/example.png",
         "selectedIconPath": "static/tabbar/exampleHL.png",
-        "pagePath": "pages/about/about",
+        "pagePath": "pages/serve/index",
+        "text": "服务"
+      },
+      {
+        "iconPath": "static/tabbar/example.png",
+        "selectedIconPath": "static/tabbar/exampleHL.png",
+        "pagePath": "pages/shop/index",
+        "text": "商城"
+      },
+      {
+        "iconPath": "static/tabbar/example.png",
+        "selectedIconPath": "static/tabbar/exampleHL.png",
+        "pagePath": "pages/mine/index",
         "text": "我的"
       }
     ]
   },
   "pages": [
     {
-      "path": "pages/login/index",
+      "path": "pages/index/index",
       "type": "home",
-      "layout": "default",
-      "needLogin": true,
       "style": {
-        "navigationStyle": "custom",
-        "mp-alipay": {
-          "transparentTitle": "always",
-          "titlePenetrate": "YES"
-        }
+        "navigationStyle": "custom"
       }
     },
     {
@@ -69,11 +75,40 @@
       }
     },
     {
-      "path": "pages/index/index",
+      "path": "pages/login/index",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom",
+        "mp-alipay": {
+          "transparentTitle": "always",
+          "titlePenetrate": "YES"
+        }
+      }
+    },
+    {
+      "path": "pages/mine/index",
       "type": "page",
       "style": {
         "navigationStyle": "custom",
-        "navigationBarTitleText": "首页"
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/serve/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "服务"
+      }
+    },
+    {
+      "path": "pages/shop/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "商城"
       }
     }
   ],

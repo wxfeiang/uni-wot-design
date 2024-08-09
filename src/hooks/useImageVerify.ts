@@ -4,7 +4,7 @@ import { base64Encode } from '@/utils/aes/base64Encode'
 
 // 获取验证码
 const { send: getCodeUrl, onSuccess: codeSuccess } = getCode({
-  immediate: true,
+  immediate: false,
   loading: false,
 })
 const codeImg = ref('')
