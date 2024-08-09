@@ -52,6 +52,7 @@ export function rightFileUrl(data: string, option?: rightUlrOption) {
  * @return {} url
  */
 export const changeUploadUrl = (data: Array<any>, key?: string) => {
+  console.log('🥘[data]:', data)
   let str = ''
   if (isEmpty(data)) {
     return str
@@ -67,6 +68,7 @@ export const changeUploadUrl = (data: Array<any>, key?: string) => {
       })
       .join(',')
     // 最后删除空数据
+    console.log('🥫', str)
     return str
   }
 }

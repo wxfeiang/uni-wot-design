@@ -1,6 +1,7 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 import { useRequest } from 'alova'
+import { METHOD_INSTANCE } from '../model/baseModel'
 const CONFIG = baseUrlApi('/captcha/config')
 const CODE = baseUrlApi('/captcha/getCode')
 const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
@@ -62,12 +63,12 @@ export function getCode(config: any) {
       responseType: 'arraybuffer', // 配置参数
     },
   )
-
-  methodInstance.meta = {
+  const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
   }
+  methodInstance.meta = meta
 
   return useRequest(methodInstance, config)
 }
@@ -80,16 +81,12 @@ export function getCode(config: any) {
  */
 export function getFileParse(data: any, config: any) {
   const methodInstance = request.Post(
-    baseUrlApi('/base/captchaImage'), // 请求地址
+    PRIVACY_FILE_STREAM, // 请求地址
+    data,
     {
       responseType: 'arraybuffer', // 配置参数
     },
   )
-  methodInstance.meta = {
-    ignoreSign: true,
-    ignorEencrypt: true,
-    resAll: true,
-  }
 
   return useRequest(methodInstance, config)
 }
