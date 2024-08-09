@@ -141,7 +141,7 @@ const msg = ref([
                 class="absolute top-4px left-[-2px] wh-5px rounded-50% bg-red"
               ></view>
             </view>
-            <view class="end-time truncate-1">{{ item.content }}</view>
+            <view class="truncate-1">{{ item.content }}</view>
           </view>
         </template>
       </wd-cell>
@@ -158,7 +158,26 @@ const msg = ref([
     <dy-title title="服务专区"></dy-title>
     <view class="bg-#f5f5f5">asdasd</view>
   </view>
+  <!-- 办事指南 -->
+  <wd-gap bg-color="#f5f5f5"></wd-gap>
+  <view class="pl-20px py-10px">
+    <dy-title title="办事指南"></dy-title>
+    <view class="py-10px h-120px">
+      <wd-img :width="350" :height="120" :src="cardUrl" />
+    </view>
+    <wd-cell-group border>
+      <wd-cell v-for="(item, index) in msg" :key="index" :to="item.url" custom-class="cell-item">
+        <template #title>
+          <view class="truncate-1 color-#000">{{ item.content }}</view>
+        </template>
+        <template>
+          <view class="truncate-1 color-#999">2020-02-24</view>
+        </template>
+      </wd-cell>
+    </wd-cell-group>
+  </view>
 </template>
+
 <style>
 .main-title-color {
   color: #e48370;
@@ -172,6 +191,6 @@ const msg = ref([
   @apply w-auto! h-auto!;
 }
 :deep(.cell-item) {
-  @apply pl-0;
+  @apply pl-0!;
 }
 </style>
