@@ -8,6 +8,7 @@
 </route>
 
 <script lang="ts" setup>
+import { routeTo } from '@/utils'
 import PLATFORM from '@/utils/platform'
 
 defineOptions({
@@ -99,6 +100,9 @@ const swiperList = ref([
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
 ])
 const current = ref<number>(0)
+function swiperClick() {
+  routeTo({ url: '/pages-sub/serveMain/index' })
+}
 
 const serveList = ref([
   {
@@ -233,6 +237,7 @@ onPageScroll((e) => {
       :current="0"
       :height="120"
       :indicator="false"
+      @click="swiperClick"
     ></wd-swiper>
   </view>
 
