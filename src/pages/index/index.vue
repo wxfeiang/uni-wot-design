@@ -8,9 +8,14 @@
 </route>
 
 <script lang="ts" setup>
+import PLATFORM from '@/utils/platform'
+
 defineOptions({
   name: 'Index',
 })
+const { safeAreaInsets } = uni.getSystemInfoSync()
+
+// H5 的情况下要 -44
 
 const topAction = ref([
   {
@@ -35,32 +40,37 @@ const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
 
 const mainData = ref([
   {
-    title: '我的卡包',
+    title: '社保查询',
     icon: 'card',
     url: cardUrl,
   },
   {
-    title: '我的订单',
+    title: '雄安缴费通',
     icon: 'order',
     url: cardUrl,
   },
   {
-    title: '我的收藏',
+    title: '雄安乐伯',
     icon: 'star',
     url: cardUrl,
   },
   {
-    title: '我的优惠券',
+    title: '雄安甄选',
     icon: 'coupon',
     url: cardUrl,
   },
   {
-    title: '我的优惠券',
+    title: '图书借阅',
     icon: 'coupon',
     url: cardUrl,
   },
   {
-    title: '我的优惠券',
+    title: '金融超市',
+    icon: 'coupon',
+    url: cardUrl,
+  },
+  {
+    title: '更多',
     icon: 'coupon',
     url: cardUrl,
   },
@@ -80,12 +90,80 @@ const msg = ref([
     url: '',
   },
 ])
+
+const swiperList = ref([
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/redpanda.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/capybara.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/panda.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/moon.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
+])
+const current = ref<number>(0)
+
+const serveList = ref([
+  {
+    title: '校园服务',
+    url: '',
+  },
+  {
+    title: '校园服务',
+    url: '',
+  },
+  {
+    title: '校园服务',
+    url: '',
+  },
+  {
+    title: '校园服务',
+    url: '',
+  },
+  {
+    title: '校园服务',
+    url: '',
+  },
+])
+
+function serveGuild() {}
+
+const navTop = ref(safeAreaInsets.top + 40)
+onMounted(() => {
+  if (PLATFORM.isH5) {
+    navTop.value = navTop.value - 44
+  }
+})
+
+// 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
+const navbg = ref('nav_show')
+onPageScroll((e) => {
+  if (e.scrollTop > 50) {
+    navbg.value = 'nav_hide'
+  } else {
+    navbg.value = 'nav_show'
+  }
+})
 </script>
 <template>
   <!-- 顶部 -->
-  <view class="bg-blue">
-    <wd-navbar safeAreaInsetTop placeholder></wd-navbar>
-    <wd-search placeholder-left placeholder="请输入关键词搜索" hide-cancel disabled light />
+  <view class="bg-blue pb-20px">
+    <wd-navbar
+      safeAreaInsetTop
+      placeholder
+      fixed
+      :custom-class="navbg"
+      :bordered="false"
+    ></wd-navbar>
+    <wd-sticky :offset-top="navTop">
+      <view class="w-100vw">
+        <wd-search
+          placeholder-left
+          placeholder="请输入关键词搜索"
+          hide-cancel
+          disabled
+          :custom-class="navbg"
+        />
+      </view>
+    </wd-sticky>
+
     <view class="p-10px flex justify-between">
       <view
         v-for="(item, index) in topAction"
@@ -100,7 +178,7 @@ const msg = ref([
 
   <!-- 入口类表 -->
 
-  <view class="mt-[-10px] overflow-hidden rounded-t-10px p-10px bg-red">
+  <view class="mt-[-10px] overflow-hidden rounded-t-10px p-10px bg-#fff">
     <wd-grid :column="4">
       <wd-grid-item
         use-icon-slot
@@ -149,48 +227,71 @@ const msg = ref([
   </view>
   <!-- 广告位 -->
   <view class="px-20px py-10px bg-#f5f5f5 h-120px">
-    <wd-img :width="350" :height="120" :src="cardUrl" />
+    <wd-swiper
+      :list="swiperList"
+      autoplay
+      :current="0"
+      :height="120"
+      :indicator="false"
+    ></wd-swiper>
   </view>
 
   <!-- 服务专区 -->
 
   <view class="px-20px py-10px">
     <dy-title title="服务专区"></dy-title>
-    <view class="bg-#f5f5f5">asdasd</view>
+    <view>
+      <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% pr-20px">
+        <view
+          class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px"
+          v-for="(item, index) in serveList"
+          :key="index"
+        >
+          <view class="font-bold color-white font-size-16px line-height-40px">
+            {{ item.title }}
+          </view>
+        </view>
+      </scroll-view>
+    </view>
   </view>
   <!-- 办事指南 -->
   <wd-gap bg-color="#f5f5f5"></wd-gap>
-  <view class="pl-20px py-10px">
-    <dy-title title="办事指南"></dy-title>
-    <view class="py-10px h-120px">
-      <wd-img :width="350" :height="120" :src="cardUrl" />
+  <view class="px-20px py-10px">
+    <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
+    <view class="p-10px h-120px">
+      <wd-img :width="100" :height="120" :src="cardUrl" custom-class="custom-class-img" />
     </view>
+  </view>
+  <view class="pl-20px">
     <wd-cell-group border>
       <wd-cell v-for="(item, index) in msg" :key="index" :to="item.url" custom-class="cell-item">
         <template #title>
           <view class="truncate-1 color-#000">{{ item.content }}</view>
         </template>
-        <template>
-          <view class="truncate-1 color-#999">2020-02-24</view>
-        </template>
+
+        <view class="truncate-1 color-#999">2020-02-24</view>
       </wd-cell>
     </wd-cell-group>
   </view>
+  <wd-gap bg-color="#f5f5f5"></wd-gap>
 </template>
 
 <style>
-.main-title-color {
-  color: #e48370;
+:deep(.nav_show) {
+  @apply bg-transparent!;
 }
-.slot-img {
-  width: 42px;
-  height: 42px;
-  border-radius: 4px;
+:deep(.nav_hide) {
+  @apply bg-blue!;
 }
+
 :deep(.grid-item .wd-grid-item__wrapper) {
-  @apply w-auto! h-auto!;
+  @apply size-auto!;
 }
 :deep(.cell-item) {
   @apply pl-0!;
+}
+
+:deep(.custom-class-img) {
+  @apply size-full!;
 }
 </style>
