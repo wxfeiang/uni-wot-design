@@ -101,6 +101,7 @@ const swiperList = ref([
 ])
 const current = ref<number>(0)
 function swiperClick() {
+  console.log('🍏')
   routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
@@ -183,13 +184,14 @@ onPageScroll((e) => {
   <!-- 入口类表 -->
 
   <view class="mt-[-10px] overflow-hidden rounded-t-10px p-10px bg-#fff">
-    <wd-grid :column="4">
+    <wd-grid :column="4" clickable>
       <wd-grid-item
         use-icon-slot
         use-text-slot
         v-for="(item, index) in mainData"
         :key="index"
         custom-class="grid-item"
+        @itemclick="swiperClick"
       >
         <template #icon>
           <image class="wh-42px rounded-10px" :src="item.url" />

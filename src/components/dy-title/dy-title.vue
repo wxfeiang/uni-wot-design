@@ -15,14 +15,21 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  customClass: {
+    type: String,
+    default: '',
+  },
 })
 const toMore = () => {
   emit('moreClick', '')
 }
+onMounted(() => {
+  console.log('🥫', props.customClass)
+})
 </script>
 
 <template>
-  <view class="flex items-center">
+  <view :class="`flex items-center ${props.customClass}`">
     <view v-if="props.border" class="w-2px h-20px mr-10px bg-blue"></view>
     <view class="font-bold">{{ props.title }}</view>
     <view v-if="props.more" class="ml-auto text-blueGray text-12px" @click.stop="toMore">

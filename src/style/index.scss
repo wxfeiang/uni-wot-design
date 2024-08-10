@@ -8,6 +8,14 @@
   color: red;
 }
 
+.nav_bg {
+  color: var(--color-nav-text);
+  background-color: var(--color-nav-bg);
+}
+:deep(.nav_bg) {
+  color: var(--color-nav-text);
+  background-color: var(--color-nav-bg);
+}
 :root,
 page {
   font-family: 'San Francisco', Rotobo, arial, 'PingFang SC', 'Noto SansCJK', 'Microsoft Yahei',
@@ -18,4 +26,9 @@ page {
 
   // 修改按钮背景色
   // --wot-button-primary-bg-color: green;
+
+  // 统一固定导航栏背景色
+  --color-nav-bg: #1890ff !important;
+  //统一固定导航栏字体颜色
+  --color-nav-text: #fff !important;
 }

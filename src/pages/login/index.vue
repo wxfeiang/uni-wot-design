@@ -43,6 +43,9 @@ const otherLogins = ref([
 const toRegister = () => {
   console.log('🍯')
 }
+function toAgereement(type) {
+  routeTo({ url: '/pages-sub/components/webView/index', data: { type } })
+}
 </script>
 <template>
   <view class="h-40 top pt-8 box-border">
@@ -116,7 +119,7 @@ const toRegister = () => {
         <view class="px-8 py-1">
           <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
             已阅读并同意
-            <text class="color-#4d80f0">《在线考试及相关授权》</text>
+            <text class="color-#4d80f0" @click.stop="toAgereement(5)">《在线考试及相关授权》</text>
           </wd-checkbox>
         </view>
       </view>

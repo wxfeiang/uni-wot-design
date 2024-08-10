@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   style: {
-    navigationBarTitleText: '卡管理',
+    navigationBarTitleText: '卡管理kk',
     backgroundColor: '#fff',
     navigationBarBackgroundColor: '#fff',
     navigationBarTextStyle: 'black',
@@ -10,6 +10,8 @@
 </route>
 
 <script lang="ts" setup>
+import { routeTo } from '@/utils'
+
 const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
 
 const mainData = ref([
@@ -19,7 +21,7 @@ const mainData = ref([
     url: cardUrl,
   },
   {
-    title: '雄安缴费通',
+    title: '申请',
     icon: 'order',
     url: cardUrl,
   },
@@ -49,6 +51,15 @@ const mainData = ref([
     url: cardUrl,
   },
 ])
+
+function gridClick(item: any) {
+  console.log('🍝')
+  if (item.title === '申请') {
+    routeTo({ url: '/pages-sub/serveMain/cardApplyType' })
+  } else {
+    routeTo({ url: '/pages-sub/serveMain/cardFromType' })
+  }
+}
 </script>
 
 <template>
@@ -56,13 +67,14 @@ const mainData = ref([
   <view class="p-10px">
     <dy-title title="申领"></dy-title>
     <view class="overflow-hidden rounded-t-10px p-10px bg-#fff">
-      <wd-grid :column="4">
+      <wd-grid :column="4" clickable>
         <wd-grid-item
           use-icon-slot
           use-text-slot
           v-for="(item, index) in mainData"
           :key="index"
           custom-class="grid-item"
+          @itemclick="gridClick(item)"
         >
           <template #icon>
             <image class="wh-42px rounded-10px" :src="item.url" />
@@ -78,13 +90,14 @@ const mainData = ref([
   <view class="p-10px">
     <dy-title title="雄安一卡通服务"></dy-title>
     <view class="overflow-hidden rounded-t-10px p-10px bg-#fff">
-      <wd-grid :column="4">
+      <wd-grid :column="4" clickable>
         <wd-grid-item
           use-icon-slot
           use-text-slot
           v-for="(item, index) in mainData"
           :key="index"
           custom-class="grid-item"
+          @itemClick="gridClick(item)"
         >
           <template #icon>
             <image class="wh-42px rounded-10px" :src="item.url" />
