@@ -104,7 +104,10 @@ export default {
 :deep(.custom-text) {
   @apply mb-10px!;
 }
+
+// /* #ifdef */
 :deep(.custom-text span) {
   @apply pl-40px!;
 }
+// /* #endif */
 </style>

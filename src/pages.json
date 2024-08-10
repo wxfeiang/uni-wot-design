@@ -155,6 +155,21 @@
           }
         }
       ]
+    },
+    {
+      "root": "pages-sub/serveMassage",
+      "pages": [
+        {
+          "path": "businessOutlets/index",
+          "type": "page",
+          "style": {
+            "navigationBarTitleText": "服务网点",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        }
+      ]
     }
   ]
 }

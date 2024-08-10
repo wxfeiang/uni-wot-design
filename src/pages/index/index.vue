@@ -105,6 +105,11 @@ function swiperClick() {
   routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
+function toBusinessOutlets() {
+  console.log('🍏')
+  routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
+}
+
 const serveList = ref([
   {
     title: '校园服务',
@@ -265,7 +270,7 @@ onPageScroll((e) => {
   <wd-gap bg-color="#f5f5f5"></wd-gap>
   <view class="px-20px py-10px">
     <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
-    <view class="p-10px h-120px">
+    <view class="p-10px h-120px" @click="toBusinessOutlets">
       <wd-img :width="100" :height="120" :src="cardUrl" custom-class="custom-class-img" />
     </view>
   </view>

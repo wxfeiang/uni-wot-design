@@ -115,6 +115,9 @@ export default defineManifestConfig({
     setting: {
       urlCheck: false,
     },
+    makePhoneCall: {
+      desc: '用于拨打电话',
+    },
     usingComponents: true,
     // __usePrivacyCheck__: true,
   },
