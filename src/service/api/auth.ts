@@ -23,8 +23,11 @@ export function testToken() {
 /**
  * 登出
  */
-export function logout() {
-  return request.Post(LOGIN_OUT, {})
+/**
+ * 登出
+ */
+export function logout(config: any) {
+  return useRequest(request.Post(LOGIN_OUT), { ...config })
 }
 
 /**

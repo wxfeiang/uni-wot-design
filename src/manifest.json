@@ -87,7 +87,10 @@
     "setting": {
       "urlCheck": false
     },
-    "usingComponents": true
+    "usingComponents": true,
+    "makePhoneCall": {
+      "desc": "用于拨打电话"
+    }
   },
   "mp-alipay": {
     "usingComponents": true,

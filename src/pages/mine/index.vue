@@ -1,59 +1,113 @@
-<!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
 <route lang="json5">
 {
   style: {
     navigationStyle: 'custom',
-    navigationBarTitleText: '我的',
   },
 }
 </route>
-<template>
-  <view
-    class="bg-white overflow-hidden pt-2 px-4"
-    :style="{ marginTop: safeAreaInsets?.top + 'px' }"
-  >
-    <view class="mt-12">
-      <image src="/static/logo.svg" alt="" class="w-28 h-28 block mx-auto" />
-    </view>
-    <view class="text-center text-4xl main-title-color truncate">unibest</view>
-    <view class="text-center text-2xl mt-2 mb-8">最好用的 uniapp 开发模板</view>
+<script lang="ts" setup>
+import useInfo from './hooks/useInfo'
 
-    <view class="text-justify max-w-100 m-auto text-4 indent mb-2 truncate-2">
-      {{ description }}
-    </view>
-    <view class="text-center mt-8">
-      当前平台是：
-      <text class="text-green-500">{{ PLATFORM.platform }}</text>
-    </view>
-    <view class="text-center mt-4">
-      模板分支是：
-      <text class="text-green-500">base</text>
-    </view>
-    <wd-button type="error">危险按钮</wd-button>
+import { useUserStore } from '@/store/user'
+import { routeTo } from '@/utils'
+import { useMessage } from 'wot-design-uni'
+const anvter = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
+const { introduces, statistics, setInfo, LogOut, loading } = useInfo()
+const { isLogined, userInfo } = storeToRefs(useUserStore())
+const message = useMessage()
+function login() {
+  routeTo({ url: '/pages/login/index' })
+}
+function logoutCimfirm() {
+  message
+    .confirm({
+      msg: '确定退出系统吗？',
+      title: '提示',
+    })
+    .then(() => {
+      LogOut()
+    })
+}
+function topAction() {
+  console.log('🍬------')
+}
+</script>
+<template>
+  <!-- 顶部 -->
+  <view class="bg-blue pb-20px">
+    <wd-navbar safeAreaInsetTop custom-class="navbg" :bordered="false"></wd-navbar>
+
+    <!-- <view class="p-10px flex justify-between">
+      <view
+        v-for="(item, index) in topAction"
+        :key="index"
+        class="w-20% text-center bd-dashed_#1890ff color-#fff"
+      >
+        <view>{{ item.icon }}</view>
+        <view>{{ item.text }}</view>
+      </view>
+    </view> -->
   </view>
+  <view class="mt-10px bg-white p-20px shadow rounded-10px w-80% mx-auto">
+    <view class="flex items-center gap-10px">
+      <template v-if="isLogined">
+        <view class="p-10px bg-#fff">
+          <wd-img :width="60" :height="60" :src="userInfo.avatar" round />
+        </view>
+
+        <view>
+          <view class="font-bold">{{ 'ss' }}</view>
+          <view class="text-gray-400 font-size-12px mt-5px">在线练习</view>
+        </view>
+      </template>
+      <template v-else>
+        <view>
+          <wd-img :width="60" :height="60" :src="anvter" round />
+        </view>
+        <view @click="login">
+          <view class="font-bold">未登录</view>
+        </view>
+      </template>
+    </view>
+
+    <view class="flex gap-10px mt-20px">
+      <template v-for="(item, index) in introduces" :key="index">
+        <view class="flex-1 px-6px py-10px bg-amber-100 rounded-5px">
+          <view class="font-bold font-size-14px">{{ item.name }}</view>
+          <view class="flex justify-between text-gray-400 font-size-12px mt-10px">
+            {{ item.desc }}
+            <wd-icon :name="item.icon" />
+          </view>
+        </view>
+      </template>
+    </view>
+  </view>
+  <view class="flex gap-10px p-5px mt-10px">
+    <template v-for="(item, index) in statistics" :key="index">
+      <view class="flex-1 p-10px text-center">
+        <view class="font-bold line-height-20px font-size-18px">{{ item.num }}</view>
+        <view class="font-size-12px line-height-20px">{{ item.name }}</view>
+        <view class="font-size-12px">
+          {{ item.desc }}
+          <text class="color-sky">{{ item.reight }}</text>
+        </view>
+      </view>
+    </template>
+  </view>
+  <wd-gap bg-color="#F3F7F8"></wd-gap>
+
+  <wd-cell-group border>
+    <template v-for="(item, index) in setInfo" :key="index">
+      <wd-cell :title="item.name" is-link :icon="item.icon" />
+    </template>
+  </wd-cell-group>
+  <wd-gap bg-color="#F3F7F8"></wd-gap>
+  <template v-if="isLogined">
+    <view class="px-10 bg-#F3F7F8">
+      <wd-button block type="error" @click="logoutCimfirm">退出登录</wd-button>
+    </view>
+    <wd-gap bg-color="#F3F7F8"></wd-gap>
+  </template>
 </template>
 
-<script lang="ts" setup>
-import PLATFORM from '@/utils/platform'
-
-defineOptions({
-  name: 'Home',
-})
-
-// 获取屏幕边界到安全区域距离
-const { safeAreaInsets } = uni.getSystemInfoSync()
-const author = ref('wxfeiang')
-const description = ref(
-  'unibest 是一个集成了多种工具和技术的 uniapp 开发模板，由 uniapp + Vue3 + Ts + Vite4 + UnoCss + UniUI + VSCode 构建，模板具有代码提示、自动格式化、统一配置、代码片段等功能，并内置了许多常用的基本组件和基本功能，让你编写 uniapp 拥有 best 体验。',
-)
-
-onLoad(() => {
-  console.log(author)
-})
-</script>
-
-<style>
-.main-title-color {
-  color: #d14328;
-}
-</style>
+<style lang="scss" scoped></style>
