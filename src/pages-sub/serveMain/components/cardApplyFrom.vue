@@ -48,10 +48,8 @@ const wotUpAttrs = {
         </view>
       </wd-form>
     </view>
-
     <view class="mt-10px">
       <wd-text type="warning" text="温馨提示:"></wd-text>
-
       请保持证件边框与图片边框基本一致
     </view>
     <view class="mt-20px">
