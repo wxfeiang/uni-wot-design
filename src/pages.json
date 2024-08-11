@@ -116,6 +116,15 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
+          "path": "cardApplyFromType",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "cardApplyType",
           "type": "page",
           "layout": "default",
@@ -185,19 +194,6 @@
           "path": "workGuide/index",
           "type": "home",
           "needLogin": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        }
-      ]
-    },
-    {
-      "root": "pages-sub/webView",
-      "pages": [
-        {
-          "path": "index",
-          "type": "page",
-          "layout": "default",
           "style": {
             "navigationStyle": "custom"
           }

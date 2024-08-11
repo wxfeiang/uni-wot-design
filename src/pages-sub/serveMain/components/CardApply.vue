@@ -17,6 +17,10 @@ const showData = ref<any>({})
 function toAgereement(type) {
   routeTo({ url: '/pages-sub/webView/index', data: { type } })
 }
+function toAgereement2(type) {
+  console.log('🍥', type)
+  routeTo({ url: '/pages-sub/serveMain/cardApplyFromType', data: { type } })
+}
 
 const footerBtns = ref([
   {
@@ -84,6 +88,7 @@ onLoad((e: any) => {
               block
               :size="item.size"
               :type="item.type"
+              @click="toAgereement2(2)"
             >
               {{ item.text }}
             </wd-button>
