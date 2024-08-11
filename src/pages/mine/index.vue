@@ -10,9 +10,10 @@ import useInfo from './hooks/useInfo'
 
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
+import { storeToRefs } from 'pinia'
 import { useMessage } from 'wot-design-uni'
 const anvter = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
-const { introduces, statistics, setInfo, LogOut, loading } = useInfo()
+const { setInfo, LogOut, loading } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 function login() {
@@ -31,83 +32,78 @@ function logoutCimfirm() {
 function topAction() {
   console.log('🍬------')
 }
+
+const { safeAreaInsets } = uni.getSystemInfoSync()
+
+const navtop = ref(0)
+navtop.value = safeAreaInsets.top + 44
+console.log('🍏', navtop.value)
 </script>
 <template>
   <!-- 顶部 -->
-  <view class="bg-blue pb-20px">
-    <wd-navbar safeAreaInsetTop custom-class="navbg" :bordered="false"></wd-navbar>
-
-    <!-- <view class="p-10px flex justify-between">
-      <view
-        v-for="(item, index) in topAction"
-        :key="index"
-        class="w-20% text-center bd-dashed_#1890ff color-#fff"
-      >
-        <view>{{ item.icon }}</view>
-        <view>{{ item.text }}</view>
-      </view>
-    </view> -->
-  </view>
-  <view class="mt-10px bg-white p-20px shadow rounded-10px w-80% mx-auto">
-    <view class="flex items-center gap-10px">
-      <template v-if="isLogined">
-        <view class="p-10px bg-#fff">
-          <wd-img :width="60" :height="60" :src="userInfo.avatar" round />
-        </view>
-
-        <view>
-          <view class="font-bold">{{ 'ss' }}</view>
-          <view class="text-gray-400 font-size-12px mt-5px">在线练习</view>
-        </view>
-      </template>
-      <template v-else>
-        <view>
-          <wd-img :width="60" :height="60" :src="anvter" round />
-        </view>
-        <view @click="login">
-          <view class="font-bold">未登录</view>
-        </view>
-      </template>
-    </view>
-
-    <view class="flex gap-10px mt-20px">
-      <template v-for="(item, index) in introduces" :key="index">
-        <view class="flex-1 px-6px py-10px bg-amber-100 rounded-5px">
-          <view class="font-bold font-size-14px">{{ item.name }}</view>
-          <view class="flex justify-between text-gray-400 font-size-12px mt-10px">
-            {{ item.desc }}
-            <wd-icon :name="item.icon" />
+  <view class="py-20px bg-#1890ff" :style="`padding-top:${navtop}px`">
+    <view class="text-center color-#fff">我的</view>
+    <view class="p-20px">
+      <view class="flex items-center gap-15px">
+        <template v-if="isLogined">
+          <view class="p-5px bg-#fff rounded-50% size-70px">
+            <wd-img :width="70" :height="70" :src="userInfo.avatar" round />
           </view>
-        </view>
-      </template>
+
+          <view>
+            <view class="font-bold color-#fff">{{ 'ss' }}</view>
+          </view>
+        </template>
+        <template v-else>
+          <view class="p-5px bg-#fff rounded-50% size-70px">
+            <wd-img :width="70" :height="70" :src="anvter" round />
+          </view>
+          <view @click="login">
+            <view class="font-bold color-#fff">未登录</view>
+          </view>
+        </template>
+      </view>
     </view>
   </view>
-  <view class="flex gap-10px p-5px mt-10px">
-    <template v-for="(item, index) in statistics" :key="index">
-      <view class="flex-1 p-10px text-center">
-        <view class="font-bold line-height-20px font-size-18px">{{ item.num }}</view>
-        <view class="font-size-12px line-height-20px">{{ item.name }}</view>
-        <view class="font-size-12px">
-          {{ item.desc }}
-          <text class="color-sky">{{ item.reight }}</text>
-        </view>
-      </view>
-    </template>
-  </view>
-  <wd-gap bg-color="#F3F7F8"></wd-gap>
 
-  <wd-cell-group border>
-    <template v-for="(item, index) in setInfo" :key="index">
-      <wd-cell :title="item.name" is-link :icon="item.icon" />
-    </template>
-  </wd-cell-group>
+  <wd-gap bg-color="#F3F7F8"></wd-gap>
+  <view class="p-10px bg-#f5f5f5">
+    <view class="rounded-10px overflow-hidden">
+      <wd-cell-group border>
+        <template v-for="(item, index) in setInfo" :key="index">
+          <wd-cell :title="item.name" is-link>
+            <template #icon v-if="item.icon">
+              <view class="mr-10px">
+                <wd-icon name="setting1" size="22px" color="#0083ff"></wd-icon>
+              </view>
+            </template>
+            <view class="color-#999">
+              {{ item.rightValue }}
+            </view>
+          </wd-cell>
+        </template>
+      </wd-cell-group>
+    </view>
+  </view>
+
   <wd-gap bg-color="#F3F7F8"></wd-gap>
   <template v-if="isLogined">
-    <view class="px-10 bg-#F3F7F8">
-      <wd-button block type="error" @click="logoutCimfirm">退出登录</wd-button>
+    <view class="px-10 bg-#1890ff">
+      <wd-button block plain @click="logoutCimfirm">退出登录</wd-button>
     </view>
     <wd-gap bg-color="#F3F7F8"></wd-gap>
   </template>
+  <template v-else>
+    <view class="fixed bottom-120px left-0 right-0">
+      <view class="px-10">
+        <wd-button block :round="false" plain hairline @click="login">立即登录</wd-button>
+      </view>
+    </view>
+  </template>
 </template>
 
-<style lang="scss" scoped></style>
+<style scoped>
+page {
+  background: #f5f5f5;
+}
+</style>

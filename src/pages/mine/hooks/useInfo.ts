@@ -1,64 +1,14 @@
 import { logout } from '@/service/api/auth'
 import { useUserStore } from '@/store/user'
-const introduces = ref([
-  {
-    name: '精简500题',
-    desc: '不过补偿',
-    icon: 'list',
-  },
-  {
-    name: '考前两小时',
-    desc: '临阵抹枪',
-    icon: 'list',
-  },
-  {
-    name: '考前冲刺',
-    desc: '最后冲刺',
-    icon: 'list',
-  },
-])
-const statistics = ref([
-  {
-    name: '累计答题数',
-    num: 5,
-    desc: '正确率',
-    reight: '60%',
-  },
-  {
-    name: '考试平均分',
-    num: 5,
-    desc: '累计考试',
-    reight: '60%',
-  },
-  {
-    name: '考试平均分',
-    num: 5,
-    desc: '累计考试',
-    reight: '60%',
-  },
-])
 
 const setInfo = ref([
   {
-    name: '报名考试',
-    icon: 'computer',
+    name: '我的社保卡',
   },
   {
-    name: '我的收藏',
+    name: '设置',
     icon: 'star',
-  },
-  {
-    name: '关于我们',
-    icon: 'setting',
-  },
-
-  {
-    name: '客服',
-    icon: 'chat',
-  },
-  {
-    name: '撤回协议',
-    icon: 'list',
+    rightValue: '设置小程序服务',
   },
 ])
 
@@ -77,8 +27,6 @@ const LogOut = async () => {
 }
 export default () => {
   return {
-    introduces,
-    statistics,
     setInfo,
     LogOut,
     loading,

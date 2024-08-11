@@ -49,7 +49,8 @@ const mainData = ref([
     title: '医保查询',
     icon: 'card',
     url: cardUrl,
-    lable: '兰州市城关区高欣大厦',
+    lable:
+      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
     longitude: 223.123,
     latitude: 2332.323,
     distance: '120米',
@@ -95,22 +96,23 @@ function toLocation(e) {
         :key="index"
         :to="item.url"
         custom-class="cell-item"
+        title-width="70%"
       >
         <template #icon>
           <view
             class="cell-icon mt-10px mr-10px p-4px bg-blue size-20px color-#fff text-center rounded-4px"
           >
-            建
+            {{ item.title[0] }}
           </view>
         </template>
         <template #title>
           <view class="truncate-1 color-#000">{{ item.title }}</view>
         </template>
         <template #label>
-          <view class="truncate-1 color-#999">{{ item.lable }}</view>
+          <view class="color-#999 truncate-3">地址: {{ item.lable }}</view>
         </template>
 
-        <view>
+        <view class="pt-10px">
           <view class="truncate-1 color-#999">距离 : {{ item.distance }}</view>
           <view class="flex gap-20px justify-end mt-4px">
             <view class="flex flex-col items-center" @click="toLocation(item)">
