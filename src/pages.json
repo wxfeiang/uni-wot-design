@@ -119,6 +119,7 @@
           "path": "cardApplyType",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -127,6 +128,7 @@
           "path": "cardFromType",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -134,8 +136,9 @@
         {
           "path": "index",
           "type": "page",
+          "needLogin": true,
           "style": {
-            "navigationBarTitleText": "卡管理kk",
+            "navigationBarTitleText": "服务中心",
             "backgroundColor": "#fff",
             "navigationBarBackgroundColor": "#fff",
             "navigationBarTextStyle": "black"
@@ -161,11 +164,20 @@
         {
           "path": "businessOutlets/index",
           "type": "page",
+          "needLogin": true,
           "style": {
             "navigationBarTitleText": "服务网点",
             "backgroundColor": "#fff",
             "navigationBarBackgroundColor": "#fff",
             "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "workGuide/index",
+          "type": "home",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
           }
         }
       ]

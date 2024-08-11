@@ -15,7 +15,8 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/index" |
        "/pages-sub/cadManager/index" |
-       "/pages-sub/serveMassage/businessOutlets/index";
+       "/pages-sub/serveMassage/businessOutlets/index" |
+       "/pages-sub/serveMassage/workGuide/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

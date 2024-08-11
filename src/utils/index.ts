@@ -74,6 +74,7 @@ export const getUrlObj = (url: string) => {
  * @return {} 如果没有传 key，则表示所有的pages，如果传递了 key, 则表示通过 key 过滤
  */
 export const getAllPages = (key = 'needLogin') => {
+  // FIX:对权限页面取反
   // 这里处理主包
   const mainPages = [
     ...pages
@@ -87,12 +88,12 @@ export const getAllPages = (key = 'needLogin') => {
   ]
   // 这里处理分包
   const subPages: any[] = []
-  subPackages.forEach((subPageObj) => {
-    // console.log(subPageObj)
-    const { root } = subPageObj
 
+  subPackages.forEach((subPageObj) => {
+    const { root } = subPageObj
+    subPageObj.pages.forEach((page) => {})
     subPageObj.pages
-      .filter((page) => !key || page[key])
+      .filter((page) => !(!key || page[key]))
       .forEach((page: { path: string } & Record<string, any>) => {
         subPages.push({
           ...page,
@@ -100,6 +101,7 @@ export const getAllPages = (key = 'needLogin') => {
         })
       })
   })
+  console.log('🍟', subPages)
   const result = [...mainPages, ...subPages]
   console.log(`getAllPages by ${key} result: `, result)
   return result

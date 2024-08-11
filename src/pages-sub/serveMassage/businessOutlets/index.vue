@@ -1,5 +1,6 @@
 <route lang="json5" type="page">
 {
+  needLogin: true,
   style: {
     navigationBarTitleText: '服务网点',
     backgroundColor: '#fff',

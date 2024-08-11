@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -11,7 +12,9 @@
 import CardProgressInQuiry from './components/CardProgressInQuiry.vue'
 
 const navTitle = ref('')
-
+function handleClickLeft() {
+  uni.navigateBack()
+}
 onMounted(() => {
   navTitle.value = '申领'
 })
@@ -28,9 +31,13 @@ onMounted(() => {
       :bordered="false"
       :title="navTitle"
       custom-class="nav_bg"
-    ></wd-navbar>
+    >
+      <template #left>
+        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
+      </template>
+    </wd-navbar>
 
-    <dy-title :title="navTitle" custom-Class="custom-title"></dy-title>
+    <dy-title :title="navTitle" customClass="custom-title"></dy-title>
 
     <!-- 动态加载类型对应的组件 -->
     <!-- CardProgressInquiry 卡进度查询-->

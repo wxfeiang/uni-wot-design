@@ -8,8 +8,30 @@
 </route>
 
 <script lang="ts" setup>
+import chuxing from '@/static/images/index/chuxing.png'
+import qiabao from '@/static/images/index/qiabao.png'
+import saoyisao from '@/static/images/index/saoyisao.png'
+import xianxing from '@/static/images/index/xianxing.png'
+
+import boche from '@/static/images/index/boche.png'
+import jiaofeitong from '@/static/images/index/jiaofeitong.png'
+import more from '@/static/images/index/more.png'
+import shebao from '@/static/images/index/shebao.png'
+import shop from '@/static/images/index/shop.png'
+import tushu from '@/static/images/index/tushu.png'
+import zhenxuan from '@/static/images/index/zhenxuan.png'
+
+import banner from '@/static/images/index/banner.png'
+import banner2 from '@/static/images/index/banner2.png'
+
+import jiaotong from '@/static/images/index/jiaotong.png'
+import zhenwu from '@/static/images/index/zhenwu.png'
+
 import { routeTo } from '@/utils'
 import PLATFORM from '@/utils/platform'
+import { useScancode } from '@/utils/uniapi'
+import { useMessage } from 'wot-design-uni'
+const message = useMessage()
 
 defineOptions({
   name: 'Index',
@@ -20,22 +42,31 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const topAction = ref([
   {
-    icon: 'home',
+    icon: saoyisao,
     text: '扫一扫',
+    type: 'sacn',
   },
   {
-    icon: 'search',
+    icon: xianxing,
     text: '收付款',
   },
   {
-    icon: 'plus',
+    icon: chuxing,
     text: '出行',
   },
   {
-    icon: 'user',
+    icon: qiabao,
     text: '卡服务',
   },
 ])
+
+function actionTop(item: any) {
+  if (item.type) {
+    useScancode()
+  } else {
+    message.alert('服务开发中...')
+  }
+}
 
 const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
 
@@ -43,37 +74,37 @@ const mainData = ref([
   {
     title: '社保查询',
     icon: 'card',
-    url: cardUrl,
+    url: shebao,
   },
   {
     title: '雄安缴费通',
     icon: 'order',
-    url: cardUrl,
+    url: jiaofeitong,
   },
   {
     title: '雄安乐伯',
     icon: 'star',
-    url: cardUrl,
+    url: boche,
   },
   {
     title: '雄安甄选',
     icon: 'coupon',
-    url: cardUrl,
+    url: zhenxuan,
   },
   {
     title: '图书借阅',
     icon: 'coupon',
-    url: cardUrl,
+    url: tushu,
   },
   {
     title: '金融超市',
     icon: 'coupon',
-    url: cardUrl,
+    url: shop,
   },
   {
     title: '更多',
     icon: 'coupon',
-    url: cardUrl,
+    url: more,
   },
 ])
 
@@ -92,13 +123,7 @@ const msg = ref([
   },
 ])
 
-const swiperList = ref([
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/redpanda.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/capybara.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/panda.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/moon.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
-])
+const swiperList = ref([banner, banner2])
 const current = ref<number>(0)
 function swiperClick() {
   console.log('🍏')
@@ -113,27 +138,29 @@ function toBusinessOutlets() {
 const serveList = ref([
   {
     title: '校园服务',
-    url: '',
+    url: zhenwu,
+    color: '#1890ff',
   },
   {
     title: '校园服务',
-    url: '',
+    url: jiaotong,
+    color: 'green',
   },
   {
-    title: '校园服务',
-    url: '',
-  },
-  {
-    title: '校园服务',
-    url: '',
-  },
-  {
-    title: '校园服务',
-    url: '',
+    title: '看病就医',
+    url: jiaotong,
+    color: 'red',
   },
 ])
+function serveClick(item: any) {
+  message.alert('服务开发中...')
 
-function serveGuild() {}
+  // routeTo({ url: '/pages-sub/serveMain/index' })
+}
+
+function serveGuild() {
+  routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
+}
 
 const navTop = ref(safeAreaInsets.top + 40)
 onMounted(() => {
@@ -178,10 +205,11 @@ onPageScroll((e) => {
       <view
         v-for="(item, index) in topAction"
         :key="index"
-        class="w-20% text-center bd-dashed_#1890ff color-#fff"
+        class="w-20% text-center color-#fff"
+        @click="actionTop(item)"
       >
-        <view>{{ item.icon }}</view>
-        <view>{{ item.text }}</view>
+        <wd-img :width="26" :height="26" :src="item.icon" />
+        <view class="mt-4px text-12px">{{ item.text }}</view>
       </view>
     </view>
   </view>
@@ -249,17 +277,21 @@ onPageScroll((e) => {
   </view>
 
   <!-- 服务专区 -->
-
   <view class="px-20px py-10px">
     <dy-title title="服务专区"></dy-title>
     <view>
       <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% pr-20px">
         <view
-          class="inline-block w-160px h-90px bg-bluegray text-center rounded-4 mr-10px"
+          class="inline-block w-160px h-90px mr-10px bg-cover! p-10px box-border rounded-4px"
+          :style="`background:url(${item.url})`"
           v-for="(item, index) in serveList"
           :key="index"
+          @click="serveClick(item)"
         >
-          <view class="font-bold color-white font-size-16px line-height-40px">
+          <view
+            class="font-bold color-white font-size-16px line-height-40px"
+            :style="`color: ${item.color}`"
+          >
             {{ item.title }}
           </view>
         </view>
@@ -271,7 +303,7 @@ onPageScroll((e) => {
   <view class="px-20px py-10px">
     <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
     <view class="p-10px h-120px" @click="toBusinessOutlets">
-      <wd-img :width="100" :height="120" :src="cardUrl" custom-class="custom-class-img" />
+      <wd-img :width="100" :height="120" :src="banner2" custom-class="custom-class-img" />
     </view>
   </view>
   <view class="pl-20px">

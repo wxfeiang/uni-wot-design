@@ -94,7 +94,7 @@ console.log('🍏', navtop.value)
     <wd-gap bg-color="#F3F7F8"></wd-gap>
   </template>
   <template v-else>
-    <view class="fixed bottom-120px left-0 right-0">
+    <view class="fixed bottom-10 left-0 right-0">
       <view class="px-10">
         <wd-button block :round="false" plain hairline @click="login">立即登录</wd-button>
       </view>
