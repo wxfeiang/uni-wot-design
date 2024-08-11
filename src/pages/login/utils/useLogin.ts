@@ -12,17 +12,17 @@ const { getCodeUrl, codeflog } = useImageVerify()
 const authStore = useUserStore()
 const read = ref(false)
 const rules = {
-  na: [{ required: true, message: '请填写用户名' }],
-  ps: [{ required: true, message: '请填写密码' }],
+  username: [{ required: true, message: '请填写用户名' }],
+  password: [{ required: true, message: '请填写密码' }],
   co: [{ required: true, message: '请填写验证码' }],
 }
 const model = ref({
-  na: '18919853421',
-  ps: 'Zxe@2020',
+  username: '18919853421',
+  password: 'Zxe@2020',
   co: '',
 })
 
-const { send: sendLogin2 } = sysLogin({
+const { send: sendLogin2, loading } = sysLogin({
   immediate: false,
   loading: false,
 })
@@ -34,8 +34,8 @@ const Login = (form) => {
       try {
         newData.value = {
           appKey: Constant.APP_KEY,
-          na: model.value.na,
-          ps: changePassword(model.value.ps),
+          na: model.value.username,
+          ps: changePassword(model.value.password),
           co: model.value.co,
           u: codeflog.value,
           type: 1,
@@ -60,5 +60,5 @@ const { send: tesToken, data: authInfo } = useRequest(testToken, {
   initialData: {}, // 请求响应前，data的初始值
 })
 export default () => {
-  return { Login, tesToken, model, rules, read }
+  return { Login, tesToken, model, rules, read, loading }
 }

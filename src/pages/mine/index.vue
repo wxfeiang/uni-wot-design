@@ -102,7 +102,7 @@ console.log('🍏', navtop.value)
   </template>
 </template>
 
-<style scoped>
+<style>
 page {
   background: #f5f5f5;
 }
