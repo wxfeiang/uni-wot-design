@@ -17,7 +17,7 @@
   "tabBar": {
     "color": "#999999",
     "selectedColor": "#018d71",
-    "backgroundColor": "#F8F8F8",
+    "backgroundColor": "#fff",
     "borderStyle": "black",
     "height": "50px",
     "fontSize": "10px",
@@ -185,6 +185,19 @@
           "path": "workGuide/index",
           "type": "home",
           "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages-sub/webView",
+      "pages": [
+        {
+          "path": "index",
+          "type": "page",
+          "layout": "default",
           "style": {
             "navigationStyle": "custom"
           }

@@ -22,16 +22,19 @@ const mainData = ref([
     title: '社保卡申领',
     icon: 'card',
     url: cardUrl,
+    type: '1',
   },
   {
     title: '社保卡补换',
     icon: 'order',
     url: cardUrl,
+    type: '2',
   },
   {
     title: '新生儿申领',
     icon: 'star',
     url: cardUrl,
+    type: '3',
   },
   {
     title: '卡挂失',
@@ -91,8 +94,10 @@ const mainData = ref([
 ])
 
 function gridClick(item: any) {
-  console.log('🍝')
-  if (item.title === '申请') {
+  console.log('🍝', item)
+  if (item.type === '1') {
+    routeTo({ url: '/pages-sub/serveMain/cardMessType' })
+  } else if (item.type === '2') {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType' })
   } else {
     routeTo({ url: '/pages-sub/serveMain/cardFromType' })
@@ -181,7 +186,7 @@ function onScroll(e) {
             v-for="(cell, index) in item.items"
             :key="index"
             custom-class="grid-item"
-            @itemclick="gridClick(item)"
+            @itemclick="gridClick(cell)"
           >
             <template #icon>
               <image class="wh-42px rounded-10px" :src="cell.url" />

@@ -5,6 +5,7 @@ const LOGIN = baseUrlApi('/system/api/helper/productLogin')
 const LOGIN_OUT = '/logout'
 const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'
+const GET_AGREEMENT = baseUrlApi('/agreement')
 /**
  * 登录
  * @param params 初始参数()
@@ -35,4 +36,11 @@ export function logout(config: any) {
  */
 export function refreshToken() {
   return request.Post<LoginModel>(REFRESH_TOKEN, {})
+}
+
+/**
+ * 获取各种富文本协议内容
+ */
+export function agreement(params: any, config: any) {
+  return useRequest((newTodo) => request.Get(GET_AGREEMENT, { params: newTodo }), { ...config })
 }

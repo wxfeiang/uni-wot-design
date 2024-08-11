@@ -89,6 +89,9 @@ importers:
       jsencrypt:
         specifier: ^3.3.2
         version: 3.3.2
+      mp-html:
+        specifier: ^2.5.0
+        version: 2.5.0
       pinia:
         specifier: 2.0.36
         version: 2.0.36(typescript@4.9.5)(vue@3.4.26(typescript@4.9.5))
@@ -4147,6 +4150,9 @@ packages:
 
   module-alias@2.2.3:
     resolution: {integrity: sha512-23g5BFj4zdQL/b6tor7Ji+QY4pEfNH784BMslY9Qb0UnJWRAt+lQGLYmRaM0KDBwIG23ffEBELhZDP2rhi9f/Q==}
+
+  mp-html@2.5.0:
+    resolution: {integrity: sha512-uvBH5tIaDIlj8qaxsvNXU3RKX0jvXOo3J6FAi/notUv/ds6j79UUTE82aDkxxUk0eLUU0CiCqMrR7WWnytk30Q==}
 
   mrmime@2.0.0:
     resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==}
@@ -10834,6 +10840,8 @@ snapshots:
       ufo: 1.5.4
 
   module-alias@2.2.3: {}
+
+  mp-html@2.5.0: {}
 
   mrmime@2.0.0: {}
 

@@ -15,7 +15,7 @@ const applyData = ref([
 
 const showData = ref<any>({})
 function toAgereement(type) {
-  routeTo({ url: '/pages-sub/components/webView/index', data: { type } })
+  routeTo({ url: '/pages-sub/webView/index', data: { type } })
 }
 
 const footerBtns = ref([

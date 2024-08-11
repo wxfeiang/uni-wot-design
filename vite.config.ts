@@ -58,6 +58,7 @@ export default ({ command, mode }) => {
           'src/pages-sub/serveMain',
           'src/pages-sub/cadManager',
           'src/pages-sub/serveMassage',
+          'src/pages-sub/webView',
         ], // 是个数组，可以配置多个，但是不能为pages里面的目录
         dts: 'src/types/uni-pages.d.ts',
       }),
