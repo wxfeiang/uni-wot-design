@@ -68,7 +68,7 @@ const queryList = (pageNo, pageSize) => {
           safeAreaInsetTop
           placeholder
           fixed
-          custom-class="navbg"
+          :custom-class="navbg"
           :bordered="false"
           title="办事指南"
         >
@@ -104,7 +104,7 @@ const queryList = (pageNo, pageSize) => {
   <view>asdcas</view>
 </template>
 
-<style>
+<style lang="scss" scoped>
 :deep(.nav_show) {
   @apply bg-transparent!;
 }

@@ -30,7 +30,7 @@ function toQueryDetil(data?: any) {
 }
 </script>
 <template>
-  <view class="p-15px b-green">
+  <view class="p-15px">
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-form ref="form" :model="model">
         <wd-cell-group border>
@@ -73,6 +73,7 @@ function toQueryDetil(data?: any) {
             v-model="model.username"
             placeholder="请输入验证码"
             :rules="rules.username"
+            custom-input-class="custom-input-right"
           >
             <template #suffix>
               <wd-button
@@ -84,7 +85,7 @@ function toQueryDetil(data?: any) {
                 :loading="sending"
                 :disabled="sending || countdown > 0"
               >
-                {{ loading ? '发送中...' : countdown > 0 ? `${countdown}后获取` : '获取验证码' }}
+                {{ loading ? '发送中...' : countdown > 0 ? `${countdown}S后获取` : '获取验证码' }}
               </wd-button>
             </template>
           </wd-input>
