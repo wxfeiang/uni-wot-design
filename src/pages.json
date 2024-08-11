@@ -134,6 +134,15 @@
           }
         },
         {
+          "path": "cardMessType",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "index",
           "type": "page",
           "needLogin": true,

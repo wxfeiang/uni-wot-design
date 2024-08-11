@@ -107,6 +107,7 @@
     "useImageVerify": true,
     "useSystemFig": true,
     "useUpdateApp": true,
-    "useFilePase": true
+    "useFilePase": true,
+    "usePhoneCode": true
   }
 }

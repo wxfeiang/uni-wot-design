@@ -1,11 +1,15 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
+
+import { useCaptcha } from '@alova/scene-vue' // eslint-disable-line
 import { useRequest } from 'alova'
+
 import { METHOD_INSTANCE } from '../model/baseModel'
 const CONFIG = baseUrlApi('/captcha/config')
 const CODE = baseUrlApi('/captcha/getCode')
 const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
 const GETDOT = baseUrlApi('/system/api/user/getDot')
+const PHNECODE = baseUrlApi('/base/captchaImage')
 
 export const PRIVACY_UPLOAD = baseUrlApi('/system/file/minio/privacyUpload')
 export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
@@ -71,6 +75,24 @@ export function getCode(config: any) {
   methodInstance.meta = meta
 
   return useRequest(methodInstance, config)
+}
+
+export function getPhoneCode(data: any, config: any) {
+  const methodInstance = request.Post(
+    PHNECODE, // 请求地址
+    data,
+    {
+      responseType: 'arraybuffer', // 配置参数
+    },
+  )
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+  }
+  methodInstance.meta = meta
+
+  return useCaptcha(methodInstance, config)
 }
 
 /**

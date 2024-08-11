@@ -1,8 +1,12 @@
 <script lang="ts" setup>
+import { routeTo } from '@/utils'
 import useCardFrom from '../hooks/useCardFrom'
 const { Login, model, rules, loading, read } = useCardFrom()
+
 const form = ref(null)
 const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
+
+const { sending, countdown, getCode } = usePhoneCode()
 
 // function toRegister() {
 //   routeTo({ url: '/pages/login/register' })
@@ -20,6 +24,9 @@ const onDelete = (value) => {
   // console.log(value)
   // model.password += value
   model.password = value
+}
+function toQueryDetil(data?: any) {
+  routeTo({ url: '/pages-sub/serveMain/cardMessType' })
 }
 </script>
 <template>
@@ -59,6 +66,28 @@ const onDelete = (value) => {
             extra-key="X"
             close-text="完成"
           ></wd-number-keyboard>
+          <wd-input
+            type="text"
+            label="验证码"
+            center
+            v-model="model.username"
+            placeholder="请输入验证码"
+            :rules="rules.username"
+          >
+            <template #suffix>
+              <wd-button
+                size="small"
+                plain
+                custom-class="button"
+                :round="false"
+                @click="getCode"
+                :loading="sending"
+                :disabled="sending || countdown > 0"
+              >
+                {{ loading ? '发送中...' : countdown > 0 ? `${countdown}后获取` : '获取验证码' }}
+              </wd-button>
+            </template>
+          </wd-input>
         </wd-cell-group>
       </wd-form>
     </view>
@@ -67,7 +96,7 @@ const onDelete = (value) => {
         type="primary"
         :round="false"
         size="medium"
-        @click="Login(form)"
+        @click="toQueryDetil(form)"
         block
         :loading="loading"
       >

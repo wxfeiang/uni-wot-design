@@ -91,6 +91,7 @@ declare global {
   const useFilePase: typeof import('../hooks/useFilePase')['default']
   const useImageVerify: typeof import('../hooks/useImageVerify')['default']
   const useNavbarWeixin: (typeof import('../hooks/useNavbarWeixin'))['default']
+  const usePhoneCode: typeof import('../hooks/usePhoneCode')['default']
   const useRequest: typeof import('../hooks/useRequest')['default']
   const useSlots: typeof import('vue')['useSlots']
   const useSystem: typeof import('../hooks/useSystemFig')['default']
@@ -188,6 +189,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
+    readonly usePhoneCode: UnwrapRef<typeof import('../hooks/usePhoneCode')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
     readonly useUpdateApp: UnwrapRef<typeof import('../hooks/useUpdateApp')['default']>

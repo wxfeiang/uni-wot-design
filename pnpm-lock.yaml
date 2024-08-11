@@ -14,6 +14,9 @@ importers:
       '@alova/adapter-uniapp':
         specifier: ^1.2.2
         version: 1.2.2(alova@2.21.4)
+      '@alova/scene-vue':
+        specifier: ^1.6.2
+        version: 1.6.2
       '@dcloudio/uni-app':
         specifier: 3.0.0-4010420240430001
         version: 3.0.0-4010420240430001(@dcloudio/types@3.4.12)(postcss@8.4.41)(rollup@4.20.0)(vue@3.4.26(typescript@4.9.5))
@@ -277,6 +280,9 @@ packages:
     resolution: {integrity: sha512-O3Z4gEBMZWx6d2FTYdpQfR3Gb8YcC9o9RZWGoRmrJuvv6iJZUGXJLGQQXt5NMON9ON214nsgaQh4fH+D4ck9/Q==}
     peerDependencies:
       alova: '>=2.16.2'
+
+  '@alova/scene-vue@1.6.2':
+    resolution: {integrity: sha512-wHUEVmZWCz9y/nqq3NrSxnxC+vjlQTm5F8aOFI5p8Q4ADb/HV9bgO3p7Xh29gO4ZGiyLnUv1LtoRt5b0HrDj+A==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -1127,13 +1133,11 @@ packages:
   '@esbuild/darwin-arm64@0.20.2':
     resolution: {integrity: sha512-4J6IRT+10J3aJH3l1yzEg9y3wkTDgDk7TSDFX+wKFiWjqWp/iCfLIYzGyasx9l0SAFPT1HwSCR+0w/h1ES/MjA==}
     engines: {node: '>=12'}
-    cpu: [arm64]
     os: [darwin]
 
   '@esbuild/darwin-x64@0.20.2':
     resolution: {integrity: sha512-tBcXp9KNphnNH0dfhv8KYkZhjc+H3XBkF5DKtswJblV7KlT9EI2+jeA8DgBjp908WEuYll6pF+UStUCfEpdysA==}
     engines: {node: '>=12'}
-    cpu: [x64]
     os: [darwin]
 
   '@esbuild/freebsd-arm64@0.20.2':
@@ -1599,7 +1603,6 @@ packages:
 
   '@rollup/rollup-darwin-x64@4.20.0':
     resolution: {integrity: sha512-xbrMDdlev53vNXexEa6l0LffojxhqDTBeL+VUxuuIXys4x6xyvbKq5XqTXBCEUA8ty8iEJblHvFaWRJTk/icAQ==}
-    cpu: [x64]
     os: [darwin]
 
   '@rollup/rollup-linux-arm-gnueabihf@4.20.0':
@@ -5577,6 +5580,8 @@ snapshots:
   '@alova/adapter-uniapp@1.2.2(alova@2.21.4)':
     dependencies:
       alova: 2.21.4
+
+  '@alova/scene-vue@1.6.2': {}
 
   '@ampproject/remapping@2.3.0':
     dependencies:
