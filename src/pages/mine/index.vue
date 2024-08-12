@@ -12,7 +12,9 @@ import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { storeToRefs } from 'pinia'
 import { useMessage } from 'wot-design-uni'
-const anvter = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
+const anvter = ref(
+  'https://img.zcool.cn/community/01c39c5bada9dda8012099c89a96f0.jpg@1280w_1l_2o_100sh.jpg',
+)
 const { setInfo, LogOut, loading } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()

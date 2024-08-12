@@ -133,23 +133,24 @@ const mainData = ref([
 const msg = ref([
   {
     title: '消息',
-    content: '一卡通要上岸了,一卡通要上岸了,一卡通要上岸了',
+    content: '一卡通要上线了,一卡通要上线了,一卡通要上线了',
     isRead: false,
     url: '',
   },
   {
     title: '消息',
     isRead: true,
-    content: '一卡通要上岸了,一卡通要上岸了,一卡通要上岸了',
+    content: '一卡通要上线了,一卡通要上线了,一卡通要上线了',
     url: '',
   },
 ])
 
-const swiperList = ref([banner, banner2])
+const swiperList = ref([banner])
 const current = ref<number>(0)
 function swiperClick() {
   console.log('🍏')
-  routeTo({ url: '/pages-sub/serveMain/index' })
+  message.alert('服务开发中...')
+  // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
 function toBusinessOutlets() {
@@ -204,6 +205,9 @@ function serveClick(item: any) {
   message.alert('服务开发中...')
 
   // routeTo({ url: '/pages-sub/serveMain/index' })
+}
+function messageGuild() {
+  message.alert('服务开发中...')
 }
 
 function serveGuild() {
@@ -288,13 +292,12 @@ onPageScroll((e) => {
 
   <!-- 消息 -->
   <wd-gap bg-color="#f5f5f5"></wd-gap>
-  <view class="pl-20px py-10px">
-    <dy-title title="消息专区"></dy-title>
+  <view class="px-20px py-10px">
+    <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
       <wd-cell
         v-for="(item, index) in msg"
         :key="index"
-        is-link
         :to="item.url"
         title-width="280px"
         custom-class="cell-item"
@@ -315,7 +318,7 @@ onPageScroll((e) => {
     </wd-cell-group>
   </view>
   <!-- 广告位 -->
-  <view class="px-20px py-10px bg-#f5f5f5 h-120px">
+  <view class="py-10px bg-#f5f5f5 h-120px">
     <wd-swiper
       :list="swiperList"
       autoplay
@@ -323,7 +326,9 @@ onPageScroll((e) => {
       :height="120"
       :indicator="false"
       @click="swiperClick"
+      customClass="swiper_box"
     ></wd-swiper>
+    <!-- <wd-img :width="70" :height="120" :src="banner" custom-class="custom-class-img" /> -->
   </view>
 
   <!-- 服务专区 -->
@@ -389,7 +394,9 @@ onPageScroll((e) => {
 .bg-size-100 {
   background-size: 100% !important;
 }
-
+:deep(.swiper_box .wd-swiper__track) {
+  @apply px-20px!;
+}
 :deep(.grid-item .wd-grid-item__wrapper) {
   @apply size-auto!;
 }
