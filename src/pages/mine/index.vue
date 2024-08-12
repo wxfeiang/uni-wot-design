@@ -74,7 +74,7 @@ console.log('🍏', navtop.value)
           <wd-cell :title="item.name" is-link>
             <template #icon v-if="item.icon">
               <view class="mr-10px">
-                <wd-icon name="setting1" size="22px" color="bg-#4689fd"></wd-icon>
+                <wd-icon name="setting1" size="22px" color="#4689fd"></wd-icon>
               </view>
             </template>
             <view class="color-#999">
