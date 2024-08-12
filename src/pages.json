@@ -193,6 +193,14 @@
           }
         },
         {
+          "path": "messageList/index",
+          "type": "home",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "workGuide/index",
           "type": "home",
           "needLogin": true,

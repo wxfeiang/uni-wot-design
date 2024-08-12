@@ -207,7 +207,7 @@ function serveClick(item: any) {
   // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 function messageGuild() {
-  message.alert('服务开发中...')
+  routeTo({ url: '/pages-sub/serveMassage/messageList/index' })
 }
 
 function serveGuild() {

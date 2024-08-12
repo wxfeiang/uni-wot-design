@@ -18,6 +18,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/index" |
        "/pages-sub/cadManager/index" |
        "/pages-sub/serveMassage/businessOutlets/index" |
+       "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index";
 }
