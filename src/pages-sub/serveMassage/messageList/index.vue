@@ -45,12 +45,14 @@ const dataList = ref([
     label: '您好，您提交的工单已被客服10086接单，请您耐心等待处理，如需了解工单情况。',
     titleWidth: '200px',
     isLink: true,
+    isread: false,
   },
   {
     title: '标题文字',
     label: '您好，您提交的工单已被客服10086接单，请您耐心等待处理，如需了解工单情况。',
     titleWidth: '200px',
     isLink: true,
+    isread: true,
   },
 ])
 const queryList = (pageNo, pageSize) => {
@@ -81,7 +83,7 @@ const queryList = (pageNo, pageSize) => {
       <wd-cell-group border use-slot>
         <template #title>
           <view>
-            <wd-badge is-dot>
+            <wd-badge :is-dot="item.isread">
               <wd-button size="small" icon="notification" type="info" :round="false"></wd-button>
             </wd-badge>
             <text class="ml-5px">消息提醒</text>
@@ -93,7 +95,7 @@ const queryList = (pageNo, pageSize) => {
             <wd-icon name="arrow-right" size="12px"></wd-icon>
           </view>
         </template>
-        <wd-cell title-width="370px">
+        <wd-cell title-width="300px">
           <template #label>
             <view class="truncate-2 color-#666">
               {{ item.label }}
