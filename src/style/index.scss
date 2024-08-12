@@ -1,0 +1,34 @@
+// @import './iconfont.css';
+
+.test {
+  // 可以通过 @apply 多个样式封装整体样式
+  @apply mt-4 ml-4;
+
+  padding-top: 4px;
+  color: red;
+}
+
+.nav_bg {
+  color: var(--color-nav-text);
+  background-color: var(--color-nav-bg);
+}
+:deep(.nav_bg) {
+  color: var(--color-nav-text);
+  background-color: var(--color-nav-bg);
+}
+:root,
+page {
+  font-family: 'San Francisco', Rotobo, arial, 'PingFang SC', 'Noto SansCJK', 'Microsoft Yahei',
+    sans-serif;
+
+  // 修改按主题色
+  // --wot-color-theme: #37c2bc;
+
+  // 修改按钮背景色
+  // --wot-button-primary-bg-color: green;
+
+  // 统一固定导航栏背景色
+  --color-nav-bg: #1890ff !important;
+  //统一固定导航栏字体颜色
+  --color-nav-text: #fff !important;
+}
