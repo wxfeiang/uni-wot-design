@@ -69,10 +69,10 @@ function handleClickLeft() {
                   label="姓名:"
                   label-width="100px"
                   type="text"
-                  v-model="model.password"
+                  v-model="model.username"
                   placeholder="请输入姓名"
-                  :rules="rules.password"
-                  prop="password"
+                  :rules="rules.username"
+                  prop="username"
                   custom-class="custom-cell"
                   custom-input-class="custom-input-right"
                 />
@@ -81,10 +81,10 @@ function handleClickLeft() {
                   label="身份证号码:"
                   label-width="100px"
                   type="text"
-                  v-model="model.username"
+                  v-model="model.password"
                   placeholder="请输入身份证号码"
-                  :rules="rules.username"
-                  prop="username"
+                  :rules="rules.password"
+                  prop="password"
                   custom-class="custom-cell"
                   custom-input-class="custom-input-right"
                   :maxlength="18"
@@ -132,8 +132,10 @@ function handleClickLeft() {
   @apply rounded-30! bg-#eef0f2!  mb-20px;
 }
 
-:deep(.wd-input__error-message),
 :deep(.custom-input-right) {
   @apply text-right! color-#999999!;
+}
+:deep(.wd-input__error-message) {
+  @apply text-right!;
 }
 </style>
