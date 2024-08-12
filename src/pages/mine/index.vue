@@ -41,7 +41,7 @@ console.log('🍏', navtop.value)
 </script>
 <template>
   <!-- 顶部 -->
-  <view class="py-20px bg-#1890ff" :style="`padding-top:${navtop}px`">
+  <view class="py-20px bg-#4689fd" :style="`padding-top:${navtop}px`">
     <view class="text-center color-#fff">我的</view>
     <view class="p-20px">
       <view class="flex items-center gap-15px">
@@ -74,7 +74,7 @@ console.log('🍏', navtop.value)
           <wd-cell :title="item.name" is-link>
             <template #icon v-if="item.icon">
               <view class="mr-10px">
-                <wd-icon name="setting1" size="22px" color="#0083ff"></wd-icon>
+                <wd-icon name="setting1" size="22px" color="bg-#4689fd"></wd-icon>
               </view>
             </template>
             <view class="color-#999">
@@ -88,8 +88,8 @@ console.log('🍏', navtop.value)
 
   <wd-gap bg-color="#F3F7F8"></wd-gap>
   <template v-if="isLogined">
-    <view class="px-10 bg-#1890ff">
-      <wd-button block plain @click="logoutCimfirm">退出登录</wd-button>
+    <view class="px-10">
+      <wd-button block :round="false" plain @click="logoutCimfirm">退出登录</wd-button>
     </view>
     <wd-gap bg-color="#F3F7F8"></wd-gap>
   </template>

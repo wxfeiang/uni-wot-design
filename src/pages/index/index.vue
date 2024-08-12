@@ -34,11 +34,15 @@ import xiaofei from '@/static/images/index/xiaofei.png'
 import zhanma from '@/static/images/index/zhanma.png'
 import zhenwu from '@/static/images/index/zhenwu.png'
 
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
 import PLATFORM from '@/utils/platform'
 import { useScancode } from '@/utils/uniapi'
 import { useMessage } from 'wot-design-uni'
+
+import { useBaseStore } from '@/store/modules/base'
 const message = useMessage()
+const basestore = useBaseStore()
 
 defineOptions({
   name: 'Index',
@@ -64,12 +68,25 @@ const topAction = ref([
   {
     icon: qiabao,
     text: '卡服务',
+    type: 'card',
+    url: '/pages/serve/index',
+    active: 1,
   },
 ])
 
 function actionTop(item: any) {
-  if (item.type) {
+  if (item.type === 'sacn') {
     useScancode()
+  }
+  if (item.type === 'card') {
+    console.log('🍚[item]:', item)
+
+    basestore.active = item.active
+    routeTo({
+      url: item.url,
+
+      navType: NAVIGATE_TYPE.SWITCH_TAB,
+    })
   } else {
     message.alert('服务开发中...')
   }

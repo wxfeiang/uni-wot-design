@@ -97,9 +97,12 @@
     {
       "path": "pages/serve/index",
       "type": "page",
+      "needLogin": true,
       "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "服务"
+        "navigationBarTitleText": "服务中心",
+        "backgroundColor": "#fff",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black"
       }
     },
     {
@@ -154,7 +157,6 @@
         {
           "path": "index",
           "type": "page",
-          "needLogin": true,
           "style": {
             "navigationBarTitleText": "服务中心",
             "backgroundColor": "#fff",

@@ -14,5 +14,6 @@ store.use(
 export default store
 
 // 模块统一导出
+export * from './modules/base'
 export * from './modules/system'
 export * from './user'

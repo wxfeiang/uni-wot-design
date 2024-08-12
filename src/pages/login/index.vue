@@ -106,10 +106,10 @@ page {
 </style>
 <style lang="scss" scoped>
 .top {
-  background-image: linear-gradient(to bottom, rgb(22, 104, 235), rgb(110, 163, 247));
+  background-image: linear-gradient(to bottom, #4689fd, rgb(110, 163, 247));
 }
 :deep(.nav_bg) {
-  background-color: rgb(22, 104, 235);
+  background-color: #4689fd;
   .wd-navbar__title {
     color: var(--color-nav-text);
   }
