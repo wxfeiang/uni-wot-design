@@ -390,10 +390,9 @@ onPageScroll((e) => {
 :deep(.nav_hide) {
   @apply bg-#4689fd!;
 }
-
-.bg-size-100 {
+/* .bg-size-100 {
   background-size: 100% !important;
-}
+} */
 :deep(.swiper_box .wd-swiper__track) {
   @apply px-20px!;
 }
