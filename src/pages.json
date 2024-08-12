@@ -15,8 +15,8 @@
     }
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#018d71",
+    "color": "#000000",
+    "selectedColor": "#3177f6",
     "backgroundColor": "#fff",
     "borderStyle": "black",
     "height": "50px",
@@ -25,26 +25,26 @@
     "spacing": "3px",
     "list": [
       {
-        "iconPath": "static/tabbar/home.png",
-        "selectedIconPath": "static/tabbar/homeHL.png",
+        "iconPath": "static/tabbar/index.png",
+        "selectedIconPath": "static/tabbar/index-a.png",
         "pagePath": "pages/index/index",
         "text": "首页"
       },
       {
-        "iconPath": "static/tabbar/example.png",
-        "selectedIconPath": "static/tabbar/exampleHL.png",
+        "iconPath": "static/tabbar/fuwu.png",
+        "selectedIconPath": "static/tabbar/fuwu-a.png",
         "pagePath": "pages/serve/index",
         "text": "服务"
       },
       {
-        "iconPath": "static/tabbar/example.png",
-        "selectedIconPath": "static/tabbar/exampleHL.png",
+        "iconPath": "static/tabbar/shop.png",
+        "selectedIconPath": "static/tabbar/shop-a.png",
         "pagePath": "pages/shop/index",
         "text": "商城"
       },
       {
-        "iconPath": "static/tabbar/example.png",
-        "selectedIconPath": "static/tabbar/exampleHL.png",
+        "iconPath": "static/tabbar/mine.png",
+        "selectedIconPath": "static/tabbar/mine-a.png",
         "pagePath": "pages/mine/index",
         "text": "我的"
       }
@@ -194,6 +194,19 @@
           "path": "workGuide/index",
           "type": "home",
           "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages-sub/webView",
+      "pages": [
+        {
+          "path": "index",
+          "type": "page",
+          "layout": "default",
           "style": {
             "navigationStyle": "custom"
           }

@@ -13,7 +13,22 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 
-import cardUrl from './static/images/more.png'
+import shebaok from './static/images/shebaok.png'
+import shebaokbh from './static/images/shebaokbh.png'
+import shebaoksl from './static/images/shebaoksl.png'
+import xinshenersl from './static/images/xinshenersl.png'
+
+import kaguas from './static/images/kaguas.png'
+import kajindu from './static/images/kajindu.png'
+import mimaxiugai from './static/images/mimaxiugai.png'
+
+import kabase from './static/images/kabase.png'
+
+import kajiegua from './static/images/kajiegua.png'
+import xinshengrq from './static/images/xinshengrq.png'
+
+import kabiangeng from './static/images/kabiangeng.png'
+import mimachongzhi from './static/images/mimachongzhi.png'
 
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
 
@@ -21,75 +36,65 @@ const mainData = ref([
   {
     title: '社保卡申领',
     icon: 'card',
-    url: cardUrl,
+    url: shebaoksl,
     type: '1',
   },
   {
     title: '社保卡补换',
     icon: 'order',
-    url: cardUrl,
+    url: shebaokbh,
     type: '2',
   },
   {
     title: '新生儿申领',
     icon: 'star',
-    url: cardUrl,
+    url: xinshenersl,
     type: '3',
   },
   {
     title: '卡挂失',
     icon: 'coupon',
-    url: cardUrl,
+    url: kaguas,
   },
   {
     title: '卡进度查询',
     icon: 'coupon',
-    url: cardUrl,
-  },
-  {
-    title: '密码修改',
-    icon: 'coupon',
-    url: cardUrl,
-  },
-  {
-    title: '卡基础信息',
-    icon: 'coupon',
-    url: cardUrl,
-  },
-  {
-    title: '卡解卦',
-    icon: 'coupon',
-    url: cardUrl,
-  },
-  {
-    title: '卡信息变更',
-    icon: 'coupon',
-    url: cardUrl,
-  },
-  {
-    title: '新生儿申领查询',
-    icon: 'coupon',
-    url: cardUrl,
+    url: kajindu,
   },
   {
     title: '社保卡启用',
     icon: 'coupon',
-    url: cardUrl,
+    url: shebaok,
+  },
+  {
+    title: '密码修改',
+    icon: 'coupon',
+    url: mimaxiugai,
+  },
+  {
+    title: '卡基础信息',
+    icon: 'coupon',
+    url: kabase,
+  },
+  {
+    title: '卡解卦',
+    icon: 'coupon',
+    url: kajiegua,
+  },
+  {
+    title: '卡信息变更',
+    icon: 'coupon',
+    url: kabiangeng,
   },
   {
     title: '密码重置',
     icon: 'coupon',
-    url: cardUrl,
+    url: mimachongzhi,
   },
   {
-    title: '看病',
+    title: '新生儿申领查询',
     icon: 'coupon',
-    url: cardUrl,
-  },
-  {
-    title: '出行',
-    icon: 'coupon',
-    url: cardUrl,
+    url: xinshengrq,
   },
 ])
 

@@ -9,6 +9,7 @@
 
 <script lang="ts" setup>
 import chuxing from '@/static/images/index/chuxing.png'
+import topbg from '@/static/images/index/indetxop_bg.png'
 import qiabao from '@/static/images/index/qiabao.png'
 import saoyisao from '@/static/images/index/saoyisao.png'
 import xianxing from '@/static/images/index/xianxing.png'
@@ -24,7 +25,13 @@ import zhenxuan from '@/static/images/index/zhenxuan.png'
 import banner from '@/static/images/index/banner.png'
 import banner2 from '@/static/images/index/banner2.png'
 
+import butie from '@/static/images/index/butie.png'
 import jiaotong from '@/static/images/index/jiaotong.png'
+import jingxiongtong from '@/static/images/index/jingxiongtong.png'
+import kanbing from '@/static/images/index/kanbing.png'
+import tushujieyue from '@/static/images/index/tushujieyue.png'
+import xiaofei from '@/static/images/index/xiaofei.png'
+import zhanma from '@/static/images/index/zhanma.png'
 import zhenwu from '@/static/images/index/zhenwu.png'
 
 import { routeTo } from '@/utils'
@@ -67,8 +74,6 @@ function actionTop(item: any) {
     message.alert('服务开发中...')
   }
 }
-
-const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
 
 const mainData = ref([
   {
@@ -139,17 +144,43 @@ const serveList = ref([
   {
     title: '校园服务',
     url: zhenwu,
-    color: '#1890ff',
+    color: '#8f533a',
   },
   {
     title: '校园服务',
     url: jiaotong,
-    color: 'green',
+    color: '#219974',
   },
   {
     title: '看病就医',
-    url: jiaotong,
-    color: 'red',
+    url: kanbing,
+    color: '#396183',
+  },
+  {
+    title: '展码入园',
+    url: zhanma,
+    color: '#219974',
+  },
+  {
+    title: '京雄通',
+    url: jingxiongtong,
+    color: '#3b3a9d',
+  },
+  {
+    title: '图书借阅',
+    url: tushujieyue,
+    color: '#8f533a',
+  },
+
+  {
+    title: '补贴发放',
+    url: butie,
+    color: '#8f533a',
+  },
+  {
+    title: '消费购物',
+    url: xiaofei,
+    color: '#3b3a9d',
   },
 ])
 function serveClick(item: any) {
@@ -181,7 +212,7 @@ onPageScroll((e) => {
 </script>
 <template>
   <!-- 顶部 -->
-  <view class="bg-blue pb-20px">
+  <view class="pb-20px bg-size-100 relative">
     <wd-navbar
       safeAreaInsetTop
       placeholder
@@ -200,7 +231,6 @@ onPageScroll((e) => {
         />
       </view>
     </wd-sticky>
-
     <view class="p-10px flex justify-between">
       <view
         v-for="(item, index) in topAction"
@@ -211,6 +241,9 @@ onPageScroll((e) => {
         <wd-img :width="26" :height="26" :src="item.icon" />
         <view class="mt-4px text-12px">{{ item.text }}</view>
       </view>
+    </view>
+    <view class="absolute top-0 left-0 right-0 size-full z-[-1]">
+      <wd-img :width="160" :height="90" :src="topbg" custom-class="custom-class-img" />
     </view>
   </view>
 
@@ -282,17 +315,19 @@ onPageScroll((e) => {
     <view>
       <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% pr-20px">
         <view
-          class="inline-block w-160px h-90px mr-10px bg-cover! p-10px box-border rounded-4px"
-          :style="`background:url(${item.url})`"
+          class="inline-block w-160px h-90px mr-10px box-border rounded-4px bg-no-repeat! relative"
           v-for="(item, index) in serveList"
           :key="index"
           @click="serveClick(item)"
         >
-          <view
-            class="font-bold color-white font-size-16px line-height-40px"
-            :style="`color: ${item.color}`"
-          >
-            {{ item.title }}
+          <wd-img :width="160" :height="90" :src="item.url" custom-class="custom-class-img" />
+          <view class="size-full absolute top-0 left-0">
+            <view
+              class="font-bold color-white font-size-16px line-height-40px px-10px"
+              :style="`color: ${item.color}`"
+            >
+              {{ item.title }}
+            </view>
           </view>
         </view>
       </scroll-view>
@@ -302,8 +337,14 @@ onPageScroll((e) => {
   <wd-gap bg-color="#f5f5f5"></wd-gap>
   <view class="px-20px py-10px">
     <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
-    <view class="p-10px h-120px" @click="toBusinessOutlets">
+    <view class="p-10px h-120px relative">
       <wd-img :width="100" :height="120" :src="banner2" custom-class="custom-class-img" />
+      <view class="size-full absolute top-0 left-0 text-center pt-40px">
+        <view class="color-#2d62c1 font-size-20px font-400 line-height-30px">服务网点</view>
+        <view class="mt-10px">
+          <wd-button black @click="toBusinessOutlets">一键查询</wd-button>
+        </view>
+      </view>
     </view>
   </view>
   <view class="pl-20px">
@@ -325,7 +366,11 @@ onPageScroll((e) => {
   @apply bg-transparent!;
 }
 :deep(.nav_hide) {
-  @apply bg-blue!;
+  @apply bg-#4689fd!;
+}
+
+.bg-size-100 {
+  background-size: 100% !important;
 }
 
 :deep(.grid-item .wd-grid-item__wrapper) {
