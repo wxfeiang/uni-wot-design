@@ -1,3 +1,5 @@
+import { Toast } from './prompt'
+
 /**
  * @description 设置系统剪贴板的内容
  * @param data 需要设置的内容
@@ -57,5 +59,30 @@ export const useScancode = () => {
       console.log('条码类型：' + res.scanType)
       console.log('条码内容：' + res.result)
     },
+  })
+}
+export const startFacialRecognitionVerify = (data) => {
+  return new Promise((resolve, reject) => {
+    uni.startFacialRecognitionVerify({
+      ...data,
+      checkAliveType: 1, // 屏幕闪烁(人脸核验的交互方式，默认0,读数字)
+      success(res) {
+        console.log(res, ' ========') // 认证结果
+
+        if (res.errCode === 0) {
+          // 识别成功  这个时候可以调后端的接口 （带着返的res.
+          resolve(res)
+        } else {
+          Toast('识别失败')
+        }
+      },
+      complete(res) {
+        console.log(res)
+      },
+      fail(e) {
+        // console.log('err', e) // 失败处理方法
+        Toast('识别失败')
+      },
+    })
   })
 }

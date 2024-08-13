@@ -24,15 +24,7 @@ const HEADER = {
 
 const alovaInstance = createAlova({
   // baseURL: baseUrl(), //TODO:多服务配置情况下不需要基本前缀
-  ...AdapterUniapp({
-    // /* #ifndef APP-PLUS */
-    // mockRequest: isUseMock() ? mockAdapter : undefined, // APP 平台无法使用mock
-    // /* #endif */
-  }),
-  // 在开发环境开启错误日志
-  // errorLogger: process.env.NODE_ENV === devMode,
-  // // 在开发环境开启缓存命中日志
-  // cacheLogger: process.env.NODE_ENV === 'development',
+  ...AdapterUniapp(),
   statesHook: VueHook,
   timeout: timeOut,
   beforeRequest: (method) => {
@@ -82,12 +74,14 @@ const alovaInstance = createAlova({
           // 处理数据
           const resAllData = responseAes(response)
           const { data: rdata, code: rode, msg: rmsg } = resAllData
-          if (rode === ResultEnum.CODE) {
-            return rdata as any
-          } else {
+          console.log(method.url + '====>🍯[解析后的数据]:', resAllData)
+          if (rode !== ResultEnum.CODE || rdata.code) {
             rmsg && checkStatus(statusCode, rmsg || '')
+            return Promise.reject(resAllData)
+          } else {
+            // success
+            return rdata as any
           }
-          return Promise.reject(resAllData)
         }
       }
       checkStatus(statusCode, msg || '')

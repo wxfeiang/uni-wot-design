@@ -17,9 +17,8 @@ import { routeTo } from '@/utils'
 import useLogin from './utils/useLogin'
 
 import loginbg from '@/static/images/login/login-bg.png'
-console.log('🍯[loginbg]:', loginbg)
 
-const { Login, model, rules, read, loading } = useLogin()
+const { Login, model, rules, read, LoadingKey, LoadingInfo, test } = useLogin()
 const form = ref(null)
 
 const to = () => {
@@ -94,7 +93,13 @@ function handleClickLeft() {
             </wd-form>
           </view>
           <view class="mt-20px px-25px">
-            <wd-button type="primary" size="medium" @click="Login(form)" block :loading="loading">
+            <wd-button
+              type="primary"
+              size="medium"
+              @click="Login(form)"
+              block
+              :loading="LoadingKey || LoadingInfo"
+            >
               登 录
             </wd-button>
           </view>

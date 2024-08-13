@@ -6,6 +6,7 @@ const LOGIN_OUT = '/logout'
 const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'
 const GET_AGREEMENT = baseUrlApi('/agreement')
+const FACE_LOGIN = baseUrlApi('/user/app/faceLogin')
 /**
  * 登录
  * @param params 初始参数()
@@ -13,6 +14,15 @@ const GET_AGREEMENT = baseUrlApi('/agreement')
 export function sysLogin(config: any) {
   return useRequest((newTodo) => request.Post(LOGIN, newTodo), { ...config })
 }
+
+/**
+ * 人脸登录
+ * @param params 初始参数()
+ * */
+export function faceLogin(config: any) {
+  return useRequest((newTodo) => request.Post(FACE_LOGIN, newTodo), { ...config })
+}
+
 /**
  * 测试token
  * @param params

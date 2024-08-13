@@ -14,3 +14,8 @@ export declare interface METHOD_INSTANCE<T = any> {
   ignorToken?: boolean // 返回所有数据
   ignorToken: true // 忽略token
 }
+
+export declare interface CONFIGN<T = any> {
+  immediate?: boolean // 是否立即执行请求
+  loading?: boolean // 是否显示loading
+}

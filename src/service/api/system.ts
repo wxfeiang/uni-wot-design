@@ -8,10 +8,11 @@ import { METHOD_INSTANCE } from '../model/baseModel'
 const CONFIG = baseUrlApi('/captcha/config')
 const CODE = baseUrlApi('/captcha/getCode')
 const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
-const GETDOT = baseUrlApi('/system/api/user/getDot')
+const GETDOT = baseUrlApi('/captcha/getDot')
 const PHNECODE = baseUrlApi('/base/captchaImage')
 
-const USER_ID_KEY = baseUrlApi('/promotion/xcx/user/getUserIdKey')
+const USER_ID_KEY = baseUrlApi('/user/app/getUserIdKey')
+const GET_INFO = baseUrlApi('/user/app/getInfo')
 
 export const PRIVACY_UPLOAD = baseUrlApi('/system/file/minio/privacyUpload')
 export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
@@ -102,19 +103,30 @@ export function getPhoneCode(data: any, config: any) {
  * @param params
  */
 
-export function getUserIdKey(data: any, config: any) {
-  const methodInstance = request.Post(
-    USER_ID_KEY, // 请求地址
-    data,
+export function getUserIdKey(config: any) {
+  return useRequest(
+    (newTodo) =>
+      request.Post(
+        USER_ID_KEY, // 地址
+        newTodo, // 参数
+      ),
+    { ...config },
   )
-  // const meta: METHOD_INSTANCE = {
-  //   ignoreSign: true,
-  //   ignorEencrypt: true,
-  //   ignorToken: true,
-  // }
-  // methodInstance.meta = meta
+}
 
-  return useCaptcha(methodInstance, config)
+/**
+ * 获取 识别后信息
+ * @param params
+ */
+export function getUserInfo(config: any) {
+  return useRequest(
+    (newTodo) =>
+      request.Post(
+        GET_INFO, // 地址
+        newTodo, // 参数
+      ),
+    { ...config },
+  )
 }
 
 /**
