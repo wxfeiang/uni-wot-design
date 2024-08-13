@@ -1,20 +1,19 @@
-import { agreement } from '@/service/api/auth'
+import { getArtacleDetail } from '@/service/api/source'
 
 const content = ref('')
-const { send: getAarData, loading: Loading } = agreement(
-  {},
-  {
-    immediate: false,
-    loading: false,
-  },
-)
+const { send: sedAarData, loading: Loading } = getArtacleDetail({
+  immediate: false,
+  loading: false,
+})
 
-const AarData = async (id) => {
+const AarData = async (articleId) => {
   const params = {
-    id,
+    articleId: articleId || '1695005818677743600',
   }
   try {
-    const data: any = await getAarData(params)
+    console.log('🍮[articleId]:', params)
+    const data: any = await sedAarData(params)
+    console.log('🍈[data]:', data)
     content.value = data[0].url
   } catch (error) {
     console.log('🥜')

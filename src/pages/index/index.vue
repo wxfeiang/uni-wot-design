@@ -41,8 +41,11 @@ import { useScancode } from '@/utils/uniapi'
 import { useMessage } from 'wot-design-uni'
 
 import { useBaseStore } from '@/store/modules/base'
+import useIndex from './hooks/useIndex'
 const message = useMessage()
 const basestore = useBaseStore()
+
+const { messageData, messageClick } = useIndex()
 
 defineOptions({
   name: 'Index',
@@ -306,22 +309,24 @@ onPageScroll((e) => {
     <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
       <wd-cell
-        v-for="(item, index) in msg"
+        v-for="(item, index) in messageData.data!.content"
         :key="index"
         :to="item.url"
         title-width="280px"
         custom-class="cell-item"
+        clickable
+        @click="messageClick(item)"
       >
         <template #title>
           <view class="flex">
             <view class="w-50px relative">
-              <wd-tag type="danger" color="#e48370" bg-color="#f5f5f5">{{ item.title }}</wd-tag>
+              <wd-tag type="danger" color="#e48370" bg-color="#f5f5f5">消息</wd-tag>
               <view
-                v-if="item.isRead"
+                v-if="true"
                 class="absolute top-4px left-[-2px] wh-5px rounded-50% bg-red"
               ></view>
             </view>
-            <view class="truncate-1">{{ item.content }}</view>
+            <view class="truncate-1">{{ item.articleTitle }}</view>
           </view>
         </template>
       </wd-cell>
@@ -381,7 +386,13 @@ onPageScroll((e) => {
   </view>
   <view class="pl-20px">
     <wd-cell-group border>
-      <wd-cell v-for="(item, index) in msg" :key="index" :to="item.url" custom-class="cell-item">
+      <wd-cell
+        v-for="(item, index) in msg"
+        :key="index"
+        :to="item.url"
+        clickable
+        custom-class="cell-item"
+      >
         <template #title>
           <view class="truncate-1 color-#000">{{ item.content }}</view>
         </template>

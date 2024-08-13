@@ -191,6 +191,7 @@
         {
           "path": "messageList/index",
           "type": "home",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -212,6 +213,7 @@
           "path": "index",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

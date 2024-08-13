@@ -1,6 +1,7 @@
 <!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
 <route lang="json5" type="home">
 {
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -8,9 +9,13 @@
 </route>
 
 <script lang="ts" setup>
-import PLATFORM from '@/utils/platform'
 import { useMessage } from 'wot-design-uni'
+
+import { routeTo } from '@/utils'
+import useNews from './hooks/useNews'
 const message = useMessage()
+
+const { messageData, sendMessageList, messageListData } = useNews()
 
 defineOptions({
   name: 'workGuide',
@@ -20,23 +25,7 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 function handleClickLeft() {
   uni.navigateBack()
 }
-// H5 的情况下要 -44
-const navTop = ref(safeAreaInsets.top + 40)
-onMounted(() => {
-  if (PLATFORM.isH5) {
-    navTop.value = navTop.value - 44
-  }
-})
 
-// 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
-const navbg = ref('nav_show')
-onPageScroll((e) => {
-  if (e.scrollTop > 50) {
-    navbg.value = 'nav_hide'
-  } else {
-    navbg.value = 'nav_show'
-  }
-})
 const paging = ref(null)
 const dataList = ref([
   {
@@ -54,10 +43,28 @@ const dataList = ref([
     isread: true,
   },
 ])
-const queryList = (pageNo, pageSize) => {
+const queryList = async (pageNo, pageSize) => {
+  const data = {
+    page: pageNo,
+    size: pageSize,
+  }
   // 调用接口获取数据
+  try {
+    await sendMessageList(data)
+    // console.log('🍛[resData]:', resData)
+    paging.value.complete(messageListData)
+  } catch (error) {
+    console.log('🥒[error]:', error)
+    paging.value.complete(false)
+  }
+}
 
-  paging.value.complete(dataList.value)
+const goDetil = (item) => {
+  console.log('🍛[item]:', item)
+  routeTo({
+    url: '/pages-sub/components/webView/index',
+    data: { type: item.articleId || '1700080380440236000' },
+  })
 }
 </script>
 <template>
@@ -65,7 +72,7 @@ const queryList = (pageNo, pageSize) => {
     <template #top>
       <!-- 顶部 -->
       <view class="bg-blue pb-10px">
-        <wd-navbar safeAreaInsetTop placeholder fixed :custom-class="navbg" :bordered="false">
+        <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
           <template #left>
             <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
           </template>
@@ -75,7 +82,6 @@ const queryList = (pageNo, pageSize) => {
         </wd-navbar>
       </view>
     </template>
-
     <!-- leibiao  -->
     <view v-for="(item, index) in dataList" :key="index">
       <wd-gap bg-color="#f5f5f5"></wd-gap>
@@ -89,7 +95,7 @@ const queryList = (pageNo, pageSize) => {
           </view>
         </template>
         <template #value>
-          <view class="flex items-center color-#999">
+          <view class="flex items-center color-#999" @click="goDetil(item)">
             <view>查看详情</view>
             <wd-icon name="arrow-right" size="12px"></wd-icon>
           </view>
@@ -107,9 +113,6 @@ const queryList = (pageNo, pageSize) => {
 </template>
 
 <style lang="scss" scoped>
-:deep(.nav_show) {
-  @apply bg-transparent!;
-}
 :deep(.nav_bg) {
   background-color: var(--color-nav-bg);
   .wd-navbar__title {

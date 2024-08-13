@@ -249,7 +249,7 @@ Get(
 ```
 
 ```
-带参数 携带额外信息
+带参数 携带额外信息  参数位置初始化空缺
 export function sysLogin(params: any, config: any) {
   console.log('🌯[params]:', params)
   return useRequest(
@@ -269,6 +269,24 @@ export function sysLogin(params: any, config: any) {
   )
 }
 
+```
+
+```
+export function getMessageList(data: any, config: CONFIGN) {
+  const methodInstance = request.Post(
+    MESSAGE_LIST, // 请求地址
+    data,
+  )
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+  methodInstance.meta = meta
+
+  return useRequest(methodInstance, config)
+}
 ```
 
 ## Router
