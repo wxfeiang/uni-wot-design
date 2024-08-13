@@ -27,6 +27,7 @@ const alovaInstance = createAlova({
   ...AdapterUniapp(),
   statesHook: VueHook,
   timeout: timeOut,
+
   beforeRequest: (method) => {
     const userStore = useUserStore()
     beforeQuest(method)

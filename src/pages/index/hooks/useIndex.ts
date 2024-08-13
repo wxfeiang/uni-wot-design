@@ -2,10 +2,10 @@ import { getMessageList } from '@/service/api/source'
 import { routeTo } from '@/utils'
 
 // 消息列表
-const { data: messageData }: { data: any } = getMessageList(
+const { send: messageList, data: messageData }: { data: any; send: any } = getMessageList(
   {
     page: 1,
-    size: 2,
+    size: 10,
   },
   {
     immediate: true,
@@ -13,9 +13,13 @@ const { data: messageData }: { data: any } = getMessageList(
     initialData: [],
   },
 )
-// const sendMessageList = (data) => {
-//   messageList(data)
-// }
+const mdData = ref(null)
+const sendMessageList = async (data) => {
+  try {
+    const a = messageList(data)
+    console.log('🌯[a ]:', a)
+  } catch (error) {}
+}
 
 function messageClick(item) {
   routeTo({
@@ -25,5 +29,5 @@ function messageClick(item) {
 }
 
 export default () => {
-  return { messageData, messageClick }
+  return { messageData, messageClick, sendMessageList }
 }

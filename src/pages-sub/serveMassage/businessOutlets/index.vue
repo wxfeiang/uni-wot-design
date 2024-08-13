@@ -12,6 +12,9 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import useCardMessage from './hooks/businessOutlets'
+
+const { cardInfoData } = useCardMessage()
 
 const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
 
@@ -102,12 +105,13 @@ function toLocation(e) {
 
 <template>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
+
   <view class="p-10px">
     <dy-title title="服务网点" class="py-10px"></dy-title>
 
     <wd-cell-group border>
       <wd-cell
-        v-for="(item, index) in mainData"
+        v-for="(item, index) in cardInfoData"
         :key="index"
         :to="item.url"
         custom-class="cell-item"
@@ -117,18 +121,18 @@ function toLocation(e) {
           <view
             class="cell-icon mt-10px mr-10px p-4px bg-blue size-20px color-#fff text-center rounded-4px"
           >
-            {{ item.title[0] }}
+            {{ item.name[0] }}
           </view>
         </template>
         <template #title>
-          <view class="truncate-1 color-#000">{{ item.title }}</view>
+          <view class="truncate-1 color-#000">{{ item.name }}</view>
         </template>
         <template #label>
-          <view class="color-#999 truncate-3">地址: {{ item.lable }}</view>
+          <view class="color-#999 truncate-3">地址: {{ '======' }}</view>
         </template>
 
         <view class="pt-10px">
-          <view class="truncate-1 color-#999">距离 : {{ item.distance }}</view>
+          <view class="truncate-1 color-#999">距离 : {{ item.distance || '100 米' }}</view>
           <view class="flex gap-20px justify-end mt-4px">
             <view class="flex flex-col items-center" @click="toLocation(item)">
               <view class="i-carbon-location-heart-filled color-#999"></view>

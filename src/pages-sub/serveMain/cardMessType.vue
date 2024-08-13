@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -15,7 +15,12 @@ const navTitle = ref('')
 function handleClickLeft() {
   uni.navigateBack()
 }
-onMounted(() => {
+
+const baseCon = ref('')
+
+onLoad((options: any) => {
+  console.log('🌯[options]:', options)
+  baseCon.value = options.base
   navTitle.value = '基本信息'
 })
 </script>
@@ -37,11 +42,10 @@ onMounted(() => {
       </template>
     </wd-navbar>
 
-    <dy-title :title="navTitle" customClass="custom-title"></dy-title>
+    <!-- <dy-title :title="navTitle" customClass="custom-title"></dy-title> -->
 
-    <!-- 动态加载类型对应的组件 -->
-    <!-- CardProgressInquiry 卡进度查询-->
-    <Card-Messg />
+    <!--卡基本信息 -->
+    <Card-Messg v-if="baseCon === 'cardBaseInfo'" />
   </view>
 </template>
 

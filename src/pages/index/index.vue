@@ -45,7 +45,7 @@ import useIndex from './hooks/useIndex'
 const message = useMessage()
 const basestore = useBaseStore()
 
-const { messageData, messageClick } = useIndex()
+const { messageData, messageClick, sendMessageList } = useIndex()
 
 defineOptions({
   name: 'Index',
@@ -231,6 +231,10 @@ onMounted(() => {
   if (PLATFORM.isH5) {
     navTop.value = navTop.value - 44
   }
+  // sendMessageList({
+  // page: 1,
+  //   size: 2,
+  // })
 })
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
@@ -309,7 +313,7 @@ onPageScroll((e) => {
     <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
       <wd-cell
-        v-for="(item, index) in messageData.data!.content"
+        v-for="(item, index) in messageData.data.data.content.slice(0, 2)"
         :key="index"
         :to="item.url"
         title-width="280px"
@@ -387,17 +391,18 @@ onPageScroll((e) => {
   <view class="pl-20px">
     <wd-cell-group border>
       <wd-cell
-        v-for="(item, index) in msg"
+        v-for="(item, index) in messageData.data.data.content.slice(2, 5)"
         :key="index"
         :to="item.url"
         clickable
         custom-class="cell-item"
+        @click="messageClick(item)"
       >
         <template #title>
-          <view class="truncate-1 color-#000">{{ item.content }}</view>
+          <view class="truncate-1 color-#000">{{ item.articleTitle }}</view>
         </template>
 
-        <view class="truncate-1 color-#999">2020-02-24</view>
+        <view class="truncate-1 color-#999">{{ item.updateTime }}</view>
       </wd-cell>
     </wd-cell-group>
   </view>

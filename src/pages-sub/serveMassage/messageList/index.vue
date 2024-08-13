@@ -15,7 +15,7 @@ import { routeTo } from '@/utils'
 import useNews from './hooks/useNews'
 const message = useMessage()
 
-const { messageData, sendMessageList, messageListData } = useNews()
+const { messageData, sendMessageList, messageListData, messageClick } = useNews()
 
 defineOptions({
   name: 'workGuide',
@@ -52,7 +52,7 @@ const queryList = async (pageNo, pageSize) => {
   try {
     await sendMessageList(data)
     // console.log('🍛[resData]:', resData)
-    paging.value.complete(messageListData)
+    paging.value.complete(messageListData.value)
   } catch (error) {
     console.log('🥒[error]:', error)
     paging.value.complete(false)
@@ -63,15 +63,15 @@ const goDetil = (item) => {
   console.log('🍛[item]:', item)
   routeTo({
     url: '/pages-sub/components/webView/index',
-    data: { type: item.articleId || '1700080380440236000' },
+    data: { type: item.articleId },
   })
 }
 </script>
 <template>
-  <z-paging ref="paging" v-model="dataList" @query="queryList">
+  <!--  <z-paging ref="paging" v-model="dataList" @query="queryList">
     <template #top>
-      <!-- 顶部 -->
-      <view class="bg-blue pb-10px">
+      <!~~ 顶部 ~~>
+      <view class="pb-10px">
         <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
           <template #left>
             <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
@@ -82,7 +82,8 @@ const goDetil = (item) => {
         </wd-navbar>
       </view>
     </template>
-    <!-- leibiao  -->
+
+    <!~~ leibiao  ~~>
     <view v-for="(item, index) in dataList" :key="index">
       <wd-gap bg-color="#f5f5f5"></wd-gap>
       <wd-cell-group border use-slot>
@@ -109,7 +110,46 @@ const goDetil = (item) => {
         </wd-cell>
       </wd-cell-group>
     </view>
-  </z-paging>
+  </z-paging>-->
+
+  <view class="pb-10px">
+    <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
+      <template #left>
+        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
+      </template>
+      <template #title>
+        <text class="color-#fff">消息列表</text>
+      </template>
+    </wd-navbar>
+  </view>
+
+  <!-- leibiao  -->
+  <view v-for="(item, index) in messageData.data.data.content" :key="index">
+    <wd-gap bg-color="#f5f5f5"></wd-gap>
+    <wd-cell-group border use-slot>
+      <template #title>
+        <view>
+          <wd-badge :is-dot="item.isread">
+            <wd-button size="small" icon="notification" type="info" :round="false"></wd-button>
+          </wd-badge>
+          <text class="ml-5px">消息提醒</text>
+        </view>
+      </template>
+      <template #value>
+        <view class="flex items-center color-#999" @click="goDetil(item)">
+          <view>查看详情</view>
+          <wd-icon name="arrow-right" size="12px"></wd-icon>
+        </view>
+      </template>
+      <wd-cell title-width="300px" clickable custom-class="cell-item" @click="messageClick(item)">
+        <template #label>
+          <view class="truncate-2 color-#666">
+            {{ item.articleTitle }}
+          </view>
+        </template>
+      </wd-cell>
+    </wd-cell-group>
+  </view>
 </template>
 
 <style lang="scss" scoped>

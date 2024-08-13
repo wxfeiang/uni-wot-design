@@ -1,4 +1,5 @@
 import { getMessageList } from '@/service/api/source'
+import { routeTo } from '@/utils'
 
 // 消息列表
 const {
@@ -11,7 +12,7 @@ const {
     size: 10,
   },
   {
-    immediate: false,
+    immediate: true,
     loading: false,
     initialData: [],
   },
@@ -22,7 +23,13 @@ messageSucess((data: any) => {
   console.log('🥤[data]:-------', data)
   messageListData.value = data.data.data.content
 })
-
+function messageClick(item) {
+  console.log('🍤[item]:', item)
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: item.articleId },
+  })
+}
 export default () => {
-  return { sendMessageList, messageData, messageListData }
+  return { sendMessageList, messageData, messageListData, messageClick }
 }

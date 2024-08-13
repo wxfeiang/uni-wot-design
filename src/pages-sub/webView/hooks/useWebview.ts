@@ -1,6 +1,9 @@
 import { getArtacleDetail } from '@/service/api/source'
 
 const content = ref('')
+const articleTitle = ref('')
+const createTime = ref('')
+
 const { send: sedAarData, loading: Loading } = getArtacleDetail({
   immediate: false,
   loading: false,
@@ -8,13 +11,15 @@ const { send: sedAarData, loading: Loading } = getArtacleDetail({
 
 const AarData = async (articleId) => {
   const params = {
-    articleId: articleId || '1695005818677743600',
+    articleId,
   }
   try {
     console.log('🍮[articleId]:', params)
     const data: any = await sedAarData(params)
     console.log('🍈[data]:', data)
-    content.value = data[0].url
+    content.value = data.data.data.articleContent
+    createTime.value = data.data.data.createTime
+    articleTitle.value = data.data.data.articleTitle
   } catch (error) {
     console.log('🥜')
   }
@@ -25,5 +30,7 @@ export default () => {
     content,
     AarData,
     Loading,
+    articleTitle,
+    createTime,
   }
 }

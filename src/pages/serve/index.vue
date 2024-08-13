@@ -77,6 +77,8 @@ const mainData = ref([
     title: '卡基础信息',
     icon: 'coupon',
     url: kabase,
+    type: '1',
+    base: 'cardBaseInfo',
   },
   {
     title: '卡解卦',
@@ -103,7 +105,7 @@ const mainData = ref([
 function gridClick(item: any) {
   console.log('🍝', item)
   if (item.type === '1') {
-    routeTo({ url: '/pages-sub/serveMain/cardMessType' })
+    routeTo({ url: '/pages-sub/serveMain/cardMessType', data: { base: item.base } })
   } else if (item.type === '2') {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType' })
   } else {

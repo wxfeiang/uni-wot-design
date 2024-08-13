@@ -7,9 +7,12 @@ const CONTENTLIST = '/myresources/tbbTypeContList'
 
 const CONTENTDESC = '/myresources/tbbTypeDesc'
 
-const MESSAGE_LIST = baseUrlApi('/manageArtacle/listSysArtaclePage')
+const MESSAGE_LIST = baseUrlApi('/member/app/manageArticle/listSysArtaclePage')
 
-const ARTACLE_DETAIL = baseUrlApi('/manageArtacle/findArtacleDetail')
+const ARTACLE_DETAIL = baseUrlApi('/member/app/manageArticle/findArtacleDetail')
+
+const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
+
 /**
  * 获取类型
  * @param params
@@ -86,4 +89,18 @@ export function getArtacleDetail(config: CONFIGN) {
       ),
     { ...config },
   )
+}
+
+/**
+ * @description: 获取网点信息
+ * @return {}
+ */
+
+export function getBranchesInfo(data: any, config: CONFIGN) {
+  const methodInstance = request.Post(
+    GET_BRANCHES_INFO, // 请求地址
+    data,
+  )
+
+  return useRequest(methodInstance, config)
 }
