@@ -20,7 +20,8 @@ const { loading, send: sendLogOut } = logout({
 const { clearUserInfo } = useUserStore()
 const LogOut = async () => {
   try {
-    const data: any = await sendLogOut()
+    await sendLogOut()
+    clearUserInfo()
   } catch (error) {}
   // TODO: 清除用户信息
   clearUserInfo()

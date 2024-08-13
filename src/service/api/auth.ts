@@ -7,6 +7,8 @@ const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'
 const GET_AGREEMENT = baseUrlApi('/agreement')
 const FACE_LOGIN = baseUrlApi('/user/app/faceLogin')
+
+const FACE_LOGIN_OUT = baseUrlApi('/captcha/faceLoginOut')
 /**
  * 登录
  * @param params 初始参数()
@@ -24,21 +26,19 @@ export function faceLogin(config: any) {
 }
 
 /**
+ * 登出
+ */
+export function logout(config: any) {
+  const methodInstance = request.Post(FACE_LOGIN_OUT)
+  return useRequest(methodInstance, config)
+}
+
+/**
  * 测试token
  * @param params
  */
 export function testToken() {
   return request.Get(TEST_TOKEN)
-}
-
-/**
- * 登出
- */
-/**
- * 登出
- */
-export function logout(config: any) {
-  return useRequest(request.Post(LOGIN_OUT), { ...config })
 }
 
 /**

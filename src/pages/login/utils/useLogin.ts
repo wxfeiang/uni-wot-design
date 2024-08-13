@@ -57,7 +57,6 @@ const Login = (form) => {
           const { openid: userId }: any = await sendUserInfo({ verifyResult })
           // 登录
           const loginData = {
-            appKey: Constant.APP_KEY,
             userId,
           }
           const data = await sendFaceLogin(loginData)
@@ -77,7 +76,6 @@ const Login = (form) => {
 
 const test = async () => {
   // const loginData = {
-  //   appKey: Constant.APP_KEY,
   //   userId: 'oqJ344mMimoLbFvWS2pCOuiLczKM',
   // }
   // const data = await sendFaceLogin(loginData)

@@ -80,6 +80,12 @@ export function getCode(config: any) {
   return useRequest(methodInstance, config)
 }
 
+/**
+ * @description:  获取手机验证吗
+ * @param {} data
+ * @param {} config
+ * @return {}
+ */
 export function getPhoneCode(data: any, config: any) {
   const methodInstance = request.Post(
     PHNECODE, // 请求地址

@@ -88,45 +88,47 @@ function actionTop(item: any) {
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
   } else {
-    message.alert('服务开发中...')
+    message.alert('功能开发中，敬请期待!...')
   }
 }
 
 const mainData = ref([
   {
     title: '社保查询',
-    icon: 'card',
-    url: shebao,
+    type: 'card',
+    icon: shebao,
   },
   {
     title: '雄安缴费通',
-    icon: 'order',
-    url: jiaofeitong,
+    type: 'order',
+    icon: jiaofeitong,
   },
   {
     title: '雄安乐伯',
-    icon: 'star',
-    url: boche,
+    type: 'star',
+    icon: boche,
   },
   {
     title: '雄安甄选',
-    icon: 'coupon',
-    url: zhenxuan,
+    type: 'coupon',
+    icon: zhenxuan,
   },
   {
     title: '图书借阅',
-    icon: 'coupon',
-    url: tushu,
+    type: 'coupon',
+    icon: tushu,
   },
   {
     title: '金融超市',
-    icon: 'coupon',
-    url: shop,
+    type: 'coupon',
+    icon: shop,
   },
   {
     title: '更多',
-    icon: 'coupon',
-    url: more,
+    icon: more,
+    type: 'card',
+    url: '/pages/serve/index',
+    active: 1,
   },
 ])
 
@@ -149,12 +151,11 @@ const swiperList = ref([banner])
 const current = ref<number>(0)
 function swiperClick() {
   console.log('🍏')
-  message.alert('服务开发中...')
+  message.alert('功能开发中，敬请期待!...')
   // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
 function toBusinessOutlets() {
-  console.log('🍏')
   routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
 }
 
@@ -201,8 +202,16 @@ const serveList = ref([
     color: '#3b3a9d',
   },
 ])
-function serveClick(item: any) {
-  message.alert('服务开发中...')
+function serveClick(item?: any) {
+  if (item.title === 'more') {
+    routeTo({
+      url: item.url,
+
+      navType: NAVIGATE_TYPE.SWITCH_TAB,
+    })
+  } else {
+    message.alert('功能开发中，敬请期待!...')
+  }
 
   // routeTo({ url: '/pages-sub/serveMain/index' })
 }
@@ -249,6 +258,7 @@ onPageScroll((e) => {
           hide-cancel
           disabled
           :custom-class="navbg"
+          @click="serveClick"
         />
       </view>
     </wd-sticky>
@@ -278,10 +288,10 @@ onPageScroll((e) => {
         v-for="(item, index) in mainData"
         :key="index"
         custom-class="grid-item"
-        @itemclick="swiperClick"
+        @itemclick="serveClick(item)"
       >
         <template #icon>
-          <image class="wh-42px rounded-10px" :src="item.url" />
+          <image class="wh-42px rounded-10px" :src="item.icon" />
         </template>
         <template #text>
           <view class="text-center mt-10px">{{ item.title }}</view>

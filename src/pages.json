@@ -122,7 +122,6 @@
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -131,7 +130,6 @@
           "path": "cardApplyType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -140,7 +138,6 @@
           "path": "cardFromType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -149,7 +146,6 @@
           "path": "cardMessType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -195,7 +191,6 @@
         {
           "path": "messageList/index",
           "type": "home",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

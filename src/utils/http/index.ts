@@ -95,6 +95,7 @@ const alovaInstance = createAlova({
      * @param method
      */
     onError: (err, method) => {
+      checkStatus(500)
       // eslint-disable-next-line prefer-promise-reject-errors
       return Promise.reject({ err, method })
     },

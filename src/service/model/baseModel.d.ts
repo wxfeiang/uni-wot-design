@@ -18,4 +18,5 @@ export declare interface METHOD_INSTANCE<T = any> {
 export declare interface CONFIGN<T = any> {
   immediate?: boolean // 是否立即执行请求
   loading?: boolean // 是否显示loading
+  initialData?: object // 设置data状态的初始数据
 }

@@ -40,7 +40,7 @@ const navigateToInterceptor = {
     }
     Modal({
       title: '提示',
-      content: '您还未登录,请先登录!',
+      content: '您还没有登录，是否立即登录?',
       showCancel: true,
     }).then((res: any) => {
       if (res.confirm) {

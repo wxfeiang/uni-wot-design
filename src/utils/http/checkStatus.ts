@@ -1,6 +1,6 @@
 import { Toast } from '@/utils/uniapi/prompt'
 
-export function checkStatus(status: number, msg: string): void {
+export function checkStatus(status: number, msg?: string): void {
   let errMessage = null
   switch (status) {
     case 400:

@@ -1,5 +1,6 @@
 import { Constant } from '@/enum/constant'
 
+import { useUserStore } from '@/store'
 import { Decrypt, Encrypt } from '@/utils/aes/aesMgr'
 import { decrypt } from '@/utils/aes/jsencrypt'
 import { Base64 } from 'js-base64' // 引入
@@ -7,10 +8,18 @@ import { md5 } from 'js-md5'
 import { createFilter } from './filter'
 import { uuid } from './uuid'
 
-const httpParam = {
-  appKey: Constant.APP_KEY,
-  appSecret: '',
+//  需要的固定常量数据
+export const constast = () => {
+  const userStore = useUserStore()
+
+  return {
+    appKey: Constant.APP_KEY,
+    timestamp: getTimeStamp(),
+    replay: uuid(),
+    userDId: userStore.userInfo.userDId,
+  }
 }
+
 // 生成时间
 export function getTimeStamp() {
   const date = Date.parse(new Date() as any)
@@ -65,9 +74,7 @@ export function beforeQuest(method: any) {
 
   // 数据合并转换
   const initParams = {
-    appKey: Constant.APP_KEY,
-    timestamp: getTimeStamp(),
-    replay: uuid(),
+    ...constast(),
   }
 
   if (method.type === 'GET') {
