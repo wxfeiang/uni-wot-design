@@ -32,12 +32,11 @@ const { send: sendFaceLogin, loading: LoadingFace } = faceLogin({
   loading: false,
 })
 
-const newData = ref({})
 const Login = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        newData.value = {
+        const newData = {
           appKey: Constant.APP_KEY,
           name: model.value.username,
           idCardNumber: model.value.password,
@@ -46,7 +45,7 @@ const Login = (form) => {
         }
         try {
           // 获取key
-          const { userIdKey }: any = await sendUserIdKey(newData.value)
+          const { userIdKey }: any = await sendUserIdKey(newData)
           const verifyData = {
             name: model.value.username,
             idCardNumber: model.value.password,
