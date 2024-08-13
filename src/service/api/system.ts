@@ -1,8 +1,7 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 
-import { useCaptcha } from '@alova/scene-vue' // eslint-disable-line
-import { useRequest } from 'alova'
+import { useCaptcha, useRequest } from 'alova/client'
 
 import { METHOD_INSTANCE } from '../model/baseModel'
 const CONFIG = baseUrlApi('/captcha/config')
@@ -62,9 +61,10 @@ export const getResponseConfig = (config: any) => {
 export function getCode(config: any) {
   const methodInstance = request.Post(
     CODE, // 请求地址
-    {},
+    {}, // 请求参数
     {
-      responseType: 'arraybuffer', // 配置参数
+      //  设置响应数据类型
+      responseType: 'arraybuffer',
     },
   )
   const meta: METHOD_INSTANCE = {

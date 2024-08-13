@@ -1,10 +1,7 @@
-import { Constant } from '@/enum/constant'
-
 import { sysLogin, testToken } from '@/service/api/auth'
 import { useUserStore } from '@/store'
-import { changePassword } from '@/utils/aes/jsencrypt'
 //
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 
 // 获取验证码
 const { getCodeUrl, codeflog } = useImageVerify()
@@ -29,30 +26,45 @@ const { send: sendLogin2, loading } = sysLogin({
 
 const newData = ref({})
 const Login = (form) => {
-  form.validate().then(async ({ valid, errors }) => {
-    if (valid) {
-      try {
-        newData.value = {
-          appKey: Constant.APP_KEY,
-          na: model.value.username,
-          ps: changePassword(model.value.password),
-          co: model.value.co,
-          u: codeflog.value,
-          type: 1,
-          terminal: Constant.TERMINAL,
-        }
-        try {
-          const data = await sendLogin2(newData.value)
-          authStore.setUserInfo(data)
-          // 跳转到登录后的页面
-        } catch (error) {
-          getCodeUrl()
-        }
-      } catch (error) {}
-    } else {
-      console.log('🥖')
-    }
+  uni.startFacialRecognitionVerify({
+    certifyId: '',
+    progressBarColor: '#CC0000', // 刷脸圈的颜色
+    screenOrientation: 'port', // 认证界面UI朝向
+    success: (e) => {
+      console.log(JSON.stringify(e))
+    },
+    fail: (e) => {
+      console.log(JSON.stringify(e))
+    },
+    complete: (e) => {
+      console.log(JSON.stringify(e))
+    },
   })
+
+  // form.validate().then(async ({ valid, errors }) => {
+  //   if (valid) {
+  //     try {
+  //       newData.value = {
+  //         appKey: Constant.APP_KEY,
+  //         na: model.value.username,
+  //         ps: changePassword(model.value.password),
+  //         co: model.value.co,
+  //         u: codeflog.value,
+  //         type: 1,
+  //         terminal: Constant.TERMINAL,
+  //       }
+  //       try {
+  //         const data = await sendLogin2(newData.value)
+  //         authStore.setUserInfo(data)
+  //         // 跳转到登录后的页面
+  //       } catch (error) {
+  //         getCodeUrl()
+  //       }
+  //     } catch (error) {}
+  //   } else {
+  //     console.log('🥖')
+  //   }
+  // })
 }
 
 const { send: tesToken, data: authInfo } = useRequest(testToken, {

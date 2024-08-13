@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@alova/adapter-uniapp':
-        specifier: ^1.2.2
-        version: 1.2.2(alova@2.21.4)
+        specifier: ^2.0.4
+        version: 2.0.4(alova@3.0.7)
       '@alova/scene-vue':
         specifier: ^1.6.2
         version: 1.6.2
@@ -69,8 +69,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       alova:
-        specifier: ^2.21.4
-        version: 2.21.4
+        specifier: ^3.0.7
+        version: 3.0.7
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
@@ -279,13 +279,16 @@ importers:
 
 packages:
 
-  '@alova/adapter-uniapp@1.2.2':
-    resolution: {integrity: sha512-O3Z4gEBMZWx6d2FTYdpQfR3Gb8YcC9o9RZWGoRmrJuvv6iJZUGXJLGQQXt5NMON9ON214nsgaQh4fH+D4ck9/Q==}
+  '@alova/adapter-uniapp@2.0.4':
+    resolution: {integrity: sha512-IkL3zd0wczD0Eu76ZLmTjIz8BmmD3Ud626g+sTLGGiutHif179iAGq0bxKSkUESbOn4C1yLMRfo3mOCu2kKXJQ==}
     peerDependencies:
-      alova: '>=2.16.2'
+      alova: ^3.0.5
 
   '@alova/scene-vue@1.6.2':
     resolution: {integrity: sha512-wHUEVmZWCz9y/nqq3NrSxnxC+vjlQTm5F8aOFI5p8Q4ADb/HV9bgO3p7Xh29gO4ZGiyLnUv1LtoRt5b0HrDj+A==}
+
+  '@alova/shared@1.0.4':
+    resolution: {integrity: sha512-Tq47Wd5q76kPmGLXmPijb0AfsXW2aWR9Pid1KO1nz96BdWiKstx2t/ZLTNaGtQzYyB6M+puunaTTJbusJQPmkQ==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -2156,9 +2159,9 @@ packages:
   ajv@8.17.1:
     resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
 
-  alova@2.21.4:
-    resolution: {integrity: sha512-2zgAmgTpGdeYmyTXCMZKKEhkuVqj3jt+EWWmXfZ7he5PlGLoSLAyawR11R5kVfxl8wR7V36Ete9gzUaHs0u9fw==}
-    engines: {node: '>= 0.12.0'}
+  alova@3.0.7:
+    resolution: {integrity: sha512-05pJu49IUTPNqrakZBd2ImF6AC1H8D75bo9NZoFlo35Va4lj7XFvCtOKBUYDCmtaLTgCPXj4SLlXmO6jWY3bDg==}
+    engines: {node: '>= 18.0.0'}
 
   ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
@@ -3432,6 +3435,10 @@ packages:
     resolution: {integrity: sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==}
     engines: {node: '>= 4'}
 
+  ignore@5.3.2:
+    resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
+    engines: {node: '>= 4'}
+
   immutable@4.3.7:
     resolution: {integrity: sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==}
 
@@ -4597,6 +4604,9 @@ packages:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
 
+  rate-limiter-flexible@5.0.3:
+    resolution: {integrity: sha512-lWx2y8NBVlTOLPyqs+6y7dxfEpT6YFqKy3MzWbCy95sTTOhOuxufP2QvRyOHpfXpB9OUJPbVLybw3z3AVAS5fA==}
+
   raw-body@2.5.2:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
@@ -5583,11 +5593,14 @@ packages:
 
 snapshots:
 
-  '@alova/adapter-uniapp@1.2.2(alova@2.21.4)':
+  '@alova/adapter-uniapp@2.0.4(alova@3.0.7)':
     dependencies:
-      alova: 2.21.4
+      '@alova/shared': 1.0.4
+      alova: 3.0.7
 
   '@alova/scene-vue@1.6.2': {}
+
+  '@alova/shared@1.0.4': {}
 
   '@ampproject/remapping@2.3.0':
     dependencies:
@@ -8501,7 +8514,10 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  alova@2.21.4: {}
+  alova@3.0.7:
+    dependencies:
+      '@alova/shared': 1.0.4
+      rate-limiter-flexible: 5.0.3
 
   ansi-escapes@4.3.2:
     dependencies:
@@ -9418,7 +9434,7 @@ snapshots:
       eslint-plugin-es-x: 7.8.0(eslint@8.57.0)
       get-tsconfig: 4.7.6
       globals: 13.24.0
-      ignore: 5.3.1
+      ignore: 5.3.2
       is-builtin-module: 3.2.1
       is-core-module: 2.15.0
       minimatch: 3.1.2
@@ -9938,6 +9954,8 @@ snapshots:
   ieee754@1.2.1: {}
 
   ignore@5.3.1: {}
+
+  ignore@5.3.2: {}
 
   immutable@4.3.7: {}
 
@@ -11243,6 +11261,8 @@ snapshots:
   quick-lru@4.0.1: {}
 
   range-parser@1.2.1: {}
+
+  rate-limiter-flexible@5.0.3: {}
 
   raw-body@2.5.2:
     dependencies:

@@ -1,8 +1,6 @@
+import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 import AdapterUniapp from '@alova/adapter-uniapp'
 import { createAlova } from 'alova'
-import VueHook from 'alova/vue'
-
-import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 // eslint-disable-next-line import/named
 import { useSystemStore, useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
@@ -18,22 +16,14 @@ const HEADER = {
 }
 
 /**
- * alova 请求实例
+ * alova 请求实例a
  * @link
  */
 
 const alovaInstance = createAlova({
   // baseURL: baseUrl(), //TODO:多服务配置情况下不需要基本前缀
-  ...AdapterUniapp({
-    // /* #ifndef APP-PLUS */
-    // mockRequest: isUseMock() ? mockAdapter : undefined, // APP 平台无法使用mock
-    // /* #endif */
-  }),
-  // 在开发环境开启错误日志
-  // errorLogger: process.env.NODE_ENV === devMode,
-  // // 在开发环境开启缓存命中日志
-  // cacheLogger: process.env.NODE_ENV === 'development',
-  statesHook: VueHook,
+  ...AdapterUniapp(), // 适配器
+
   timeout: timeOut,
   beforeRequest: (method) => {
     const userStore = useUserStore()
@@ -47,7 +37,7 @@ const alovaInstance = createAlova({
     method.config.headers = assign(method.config.headers, HEADER, token)
   },
 
-  responsed: {
+  responded: {
     /**
      * 请求成功的拦截器
      * 第二个参数为当前请求的method实例，你可以用它同步请求前后的配置信息
