@@ -2,7 +2,7 @@ import { TOKEN_OVER } from '@/utils/constant'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const initState = { nickname: '', avatar: '', tokenTime: new Date().getTime() }
+const initState = { nickname: '', avatar: '', tokenTime: new Date().getTime(), appSign: '' }
 
 export const useUserStore = defineStore(
   'user',
@@ -20,7 +20,7 @@ export const useUserStore = defineStore(
       userInfo.value = { ...initState }
     }
     // 是否已经登录
-    const isLogined = computed(() => !!userInfo.value.token)
+    const isLogined = computed(() => !!userInfo.value.appSign)
 
     // token过期 ture
     const isTokenExpired = computed(() => {
@@ -30,7 +30,7 @@ export const useUserStore = defineStore(
 
     function getAuthorization() {
       // Bearer 服务端已经返回了，可以不用再写
-      return userInfo.value?.token ? { authorization: `${userInfo.value?.token}` } : {}
+      return userInfo.value?.appSign ? { appSign: `${userInfo.value?.appSign}` } : {}
     }
 
     return {

@@ -49,11 +49,11 @@ console.log('🍏', navtop.value)
       <view class="flex items-center gap-15px">
         <template v-if="isLogined">
           <view class="p-5px bg-#fff rounded-50% size-70px">
-            <wd-img :width="70" :height="70" :src="userInfo.avatar" round />
+            <wd-img :width="70" :height="70" :src="userInfo.avatar || anvter" round />
           </view>
 
           <view>
-            <view class="font-bold color-#fff">{{ 'ss' }}</view>
+            <view class="font-bold color-#fff">{{ userInfo.userName }}</view>
           </view>
         </template>
         <template v-else>

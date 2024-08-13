@@ -22,6 +22,11 @@ type IUserInfo = {
   openid?: string
   token?: string
   tokenTime?: number // 当前时间戳
+  appSign?: string // app 签名
+  userName?: string
+  userPhone?: string
+  userDId?: string
+  idCardNumber?: string
 }
 
 enum TestEnum {

@@ -62,11 +62,10 @@ const Login = (form) => {
             userId,
           }
           const data = await sendFaceLogin(loginData)
-          // console.log('🍋[data]:', data)
           // 保存
           authStore.setUserInfo(data)
           // 跳转到登录后的页面
-          // uni.navigateBack()
+          uni.navigateBack()
         } catch (error) {
           Toast(error)
         }
@@ -78,12 +77,15 @@ const Login = (form) => {
 }
 
 const test = async () => {
-  const loginData = {
-    appKey: Constant.APP_KEY,
-    userId: 'oqJ344mMimoLbFvWS2pCOuiLczKM',
-  }
-  const data = await sendFaceLogin(loginData)
-  console.log('🍒[data]:', data)
+  // const loginData = {
+  //   appKey: Constant.APP_KEY,
+  //   userId: 'oqJ344mMimoLbFvWS2pCOuiLczKM',
+  // }
+  // const data = await sendFaceLogin(loginData)
+  // console.log('🍒[data]:', data)
+  // authStore.setUserInfo(data)
+  // // 跳转到登录后的页面
+  // uni.navigateBack()
 }
 
 export default () => {
