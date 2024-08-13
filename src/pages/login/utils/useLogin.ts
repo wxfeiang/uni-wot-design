@@ -14,8 +14,8 @@ const rules = {
   password: [{ required: true, message: '请填写身份证号码' }],
 }
 const model = ref({
-  username: '王鹏',
-  password: '622425199311264810',
+  username: '',
+  password: '',
 })
 
 const { send: sendUserIdKey, loading: LoadingKey } = getUserIdKey({
