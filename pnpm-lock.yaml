@@ -14,9 +14,6 @@ importers:
       '@alova/adapter-uniapp':
         specifier: ^2.0.4
         version: 2.0.4(alova@3.0.7)
-      '@alova/scene-vue':
-        specifier: ^1.6.2
-        version: 1.6.2
       '@dcloudio/uni-app':
         specifier: 3.0.0-4010420240430001
         version: 3.0.0-4010420240430001(@dcloudio/types@3.4.12)(postcss@8.4.41)(rollup@4.20.0)(vue@3.4.26(typescript@4.9.5))
@@ -283,9 +280,6 @@ packages:
     resolution: {integrity: sha512-IkL3zd0wczD0Eu76ZLmTjIz8BmmD3Ud626g+sTLGGiutHif179iAGq0bxKSkUESbOn4C1yLMRfo3mOCu2kKXJQ==}
     peerDependencies:
       alova: ^3.0.5
-
-  '@alova/scene-vue@1.6.2':
-    resolution: {integrity: sha512-wHUEVmZWCz9y/nqq3NrSxnxC+vjlQTm5F8aOFI5p8Q4ADb/HV9bgO3p7Xh29gO4ZGiyLnUv1LtoRt5b0HrDj+A==}
 
   '@alova/shared@1.0.4':
     resolution: {integrity: sha512-Tq47Wd5q76kPmGLXmPijb0AfsXW2aWR9Pid1KO1nz96BdWiKstx2t/ZLTNaGtQzYyB6M+puunaTTJbusJQPmkQ==}
@@ -5597,8 +5591,6 @@ snapshots:
     dependencies:
       '@alova/shared': 1.0.4
       alova: 3.0.7
-
-  '@alova/scene-vue@1.6.2': {}
 
   '@alova/shared@1.0.4': {}
 
