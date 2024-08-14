@@ -31,33 +31,32 @@ import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
 
 import { useBaseStore } from '@/store/modules/base'
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
+import { useToast } from 'wot-design-uni'
 
+const toast = useToast()
 const basestore = useBaseStore()
 const mainData = ref([
   {
     title: '社保卡申领',
     icon: 'card',
     url: shebaoksl,
-    type: '1',
+    type: '2',
     base: 'shebaoksl',
   },
   {
     title: '社保卡补换',
     icon: 'order',
     url: shebaokbh,
-    type: '3',
   },
   {
     title: '未成年人申领',
     icon: 'star',
     url: xinshenersl,
-    type: '4',
   },
   {
     title: '未成年人申领查询',
     icon: 'coupon',
     url: xinshengrq,
-    type: '5',
   },
   {
     title: '社保卡挂失',
@@ -68,7 +67,6 @@ const mainData = ref([
     title: '卡进度查询',
     base: 'kajindu',
     url: kajindu,
-    type: '1',
   },
   {
     title: '社保卡激活',
@@ -110,7 +108,8 @@ function gridClick(item: any) {
   } else if (item.type === '2') {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
   } else {
-    routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
+    // routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
+    toast.show('功能开发中，敬请期待!...')
   }
 }
 
