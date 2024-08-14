@@ -11,11 +11,10 @@
 <script lang="ts" setup>
 import { useMessage } from 'wot-design-uni'
 
-import { routeTo } from '@/utils'
 import useNews from './hooks/useNews'
 const message = useMessage()
 
-const { messageData, sendMessageList, messageListData, messageClick } = useNews()
+const { sendMessageList, messageClick } = useNews()
 
 defineOptions({
   name: 'workGuide',
@@ -27,22 +26,7 @@ function handleClickLeft() {
 }
 
 const paging = ref(null)
-const dataList = ref([
-  {
-    title: '标题文字',
-    label: '您好，您提交的工单已被客服10086接单，请您耐心等待处理，如需了解工单情况。',
-    titleWidth: '200px',
-    isLink: true,
-    isread: false,
-  },
-  {
-    title: '标题文字',
-    label: '您好，您提交的工单已被客服10086接单，请您耐心等待处理，如需了解工单情况。',
-    titleWidth: '200px',
-    isLink: true,
-    isread: true,
-  },
-])
+const dataList = ref([])
 const queryList = async (pageNo, pageSize) => {
   const data = {
     page: pageNo,
@@ -50,28 +34,22 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    await sendMessageList(data)
-    // console.log('🍛[resData]:', resData)
-    paging.value.complete(messageListData.value)
+    const a = await sendMessageList(data)
+    console.log('🥠[a ]:', a.data.data.content)
+    dataList.value = a.data.data.content
+
+    paging.value.complete(dataList.value)
   } catch (error) {
     console.log('🥒[error]:', error)
     paging.value.complete(false)
   }
 }
-
-const goDetil = (item) => {
-  console.log('🍛[item]:', item)
-  routeTo({
-    url: '/pages-sub/components/webView/index',
-    data: { type: item.articleId },
-  })
-}
 </script>
 <template>
-  <!--  <z-paging ref="paging" v-model="dataList" @query="queryList">
+  <z-paging ref="paging" v-model="dataList" @query="queryList">
     <template #top>
-      <!~~ 顶部 ~~>
-      <view class="pb-10px">
+      <!-- 顶部 -->
+      <view class="">
         <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
           <template #left>
             <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
@@ -83,7 +61,7 @@ const goDetil = (item) => {
       </view>
     </template>
 
-    <!~~ leibiao  ~~>
+    <!-- leibiao  -->
     <view v-for="(item, index) in dataList" :key="index">
       <wd-gap bg-color="#f5f5f5"></wd-gap>
       <wd-cell-group border use-slot>
@@ -96,7 +74,7 @@ const goDetil = (item) => {
           </view>
         </template>
         <template #value>
-          <view class="flex items-center color-#999" @click="goDetil(item)">
+          <view class="flex items-center color-#999" @click="messageClick(item)">
             <view>查看详情</view>
             <wd-icon name="arrow-right" size="12px"></wd-icon>
           </view>
@@ -104,52 +82,13 @@ const goDetil = (item) => {
         <wd-cell title-width="300px">
           <template #label>
             <view class="truncate-2 color-#666">
-              {{ item.label }}
+              {{ item.articleTitle }}
             </view>
           </template>
         </wd-cell>
       </wd-cell-group>
     </view>
-  </z-paging>-->
-
-  <view class="pb-10px">
-    <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
-      <template #left>
-        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
-      </template>
-      <template #title>
-        <text class="color-#fff">消息列表</text>
-      </template>
-    </wd-navbar>
-  </view>
-
-  <!-- leibiao  -->
-  <view v-for="(item, index) in messageData.data.data.content" :key="index">
-    <wd-gap bg-color="#f5f5f5"></wd-gap>
-    <wd-cell-group border use-slot>
-      <template #title>
-        <view>
-          <wd-badge :is-dot="item.isread">
-            <wd-button size="small" icon="notification" type="info" :round="false"></wd-button>
-          </wd-badge>
-          <text class="ml-5px">消息提醒</text>
-        </view>
-      </template>
-      <template #value>
-        <view class="flex items-center color-#999" @click="goDetil(item)">
-          <view>查看详情</view>
-          <wd-icon name="arrow-right" size="12px"></wd-icon>
-        </view>
-      </template>
-      <wd-cell title-width="300px" clickable custom-class="cell-item" @click="messageClick(item)">
-        <template #label>
-          <view class="truncate-2 color-#666">
-            {{ item.articleTitle }}
-          </view>
-        </template>
-      </wd-cell>
-    </wd-cell-group>
-  </view>
+  </z-paging>
 </template>
 
 <style lang="scss" scoped>

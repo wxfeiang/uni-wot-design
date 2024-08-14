@@ -19,7 +19,6 @@ const {
 )
 
 function messageClick(item) {
-  console.log('🍤[item]:', item)
   routeTo({
     url: '/pages-sub/webView/index',
     data: { type: item.articleId },

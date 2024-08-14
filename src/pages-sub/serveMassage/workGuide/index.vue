@@ -10,8 +10,8 @@
 
 <script lang="ts" setup>
 import PLATFORM from '@/utils/platform'
-import { useMessage } from 'wot-design-uni'
-const message = useMessage()
+import useGurid from './hooks/useGurid'
+console.log('🥘[useGurid]:', useGurid)
 
 defineOptions({
   name: 'workGuide',
@@ -31,44 +31,35 @@ onMounted(() => {
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 const navbg = ref('nav_show')
-onPageScroll((e) => {
-  if (e.scrollTop > 50) {
-    navbg.value = 'nav_hide'
-  } else {
-    navbg.value = 'nav_show'
-  }
-})
-const paging = ref(null)
-const dataList = ref([
-  {
-    title: '标题文字',
-    label: '这里是文字描述这里是文字描述这里是文字描述',
-    titleWidth: '200px',
-    isLink: true,
-  },
-  {
-    title: '标题文字',
-    label: '这里是文字描述这里是文字描述这里是文字描述',
-    titleWidth: '200px',
-    isLink: true,
-  },
-])
-const queryList = (pageNo, pageSize) => {
-  // 调用接口获取数据
+const { sendMessageList, messageClick } = useGurid()
 
-  paging.value.complete(dataList.value)
+const paging = ref(null)
+const dataList = ref([])
+const queryList = async (pageNo, pageSize) => {
+  const data = {
+    page: pageNo,
+    size: pageSize,
+  }
+  // 调用接口获取数据
+  try {
+    const resData = await sendMessageList(data)
+    dataList.value = resData.data.data.content
+    paging.value.complete(dataList.value)
+  } catch (error) {
+    paging.value.complete(false)
+  }
 }
 </script>
 <template>
   <z-paging ref="paging" v-model="dataList" @query="queryList">
     <template #top>
       <!-- 顶部 -->
-      <view class="bg-blue pb-10px">
+      <view class="">
         <wd-navbar
           safeAreaInsetTop
           placeholder
           fixed
-          :custom-class="navbg"
+          custom-class="nav_bg"
           :bordered="false"
           title="办事指南"
         >
@@ -94,18 +85,17 @@ const queryList = (pageNo, pageSize) => {
       <wd-cell
         v-for="(item, index) in dataList"
         :key="index"
-        :title="item.title"
-        :label="item.label"
+        :title="item.articleTitle"
+        :label="item.articleTitle"
         is-link
+        clickable
+        @click="messageClick(item)"
       />
     </wd-cell-group>
   </z-paging>
 </template>
 
 <style lang="scss" scoped>
-:deep(.nav_show) {
-  @apply bg-transparent!;
-}
 :deep(.nav_bg) {
   background-color: var(--color-nav-bg);
   .wd-navbar__title {

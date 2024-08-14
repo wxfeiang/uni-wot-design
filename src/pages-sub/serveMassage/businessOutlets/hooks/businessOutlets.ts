@@ -3,7 +3,7 @@ import { getBranchesInfo } from '@/service/api/source'
 import { routeTo } from '@/utils'
 
 // 消息列表
-const { data: cardInfoData }: { data: any } = getBranchesInfo(
+const { data: cardInfoData, send: sendbranchesInfo }: { data: any; send: any } = getBranchesInfo(
   {
     yhdm: '105',
     areaCode: '130629',

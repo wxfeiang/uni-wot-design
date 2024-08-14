@@ -33,9 +33,20 @@ onLoad((options) => {
         <text class="color-#fff">详情</text>
       </template>
     </wd-navbar>
-    <view class="text-center line-height-30px">{{ articleTitle }}</view>
-    <view class="text-center color-#999 font-size-12px line-height-20px">{{ createTime }}</view>
-    <dy-richtext :html="content"></dy-richtext>
+    <view class="mt-20px">
+      <view class="text-center line-height-30px">{{ articleTitle }}</view>
+      <view class="text-center flex justify-center gap-20px mt-10px">
+        <view class="text-center color-#999 font-size-12px line-height-20px">
+          {{ createTime }}
+        </view>
+        <view class="text-center color-#999 font-size-12px line-height-20px">
+          {{ createTime }}
+        </view>
+      </view>
+    </view>
+    <view class="p-20px">
+      <dy-richtext :html="content"></dy-richtext>
+    </view>
   </view>
 </template>
 

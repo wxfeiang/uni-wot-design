@@ -11,86 +11,14 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
 import useCardMessage from './hooks/businessOutlets'
 
 const { cardInfoData } = useCardMessage()
 
-const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
-
-const mainData = ref([
-  {
-    title: '社保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
-  },
-  {
-    title: '保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
-  },
-  {
-    title: '保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
-  },
-  {
-    title: '社保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
-  },
-  {
-    title: '社保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
-  },
-])
-
-function gridClick(item: any) {
-  console.log('🍝')
-  if (item.title === '申请') {
-    routeTo({ url: '/pages-sub/serveMain/cardApplyType' })
-  } else {
-    routeTo({ url: '/pages-sub/serveMain/cardFromType' })
-  }
-}
-
 function toPhone(e) {
   uni.makePhoneCall({
     phoneNumber: '0931-1234567',
-    fail: function (e) {
-      console.log('🍥', e)
-    },
+    fail: function (e) {},
   })
 }
 function toLocation(e) {
@@ -105,10 +33,8 @@ function toLocation(e) {
 
 <template>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
-
   <view class="p-10px">
-    <dy-title title="服务网点" class="py-10px"></dy-title>
-
+    <!-- <dy-title title="服务网点" class="py-10px"></dy-title> -->
     <wd-cell-group border>
       <wd-cell
         v-for="(item, index) in cardInfoData"

@@ -107,7 +107,7 @@ const mainData = ref([
     icon: jiaofeitong,
   },
   {
-    title: '雄安乐伯',
+    title: '停车交费',
     type: 'star',
     icon: boche,
   },
@@ -135,23 +135,8 @@ const mainData = ref([
   },
 ])
 
-const msg = ref([
-  {
-    title: '消息',
-    content: '一卡通要上线了,一卡通要上线了,一卡通要上线了',
-    isRead: false,
-    url: '',
-  },
-  {
-    title: '消息',
-    isRead: true,
-    content: '一卡通要上线了,一卡通要上线了,一卡通要上线了',
-    url: '',
-  },
-])
-
 const swiperList = ref([banner])
-const current = ref<number>(0)
+
 function swiperClick() {
   console.log('🍏')
   message.alert('功能开发中，敬请期待!...')
@@ -391,7 +376,7 @@ onPageScroll((e) => {
   <view class="pl-20px">
     <wd-cell-group border>
       <wd-cell
-        v-for="(item, index) in messageData.data.data.content.slice(2, 5)"
+        v-for="(item, index) in messageData.data.data.content.slice(1, 5)"
         :key="index"
         :to="item.url"
         clickable
