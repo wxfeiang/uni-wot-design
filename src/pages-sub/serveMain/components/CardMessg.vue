@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import useCardFrom from '../hooks/useCardFrom'
-
 import useCardMessage from '../hooks/useCardMessage'
-const { Login, model, rules, loading, read } = useCardFrom()
-const form = ref(null)
-const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
 
 const { cardInfoData } = useCardMessage()
 
@@ -14,17 +9,6 @@ const { cardInfoData } = useCardMessage()
 
 const visible = ref<boolean>(false)
 
-function showKeyBoard() {
-  visible.value = true
-}
-const onInput = (value) => {
-  model.password += value
-}
-const onDelete = (value) => {
-  // console.log(value)
-  // model.password += value
-  model.password = value
-}
 const back = () => {
   uni.navigateBack()
 }
@@ -55,10 +39,17 @@ const data = ref([
   {
     title: '电话',
     value: '123456789',
+    prop: 'dh',
+  },
+  {
+    title: '社会保障卡号',
+    value: '123456789',
+    prop: 'zhbzkh',
   },
   {
     title: '地址',
     value: '北京市',
+    prop: 'address',
   },
 ])
 </script>
@@ -67,27 +58,17 @@ const data = ref([
     <!-- {{ cardInfoData }} -->
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-cell-group title="基本信息" border>
-        <!-- <wd-cell
+        <wd-cell
           :title="item.title"
-          :value="item.value"
+          :value="cardInfoData[item.prop]"
           border
           v-for="(item, index) in data"
           :key="index"
-        ></wd-cell> -->
-        <wd-cell title="姓名" :value="cardInfoData.xm" border></wd-cell>
-        <wd-cell title="年龄" :value="cardInfoData.phone" border></wd-cell>
-
-        <wd-cell title="社会保障卡号" :value="cardInfoData.shbzhm" border></wd-cell>
-        <wd-cell title="电话" :value="cardInfoData.phone" border></wd-cell>
-        <!-- <wd-cell title="年龄" :value="cardInfoData.phone" border></wd-cell>
-        <wd-cell title="年龄" :value="cardInfoData.phone" border></wd-cell> -->
-        <wd-cell title="地址" :value="cardInfoData.areaCode" border></wd-cell>
+        ></wd-cell>
       </wd-cell-group>
     </view>
     <view class="mt-20px">
-      <wd-button type="primary" :round="false" size="medium" @click="back" block :loading="loading">
-        返 回
-      </wd-button>
+      <wd-button type="primary" :round="false" size="medium" @click="back" block>返 回</wd-button>
     </view>
   </view>
 </template>

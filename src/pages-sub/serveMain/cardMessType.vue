@@ -21,7 +21,7 @@ const baseCon = ref('')
 onLoad((options: any) => {
   console.log('🌯[options]:', options)
   baseCon.value = options.base
-  navTitle.value = '基本信息'
+  navTitle.value = decodeURIComponent(options.title)
 })
 </script>
 

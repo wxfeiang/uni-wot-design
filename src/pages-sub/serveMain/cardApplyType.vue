@@ -11,9 +11,14 @@
 <script lang="ts" setup>
 import CardApply from './components/CardApply.vue'
 const navTitle = ref('')
-
-onMounted(() => {
-  navTitle.value = '申请须知'
+function handleClickLeft() {
+  uni.navigateBack()
+}
+const baseCon = ref('')
+onLoad((options: any) => {
+  console.log('🌯=======[options]:', options)
+  baseCon.value = options.base
+  navTitle.value = decodeURIComponent(options.title)
 })
 </script>
 
@@ -28,11 +33,13 @@ onMounted(() => {
       :bordered="false"
       :title="navTitle"
       custom-class="nav_bg"
-    ></wd-navbar>
+    >
+      <template #left>
+        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
+      </template>
+    </wd-navbar>
 
-    <!-- 动态加载类型对应的组件 -->
-    <!-- CardProgressInquiry 卡进度查询-->
-    <Card-Apply />
+    <Card-Apply v-if="baseCon === 'shebaoksl'" />
   </view>
 </template>
 

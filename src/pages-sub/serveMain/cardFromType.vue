@@ -15,8 +15,12 @@ const navTitle = ref('')
 function handleClickLeft() {
   uni.navigateBack()
 }
-onMounted(() => {
-  navTitle.value = '申领'
+const baseCon = ref('')
+
+onLoad((options: any) => {
+  console.log('🌯[options]:', options)
+  baseCon.value = options.base
+  navTitle.value = decodeURIComponent(options.title)
 })
 </script>
 
@@ -41,7 +45,7 @@ onMounted(() => {
 
     <!-- 动态加载类型对应的组件 -->
     <!-- CardProgressInquiry 卡进度查询-->
-    <Card-ProgressInQuiry />
+    <Card-ProgressInQuiry v-if="baseCon === 'kajindu'" />
   </view>
 </template>
 

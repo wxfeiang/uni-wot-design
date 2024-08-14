@@ -322,3 +322,28 @@ needLogin: false, // false 表示需要登录 默认不需要配置
 采用原子类的写法 ,可以使用 @apply
 
 尽量不要单独自定义样式
+
+```
+<wd-input
+            type="text"
+            label="验证码"
+            center
+            v-model="model.username"
+            placeholder="请输入验证码"
+            :rules="rules.username"
+            custom-input-class="custom-input-right"
+          >
+<template #suffix>
+<wd-button
+size="small"
+plain
+custom-class="button"
+:round="false"
+@click="getCode"
+:loading="sending"
+:disabled="sending || countdown > 0" >
+{{ loading ? '发送中...' : countdown > 0 ? `${countdown}S后获取` : '获取验证码' }}
+</wd-button>
+</template>
+</wd-input>
+```

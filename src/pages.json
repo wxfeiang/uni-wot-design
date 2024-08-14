@@ -153,16 +153,6 @@
           "style": {
             "navigationStyle": "custom"
           }
-        },
-        {
-          "path": "index",
-          "type": "page",
-          "style": {
-            "navigationBarTitleText": "服务中心",
-            "backgroundColor": "#fff",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTextStyle": "black"
-          }
         }
       ]
     },

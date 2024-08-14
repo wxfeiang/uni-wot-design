@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import useCardFrom from '../hooks/useCardFrom'
-const { Login, model, rules, loading, read } = useCardFrom()
+
+import useCardApply from '../hooks/useCardApply'
+const { modelPhoto } = useCardApply()
 
 const form = ref(null)
 
@@ -10,37 +11,66 @@ function toQueryDetil(data?: any) {
 }
 
 const cardUrl = 'https://cdn.uviewui.com/uview/demo/upload/positive.png'
-const url = ref(
-  'https://zhjia.net:8890/picture/ec-saas/20240808/13e7effe76844c168be1ac926317f4a3.jpg',
-)
-const { fileData } = useFilePase('privacy-bucket/20240809/4b67606be1af4b85a045c56bdb29e2d8.jpg')
 
-const url2 = ref('') // ref('public/uploads/image/1722994513452-5d9fdf30-37c4-409e-88ed-f1ad64a0a958.jpg')
+const action = import.meta.env.VITE_UPLOAD_BASEURL + '/card/app/uploadPhoto'
+
 const getdata = () => {
-  console.log(url.value)
-  console.log(url2.value)
   // console.log('🥠=====', fileData.value)
 }
-const wotUpAttrs = {
+
+const wotUpAttrs0 = {
+  formData: {
+    photoType: '1',
+    type: '1',
+    zjhm: '210204199207215655',
+  },
   limit: 1,
   'custom-preview-class': 'custom-preview-class',
   'custom-evoke-class': 'custom-evoke-class',
   'custom-class': 'custom-class',
 }
+
+const wotUpAttrs1 = {
+  limit: 1,
+  'custom-preview-class': 'custom-preview-class',
+  'custom-evoke-class': 'custom-evoke-class',
+  'custom-class': 'custom-class',
+  formData: {
+    photoType: '1',
+    type: '1',
+    zjhm: '210204199207215655',
+  },
+}
+const url1 = ref('')
+const url2 = ref('')
 </script>
 <template>
   <view class="p-10px py-20px">
     <view class="rounded-10px overflow-hidden bg-#fff py-20px">
-      <wd-form ref="form" :model="model">
+      <wd-form ref="form" :model="modelPhoto">
         <view class="mb-20px">
-          <dy-upload v-model="url2" :limit="1" showFileDy :defaultAttrs="wotUpAttrs" isAes>
+          <dy-upload
+            v-model="url1"
+            :limit="1"
+            showFileDy
+            :defaultAttrs="wotUpAttrs0"
+            :action="action"
+            name="photoBase64"
+          >
             <view class="custom-preview-class">
               <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
             </view>
           </dy-upload>
         </view>
         <view class="mb-20px">
-          <dy-upload v-model="url2" :limit="1" showFileDy :defaultAttrs="wotUpAttrs" isAes>
+          <dy-upload
+            v-model="url2"
+            :limit="1"
+            showFileDy
+            :defaultAttrs="wotUpAttrs1"
+            :action="action"
+            name="photoBase64"
+          >
             <view class="custom-preview-class">
               <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
             </view>
@@ -53,14 +83,7 @@ const wotUpAttrs = {
       请保持证件边框与图片边框基本一致
     </view>
     <view class="mt-20px">
-      <wd-button
-        type="primary"
-        :round="false"
-        size="medium"
-        @click="toQueryDetil(form)"
-        block
-        :loading="loading"
-      >
+      <wd-button type="primary" :round="false" size="medium" @click="toQueryDetil(form)" block>
         下一步
       </wd-button>
     </view>

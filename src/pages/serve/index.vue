@@ -24,7 +24,6 @@ import mimaxiugai from '@/static/images/serve/mimaxiugai.png'
 
 import kabase from '@/static/images/serve/kabase.png'
 
-import kajiegua from '@/static/images/serve/kajiegua.png'
 import xinshengrq from '@/static/images/serve/xinshengrq.png'
 
 import kabiangeng from '@/static/images/serve/kabiangeng.png'
@@ -40,12 +39,7 @@ const mainData = ref([
     icon: 'card',
     url: shebaoksl,
     type: '1',
-  },
-  {
-    title: '制卡进度查询',
-    icon: 'coupon',
-    url: kajindu,
-    type: '2',
+    base: 'shebaoksl',
   },
   {
     title: '社保卡补换',
@@ -71,9 +65,10 @@ const mainData = ref([
     url: kaguas,
   },
   {
-    title: '社保卡解挂',
-    icon: 'coupon',
-    url: kajiegua,
+    title: '卡进度查询',
+    base: 'kajindu',
+    url: kajindu,
+    type: '1',
   },
   {
     title: '社保卡激活',
@@ -105,13 +100,17 @@ const mainData = ref([
 ])
 
 function gridClick(item: any) {
-  console.log('🍝', item)
+  const { base, title } = item
+  console.log('🍓[base, title ]:', base, title)
   if (item.type === '1') {
-    routeTo({ url: '/pages-sub/serveMain/cardMessType', data: { base: item.base } })
+    routeTo({
+      url: '/pages-sub/serveMain/cardMessType',
+      data: { base, title },
+    })
   } else if (item.type === '2') {
-    routeTo({ url: '/pages-sub/serveMain/cardApplyType' })
+    routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
   } else {
-    routeTo({ url: '/pages-sub/serveMain/cardFromType' })
+    routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
   }
 }
 

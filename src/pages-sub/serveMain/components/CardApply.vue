@@ -1,24 +1,22 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import useCardFrom from '../hooks/useCardFrom'
-const { Login, model, rules, loading, read } = useCardFrom()
-const form = ref(null)
-const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
+import { data as dataInfo } from '../types/data'
 
-const applyData = ref([
-  {
-    title: '[申领条件]',
-    type: 'idcard',
-    list: ['1.本人为柳州市柳北区户籍居民', '2.本人年龄在18-60周岁之间'],
-  },
-])
+import { useMessage } from 'wot-design-uni'
+
+import useCardApply from '../hooks/useCardApply'
+const message = useMessage()
+const { sendCardQury, read } = useCardApply()
+
+const form = ref(null)
+
+const applyData = ref()
 
 const showData = ref<any>({})
 function toAgereement(type) {
   routeTo({ url: '/pages-sub/webView/index', data: { type } })
 }
 function toAgereement2(type) {
-  console.log('🍥', type)
   routeTo({ url: '/pages-sub/serveMain/cardApplyFromType', data: { type } })
 }
 
@@ -52,13 +50,23 @@ watch(
     immediate: true,
   },
 )
-onLoad((e: any) => {
-  showData.value = applyData.value.find((item) => {
-    return item.type === 'idcard'
-  })
+onLoad((options: any) => {})
 
+const isApply = ref(null)
+
+onMounted(async () => {
+  showData.value = dataInfo[1]
   // 如果阅读协议页面回来 则
   read.value = true
+  const { resultCode }: any = await sendCardQury()
+  // 0 不让在申请了
+
+  isApply.value = resultCode
+  if (isApply.value === '0') {
+    message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
+      uni.navigateBack()
+    })
+  }
 })
 </script>
 <template>
@@ -66,19 +74,21 @@ onLoad((e: any) => {
     <view class="text-center color-#000 font-bold line-height-60px text-20px">
       {{ showData.title }}
     </view>
-    <view v-for="(item, index) in showData!.list" :key="index">
+    <view v-for="(item, index) in showData.list" :key="index">
       <wd-text color="#000" custom-class="custom-text" :text="item"></wd-text>
       <wd-gap bg-color="#f5f5f5"></wd-gap>
     </view>
 
     <!-- 底部 -->
-    <view class="fixed bottom-3 left-0 right-0">
+    <view class="fixed bottom-3 left-0 right-0 w-full">
       <view class="px-20px py-1">
-        <view>
+        <view class="">
           <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
-            已阅读并同意
-            <text class="color-#4d80f0" @click.stop="toAgereement(5)">《在线考试及相关授权》</text>
+            我已阅读并同意以上内容,并接受
           </wd-checkbox>
+          <view class="color-#4d80f0" @click.stop="toAgereement(5)">
+            《雄安一卡通申办业务须知协议》
+          </view>
         </view>
         <view class="flex gap-15px mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
@@ -97,6 +107,8 @@ onLoad((e: any) => {
       </view>
     </view>
   </view>
+
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {
@@ -108,6 +120,12 @@ export default {
 <style lang="scss" scoped>
 :deep(.custom-text) {
   @apply mb-10px!;
+}
+:deep(.wd-checkbox) {
+  @apply flex!;
+}
+:deep(.label-class) {
+  @apply w-300px! h-auto!;
 }
 
 // // /* #ifdef */
