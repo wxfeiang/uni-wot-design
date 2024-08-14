@@ -38,12 +38,14 @@ import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
 import PLATFORM from '@/utils/platform'
 import { useScancode } from '@/utils/uniapi'
-import { useMessage } from 'wot-design-uni'
+import { useMessage, useToast } from 'wot-design-uni'
 
 import { useBaseStore } from '@/store/modules/base'
 import useIndex from './hooks/useIndex'
+
 const message = useMessage()
 const basestore = useBaseStore()
+const toast = useToast()
 
 const { messageData, messageClick, sendMessageList } = useIndex()
 
@@ -91,7 +93,8 @@ function actionTop(item: any) {
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
   } else {
-    message.alert('功能开发中，敬请期待!...')
+    // message.alert('功能开发中，敬请期待!...')
+    toast.show('功能开发中，敬请期待!...')
   }
 }
 
@@ -139,7 +142,8 @@ const swiperList = ref([banner])
 
 function swiperClick() {
   console.log('🍏')
-  message.alert('功能开发中，敬请期待!...')
+  toast.show('功能开发中，敬请期待!...')
+  // message.alert('功能开发中，敬请期待!...')
   // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
@@ -198,7 +202,8 @@ function serveClick(item?: any) {
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
   } else {
-    message.alert('功能开发中，敬请期待!...')
+    toast.show('功能开发中，敬请期待!...')
+    // message.alert('功能开发中，敬请期待!...')
   }
 
   // routeTo({ url: '/pages-sub/serveMain/index' })
