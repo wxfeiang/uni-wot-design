@@ -89,7 +89,6 @@ function actionTop(item: any) {
     basestore.active = item.active
     routeTo({
       url: item.url,
-
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
   } else {
