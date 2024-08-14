@@ -55,7 +55,7 @@ onLoad((options: any) => {})
 const isApply = ref(null)
 
 onMounted(async () => {
-  showData.value = dataInfo[1]
+  showData.value = dataInfo[0]
   // 如果阅读协议页面回来 则
   read.value = true
   const { resultCode }: any = await sendCardQury()
@@ -64,7 +64,7 @@ onMounted(async () => {
   isApply.value = resultCode
   if (isApply.value === '0') {
     message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
-      uni.navigateBack()
+      // uni.navigateBack()
     })
   }
 })
