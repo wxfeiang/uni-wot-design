@@ -157,7 +157,7 @@ const serveList = ref([
     color: '#8f533a',
   },
   {
-    title: '校园服务',
+    title: '交通出行',
     url: jiaotong,
     color: '#219974',
   },
@@ -194,7 +194,23 @@ const serveList = ref([
   },
 ])
 function serveClick(item?: any) {
-  if (item.title === 'more') {
+  if (item.title === '雄安缴费通') {
+    uni.navigateToMiniProgram({
+      appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+      path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
+      extraData: {
+        // 需要传递给目标小程序的数据
+      },
+    })
+  } else if (item.title === '停车缴费') {
+    uni.navigateToMiniProgram({
+      appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+      path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
+      extraData: {
+        // 需要传递给目标小程序的数据
+      },
+    })
+  } else if (item.title === 'more') {
     routeTo({
       url: item.url,
 
