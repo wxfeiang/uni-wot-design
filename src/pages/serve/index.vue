@@ -42,63 +42,65 @@ const mainData = ref([
     type: '1',
   },
   {
-    title: '社保卡补换',
-    icon: 'order',
-    url: shebaokbh,
+    title: '制卡进度查询',
+    icon: 'coupon',
+    url: kajindu,
     type: '2',
   },
   {
-    title: '新生儿申领',
-    icon: 'star',
-    url: xinshenersl,
+    title: '社保卡补换',
+    icon: 'order',
+    url: shebaokbh,
     type: '3',
   },
   {
-    title: '卡挂失',
+    title: '未成年人申领',
+    icon: 'star',
+    url: xinshenersl,
+    type: '4',
+  },
+  {
+    title: '未成年人申领查询',
+    icon: 'coupon',
+    url: xinshengrq,
+    type: '5',
+  },
+  {
+    title: '社保卡挂失',
     icon: 'coupon',
     url: kaguas,
   },
   {
-    title: '卡进度查询',
+    title: '社保卡解挂',
     icon: 'coupon',
-    url: kajindu,
+    url: kajiegua,
   },
   {
-    title: '社保卡启用',
+    title: '社保卡激活',
     icon: 'coupon',
     url: shebaok,
   },
   {
-    title: '密码修改',
-    icon: 'coupon',
-    url: mimaxiugai,
-  },
-  {
-    title: '卡基础信息',
+    title: '基础信息查询',
     icon: 'coupon',
     url: kabase,
     type: '1',
     base: 'cardBaseInfo',
   },
   {
-    title: '卡解卦',
+    title: '服务密码修改',
     icon: 'coupon',
-    url: kajiegua,
+    url: mimaxiugai,
   },
   {
-    title: '卡信息变更',
+    title: '社保信息变更',
     icon: 'coupon',
     url: kabiangeng,
   },
   {
-    title: '密码重置',
+    title: '服务密码重置',
     icon: 'coupon',
     url: mimachongzhi,
-  },
-  {
-    title: '新生儿申领查询',
-    icon: 'coupon',
-    url: xinshengrq,
   },
 ])
 
@@ -122,20 +124,20 @@ const categories = ref([
     label: '社保卡申领',
     title: '标题一',
     icon: 'thumb-up',
-    items: mainData.value.slice(0, 3),
+    items: mainData.value.slice(0, 5),
   },
   {
     label: '社保卡服务',
     title: '标题二',
     icon: 'qrcode',
-    items: mainData.value.slice(3, 12),
+    items: mainData.value.slice(5, 12),
   },
-  {
-    label: '生活缴费',
-    title: '标题三',
-    icon: 'location',
-    items: mainData.value.slice(12, 20),
-  },
+  // {
+  //   label: '生活缴费',
+  //   title: '标题三',
+  //   icon: 'location',
+  //   items: mainData.value.slice(12, 20),
+  // },
 ])
 function handleChange({ value }) {
   active.value = value
@@ -206,7 +208,7 @@ onMounted(() => {
             </template>
           </wd-grid-item>
         </wd-grid>
-        <wd-gap bg-color="#f5f5f5"></wd-gap>
+        <wd-gap height="6" bg-color="#f5f5f5"></wd-gap>
       </view>
     </scroll-view>
   </view>

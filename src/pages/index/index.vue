@@ -66,7 +66,7 @@ const topAction = ref([
   },
   {
     icon: chuxing,
-    text: '出行',
+    text: '公交出行',
   },
   {
     icon: qiabao,
@@ -107,7 +107,7 @@ const mainData = ref([
     icon: jiaofeitong,
   },
   {
-    title: '停车交费',
+    title: '停车缴费',
     type: 'star',
     icon: boche,
   },
@@ -273,7 +273,7 @@ onPageScroll((e) => {
   <!-- 入口类表 -->
 
   <view class="mt-[-10px] overflow-hidden rounded-t-10px p-10px bg-#fff">
-    <wd-grid :column="4" clickable>
+    <wd-grid :column="5" clickable>
       <wd-grid-item
         use-icon-slot
         use-text-slot
@@ -293,7 +293,7 @@ onPageScroll((e) => {
   </view>
 
   <!-- 消息 -->
-  <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
+  <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
   <view class="px-20px py-10px">
     <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
@@ -322,7 +322,7 @@ onPageScroll((e) => {
     </wd-cell-group>
   </view>
   <!-- 广告位 -->
-  <view class="py-10px bg-#f5f5f5 h-120px">
+  <view class="py-7px bg-#f5f5f5 h-120px">
     <wd-swiper
       :list="swiperList"
       autoplay
@@ -359,7 +359,7 @@ onPageScroll((e) => {
     </view>
   </view>
   <!-- 办事指南 -->
-  <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
+  <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
   <view class="px-20px py-10px">
     <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
     <view class="py-10px h-120px relative">
