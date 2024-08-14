@@ -72,6 +72,10 @@ const alovaInstance = createAlova({
           if (useSystem.filterData.whiteList.includes(method.url)) {
             return rawData
           }
+          // 返回不解析的数据
+          if (meta?.Analysis) {
+            return rawData
+          }
           // 处理数据
           const resAllData = responseAes(response)
           const { data: rdata, code: rode, msg: rmsg } = resAllData

@@ -293,7 +293,7 @@ onPageScroll((e) => {
   </view>
 
   <!-- 消息 -->
-  <wd-gap bg-color="#f5f5f5"></wd-gap>
+  <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
   <view class="px-20px py-10px">
     <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
@@ -332,11 +332,10 @@ onPageScroll((e) => {
       @click="swiperClick"
       customClass="swiper_box"
     ></wd-swiper>
-    <!-- <wd-img :width="70" :height="120" :src="banner" custom-class="custom-class-img" /> -->
   </view>
 
   <!-- 服务专区 -->
-  <view class="px-20px py-10px">
+  <view class="px-10px py-10px">
     <dy-title title="服务专区"></dy-title>
     <view>
       <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% pr-20px">
@@ -360,10 +359,10 @@ onPageScroll((e) => {
     </view>
   </view>
   <!-- 办事指南 -->
-  <wd-gap bg-color="#f5f5f5"></wd-gap>
+  <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
   <view class="px-20px py-10px">
     <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
-    <view class="p-10px h-120px relative">
+    <view class="py-10px h-120px relative">
       <wd-img :width="100" :height="120" :src="banner2" custom-class="custom-class-img" />
       <view class="size-full absolute top-0 left-0 text-center pt-40px">
         <view class="color-#2d62c1 font-size-20px font-400 line-height-30px">服务网点</view>
@@ -391,7 +390,7 @@ onPageScroll((e) => {
       </wd-cell>
     </wd-cell-group>
   </view>
-  <wd-gap bg-color="#f5f5f5"></wd-gap>
+  <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
 </template>
 
 <style>
@@ -401,11 +400,8 @@ onPageScroll((e) => {
 :deep(.nav_hide) {
   @apply bg-#4689fd!;
 }
-/* .bg-size-100 {
-  background-size: 100% !important;
-} */
 :deep(.swiper_box .wd-swiper__track) {
-  @apply px-20px!;
+  @apply px-10px!;
 }
 :deep(.grid-item .wd-grid-item__wrapper) {
   @apply size-auto!;
