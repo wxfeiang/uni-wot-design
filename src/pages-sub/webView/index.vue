@@ -37,10 +37,10 @@ onLoad((options) => {
       <view class="text-center line-height-30px">{{ articleTitle }}</view>
       <view class="text-center flex justify-center gap-20px mt-10px">
         <view class="text-center color-#999 font-size-12px line-height-20px">
-          {{ createTime }}
+          来源： {{ remark || '一卡通平台' }}
         </view>
         <view class="text-center color-#999 font-size-12px line-height-20px">
-          {{ createTime }}
+          发布时间：{{ createTime }}
         </view>
       </view>
     </view>
