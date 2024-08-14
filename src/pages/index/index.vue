@@ -302,7 +302,7 @@ onPageScroll((e) => {
     <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
       <wd-cell
-        v-for="(item, index) in messageData.data.data.content.slice(0, 1)"
+        v-for="(item, index) in messageData.data.data.content.filter((i) => i.articleType === '0')"
         :key="index"
         :to="item.url"
         title-width="280px"
@@ -379,7 +379,7 @@ onPageScroll((e) => {
   <view class="pl-20px">
     <wd-cell-group border>
       <wd-cell
-        v-for="(item, index) in messageData.data.data.content.slice(1, 5)"
+        v-for="(item, index) in messageData.data.data.content.filter((i) => i.articleType === '1')"
         :key="index"
         :to="item.url"
         clickable
