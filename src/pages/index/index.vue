@@ -141,9 +141,14 @@ const swiperList = ref([banner])
 
 function swiperClick() {
   console.log('🍏')
-  toast.show('功能开发中，敬请期待!...')
-  // message.alert('功能开发中，敬请期待!...')
-  // routeTo({ url: '/pages-sub/serveMain/index' })
+  routeTo({
+    url: '/pages-sub/serveMain/cardApplyType',
+    data: { base: 'shebaoksl', title: '社保卡申领' },
+  })
+  // top-[-2px]
+  // toast.show('功能开发中，敬请期待!...')
+  // // message.alert('功能开发中，敬请期待!...')
+  // // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
 function toBusinessOutlets() {

@@ -53,7 +53,7 @@ navtop.value = safeAreaInsets.top + 44
               <view
                 class="flex pl-10px pr-15px rounded-r-50px items-center relative color-green dy-bg"
               >
-                <view class="absolute left-[-10px] top-1px">
+                <view class="absolute left-[-10px] top-[-2px]">
                   <view class="i-mdi-shield-check color-green"></view>
                 </view>
                 <text class="font-size-14px">已申领</text>
@@ -61,7 +61,7 @@ navtop.value = safeAreaInsets.top + 44
             </template>
             <template v-else>
               <view class="flex pl-10px pr-15px rounded-r-50px bg-coolgray-300 relative dy-bg">
-                <view class="absolute left-[-10px] top-1px">
+                <view class="absolute left-[-10px] top-[-2px]">
                   <view class="i-mdi-shield-alert"></view>
                 </view>
                 <text class="font-size-14px">未申领</text>

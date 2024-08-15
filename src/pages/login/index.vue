@@ -86,8 +86,6 @@ function handleClickLeft() {
                   prop="password"
                   custom-class="custom-cell"
                   custom-input-class="custom-input-right"
-                  :maxlength="18"
-                  :mixlength="16"
                 />
               </wd-cell-group>
             </wd-form>
