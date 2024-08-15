@@ -31,6 +31,7 @@ const queryList = async (pageNo, pageSize) => {
   const data = {
     page: pageNo,
     size: pageSize,
+    articleType: '0',
   }
   // 调用接口获取数据
   try {

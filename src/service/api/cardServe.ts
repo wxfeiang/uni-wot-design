@@ -11,6 +11,8 @@ const CARDCHECK_INFO = baseUrlApi('/card/app/getCardcheckInfo')
 
 const CARD_FIRST_APPLICATION = baseUrlApi('/card/app/cardFirstApplication')
 
+const UPLOAD_PHOTO = baseUrlApi('/card/app/uploadPhoto')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -42,12 +44,6 @@ export function getCardScheduleInfo(data: any, config: any) {
  * @param params 初始参数()
  * */
 export function getCardcheckInfo(data: any, config: any) {
-  const meta: METHOD_INSTANCE = {
-    ignoreSign: true,
-    ignorEencrypt: true,
-    ignorToken: true,
-    resAll: true,
-  }
   const methodInstance = request.Post(
     CARDCHECK_INFO, // 请求地址
     data,
@@ -55,6 +51,31 @@ export function getCardcheckInfo(data: any, config: any) {
   )
 
   return useRequest(methodInstance, config)
+}
+
+/**
+ * @description: 上传身份正
+ * @param {} config
+ * @return {}
+ */
+export function uploadPhoneInfo(config: any) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+  return useRequest(
+    (newTodo) =>
+      request.Post(
+        UPLOAD_PHOTO, // 地址
+        newTodo, // 参数
+        {
+          meta,
+        },
+      ),
+    { ...config },
+  )
 }
 
 /**

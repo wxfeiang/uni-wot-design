@@ -10,6 +10,7 @@ const {
   {
     page: 1,
     size: 10,
+    articleType: '0',
   },
   {
     immediate: false,
