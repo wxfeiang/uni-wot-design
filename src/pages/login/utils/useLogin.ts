@@ -76,7 +76,10 @@ const Login = (form) => {
           // 用key 验证
           const { verifyResult }: any = await startFacialRecognitionVerify(verifyData)
           // info 验证
-          const { openid: userId }: any = await sendUserInfo({ verifyResult })
+          const { openid: userId }: any = await sendUserInfo({
+            verifyResult,
+            idCardNumber: model.value.password,
+          })
           // 登录
           const loginData = {
             userId,
