@@ -16,7 +16,7 @@ function handleClickLeft() {
   uni.navigateBack()
 }
 onMounted(() => {
-  navTitle.value = '身份证填写'
+  navTitle.value = '社保卡申领信息填写'
 })
 </script>
 

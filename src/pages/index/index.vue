@@ -303,7 +303,7 @@ onPageScroll((e) => {
         @itemclick="serveClick(item)"
       >
         <template #icon>
-          <image class="wh-42px rounded-10px" :src="item.icon" />
+          <image class="size-42px rounded-10px" :src="item.icon" />
         </template>
         <template #text>
           <view class="text-center mt-10px">{{ item.title }}</view>

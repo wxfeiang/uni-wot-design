@@ -155,7 +155,7 @@ export default ({ command, mode }) => {
               //   res.setHeader('x-req-proxyURL', proxyURL) // 设置响应头可以看到
               // },
               rewrite: (path) => {
-                return path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), VITE_APP_PROXY_PREFIX)
+                return path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), '')
               },
             },
           }

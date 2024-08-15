@@ -8,7 +8,7 @@ export const baseUrlApi = (url: string) => {
   if (PLATFORM.isH5) {
     return VITE_APP_PROXY_PREFIX + url
   } else {
-    return VITE_SERVER_BASEURL + VITE_APP_PROXY_PREFIX + url
+    return VITE_SERVER_BASEURL + url
   }
 }
 // 第二个代理后端地址

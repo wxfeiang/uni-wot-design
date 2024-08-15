@@ -122,6 +122,7 @@
     "@esbuild/darwin-arm64": "0.20.2",
     "@esbuild/darwin-x64": "0.20.2",
     "@iconify-json/carbon": "^1.1.36",
+    "@iconify-json/mdi": "^1.1.68",
     "@rollup/rollup-darwin-x64": "^4.19.1",
     "@types/node": "^20.14.13",
     "@types/wechat-miniprogram": "^3.4.7",

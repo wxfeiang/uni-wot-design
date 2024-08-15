@@ -9,10 +9,6 @@ export function upLoadImg() {
       success: async (res) => {
         console.log('🍝[res]:', res)
         if (res.tempFiles[0].size > 1024 * 80) {
-          uni.showToast({
-            title: '',
-            icon: 'none',
-          })
           return resolve('图片大小不能超过80KB')
         }
 

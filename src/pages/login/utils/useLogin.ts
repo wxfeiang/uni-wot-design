@@ -1,5 +1,6 @@
 import { Constant } from '@/enum/constant'
 import { faceLogin } from '@/service/api/auth'
+import { getCardcheckInfo } from '@/service/api/cardServe'
 
 import { getUserIdKey, getUserInfo } from '@/service/api/system'
 
@@ -32,6 +33,27 @@ const { send: sendFaceLogin, loading: LoadingFace } = faceLogin({
   loading: false,
 })
 
+//
+
+const {
+  loading,
+  send: sendCardQury,
+  onSuccess: cardQuerySucess,
+} = getCardcheckInfo(
+  {
+    xm: authStore.userInfo.userName,
+    zjhm: authStore.userInfo.idCardNumber,
+    zjlx: '1',
+    zkType: '1',
+    wdcode: '999-130632004',
+    areaCode: 'CHN',
+  },
+  {
+    immediate: false,
+    loading: false,
+  },
+)
+
 const Login = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
@@ -59,15 +81,25 @@ const Login = (form) => {
           const loginData = {
             userId,
           }
-          const data = await sendFaceLogin(loginData)
+          const data: any = await sendFaceLogin(loginData)
           // 保存
           authStore.setUserInfo(data)
+          // isApplyCard 是否申请过卡
+          if (data.isApplyCard === 0) {
+            authStore.userInfo.isApply = false
+            const { resultCode }: any = await sendCardQury()
+            authStore.userInfo.isApply = resultCode === '0'
+          } else {
+            authStore.userInfo.isApply = true
+          }
           // 跳转到登录后的页面
           uni.navigateBack()
         } catch (error) {
           Toast(error)
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log('error', error)
+      }
     } else {
       console.log('数据校验失败')
     }

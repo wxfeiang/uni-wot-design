@@ -31,15 +31,10 @@ function logoutCimfirm() {
       LogOut()
     })
 }
-function topAction() {
-  console.log('🍬------')
-}
-
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const navtop = ref(0)
 navtop.value = safeAreaInsets.top + 44
-console.log('🍏', navtop.value)
 </script>
 <template>
   <!-- 顶部 -->
@@ -52,15 +47,33 @@ console.log('🍏', navtop.value)
             <wd-img :width="70" :height="70" :src="userInfo.avatar || anvter" round />
           </view>
 
-          <view>
+          <view class="flex gap-15px items-center">
             <view class="font-bold color-#fff">{{ userInfo.userName }}</view>
+            <template v-if="userInfo.isApply">
+              <view
+                class="flex pl-10px pr-15px rounded-r-50px items-center relative color-green bg-coolgray-300"
+              >
+                <view class="absolute left-[-10px] top-1px">
+                  <view class="i-mdi-shield-check color-green"></view>
+                </view>
+                <text class="font-size-14px">已申领</text>
+              </view>
+            </template>
+            <template v-else>
+              <view class="flex pl-10px pr-15px rounded-r-50px bg-coolgray-300 relative color-#666">
+                <view class="absolute left-[-10px] top-1px">
+                  <view class="i-mdi-shield-alert"></view>
+                </view>
+                <text class="font-size-14px">未申领</text>
+              </view>
+            </template>
           </view>
         </template>
         <template v-else>
           <view class="p-5px bg-#fff rounded-50% size-70px">
             <wd-img :width="70" :height="70" :src="anvter" round />
           </view>
-          <view @click="login">
+          <view @click="login" class="flex gap-15px">
             <view class="font-bold color-#fff">未登录</view>
           </view>
         </template>

@@ -27,6 +27,7 @@ type IUserInfo = {
   userPhone?: string
   userDId?: string
   idCardNumber?: string
+  isApply?: boolean // 是否申请完成
 }
 
 enum TestEnum {

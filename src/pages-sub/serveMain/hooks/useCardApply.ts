@@ -1,4 +1,6 @@
 import { cardFirstApplication, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
+import dayjs from 'dayjs'
+import cloneDeep from 'lodash-es/cloneDeep'
 const read = ref(false)
 const serchData = ref({
   xm: '常乐',
@@ -42,14 +44,14 @@ const model = ref({
   idCardNumber: '210204199207215655',
   idCardType: '1',
   sex: '1',
-  birthdate: '19920721',
+  birthdate: '',
   nationality: 'CHN',
   nation: '01',
   areaCode: '133199',
   phoneNumber: '13843456565',
   address: '河北石家庄',
-  startDate: '19920721',
-  endDate: '20000721',
+  startDate: '',
+  endDate: '',
   work: '20000',
   bankCode: '999',
   bankBranchCode: '999-130632004',
@@ -94,14 +96,19 @@ const submitCard = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        console.log('🦐', model.value)
-        const data: any = await sendCardData(model.value)
+        const params = cloneDeep(model.value)
+        params.birthdate = dayjs(params.birthdate).format('YYYYMMDD')
+        params.birthdate = dayjs(params.startDate).format('YYYYMMDD')
+        params.birthdate = dayjs(params.endDate).format('YYYYMMDD')
+        console.log('🌮[params]:', params)
+
+        const data: any = await sendCardData(params)
         if (data.message) {
           submitStatus.value = true
           statusDel.value = data.message
+        } else {
+          uni.navigateBack()
         }
-
-        // uni.navigateBack()
       } catch (error) {
         console.log('数据校验失败')
       }

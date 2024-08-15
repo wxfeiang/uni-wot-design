@@ -19,9 +19,9 @@ import shebaoksl from '@/static/images/serve/shebaoksl.png'
 import xinshenersl from '@/static/images/serve/xinshenersl.png'
 
 import kaguas from '@/static/images/serve/kaguas.png'
+import kajiegua from '@/static/images/serve/kajiegua.png'
 import kajindu from '@/static/images/serve/kajindu.png'
 import mimaxiugai from '@/static/images/serve/mimaxiugai.png'
-import kajiegua from '@/static/images/serve/kajiegua.png'
 
 import kabase from '@/static/images/serve/kabase.png'
 
@@ -31,8 +31,8 @@ import kabiangeng from '@/static/images/serve/kabiangeng.png'
 import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
 
 import { useBaseStore } from '@/store/modules/base'
-import { getRect, isArray } from 'wot-design-uni/components/common/util'
 import { useToast } from 'wot-design-uni'
+import { getRect, isArray } from 'wot-design-uni/components/common/util'
 
 const toast = useToast()
 const basestore = useBaseStore()
@@ -55,6 +55,11 @@ const mainData = ref([
     url: kajindu,
   },
   {
+    title: '制卡进度查询',
+    base: 'kajindu',
+    url: kajindu,
+  },
+  {
     title: '未成年人申领',
     icon: 'star',
     url: xinshenersl,
@@ -64,6 +69,7 @@ const mainData = ref([
     icon: 'coupon',
     url: xinshengrq,
   },
+
   {
     title: '社保卡挂失',
     icon: 'coupon',
@@ -74,6 +80,7 @@ const mainData = ref([
     icon: 'kajiegua',
     url: kajiegua,
   },
+
   {
     title: '社保卡激活',
     icon: 'coupon',

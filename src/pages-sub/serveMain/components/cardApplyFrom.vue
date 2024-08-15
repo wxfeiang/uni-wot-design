@@ -62,6 +62,7 @@ function showKeyBoard() {
 const form = ref(null)
 const steep = ref(1)
 function next() {
+  console.log('🍬', model.value)
   steep.value = 2
 }
 // 错误提示
@@ -104,11 +105,16 @@ async function upload(photoType: string, type: string) {
       }
     }
   } catch (error) {
-    message.alert(error)
+    console.log('🥦[error]:', error)
+    message.alert('图片上传失败，请重新上传')
   }
 }
 function delPhpoto() {
   cardUrl.value = ''
+}
+function formatter(val: any) {
+  console.log('🍦[val]:', val)
+  return val
 }
 </script>
 <template>
@@ -230,16 +236,26 @@ function delPhpoto() {
             :mixlength="11"
           />
 
-          <!-- <wd-datetime-picker
+          <wd-datetime-picker
             type="date"
             label-width="150"
             custom-value-class="custom-input-right"
+            align-right
             label="出生日期"
             v-model="model.birthdate"
             :rules="rules.birthdate"
             prop="birthdate"
-          /> -->
-
+          />
+          <wd-input
+            label="户籍地址:"
+            label-width="100px"
+            type="text"
+            v-model="model.address"
+            placeholder="请输入户籍地址"
+            :rules="rules.address"
+            prop="address"
+            custom-input-class="custom-input-right"
+          />
           <wd-picker
             :columns="regionList"
             custom-value-class="custom-input-right"
@@ -265,25 +281,25 @@ function delPhpoto() {
             :rules="rules.areaCode"
             prop="areaCode"
           />
-          <!--
-        <wd-datetime-picker
-          type="date"
-          label-width="150"
-          custom-value-class="custom-input-right"
-          label="身份证有效起始日期"
-          v-model="model.startDate"
-          :rules="rules.startDate"
-          prop="startDate"
-        />
-        <wd-datetime-picker
-          type="date"
-          label-width="150"
-          custom-value-class="custom-input-right"
-          label="身份证有效结束日期"
-          v-model="model.endDate"
-          :rules="rules.endDate"
-          prop="endDate"
-        /> -->
+
+          <wd-datetime-picker
+            type="date"
+            label-width="150"
+            custom-value-class="custom-input-right"
+            label="身份证有效起始日期"
+            v-model="model.startDate"
+            :rules="rules.startDate"
+            prop="startDate"
+          />
+          <wd-datetime-picker
+            type="date"
+            label-width="150"
+            custom-value-class="custom-input-right"
+            label="身份证有效结束日期"
+            v-model="model.endDate"
+            :rules="rules.endDate"
+            prop="endDate"
+          />
           <wd-picker
             :columns="occupationList"
             custom-value-class="custom-input-right"
