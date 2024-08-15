@@ -2,9 +2,10 @@ import { SeverPassRest } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 const { userInfo } = useUserStore()
 const model = ref({
-  userName: userInfo.userName,
-  cardNumber: userInfo.idCardNumber,
-  socialScCardNumber: '',
+  userName: '常乐',
+  cardNumber: '210204199207215655',
+  socialScCardNumber: 'F10379608',
+  password: '',
   resetPassword: '',
   operator: userInfo.userName,
 })
@@ -17,7 +18,6 @@ const rules = {
 }
 
 const statusDel = ref('')
-
 // 服务密码重置
 const { loading, send: sendCardPassword } = SeverPassRest({
   immediate: false,

@@ -109,6 +109,8 @@ const mainData = ref([
     title: '服务密码重置',
     icon: 'coupon',
     url: mimachongzhi,
+    type: '3',
+    base: 'servepassreset',
   },
 ])
 
@@ -231,6 +233,9 @@ onMounted(() => {
 <style lang="scss" scoped>
 :deep(.grid-item .wd-grid-item__wrapper) {
   @apply size-auto!;
+}
+:deep(.wd-grid-item) {
+  @apply min-h-115px! justify-start!;
 }
 
 .wraper {
