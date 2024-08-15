@@ -88,7 +88,7 @@ const Login = (form) => {
           // 保存
           authStore.setUserInfo(data)
           // isApplyCard 是否申请过卡
-          if (data.isApplyCard === 0) {
+          if (data.isApplyCard !== 1) {
             authStore.userInfo.isApply = false
             const { resultCode }: any = await sendCardQury()
             authStore.userInfo.isApply = resultCode === '0'

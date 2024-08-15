@@ -15,6 +15,8 @@ const UPLOAD_PHOTO = baseUrlApi('/card/app/uploadPhoto')
 
 const SERVICE_PASSWORD_RESE = baseUrlApi('/card/app/getServicePasswordRese')
 
+const CHANGE_CARD_PWD = baseUrlApi('/card/app/changeCardPwd')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -107,6 +109,24 @@ export function SeverPassRest(config: any) {
     (newTodo) =>
       request.Post(
         SERVICE_PASSWORD_RESE, // 地址
+        newTodo, // 参数
+        // {
+        //   meta,
+        // },
+      ),
+    { ...config },
+  )
+}
+
+/**
+ *  服务密码修改
+ * @param params 初始参数()
+ * */
+export function changeCardPwd(config: any) {
+  return useRequest(
+    (newTodo) =>
+      request.Post(
+        CHANGE_CARD_PWD, // 地址
         newTodo, // 参数
         // {
         //   meta,
