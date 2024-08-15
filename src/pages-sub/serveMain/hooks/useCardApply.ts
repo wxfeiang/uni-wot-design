@@ -1,10 +1,13 @@
 import { cardFirstApplication, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
-const read = ref(false)
+
+import { useUserStore } from '@/store'
+const read = ref(0)
+const { userInfo } = useUserStore()
 const serchData = ref({
-  xm: '常乐',
-  zjhm: '210204199207215655',
+  xm: userInfo.userName,
+  zjhm: userInfo.idCardNumber,
   zjlx: '1',
   zkType: '1',
   wdcode: '999-130632004',
@@ -40,8 +43,8 @@ const {
 
 // 卡信息提交
 const model = ref({
-  name: '常乐',
-  idCardNumber: '210204199207215655',
+  name: userInfo.userName,
+  idCardNumber: userInfo.idCardNumber,
   idCardType: '1',
   sex: '1',
   birthdate: '',
@@ -55,9 +58,9 @@ const model = ref({
   work: '20000',
   bankCode: '999',
   bankBranchCode: '999-130632004',
-  photoId: '780032',
-  idCardFrontPhotoId: '780033',
-  idCardBackPhotoId: '780034',
+  photoId: '',
+  idCardFrontPhotoId: '',
+  idCardBackPhotoId: '',
   isPostcard: '0',
   postcardaddress: '',
   postcardPhone: '',
@@ -98,8 +101,8 @@ const submitCard = (form) => {
       try {
         const params = cloneDeep(model.value)
         params.birthdate = dayjs(params.birthdate).format('YYYYMMDD')
-        params.birthdate = dayjs(params.startDate).format('YYYYMMDD')
-        params.birthdate = dayjs(params.endDate).format('YYYYMMDD')
+        params.startDate = dayjs(params.startDate).format('YYYYMMDD')
+        params.endDate = dayjs(params.endDate).format('YYYYMMDD')
         console.log('🌮[params]:', params)
 
         const data: any = await sendCardData(params)

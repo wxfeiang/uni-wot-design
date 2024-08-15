@@ -97,6 +97,8 @@ const mainData = ref([
     title: '服务密码修改',
     icon: 'coupon',
     url: mimaxiugai,
+    type: '3',
+    base: 'servepassreset',
   },
   {
     title: '社保信息变更',
@@ -120,8 +122,9 @@ function gridClick(item: any) {
     })
   } else if (item.type === '2') {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
+  } else if (item.type === '3') {
+    routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
   } else {
-    // routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
     toast.show('功能开发中，敬请期待!...')
   }
 }
@@ -141,7 +144,7 @@ const categories = ref([
     label: '社保卡服务',
     title: '标题二',
     icon: 'qrcode',
-    items: mainData.value.slice(5, 12),
+    items: mainData.value.slice(5, 20),
   },
   // {
   //   label: '生活缴费',

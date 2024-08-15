@@ -11,14 +11,18 @@ import {
   regionList,
   sexList,
 } from '../types/dict'
+
+import card1 from '../static/images/idCard1.jpg'
+import card2 from '../static/images/idCard2.jpg'
+import card3 from '../static/images/idCard3.jpg'
 const message = useMessage()
 const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
   useCardApply()
 
 const urlDefulate = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
-const cardUrl = ref(urlDefulate.value)
-const cardUrl2 = ref(urlDefulate.value)
-const cardUrl3 = ref(urlDefulate.value)
+const cardUrl = ref(card1)
+const cardUrl2 = ref(card2)
+const cardUrl3 = ref(card3)
 
 const action = import.meta.env.VITE_UPLOAD_BASEURL + '/card/app/uploadPhoto'
 
@@ -60,11 +64,7 @@ function showKeyBoard() {
 }
 
 const form = ref(null)
-const steep = ref(1)
-function next() {
-  console.log('🍬', model.value)
-  steep.value = 2
-}
+
 // 错误提示
 watch(
   () => submitStatus.value,
@@ -89,8 +89,8 @@ async function upload(photoType: string, type: string) {
       zjhm: '130604199109200611',
     }
     const data: any = await sendPhoto(formData)
-    if (data.data.data.message) {
-      message.alert(data.data.data.message)
+    if (data.data.data.message || data.data.code === 500) {
+      message.alert(data.data.data.message || data.data.msg)
     } else {
       if (photoType === '1') {
         cardUrl.value = url
@@ -109,12 +109,14 @@ async function upload(photoType: string, type: string) {
     message.alert('图片上传失败，请重新上传')
   }
 }
-function delPhpoto() {
-  cardUrl.value = ''
-}
-function formatter(val: any) {
-  console.log('🍦[val]:', val)
-  return val
+const steep = ref(1)
+function next() {
+  console.log('🍬', model.value)
+  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+    steep.value = 2
+  } else {
+    message.alert('请上传图片')
+  }
 }
 </script>
 <template>
@@ -122,51 +124,60 @@ function formatter(val: any) {
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-form ref="formPhoto" :model="modelPhoto">
         <view class="mb-20px px-10px">
-          <view
-            class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-            @click="upload('1', '1')"
-          >
+          <view>
             <view
-              v-if="loadingPhoto && current === '1'"
-              class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
+              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
+              @click="upload('1', '1')"
             >
-              <wd-loading type="outline" />
-            </view>
+              <view
+                v-if="loadingPhoto && current === '1'"
+                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
+              >
+                <wd-loading type="outline" />
+              </view>
 
-            <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
+              <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
+            </view>
+            <view class="text-center mt-10px">身份证正面照片</view>
           </view>
-          <view
-            class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-            @click="upload('2', '1')"
-          >
+          <view>
             <view
-              v-if="loadingPhoto && current === '2'"
-              class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
+              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
+              @click="upload('2', '1')"
             >
-              <wd-loading type="outline" />
-            </view>
+              <view
+                v-if="loadingPhoto && current === '2'"
+                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
+              >
+                <wd-loading type="outline" />
+              </view>
 
-            <wd-img :width="100" :height="100" :src="cardUrl2" custom-class="custom-class-img" />
+              <wd-img :width="100" :height="100" :src="cardUrl2" custom-class="custom-class-img" />
+            </view>
+            <view class="text-center mt-10px">身份证国徽面照片</view>
           </view>
-          <view
-            class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-            @click="upload('0', '1')"
-          >
+          <view>
             <view
-              v-if="loadingPhoto && current === '0'"
-              class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
+              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
+              @click="upload('0', '1')"
             >
-              <wd-loading type="outline" />
-            </view>
+              <view
+                v-if="loadingPhoto && current === '0'"
+                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
+              >
+                <wd-loading type="outline" />
+              </view>
 
-            <wd-img :width="100" :height="100" :src="cardUrl3" custom-class="custom-class-img" />
+              <wd-img :width="100" :height="100" :src="cardUrl3" custom-class="custom-class-img" />
+            </view>
+            <view class="text-center mt-10px">本人正面照片</view>
           </view>
         </view>
       </wd-form>
     </view>
     <view class="mt-10px">
       <wd-text type="warning" text="温馨提示:"></wd-text>
-      请保持证件边框与图片边框基本一致
+      请保持证件边框与图片边框基本一致 照片大小为80KB 以内
     </view>
     <view class="mt-20px">
       <wd-button type="primary" :round="false" size="medium" @click="next" block>下一步</wd-button>
@@ -290,6 +301,7 @@ function formatter(val: any) {
             v-model="model.startDate"
             :rules="rules.startDate"
             prop="startDate"
+            align-right
           />
           <wd-datetime-picker
             type="date"
@@ -299,6 +311,7 @@ function formatter(val: any) {
             v-model="model.endDate"
             :rules="rules.endDate"
             prop="endDate"
+            align-right
           />
           <wd-picker
             :columns="occupationList"

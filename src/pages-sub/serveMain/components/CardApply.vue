@@ -16,8 +16,12 @@ const showData = ref<any>({})
 function toAgereement(type) {
   routeTo({ url: '/pages-sub/webView/index', data: { type } })
 }
-function toAgereement2(type) {
-  routeTo({ url: '/pages-sub/serveMain/cardApplyFromType', data: { type } })
+function btnClick(item) {
+  if (item.isPeople) {
+    message.alert('非本人申领暂未开通!')
+  } else {
+    routeTo({ url: '/pages-sub/serveMain/cardApplyFromType', data: { type: 2 } })
+  }
 }
 
 const footerBtns = ref([
@@ -29,6 +33,7 @@ const footerBtns = ref([
     plain: true,
     customClass: 'btn-class',
     disabled: true,
+    isPeople: true,
   },
   {
     text: '本人申领',
@@ -37,6 +42,7 @@ const footerBtns = ref([
     plain: true,
     customClass: 'btn-class',
     disabled: true,
+    isPeople: false,
   },
 ])
 
@@ -50,24 +56,24 @@ watch(
     immediate: true,
   },
 )
-onLoad((options: any) => {})
 
 const isApply = ref(null)
 
 onMounted(async () => {
   showData.value = dataInfo[0]
   // 如果阅读协议页面回来 则
-  read.value = true
+  read.value = 0
   const { resultCode }: any = await sendCardQury()
   // 0 不让在申请了
 
   isApply.value = resultCode
   if (isApply.value === '0') {
     message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
-      // uni.navigateBack()
+      uni.navigateBack()
     })
   }
 })
+const value = ref()
 </script>
 <template>
   <view class="p-15px">
@@ -83,12 +89,13 @@ onMounted(async () => {
     <view class="fixed bottom-3 left-0 right-0 w-full">
       <view class="px-20px py-1">
         <view class="">
-          <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
+          <wd-checkbox custom-label-class="label-class" v-model="read">
             我已阅读并同意以上内容,并接受
+            <text class="color-#4d80f0" @click.stop="toAgereement(5)">
+              《雄安一卡通申办业务须知协议》
+            </text>
+            协议
           </wd-checkbox>
-          <view class="color-#4d80f0" @click.stop="toAgereement(5)">
-            《雄安一卡通申办业务须知协议》
-          </view>
         </view>
         <view class="flex gap-15px mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
@@ -98,7 +105,7 @@ onMounted(async () => {
               block
               :size="item.size"
               :type="item.type"
-              @click="toAgereement2(2)"
+              @click="btnClick(item)"
             >
               {{ item.text }}
             </wd-button>
@@ -124,13 +131,7 @@ export default {
 :deep(.wd-checkbox) {
   @apply flex!;
 }
-:deep(.label-class) {
-  @apply w-300px! h-auto!;
+:deep(.label-class .wd-checkbox__txt) {
+  @apply whitespace-pre-wrap!;
 }
-
-// // /* #ifdef */
-// :deep(.custom-text span) {
-//   @apply pl-40px!;
-// }
-// // /* #endif */
 </style>

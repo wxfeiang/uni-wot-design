@@ -13,6 +13,8 @@ const CARD_FIRST_APPLICATION = baseUrlApi('/card/app/cardFirstApplication')
 
 const UPLOAD_PHOTO = baseUrlApi('/card/app/uploadPhoto')
 
+const SERVICE_PASSWORD_RESE = baseUrlApi('/card/app/getServicePasswordRese')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -83,17 +85,28 @@ export function uploadPhoneInfo(config: any) {
  * @param params 初始参数()
  * */
 export function cardFirstApplication(config: any) {
-  // const meta: METHOD_INSTANCE = {
-  //   ignoreSign: true,
-  //   ignorEencrypt: true,
-  //   ignorToken: true,
-  //   resAll: true,
-  // }
-
   return useRequest(
     (newTodo) =>
       request.Post(
         CARD_FIRST_APPLICATION, // 地址
+        newTodo, // 参数
+        // {
+        //   meta,
+        // },
+      ),
+    { ...config },
+  )
+}
+
+/**
+ *  服务密码重置
+ * @param params 初始参数()
+ * */
+export function SeverPassRest(config: any) {
+  return useRequest(
+    (newTodo) =>
+      request.Post(
+        SERVICE_PASSWORD_RESE, // 地址
         newTodo, // 参数
         // {
         //   meta,

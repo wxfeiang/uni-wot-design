@@ -10,6 +10,7 @@
 
 <script lang="ts" setup>
 import CardProgressInQuiry from './components/CardProgressInQuiry.vue'
+import ServePassRest from './components/ServePassRest.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
@@ -44,8 +45,11 @@ onLoad((options: any) => {
     <dy-title :title="navTitle" customClass="custom-title"></dy-title>
 
     <!-- 动态加载类型对应的组件 -->
-    <!-- CardProgressInquiry 卡进度查询-->
+    <!--  卡进度查询-->
     <Card-ProgressInQuiry v-if="baseCon === 'kajindu'" />
+
+    <!-- 服务密码重置 -->
+    <Serve-PassRest v-if="baseCon === 'servepassreset'" />
   </view>
 </template>
 
