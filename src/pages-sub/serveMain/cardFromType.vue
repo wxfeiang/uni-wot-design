@@ -10,6 +10,7 @@
 <script lang="ts" setup>
 import CardProgressInQuiry from './components/CardProgressInQuiry.vue'
 import ServePassRest from './components/ServePassRest.vue'
+import ChangePwd from '@/pages-sub/serveMain/components/ChangePwd.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
@@ -49,6 +50,9 @@ onLoad((options: any) => {
 
     <!-- 服务密码重置 -->
     <Serve-PassRest v-if="baseCon === 'servepassreset'" />
+
+    <!--服务密码修改 -->
+    <Change-Pwd v-if="baseCon === 'changeCardPwd'" />
   </view>
 </template>
 
