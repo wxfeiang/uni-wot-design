@@ -59,15 +59,6 @@
       }
     },
     {
-      "path": "pages/aa/index",
-      "type": "page",
-      "layout": "default",
-      "needLogin": true,
-      "style": {
-        "navigationBarTitleText": "ceshi 拦截"
-      }
-    },
-    {
       "path": "pages/about/about",
       "type": "page",
       "style": {
@@ -122,7 +113,6 @@
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -131,7 +121,6 @@
           "path": "cardApplyType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -140,7 +129,6 @@
           "path": "cardFromType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -149,7 +137,6 @@
           "path": "cardMessType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

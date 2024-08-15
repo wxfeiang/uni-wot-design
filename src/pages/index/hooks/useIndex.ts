@@ -8,18 +8,18 @@ const { send: messageList, data: messageData }: { data: any; send: any } = getMe
     size: 10,
   },
   {
-    immediate: true,
+    immediate: false,
     loading: false,
     initialData: [],
   },
 )
 const mdData = ref(null)
-const sendMessageList = async (data) => {
-  try {
-    const a = messageList(data)
-    console.log('🌯[a ]:', a)
-  } catch (error) {}
-}
+// const sendMessageList = async (data) => {
+//   try {
+//     const a = messageList(data)
+//     console.log('🌯[a ]:', a)
+//   } catch (error) {}
+// }
 
 function messageClick(item) {
   routeTo({
@@ -29,5 +29,5 @@ function messageClick(item) {
 }
 
 export default () => {
-  return { messageData, messageClick, sendMessageList }
+  return { messageData, messageClick, messageList }
 }

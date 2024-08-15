@@ -47,7 +47,7 @@ const message = useMessage()
 const basestore = useBaseStore()
 const toast = useToast()
 
-const { messageData, messageClick, sendMessageList } = useIndex()
+const { messageData, messageClick, messageList } = useIndex()
 
 defineOptions({
   name: 'Index',
@@ -232,14 +232,19 @@ function serveGuild() {
 }
 
 const navTop = ref(safeAreaInsets.top + 40)
-onMounted(() => {
+
+const mess1 = ref([])
+const mess2 = ref([])
+onMounted(async () => {
   if (PLATFORM.isH5) {
     navTop.value = navTop.value - 44
   }
-  // sendMessageList({
-  // page: 1,
-  //   size: 2,
-  // })
+  const mess: any = await messageList({
+    page: 1,
+    size: 10,
+  })
+  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0')
+  mess2.value = mess.data.data.content.filter((i) => i.articleType === '1')
 })
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
@@ -318,7 +323,7 @@ onPageScroll((e) => {
     <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
       <wd-cell
-        v-for="(item, index) in messageData.data.data.content.filter((i) => i.articleType === '0')"
+        v-for="(item, index) in mess1"
         :key="index"
         :to="item.url"
         title-width="280px"
@@ -395,7 +400,7 @@ onPageScroll((e) => {
   <view class="pl-20px">
     <wd-cell-group border>
       <wd-cell
-        v-for="(item, index) in messageData.data.data.content.filter((i) => i.articleType === '1')"
+        v-for="(item, index) in mess2"
         :key="index"
         :to="item.url"
         clickable

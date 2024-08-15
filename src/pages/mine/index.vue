@@ -51,7 +51,7 @@ navtop.value = safeAreaInsets.top + 44
             <view class="font-bold color-#fff">{{ userInfo.userName }}</view>
             <template v-if="userInfo.isApply">
               <view
-                class="flex pl-10px pr-15px rounded-r-50px items-center relative color-green bg-coolgray-300"
+                class="flex pl-10px pr-15px rounded-r-50px items-center relative color-green dy-bg"
               >
                 <view class="absolute left-[-10px] top-1px">
                   <view class="i-mdi-shield-check color-green"></view>
@@ -60,7 +60,7 @@ navtop.value = safeAreaInsets.top + 44
               </view>
             </template>
             <template v-else>
-              <view class="flex pl-10px pr-15px rounded-r-50px bg-coolgray-300 relative color-#666">
+              <view class="flex pl-10px pr-15px rounded-r-50px bg-coolgray-300 relative dy-bg">
                 <view class="absolute left-[-10px] top-1px">
                   <view class="i-mdi-shield-alert"></view>
                 </view>
@@ -120,5 +120,10 @@ navtop.value = safeAreaInsets.top + 44
 <style>
 page {
   background: #f5f5f5;
+}
+</style>
+<style lang="scss" scoped>
+.dy-bg {
+  background: rgb(204 204 204 / 0.5);
 }
 </style>

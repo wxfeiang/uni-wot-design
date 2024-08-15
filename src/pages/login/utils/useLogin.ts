@@ -88,6 +88,7 @@ const Login = (form) => {
           if (data.isApplyCard === 0) {
             authStore.userInfo.isApply = false
             const { resultCode }: any = await sendCardQury()
+            console.log('🥞[resultCode]:', resultCode)
             authStore.userInfo.isApply = resultCode === '0'
           } else {
             authStore.userInfo.isApply = true

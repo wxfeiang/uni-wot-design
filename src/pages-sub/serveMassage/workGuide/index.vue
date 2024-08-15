@@ -55,7 +55,7 @@ const queryList = async (pageNo, pageSize) => {
   <z-paging ref="paging" v-model="dataList" @query="queryList">
     <template #top>
       <!-- 顶部 -->
-      <view class="bg-#4689fd!">
+      <view class="">
         <wd-navbar
           safeAreaInsetTop
           placeholder

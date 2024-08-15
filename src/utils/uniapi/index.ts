@@ -62,13 +62,13 @@ export const useScancode = () => {
   })
 }
 export const startFacialRecognitionVerify = (data) => {
+  console.log('🍩[data]:人脸识别参数====', data)
   return new Promise((resolve, reject) => {
     uni.startFacialRecognitionVerify({
       ...data,
       checkAliveType: 1, // 屏幕闪烁(人脸核验的交互方式，默认0,读数字)
       success(res) {
         console.log(res, ' ========') // 认证结果
-
         if (res.errCode === 0) {
           // 识别成功  这个时候可以调后端的接口 （带着返的res.
           resolve(res)
