@@ -19,52 +19,34 @@ const model = ref({
   co: '',
 })
 
-const { send: sendLogin2, loading } = sysLogin({
+const { send: sendLogin2, loading } = useRequest((newTodo) => sysLogin(newTodo), {
   immediate: false,
   loading: false,
 })
 
 const newData = ref({})
 const Login = (form) => {
-  uni.startFacialRecognitionVerify({
-    certifyId: '',
-    progressBarColor: '#CC0000', // 刷脸圈的颜色
-    screenOrientation: 'port', // 认证界面UI朝向
-    success: (e) => {
-      console.log(JSON.stringify(e))
-    },
-    fail: (e) => {
-      console.log(JSON.stringify(e))
-    },
-    complete: (e) => {
-      console.log(JSON.stringify(e))
-    },
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        const a = {
+          username: 'admin',
+          password: '123456admin',
+          verifyCode: '',
+        }
+        try {
+          const data = await sendLogin2(a)
+          console.log('🥦[data]:', data)
+          authStore.setUserInfo(data)
+          // 跳转到登录后的页面
+        } catch (error) {
+          getCodeUrl()
+        }
+      } catch (error) {}
+    } else {
+      console.log('🥖')
+    }
   })
-
-  // form.validate().then(async ({ valid, errors }) => {
-  //   if (valid) {
-  //     try {
-  //       newData.value = {
-  //         appKey: Constant.APP_KEY,
-  //         na: model.value.username,
-  //         ps: changePassword(model.value.password),
-  //         co: model.value.co,
-  //         u: codeflog.value,
-  //         type: 1,
-  //         terminal: Constant.TERMINAL,
-  //       }
-  //       try {
-  //         const data = await sendLogin2(newData.value)
-  //         authStore.setUserInfo(data)
-  //         // 跳转到登录后的页面
-  //       } catch (error) {
-  //         getCodeUrl()
-  //       }
-  //     } catch (error) {}
-  //   } else {
-  //     console.log('🥖')
-  //   }
-  // })
 }
 
 const { send: tesToken, data: authInfo } = useRequest(testToken, {

@@ -144,6 +144,9 @@ importers:
       '@iconify-json/carbon':
         specifier: ^1.1.36
         version: 1.1.37
+      '@iconify-json/mdi':
+        specifier: ^1.1.68
+        version: 1.1.68
       '@rollup/rollup-darwin-x64':
         specifier: ^4.19.1
         version: 4.20.0
@@ -1275,6 +1278,9 @@ packages:
 
   '@iconify-json/carbon@1.1.37':
     resolution: {integrity: sha512-Hj9oZtRmN63yt29YovqgqOJQhaoVMNMTkFLT3HKAJm4HjvI405Juez5UfdysYmLjF708U7gJNx4U6K1k5+fTBw==}
+
+  '@iconify-json/mdi@1.1.68':
+    resolution: {integrity: sha512-7//TKCiXLU6kNWeOJRTBbisofVO7rF1sD1TZTL4/V9nqlmVNczQ5IOY0GgKOTsitkcTnX9GXgrgbjw3OI5B69w==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -7220,6 +7226,10 @@ snapshots:
   '@humanwhocodes/object-schema@2.0.3': {}
 
   '@iconify-json/carbon@1.1.37':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/mdi@1.1.68':
     dependencies:
       '@iconify/types': 2.0.0
 
