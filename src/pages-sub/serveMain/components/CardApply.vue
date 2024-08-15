@@ -14,7 +14,7 @@ const applyData = ref()
 
 const showData = ref<any>({})
 function toAgereement(type) {
-  routeTo({ url: '/pages-sub/webView/index', data: { type } })
+  routeTo({ url: '/pages-sub/webView/index', data: { type: '1710488285782016005', showTop: 1 } })
 }
 function btnClick(item) {
   if (item.isPeople) {
