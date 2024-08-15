@@ -4,10 +4,15 @@ import { routeTo } from '@/utils'
 
 // 消息列表
 const { data: cardInfoData, send: sendbranchesInfo }: { data: any; send: any } = getBranchesInfo(
+  // {
+  //   yhdm: '105',
+  //   areaCode: '130629',
+  //   isMail: '0',
+  // },
   {
-    yhdm: '105',
-    areaCode: '130629',
-    isMail: '0',
+    yhdm: '',
+    areaCode: '',
+    isMail: '',
   },
   {
     immediate: true,

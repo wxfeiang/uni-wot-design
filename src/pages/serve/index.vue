@@ -21,6 +21,7 @@ import xinshenersl from '@/static/images/serve/xinshenersl.png'
 import kaguas from '@/static/images/serve/kaguas.png'
 import kajindu from '@/static/images/serve/kajindu.png'
 import mimaxiugai from '@/static/images/serve/mimaxiugai.png'
+import kajiegua from '@/static/images/serve/kajiegua.png'
 
 import kabase from '@/static/images/serve/kabase.png'
 
@@ -49,6 +50,11 @@ const mainData = ref([
     url: shebaokbh,
   },
   {
+    title: '制卡进度查询',
+    base: 'kajindu',
+    url: kajindu,
+  },
+  {
     title: '未成年人申领',
     icon: 'star',
     url: xinshenersl,
@@ -64,9 +70,9 @@ const mainData = ref([
     url: kaguas,
   },
   {
-    title: '卡进度查询',
-    base: 'kajindu',
-    url: kajindu,
+    title: '社保卡解挂',
+    icon: 'kajiegua',
+    url: kajiegua,
   },
   {
     title: '社保卡激活',

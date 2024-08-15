@@ -152,7 +152,7 @@ function toBusinessOutlets() {
 
 const serveList = ref([
   {
-    title: '校园服务',
+    title: '政务服务',
     url: zhenwu,
     color: '#8f533a',
   },
@@ -162,33 +162,33 @@ const serveList = ref([
     color: '#219974',
   },
   {
-    title: '看病就医',
+    title: '就医购药',
     url: kanbing,
     color: '#396183',
   },
   {
-    title: '展码入园',
+    title: '待遇发放',
     url: zhanma,
     color: '#219974',
   },
   {
-    title: '京雄通',
+    title: '金融服务',
     url: jingxiongtong,
     color: '#3b3a9d',
   },
   {
-    title: '图书借阅',
+    title: '文化体验',
     url: tushujieyue,
     color: '#8f533a',
   },
 
   {
-    title: '补贴发放',
+    title: '旅游观光',
     url: butie,
     color: '#8f533a',
   },
   {
-    title: '消费购物',
+    title: '京雄互通',
     url: xiaofei,
     color: '#3b3a9d',
   },
@@ -421,7 +421,7 @@ onPageScroll((e) => {
   @apply bg-#4689fd!;
 }
 :deep(.swiper_box .wd-swiper__track) {
-  @apply px-10px!;
+  @apply px-5px!;
 }
 :deep(.grid-item .wd-grid-item__wrapper) {
   @apply size-auto!;
