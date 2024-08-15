@@ -17,16 +17,16 @@ const { cardInfoData } = useCardMessage()
 
 function toPhone(e) {
   uni.makePhoneCall({
-    phoneNumber: '0931-1234567',
+    phoneNumber: e.phone,
     fail: function (e) {},
   })
 }
 function toLocation(e) {
   uni.openLocation({
-    latitude: e.latitude,
-    longitude: e.longitude,
-    name: e.title,
-    address: e.lable,
+    latitude: Number(e.latitude),
+    longitude: Number(e.longitude),
+    name: e.name,
+    address: e.address,
   })
 }
 </script>
@@ -54,7 +54,7 @@ function toLocation(e) {
           <view class="truncate-1 color-#000">{{ item.name }}</view>
         </template>
         <template #label>
-          <view class="color-#999 truncate-3">地址: {{ '======' }}</view>
+          <view class="color-#999 truncate-3">地址: {{ item.address }}</view>
         </template>
 
         <view class="pt-10px">

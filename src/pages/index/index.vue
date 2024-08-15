@@ -350,6 +350,7 @@ onPageScroll((e) => {
       :height="120"
       :indicator="false"
       @click="swiperClick"
+      imageMode="heightFix"
       customClass="swiper_box"
     ></wd-swiper>
   </view>
