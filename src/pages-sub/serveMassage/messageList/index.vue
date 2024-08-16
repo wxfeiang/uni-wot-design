@@ -69,22 +69,20 @@ const queryList = async (pageNo, pageSize) => {
         <template #title>
           <view>
             <wd-badge :is-dot="item.isread">
-              <wd-button size="small" icon="notification" type="info" :round="false"></wd-button>
+              <view class="px-3px t_bg rounded-2px">
+                <wd-icon name="notification" />
+              </view>
+              <!-- <wd-button size="small" icon="notification" type="info" :round="false"></wd-button> -->
             </wd-badge>
             <text class="ml-5px">消息提醒</text>
           </view>
         </template>
         <template #value></template>
-        <wd-cell clickable>
-          <template #label>
-            <view class="truncate-2 color-#666">
-              {{ item.articleTitle }}
-            </view>
+        <wd-cell clickable is-link @click="messageClick(item)">
+          <template #title>
+            <view class="truncate-1 color-#000">{{ item.articleTitle }}</view>
           </template>
-          <view class="flex items-center color-#999" @click="messageClick(item)">
-            <view>查看详情</view>
-            <wd-icon name="arrow-right" size="12px"></wd-icon>
-          </view>
+          <view class="truncate-1 color-#999">查看详情</view>
         </wd-cell>
       </wd-cell-group>
     </view>
@@ -92,6 +90,9 @@ const queryList = async (pageNo, pageSize) => {
 </template>
 
 <style lang="scss" scoped>
+.t_bg {
+  background: rgba($color: #ccc, $alpha: 0.2);
+}
 :deep(.nav_bg) {
   background-color: var(--color-nav-bg);
   .wd-navbar__title {

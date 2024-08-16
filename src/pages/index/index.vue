@@ -324,7 +324,7 @@ onPageScroll((e) => {
 
   <!-- 消息 -->
   <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
-  <view class="px-20px py-10px">
+  <view class="p-10px">
     <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
     <wd-cell-group>
       <wd-cell
@@ -391,7 +391,7 @@ onPageScroll((e) => {
   </view>
   <!-- 办事指南 -->
   <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
-  <view class="px-20px py-10px">
+  <view class="p-10px">
     <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
     <view class="py-10px h-120px relative">
       <wd-img :width="100" :height="120" :src="banner2" custom-class="custom-class-img" />
@@ -403,7 +403,7 @@ onPageScroll((e) => {
       </view>
     </view>
   </view>
-  <view class="pl-20px">
+  <view class="pl-10px">
     <wd-cell-group border>
       <wd-cell
         v-for="(item, index) in mess2"
@@ -432,7 +432,7 @@ onPageScroll((e) => {
   @apply bg-#4689fd!;
 }
 :deep(.swiper_box .wd-swiper__track) {
-  @apply px-5px!;
+  @apply px-10px!;
 }
 :deep(.grid-item .wd-grid-item__wrapper) {
   @apply size-auto!;
