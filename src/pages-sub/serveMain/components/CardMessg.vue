@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 import useCardMessage from '../hooks/useCardMessage'
-import { sexList } from '../types/dict'
+import {
+  bankCodeList,
+  cardType,
+  ethniCodeList,
+  occupationList,
+  regionList,
+  sexList,
+  socialSecurity,
+} from '../types/dict'
 
 const { cardInfoData } = useCardMessage()
 
@@ -30,6 +38,13 @@ const data = ref([
     prop: 'zjyxq',
   },
   {
+    title: '证件类型',
+    value: '',
+    prop: 'zjlx',
+    type: 'dict',
+    options: cardType,
+  },
+  {
     title: '性别',
     value: '',
     prop: 'xb',
@@ -45,16 +60,22 @@ const data = ref([
     title: '国籍',
     value: '',
     prop: 'gj',
+    type: 'dict',
+    options: regionList,
   },
   {
     title: '民族',
     value: '',
     prop: 'mz',
+    type: 'dict',
+    options: ethniCodeList,
   },
   {
     title: '职业',
     value: '',
     prop: 'zy',
+    type: 'dict',
+    options: occupationList,
   },
   {
     title: '区域代码',
@@ -72,6 +93,13 @@ const data = ref([
     prop: 'zhbzkh',
   },
   {
+    title: '银行行号',
+    value: '',
+    prop: 'yhhh',
+    type: 'dict',
+    options: bankCodeList,
+  },
+  {
     title: '银行卡号',
     value: '',
     prop: 'yhkh',
@@ -85,6 +113,8 @@ const data = ref([
     title: '卡应用状态',
     value: '',
     prop: 'cardStatus',
+    type: 'dict',
+    options: socialSecurity,
   },
 ])
 </script>
