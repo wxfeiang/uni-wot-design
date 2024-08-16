@@ -17,13 +17,6 @@ const { data: cardInfoData }: { data: any } = useRequest(
   },
 )
 
-function messageClick(item) {
-  routeTo({
-    url: '/pages-sub/webView/index',
-    data: { type: item.articleId },
-  })
-}
-
 export default () => {
-  return { cardInfoData, messageClick }
+  return { cardInfoData }
 }
