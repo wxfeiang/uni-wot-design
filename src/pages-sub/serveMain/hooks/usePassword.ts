@@ -1,10 +1,11 @@
 import { SeverPassRest } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
+import { useRequest } from 'alova'
 const { userInfo } = useUserStore()
 const model = ref({
-  userName: '常乐',
-  cardNumber: '210204199207215655',
-  socialScCardNumber: 'F10379608',
+  userName: userInfo.userName,
+  cardNumber: userInfo.idCardNumber,
+  socialScCardNumber: '',
   password: '',
   resetPassword: '',
   operator: userInfo.userName,
