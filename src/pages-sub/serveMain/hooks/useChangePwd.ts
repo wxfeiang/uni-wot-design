@@ -19,8 +19,8 @@ const rules = {
   newPwd: [{ required: true, message: '请输入新密码' }],
   jbr: [{ required: true, message: '请输入经办人' }],
 }
-
 const statusDel = ref('')
+const submitStatus = ref(false)
 
 // 服务密码修改
 const { loading, send: sendChangeCardPwd } = useRequest((data) => changeCardPwd(data), {
@@ -33,10 +33,11 @@ const submitPasswoed = (form) => {
     if (valid) {
       try {
         const data: any = await sendChangeCardPwd(model.value)
+        submitStatus.value = true
         if (data.message) {
-          // submitStatus.value = true
-          // statusDel.value = data.message
+          statusDel.value = data.message
         } else {
+          statusDel.value = data
           uni.navigateBack()
         }
       } catch (error) {
