@@ -19,13 +19,13 @@ const { loading, send: sendCard } = useRequest((data) => getCardScheduleInfo(dat
   initialData: {},
 })
 
-const cardDetilInfo = ref<any>(null)
+const cardInfoData = ref<any>(null)
 const cardQury = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
         const data: any = await sendCard(model.value)
-        console.log('🥦[data]:', data)
+        cardInfoData.value = data[data.length - 1]
       } catch (error) {}
     }
   })
@@ -35,6 +35,7 @@ const read = ref(false)
 export default () => {
   return {
     cardQury,
+    cardInfoData,
     model,
     rules,
     loading,
