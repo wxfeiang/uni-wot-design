@@ -1,14 +1,5 @@
-<!--
- * @Author: chenkezhan 1763932127@qq.com
- * @Date: 2024-08-16 11:28:39
- * @LastEditors: chenkezhan 1763932127@qq.com
- * @LastEditTime: 2024-08-16 16:33:39
- * @FilePath: \xa_card_mini\src\pages-sub\serveMain\components\CardProgressInQuiry.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <script lang="ts" setup>
 import useCardpress from '../hooks/useCardpress'
-import useCardMessage from '../hooks/useCardMessage'
 const { cardQury, model, rules, loading, cardInfoData } = useCardpress()
 
 const form = ref(null)
@@ -17,6 +8,9 @@ const visible = ref<boolean>(false)
 
 function showKeyBoard() {
   visible.value = true
+}
+const back = () => {
+  uni.navigateBack()
 }
 
 const data1 = ref([
@@ -27,17 +21,17 @@ const data1 = ref([
   },
   {
     title: '身份证号:',
-    value: '男',
+    value: '',
     prop: 'xb',
   },
   {
     title: '申领银行:',
-    value: '18',
+    value: '',
     prop: 'phone',
   },
   {
     title: '申领时间:',
-    value: '123456789',
+    value: '',
     prop: 'dh',
   },
 ])
@@ -50,7 +44,7 @@ const data2 = ref([
   },
   {
     title: '状态更新时间:',
-    value: '男',
+    value: '',
     prop: 'date',
   },
 ])
@@ -107,16 +101,20 @@ const data2 = ref([
         查 询
       </wd-button>
     </view>
+
+    <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
+
     <view class="rounded-10px overflow-hidden bg-#fff">
-      <wd-cell-group title="申领信息" border>
-        <wd-cell
-          :title="item.title"
-          :value="cardInfoData[item.prop]"
-          border
-          v-for="(item, index) in data1"
-          :key="index"
-        ></wd-cell>
-      </wd-cell-group>
+      <!--      <wd-cell-group title="申领信息" border>-->
+      <!--        <wd-cell-->
+      <!--          :title="item.title"-->
+      <!--          :value="cardInfoData[item.prop]"-->
+      <!--          border-->
+      <!--          v-for="(item, index) in data1"-->
+      <!--          :key="index"-->
+      <!--        ></wd-cell>-->
+      <!--      </wd-cell-group>-->
+      <!--      <wd-gap height="6" bg-color="#f5f5f5"></wd-gap>-->
       <wd-cell-group title="制卡进度" border>
         <wd-cell
           :title="item.title"
@@ -128,7 +126,7 @@ const data2 = ref([
       </wd-cell-group>
     </view>
     <view class="mt-20px">
-      <wd-button type="primary" :round="false" size="medium" block>返 回</wd-button>
+      <wd-button type="primary" :round="false" size="medium" @click="back" block>返 回</wd-button>
     </view>
   </view>
 </template>
