@@ -1,7 +1,7 @@
 import { Constant } from '@/enum/constant'
-import { faceLogin } from '@/service/api/auth'
+import { faceLogin, getUserIdKey, getUserInfo } from '@/service/api/auth'
 import { getCardcheckInfo } from '@/service/api/cardServe'
-import { getUserIdKey, getUserInfo } from '@/service/api/system'
+
 import { useRequest } from 'alova'
 
 import { useUserStore } from '@/store'
@@ -19,16 +19,17 @@ const model = ref({
   password: '',
 })
 
-const { send: sendUserIdKey, loading: LoadingKey } = getUserIdKey({
-  immediate: false,
-  loading: false,
-})
-const { send: sendUserInfo, loading: LoadingInfo } = getUserInfo({
+const { send: sendUserIdKey, loading: LoadingKey } = useRequest((data) => getUserIdKey(data), {
   immediate: false,
   loading: false,
 })
 
-const { send: sendFaceLogin, loading: LoadingFace } = faceLogin({
+const { send: sendUserInfo, loading: LoadingInfo } = useRequest((data) => getUserInfo(data), {
+  immediate: false,
+  loading: false,
+})
+
+const { send: sendFaceLogin, loading: LoadingFace } = useRequest((data) => faceLogin(data), {
   immediate: false,
   loading: false,
 })
@@ -110,17 +111,6 @@ const Login = (form) => {
   })
 }
 
-const test = async () => {
-  // const loginData = {
-  //   userId: 'oqJ344mMimoLbFvWS2pCOuiLczKM',
-  // }
-  // const data = await sendFaceLogin(loginData)
-  // console.log('🍒[data]:', data)
-  // authStore.setUserInfo(data)
-  // // 跳转到登录后的页面
-  // uni.navigateBack()
-}
-
 export default () => {
-  return { Login, model, rules, read, LoadingKey, LoadingInfo, sendFaceLogin, LoadingFace, test }
+  return { Login, model, rules, read, LoadingKey, LoadingInfo, sendFaceLogin, LoadingFace }
 }

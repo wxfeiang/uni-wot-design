@@ -35,7 +35,7 @@ const {
   loading: loadingPhoto,
   send: sendPhoto,
   onSuccess: photoSucess,
-} = uploadPhoneInfo({
+} = useRequest((data) => uploadPhoneInfo(data), {
   immediate: false,
   loading: false,
 })
@@ -50,7 +50,7 @@ const model = ref({
   nationality: 'CHN',
   nation: '01',
   areaCode: '133199',
-  phoneNumber: '13843456565',
+  phoneNumber: userInfo.userPhone,
   address: '河北石家庄',
   startDate: '',
   endDate: '',
@@ -87,7 +87,7 @@ const rules = {
   idCardBackPhotoId: [{ required: true, message: '请上传身份证反面照片' }],
   isPostcard: [{ required: true, message: '请选择是否邮寄' }],
 }
-const { loading: loading2, send: sendCardData } = cardFirstApplication({
+const { loading: loading2, send: sendCardData } = useRequest((data) => cardFirstApplication(data), {
   immediate: false,
   loading: false,
 })

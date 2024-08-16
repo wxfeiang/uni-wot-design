@@ -11,9 +11,6 @@ const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
 const GETDOT = baseUrlApi('/captcha/getDot')
 const PHNECODE = baseUrlApi('/base/captchaImage')
 
-const USER_ID_KEY = baseUrlApi('/user/app/getUserIdKey')
-const GET_INFO = baseUrlApi('/user/app/getInfo')
-
 export const PRIVACY_UPLOAD = baseUrlApi('/system/file/minio/privacyUpload')
 export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
 
@@ -102,37 +99,6 @@ export function getPhoneCode(data: any, config: any) {
   methodInstance.meta = meta
 
   return useCaptcha(methodInstance, config)
-}
-
-/**
- * 获取 人脸识别Key
- * @param params
- */
-
-export function getUserIdKey(config: any) {
-  return useRequest(
-    (newTodo) =>
-      request.Post(
-        USER_ID_KEY, // 地址
-        newTodo, // 参数
-      ),
-    { ...config },
-  )
-}
-
-/**
- * 获取 识别后信息
- * @param params
- */
-export function getUserInfo(config: any) {
-  return useRequest(
-    (newTodo) =>
-      request.Post(
-        GET_INFO, // 地址
-        newTodo, // 参数
-      ),
-    { ...config },
-  )
 }
 
 /**

@@ -1,5 +1,7 @@
 import { changeCardPwd } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
+
+import { useRequest } from 'alova'
 const { userInfo } = useUserStore()
 const model = ref({
   xm: '常乐',
@@ -21,10 +23,11 @@ const rules = {
 const statusDel = ref('')
 
 // 服务密码修改
-const { loading, send: sendChangeCardPwd } = changeCardPwd({
+const { loading, send: sendChangeCardPwd } = useRequest((data) => changeCardPwd(data), {
   immediate: false,
   loading: false,
 })
+
 const submitPasswoed = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {

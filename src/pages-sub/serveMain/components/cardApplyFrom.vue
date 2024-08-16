@@ -26,10 +26,6 @@ const cardUrl3 = ref(card3)
 
 const action = import.meta.env.VITE_UPLOAD_BASEURL + '/card/app/uploadPhoto'
 
-const getdata = () => {
-  // console.log('🥠=====', fileData.value)
-}
-
 const wotUpAttrs0 = {
   formData: {
     photoType: '1',
@@ -53,9 +49,6 @@ const wotUpAttrs1 = {
     zjhm: '210204199207215655',
   },
 }
-
-const url1 = ref('')
-const url2 = ref('')
 
 const visible = ref<boolean>(false)
 
@@ -112,11 +105,12 @@ async function upload(photoType: string, type: string) {
 const steep = ref(1)
 function next() {
   console.log('🍬', model.value)
-  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-    steep.value = 2
-  } else {
-    message.alert('请上传图片')
-  }
+  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+  //   steep.value = 2
+  // } else {
+  //   message.alert('请上传图片')
+  // }
+  steep.value = 2
 }
 </script>
 <template>
