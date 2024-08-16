@@ -121,11 +121,11 @@ async function upload(photoType: string, type: string) {
 const steep = ref(1)
 const bankBranchList = ref([])
 function next() {
-  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-  steep.value = 2
-  // } else {
-  // message.alert('请上传图片')
-  // }
+  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+    steep.value = 2
+  } else {
+    message.alert('请上传图片')
+  }
 }
 // 查询邮寄银行网点
 async function handleChange(pickerView, value, columnIndex, resolve) {

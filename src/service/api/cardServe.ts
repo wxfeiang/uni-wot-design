@@ -18,6 +18,8 @@ const CHANGE_CARD_PWD = baseUrlApi('/card/app/changeCardPwd')
 
 const CARD_RECHARGE = baseUrlApi('/card/app/changeCardData')
 
+const SOCIAL_SECARD_ACTIVE = baseUrlApi('/card/app/getSocialActive')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -113,6 +115,17 @@ export function SeverPassRest(data) {
 export function changeCardPwd(data) {
   return request.Post(
     CHANGE_CARD_PWD, // 请求地址
+    data,
+  )
+}
+
+/**
+ *  社保卡启用
+ * @param params 初始参数()
+ * */
+export function cardSocialActive(data) {
+  return request.Post(
+    SOCIAL_SECARD_ACTIVE, // 请求地址
     data,
   )
 }
