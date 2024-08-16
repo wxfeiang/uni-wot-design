@@ -92,7 +92,7 @@ const { loading: loading2, send: sendCardData } = useRequest((data) => cardFirst
   loading: false,
 })
 
-const submitStatus = ref(false)
+const submitStatus = ref(0)
 const statusDel = ref('')
 const submitCard = (form) => {
   form.validate().then(async ({ valid, errors }) => {
@@ -105,10 +105,12 @@ const submitCard = (form) => {
         console.log('🌮[params]:', params)
 
         const data: any = await sendCardData(params)
-        submitStatus.value = true
+
         if (data.message) {
+          submitStatus.value = 2
           statusDel.value = data.message
         } else {
+          submitStatus.value = 1
           statusDel.value = '提交成功了!'
         }
       } catch (error) {

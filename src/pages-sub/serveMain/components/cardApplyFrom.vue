@@ -64,7 +64,9 @@ watch(
   () => submitStatus.value,
   () => {
     message.alert(statusDel.value).then(() => {
-      uni.navigateBack()
+      if (submitStatus.value === 1) {
+        uni.navigateBack()
+      }
     })
   },
   { deep: true },
@@ -110,7 +112,6 @@ function next() {
   } else {
     message.alert('请上传图片')
   }
-  steep.value = 2
 }
 </script>
 <template>
