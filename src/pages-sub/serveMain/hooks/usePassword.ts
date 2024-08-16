@@ -19,10 +19,11 @@ const rules = {
 
 const statusDel = ref('')
 // 服务密码重置
-const { loading, send: sendCardPassword } = SeverPassRest({
+const { loading, send: sendCardPassword } = useRequest((data) => SeverPassRest(data), {
   immediate: false,
   loading: false,
 })
+
 const submitPasswoed = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {

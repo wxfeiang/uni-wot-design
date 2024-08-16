@@ -4,9 +4,9 @@ import { useUserStore } from '@/store/user'
 import { useRequest } from 'alova'
 const { userInfo } = useUserStore()
 const model = ref({
-  xm: '常乐',
-  zjhm: '210204199207215655',
-  shbzkh: 'F10379608',
+  xm: userInfo.userName,
+  zjhm: userInfo.idCardNumber,
+  shbzkh: '',
   oldPwd: '',
   newPwd: '',
   jbr: userInfo.userName,
