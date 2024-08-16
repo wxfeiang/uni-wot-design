@@ -129,7 +129,7 @@ export default {
   @apply mb-10px!;
 }
 :deep(.wd-checkbox) {
-  @apply flex! items-center!;
+  @apply flex!;
 }
 :deep(.wd-checkbox__shape) {
   @apply w-26px!;
