@@ -1,6 +1,6 @@
 import { logout } from '@/service/api/auth'
 import { useUserStore } from '@/store/user'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 const setInfo = ref([
   {
     name: '我的社保卡',

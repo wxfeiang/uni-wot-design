@@ -1,6 +1,6 @@
 import { getCardScheduleInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 const userStore = useUserStore()
 const { userInfo } = userStore
 const model = ref({

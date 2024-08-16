@@ -1,8 +1,7 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 
-import { useCaptcha } from '@alova/scene-vue' // eslint-disable-line
-import { useRequest } from 'alova'
+import { useCaptcha, useRequest } from 'alova/client'
 
 import { METHOD_INSTANCE } from '../model/baseModel'
 const CONFIG = baseUrlApi('/captcha/config')

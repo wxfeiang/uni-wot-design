@@ -1,7 +1,7 @@
 import { changeCardPwd } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 const { userInfo } = useUserStore()
 const model = ref({
   xm: userInfo.userName,

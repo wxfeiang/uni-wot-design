@@ -1,6 +1,5 @@
 import AdapterUniapp from '@alova/adapter-uniapp'
 import { createAlova } from 'alova'
-import VueHook from 'alova/vue'
 
 import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 // eslint-disable-next-line import/named
@@ -25,7 +24,7 @@ const HEADER = {
 const alovaInstance = createAlova({
   // baseURL: baseUrl(), //TODO:多服务配置情况下不需要基本前缀
   ...AdapterUniapp(),
-  statesHook: VueHook,
+
   timeout: timeOut,
 
   beforeRequest: (method) => {
@@ -40,7 +39,7 @@ const alovaInstance = createAlova({
     method.config.headers = assign(method.config.headers, HEADER, token)
   },
 
-  responsed: {
+  responded: {
     /**
      * 请求成功的拦截器
      * 第二个参数为当前请求的method实例，你可以用它同步请求前后的配置信息

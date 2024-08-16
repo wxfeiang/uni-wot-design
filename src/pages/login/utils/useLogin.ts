@@ -2,7 +2,7 @@ import { Constant } from '@/enum/constant'
 import { faceLogin, getUserIdKey, getUserInfo } from '@/service/api/auth'
 import { getCardcheckInfo } from '@/service/api/cardServe'
 
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 
 import { useUserStore } from '@/store'
 import { startFacialRecognitionVerify } from '@/utils/uniapi'

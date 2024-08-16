@@ -1,6 +1,6 @@
 import { changeCardData, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
 const read = ref(0)

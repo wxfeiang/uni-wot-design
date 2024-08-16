@@ -1,7 +1,6 @@
 import { getCardBasicInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store'
-import { routeTo } from '@/utils'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 const { userInfo } = useUserStore()
 // 卡基础信息
 const { data: cardInfoData }: { data: any } = useRequest(

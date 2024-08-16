@@ -1,6 +1,6 @@
 import { getMessageList } from '@/service/api/source'
 import { routeTo } from '@/utils'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 // 消息列表
 const {
   send: sendMessageList,

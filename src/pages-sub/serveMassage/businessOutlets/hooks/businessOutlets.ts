@@ -1,6 +1,6 @@
 import { getBranchesInfo } from '@/service/api/source'
 import { routeTo } from '@/utils'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 
 // 网点信息
 const {

@@ -1,5 +1,5 @@
 import { getArtacleDetail } from '@/service/api/source'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 const content = ref('')
 const articleTitle = ref('')
 const createTime = ref('')
