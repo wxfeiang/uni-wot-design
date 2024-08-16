@@ -1,6 +1,15 @@
+<!--
+ * @Author: chenkezhan 1763932127@qq.com
+ * @Date: 2024-08-16 11:28:39
+ * @LastEditors: chenkezhan 1763932127@qq.com
+ * @LastEditTime: 2024-08-16 16:33:39
+ * @FilePath: \xa_card_mini\src\pages-sub\serveMain\components\CardProgressInQuiry.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <script lang="ts" setup>
 import useCardpress from '../hooks/useCardpress'
-const { cardQury, model, rules, loading } = useCardpress()
+import useCardMessage from '../hooks/useCardMessage'
+const { cardQury, model, rules, loading, cardInfoData } = useCardpress()
 
 const form = ref(null)
 
@@ -10,10 +19,41 @@ function showKeyBoard() {
   visible.value = true
 }
 
-const data = ref({
-  username: '123456789012345678',
-  password: '123456789012345678',
-})
+const data1 = ref([
+  {
+    title: '姓名:',
+    value: '',
+    prop: 'xm',
+  },
+  {
+    title: '身份证号:',
+    value: '男',
+    prop: 'xb',
+  },
+  {
+    title: '申领银行:',
+    value: '18',
+    prop: 'phone',
+  },
+  {
+    title: '申领时间:',
+    value: '123456789',
+    prop: 'dh',
+  },
+])
+
+const data2 = ref([
+  {
+    title: '申领状态:',
+    value: '',
+    prop: 'zkjd',
+  },
+  {
+    title: '状态更新时间:',
+    value: '男',
+    prop: 'date',
+  },
+])
 </script>
 <template>
   <view class="p-15px">
@@ -67,14 +107,22 @@ const data = ref({
         查 询
       </wd-button>
     </view>
-
     <view class="rounded-10px overflow-hidden bg-#fff">
-      <wd-cell-group title="基本信息" border>
+      <wd-cell-group title="申领信息" border>
         <wd-cell
-          :title="item"
-          :value="item"
+          :title="item.title"
+          :value="cardInfoData[item.prop]"
           border
-          v-for="(item, index) in data"
+          v-for="(item, index) in data1"
+          :key="index"
+        ></wd-cell>
+      </wd-cell-group>
+      <wd-cell-group title="制卡进度" border>
+        <wd-cell
+          :title="item.title"
+          :value="cardInfoData[item.prop]"
+          border
+          v-for="(item, index) in data2"
           :key="index"
         ></wd-cell>
       </wd-cell-group>

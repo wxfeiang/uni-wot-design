@@ -12,14 +12,7 @@ const visible = ref<boolean>(false)
 const back = () => {
   uni.navigateBack()
 }
-const keys = {
-  xm: '姓名',
-  zjhm: '证件号码',
-  xb: '性别',
-  dh: '电话',
-  phone: '年龄',
-  areaCode: '地址',
-}
+
 const data = ref([
   {
     title: '姓名',
