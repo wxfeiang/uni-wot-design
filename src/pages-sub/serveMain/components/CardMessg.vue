@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import useCardMessage from '../hooks/useCardMessage'
+import { sexList } from '../types/dict'
 
 const { cardInfoData } = useCardMessage()
 
@@ -32,6 +33,8 @@ const data = ref([
     title: '性别',
     value: '',
     prop: 'xb',
+    type: 'dict',
+    options: sexList,
   },
   {
     title: '出生日期',
@@ -90,13 +93,15 @@ const data = ref([
     <!--     {{ cardInfoData }}-->
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-cell-group title="基本信息" border>
-        <wd-cell
-          :title="item.title"
-          :value="cardInfoData[item.prop]"
-          border
-          v-for="(item, index) in data"
-          :key="index"
-        ></wd-cell>
+        <wd-cell :title="item.title" border v-for="(item, index) in data" :key="index">
+          <!--  -->
+          <view v-if="item.type === 'dict'">
+            {{ item.options.find((i) => i.value === cardInfoData[item.prop])?.label }}
+          </view>
+          <view v-else>
+            {{ cardInfoData[item.prop] }}
+          </view>
+        </wd-cell>
       </wd-cell-group>
     </view>
     <view class="mt-20px">
