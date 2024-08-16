@@ -13,7 +13,7 @@ const CARD_FIRST_APPLICATION = baseUrlApi('/card/app/cardFirstApplication')
 
 const UPLOAD_PHOTO = baseUrlApi('/card/app/uploadPhoto')
 
-const SERVICE_PASSWORD_RESE = baseUrlApi('/card/app/getServicePasswordRese')
+const SERVICE_PASSWORD_RESET = baseUrlApi('/card/app/getServicePasswordReset')
 
 const CHANGE_CARD_PWD = baseUrlApi('/card/app/changeCardPwd')
 
@@ -92,7 +92,7 @@ export function cardFirstApplication(data) {
  * */
 export function SeverPassRest(data) {
   return request.Post(
-    SERVICE_PASSWORD_RESE, // 请求地址
+    SERVICE_PASSWORD_RESET, // 请求地址
     data,
   )
 }
