@@ -35,7 +35,7 @@ onMounted(() => {
         <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
       </template>
     </wd-navbar>
-
+    <!-- 社保卡申领 -->
     <Card-ApplyFrom />
   </view>
 </template>

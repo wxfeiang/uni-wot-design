@@ -128,9 +128,13 @@ export default {
 :deep(.custom-text) {
   @apply mb-10px!;
 }
-// :deep(.wd-checkbox) {
-//   @apply flex!;
-// }
+:deep(.wd-checkbox) {
+  @apply flex! items-center!;
+}
+:deep(.wd-checkbox__shape) {
+  @apply w-26px!;
+}
+
 :deep(.label-class .wd-checkbox__txt) {
   @apply whitespace-pre-wrap!;
 }

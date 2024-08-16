@@ -4,8 +4,9 @@ export function upLoadImg() {
   return new Promise((resolve, reject) => {
     uni.chooseImage({
       count: 1,
-      sizeType: ['compressed'],
-      sourceType: ['album'],
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+
       success: async (res) => {
         console.log('🍝[res]:', res)
         if (res.tempFiles[0].size > 1024 * 80) {

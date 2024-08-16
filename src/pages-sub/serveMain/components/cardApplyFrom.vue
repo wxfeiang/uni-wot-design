@@ -12,12 +12,16 @@ import {
   sexList,
 } from '../types/dict'
 
+import { useUserStore } from '@/store'
 import card1 from '../static/images/idCard1.jpg'
 import card2 from '../static/images/idCard2.jpg'
 import card3 from '../static/images/idCard3.jpg'
 const message = useMessage()
 const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
   useCardApply()
+
+const userStore = useUserStore()
+const { userInfo } = userStore
 
 const urlDefulate = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
 const cardUrl = ref(card1)
@@ -79,7 +83,7 @@ async function upload(photoType: string, type: string) {
       photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
       photoType,
       type,
-      zjhm: '130604199109200611',
+      zjhm: userInfo.idCardNumber,
     }
     const data: any = await sendPhoto(formData)
     if (data.data.data.message || data.data.code === 500) {
@@ -104,12 +108,11 @@ async function upload(photoType: string, type: string) {
 }
 const steep = ref(1)
 function next() {
-  console.log('🍬', model.value)
-  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-  //   steep.value = 2
-  // } else {
-  //   message.alert('请上传图片')
-  // }
+  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+    steep.value = 2
+  } else {
+    message.alert('请上传图片')
+  }
   steep.value = 2
 }
 </script>
