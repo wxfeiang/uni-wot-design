@@ -123,11 +123,11 @@ const mainData = ref([
     type: 'coupon',
     icon: tushu,
   },
-  {
-    title: '金融超市',
-    type: 'coupon',
-    icon: shop,
-  },
+  // {
+  //   title: '金融超市',
+  //   type: 'coupon',
+  //   icon: shop,
+  // },
   {
     title: '更多',
     icon: more,

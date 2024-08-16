@@ -1,4 +1,5 @@
 import { changeCardData, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
+import { getBranchesInfo } from '@/service/api/source'
 import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
@@ -24,7 +25,16 @@ const {
   loading: false,
   initialData: {},
 })
-
+// 网点信息
+const {
+  loading: loadingBranches,
+  send: sendBranches,
+  onSuccess: branchesSucess,
+} = useRequest((data) => getBranchesInfo(data), {
+  immediate: false,
+  loading: false,
+  initialData: [],
+})
 // 上传身份证
 const modelPhoto = ref({
   url1: '',
@@ -39,7 +49,7 @@ const {
   immediate: false,
   loading: false,
 })
-
+const bankBranchList = []
 // 补卡信息提交
 const model = ref({
   name: userInfo.userName,
@@ -75,6 +85,8 @@ const model = ref({
   postcardName: '',
   postcardPhone: '',
   postcardAddress: '',
+
+  area: '',
 })
 const rules = {
   name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
@@ -105,12 +117,17 @@ const rules = {
   dbrPhone: [{ required: true, message: '请输入代办人手机号', trigger: 'blur' }],
   dbrAddress: [{ required: true, message: '请输入代办人地址', trigger: 'blur' }],
   // --
+  area: [{ required: true, message: '请选择申领地区', trigger: 'change' }],
   isPostcard: [{ required: true, message: '请选择是否邮寄', trigger: 'change' }],
   postcardName: [{ required: true, message: '请输入邮寄人姓名', trigger: 'blur' }],
   postcardPhone: [{ required: true, message: '请输入邮寄人手机号', trigger: 'blur' }],
   postcardAddress: [{ required: true, message: '请输入', trigger: 'blur' }],
 }
 const { loading: loading2, send: sendCardData } = useRequest((data) => changeCardData(data), {
+  immediate: false,
+  loading: false,
+})
+const { loading: loading3, send: sendBranchesInfos } = useRequest((data) => changeCardData(data), {
   immediate: false,
   loading: false,
 })
@@ -146,17 +163,21 @@ export default () => {
   return {
     sendCardQury,
     sendCardData,
+    sendBranchesInfos,
     serchData,
     submitCard,
     submitStatus,
     statusDel,
     modelPhoto,
     model,
+
     rules,
     loading,
     loading2,
     read,
     sendPhoto,
     loadingPhoto,
+    loadingBranches,
+    sendBranches,
   }
 }

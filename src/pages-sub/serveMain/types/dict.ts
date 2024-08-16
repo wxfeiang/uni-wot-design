@@ -137,7 +137,10 @@ export const dataStatusList = [
 ]
 
 // 是否邮寄
-export const isMailList = [{ value: '0', label: '否' }]
+export const isMailList = [
+  { value: '1', label: '网点邮寄' },
+  { value: '0', label: '自己领取' },
+]
 //
 export const isDbbs = [{ value: '0', label: '否' }]
 // 补换卡原因

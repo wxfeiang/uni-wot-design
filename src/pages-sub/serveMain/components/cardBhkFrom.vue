@@ -4,6 +4,7 @@ import useCardBhk from '../hooks/useCardBhk'
 import { upLoadImg } from '../hooks/useUpload'
 import {
   applicantList,
+  areaCodeList,
   bankCodeList,
   businessTypeList,
   cardType,
@@ -20,8 +21,17 @@ import card1 from '../static/images/idCard1.jpg'
 import card2 from '../static/images/idCard2.jpg'
 import card3 from '../static/images/idCard3.jpg'
 const message = useMessage()
-const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
-  useCardBhk()
+const {
+  modelPhoto,
+  model,
+  rules,
+  submitCard,
+  submitStatus,
+  statusDel,
+  sendPhoto,
+  loadingPhoto,
+  sendBranches,
+} = useCardBhk()
 
 const userStore = useUserStore()
 const { userInfo } = userStore
@@ -109,12 +119,31 @@ async function upload(photoType: string, type: string) {
   }
 }
 const steep = ref(1)
+const bankBranchList = ref([])
 function next() {
-  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-    steep.value = 2
-  } else {
-    message.alert('请上传图片')
+  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+  steep.value = 2
+  // } else {
+  // message.alert('请上传图片')
+  // }
+}
+// 查询邮寄银行网点
+async function handleChange(pickerView, value, columnIndex, resolve) {
+  console.log(model.value.area, model.value.bankCode, model.value.isPostcard)
+
+  const formData = {
+    yhdm: model.value.bankCode,
+    areaCode: model.value.area,
+    isMail: model.value.isPostcard,
   }
+  console.log(formData)
+  const data: any = await sendBranches(formData)
+  const ldata = []
+  data.forEach((v) => {
+    ldata.push({ value: v.areaCode, label: v.name })
+  })
+  bankBranchList.value = ldata
+  console.log(data)
 }
 </script>
 <template>
@@ -196,7 +225,7 @@ function next() {
             custom-input-class="custom-input-right"
           />
           <wd-input
-            label="身份证号码:"
+            label="身份证号:"
             label-width="100px"
             type="text"
             v-model="model.idCardNumber"
@@ -284,24 +313,41 @@ function next() {
             :rules="rules.work"
             prop="work"
           />
-
+          <wd-picker
+            :columns="areaCodeList"
+            custom-value-class="custom-input-right"
+            label="申领地区"
+            v-model="model.area"
+            :rules="rules.area"
+            prop="area"
+            :column-change="handleChange"
+          />
+          <wd-picker
+            :columns="isMailList"
+            custom-value-class="custom-input-right"
+            label="邮寄方式"
+            v-model="model.isPostcard"
+            :rules="rules.isPostcard"
+            prop="isPostcard"
+            :column-change="handleChange"
+          />
           <wd-picker
             :columns="bankCodeList"
             custom-value-class="custom-input-right"
-            label="开户银行"
+            label="申领银行"
             v-model="model.bankCode"
             :rules="rules.bankCode"
             prop="bankCode"
+            :column-change="handleChange"
           />
-
-          <!-- <wd-picker
-            :columns="areaCodeList"
+          <wd-picker
+            :columns="bankBranchList"
             custom-value-class="custom-input-right"
-            label="请选择开户网点"
+            label="申领网点"
             v-model="model.bankBranchCode"
             :rules="rules.bankBranchCode"
             prop="bankBranchCode"
-          /> -->
+          />
 
           <wd-picker
             :columns="businessTypeList"
@@ -309,6 +355,7 @@ function next() {
             label="业务类型"
             v-model="model.businessType"
             :rules="rules.businessType"
+            onchange="handleChange"
             prop="businessType"
           />
           <wd-picker
@@ -395,14 +442,7 @@ function next() {
               custom-input-class="custom-input-right"
             />
           </template>
-          <wd-picker
-            :columns="isMailList"
-            custom-value-class="custom-input-right"
-            label="是否邮寄"
-            v-model="model.isPostcard"
-            :rules="rules.isPostcard"
-            prop="isPostcard"
-          />
+
           <template v-if="model.isPostcard == '1'">
             <wd-input
               label="邮寄人姓名"
