@@ -51,7 +51,7 @@ const model = ref({
   nation: '01',
   areaCode: '133199',
   phoneNumber: userInfo.userPhone,
-  address: '河北石家庄',
+  address: '',
   startDate: '',
   endDate: '',
   work: '20000',
@@ -105,11 +105,11 @@ const submitCard = (form) => {
         console.log('🌮[params]:', params)
 
         const data: any = await sendCardData(params)
+        submitStatus.value = true
         if (data.message) {
-          submitStatus.value = true
           statusDel.value = data.message
         } else {
-          uni.navigateBack()
+          statusDel.value = '提交成功了!'
         }
       } catch (error) {
         console.log('数据校验失败')

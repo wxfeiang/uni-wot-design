@@ -18,7 +18,7 @@ function btnClick(item) {
   } else {
     routeTo({
       url: '/pages-sub/serveMain/cardApplyFromType',
-      data: { base: 'shebaoksl', title: '社保卡申领信息' },
+      data: { base: 'shebaokbh', title: '社保卡补换信息' },
     })
   }
 }
@@ -59,18 +59,18 @@ watch(
 const isApply = ref(null)
 
 onMounted(async () => {
-  showData.value = dataInfo[0]
+  showData.value = dataInfo[1]
   // 如果阅读协议页面回来 则
   read.value = 0
-  const { resultCode }: any = await sendCardQury(serchData.value)
-  // 0 不让在申请了
+  // const { resultCode }: any = await sendCardQury(serchData.value)
+  // // 0 不让在申请了
 
-  isApply.value = resultCode
-  if (isApply.value === '0') {
-    message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
-      uni.navigateBack()
-    })
-  }
+  // isApply.value = resultCode
+  // if (isApply.value === '0') {
+  //   message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
+  //     uni.navigateBack()
+  //   })
+  // }
 })
 const value = ref()
 </script>

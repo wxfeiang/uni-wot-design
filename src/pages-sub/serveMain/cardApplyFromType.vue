@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -9,13 +10,17 @@
 
 <script lang="ts" setup>
 import CardApplyFrom from './components/cardApplyFrom.vue'
+import CardBhkFrom from './components/cardBhkFrom.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
   uni.navigateBack()
 }
-onMounted(() => {
-  navTitle.value = '社保卡申领信息填写'
+const baseCon = ref('')
+onLoad((options) => {
+  console.log('🌯=======>>>>[options]:', options)
+  baseCon.value = options.base
+  navTitle.value = decodeURIComponent(options.title)
 })
 </script>
 
@@ -36,7 +41,9 @@ onMounted(() => {
       </template>
     </wd-navbar>
     <!-- 社保卡申领 -->
-    <Card-ApplyFrom />
+    <Card-ApplyFrom v-if="baseCon === 'shebaoksl'" />
+    <!-- 补卡换卡 -->
+    <Card-BhkFrom v-if="baseCon === 'shebaokbh'" />
   </view>
 </template>
 

@@ -48,6 +48,8 @@ const mainData = ref([
     title: '社保卡补换',
     icon: 'order',
     url: shebaokbh,
+    type: '2',
+    base: 'shebaokbh',
   },
   {
     title: '制卡进度查询',

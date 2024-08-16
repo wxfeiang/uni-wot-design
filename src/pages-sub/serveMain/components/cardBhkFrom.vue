@@ -1,14 +1,17 @@
 <script lang="ts" setup>
 import { useMessage } from 'wot-design-uni'
-import useCardApply from '../hooks/useCardApply'
+import useCardBhk from '../hooks/useCardBhk'
 import { upLoadImg } from '../hooks/useUpload'
 import {
-  areaCodeList,
+  applicantList,
+  bankCodeList,
+  businessTypeList,
   cardType,
   ethniCodeList,
+  isDbbs,
   isMailList,
   occupationList,
-  regionList,
+  reason,
   sexList,
 } from '../types/dict'
 
@@ -18,7 +21,7 @@ import card2 from '../static/images/idCard2.jpg'
 import card3 from '../static/images/idCard3.jpg'
 const message = useMessage()
 const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
-  useCardApply()
+  useCardBhk()
 
 const userStore = useUserStore()
 const { userInfo } = userStore
@@ -213,14 +216,6 @@ function next() {
             close-text="完成"
           ></wd-number-keyboard>
           <wd-picker
-            :columns="cardType"
-            custom-value-class="custom-input-right"
-            label="证件类型"
-            v-model="model.idCardType"
-            :rules="rules.idCardType"
-            prop="idCardType"
-          />
-          <wd-picker
             :columns="sexList"
             custom-value-class="custom-input-right"
             label="性别"
@@ -233,41 +228,12 @@ function next() {
             label-width="100px"
             type="text"
             v-model="model.phoneNumber"
-            placeholder="请输入身份证号码"
+            placeholder="请输入手机号码"
             :rules="rules.phoneNumber"
             prop="phoneNumber"
             custom-input-class="custom-input-right"
             :maxlength="11"
             :mixlength="11"
-          />
-
-          <wd-datetime-picker
-            type="date"
-            label-width="150"
-            custom-value-class="custom-input-right"
-            align-right
-            label="出生日期"
-            v-model="model.birthdate"
-            :rules="rules.birthdate"
-            prop="birthdate"
-          />
-          <wd-input
-            label="户籍地址:"
-            label-width="100px"
-            type="text"
-            v-model="model.address"
-            placeholder="请输入户籍地址"
-            :rules="rules.address"
-            prop="address"
-            custom-input-class="custom-input-right"
-          />
-          <wd-picker
-            :columns="regionList"
-            custom-value-class="custom-input-right"
-            label="国籍"
-            v-model="model.nationality"
-            :rules="rules.nationality"
-            prop="nationality"
           />
           <wd-picker
             :columns="ethniCodeList"
@@ -277,14 +243,15 @@ function next() {
             :rules="rules.nation"
             prop="nation"
           />
-
-          <wd-picker
-            :columns="areaCodeList"
-            custom-value-class="custom-input-right"
-            label="区域代码"
-            v-model="model.areaCode"
-            :rules="rules.areaCode"
-            prop="areaCode"
+          <wd-input
+            label="通讯地址"
+            v-model="model.mailAddress"
+            :rules="rules.mailAddress"
+            prop="mailAddress"
+            label-width="100px"
+            type="text"
+            placeholder="请输入通讯地址"
+            custom-input-class="custom-input-right"
           />
 
           <wd-datetime-picker
@@ -307,6 +274,7 @@ function next() {
             prop="endDate"
             align-right
           />
+
           <wd-picker
             :columns="occupationList"
             custom-value-class="custom-input-right"
@@ -315,24 +283,117 @@ function next() {
             :rules="rules.work"
             prop="work"
           />
+
+          <wd-picker
+            :columns="bankCodeList"
+            custom-value-class="custom-input-right"
+            label="开户银行"
+            v-model="model.bankCode"
+            :rules="rules.bankCode"
+            prop="bankCode"
+          />
+
           <!-- <wd-picker
             :columns="areaCodeList"
             custom-value-class="custom-input-right"
-            label="网点编码"
+            label="请选择开户网点"
             v-model="model.bankBranchCode"
             :rules="rules.bankBranchCode"
             prop="bankBranchCode"
           /> -->
-          <wd-input
-            label="联系地址"
-            v-model="model.address"
-            :rules="rules.address"
-            prop="address"
-            label-width="100px"
-            type="text"
-            placeholder="请输入联系地址"
-            custom-input-class="custom-input-right"
+
+          <wd-picker
+            :columns="businessTypeList"
+            custom-value-class="custom-input-right"
+            label="业务类型"
+            v-model="model.businessType"
+            :rules="rules.businessType"
+            prop="businessType"
           />
+          <wd-picker
+            :columns="reason"
+            custom-value-class="custom-input-right"
+            label="补卡原因"
+            v-model="model.reason"
+            :rules="rules.reason"
+            prop="reason"
+          />
+          <wd-picker
+            :columns="isDbbs"
+            custom-value-class="custom-input-right"
+            label="是否代办"
+            v-model="model.dbbs"
+            :rules="rules.dbbs"
+            prop="dbbs"
+          />
+          <template v-if="model.dbbs === '1'">
+            <wd-input
+              label="代办人姓名"
+              v-model="model.dbrName"
+              :rules="rules.dbrName"
+              prop="dbrName"
+              label-width="100px"
+              type="text"
+              placeholder="请输入代办人姓名"
+              custom-input-class="custom-input-right"
+            />
+            <wd-picker
+              :columns="cardType"
+              custom-value-class="custom-input-right"
+              label="代办人证件类型"
+              v-model="model.dbrType"
+              :rules="rules.dbrType"
+              prop="dbrType"
+            />
+            <wd-input
+              label="代办人证件号码"
+              v-model="model.dbrZjhm"
+              :rules="rules.dbrZjhm"
+              prop="dbrZjhm"
+              label-width="100px"
+              type="text"
+              placeholder="请输入代办人证件号码"
+              custom-input-class="custom-input-right"
+            />
+            <wd-picker
+              :columns="sexList"
+              custom-value-class="custom-input-right"
+              label="代办人性别"
+              v-model="model.dbrSex"
+              :rules="rules.dbrSex"
+              prop="dbrSex"
+            />
+            <wd-picker
+              :columns="applicantList"
+              custom-value-class="custom-input-right"
+              label="代办人与申请人关系"
+              v-model="model.familyRelation"
+              :rules="rules.familyRelation"
+              prop="familyRelation"
+            />
+
+            <wd-input
+              label="代办人手机号"
+              v-model="model.dbrPhone"
+              :rules="rules.dbrPhone"
+              prop="dbrPhone"
+              label-width="100px"
+              type="text"
+              placeholder="请输入代办人手机号"
+              custom-input-class="custom-input-right"
+            />
+
+            <wd-input
+              label="代办人代办人地址"
+              v-model="model.dbrAddress"
+              :rules="rules.dbrAddress"
+              prop="dbrAddress"
+              label-width="100px"
+              type="text"
+              placeholder="请输入代办人地址"
+              custom-input-class="custom-input-right"
+            />
+          </template>
           <wd-picker
             :columns="isMailList"
             custom-value-class="custom-input-right"
@@ -341,6 +402,39 @@ function next() {
             :rules="rules.isPostcard"
             prop="isPostcard"
           />
+          <template v-if="model.isPostcard == '1'">
+            <wd-input
+              label="邮寄人姓名"
+              v-model="model.postcardName"
+              :rules="rules.postcardName"
+              prop="postcardName"
+              label-width="100px"
+              type="text"
+              placeholder="请输入邮寄人姓名'"
+              custom-input-class="custom-input-right"
+            />
+            <wd-input
+              label="邮寄人手机号"
+              v-model="model.postcardPhone"
+              :rules="rules.postcardPhone"
+              prop="postcardPhone"
+              label-width="100px"
+              type="text"
+              placeholder="请输入邮寄人手机号"
+              custom-input-class="custom-input-right"
+            />
+
+            <wd-input
+              label="邮寄地址"
+              v-model="model.postcardAddress"
+              :rules="rules.postcardAddress"
+              prop="postcardAddress"
+              label-width="100px"
+              type="text"
+              placeholder="请输入邮寄地址"
+              custom-input-class="custom-input-right"
+            />
+          </template>
         </wd-cell-group>
       </wd-form>
     </view>

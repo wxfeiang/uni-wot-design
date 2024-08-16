@@ -16,6 +16,8 @@ const SERVICE_PASSWORD_RESET = baseUrlApi('/card/app/getServicePasswordReset')
 
 const CHANGE_CARD_PWD = baseUrlApi('/card/app/changeCardPwd')
 
+const CARD_RECHARGE = baseUrlApi('/card/app/changeCardData')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -71,7 +73,6 @@ export function uploadPhoneInfo(data) {
     },
   )
 }
-
 /**
  *  社保卡申请数据提交
  * @param params 初始参数()
@@ -79,6 +80,17 @@ export function uploadPhoneInfo(data) {
 export function cardFirstApplication(data) {
   return request.Post(
     CARD_FIRST_APPLICATION, // 请求地址
+    data,
+  )
+}
+
+/**
+ *  社保卡补换
+ * @param params 初始参数()
+ * */
+export function changeCardData(data) {
+  return request.Post(
+    CARD_RECHARGE, // 请求地址
     data,
   )
 }

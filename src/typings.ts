@@ -28,6 +28,9 @@ type IUserInfo = {
   userDId?: string
   idCardNumber?: string
   isApply?: boolean // 是否申请完成
+  isAuth?: boolean // 是否认证
+  isBind?: boolean // 是否绑定手机号
+  address?: string
 }
 
 enum TestEnum {

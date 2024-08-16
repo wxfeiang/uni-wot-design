@@ -138,3 +138,21 @@ export const dataStatusList = [
 
 // 是否邮寄
 export const isMailList = [{ value: '0', label: '否' }]
+//
+export const isDbbs = [{ value: '0', label: '否' }]
+// 补换卡原因
+export const reason = [
+  { value: '1', label: '卡损坏' },
+  { value: '2', label: '卡丢失' },
+  { value: '7', label: '卡面信息变更' },
+  { value: '6', label: '卡到期' },
+  { value: '5', label: '其他' },
+]
+
+// 业务类型
+
+export const businessTypeList = [
+  { value: '1', label: '补卡申请' },
+  { value: '2', label: '换卡申请' },
+  { value: '3', label: '换发' },
+]

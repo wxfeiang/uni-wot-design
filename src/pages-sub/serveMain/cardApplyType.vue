@@ -10,6 +10,8 @@
 
 <script lang="ts" setup>
 import CardApply from './components/CardApply.vue'
+
+import CardBhk from './components/CardBhk.vue'
 const navTitle = ref('')
 function handleClickLeft() {
   uni.navigateBack()
@@ -40,6 +42,8 @@ onLoad((options: any) => {
     </wd-navbar>
 
     <Card-Apply v-if="baseCon === 'shebaoksl'" />
+    <!-- 补卡换卡 -->
+    <Card-Bhk v-if="baseCon === 'shebaokbh'" />
   </view>
 </template>
 
