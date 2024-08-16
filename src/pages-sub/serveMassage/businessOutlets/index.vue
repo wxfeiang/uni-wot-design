@@ -23,8 +23,8 @@ function toPhone(e) {
 }
 function toLocation(e) {
   uni.openLocation({
-    latitude: Number(e.latitude),
-    longitude: Number(e.longitude),
+    latitude: e.dimension * 1,
+    longitude: e.longitude * 1,
     name: e.name,
     address: e.address,
   })

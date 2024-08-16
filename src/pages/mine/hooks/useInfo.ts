@@ -1,6 +1,6 @@
 import { logout } from '@/service/api/auth'
 import { useUserStore } from '@/store/user'
-
+import { useRequest } from 'alova'
 const setInfo = ref([
   {
     name: '我的社保卡',
@@ -13,10 +13,11 @@ const setInfo = ref([
 ])
 
 // 退出操作
-const { loading, send: sendLogOut } = logout({
+const { loading, send: sendLogOut } = useRequest(logout, {
   immediate: false,
   loading: false,
 })
+
 const { clearUserInfo } = useUserStore()
 const LogOut = async () => {
   try {

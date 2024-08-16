@@ -89,7 +89,7 @@ const value = ref()
     <view class="fixed bottom-3 left-0 right-0 w-full">
       <view class="px-20px py-1">
         <view class="">
-          <wd-checkbox custom-label-class="label-class" v-model="read">
+          <wd-checkbox custom-label-class="label-class" v-model="read" size="large">
             我已阅读并同意以上内容,并接受
             <text class="color-#4d80f0" @click.stop="toAgereement(5)">
               《雄安一卡通申办业务须知协议》
@@ -128,9 +128,9 @@ export default {
 :deep(.custom-text) {
   @apply mb-10px!;
 }
-:deep(.wd-checkbox) {
-  @apply flex!;
-}
+// :deep(.wd-checkbox) {
+//   @apply flex!;
+// }
 :deep(.label-class .wd-checkbox__txt) {
   @apply whitespace-pre-wrap!;
 }

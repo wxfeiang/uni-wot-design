@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
-import useCardFrom from '../hooks/useCardFrom'
-const { cardQury, model, rules, loading } = useCardFrom()
+import useCardpress from '../hooks/useCardpress'
+const { cardQury, model, rules, loading } = useCardpress()
 
 const form = ref(null)
 
@@ -11,9 +10,6 @@ function showKeyBoard() {
   visible.value = true
 }
 
-function toQueryDetil(data?: any) {
-  routeTo({ url: '/pages-sub/serveMain/cardMessType' })
-}
 const data = ref({
   username: '123456789012345678',
   password: '123456789012345678',
@@ -38,6 +34,13 @@ const data = ref({
             :maxlength="18"
             :mixlength="16"
           />
+          <wd-number-keyboard
+            v-model:visible="visible"
+            v-model="model.zjhm"
+            :maxlength="18"
+            extra-key="X"
+            close-text="完成"
+          ></wd-number-keyboard>
 
           <wd-input
             label="姓名:"
@@ -49,13 +52,6 @@ const data = ref({
             prop="xm"
             custom-input-class="custom-input-right"
           />
-          <wd-number-keyboard
-            v-model:visible="visible"
-            v-model="model.zjhm"
-            :maxlength="18"
-            extra-key="X"
-            close-text="完成"
-          ></wd-number-keyboard>
         </wd-cell-group>
       </wd-form>
     </view>

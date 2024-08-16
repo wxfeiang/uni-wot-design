@@ -51,8 +51,12 @@ export function faceLogin(data) {
  * 测试token
  * @param params
  */
-export function testToken() {
-  return request.Get(TEST_TOKEN)
+export function logout(data) {
+  // TODO: 地址么有配置
+  return request.Post(
+    FACE_LOGIN, // 地址
+    data,
+  )
 }
 
 /**

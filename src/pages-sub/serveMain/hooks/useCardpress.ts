@@ -1,9 +1,11 @@
 import { getCardScheduleInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
+import { useRequest } from 'alova'
 const userStore = useUserStore()
-const model = reactive({
-  xm: '常乐',
-  zjhm: '210204199207215655',
+const { userInfo } = userStore
+const model = ref({
+  xm: userInfo.userName,
+  zjhm: userInfo.idCardNumber,
 })
 const rules = {
   xm: [{ required: true, message: '请输入姓名' }],
@@ -11,19 +13,18 @@ const rules = {
 }
 
 // 卡进度查询
-const { loading, send: sendCard } = getCardScheduleInfo(
-  {},
-  {
-    immediate: false,
-    loading: false,
-  },
-)
+const { loading, send: sendCard } = useRequest((data) => getCardScheduleInfo(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+})
+
 const cardDetilInfo = ref<any>(null)
 const cardQury = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        const data: any = await sendCard(model)
+        const data: any = await sendCard(model.value)
         console.log('🥦[data]:', data)
       } catch (error) {}
     }

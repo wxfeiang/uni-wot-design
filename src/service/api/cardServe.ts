@@ -1,6 +1,5 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
-import { useRequest } from 'alova'
 import { METHOD_INSTANCE } from '../model/baseModel'
 
 const BASIC_INFO = baseUrlApi('/card/app/getBasicInfo')
@@ -32,13 +31,11 @@ export function getCardBasicInfo(data) {
  *  卡进度信息查询
  * @param params 初始参数()
  * */
-export function getCardScheduleInfo(data: any, config: any) {
-  const methodInstance = request.Post(
+export function getCardScheduleInfo(data) {
+  return request.Post(
     CARD_SCHEDULE_INFO, // 请求地址
     data,
   )
-
-  return useRequest(methodInstance, config)
 }
 
 /**

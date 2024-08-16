@@ -14,7 +14,7 @@ const {
     isMail: '',
   }),
   {
-    immediate: true,
+    immediate: false,
     loading: false,
     initialData: [],
   },

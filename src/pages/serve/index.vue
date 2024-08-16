@@ -53,6 +53,7 @@ const mainData = ref([
     title: '制卡进度查询',
     base: 'kajindu',
     url: kajindu,
+    type: '3',
   },
   {
     title: '未成年人申领',
@@ -119,11 +120,9 @@ function gridClick(item: any) {
     })
   } else if (item.type === '2') {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
-  }
-  // else if (item.type === '3') {
-  //   routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
-  // }
-  else {
+  } else if (item.type === '3') {
+    routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
+  } else {
     toast.show('功能开发中，敬请期待!...')
   }
 }
