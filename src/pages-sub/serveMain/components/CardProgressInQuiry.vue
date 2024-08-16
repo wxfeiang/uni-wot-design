@@ -51,82 +51,75 @@ const data2 = ref([
 </script>
 <template>
   <view class="p-15px">
-    <view class="rounded-10px overflow-hidden bg-#fff">
-      <wd-form ref="form" :model="model">
-        <wd-cell-group border>
-          <wd-input
-            label="身份证号码:"
-            label-width="100px"
-            type="text"
-            v-model="model.zjhm"
-            placeholder="请输入身份证号码"
-            :rules="rules.zjhm"
-            prop="zjhm"
-            custom-input-class="custom-input-right"
-            disabled
-            @click="showKeyBoard"
-            :maxlength="18"
-            :mixlength="16"
-          />
-          <wd-number-keyboard
-            v-model:visible="visible"
-            v-model="model.zjhm"
-            :maxlength="18"
-            extra-key="X"
-            close-text="完成"
-          ></wd-number-keyboard>
+    <view v-if="!cardInfoData">
+      <view class="rounded-10px overflow-hidden bg-#fff">
+        <wd-form ref="form" :model="model">
+          <wd-cell-group border>
+            <wd-input
+              label="身份证号码:"
+              label-width="100px"
+              type="text"
+              v-model="model.zjhm"
+              placeholder="请输入身份证号码"
+              :rules="rules.zjhm"
+              prop="zjhm"
+              custom-input-class="custom-input-right"
+              disabled
+              @click="showKeyBoard"
+              :maxlength="18"
+              :mixlength="16"
+            />
+            <wd-number-keyboard
+              v-model:visible="visible"
+              v-model="model.zjhm"
+              :maxlength="18"
+              extra-key="X"
+              close-text="完成"
+            ></wd-number-keyboard>
 
-          <wd-input
-            label="姓名:"
-            label-width="100px"
-            type="text"
-            v-model="model.xm"
-            placeholder="请输入姓名"
-            :rules="rules.xm"
-            prop="xm"
-            custom-input-class="custom-input-right"
-          />
+            <wd-input
+              label="姓名:"
+              label-width="100px"
+              type="text"
+              v-model="model.xm"
+              placeholder="请输入姓名"
+              :rules="rules.xm"
+              prop="xm"
+              custom-input-class="custom-input-right"
+            />
+          </wd-cell-group>
+        </wd-form>
+      </view>
+      <view class="mt-20px">
+        <wd-button
+          type="primary"
+          :round="false"
+          size="medium"
+          @click="cardQury(form)"
+          block
+          :loading="loading"
+        >
+          查 询
+        </wd-button>
+      </view>
+    </view>
+    <view v-if="cardInfoData && !loading">
+      <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
+
+      <view class="rounded-10px overflow-hidden bg-#fff">
+        <wd-cell-group title="制卡进度" border>
+          <wd-cell
+            :title="item.title"
+            :value="cardInfoData[item.prop]"
+            border
+            v-for="(item, index) in data2"
+            :key="index"
+          ></wd-cell>
         </wd-cell-group>
-      </wd-form>
-    </view>
-    <view class="mt-20px">
-      <wd-button
-        type="primary"
-        :round="false"
-        size="medium"
-        @click="cardQury(form)"
-        block
-        :loading="loading"
-      >
-        查 询
-      </wd-button>
-    </view>
-
-    <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
-
-    <view class="rounded-10px overflow-hidden bg-#fff">
-      <!--      <wd-cell-group title="申领信息" border>-->
-      <!--        <wd-cell-->
-      <!--          :title="item.title"-->
-      <!--          :value="cardInfoData[item.prop]"-->
-      <!--          border-->
-      <!--          v-for="(item, index) in data1"-->
-      <!--          :key="index"-->
-      <!--        ></wd-cell>-->
-      <!--      </wd-cell-group>-->
-      <!--      <wd-gap height="6" bg-color="#f5f5f5"></wd-gap>-->
-      <wd-cell-group title="制卡进度" border>
-        <wd-cell
-          :title="item.title"
-          :value="cardInfoData[item.prop]"
-          border
-          v-for="(item, index) in data2"
-          :key="index"
-        ></wd-cell>
-      </wd-cell-group>
-    </view>
-    <view class="mt-20px">
-      <wd-button type="primary" :round="false" size="medium" @click="back" block>返 回</wd-button>
+      </view>
+      <view class="mt-20px">
+        <wd-button type="primary" :round="false" size="medium" @click="back" block>返 回</wd-button>
+      </view>
     </view>
   </view>
 </template>
