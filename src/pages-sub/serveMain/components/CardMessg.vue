@@ -12,7 +12,6 @@ const visible = ref<boolean>(false)
 const back = () => {
   uni.navigateBack()
 }
-
 const data = ref([
   {
     title: '姓名',
@@ -20,35 +19,75 @@ const data = ref([
     prop: 'xm',
   },
   {
+    title: '证件号码',
+    value: '',
+    prop: 'zjhm',
+  },
+  {
+    title: '证件有效期限',
+    value: '',
+    prop: 'zjyxq',
+  },
+  {
     title: '性别',
-    value: '男',
+    value: '',
     prop: 'xb',
   },
   {
-    title: '年龄',
-    value: '18',
-    prop: 'phone',
+    title: '出生日期',
+    value: '',
+    prop: 'csrq',
   },
   {
-    title: '电话',
-    value: '123456789',
-    prop: 'dh',
+    title: '国籍',
+    value: '',
+    prop: 'gj',
+  },
+  {
+    title: '民族',
+    value: '',
+    prop: 'mz',
+  },
+  {
+    title: '职业',
+    value: '',
+    prop: 'zy',
+  },
+  {
+    title: '区域代码',
+    value: '',
+    prop: 'areaCode',
+  },
+  {
+    title: '常住所在地地址',
+    value: '',
+    prop: 'address',
   },
   {
     title: '社会保障卡号',
-    value: '123456789',
+    value: '',
     prop: 'zhbzkh',
   },
   {
-    title: '地址',
-    value: '北京市',
-    prop: 'address',
+    title: '银行卡号',
+    value: '',
+    prop: 'yhkh',
+  },
+  {
+    title: '联系电话',
+    value: '',
+    prop: 'phone',
+  },
+  {
+    title: '卡应用状态',
+    value: '',
+    prop: 'cardStatus',
   },
 ])
 </script>
 <template>
   <view class="p-15px">
-    <!-- {{ cardInfoData }} -->
+    <!--     {{ cardInfoData }}-->
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-cell-group title="基本信息" border>
         <wd-cell
