@@ -121,7 +121,7 @@ function next() {
   <view class="p-10px py-20px" v-if="steep == 1">
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-form ref="formPhoto" :model="modelPhoto">
-        <view class="mb-20px px-10px">
+        <view class="mb-20px px-20px">
           <view>
             <view
               class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
