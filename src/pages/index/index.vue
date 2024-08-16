@@ -47,7 +47,7 @@ const message = useMessage()
 const basestore = useBaseStore()
 const toast = useToast()
 
-const { messageData, messageClick, messageList } = useIndex()
+const { messageData, messageClick, sendMessageList } = useIndex()
 
 defineOptions({
   name: 'Index',
@@ -244,7 +244,7 @@ onMounted(async () => {
   if (PLATFORM.isH5) {
     navTop.value = navTop.value - 44
   }
-  const mess: any = await messageList({
+  const mess: any = await sendMessageList({
     page: 1,
     size: 10,
   })

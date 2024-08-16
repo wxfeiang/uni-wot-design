@@ -1,29 +1,26 @@
 import { getBranchesInfo } from '@/service/api/source'
-
 import { routeTo } from '@/utils'
+import { useRequest } from 'alova'
 
-// 消息列表
-const { data: cardInfoData, send: sendbranchesInfo }: { data: any; send: any } = getBranchesInfo(
-  // {
-  //   yhdm: '105',
-  //   areaCode: '130629',
-  //   isMail: '0',
-  // },
-  {
+// 网点信息
+const {
+  data: cardInfoData,
+  send: sendbranchesInfo,
+  loading,
+} = useRequest(
+  getBranchesInfo({
     yhdm: '',
     areaCode: '',
     isMail: '',
-  },
+  }),
   {
     immediate: true,
     loading: false,
     initialData: [],
   },
 )
-// const sendMessageList = (data) => {
-//   messageList(data)
-// }
 
+// 点击消息
 function messageClick(item) {
   routeTo({
     url: '/pages-sub/webView/index',
@@ -32,5 +29,5 @@ function messageClick(item) {
 }
 
 export default () => {
-  return { cardInfoData, messageClick }
+  return { cardInfoData, messageClick, sendbranchesInfo, loading }
 }

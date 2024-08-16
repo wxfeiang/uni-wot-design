@@ -14,11 +14,5 @@ export declare interface METHOD_INSTANCE<T = any> {
   ignorToken?: boolean // 返回所有数据
   ignorToken: true // 忽略token
   resAll?: boolean // 返回所有数据
-}
-
-export declare interface CONFIGN<T = any> {
-  immediate?: boolean // 是否立即执行请求
-  loading?: boolean // 是否显示loading
-  initialData?: object // 设置data状态的初始数据
-  resAll?: boolean // 返回所有数据
+  resdata?: boolean // 不加解密的情况下只返回data
 }

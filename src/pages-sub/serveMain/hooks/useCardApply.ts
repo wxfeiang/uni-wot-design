@@ -1,8 +1,8 @@
 import { cardFirstApplication, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
+import { useUserStore } from '@/store'
+import { useRequest } from 'alova'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
-
-import { useUserStore } from '@/store'
 const read = ref(0)
 const { userInfo } = useUserStore()
 const serchData = ref({
@@ -14,17 +14,16 @@ const serchData = ref({
   areaCode: 'CHN',
 })
 // 卡前置查询
+
 const {
   loading,
   send: sendCardQury,
   onSuccess: cardQuerySucess,
-} = getCardcheckInfo(
-  { ...serchData.value },
-  {
-    immediate: false,
-    loading: false,
-  },
-)
+} = useRequest((data) => getCardcheckInfo(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+})
 
 // 上传身份证
 const modelPhoto = ref({
@@ -123,6 +122,7 @@ export default () => {
   return {
     sendCardQury,
     sendCardData,
+    serchData,
     submitCard,
     submitStatus,
     statusDel,

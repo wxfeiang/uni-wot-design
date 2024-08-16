@@ -21,13 +21,11 @@ const CHANGE_CARD_PWD = baseUrlApi('/card/app/changeCardPwd')
  *  卡基础信息查询
  * @param params 初始参数()
  * */
-export function getCardBasicInfo(data: any, config: any) {
-  const methodInstance = request.Post(
+export function getCardBasicInfo(data) {
+  return request.Post(
     BASIC_INFO, // 请求地址
     data,
   )
-
-  return useRequest(methodInstance, config)
 }
 
 /**
@@ -47,14 +45,12 @@ export function getCardScheduleInfo(data: any, config: any) {
  *  社保卡申请前
  * @param params 初始参数()
  * */
-export function getCardcheckInfo(data: any, config: any) {
-  const methodInstance = request.Post(
+export function getCardcheckInfo(data) {
+  return request.Post(
     CARDCHECK_INFO, // 请求地址
     data,
     {},
   )
-
-  return useRequest(methodInstance, config)
 }
 
 /**

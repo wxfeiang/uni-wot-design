@@ -1,12 +1,7 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
-import { useRequest } from 'alova'
-import { CONFIGN, METHOD_INSTANCE } from '../model/baseModel'
-const TYPELIST = '/myresources/tbbType'
-const CONTENTLIST = '/myresources/tbbTypeContList'
 
-const CONTENTDESC = '/myresources/tbbTypeDesc'
-
+import { METHOD_INSTANCE } from '../model/baseModel'
 const MESSAGE_LIST = baseUrlApi('/member/app/manageArticle/listSysArtaclePage')
 
 const ARTACLE_DETAIL = baseUrlApi('/member/app/manageArticle/findArtacleDetail')
@@ -14,55 +9,24 @@ const ARTACLE_DETAIL = baseUrlApi('/member/app/manageArticle/findArtacleDetail')
 const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
 
 /**
- * 获取类型
- * @param params
- */
-
-export function getTypeList(config: any) {
-  return useRequest(request.Get(TYPELIST), { ...config })
-}
-
-/**
- * 类型类表
- * @param params
- */
-
-export function getcontentList(config: any) {
-  return useRequest((newTodo) => request.Post(CONTENTLIST, newTodo), {
-    ...config,
-  })
-}
-
-/**
- * 类型类表
- * @param params
- */
-
-export function getcontentDesc(config: any) {
-  return useRequest((newTodo) => request.Post(CONTENTDESC, newTodo), {
-    ...config,
-  })
-}
-
-/**
  * @description: 获取消息列表
  * @param {} data
  * @return {}
  */
-export function getMessageList(data: any, config: CONFIGN) {
-  const methodInstance = request.Post(
-    MESSAGE_LIST, // 请求地址
-    data,
-  )
+export function getMessageList(data) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
     resAll: true,
   }
-  methodInstance.meta = meta
-
-  return useRequest(methodInstance, config)
+  return request.Post(
+    MESSAGE_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
 }
 
 /**
@@ -70,7 +34,7 @@ export function getMessageList(data: any, config: CONFIGN) {
  * @param {} data
  * @return {}
  */
-export function getArtacleDetail(config: CONFIGN) {
+export function getArtacleDetail(data) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
@@ -78,17 +42,9 @@ export function getArtacleDetail(config: CONFIGN) {
     resAll: true,
   }
 
-  return useRequest(
-    (newTodo) =>
-      request.Post(
-        ARTACLE_DETAIL, // 地址
-        newTodo, // 参数
-        {
-          meta,
-        },
-      ),
-    { ...config },
-  )
+  return request.Post(ARTACLE_DETAIL, data, {
+    meta,
+  })
 }
 
 /**
@@ -96,11 +52,6 @@ export function getArtacleDetail(config: CONFIGN) {
  * @return {}
  */
 
-export function getBranchesInfo(data: any, config: CONFIGN) {
-  const methodInstance = request.Post(
-    GET_BRANCHES_INFO, // 请求地址
-    data,
-  )
-
-  return useRequest(methodInstance, config)
+export function getBranchesInfo(data: any) {
+  return request.Post(GET_BRANCHES_INFO, data)
 }

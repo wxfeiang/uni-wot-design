@@ -6,7 +6,7 @@ import { useMessage } from 'wot-design-uni'
 
 import useCardApply from '../hooks/useCardApply'
 const message = useMessage()
-const { sendCardQury, read } = useCardApply()
+const { sendCardQury, serchData, read } = useCardApply()
 
 const form = ref(null)
 
@@ -63,7 +63,7 @@ onMounted(async () => {
   showData.value = dataInfo[0]
   // 如果阅读协议页面回来 则
   read.value = 0
-  const { resultCode }: any = await sendCardQury()
+  const { resultCode }: any = await sendCardQury(serchData.value)
   // 0 不让在申请了
 
   isApply.value = resultCode

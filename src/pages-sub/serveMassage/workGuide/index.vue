@@ -31,7 +31,7 @@ onMounted(() => {
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 const navbg = ref('nav_show')
-const { sendMessageList, messageClick } = useGurid()
+const { sendMessageList, messageClick, messageData } = useGurid()
 
 const paging = ref(null)
 const dataList = ref([])
@@ -52,7 +52,7 @@ const queryList = async (pageNo, pageSize) => {
 }
 </script>
 <template>
-  <z-paging ref="paging" v-model="dataList" @query="queryList">
+  <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
       <view class="">

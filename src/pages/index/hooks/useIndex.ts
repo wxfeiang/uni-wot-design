@@ -1,12 +1,17 @@
 import { getMessageList } from '@/service/api/source'
 import { routeTo } from '@/utils'
+import { useRequest } from 'alova'
 
 // 消息列表
-const { send: messageList, data: messageData }: { data: any; send: any } = getMessageList(
-  {
+const {
+  send: sendMessageList,
+  data: messageData,
+  onSuccess: messageSucess,
+}: { send: any; data: any; onSuccess: any } = useRequest(
+  getMessageList({
     page: 1,
     size: 10,
-  },
+  }),
   {
     immediate: false,
     loading: false,
@@ -29,5 +34,5 @@ function messageClick(item) {
 }
 
 export default () => {
-  return { messageData, messageClick, messageList }
+  return { messageData, messageClick, sendMessageList }
 }

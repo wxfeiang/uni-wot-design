@@ -47,7 +47,7 @@ const queryList = async (pageNo, pageSize) => {
 }
 </script>
 <template>
-  <z-paging ref="paging" v-model="dataList" @query="queryList">
+  <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
       <view class="">
@@ -74,18 +74,17 @@ const queryList = async (pageNo, pageSize) => {
             <text class="ml-5px">消息提醒</text>
           </view>
         </template>
-        <template #value>
-          <view class="flex items-center color-#999" @click="messageClick(item)">
-            <view>查看详情</view>
-            <wd-icon name="arrow-right" size="12px"></wd-icon>
-          </view>
-        </template>
-        <wd-cell title-width="300px">
+        <template #value></template>
+        <wd-cell clickable>
           <template #label>
             <view class="truncate-2 color-#666">
               {{ item.articleTitle }}
             </view>
           </template>
+          <view class="flex items-center color-#999" @click="messageClick(item)">
+            <view>查看详情</view>
+            <wd-icon name="arrow-right" size="12px"></wd-icon>
+          </view>
         </wd-cell>
       </wd-cell-group>
     </view>

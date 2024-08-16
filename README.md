@@ -215,78 +215,41 @@ pnpm cz
 
 **注意：** 3个参数位置
 
-```
-Post(
-    DOWNFILE,  // 请求地址
-    {
-       userId: 2,     // post 参数 JSON 格式
-    },
-    {
-      responseType: 'arraybuffer',  // 配置参数
-      params: {     // 地址栏参数  必须是key为params
-        userId: 2,
-      },
-    },
-  );
+##### api METHOD_INSTANCE 实例配置
 
 ```
-
-### Get
-
-**注意：** 2个参数位置
-
-```
-Get(
-    DOWNFILE,  // 请求地址
-    {
-      responseType: 'arraybuffer',  // 配置参数
-      params: {     // 地址栏参数  必须是key为params
-        userId: 2,
-      },
-    },
-
-  );
-```
-
-```
-带参数 携带额外信息  参数位置初始化空缺
-export function sysLogin(params: any, config: any) {
-  console.log('🌯[params]:', params)
-  return useRequest(
-    (newTodo) =>
-      request.Post(
-        LOGIN, // 地址
-        newTodo, // 参数
-        {
-          // 其他
-          responseType: 'arraybuffer', // 配置参数
-          meta: {
-            token: '123456',
-          },
-        },
-      ),
-    { ...config },
-  )
-}
-
-```
-
-```
-export function getMessageList(data: any, config: CONFIGN) {
-  const methodInstance = request.Post(
-    MESSAGE_LIST, // 请求地址
-    data,
-  )
+export function getArtacleDetail(data) {
+  // 额外参数
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
     resAll: true,
   }
-  methodInstance.meta = meta
 
-  return useRequest(methodInstance, config)
+  return request.Post(  // 导出请求实例
+    ARTACLE_DETAIL, // 请求地址
+    data,     // post 参数 JSON 格式
+    {
+      meta,   // 配置参数 可以多个
+    },
+  )
 }
+
+```
+
+##### 组件和hooks 中使用 useRequest 请求
+
+```
+const { send: sedAarData, loading: Loading } = useRequest(
+  (data) => getArtacleDetail(data),    // 调用导出的实力   (有动态参数)
+  {          // 参数二 请求的额外配置
+    immediate: false,      // 是否立即执行
+    loading: false,
+  }
+)
+
+
 ```
 
 ## Router
