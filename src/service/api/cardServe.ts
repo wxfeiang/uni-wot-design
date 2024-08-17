@@ -20,6 +20,10 @@ const CARD_RECHARGE = baseUrlApi('/card/app/changeCardData')
 
 const SOCIAL_SECARD_ACTIVE = baseUrlApi('/card/app/getSocialActive')
 
+const IS_RECEIVE_CARD_INFO = baseUrlApi('/card/app/getIsReceiveCardInfo')
+
+const PERSON_INFO_CHANGE = baseUrlApi('/card/app/personInfoChange')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -116,6 +120,30 @@ export function changeCardPwd(data) {
   return request.Post(
     CHANGE_CARD_PWD, // 请求地址
     data,
+  )
+}
+
+/**
+ *  查询人员是否领取过河北地区的社保卡
+ * @param params 初始参数()
+ * */
+export function getIsReceiveCardInfo(data) {
+  return request.Post(
+    IS_RECEIVE_CARD_INFO, // 请求地址
+    data,
+    {},
+  )
+}
+
+/**
+ *  人员信息变更
+ * @param params 初始参数()
+ * */
+export function personInfoChange(data) {
+  return request.Post(
+    PERSON_INFO_CHANGE, // 请求地址
+    data,
+    {},
   )
 }
 

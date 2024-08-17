@@ -112,6 +112,8 @@ const mainData = ref([
     title: '社保信息变更',
     icon: 'coupon',
     url: kabiangeng,
+    type: '3',
+    base: 'cardChange',
   },
   {
     title: '服务密码重置',

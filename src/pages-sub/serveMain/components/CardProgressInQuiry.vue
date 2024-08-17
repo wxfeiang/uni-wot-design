@@ -104,8 +104,6 @@ const data2 = ref([
       </view>
     </view>
     <view v-if="cardInfoData && !loading">
-      <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
-
       <view class="rounded-10px overflow-hidden bg-#fff">
         <wd-cell-group title="制卡进度" border>
           <wd-cell
