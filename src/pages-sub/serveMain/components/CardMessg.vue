@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { changeDict } from '@/utils'
 import useCardMessage from '../hooks/useCardMessage'
 import {
   bankCodeList,
@@ -9,6 +10,14 @@ import {
   sexList,
   socialSecurity,
 } from '../types/dict'
+
+interface dataType {
+  title: string
+  value: string
+  prop: string
+  type?: string
+  options?: any[]
+}
 
 const { cardInfoData } = useCardMessage()
 
@@ -21,7 +30,8 @@ const visible = ref<boolean>(false)
 const back = () => {
   uni.navigateBack()
 }
-const data = ref([
+
+const data = ref<dataType[]>([
   {
     title: '姓名',
     value: '',
@@ -126,7 +136,7 @@ const data = ref([
         <wd-cell :title="item.title" border v-for="(item, index) in data" :key="index">
           <!--  -->
           <view v-if="item.type === 'dict'">
-            {{ item.options.find((i) => i.value === cardInfoData[item.prop])?.label }}
+            {{ changeDict(item.options, cardInfoData[item.prop]) }}
           </view>
           <view v-else>
             {{ cardInfoData[item.prop] }}
