@@ -1,7 +1,12 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 import { useRequest } from 'alova'
-const LOGIN = baseUrlApi('/system/api/helper/productLogin')
+import { METHOD_INSTANCE } from '../model/baseModel'
+// const LOGIN = baseUrlApi('/system/api/helper/productLogin')
+const LOGIN = baseUrlApi('/employee/login')
+
+const EP_LIST = baseUrlApi('/employee/list')
+
 const LOGIN_OUT = '/logout'
 const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'
@@ -10,8 +15,20 @@ const GET_AGREEMENT = baseUrlApi('/agreement')
  * 登录
  * @param params 初始参数()
  */
-export function sysLogin(config: any) {
-  return useRequest((newTodo) => request.Post(LOGIN, newTodo), { ...config })
+export function sysLogin(data, config: any) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+  return useRequest(
+    (newTodo) =>
+      request.Post(LOGIN, newTodo, {
+        meta,
+      }),
+    { ...config },
+  )
 }
 /**
  * 测试token
@@ -43,4 +60,21 @@ export function refreshToken() {
  */
 export function agreement(params: any, config: any) {
   return useRequest((newTodo) => request.Get(GET_AGREEMENT, { params: newTodo }), { ...config })
+}
+
+export function epList() {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+
+  return request.Post(
+    EP_LIST, // 请求地址
+    {}, // 请求参数
+    {
+      meta,
+    },
+  )
 }

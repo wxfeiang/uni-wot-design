@@ -125,10 +125,15 @@ export const needLoginPages: string[] = getAllPages('needLogin').map((page) => p
  * @description: 字典值解析
  * @param {} data 字典数组
  * @param {} value 当前比对值
- * @param {} key  要比对的key
- * @param {} val  要比对的val
+ * @param {} key  要比对的key [label]
+ * @param {} val  要比对的val [value]
  */
-export const changeDict = (data: string[], value?: any, key?: string, val?: string) => {
+export const changeDict = (
+  data: string[],
+  value: any,
+  key: string = 'label',
+  val: string = 'value',
+) => {
   return data.filter((item: any) => item[val] === value)[key]
 }
 

@@ -11,7 +11,10 @@
 <script lang="ts" setup>
 import PLATFORM from '@/utils/platform'
 import { useMessage } from 'wot-design-uni'
+import useIndex from './hooks/useIndex'
 const message = useMessage()
+
+const { epListData, sendLogin2 } = useIndex()
 
 defineOptions({
   name: 'workGuide',
@@ -39,24 +42,19 @@ onPageScroll((e) => {
   }
 })
 const paging = ref(null)
-const dataList = ref([
-  {
-    title: '标题文字',
-    label: '这里是文字描述这里是文字描述这里是文字描述',
-    titleWidth: '200px',
-    isLink: true,
-  },
-  {
-    title: '标题文字',
-    label: '这里是文字描述这里是文字描述这里是文字描述',
-    titleWidth: '200px',
-    isLink: true,
-  },
-])
-const queryList = (pageNo, pageSize) => {
-  // 调用接口获取数据
 
-  paging.value.complete(dataList.value)
+const dataList = ref(null)
+const queryList = async (pageNo, pageSize) => {
+  // 调用接口获取数据
+  try {
+    console.log('🍤[pageNo, pageSize]:', pageNo, pageSize)
+    const a = await sendLogin2()
+    console.log('🍞[a ]:', a.data.data.list)
+    dataList.value = a.data.data.list
+    paging.value.complete(dataList.value)
+  } catch (error) {
+    console.log('🍋[error]:', error)
+  }
 }
 </script>
 <template>
@@ -94,8 +92,8 @@ const queryList = (pageNo, pageSize) => {
       <wd-cell
         v-for="(item, index) in dataList"
         :key="index"
-        :title="item.title"
-        :label="item.label"
+        :title="item.name"
+        :label="item.idNumber"
         is-link
       />
     </wd-cell-group>

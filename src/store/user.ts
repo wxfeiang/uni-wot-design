@@ -30,7 +30,7 @@ export const useUserStore = defineStore(
 
     function getAuthorization() {
       // Bearer 服务端已经返回了，可以不用再写
-      return userInfo.value?.token ? { authorization: `${userInfo.value?.token}` } : {}
+      return userInfo.value?.token ? { authorization: `Bearer ${userInfo.value?.token}` } : {}
     }
 
     return {

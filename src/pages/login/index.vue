@@ -15,7 +15,7 @@
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
 import useLogin from './utils/useLogin'
-const { Login, model, rules, read, loading } = useLogin()
+const { Login, model, rules, read, loading, columns } = useLogin()
 const form = ref(null)
 const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
 
@@ -28,6 +28,9 @@ function toAgereement(type) {
 }
 function handleClickLeft() {
   uni.navigateBack()
+}
+function handleConfirm({ value }) {
+  model.value.select = value
 }
 </script>
 <template>
@@ -79,6 +82,18 @@ function handleClickLeft() {
                 :rules="rules.password"
                 prop="password"
                 custom-input-class="custom-input-right"
+              />
+              <wd-select-picker
+                label="类型切换"
+                v-model="model.select"
+                :columns="columns"
+                type="radio"
+              ></wd-select-picker>
+              <wd-picker
+                :columns="columns"
+                label="单列选项"
+                v-model="model.select"
+                @confirm="handleConfirm"
               />
             </wd-cell-group>
           </wd-form>

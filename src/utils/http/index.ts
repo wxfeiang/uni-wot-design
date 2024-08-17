@@ -4,10 +4,10 @@ import VueHook from 'alova/vue'
 
 import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 // eslint-disable-next-line import/named
-import { useSystemStore, useUserStore } from '@/store'
+import { useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
 
-import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
+import { responseAes } from '@/utils/aes/encryptUtils'
 import { assign } from 'lodash-es'
 
 const timeOut = import.meta.env.VITE_SERVER_TIME_OUT
@@ -37,13 +37,14 @@ const alovaInstance = createAlova({
   timeout: timeOut,
   beforeRequest: (method) => {
     const userStore = useUserStore()
-    beforeQuest(method)
+    // beforeQuest(method)
     // 默认不是用全局加载状态。。。
     // Loading('加载中...');
     let token = {}
-    if (!method?.meta?.ignorToken) {
-      token = userStore.getAuthorization()
-    }
+    // if (!method?.meta?.ignorToken) {
+    //   token = userStore.getAuthorization()
+    // }
+    token = userStore.getAuthorization()
     method.config.headers = assign(method.config.headers, HEADER, token)
   },
 
@@ -75,10 +76,10 @@ const alovaInstance = createAlova({
             return rawData
           }
           // TODO: 处理白名单返回 处理正确数据返回
-          const useSystem = useSystemStore()
-          if (useSystem.filterData.whiteList.includes(method.url)) {
-            return rawData
-          }
+          // const useSystem = useSystemStore()
+          // if (useSystem.filterData.whiteList.includes(method.url)) {
+          //   return rawData
+          // }
           // 处理数据
           const resAllData = responseAes(response)
           const { data: rdata, code: rode, msg: rmsg } = resAllData
