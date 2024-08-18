@@ -11,6 +11,7 @@ interface NavigateToOptions {
        "/pages/mine/index" |
        "/pages/serve/index" |
        "/pages/shop/index" |
+       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |

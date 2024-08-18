@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import useCardFrom from '../hooks/useCardFrom'
+
 const { Login, model, rules, loading, read } = useCardFrom()
-
 const form = ref(null)
-
 function toQueryDetil(data?: any) {
   routeTo({ url: '/pages-sub/serveMain/cardMessType' })
 }
@@ -27,12 +26,24 @@ const wotUpAttrs = {
   'custom-evoke-class': 'custom-evoke-class',
   'custom-class': 'custom-class',
 }
+
+const show = ref(false)
+function upload2(photoType) {
+  routeTo({ url: '/pages-sub/serveMain/OcrCamera', data: { show: true, photoType } })
+  // console.log('🍪======')
+  // show.value = true
+  // console.log('🍣', show.value)
+}
 </script>
 <template>
-  <view class="p-10px py-20px">
+  <view class="p-10px py-20px" v-if="!show">
     <view class="rounded-10px overflow-hidden bg-#fff py-20px">
       <wd-form ref="form" :model="model">
-        <view class="mb-20px">
+        <view class="bg-blue h-200px" @click="upload2('0')">人脸</view>
+        <view class="bg-blue h-200px" @click="upload2('1')">正面</view>
+        <view class="bg-blue h-200px" @click="upload2('2')">反面</view>
+
+        <!-- <view class="mb-20px">
           <dy-upload v-model="url2" :limit="1" showFileDy :defaultAttrs="wotUpAttrs" isAes>
             <view class="custom-preview-class">
               <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
@@ -45,7 +56,7 @@ const wotUpAttrs = {
               <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
             </view>
           </dy-upload>
-        </view>
+        </view> -->
       </wd-form>
     </view>
     <view class="mt-10px">

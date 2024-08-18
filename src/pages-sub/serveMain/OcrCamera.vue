@@ -1,4 +1,3 @@
-import { needLoginPages } from '../../utils/index';
 <route lang="json5" type="page">
 {
   layout: 'default',
@@ -8,161 +7,196 @@ import { needLoginPages } from '../../utils/index';
   },
 }
 </route>
-
 <script lang="ts" setup>
-import { useBaseStore } from '@/store'
-// import { pathToBase64 } from 'image-tools'
-// import { useMessage } from 'wot-design-uni'
-// import useUpload, { getBase64ImageSize } from './hooks/useUpload'
-// const message = useMessage('wd-message-box-slot')
+import { useMessage, useToast } from 'wot-design-uni'
+const message = useMessage()
 
-const basestore = useBaseStore()
+const toast = useToast()
+const cameraHeight = ref(0)
+const windowHeight = ref(0)
+const cameraContext = ref(null)
 
-const { sendPhoto, loadingPhoto } = useUpload()
+const dataList = ref([
+  {
+    title: '人脸正面照片',
+    imgType: 0,
+    devicePosition: 'front',
+  },
+  {
+    title: '身份证人像面',
+    imgType: 1,
+    devicePosition: 'back',
+  },
+  {
+    title: '身份证国徽面',
+    imgType: 2,
+    devicePosition: 'back',
+  },
+])
 
-const showHeader = ref(true)
+const emit = defineEmits(['getImgPath', 'colseCamera'])
 
-const devicePosition = ref('back') // 0 为前置摄像头，1 为后置摄像头
-const ctxHeader = ref(null)
-const authCamera = ref(false)
-const currentParams = ref(null)
+const currData = ref()
 onLoad((options: any) => {
-  console.log('🌯[options]:', options)
-  currentParams.value = options
-  devicePosition.value = options.photoType === '0' ? 'front' : 'back'
-})
-//
-onShow(() => {
-  getCameraAuth()
-})
-//  获取相机权限
+  console.log('🥑============')
+  const { photoType } = options
+  console.log('🍵[photoType]:', photoType)
 
-//  获取相机权限
-function getCameraAuth() {
-  uni.getSetting({
-    success(res) {
-      if (res.authSetting['scope.camera']) {
-        authCamera.value = true
-      } else {
-        authCamera.value = false
-      }
+  currData.value = dataList.value.find((item) => {
+    return item.imgType === photoType * 1
+  })
+  console.log('🍛[ currData.value ]:', currData.value)
+})
+
+onMounted(() => {
+  if (uni.createCameraContext) {
+    cameraContext.value = uni.createCameraContext()
+  } else {
+    toast.error('当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。')
+  }
+})
+// onBeforeUnmount(() => {
+//   uni.stopGyroscope({
+//     success() {
+//       console.log('stop success!')
+//     },
+//     fail() {
+//       console.log('stop fail!')
+//     },
+//   })
+//   uni.stopDeviceMotionListening()
+// })
+function cameraError(e) {
+  console.log(e.detail)
+  // wx.showToast({
+  //   title: '以拒绝，使用请手动开启',
+  //   icon: 'none',
+  // })
+  toast.error('以拒绝，使用请手动开启')
+  setTimeout(() => {
+    wx.navigateBack({
+      delta: 1, // 返回上一级页面
+    })
+  }, 3000)
+}
+
+const takePhoto = () => {
+  cameraContext.value.takePhoto({
+    quality: 'high',
+
+    success: (res) => {
+      toast.loading('正在上传中...')
+      uni.compressImage({
+        src: res.tempImagePath,
+        quality: 90, // 压缩比例
+        success: async (ress: any) => {
+          console.log('🍢[ress]:', ress, ress.tempFilePath)
+          // const photoBase64 = await pathToBase64(ress.tempFilePath)
+
+          // const size = getBase64ImageSize(photoBase64)
+          // console.log('🍔', size)
+          // if (size > 1024 * 80) {
+          //   message.alert('图片大小超过限制，请重新拍摄')
+          //   return
+          // }
+          // const ingmUrl = ress.tempFilePath
+          // const formData = {
+          //   ...currentParams.value,
+          //   zjhm: '31242520311264800',
+          //   photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
+          // }
+          // console.log('🌰', formData, ingmUrl)
+          // try {
+          //   const resData: any = await sendPhoto(formData)
+          //   if (resData.data.data.message || resData.data.code === 500) {
+          //     toast.erro(resData.data.data.message || resData.data.msg)
+          //      toast.close()
+          //   } else {
+          //     // console.log('🍦[resData]:', resData.data.data.identifyCardInfo)
+          //     // basestore.cameraData = resData.data.data
+          //     close()
+          //     toast.close()
+          //   }
+          // } catch (error) {
+          //   toast.error('图片上传出问题了')
+          //    toast.close()
+          // }
+
+          // 调用上传接口 -----
+        },
+      })
+    },
+    fail: (err) => {
+      console.log('🍚[err]:', err)
+      toast.error('图片拍照失败')
+      toast.close()
+    },
+  })
+}
+// 从相册选取
+const chooseImage = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['original', 'compressed'],
+    sourceType: ['album'],
+    success: (res) => {
+      console.log('相册选取成功', res)
+      emit('getImgPath', res.tempFilePaths[0])
+    },
+    fail: (err) => {
+      console.log('相册选取失败', err)
     },
   })
 }
 function reverseCamera() {
-  devicePosition.value = devicePosition.value === 'back' ? 'front' : 'back'
+  currData.value.devicePosition = currData.value.devicePosition === 'back' ? 'front' : 'back'
 }
-function handleCameraError() {
-  uni.showToast({
-    title: '用户拒绝使用摄像头',
-    icon: 'none',
-  })
-}
-// 拍摄头像
-function takePhotoByHead() {
-  ctxHeader.value = uni.createCameraContext()
-  ctxHeader.value.takePhoto({
-    quality: 'high',
-    // success: (res) => {
-    //   uni.compressImage({
-    //     src: res.tempImagePath,
-    //     quality: 90, // 压缩比例
-    //     success: async (ress: any) => {
-    //       message.alert('图片上传出问题了')
-    //       console.log('🍢[ress]:', ress, ress.tempFilePath)
-    //       // const photoBase64 = await pathToBase64(ress.tempFilePath)
-
-    //       // const size = getBase64ImageSize(photoBase64)
-    //       console.log('🍔', size)
-    //       // if (size > 1024 * 80) {
-    //       //   message.alert('图片大小超过限制，请重新拍摄')
-    //       //   return
-    //       // }
-    //       const ingmUrl = ress.tempFilePath
-    //       const formData = {
-    //         ...currentParams.value,
-    //         zjhm: '31242520311264800',
-    //         photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
-    //       }
-    //       console.log('🌰', formData, ingmUrl)
-    //       try {
-    //         const resData: any = await sendPhoto(formData)
-    //         if (resData.data.data.message || resData.data.code === 500) {
-    //           message.alert(resData.data.data.message || resData.data.msg)
-    //         } else {
-    //           // console.log('🍦[resData]:', resData.data.data.identifyCardInfo)
-    //           // basestore.cameraData = resData.data.data
-    //           close()
-    //         }
-    //       } catch (error) {
-    //         message.alert('图片上传出问题了')
-    //         console.log('🥟', error)
-    //       }
-
-    //       // 调用上传接口 -----
-    //     },
-    //   })
-    // },
-  })
-}
-
-// 关闭/返回
-
-function close() {
-  console.log('🍐关闭摄像头')
-
+// 关闭相机
+const close = () => {
+  toast.close()
   uni.navigateBack()
 }
 </script>
-
 <template>
-  <view v-if="showHeader">
-    <view class="h-100vh">
-      <camera
-        :binderror="handleCameraError"
-        :device-position="devicePosition"
-        output-dimension="360P"
-        flash="auto"
-        class="w-full h-100vh bg-coolGray-5"
-      >
+  <view class="h-90vh">
+    <camera
+      mode="normal"
+      :device-position="currData.devicePosition"
+      flash="auto"
+      class="w-full h-90vh"
+      binderror="cameraError"
+    >
+      <cover-view class="size-100% flex flex-col justify-center items-center">
+        <!-- 人脸面 -->
         <cover-image
+          v-if="currData.imgType == 0"
+          class="w-full h-700rpx"
           src="https://img-blog.csdnimg.cn/20210126152753150.png"
-          class="w-full h-700rpx mt-180px"
-        ></cover-image>
+        />
+        <!-- 正面 -->
+        <cover-image
+          v-if="currData.imgType == 1"
+          class="w-300px h-400px"
+          src="https://img.jbzj.com/file_images/article/202009/202099172501721.png"
+        />
 
-        <view
-          class="w-full h-10vh flex justify-center items-center bg-transparent absolute bottom-50px"
-        >
-          <!-- <wd-icon name="chevron-down" size="30px" color="#fff" @click="close"></wd-icon> -->
-          <wd-icon
-            name="stop-circle-filled"
-            size="80px"
-            color="#fff"
-            @click="takePhotoByHead"
-          ></wd-icon>
-          <!-- <wd-icon name="camera" size="30px" color="#fff" @click="takePhotoByHead"></wd-icon> -->
-          <!-- <wd-icon name="picture" size="22px" color="#fff"></wd-icon> -->
-        </view>
-        <wd-message-box selector="wd-message-box-slot"></wd-message-box>
-      </camera>
-      <cover-view v-if="loadingPhoto" class="size-full flex justify-center items-center">
-        <wd-loading type="outline" />
+        <wd-toast />
       </cover-view>
+    </camera>
+    <view class="w-full h-10vh bg-#000 font-size-20px color-#fff">
+      <view class="flex justify-between items-center px-70px py-10px">
+        <view class="back" @click="close">
+          <wd-icon name="arrow-down" size="22px" color="#fff"></wd-icon>
+        </view>
+        <view @click="takePhoto" hover-class="color-red">
+          <view class="i-carbon-circle-filled font-size-50px color-#fff"></view>
+        </view>
+        <view @click="reverseCamera">
+          <wd-icon name="refresh1" size="22px" color="#fff"></wd-icon>
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
-<style lang="scss" scoped>
-// :deep(.nav_bg) {
-//   background-color: var(--color-nav-bg);
-//   .wd-navbar__title {
-//     color: var(--color-nav-text);
-//   }
-//   .wd-navbar__left {
-//     color: var(--color-nav-text);
-//   }
-// }
-// :deep(.custom-title) {
-//   @apply px-20px! pt-20px!;
-// }
-</style>
+<style lang="scss" scoped></style>

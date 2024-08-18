@@ -119,6 +119,15 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
+          "path": "OcrCamera",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
