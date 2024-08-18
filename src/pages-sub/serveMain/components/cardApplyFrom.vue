@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useBaseStore } from '@/store'
 import { routeTo } from '@/utils'
 import useCardFrom from '../hooks/useCardFrom'
 
@@ -34,14 +35,40 @@ function upload2(photoType) {
   // show.value = true
   // console.log('🍣', show.value)
 }
+
+const { cameraData } = useBaseStore()
+onShow(() => {
+  console.log('🥒----', cameraData)
+})
 </script>
 <template>
   <view class="p-10px py-20px" v-if="!show">
     <view class="rounded-10px overflow-hidden bg-#fff py-20px">
       <wd-form ref="form" :model="model">
-        <view class="bg-blue h-200px" @click="upload2('0')">人脸</view>
-        <view class="bg-blue h-200px" @click="upload2('1')">正面</view>
-        <view class="bg-blue h-200px" @click="upload2('2')">反面</view>
+        <view class="bg-blue h-200px" @click="upload2('0')">
+          <wd-img
+            :width="100"
+            :height="100"
+            :src="cameraData[0].url"
+            custom-class="custom-class-img"
+          />
+        </view>
+        <view class="bg-blue h-200px" @click="upload2('1')">
+          <wd-img
+            :width="100"
+            :height="100"
+            :src="cameraData[1].url"
+            custom-class="custom-class-img"
+          />
+        </view>
+        <view class="bg-blue h-200px" @click="upload2('2')">
+          <wd-img
+            :width="100"
+            :height="100"
+            :src="cameraData[2].url"
+            custom-class="custom-class-img"
+          />
+        </view>
 
         <!-- <view class="mb-20px">
           <dy-upload v-model="url2" :limit="1" showFileDy :defaultAttrs="wotUpAttrs" isAes>

@@ -8,12 +8,13 @@
 }
 </route>
 <script lang="ts" setup>
-import { useMessage, useToast } from 'wot-design-uni'
-const message = useMessage()
+import { useBaseStore } from '@/store'
+import { useToast } from 'wot-design-uni'
+
+const { setCameraData } = useBaseStore()
 
 const toast = useToast()
-const cameraHeight = ref(0)
-const windowHeight = ref(0)
+
 const cameraContext = ref(null)
 
 const dataList = ref([
@@ -99,7 +100,14 @@ const takePhoto = () => {
           //   message.alert('图片大小超过限制，请重新拍摄')
           //   return
           // }
-          // const ingmUrl = ress.tempFilePath
+          const ingmUrl = ress.tempFilePath
+          const data = {
+            url: ress.tempFilePath,
+            id: '1',
+            data: {},
+          }
+          setCameraData(currData.value.imgType, data)
+          close()
           // const formData = {
           //   ...currentParams.value,
           //   zjhm: '31242520311264800',
