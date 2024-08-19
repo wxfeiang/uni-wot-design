@@ -109,7 +109,8 @@ onShow((options) => {
     model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
     model.value.startDate = dayjs(wordsResult['签发日期'].words).unix().toString()
     model.value.endDate = dayjs(wordsResult['失效日期'].words).unix().toString()
-  } else if (cameraData.photo.id) {
+  }
+  if (cameraData.photo.id) {
     cardUrl0.value = cameraData.photo.url
     model.value.photoId = cameraData.photo.id
   }

@@ -142,7 +142,12 @@ onShow((options) => {
     model.value.name = wordsResult['姓名'].words
     model.value.sex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
     model.value.idCardNumber = wordsResult['公民身份号码'].words
-    model.value.nation = changeDict(ethniCodeList, wordsResult['民族'].words, 'value', 'label')
+    model.value.nation = changeDict(
+      ethniCodeList,
+      wordsResult['民族'].words.replace('族', ''),
+      'value',
+      'label',
+    )
     model.value.mailAddress = wordsResult['住址'].words
   }
   if (cameraData.idCardBackPhoto.id) {
@@ -150,9 +155,13 @@ onShow((options) => {
 
     const { words_result: wordsResult }: any = cameraData.idCardBackPhoto.data
     model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
-    model.value.startDate = dayjs(wordsResult['签发日期'].words).unix().toString()
-    model.value.endDate = wordsResult['失效日期'].words // dayjs(wordsResult['失效日期'].words).unix().toString()
-  } else if (cameraData.photo.id) {
+    model.value.startDate = dayjs(wordsResult['签发日期'].words).valueOf().toString()
+    model.value.endDate = dayjs(wordsResult['失效日期'].words).valueOf().toString() // wordsResult['失效日期'].words //
+    console.log('🍕[model.value.endDate ]:', model.value.endDate)
+  }
+
+  if (cameraData.photo.id) {
+    console.log('🍰', cameraData.photo.url)
     cardUrl0.value = cameraData.photo.url
     model.value.photoId = cameraData.photo.id
   }
@@ -162,13 +171,13 @@ const steep = ref(1)
 const bankBranchList = ref([])
 function next() {
   console.log('🍉', model.value)
-  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-    steep.value = 2
-  } else {
-    message.alert('请上传图片')
-  }
+  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+  //   steep.value = 2
+  // } else {
+  //   message.alert('请上传图片')
+  // }
 
-  // steep.value = 2
+  steep.value = 2
 }
 
 function cramert(photoType: string, type: string) {
@@ -347,7 +356,6 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.startDate"
             prop="startDate"
             align-right
-            readonly
           />
           <wd-datetime-picker
             type="date"
@@ -358,7 +366,6 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.endDate"
             prop="endDate"
             align-right
-            readonly
           />
 
           <wd-picker

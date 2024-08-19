@@ -93,9 +93,13 @@ const takePhoto = () => {
     quality: 'high',
 
     success: (res) => {
+      let quality = 90
+      if (res.tempFiles[0].size > 1024 * 80) {
+        quality = 1
+      }
       uni.compressImage({
-        src: res.tempImagePath,
-        quality: 40, // 压缩比例
+        src: res.tempFilePaths[0],
+        quality, // 压缩比例
         success: async (ress: any) => {
           console.log('🍢[ress]:', ress, ress.tempFilePath)
           const photoBase64 = await pathToBase64(ress.tempFilePath)
@@ -151,43 +155,14 @@ const chooseImage = () => {
     count: 1,
     sizeType: ['original', 'compressed'],
     sourceType: ['album'],
-    // success: async (res) => {
-    //   console.log('相册选取成功', res)
-    //   emit('getImgPath', res.tempFilePaths[0])
-
-    //   const photoBase64 = await pathToBase64(res.tempFilePaths[0])
-    //   toast.loading('正在上传中...')
-
-    //   const formData = {
-    //     ...currentParams.value,
-    //     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
-    //   }
-    //   try {
-    //     const resData: any = await sendPhoto(formData)
-    //     if (resData.data.data.message || resData.data.code === 500) {
-    //       toast.error(resData.data.data.message || resData.data.msg)
-    //       toast.close()
-    //     } else {
-    //       console.log('🍦[resData]========:', resData)
-
-    //       const cameraData = {
-    //         url: res.tempFilePaths[0],
-    //         id: resData.data.data.id,
-    //         data:
-    //           currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
-    //       }
-    //       setCameraData(currData.value.imgType, cameraData)
-    //       close()
-    //     }
-    //   } catch (error) {
-    //     toast.error('图片上传出问题了')
-    //     toast.close()
-    //   }
-    // },
     success: (res) => {
+      let quality = 90
+      if (res.tempFiles[0].size > 1024 * 80) {
+        quality = 1
+      }
       uni.compressImage({
         src: res.tempFilePaths[0],
-        quality: 50, // 压缩比例
+        quality, // 压缩比例
         success: async (ress: any) => {
           console.log('🍢[ress]:', ress, ress.tempFilePath)
           const photoBase64 = await pathToBase64(ress.tempFilePath)

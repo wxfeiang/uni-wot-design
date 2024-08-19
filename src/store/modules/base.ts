@@ -19,7 +19,7 @@ export const useBaseStore = defineStore(
     })
 
     const setCameraData = (photoType, val) => {
-      if (photoType * 1 === 0) {
+      if (photoType === '0') {
         cameraData.value.photo = val
       } else if (photoType * 1 === 1) {
         cameraData.value.idCardFront = val
