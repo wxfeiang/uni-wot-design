@@ -138,8 +138,6 @@ function gridClick(item: any) {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
   } else if (item.type === '3') {
     routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
-  } else if (item.type === 'socActive') {
-    routeTo({ url: '/pages-sub/serveMain/CardSocActive', data: { base, title } })
   } else {
     toast.show('功能开发中，敬请期待!...')
   }
