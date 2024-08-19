@@ -13,7 +13,7 @@ const model = ref({
 const rules = {
   xm: [{ required: true, message: '请输入姓名' }],
   zjhm: [{ required: true, message: '请输入证件号码' }],
-
+  shbzhm: [{ required: true, message: '请输入社会保障号码' }],
   address: [{ required: true, message: '请输入居住地址' }],
   phone: [{ required: true, message: '请输入移动电话' }],
   cardStartTime: [{ required: true, message: '请选择起始日期' }],
@@ -45,7 +45,7 @@ const cardQury = (form) => {
     if (valid) {
       try {
         const data: any = await sendCard(model.value)
-        if (!data.zjhm) {
+        if (data.zjhm) {
           cardChangeInfo.value = data
         }
         console.log('返回的数据', data)
@@ -59,13 +59,13 @@ const changeSubmit = (form) => {
     if (valid) {
       try {
         const newData = {
-          xm: cardChangeInfo.value.xm,
-          zjhm: cardChangeInfo.value.zjhm,
+          name: cardChangeInfo.value.xm,
+          idCardNumber: cardChangeInfo.value.zjhm,
           address: cardChangeInfo.value.address,
-          phone: cardChangeInfo.value.phone,
-          cardStartTime: cardChangeInfo.value.cardStartTime,
-          cardEndTime: cardChangeInfo.value.cardEndTime,
-          zy: cardChangeInfo.value.zy,
+          phoneNumber: cardChangeInfo.value.phone,
+          startTime: cardChangeInfo.value.cardStartTime,
+          endTime: cardChangeInfo.value.cardEndTime,
+          work: cardChangeInfo.value.zy,
         }
         try {
           console.log('++++++++++++++newData++++++++++++++', newData)
