@@ -19,11 +19,7 @@ interface dataType {
   options?: any[]
 }
 
-const { cardInfoData } = useCardMessage()
-
-// function toRegister() {
-//   routeTo({ url: '/pages/login/register' })
-// }
+const { getCadInfo } = useCardMessage()
 
 const visible = ref<boolean>(false)
 
@@ -127,6 +123,11 @@ const data = ref<dataType[]>([
     options: socialSecurity,
   },
 ])
+const cardInfoData = ref(null)
+onLoad(async () => {
+  const res: any = await getCadInfo()
+  cardInfoData.value = res
+})
 </script>
 <template>
   <view class="p-15px">
