@@ -24,6 +24,7 @@ const IS_RECEIVE_CARD_INFO = baseUrlApi('/card/app/getIsReceiveCardInfo')
 
 const PERSON_INFO_CHANGE = baseUrlApi('/card/app/personInfoChange')
 
+const CARD_LOSS = baseUrlApi('/card/app/getLossInfo')
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -119,6 +120,17 @@ export function SeverPassRest(data) {
 export function changeCardPwd(data) {
   return request.Post(
     CHANGE_CARD_PWD, // 请求地址
+    data,
+  )
+}
+
+/**
+ *  社保卡挂失
+ * @param params 初始参数()
+ * */
+export function cardLoss(data) {
+  return request.Post(
+    CARD_LOSS, // 请求地址
     data,
   )
 }
