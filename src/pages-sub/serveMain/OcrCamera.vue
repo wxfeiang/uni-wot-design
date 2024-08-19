@@ -117,15 +117,17 @@ const takePhoto = () => {
               toast.error(resData.data.data.message || resData.data.msg)
               toast.close()
             } else {
-              console.log('🍦[resData]:', resData.data.data.identifyCardInfo)
+              console.log('🍦[resData]========:', resData)
 
               const cameraData = {
-                url: ress.tempFilePath,
+                url: res.tempFilePaths[0],
                 id: resData.data.data.id,
-                data: JSON.parse(resData.data.data.identifyCardInfo),
+                data:
+                  currData.value.imgType === 0
+                    ? {}
+                    : JSON.parse(resData.data.data?.identifyCardInfo),
               }
               setCameraData(currData.value.imgType, cameraData)
-
               close()
             }
           } catch (error) {
@@ -223,7 +225,7 @@ const close = () => {
         <view @click="takePhoto" hover-class="color-red">
           <view class="i-carbon-circle-filled font-size-50px color-#fff"></view>
         </view>
-        <view @click="chooseImage">
+        <view @click="reverseCamera">
           <wd-icon name="refresh1" size="22px" color="#fff"></wd-icon>
         </view>
       </view>
