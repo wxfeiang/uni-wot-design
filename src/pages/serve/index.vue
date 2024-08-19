@@ -1,3 +1,11 @@
+<!--
+ * @Author: chenkezhan 1763932127@qq.com
+ * @Date: 2024-08-16 11:28:39
+ * @LastEditors: chenkezhan 1763932127@qq.com
+ * @LastEditTime: 2024-08-17 14:23:49
+ * @FilePath: \xa_card_mini\src\pages\serve\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <route lang="json5" type="page">
 {
   needLogin: true,
@@ -83,6 +91,8 @@ const mainData = ref([
     title: '社保卡激活',
     icon: 'coupon',
     url: shebaok,
+    type: '3',
+    base: 'cardSocialActive',
   },
   {
     title: '基础信息查询',
@@ -102,6 +112,8 @@ const mainData = ref([
     title: '社保信息变更',
     icon: 'coupon',
     url: kabiangeng,
+    type: '3',
+    base: 'cardChange',
   },
   {
     title: '服务密码重置',
@@ -124,6 +136,8 @@ function gridClick(item: any) {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
   } else if (item.type === '3') {
     routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
+  } else if (item.type === 'socActive') {
+    routeTo({ url: '/pages-sub/serveMain/CardSocActive', data: { base, title } })
   } else {
     toast.show('功能开发中，敬请期待!...')
   }

@@ -10,7 +10,9 @@
 <script lang="ts" setup>
 import CardProgressInQuiry from './components/CardProgressInQuiry.vue'
 import ServePassRest from './components/ServePassRest.vue'
+import CardSocActive from './components/CardSocActive.vue'
 import ChangePwd from '@/pages-sub/serveMain/components/ChangePwd.vue'
+import CardChange from '@/pages-sub/serveMain/components/CardChange.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
@@ -48,11 +50,17 @@ onLoad((options: any) => {
     <!--  卡进度查询-->
     <Card-ProgressInQuiry v-if="baseCon === 'kajindu'" />
 
+    <!-- 卡信息变更 -->
+    <Card-Change v-if="baseCon === 'cardChange'" />
+
     <!-- 服务密码重置 -->
     <Serve-PassRest v-if="baseCon === 'servepassreset'" />
 
     <!--服务密码修改 -->
     <Change-Pwd v-if="baseCon === 'changeCardPwd'" />
+
+    <!-- 社保卡启用 -->
+    <Card-SocActive v-if="baseCon === 'cardSocialActive'" />
   </view>
 </template>
 

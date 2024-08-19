@@ -53,5 +53,14 @@ export function getArtacleDetail(data) {
  */
 
 export function getBranchesInfo(data: any) {
-  return request.Post(GET_BRANCHES_INFO, data)
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+
+  return request.Post(GET_BRANCHES_INFO, data, {
+    meta,
+  })
 }
