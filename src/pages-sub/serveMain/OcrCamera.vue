@@ -165,7 +165,7 @@ const chooseImage = () => {
           toast.error(resData.data.data.message || resData.data.msg)
           toast.close()
         } else {
-          console.log('🍦[resData]:', resData.data.data?.identifyCardInfo)
+          console.log('🍦[resData]:', resData)
 
           const cameraData = {
             url: res.tempFilePaths[0],
