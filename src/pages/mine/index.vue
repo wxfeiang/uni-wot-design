@@ -130,15 +130,19 @@ const orderGuild = () => {
               <wd-img :width="70" :height="70" :src="anvter" round />
             </view>
             <view
+              v-if="isLogined"
               :style="` background-image: url(${applyBase64})`"
               class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
             >
-              已申领
+              {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
             </view>
           </view>
           <view>
-            <view class="font-size-20px font-medium">魏小小</view>
+            <view class="font-size-20px font-medium">
+              {{ isLogined ? userInfo.userName : '未登录' }}
+            </view>
             <view
+              v-if="isLogined"
               :style="`background-image: url(${vipbgBase64})`"
               class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
             >
@@ -155,13 +159,14 @@ const orderGuild = () => {
               <view class="font-bold color-#fff">未登录</view>
             </view>
           </template> -->
-        <view class="qiandao text-center line-height-32px color-#fff font-size-14px">
+        <!-- <view class="qiandao text-center line-height-32px color-#fff font-size-14px">
           <wd-icon name="add-circle" />
           签到
-        </view>
+        </view> -->
       </view>
     </view>
-    <view class="p-10px flex justify-between mt-20px">
+    <!-- //TODO: -->
+    <!-- <view class="p-10px flex justify-between mt-20px" >
       <view
         v-for="(item, index) in topAction"
         :key="index"
@@ -171,10 +176,10 @@ const orderGuild = () => {
         <view class="mt-4px text-18px">{{ item.number }}</view>
         <view class="text-12px mt-10px">{{ item.text }}</view>
       </view>
-    </view>
+    </view> -->
   </view>
-
-  <view class="p-10px">
+  <!-- //TODO: -->
+  <!-- <view class="p-10px" >
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
       <dy-title title="我的订单" more @moreClick="orderGuild"></dy-title>
       <view class="pt-20px flex justify-between">
@@ -199,9 +204,9 @@ const orderGuild = () => {
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
 
-  <!-- <view class="p-10px bg-#f5f5f5">
+  <view class="p-10px bg-#f5f5f5">
     <view class="rounded-10px overflow-hidden">
       <wd-cell-group border>
         <template v-for="(item, index) in setInfo" :key="index">
@@ -218,7 +223,7 @@ const orderGuild = () => {
         </template>
       </wd-cell-group>
     </view>
-  </view> -->
+  </view>
 
   <view class="bottom-10 left-0 right-0 mt-10px">
     <view class="px-10" v-if="isLogined">
