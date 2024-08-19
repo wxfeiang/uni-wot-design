@@ -165,15 +165,15 @@ const chooseImage = () => {
           toast.error(resData.data.data.message || resData.data.msg)
           toast.close()
         } else {
-          console.log('🍦[resData]:', resData)
+          console.log('🍦[resData]========:', resData)
 
           const cameraData = {
             url: res.tempFilePaths[0],
             id: resData.data.data.id,
-            data: JSON.parse(resData.data.data?.identifyCardInfo || ''),
+            data:
+              currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
           }
           setCameraData(currData.value.imgType, cameraData)
-
           close()
         }
       } catch (error) {

@@ -19,7 +19,6 @@ export const useBaseStore = defineStore(
     })
 
     const setCameraData = (photoType, val) => {
-      cameraData.value[photoType] = val
       if (photoType * 1 === 0) {
         cameraData.value.photo = val
       } else if (photoType * 1 === 1) {
@@ -28,11 +27,19 @@ export const useBaseStore = defineStore(
         cameraData.value.idCardBackPhoto = val
       }
     }
+    const clearCameraData = () => {
+      cameraData.value = {
+        photo: {} as CameraData, // 人脸
+        idCardFront: {} as CameraData, // 身份正面
+        idCardBackPhoto: {} as CameraData, // 身份反面
+      }
+    }
 
     return {
       active,
       cameraData,
       setCameraData,
+      clearCameraData,
     }
   },
   {

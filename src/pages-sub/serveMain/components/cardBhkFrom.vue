@@ -16,7 +16,8 @@ import {
 } from '../types/dict'
 
 import { useBaseStore, useUserStore } from '@/store'
-import { routeTo } from '@/utils'
+import { changeDict, routeTo } from '@/utils'
+import dayjs from 'dayjs'
 import card1 from '../static/images/idCard1.jpg'
 import card2 from '../static/images/idCard2.jpg'
 import card3 from '../static/images/idCard3.jpg'
@@ -131,16 +132,26 @@ async function upload(photoType: string, type: string) {
 const { cameraData } = useBaseStore()
 onShow((options) => {
   console.log('🍒', options)
-  console.log('🍊[ ')
+  console.log('🍊============ ')
   console.log('🥧', cameraData)
 
   if (cameraData.idCardFront.id) {
     cardUrl.value = cameraData.idCardFront.url
     model.value.idCardFrontPhotoId = cameraData.idCardFront.id
+    const { words_result: wordsResult }: any = cameraData.idCardFront.data
+    model.value.name = wordsResult['姓名'].words
+    model.value.sex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
+    model.value.idCardNumber = wordsResult['公民身份号码'].words
+    model.value.nation = changeDict(ethniCodeList, wordsResult['民族'].words, 'value', 'label')
+    model.value.mailAddress = wordsResult['住址'].words
   }
   if (cameraData.idCardBackPhoto.id) {
     cardUrl2.value = cameraData.idCardBackPhoto.url
+
+    const { words_result: wordsResult }: any = cameraData.idCardBackPhoto.data
     model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
+    model.value.startDate = dayjs(wordsResult['签发日期'].words).unix().toString()
+    model.value.endDate = wordsResult['失效日期'].words // dayjs(wordsResult['失效日期'].words).unix().toString()
   } else if (cameraData.photo.id) {
     cardUrl0.value = cameraData.photo.url
     model.value.photoId = cameraData.photo.id
@@ -150,12 +161,14 @@ onShow((options) => {
 const steep = ref(1)
 const bankBranchList = ref([])
 function next() {
-  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-  //   steep.value = 2
-  // } else {
-  //   message.alert('请上传图片')
-  // }
-  steep.value = 2
+  console.log('🍉', model.value)
+  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+    steep.value = 2
+  } else {
+    message.alert('请上传图片')
+  }
+
+  // steep.value = 2
 }
 
 function cramert(photoType: string, type: string) {

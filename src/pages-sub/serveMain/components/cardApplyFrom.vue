@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import dayjs from 'dayjs'
 import { useMessage } from 'wot-design-uni'
 import useCardApply from '../hooks/useCardApply'
-import { upLoadImg } from '../hooks/useUpload'
 import {
   areaCodeList,
   cardType,
@@ -12,7 +12,8 @@ import {
   sexList,
 } from '../types/dict'
 
-import { useUserStore } from '@/store'
+import { useBaseStore, useUserStore } from '@/store'
+import { changeDict, routeTo } from '@/utils'
 import card1 from '../static/images/idCard1.jpg'
 import card2 from '../static/images/idCard2.jpg'
 import card3 from '../static/images/idCard3.jpg'
@@ -25,31 +26,7 @@ const { userInfo } = userStore
 
 const cardUrl = ref(card1)
 const cardUrl2 = ref(card2)
-const cardUrl3 = ref(card3)
-
-const wotUpAttrs0 = {
-  formData: {
-    photoType: '1',
-    type: '1',
-    zjhm: '210204199207215655',
-  },
-  limit: 1,
-  'custom-preview-class': 'custom-preview-class',
-  'custom-evoke-class': 'custom-evoke-class',
-  'custom-class': 'custom-class',
-}
-
-const wotUpAttrs1 = {
-  limit: 1,
-  'custom-preview-class': 'custom-preview-class',
-  'custom-evoke-class': 'custom-evoke-class',
-  'custom-class': 'custom-class',
-  formData: {
-    photoType: '1',
-    type: '1',
-    zjhm: '210204199207215655',
-  },
-}
+const cardUrl0 = ref(card3)
 
 const visible = ref<boolean>(false)
 
@@ -74,39 +51,72 @@ watch(
 
 const current = ref('1')
 async function upload(photoType: string, type: string) {
-  try {
-    current.value = photoType
-    const { photoBase64, url }: any = await upLoadImg()
+  routeTo({
+    url: '/pages-sub/serveMain/OcrCamera',
+    data: { photoType, type, zjhm: userInfo.idCardNumber },
+  })
+  // try {
+  //   current.value = photoType
+  //   const { photoBase64, url }: any = await upLoadImg()
 
-    const formData = {
-      photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
-      photoType,
-      type,
-      zjhm: userInfo.idCardNumber,
-    }
-    const data: any = await sendPhoto(formData)
-    if (data.data.data.message || data.data.code === 500) {
-      message.alert(data.data.data.message || data.data.msg)
-    } else {
-      if (photoType === '1') {
-        cardUrl.value = url
-        model.value.idCardFrontPhotoId = data.data.data.id
-      }
-      if (photoType === '2') {
-        cardUrl2.value = url
-        model.value.idCardBackPhotoId = data.data.data.id
-      } else if (photoType === '0') {
-        cardUrl3.value = url
-        model.value.photoId = data.data.data.id
-      }
-    }
-  } catch (error) {
-    console.log('🥦[error]:', error)
-    message.alert('图片上传失败，请重新上传')
-  }
+  //   const formData = {
+  //     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
+  //     photoType,
+  //     type,
+  //     zjhm: userInfo.idCardNumber,
+  //   }
+  //   const data: any = await sendPhoto(formData)
+  //   if (data.data.data.message || data.data.code === 500) {
+  //     message.alert(data.data.data.message || data.data.msg)
+  //   } else {
+  //     if (photoType === '1') {
+  //       cardUrl.value = url
+  //       model.value.idCardFrontPhotoId = data.data.data.id
+  //     }
+  //     if (photoType === '2') {
+  //       cardUrl2.value = url
+  //       model.value.idCardBackPhotoId = data.data.data.id
+  //     } else if (photoType === '0') {
+  //       cardUrl3.value = url
+  //       model.value.photoId = data.data.data.id
+  //     }
+  //   }
+  // } catch (error) {
+  //   console.log('🥦[error]:', error)
+  //   message.alert('图片上传失败，请重新上传')
+  // }
 }
+const { cameraData } = useBaseStore()
+onShow((options) => {
+  console.log('🍒', options)
+  console.log('🍊============ ')
+  console.log('🥧', cameraData)
+
+  if (cameraData.idCardFront.id) {
+    cardUrl.value = cameraData.idCardFront.url
+    model.value.idCardFrontPhotoId = cameraData.idCardFront.id
+    const { words_result: wordsResult }: any = cameraData.idCardFront.data
+    model.value.name = wordsResult['姓名'].words
+    model.value.sex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
+    model.value.idCardNumber = wordsResult['公民身份号码'].words
+    model.value.nation = changeDict(ethniCodeList, wordsResult['民族'].words, 'value', 'label')
+    model.value.address = wordsResult['住址'].words
+  }
+  if (cameraData.idCardBackPhoto.id) {
+    cardUrl2.value = cameraData.idCardBackPhoto.url
+
+    const { words_result: wordsResult }: any = cameraData.idCardFront.data
+    model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
+    model.value.startDate = dayjs(wordsResult['签发日期'].words).unix().toString()
+    model.value.endDate = dayjs(wordsResult['失效日期'].words).unix().toString()
+  } else if (cameraData.photo.id) {
+    cardUrl0.value = cameraData.photo.url
+    model.value.photoId = cameraData.photo.id
+  }
+})
 const steep = ref(1)
 function next() {
+  console.log('🍉', model.value)
   if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
     steep.value = 2
   } else {
@@ -163,7 +173,7 @@ function next() {
                 <wd-loading type="outline" />
               </view>
 
-              <wd-img :width="100" :height="100" :src="cardUrl3" custom-class="custom-class-img" />
+              <wd-img :width="100" :height="100" :src="cardUrl0" custom-class="custom-class-img" />
             </view>
             <view class="text-center mt-10px">本人正面照片</view>
           </view>

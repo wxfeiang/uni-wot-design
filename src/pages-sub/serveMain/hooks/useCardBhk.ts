@@ -1,9 +1,10 @@
 import { changeCardData, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
 import { getBranchesInfo } from '@/service/api/source'
-import { useUserStore } from '@/store'
+import { useBaseStore, useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
+const { clearCameraData } = useBaseStore()
 const read = ref(0)
 const { userInfo } = useUserStore()
 const serchData = ref({
@@ -52,12 +53,12 @@ const {
 const bankBranchList = []
 // 补卡信息提交
 const model = ref({
-  name: userInfo.userName,
-  idCardNumber: userInfo.idCardNumber,
+  name: '',
+  idCardNumber: '',
   sex: '1',
   nation: '01',
   phoneNumber: userInfo.userPhone,
-  mailAddress: userInfo.address,
+  mailAddress: '',
   startDate: '',
   endDate: '',
   work: '20000',
@@ -151,6 +152,7 @@ const submitCard = (form) => {
         } else {
           submitStatus.value = 1
           statusDel.value = '提交成功了!'
+          clearCameraData()
         }
       } catch (error) {
         console.log('数据校验失败')
