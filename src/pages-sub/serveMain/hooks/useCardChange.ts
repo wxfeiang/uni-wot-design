@@ -2,6 +2,7 @@ import { getCardBasicInfo, personInfoChange } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 import { useRequest } from 'alova/client'
 import { Toast } from '@/utils/uniapi/prompt'
+import dayjs from 'dayjs'
 
 const userStore = useUserStore()
 const { userInfo } = userStore
@@ -59,16 +60,15 @@ const changeSubmit = (form) => {
     if (valid) {
       try {
         const newData = {
-          name: cardChangeInfo.value.xm,
-          idCardNumber: cardChangeInfo.value.zjhm,
+          name: userInfo.userName,
+          idCardNumber: userInfo.idCardNumber,
           address: cardChangeInfo.value.address,
           phoneNumber: cardChangeInfo.value.phone,
-          startTime: cardChangeInfo.value.cardStartTime,
-          endTime: cardChangeInfo.value.cardEndTime,
+          startDate: dayjs(cardChangeInfo.value.cardStartTime).format('YYYYMMDD'),
+          endDate: dayjs(cardChangeInfo.value.cardEndTime).format('YYYYMMDD'),
           work: cardChangeInfo.value.zy,
         }
         try {
-          console.log('++++++++++++++newData++++++++++++++', newData)
           const resultData = await personInfoChange(newData)
           console.log('++++++++++++++resultData++++++++++++++', resultData)
 
