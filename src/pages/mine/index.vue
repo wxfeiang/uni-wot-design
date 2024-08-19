@@ -75,9 +75,13 @@ function actionTop(item: any) {
 }
 
 const vipbgBase64 = ref()
+const bgUrlBase64 = ref()
+const applyBase64 = ref()
 onLoad(async () => {
   // 设置背景图片
   vipbgBase64.value = await pathToBase64(vipbg)
+  bgUrlBase64.value = await pathToBase64(imgUrl)
+  applyBase64.value = await pathToBase64(isapply)
 })
 const orderList = ref([
   {
@@ -113,7 +117,10 @@ const orderGuild = () => {
 
 <template>
   <!-- 顶部 backgroundImage: url(${imgUrl}) -->
-  <view class="py-10px imgUrl" :style="`padding-top:${navtop}px ;backgroundImage: url(${imgUrl})`">
+  <view
+    class="py-10px imgUrl"
+    :style="`padding-top:${navtop}px ;background-image: url(${bgUrlBase64})`"
+  >
     <view class="px-10px">
       <view class="flex justify-between items-center">
         <!-- <template v-if="isLogined"> -->
@@ -123,7 +130,7 @@ const orderGuild = () => {
               <wd-img :width="70" :height="70" :src="anvter" round />
             </view>
             <view
-              :style="` backgroundImage: url(${isapply})`"
+              :style="` background-image: url(${applyBase64})`"
               class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
             >
               已申领
@@ -132,7 +139,7 @@ const orderGuild = () => {
           <view>
             <view class="font-size-20px font-medium">魏小小</view>
             <view
-              :style="`backgroundImage: url(${vipbgBase64})`"
+              :style="`background-image: url(${vipbgBase64})`"
               class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
             >
               普通会员

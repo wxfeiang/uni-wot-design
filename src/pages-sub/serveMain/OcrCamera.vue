@@ -95,7 +95,7 @@ const takePhoto = () => {
     success: (res) => {
       uni.compressImage({
         src: res.tempImagePath,
-        quality: 90, // 压缩比例
+        quality: 40, // 压缩比例
         success: async (ress: any) => {
           console.log('🍢[ress]:', ress, ress.tempFilePath)
           const photoBase64 = await pathToBase64(ress.tempFilePath)
@@ -109,6 +109,7 @@ const takePhoto = () => {
 
           const formData = {
             ...currentParams.value,
+            zjhm: '210204199207215655',
             photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
           }
           try {
@@ -150,38 +151,84 @@ const chooseImage = () => {
     count: 1,
     sizeType: ['original', 'compressed'],
     sourceType: ['album'],
-    success: async (res) => {
-      console.log('相册选取成功', res)
-      emit('getImgPath', res.tempFilePaths[0])
+    // success: async (res) => {
+    //   console.log('相册选取成功', res)
+    //   emit('getImgPath', res.tempFilePaths[0])
 
-      const photoBase64 = await pathToBase64(res.tempFilePaths[0])
-      toast.loading('正在上传中...')
+    //   const photoBase64 = await pathToBase64(res.tempFilePaths[0])
+    //   toast.loading('正在上传中...')
 
-      const formData = {
-        ...currentParams.value,
-        photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
-      }
-      try {
-        const resData: any = await sendPhoto(formData)
-        if (resData.data.data.message || resData.data.code === 500) {
-          toast.error(resData.data.data.message || resData.data.msg)
-          toast.close()
-        } else {
-          console.log('🍦[resData]========:', resData)
+    //   const formData = {
+    //     ...currentParams.value,
+    //     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
+    //   }
+    //   try {
+    //     const resData: any = await sendPhoto(formData)
+    //     if (resData.data.data.message || resData.data.code === 500) {
+    //       toast.error(resData.data.data.message || resData.data.msg)
+    //       toast.close()
+    //     } else {
+    //       console.log('🍦[resData]========:', resData)
 
-          const cameraData = {
-            url: res.tempFilePaths[0],
-            id: resData.data.data.id,
-            data:
-              currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
+    //       const cameraData = {
+    //         url: res.tempFilePaths[0],
+    //         id: resData.data.data.id,
+    //         data:
+    //           currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
+    //       }
+    //       setCameraData(currData.value.imgType, cameraData)
+    //       close()
+    //     }
+    //   } catch (error) {
+    //     toast.error('图片上传出问题了')
+    //     toast.close()
+    //   }
+    // },
+    success: (res) => {
+      uni.compressImage({
+        src: res.tempFilePaths[0],
+        quality: 50, // 压缩比例
+        success: async (ress: any) => {
+          console.log('🍢[ress]:', ress, ress.tempFilePath)
+          const photoBase64 = await pathToBase64(ress.tempFilePath)
+          toast.loading('正在上传中...')
+          const size = getBase64ImageSize(photoBase64)
+          // console.log('🍔', size)
+          // if (size > 1024 * 80) {
+          //   toast.error('图片大小超过限制，请重新拍摄')
+          //   return
+          // }
+
+          const formData = {
+            ...currentParams.value,
+            zjhm: '210204199207215655',
+            photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
           }
-          setCameraData(currData.value.imgType, cameraData)
-          close()
-        }
-      } catch (error) {
-        toast.error('图片上传出问题了')
-        toast.close()
-      }
+          try {
+            const resData: any = await sendPhoto(formData)
+            if (resData.data.data.message) {
+              console.log('🍫[resData]:', resData)
+              toast.error(resData.data.data.message)
+            } else {
+              console.log('🍦[resData]========:', resData)
+
+              const cameraData = {
+                url: res.tempFilePaths[0],
+                id: resData.data.data.id,
+                data:
+                  currData.value.imgType === 0
+                    ? {}
+                    : JSON.parse(resData.data.data?.identifyCardInfo),
+              }
+              setCameraData(currData.value.imgType, cameraData)
+              close()
+            }
+          } catch (error) {
+            toast.error('图片上传出问题了')
+            toast.close()
+          }
+        },
+      })
     },
     fail: (err) => {
       console.log('相册选取失败', err)
@@ -225,7 +272,7 @@ const close = () => {
         <view @click="takePhoto" hover-class="color-red">
           <view class="i-carbon-circle-filled font-size-50px color-#fff"></view>
         </view>
-        <view @click="reverseCamera">
+        <view @click="chooseImage">
           <wd-icon name="refresh1" size="22px" color="#fff"></wd-icon>
         </view>
       </view>

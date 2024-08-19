@@ -18,7 +18,6 @@ import boche from '@/static/images/index/boche.png'
 import jiaofeitong from '@/static/images/index/jiaofeitong.png'
 import more from '@/static/images/index/more.png'
 import shebao from '@/static/images/index/shebao.png'
-import tushu from '@/static/images/index/tushu.png'
 import zhenxuan from '@/static/images/index/zhenxuan.png'
 
 import banner from '@/static/images/index/banner.png'
@@ -117,11 +116,11 @@ const mainData = ref([
     type: 'coupon',
     icon: zhenxuan,
   },
-  {
-    title: '图书借阅',
-    type: 'coupon',
-    icon: tushu,
-  },
+  // {
+  //   title: '图书借阅',
+  //   type: 'coupon',
+  //   icon: tushu,
+  // },
   // {
   //   title: '金融超市',
   //   type: 'coupon',
