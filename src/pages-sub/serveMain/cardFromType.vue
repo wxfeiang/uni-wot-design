@@ -12,6 +12,7 @@ import CardProgressInQuiry from './components/CardProgressInQuiry.vue'
 import ServePassRest from './components/ServePassRest.vue'
 import CardSocActive from './components/CardSocActive.vue'
 import ChangePwd from '@/pages-sub/serveMain/components/ChangePwd.vue'
+import CardLoss from '@/pages-sub/serveMain/components/CardLoss.vue'
 import CardChange from '@/pages-sub/serveMain/components/CardChange.vue'
 
 const navTitle = ref('')
@@ -58,6 +59,9 @@ onLoad((options: any) => {
 
     <!--服务密码修改 -->
     <Change-Pwd v-if="baseCon === 'changeCardPwd'" />
+
+    <!--社保卡挂失 -->
+    <Card-Loss v-if="baseCon === 'cardLoss'" />
 
     <!-- 社保卡启用 -->
     <Card-SocActive v-if="baseCon === 'cardSocialActive'" />

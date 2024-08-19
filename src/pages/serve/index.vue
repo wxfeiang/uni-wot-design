@@ -80,6 +80,8 @@ const mainData = ref([
     title: '社保卡挂失',
     icon: 'coupon',
     url: kaguas,
+    type: '3',
+    base: 'cardLoss',
   },
   {
     title: '社保卡解挂',
