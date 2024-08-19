@@ -120,6 +120,10 @@ export default defineManifestConfig({
     },
     usingComponents: true,
     // __usePrivacyCheck__: true,
+    'ocr-plugin': {
+      version: '3.1.5',
+      provider: 'wx4418e3e031e551be',
+    },
   },
   'mp-alipay': {
     usingComponents: true,

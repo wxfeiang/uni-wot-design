@@ -183,6 +183,7 @@ export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_
   if (navType === NAVIGATE_TYPE.NAVIGATE_BACK || !navType) {
     uni.navigateBack({
       delta: 1,
+      url,
     })
     return
   }

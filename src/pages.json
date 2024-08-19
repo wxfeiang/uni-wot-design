@@ -4,7 +4,8 @@
     "navigationBarTitleText": "unibest",
     "navigationBarBackgroundColor": "#f8f8f8",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#FFFFFF"
+    "backgroundColor": "#FFFFFF",
+    "ocr-navigator": "plugin://ocr-plugin/ocr-navigator"
   },
   "easycom": {
     "autoscan": true,
@@ -110,9 +111,19 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
+          "path": "OcrCamera",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -121,6 +132,7 @@
           "path": "cardApplyType",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
