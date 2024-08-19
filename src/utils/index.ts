@@ -128,8 +128,13 @@ export const needLoginPages: string[] = getAllPages('needLogin').map((page) => p
  * @param {} key  要比对的key
  * @param {} val  要比对的val
  */
-export const changeDict = (data: string[], value?: any, key?: string, val?: string) => {
-  return data.filter((item: any) => item[val] === value)[key]
+export const changeDict = (
+  data: string[],
+  value: any,
+  key: string = 'label',
+  val: string = 'value',
+) => {
+  return data.find((item: any) => item[val] === value)?.[key] ?? ''
 }
 
 /**
@@ -178,6 +183,7 @@ export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_
   if (navType === NAVIGATE_TYPE.NAVIGATE_BACK || !navType) {
     uni.navigateBack({
       delta: 1,
+      url,
     })
     return
   }

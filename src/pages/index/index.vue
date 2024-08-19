@@ -18,7 +18,6 @@ import boche from '@/static/images/index/boche.png'
 import jiaofeitong from '@/static/images/index/jiaofeitong.png'
 import more from '@/static/images/index/more.png'
 import shebao from '@/static/images/index/shebao.png'
-import shop from '@/static/images/index/shop.png'
 import tushu from '@/static/images/index/tushu.png'
 import zhenxuan from '@/static/images/index/zhenxuan.png'
 
@@ -40,7 +39,7 @@ import PLATFORM from '@/utils/platform'
 import { useScancode } from '@/utils/uniapi'
 import { useMessage, useToast } from 'wot-design-uni'
 
-import { useBaseStore } from '@/store/modules/base'
+import { useBaseStore } from '@/store'
 import useIndex from './hooks/useIndex'
 
 const message = useMessage()

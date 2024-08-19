@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useMessage } from 'wot-design-uni'
 import useCardBhk from '../hooks/useCardBhk'
-import { upLoadImg } from '../hooks/useUpload'
 import {
   applicantList,
   areaCodeList,
@@ -16,7 +15,8 @@ import {
   sexList,
 } from '../types/dict'
 
-import { useUserStore } from '@/store'
+import { useBaseStore, useUserStore } from '@/store'
+import { routeTo } from '@/utils'
 import card1 from '../static/images/idCard1.jpg'
 import card2 from '../static/images/idCard2.jpg'
 import card3 from '../static/images/idCard3.jpg'
@@ -38,7 +38,7 @@ const { userInfo } = userStore
 
 const cardUrl = ref(card1)
 const cardUrl2 = ref(card2)
-const cardUrl3 = ref(card3)
+const cardUrl0 = ref(card3)
 
 const wotUpAttrs0 = {
   formData: {
@@ -85,47 +85,84 @@ watch(
   { deep: true },
 )
 
-const current = ref('1')
-async function upload(photoType: string, type: string) {
-  try {
-    current.value = photoType
-    const { photoBase64, url }: any = await upLoadImg()
+onLoad((option: any) => {
+  console.log('🍷[option=====]:', option)
+})
 
-    const formData = {
-      photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
-      photoType,
-      type,
-      zjhm: userInfo.idCardNumber,
-    }
-    const data: any = await sendPhoto(formData)
-    if (data.data.data.message || data.data.code === 500) {
-      message.alert(data.data.data.message || data.data.msg)
-    } else {
-      if (photoType === '1') {
-        cardUrl.value = url
-        model.value.idCardFrontPhotoId = data.data.data.id
-      }
-      if (photoType === '2') {
-        cardUrl2.value = url
-        model.value.idCardBackPhotoId = data.data.data.id
-      } else if (photoType === '0') {
-        cardUrl3.value = url
-        model.value.photoId = data.data.data.id
-      }
-    }
-  } catch (error) {
-    console.log('🥦[error]:', error)
-    message.alert('图片上传失败，请重新上传')
-  }
+const current = ref('1')
+
+async function upload(photoType: string, type: string) {
+  routeTo({
+    url: '/pages-sub/serveMain/OcrCamera',
+    data: { photoType, type, zjhm: userInfo.idCardNumber },
+  })
+
+  // try {
+  //   current.value = photoType
+  //   const { photoBase64, url }: any = await upLoadImg()
+
+  //   const formData = {
+  //     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
+  //     photoType,
+  //     type,
+  //     zjhm: userInfo.idCardNumber,
+  //   }
+  //   const data: any = await sendPhoto(formData)
+  //   if (data.data.data.message || data.data.code === 500) {
+  //     message.alert(data.data.data.message || data.data.msg)
+  //   } else {
+  //     if (photoType === '1') {
+  //       cardUrl.value = url
+  //       model.value.idCardFrontPhotoId = data.data.data.id
+  //     }
+  //     if (photoType === '2') {
+  //       cardUrl2.value = url
+  //       model.value.idCardBackPhotoId = data.data.data.id
+  //     } else if (photoType === '0') {
+  //       cardUrl0.value = url
+  //       model.value.photoId = data.data.data.id
+  //     }
+  //   }
+  // } catch (error) {
+  //   console.log('🥦[error]:', error)
+  //   message.alert('图片上传失败，请重新上传')
+  // }
 }
+const { cameraData } = useBaseStore()
+onShow((options) => {
+  console.log('🍒', options)
+  console.log('🍊[ ')
+  console.log('🥧', cameraData)
+
+  if (cameraData.idCardFront.id) {
+    cardUrl.value = cameraData.idCardFront.url
+    model.value.idCardFrontPhotoId = cameraData.idCardFront.id
+  }
+  if (cameraData.idCardBackPhoto.id) {
+    cardUrl2.value = cameraData.idCardBackPhoto.url
+    model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
+  } else if (cameraData.photo.id) {
+    cardUrl0.value = cameraData.photo.url
+    model.value.photoId = cameraData.photo.id
+  }
+})
+
 const steep = ref(1)
 const bankBranchList = ref([])
 function next() {
-  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-    steep.value = 2
-  } else {
-    message.alert('请上传图片')
-  }
+  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+  //   steep.value = 2
+  // } else {
+  //   message.alert('请上传图片')
+  // }
+  steep.value = 2
+}
+
+function cramert(photoType: string, type: string) {
+  routeTo({
+    url: '/pages-sub/serveMain/OcrCamera',
+    data: { photoType, type, zjhm: userInfo.idCardNumber },
+  })
 }
 // 查询邮寄银行网点
 async function handleChange(pickerView, value, columnIndex, resolve) {
@@ -195,7 +232,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
                 <wd-loading type="outline" />
               </view>
 
-              <wd-img :width="100" :height="100" :src="cardUrl3" custom-class="custom-class-img" />
+              <wd-img :width="100" :height="100" :src="cardUrl0" custom-class="custom-class-img" />
             </view>
             <view class="text-center mt-10px">本人正面照片</view>
           </view>
@@ -223,6 +260,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.name"
             prop="name"
             custom-input-class="custom-input-right"
+            readonly
           />
           <wd-input
             label="身份证号:"
@@ -237,6 +275,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             @click="showKeyBoard"
             :maxlength="18"
             :mixlength="16"
+            readonly
           />
           <wd-number-keyboard
             v-model:visible="visible"
@@ -252,6 +291,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             v-model="model.sex"
             :rules="rules.sex"
             prop="sex"
+            readonly
           />
           <wd-input
             label="手机号码:"
@@ -272,6 +312,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             v-model="model.nation"
             :rules="rules.nation"
             prop="nation"
+            readonly
           />
           <wd-input
             label="通讯地址"
@@ -293,6 +334,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.startDate"
             prop="startDate"
             align-right
+            readonly
           />
           <wd-datetime-picker
             type="date"
@@ -303,6 +345,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.endDate"
             prop="endDate"
             align-right
+            readonly
           />
 
           <wd-picker
@@ -500,7 +543,7 @@ export default {
   @apply text-right!;
 }
 :deep(.custom-input-right) {
-  @apply text-right! color-#999999!;
+  @apply text-right! color-#999999! truncate-1!;
 }
 
 :deep(.custom-class) {
@@ -508,7 +551,7 @@ export default {
 }
 :deep(.custom-evoke-class),
 :deep(.custom-preview-class) {
-  @apply w-full h-150px  m-0;
+  @apply w-full h-200px  m-0;
 }
 :deep(.custom-class-img) {
   @apply wh-full! overflow-hidden rounded-10px;

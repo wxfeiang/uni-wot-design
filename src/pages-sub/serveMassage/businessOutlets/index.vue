@@ -40,7 +40,7 @@ const queryList = async (pageNo, pageSize) => {
   // 调用接口获取数据
   try {
     const res: any = await sendbranchesInfo()
-    dataList.value = res
+    dataList.value = res.data.data
     paging.value.complete(dataList.value)
   } catch (error) {
     console.log('🥒[error]:', error)
