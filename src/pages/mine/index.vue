@@ -49,7 +49,7 @@ navtop.value = safeAreaInsets.top + 44
 
           <view class="flex gap-15px items-center">
             <view class="font-bold color-#fff">{{ userInfo.userName }}</view>
-            <template v-if="userInfo.isApply">
+            <template v-if="userInfo.cardType === '3'">
               <view
                 class="flex pl-10px pr-15px rounded-r-50px items-center relative color-green dy-bg"
               >

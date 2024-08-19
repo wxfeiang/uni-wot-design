@@ -27,7 +27,8 @@ type IUserInfo = {
   userPhone?: string
   userDId?: string
   idCardNumber?: string
-  isApply?: boolean // 是否申请完成
+  cardType?: string // 是否申请完成判断：社保卡类型：0：未领取，1：持有二代卡，2：持有三代卡（非雄安一卡通），3：持有雄安一卡通卡
+  cardStatus?: string // 电子社保卡状态：0：未申请电子社保卡，1：已申请电子社保卡，2：未知
   isAuth?: boolean // 是否认证
   isBind?: boolean // 是否绑定手机号
   address?: string

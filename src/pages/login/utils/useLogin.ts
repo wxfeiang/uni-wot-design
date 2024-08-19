@@ -1,6 +1,6 @@
 import { Constant } from '@/enum/constant'
 import { faceLogin, getUserIdKey, getUserInfo } from '@/service/api/auth'
-import { getCardcheckInfo } from '@/service/api/cardServe'
+import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 
 import { useRequest } from 'alova/client'
 
@@ -34,13 +34,11 @@ const { send: sendFaceLogin, loading: LoadingFace } = useRequest((data) => faceL
   loading: false,
 })
 
-//
-
 const {
   loading,
-  send: sendCardQury,
+  send: sendIsReceiveCardInfo,
   onSuccess: cardQuerySucess,
-} = useRequest((data) => getCardcheckInfo(data), {
+} = useRequest((data) => getIsReceiveCardInfo(data), {
   immediate: false,
   loading: false,
 })
@@ -78,10 +76,8 @@ const Login = (form) => {
           const data: any = await sendFaceLogin(loginData)
           // 保存
           authStore.setUserInfo(data)
-          // isApplyCard 是否申请过卡
-          if (data.isApplyCard !== 0) {
-            authStore.userInfo.isApply = false
-
+          // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
+          if (data.cardType !== 3) {
             const params = {
               xm: authStore.userInfo.userName,
               zjhm: authStore.userInfo.idCardNumber,
@@ -91,11 +87,11 @@ const Login = (form) => {
               areaCode: 'CHN',
             }
 
-            const { resultCode }: any = await sendCardQury(params)
-            console.log('🥞[resultCode]:', resultCode)
-            authStore.userInfo.isApply = resultCode === '0'
+            const resultData: any = await sendIsReceiveCardInfo(params)
+            console.log('🥞[resultData]:', resultData)
+            authStore.userInfo.cardType = resultData.cardType
           } else {
-            authStore.userInfo.isApply = true
+            authStore.userInfo.cardType = data.cardType
           }
           // 跳转到登录后的页面
           uni.navigateBack()
