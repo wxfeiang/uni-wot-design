@@ -113,6 +113,9 @@ const orderList = ref([
 const orderGuild = () => {
   console.log('🍎')
 }
+const googin = () => {
+  routeTo({ url: '/pages/login/login' })
+}
 </script>
 
 <template>
@@ -123,50 +126,50 @@ const orderGuild = () => {
   >
     <view class="px-10px">
       <view class="flex justify-between items-center">
-        <!-- <template v-if="isLogined"> -->
-        <view class="flex gap-20px items-center">
-          <view>
-            <view class="p-5px rounded-50% size-64px">
-              <wd-img :width="70" :height="70" :src="anvter" round />
+        <template v-if="isLogined">
+          <view class="flex gap-20px items-center">
+            <view>
+              <view class="p-5px rounded-50% size-64px">
+                <wd-img :width="70" :height="70" :src="anvter" round />
+              </view>
+              <view
+                v-if="isLogined"
+                :style="` background-image: url(${applyBase64})`"
+                class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
+              >
+                {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
+              </view>
             </view>
-            <view
-              v-if="isLogined"
-              :style="` background-image: url(${applyBase64})`"
-              class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
-            >
-              {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
+            <view>
+              <view class="font-size-20px font-medium">
+                {{ isLogined ? userInfo.userName : '未登录' }}
+              </view>
+              <view
+                v-if="isLogined"
+                :style="`background-image: url(${vipbgBase64})`"
+                class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
+              >
+                普通会员
+              </view>
             </view>
           </view>
-          <view>
-            <view class="font-size-20px font-medium">
-              {{ isLogined ? userInfo.userName : '未登录' }}
-            </view>
-            <view
-              v-if="isLogined"
-              :style="`background-image: url(${vipbgBase64})`"
-              class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
-            >
-              普通会员
-            </view>
+        </template>
+        <template v-else>
+          <view class="p-5px bg-#fff rounded-50% size-70px">
+            <wd-img :width="70" :height="70" :src="anvter" round />
           </view>
-        </view>
-        <!-- </template> -->
-        <!-- <template v-else>
-            <view class="p-5px bg-#fff rounded-50% size-70px">
-              <wd-img :width="70" :height="70" :src="anvter" round />
-            </view>
-            <view @click="login" class="flex gap-15px">
-              <view class="font-bold color-#fff">未登录</view>
-            </view>
-          </template> -->
-        <!-- <view class="qiandao text-center line-height-32px color-#fff font-size-14px">
+          <view @click="login" class="flex gap-15px">
+            <view class="font-bold color-#fff">未登录</view>
+          </view>
+        </template>
+        <view class="qiandao text-center line-height-32px color-#fff font-size-14px">
           <wd-icon name="add-circle" />
           签到
-        </view> -->
+        </view>
       </view>
     </view>
     <!-- //TODO: -->
-    <!-- <view class="p-10px flex justify-between mt-20px" >
+    <view class="p-10px flex justify-between mt-20px">
       <view
         v-for="(item, index) in topAction"
         :key="index"
@@ -176,10 +179,10 @@ const orderGuild = () => {
         <view class="mt-4px text-18px">{{ item.number }}</view>
         <view class="text-12px mt-10px">{{ item.text }}</view>
       </view>
-    </view> -->
+    </view>
   </view>
   <!-- //TODO: -->
-  <!-- <view class="p-10px" >
+  <view class="p-10px">
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
       <dy-title title="我的订单" more @moreClick="orderGuild"></dy-title>
       <view class="pt-20px flex justify-between">
@@ -192,21 +195,22 @@ const orderGuild = () => {
   </view>
   <view class="px-10px">
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
-      <dy-title title="功能服务" more @moreClick="orderGuild"></dy-title>
+      <dy-title title="功能服务"></dy-title>
       <view class="p-10px flex justify-between flex-wrap">
         <view
           v-for="(item, index) in serveList"
           :key="index"
           class="w-24% text-center mb-20px pt-10px"
+          @click="googin"
         >
           <image class="size-26px" :src="item.icon" />
           <view class="text-12px mt-10px">{{ item.title }}</view>
         </view>
       </view>
     </view>
-  </view> -->
+  </view>
 
-  <view class="p-10px bg-#f5f5f5">
+  <!-- <view class="p-10px bg-#f5f5f5">
     <view class="rounded-10px overflow-hidden">
       <wd-cell-group border>
         <template v-for="(item, index) in setInfo" :key="index">
@@ -223,7 +227,7 @@ const orderGuild = () => {
         </template>
       </wd-cell-group>
     </view>
-  </view>
+  </view> -->
 
   <view class="bottom-10 left-0 right-0 mt-10px">
     <view class="px-10" v-if="isLogined">

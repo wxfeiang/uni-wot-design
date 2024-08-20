@@ -7,6 +7,7 @@ interface NavigateToOptions {
   url: "/pages/index/index" |
        "/pages/about/about" |
        "/pages/login/index" |
+       "/pages/login/login" |
        "/pages/mine/index" |
        "/pages/serve/index" |
        "/pages/shop/index" |

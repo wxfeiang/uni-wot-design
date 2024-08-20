@@ -80,6 +80,14 @@
       }
     },
     {
+      "path": "pages/login/login",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/mine/index",
       "type": "page",
       "style": {
