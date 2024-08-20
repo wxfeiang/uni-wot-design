@@ -26,7 +26,7 @@ const alovaInstance = createAlova({
   ...AdapterUniapp(),
 
   timeout: timeOut,
-
+  cacheFor: null,
   beforeRequest: (method) => {
     const userStore = useUserStore()
     beforeQuest(method)

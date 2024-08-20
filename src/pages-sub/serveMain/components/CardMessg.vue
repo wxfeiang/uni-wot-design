@@ -125,8 +125,12 @@ const data = ref<dataType[]>([
 ])
 const cardInfoData = ref(null)
 onLoad(async () => {
-  const res: any = await getCadInfo()
-  cardInfoData.value = res
+  try {
+    const res: any = await getCadInfo()
+    cardInfoData.value = res
+  } catch (error) {
+    console.log('🧀[error]:', error)
+  }
 })
 </script>
 <template>

@@ -155,9 +155,8 @@ onShow((options) => {
 
     const { words_result: wordsResult }: any = cameraData.idCardBackPhoto.data
     model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
-    model.value.startDate = dayjs(wordsResult['签发日期'].words).valueOf().toString()
-    model.value.endDate = dayjs(wordsResult['失效日期'].words).valueOf().toString() // wordsResult['失效日期'].words //
-    console.log('🍕[model.value.endDate ]:', model.value.endDate)
+    model.value.startDate = dayjs(wordsResult['签发日期'].words).valueOf()
+    model.value.endDate = dayjs(wordsResult['失效日期'].words).valueOf()
   }
 
   if (cameraData.photo.id) {

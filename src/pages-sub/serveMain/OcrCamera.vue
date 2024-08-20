@@ -91,14 +91,14 @@ function cameraError(e) {
 const takePhoto = () => {
   cameraContext.value.takePhoto({
     quality: 'high',
-
     success: (res) => {
-      let quality = 90
-      if (res.tempFiles[0].size > 1024 * 80) {
-        quality = 1
-      }
+      console.log('🥦[res]:', res)
+      const quality = 60
+      // if (res.tempFiles[0].size > 1024 * 80) {
+      //   quality = 1
+      // }
       uni.compressImage({
-        src: res.tempFilePaths[0],
+        src: res.tempImagePath,
         quality, // 压缩比例
         success: async (ress: any) => {
           console.log('🍢[ress]:', ress, ress.tempFilePath)
@@ -139,6 +139,11 @@ const takePhoto = () => {
             toast.error('图片上传出问题了')
             toast.close()
           }
+        },
+        fail: (err) => {
+          console.log('🍚[err]:', err)
+          toast.error('图片压缩====拍照失败')
+          toast.close()
         },
       })
     },
