@@ -11,6 +11,7 @@
 <script lang="ts" setup>
 import CardApplyFrom from './components/cardApplyFrom.vue'
 import CardBhkFrom from './components/cardBhkFrom.vue'
+import CardJuvnien from './components/CardJuvnien.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
@@ -44,6 +45,9 @@ onLoad((options) => {
     <Card-ApplyFrom v-if="baseCon === 'shebaoksl'" />
     <!-- 补卡换卡 -->
     <Card-BhkFrom v-if="baseCon === 'shebaokbh'" />
+
+    <!--未成年人 -->
+    <Card-Juvnien v-if="baseCon === 'xinshenersl'"></Card-Juvnien>
   </view>
 </template>
 

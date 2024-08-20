@@ -29,6 +29,7 @@
     "src/**/*.tsx",
     "src/**/*.jsx",
     "src/**/*.vue",
-    "src/**/*.json"
+    "src/**/*.json",
+    "src/pages-sub/serveMain/components/CardJuvnievue"
   ]
 }

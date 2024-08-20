@@ -1,9 +1,9 @@
 <!--
  * @Author: chenkezhan 1763932127@qq.com
  * @Date: 2024-08-16 11:28:39
- * @LastEditors: chenkezhan 1763932127@qq.com
- * @LastEditTime: 2024-08-17 14:23:49
- * @FilePath: \xa_card_mini\src\pages\serve\index.vue
+ * @LastEditors: wxfeiang wxfeiang@qq.com
+ * @LastEditTime: 2024-08-20 09:56:55
+ * @FilePath: /xa_card_mini/src/pages/serve/index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <route lang="json5" type="page">
@@ -68,6 +68,7 @@ const mainData = ref([
   {
     title: '未成年人申领',
     icon: 'star',
+    type: '2',
     url: xinshenersl,
   },
   {

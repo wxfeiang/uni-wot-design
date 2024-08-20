@@ -118,14 +118,12 @@ const takePhoto = () => {
           }
           try {
             const resData: any = await sendPhoto(formData)
-            if (resData.data.data.message || resData.data.code === 500) {
-              toast.error(resData.data.data.message || resData.data.msg)
-              toast.close()
+            if (resData.data.data.message) {
+              console.log('🍫[resData]:', resData)
+              toast.error(resData.data.data.message)
             } else {
-              console.log('🍦[resData]========:', resData)
-
               const cameraData = {
-                url: res.tempFilePaths[0],
+                url: ress.tempFilePath,
                 id: resData.data.data.id,
                 data:
                   currData.value.imgType === 0
@@ -133,6 +131,8 @@ const takePhoto = () => {
                     : JSON.parse(resData.data.data?.identifyCardInfo),
               }
               setCameraData(currData.value.imgType, cameraData)
+
+              console.log('🍦[resData]========:', resData)
               close()
             }
           } catch (error) {
@@ -220,6 +220,7 @@ function reverseCamera() {
 }
 // 关闭相机
 const close = () => {
+  console.log('🌭======关闭相机-----')
   toast.close()
   uni.navigateBack()
 }
