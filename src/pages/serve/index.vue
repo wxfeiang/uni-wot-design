@@ -68,8 +68,9 @@ const mainData = ref([
   {
     title: '未成年人申领',
     icon: 'star',
-    type: '2',
     url: xinshenersl,
+    type: '2',
+    base: 'xinshenersl',
   },
   {
     title: '未成年人申领查询',

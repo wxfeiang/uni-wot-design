@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import { data as dataInfo } from '../types/data'
-
 import { useMessage } from 'wot-design-uni'
-
 import useCardApply from '../hooks/useCardApply'
+
 const message = useMessage()
 const { sendCardQury, serchData, read } = useCardApply()
 
@@ -12,30 +11,16 @@ const showData = ref<any>({})
 function toAgereement(type) {
   routeTo({ url: '/pages-sub/webView/index', data: { type: '1710488285782016005', showTop: 1 } })
 }
-function btnClick(item) {
-  if (item.isPeople) {
-    message.alert('非本人申领暂未开通!')
-  } else {
-    routeTo({
-      url: '/pages-sub/serveMain/cardApplyFromType',
-      data: { base: 'shebaokbh', title: '社保卡补换信息' },
-    })
-  }
+function btnClick() {
+  routeTo({
+    url: '/pages-sub/serveMain/cardApplyFromType',
+    data: { base: 'xinshenersl', title: '未成年人申领信息' },
+  })
 }
 
 const footerBtns = ref([
   {
-    text: '非本人申领',
-    type: 'info',
-    size: 'medium',
-    round: false,
-    plain: true,
-    customClass: 'btn-class',
-    disabled: true,
-    isPeople: true,
-  },
-  {
-    text: '本人申领',
+    text: '未成年人申领',
     size: 'medium',
     round: false,
     plain: true,
@@ -49,7 +34,6 @@ watch(
   () => read.value,
   (val) => {
     footerBtns.value[0].disabled = !val
-    footerBtns.value[1].disabled = !val
   },
   {
     immediate: true,
@@ -59,18 +43,18 @@ watch(
 const isApply = ref(null)
 
 onMounted(async () => {
-  showData.value = dataInfo[1]
+  showData.value = dataInfo[0]
   // 如果阅读协议页面回来 则
   read.value = 0
-  // const { resultCode }: any = await sendCardQury(serchData.value)
-  // // 0 不让在申请了
+  const { resultCode }: any = await sendCardQury(serchData.value)
+  // 0 不让在申请了
 
-  // isApply.value = resultCode
-  // if (isApply.value === '0') {
-  //   message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
-  //     uni.navigateBack()
-  //   })
-  // }
+  isApply.value = resultCode
+  if (isApply.value === '0') {
+    message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
+      uni.navigateBack()
+    })
+  }
 })
 const value = ref()
 </script>
@@ -96,7 +80,7 @@ const value = ref()
             协议
           </wd-checkbox>
         </view>
-        <view class="flex gap-15px mt-20px">
+        <view class="mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
             <wd-button
               :disabled="item.disabled"
