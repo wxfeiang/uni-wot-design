@@ -2,7 +2,7 @@
  * @Author: chenkezhan 1763932127@qq.com
  * @Date: 2024-08-16 11:28:39
  * @LastEditors: wxfeiang wxfeiang@qq.com
- * @LastEditTime: 2024-08-20 09:56:55
+ * @LastEditTime: 2024-08-20 20:55:27
  * @FilePath: /xa_card_mini/src/pages/serve/index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -24,7 +24,6 @@ import { routeTo } from '@/utils'
 import shebaok from '@/static/images/serve/shebaok.png'
 import shebaokbh from '@/static/images/serve/shebaokbh.png'
 import shebaoksl from '@/static/images/serve/shebaoksl.png'
-import xinshenersl from '@/static/images/serve/xinshenersl.png'
 
 import kaguas from '@/static/images/serve/kaguas.png'
 import kajiegua from '@/static/images/serve/kajiegua.png'
@@ -32,8 +31,6 @@ import kajindu from '@/static/images/serve/kajindu.png'
 import mimaxiugai from '@/static/images/serve/mimaxiugai.png'
 
 import kabase from '@/static/images/serve/kabase.png'
-
-import xinshengrq from '@/static/images/serve/xinshengrq.png'
 
 import kabiangeng from '@/static/images/serve/kabiangeng.png'
 import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
@@ -65,18 +62,18 @@ const mainData = ref([
     url: kajindu,
     type: '3',
   },
-  {
-    title: '未成年人申领',
-    icon: 'star',
-    url: xinshenersl,
-    type: '2',
-    base: 'xinshenersl',
-  },
-  {
-    title: '未成年人申领查询',
-    icon: 'coupon',
-    url: xinshengrq,
-  },
+  // {
+  //   title: '未成年人申领',
+  //   icon: 'star',
+  //   url: xinshenersl,
+  //   type: '2',
+  //   base: 'xinshenersl',
+  // },
+  // {
+  //   title: '未成年人申领查询',
+  //   icon: 'coupon',
+  //   url: xinshengrq,
+  // },
 
   {
     title: '社保卡挂失',
@@ -156,13 +153,13 @@ const categories = ref([
     label: '社保卡申领',
     title: '标题一',
     icon: 'thumb-up',
-    items: mainData.value.slice(0, 5),
+    items: mainData.value.slice(0, 3),
   },
   {
     label: '社保卡服务',
     title: '标题二',
     icon: 'qrcode',
-    items: mainData.value.slice(5, 20),
+    items: mainData.value.slice(3, 20),
   },
   // {
   //   label: '生活缴费',
@@ -222,7 +219,7 @@ onMounted(() => {
       @scroll="onScroll"
     >
       <view v-for="(item, index) in categories" :key="index" class="category">
-        <dy-title :title="item.label" class="py-8px pl-10px"></dy-title>
+        <dy-title :title="item.label" class="py-4px pl-10px"></dy-title>
         <wd-grid :column="3" clickable>
           <wd-grid-item
             use-icon-slot
@@ -236,7 +233,7 @@ onMounted(() => {
               <image class="wh-42px rounded-10px" :src="cell.url" />
             </template>
             <template #text>
-              <view class="text-center mt-10px">{{ cell.title }}</view>
+              <view class="text-center mt-5px">{{ cell.title }}</view>
             </template>
           </wd-grid-item>
         </wd-grid>
@@ -251,7 +248,7 @@ onMounted(() => {
   @apply size-auto!;
 }
 :deep(.wd-grid-item) {
-  @apply min-h-115px! justify-start!;
+  @apply justify-start!;
 }
 
 .wraper {

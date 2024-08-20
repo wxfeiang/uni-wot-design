@@ -48,6 +48,15 @@ const data2 = ref([
     prop: 'date',
   },
 ])
+onLoad(() => {
+  cardInfoData.value = null
+})
+const suMit1 = ref(true)
+
+function juvenClick(form) {
+  suMit1.value = false
+  cardQury(form)
+}
 </script>
 <template>
   <view class="p-15px">
@@ -64,7 +73,6 @@ const data2 = ref([
               :rules="rules.zjhm"
               prop="zjhm"
               custom-input-class="custom-input-right"
-              disabled
               @click="showKeyBoard"
               :maxlength="18"
               :mixlength="16"
@@ -98,9 +106,18 @@ const data2 = ref([
           @click="cardQury(form)"
           block
           :loading="loading"
+          v-if="suMit1"
         >
-          查 询
+          查询本人
         </wd-button>
+        <view class="mt-20px flex justify-center">
+          <wd-text
+            text="未成年人申领进度查询"
+            type="primary"
+            decoration="underline"
+            @click="juvenClick(form)"
+          />
+        </view>
       </view>
     </view>
     <view v-if="cardInfoData && !loading">
