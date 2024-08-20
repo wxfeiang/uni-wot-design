@@ -14,6 +14,7 @@ import CardSocActive from './components/CardSocActive.vue'
 import ChangePwd from '@/pages-sub/serveMain/components/ChangePwd.vue'
 import CardLoss from '@/pages-sub/serveMain/components/CardLoss.vue'
 import CardChange from '@/pages-sub/serveMain/components/CardChange.vue'
+import UnboxingInfo from './components/UnboxingInfo.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
@@ -65,6 +66,9 @@ onLoad((options: any) => {
 
     <!-- 社保卡启用 -->
     <Card-SocActive v-if="baseCon === 'cardSocialActive'" />
+
+    <!-- 社保卡解挂 -->
+    <Unboxing-info v-if="baseCon === 'unboxingInfo'" />
   </view>
 </template>
 
