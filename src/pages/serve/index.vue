@@ -87,6 +87,8 @@ const mainData = ref([
     title: '社保卡解挂',
     icon: 'kajiegua',
     url: kajiegua,
+    type: '3',
+    base: 'unboxingInfo',
   },
 
   {

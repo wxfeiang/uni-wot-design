@@ -25,6 +25,8 @@ const IS_RECEIVE_CARD_INFO = baseUrlApi('/card/app/getIsReceiveCardInfo')
 const PERSON_INFO_CHANGE = baseUrlApi('/card/app/personInfoChange')
 
 const CARD_LOSS = baseUrlApi('/card/app/getLossInfo')
+
+const UNBOXING_INFO = baseUrlApi('/card/app/getUnboxingInfo')
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -166,6 +168,16 @@ export function personInfoChange(data) {
 export function cardSocialActive(data) {
   return request.Post(
     SOCIAL_SECARD_ACTIVE, // 请求地址
+    data,
+  )
+}
+
+/**
+ *社保卡解挂
+ */
+export function getUnboxingInfo(data) {
+  return request.Post(
+    UNBOXING_INFO, // 请求地址
     data,
   )
 }
