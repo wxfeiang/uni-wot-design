@@ -1,13 +1,41 @@
 <script lang="ts" setup>
 import usePassword from '../hooks/usePassword'
-const { submitPasswoed, model, rules, loading } = usePassword()
-
+import { SeverPassRest } from '@/service/api/cardServe'
+import { useMessage } from 'wot-design-uni'
+import { useRequest } from 'alova/client'
+const message = useMessage()
+const { model, rules } = usePassword()
 const form = ref(null)
-
 const visible = ref<boolean>(false)
 
 function showKeyBoard() {
   visible.value = true
+}
+// 服务密码重置
+const { loading, send: sendCardPassword } = useRequest((data) => SeverPassRest(data), {
+  immediate: false,
+  loading: false,
+})
+
+function submitPasswoed(form) {
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        const data: any = await sendCardPassword(model.value)
+        if (data.data === '成功') {
+          message.alert('服务密码重置成功').then(() => {
+            uni.navigateBack()
+          })
+        } else if (data.data !== '成功') {
+          message.alert(data.message).then(() => {
+            uni.navigateBack()
+          })
+        }
+      } catch (error) {
+        console.log('数据校验失败')
+      }
+    }
+  })
 }
 </script>
 <template>
@@ -92,6 +120,7 @@ function showKeyBoard() {
       </wd-button>
     </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {

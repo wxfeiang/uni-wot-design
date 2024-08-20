@@ -18,7 +18,7 @@ import useLogin from './utils/useLogin'
 
 import loginbg from '@/static/images/login/login-bg.png'
 
-const { Login, model, rules, read, LoadingKey, LoadingInfo, test } = useLogin()
+const { Login, model, rules, read, LoadingKey, LoadingInfo } = useLogin()
 const form = ref(null)
 
 const to = () => {
