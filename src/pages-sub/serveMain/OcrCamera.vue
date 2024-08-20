@@ -232,7 +232,7 @@ async function upload(ress) {
         id: resData.data.data.id,
         data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
       }
-      setCameraData(camerType.value, cameraData)
+      setCameraData(camerType.value * 1, cameraData)
       close()
     }
   } catch (error) {
