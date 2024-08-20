@@ -113,8 +113,9 @@ const orderList = ref([
 const orderGuild = () => {
   console.log('🍎')
 }
-const googin = () => {
-  routeTo({ url: '/pages/login/login' })
+
+const acton = () => {
+  toast.show('功能开发中，敬请期待!...')
 }
 </script>
 
@@ -162,7 +163,7 @@ const googin = () => {
             <view class="font-bold color-#fff">未登录</view>
           </view>
         </template>
-        <view class="qiandao text-center line-height-32px color-#fff font-size-14px">
+        <view class="qiandao text-center line-height-32px color-#fff font-size-14px" @click="acton">
           <wd-icon name="add-circle" />
           签到
         </view>
@@ -186,7 +187,12 @@ const googin = () => {
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
       <dy-title title="我的订单" more @moreClick="orderGuild"></dy-title>
       <view class="pt-20px flex justify-between">
-        <view v-for="(item, index) in orderList" :key="index" class="w-20% text-center">
+        <view
+          v-for="(item, index) in orderList"
+          :key="index"
+          class="w-20% text-center"
+          @click="acton"
+        >
           <image class="size-22px" :src="item.icon" />
           <view class="text-12px mt-10px">{{ item.title }}</view>
         </view>
@@ -201,7 +207,7 @@ const googin = () => {
           v-for="(item, index) in serveList"
           :key="index"
           class="w-24% text-center mb-20px pt-10px"
-          @click="googin"
+          @click="acton"
         >
           <image class="size-26px" :src="item.icon" />
           <view class="text-12px mt-10px">{{ item.title }}</view>
