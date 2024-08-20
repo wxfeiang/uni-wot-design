@@ -10,6 +10,8 @@ const CARDCHECK_INFO = baseUrlApi('/card/app/getCardcheckInfo')
 
 const CARD_FIRST_APPLICATION = baseUrlApi('/card/app/cardFirstApplication')
 
+const CARD_FIRST_DBR_APPLICATION = baseUrlApi('/card/app/cardFirstDbrApplication')
+
 const UPLOAD_PHOTO = baseUrlApi('/card/app/uploadPhoto')
 
 const SERVICE_PASSWORD_RESET = baseUrlApi('/card/app/getServicePasswordReset')
@@ -89,6 +91,17 @@ export function uploadPhoneInfo(data) {
 export function cardFirstApplication(data) {
   return request.Post(
     CARD_FIRST_APPLICATION, // 请求地址
+    data,
+  )
+}
+
+/**
+ *  社会保障卡首次申请(加代办人)（支持永居证）
+ * @param params 初始参数()
+ * */
+export function cardFirstDbrApplication(data) {
+  return request.Post(
+    CARD_FIRST_DBR_APPLICATION, // 请求地址
     data,
   )
 }

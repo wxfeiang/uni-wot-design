@@ -10,8 +10,9 @@
 
 <script lang="ts" setup>
 import CardApply from './components/CardApply.vue'
-
 import CardBhk from './components/CardBhk.vue'
+import CardJuvenApply from './components/CardJuvenApply.vue'
+
 const navTitle = ref('')
 function handleClickLeft() {
   uni.navigateBack()
@@ -44,6 +45,8 @@ onLoad((options: any) => {
     <Card-Apply v-if="baseCon === 'shebaoksl'" />
     <!-- 补卡换卡 -->
     <Card-Bhk v-if="baseCon === 'shebaokbh'" />
+    <!-- 未成年人申领 -->
+    <Card-Juven-Apply v-if="baseCon === 'xinshenersl'" />
   </view>
 </template>
 
