@@ -16,15 +16,21 @@ export const useBaseStore = defineStore(
       photo: {} as CameraData, // 人脸
       idCardFront: {} as CameraData, // 身份正面
       idCardBackPhoto: {} as CameraData, // 身份反面
+      dbrCardFront: {} as CameraData, // 代办人身份正面
+      dbrdBackPhoto: {} as CameraData, // 代办人身份反面
     })
 
     const setCameraData = (photoType, val) => {
-      if (photoType === '0') {
+      if (photoType === 0) {
         cameraData.value.photo = val
-      } else if (photoType * 1 === 1) {
+      } else if (photoType === 1) {
         cameraData.value.idCardFront = val
-      } else if (photoType * 1 === 2) {
+      } else if (photoType === 2) {
         cameraData.value.idCardBackPhoto = val
+      } else if (photoType === 3) {
+        cameraData.value.dbrCardFront = val
+      } else if (photoType === 4) {
+        cameraData.value.dbrdBackPhoto = val
       }
     }
     const clearCameraData = () => {
@@ -32,6 +38,8 @@ export const useBaseStore = defineStore(
         photo: {} as CameraData, // 人脸
         idCardFront: {} as CameraData, // 身份正面
         idCardBackPhoto: {} as CameraData, // 身份反面
+        dbrCardFront: {} as CameraData, // 代办人身份正面
+        dbrdBackPhoto: {} as CameraData, // 代办人身份反面
       }
     }
 

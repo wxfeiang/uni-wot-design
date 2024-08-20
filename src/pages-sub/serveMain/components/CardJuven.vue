@@ -14,7 +14,7 @@ import {
   sexList,
 } from '../types/dict'
 
-import { useBaseStore, useUserStore, useDbrBaseStore } from '@/store'
+import { useBaseStore, useDbrBaseStore, useUserStore } from '@/store'
 import { changeDict, routeTo } from '@/utils'
 import card1 from '../static/images/idCard1.jpg'
 import card2 from '../static/images/idCard2.jpg'
@@ -49,10 +49,10 @@ watch(
 )
 
 const current = ref('1')
-async function upload(photoType: string, type: string) {
+async function upload(photoType: string, type: string, camerType?: number) {
   routeTo({
     url: '/pages-sub/serveMain/OcrCamera',
-    data: { photoType, type, zjhm: userInfo.idCardNumber },
+    data: { photoType, type, zjhm: userInfo.idCardNumber, camerType },
   })
 }
 
@@ -91,19 +91,19 @@ onShow(() => {
   }
 
   console.log('🥧+dbrCameraData', dbrCameraData)
-  if (dbrCameraData.idCardFront.id) {
-    dbrCardUrl.value = dbrCameraData.idCardFront.url
-    model.value.dbrIdCardFrontPhotoId = dbrCameraData.idCardFront.id
+  if (cameraData.idCardFront.id) {
+    dbrCardUrl.value = cameraData.dbrCardFront.url
+    model.value.dbrIdCardFrontPhotoId = cameraData.dbrCardFront.id
 
-    const { words_result: wordsResult }: any = dbrCameraData.idCardFront.data
+    const { words_result: wordsResult }: any = cameraData.dbrCardFront.data
     model.value.dbrName = wordsResult['姓名'].words
     model.value.dbrZjhm = wordsResult['公民身份号码'].words
     model.value.dbrSex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
     model.value.dbrAddress = wordsResult['住址'].words
   }
-  if (dbrCameraData.idCardBackPhoto.id) {
-    dbrCardUrl2.value = dbrCameraData.idCardBackPhoto.url
-    model.value.dbrIdCardBackPhotoId = dbrCameraData.idCardBackPhoto.id
+  if (cameraData.idCardBackPhoto.id) {
+    dbrCardUrl2.value = cameraData.dbrdBackPhoto.url
+    model.value.dbrIdCardBackPhotoId = cameraData.dbrdBackPhoto.id
   }
 })
 
@@ -200,7 +200,7 @@ function btnClick3(item) {
           <view>
             <view
               class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('1', '1')"
+              @click="upload('1', '1', 3)"
             >
               <view
                 v-if="loadingPhoto && current === '1'"
@@ -221,7 +221,7 @@ function btnClick3(item) {
           <view>
             <view
               class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('2', '1')"
+              @click="upload('2', '1', 4)"
             >
               <view
                 v-if="loadingPhoto && current === '2'"

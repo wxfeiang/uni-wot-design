@@ -12,7 +12,6 @@ import { useBaseStore } from '@/store'
 import { pathToBase64 } from 'image-tools'
 import { useToast } from 'wot-design-uni'
 import useCardBhk from './hooks/useCardBhk'
-import { getBase64ImageSize } from './hooks/useUpload'
 import card0 from './static/images/Card0.png'
 import card1 from './static/images/Card1.png'
 import card2 from './static/images/Card2.png'
@@ -43,20 +42,21 @@ const dataList = ref([
   },
 ])
 
-const emit = defineEmits(['getImgPath', 'colseCamera'])
 const currentParams = ref(null)
+const camerType = ref<number>()
 const currData = ref()
 onLoad((options: any) => {
-  console.log('🥑============')
-  const { photoType } = options
-  console.log('🍵[photoType]:', photoType)
+  console.log('🥩[options]:', options)
+  const { photoType, camerType: opcamerType } = options
 
   currData.value = dataList.value.find((item) => {
     return item.imgType === photoType * 1
   })
+  camerType.value = opcamerType || photoType * 1
   currentParams.value = {
     ...options,
   }
+  console.log('🍵[photoType]:', currentParams.value, photoType)
 })
 const imgData = ref<any>(null)
 onMounted(() => {
@@ -167,17 +167,17 @@ const takePhoto = () => {
   cameraContext.value.takePhoto({
     quality: 'high',
     success: (res) => {
-      console.log('🥦[res]:', res)
       const quality = 50
       uni.compressImage({
         src: res.tempImagePath,
         quality, // 压缩比例
         success: async (ress: any) => {
-          if (currData.value.imgType === 0) {
-            loadTempImagePath(ress.tempFilePath)
-          } else {
-            upload(ress.tempFilePath)
-          }
+          // if (currData.value.imgType === 0) {
+          //   loadTempImagePath(ress.tempFilePath)
+          // } else {
+          //   upload(ress.tempFilePath)
+          // }
+          upload(ress.tempFilePath)
         },
         fail: (err) => {
           console.log('🍚[err]:', err)
@@ -200,7 +200,8 @@ const chooseImage = () => {
     sizeType: ['original', 'compressed'],
     sourceType: ['album'],
     success: (res) => {
-      loadTempImagePath(res.tempFilePaths[0])
+      // loadTempImagePath(res.tempFilePaths[0])
+      upload(res.tempFilePaths[0])
     },
     fail: (err) => {
       console.log('相册选取失败', err)
@@ -213,7 +214,6 @@ async function upload(ress) {
   console.log('🍢[ress]:', ress)
   const photoBase64 = await pathToBase64(ress)
   toast.loading('正在上传中...')
-  const size = getBase64ImageSize(photoBase64)
   const formData = {
     ...currentParams.value,
     zjhm: '210204199207215655',
@@ -232,7 +232,7 @@ async function upload(ress) {
         id: resData.data.data.id,
         data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
       }
-      setCameraData(currData.value.imgType, cameraData)
+      setCameraData(camerType.value, cameraData)
       close()
     }
   } catch (error) {
