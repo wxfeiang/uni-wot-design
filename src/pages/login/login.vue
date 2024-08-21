@@ -184,9 +184,6 @@ function tabChange(event) {
   @apply bg-transparent!;
 }
 :deep(.wd-tabs__nav-item.is-active) {
-  @apply color-#fff!;
-}
-:deep(.wd-tabs__line) {
-  @apply hidden!;
+  @apply color-#fff !important;
 }
 </style>
