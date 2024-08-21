@@ -178,7 +178,7 @@ export function personInfoChange(data) {
  *  社保卡启用
  * @param params 初始参数()
  * */
-export function cardSocialActive(data) {
+export function cardSocialStart(data) {
   return request.Post(
     SOCIAL_SECARD_ACTIVE, // 请求地址
     data,

@@ -120,49 +120,50 @@ const acton = () => {
 </script>
 
 <template>
-  <!-- 顶部 backgroundImage: url(${imgUrl}) -->
   <view
     class="py-10px imgUrl"
     :style="`padding-top:${navtop}px ;background-image: url(${bgUrlBase64})`"
   >
     <view class="px-10px">
       <view class="flex justify-between items-center">
-        <template v-if="isLogined">
-          <view class="flex gap-20px items-center">
-            <view>
-              <view class="p-5px rounded-50% size-64px">
-                <wd-img :width="70" :height="70" :src="anvter" round />
+        <view class="flex items-center gap-20px">
+          <template v-if="isLogined">
+            <view class="flex gap-20px items-center">
+              <view>
+                <view class="p-5px rounded-50% size-64px">
+                  <wd-img :width="70" :height="70" :src="anvter" round />
+                </view>
+                <view
+                  v-if="isLogined"
+                  :style="` background-image: url(${applyBase64})`"
+                  class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
+                >
+                  {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
+                </view>
               </view>
-              <view
-                v-if="isLogined"
-                :style="` background-image: url(${applyBase64})`"
-                class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
-              >
-                {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
+              <view>
+                <view class="font-size-20px font-medium">
+                  {{ isLogined ? userInfo.userName : '未登录' }}
+                </view>
+                <view
+                  v-if="isLogined"
+                  :style="`background-image: url(${vipbgBase64})`"
+                  class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
+                >
+                  普通会员
+                </view>
               </view>
             </view>
-            <view>
-              <view class="font-size-20px font-medium">
-                {{ isLogined ? userInfo.userName : '未登录' }}
-              </view>
-              <view
-                v-if="isLogined"
-                :style="`background-image: url(${vipbgBase64})`"
-                class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
-              >
-                普通会员
-              </view>
+          </template>
+          <template v-else>
+            <view class="p-5px bg-#fff rounded-50% size-70px">
+              <wd-img :width="70" :height="70" :src="anvter" round />
             </view>
-          </view>
-        </template>
-        <template v-else>
-          <view class="p-5px bg-#fff rounded-50% size-70px">
-            <wd-img :width="70" :height="70" :src="anvter" round />
-          </view>
-          <view @click="login" class="flex gap-15px">
-            <view class="font-bold color-#fff">未登录</view>
-          </view>
-        </template>
+            <view @click="login" class="flex gap-15px">
+              <view class="font-bold color-#fff">未登录</view>
+            </view>
+          </template>
+        </view>
         <view class="qiandao text-center line-height-32px color-#fff font-size-14px" @click="acton">
           <wd-icon name="add-circle" />
           签到
@@ -215,25 +216,6 @@ const acton = () => {
       </view>
     </view>
   </view>
-
-  <!-- <view class="p-10px bg-#f5f5f5">
-    <view class="rounded-10px overflow-hidden">
-      <wd-cell-group border>
-        <template v-for="(item, index) in setInfo" :key="index">
-          <wd-cell :title="item.name" is-link>
-            <template #icon v-if="item.icon">
-              <view class="mr-10px">
-                <wd-icon name="setting1" size="22px" color="#4689fd"></wd-icon>
-              </view>
-            </template>
-            <view class="color-#999">
-              {{ item.rightValue }}
-            </view>
-          </wd-cell>
-        </template>
-      </wd-cell-group>
-    </view>
-  </view> -->
 
   <view class="bottom-10 left-0 right-0 mt-10px">
     <view class="px-10" v-if="isLogined">

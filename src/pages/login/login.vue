@@ -7,19 +7,19 @@
 }
 </route>
 <script lang="ts" setup>
-import bg1 from '@/static/images/login/bg1.png'
-import bg2 from '@/static/images/login/bg2.png'
+import bg0 from '@/static/images/login/bg1.png'
+import bg1 from '@/static/images/login/bg2.png'
 import logo from '@/static/images/login/logo.png'
 import topbg from '@/static/images/login/topbg.png'
 import { pathToBase64 } from 'image-tools'
 import useLogin from './utils/useLogin'
 
-const { Login, model, rules, read } = useLogin()
+const { Login, model, rules, read, model2, getCodeUrl, codeflog } = useLogin()
 const form = ref(null)
 
 const topbgBase64 = ref('')
+const bg0Base64 = ref('')
 const bg1Base64 = ref('')
-const bg2Base64 = ref('')
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const navtop = ref(0)
@@ -28,8 +28,8 @@ navtop.value = safeAreaInsets.top + 44
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(topbg)
+  bg0Base64.value = await pathToBase64(bg0)
   bg1Base64.value = await pathToBase64(bg1)
-  bg2Base64.value = await pathToBase64(bg2)
 })
 const otherLogins = ref([
   {
@@ -42,16 +42,19 @@ const otherLogins = ref([
     name: 'QQ',
     color: '#4980ff',
   },
-  {
-    icon: 'i-carbon:email',
-    name: '邮箱',
-    color: '#e6162d',
-  },
 ])
 const bTitle = ref('欢迎登录雄安一卡通')
 const sTitle = ref('一卡在手，生活无忧')
 
+const tbBg = ref(bg0)
 const tab = ref<number>(0)
+function tabChange(event) {
+  if (event.index === 0) {
+    tbBg.value = bg0
+  } else {
+    tbBg.value = bg1
+  }
+}
 </script>
 <template>
   <view
@@ -66,8 +69,8 @@ const tab = ref<number>(0)
       <view class="font-size-14px mt-10px font-normal">{{ sTitle }}</view>
     </view>
   </view>
-  <view class="h-500px bg-cover mt-[-50px]" :style="`background-image: url(${bg1Base64})`">
-    <wd-tabs v-model="tab" custom-class="custom-class-tab">
+  <view class="h-500px bg-cover mt-[-50px]" :style="`background-image: url(${tbBg})`">
+    <wd-tabs v-model="tab" custom-class="custom-class-tab" @change="tabChange">
       <wd-tab title="身份证登录">
         <view class="px-30px pt-20px">
           <wd-form ref="form" :model="model">
@@ -76,18 +79,17 @@ const tab = ref<number>(0)
               <wd-input
                 type="text"
                 v-model="model.username"
-                placeholder="请输入手机号/邮箱"
+                placeholder="请输入姓名"
                 :rules="rules.username"
                 prop="username"
               />
             </view>
             <view class="py-2 mb-5">
-              <view class="my-5px color-#000000">身份证</view>
+              <view class="my-5px color-#000000">身份证号</view>
               <wd-input
                 type="text"
                 v-model="model.password"
-                show-password
-                placeholder="请输入密码"
+                placeholder="请输入身份证号"
                 :rules="rules.password"
                 prop="password"
               />
@@ -100,8 +102,8 @@ const tab = ref<number>(0)
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
+                    <text class="color-#336EFD">《隐私政策》</text>
+                    <text class="color-#336EFD">《用户协议》</text>
                   </wd-checkbox>
                 </view>
               </view>
@@ -111,13 +113,13 @@ const tab = ref<number>(0)
       </wd-tab>
       <wd-tab title="验证码登录">
         <view class="px-30px pt-20px">
-          <wd-form ref="form" :model="model">
+          <wd-form ref="form" :model="model2">
             <view class="py-10px mb-2">
               <view class="my-5px color-#000000">手机号</view>
               <wd-input
                 type="text"
-                v-model="model.username"
-                placeholder="请输入手机号/邮箱"
+                v-model="model2.username"
+                placeholder="请输入手机号"
                 :rules="rules.username"
                 prop="username"
               />
@@ -126,23 +128,39 @@ const tab = ref<number>(0)
               <view class="my-5px color-#000000">验证码</view>
               <wd-input
                 type="text"
-                v-model="model.password"
-                show-password
+                v-model="model2.co"
                 placeholder="请输入验证码"
+                :rules="rules.co"
+                use-suffix-slot
+                prop="co"
+                :maxlength="4"
+              >
+                <template #suffix>
+                  <dy-verify />
+                </template>
+              </wd-input>
+            </view>
+
+            <view class="py-2 mb-5">
+              <view class="my-5px color-#000000">手机验证码</view>
+              <wd-input
+                type="text"
+                v-model="model2.password"
+                placeholder="请输入手机验证码"
                 :rules="rules.password"
                 prop="password"
+                :maxlength="6"
               />
             </view>
 
             <view>
               <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
-
               <view class="mt-10px">
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
+                    <text class="color-#336EFD">《隐私政策》</text>
+                    <text class="color-#336EFD">《用户协议》</text>
                   </wd-checkbox>
                 </view>
               </view>
@@ -177,5 +195,8 @@ const tab = ref<number>(0)
 }
 :deep(.wd-tabs__nav-item.is-active) {
   @apply color-#fff !important;
+}
+:deep(.wd-input) {
+  @apply bg-transparent;
 }
 </style>
