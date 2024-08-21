@@ -7,8 +7,8 @@
 }
 </route>
 <script lang="ts" setup>
-import bg1 from '@/static/images/login/bg1.png'
-import bg2 from '@/static/images/login/bg2.png'
+import bg0 from '@/static/images/login/bg1.png'
+import bg1 from '@/static/images/login/bg2.png'
 import logo from '@/static/images/login/logo.png'
 import topbg from '@/static/images/login/topbg.png'
 import { pathToBase64 } from 'image-tools'
@@ -18,8 +18,8 @@ const { Login, model, rules, read } = useLogin()
 const form = ref(null)
 
 const topbgBase64 = ref('')
+const bg0Base64 = ref('')
 const bg1Base64 = ref('')
-const bg2Base64 = ref('')
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const navtop = ref(0)
@@ -28,8 +28,8 @@ navtop.value = safeAreaInsets.top + 44
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(topbg)
+  bg0Base64.value = await pathToBase64(bg0)
   bg1Base64.value = await pathToBase64(bg1)
-  bg2Base64.value = await pathToBase64(bg2)
 })
 const otherLogins = ref([
   {
@@ -51,7 +51,15 @@ const otherLogins = ref([
 const bTitle = ref('欢迎登录雄安一卡通')
 const sTitle = ref('一卡在手，生活无忧')
 
+const tbBg = ref(bg0)
 const tab = ref<number>(0)
+function tabChange(event) {
+  if (event.index === 0) {
+    tbBg.value = bg0
+  } else {
+    tbBg.value = bg1
+  }
+}
 </script>
 <template>
   <view
@@ -66,8 +74,8 @@ const tab = ref<number>(0)
       <view class="font-size-14px mt-10px font-normal">{{ sTitle }}</view>
     </view>
   </view>
-  <view class="h-500px bg-cover mt-[-50px]" :style="`background-image: url(${bg1Base64})`">
-    <wd-tabs v-model="tab" custom-class="custom-class-tab">
+  <view class="h-500px bg-cover mt-[-50px]" :style="`background-image: url(${tbBg})`">
+    <wd-tabs v-model="tab" custom-class="custom-class-tab" @change="tabChange">
       <wd-tab title="身份证登录">
         <view class="px-30px pt-20px">
           <wd-form ref="form" :model="model">
@@ -176,6 +184,9 @@ const tab = ref<number>(0)
   @apply bg-transparent!;
 }
 :deep(.wd-tabs__nav-item.is-active) {
-  @apply color-#fff!important;
+  @apply color-#fff!;
+}
+:deep(.wd-tabs__line) {
+  @apply hidden!;
 }
 </style>

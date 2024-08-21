@@ -127,42 +127,44 @@ const acton = () => {
   >
     <view class="px-10px">
       <view class="flex justify-between items-center">
-        <template v-if="isLogined">
-          <view class="flex gap-20px items-center">
-            <view>
-              <view class="p-5px rounded-50% size-64px">
-                <wd-img :width="70" :height="70" :src="anvter" round />
+        <view class="flex items-center">
+          <template v-if="isLogined">
+            <view class="flex gap-20px items-center">
+              <view>
+                <view class="p-5px rounded-50% size-64px">
+                  <wd-img :width="70" :height="70" :src="anvter" round />
+                </view>
+                <view
+                  v-if="isLogined"
+                  :style="` background-image: url(${applyBase64})`"
+                  class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
+                >
+                  {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
+                </view>
               </view>
-              <view
-                v-if="isLogined"
-                :style="` background-image: url(${applyBase64})`"
-                class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
-              >
-                {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
+              <view>
+                <view class="font-size-20px font-medium">
+                  {{ isLogined ? userInfo.userName : '未登录' }}
+                </view>
+                <view
+                  v-if="isLogined"
+                  :style="`background-image: url(${vipbgBase64})`"
+                  class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
+                >
+                  普通会员
+                </view>
               </view>
             </view>
-            <view>
-              <view class="font-size-20px font-medium">
-                {{ isLogined ? userInfo.userName : '未登录' }}
-              </view>
-              <view
-                v-if="isLogined"
-                :style="`background-image: url(${vipbgBase64})`"
-                class="w-53px h-18px font-size-10px color-#c75008 text-center line-height-20px bg mt-10px pl-10px"
-              >
-                普通会员
-              </view>
+          </template>
+          <template v-else>
+            <view class="p-5px bg-#fff rounded-50% size-70px">
+              <wd-img :width="70" :height="70" :src="anvter" round />
             </view>
-          </view>
-        </template>
-        <template v-else>
-          <view class="p-5px bg-#fff rounded-50% size-70px">
-            <wd-img :width="70" :height="70" :src="anvter" round />
-          </view>
-          <view @click="login" class="flex gap-15px">
-            <view class="font-bold color-#fff">未登录</view>
-          </view>
-        </template>
+            <view @click="login" class="flex gap-15px">
+              <view class="font-bold color-#fff">未登录</view>
+            </view>
+          </template>
+        </view>
         <view class="qiandao text-center line-height-32px color-#fff font-size-14px" @click="acton">
           <wd-icon name="add-circle" />
           签到
