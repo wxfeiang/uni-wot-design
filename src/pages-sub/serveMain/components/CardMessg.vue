@@ -140,6 +140,9 @@ onMounted(async () => {
     console.log('🧀[error]:', error)
   }
 })
+onUnmounted(() => {
+  cardInfoData.value = null
+})
 </script>
 <template>
   <view class="p-15px">

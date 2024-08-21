@@ -48,7 +48,7 @@ const data2 = ref([
     prop: 'date',
   },
 ])
-onLoad(() => {
+onUnmounted(() => {
   cardInfoData.value = null
 })
 const suMit1 = ref(true)
