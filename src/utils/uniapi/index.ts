@@ -86,3 +86,17 @@ export const startFacialRecognitionVerify = (data) => {
     })
   })
 }
+
+export const getLoginCode = () => {
+  // 获取登录凭证（code）
+  return new Promise((resolve, reject) => {
+    wx.login({
+      success: function (wxres) {
+        resolve(wxres.code)
+      },
+      fail: function (err) {
+        reject(err)
+      },
+    })
+  })
+}

@@ -8,7 +8,7 @@ const CONFIG = baseUrlApi('/captcha/config')
 const CODE = baseUrlApi('/captcha/getCode')
 const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
 const GETDOT = baseUrlApi('/captcha/getDot')
-const PHNECODE = baseUrlApi('/base/captchaImage')
+const PHNECODE = baseUrlApi('/member/app/sendVerificationCode')
 
 export const PRIVACY_UPLOAD = baseUrlApi('/system/file/minio/privacyUpload')
 export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
@@ -83,15 +83,13 @@ export function getCode(config: any) {
  * @return {}
  */
 export function getPhoneCode(data: any) {
-  const meta: METHOD_INSTANCE = {
-    ignoreSign: true,
-    ignorEencrypt: true,
-    ignorToken: true,
-  }
+  // const meta: METHOD_INSTANCE = {
+  //   ignoreSign: true,
+  //   ignorEencrypt: true,
+  //   ignorToken: true,
+  // }
 
-  return request.Post(PHNECODE, data, {
-    meta,
-  })
+  return request.Post(PHNECODE, data)
 }
 
 /**

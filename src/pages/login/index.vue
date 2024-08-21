@@ -18,9 +18,24 @@ import logo from '@/static/images/login/logo.png'
 import topbg from '@/static/images/login/topbg.png'
 import { pathToBase64 } from 'image-tools'
 import useLogin from './utils/useLogin'
-const { sendPhoneCode, countdown, sending } = usePhoneCode()
-const { Login, model, rules, read, model2, getCodeUrl, codeflog } = useLogin()
+
+const {
+  Login,
+  model,
+  rules,
+  read,
+  model2,
+  rules2,
+  getCodeUrl,
+  codeflog,
+  submitPhoneCode,
+  countdown,
+  sending,
+  submitPhoneLogin,
+  getphonenumber,
+} = useLogin()
 const form = ref(null)
+const form2 = ref(null)
 
 const topbgBase64 = ref('')
 const bg0Base64 = ref('')
@@ -104,7 +119,7 @@ function tabChange(event) {
             <view>
               <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
 
-              <view class="mt-10px">
+              <view class="mt-15px">
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
@@ -119,26 +134,26 @@ function tabChange(event) {
       </wd-tab>
       <wd-tab title="验证码登录">
         <view class="px-30px pt-20px">
-          <wd-form ref="form" :model="model2">
+          <wd-form ref="form2" :model="model2">
             <view class="py-10px mb-2">
               <view class="my-5px color-#000000">手机号</view>
               <wd-input
                 type="text"
-                v-model="model2.username"
+                v-model="model2.phone"
                 placeholder="请输入手机号"
-                :rules="rules.username"
-                prop="username"
+                :rules="rules2.phone"
+                prop="phone"
               />
             </view>
-            <view class="py-2 mb-5">
+            <view class="py-2 mb-2">
               <view class="my-5px color-#000000">验证码</view>
               <wd-input
                 type="text"
-                v-model="model2.co"
+                v-model="model2.imgcode"
                 placeholder="请输入验证码"
-                :rules="rules.co"
+                :rules="rules2.imgcode"
                 use-suffix-slot
-                prop="co"
+                prop="imgcode"
                 :maxlength="4"
               >
                 <template #suffix>
@@ -147,14 +162,14 @@ function tabChange(event) {
               </wd-input>
             </view>
 
-            <view class="py-2 mb-5">
-              <view class="my-5px color-#000000">手机验证码</view>
+            <view class="py-2 mb-2">
+              <view class="my-5px color-#000000">短信验证码</view>
               <wd-input
                 type="text"
-                v-model="model2.password"
-                placeholder="请输入手机验证码"
-                :rules="rules.password"
-                prop="password"
+                v-model="model2.code"
+                placeholder="请输入短信验证码"
+                :rules="rules2.code"
+                prop="code"
                 :maxlength="6"
               >
                 <template #suffix>
@@ -163,7 +178,7 @@ function tabChange(event) {
                     plain
                     custom-class="button"
                     :round="false"
-                    @click="sendPhoneCode"
+                    @click="submitPhoneCode(form2)"
                     :loading="sending"
                     :disabled="sending || countdown > 0"
                   >
@@ -176,8 +191,10 @@ function tabChange(event) {
             </view>
 
             <view>
-              <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
-              <view class="mt-10px">
+              <wd-button type="primary" size="medium" @click="submitPhoneLogin(form2)" block>
+                登 录
+              </wd-button>
+              <view class="mt-15px">
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
@@ -195,12 +212,15 @@ function tabChange(event) {
     <view class="fixed bottom-60px left-0 right-0">
       <wd-divider>更多登录方式</wd-divider>
       <view class="flex justify-center items-center mt-20px gap-10px">
-        <view
+        <!-- <view
           v-for="(item, index) in otherLogins"
           :key="index"
           :class="item.icon"
           class="color-#336EFD font-size-20px"
-        />
+        /> -->
+        <wd-button type="text" open-type="getPhoneNumber" @getphonenumber="getphonenumber">
+          <view class="i-carbon:logo-wechat color-#336EFD font-size-20px" />
+        </wd-button>
       </view>
     </view>
   </view>
@@ -220,5 +240,8 @@ function tabChange(event) {
 }
 :deep(.wd-input) {
   @apply bg-transparent!;
+}
+:deep(.wd-tabs__line) {
+  @apply hidden!;
 }
 </style>

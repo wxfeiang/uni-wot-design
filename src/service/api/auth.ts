@@ -11,6 +11,9 @@ const FACE_LOGIN_OUT = baseUrlApi('/captcha/faceLoginOut')
 
 const USER_ID_KEY = baseUrlApi('/user/app/getUserIdKey')
 const GET_INFO = baseUrlApi('/user/app/getInfo')
+const ADD_XCX_USER_DETAIL = baseUrlApi('/member/app/addXcxUserDetail')
+const ADD_XCX_USER_DETAIL_WXV = baseUrlApi('/member/app/addXcxUserDetailWx')
+const GET_USER_OPEN_ID_BY_CODE = baseUrlApi('/member/app/getUserOpenIdByCode')
 
 /**
  * 获取 人脸识别Key
@@ -42,6 +45,38 @@ export function getUserInfo(data) {
 export function faceLogin(data) {
   return request.Post(
     FACE_LOGIN, // 地址
+    data,
+  )
+}
+
+/**
+ * 手机登录
+ * @param params 初始参数()
+ * */
+export function phoneLogin(data) {
+  return request.Post(
+    ADD_XCX_USER_DETAIL, // 地址
+    data,
+  )
+}
+/**
+ * 登录凭证
+ * @param params 初始参数()
+ * */
+export function openIdCode(data) {
+  return request.Post(
+    GET_USER_OPEN_ID_BY_CODE, // 地址
+    data,
+  )
+}
+
+/**
+ * 微信快捷
+ * @param params 初始参数()
+ * */
+export function phoneChartLogin(data) {
+  return request.Post(
+    ADD_XCX_USER_DETAIL_WXV, // 地址
     data,
   )
 }
