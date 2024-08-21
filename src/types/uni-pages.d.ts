@@ -7,7 +7,7 @@ interface NavigateToOptions {
   url: "/pages/index/index" |
        "/pages/about/about" |
        "/pages/login/index" |
-       "/pages/login/login" |
+       "/pages/login/login2" |
        "/pages/mine/index" |
        "/pages/serve/index" |
        "/pages/shop/index" |
@@ -20,7 +20,8 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/workGuide/index" |
-       "/pages-sub/webView/index";
+       "/pages-sub/webView/index" |
+       "/pages-sub/system/sysconfig/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
