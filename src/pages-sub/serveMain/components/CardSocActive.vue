@@ -1,13 +1,45 @@
 <script lang="ts" setup>
 import cardSocialActive from '../hooks/cardSocialActive'
-const { submitCardSocialActive, model, rules, loading } = cardSocialActive()
-
+import { useMessage } from 'wot-design-uni'
+import { cardSocialStart } from '@/service/api/cardServe'
+import { useRequest } from 'alova/client'
+const message = useMessage()
+const { model, rules } = cardSocialActive()
 const form = ref(null)
 
 const visible = ref<boolean>(false)
 
 function showKeyBoard() {
   visible.value = true
+}
+// 社保卡启用
+const { loading, send: sendsocialsecardActive } = useRequest((data) => cardSocialStart(data), {
+  immediate: false,
+  loading: false,
+})
+
+const submitCardSocialActive = (form) => {
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        console.log(model)
+        const data: any = await sendsocialsecardActive(model.value)
+        console.log('==========message' + data.message)
+        if (data.data === '成功') {
+          message.alert('社保卡启用成功').then(() => {
+            uni.navigateBack()
+          })
+        } else if (data.data !== '成功') {
+          message.alert(data.message).then(() => {
+            uni.navigateBack()
+          })
+        }
+      } catch (error) {
+        console.log(error)
+        console.log('数据校验失败')
+      }
+    }
+  })
 }
 </script>
 <template>
@@ -82,6 +114,7 @@ function showKeyBoard() {
       </wd-button>
     </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {

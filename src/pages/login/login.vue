@@ -176,6 +176,6 @@ const tab = ref<number>(0)
   @apply bg-transparent!;
 }
 :deep(.wd-tabs__nav-item.is-active) {
-  @apply color-#fff!important;
+  @apply color-#fff !important;
 }
 </style>
