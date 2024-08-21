@@ -237,6 +237,15 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "sysconfig/setting",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     }

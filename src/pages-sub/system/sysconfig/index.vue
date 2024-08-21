@@ -9,37 +9,48 @@
 </route>
 
 <script lang="ts" setup>
+import { routeTo } from '@/utils'
 import about from './static/images/about.png'
 import shezhi from './static/images/shezhi.png'
 import yinsi from './static/images/yinsi.png'
 import yonghu from './static/images/yonghu.png'
 const setInfo = ref([
   {
-    name: '设置',
+    name: '设置小程序免密登录',
     icon: shezhi,
-    value: '设置小程序免密登录',
     islink: true,
+    url: '/pages-sub/system/sysconfig/setting',
   },
   {
-    name: '设置',
+    name: '隐私政策',
     icon: yinsi,
-    value: '隐私政策',
     islink: true,
+    articleId: '111',
+    url: '/pages-sub/webView/index',
   },
 
   {
-    name: '设置',
+    name: '用户',
     icon: yonghu,
-    value: '用户',
     islink: true,
+    articleId: '111',
+    url: '/pages-sub/webView/index',
   },
   {
-    name: '设置',
+    name: '关于我们',
     icon: about,
-    value: '关于我们',
+    value: 'v1.0.0',
     islink: false,
   },
 ])
+const itemClick = (item: any) => {
+  if (item.islink) {
+    routeTo({
+      url: item.url,
+      data: { type: item.articleId },
+    })
+  }
+}
 </script>
 
 <template>
@@ -47,17 +58,21 @@ const setInfo = ref([
     <view class="rounded-10px overflow-hidden">
       <wd-cell-group border>
         <template v-for="(item, index) in setInfo" :key="index">
-          <wd-cell :title="item.name" :is-link="item.islink">
+          <wd-cell :title="item.name" :is-link="item.islink" clickable @click="itemClick(item)">
             <template #icon v-if="item.icon">
               <view class="mr-10px">
-                <wd-img width="48" height="48" :src="item.icon"></wd-img>
+                <wd-img width="24" height="24" :src="item.icon"></wd-img>
               </view>
             </template>
-            <template #label v-if="item.name">
+            <template #title v-if="item.name">
               <view class="color-#999">
                 {{ item.name }}
               </view>
             </template>
+
+            <view class="color-#999" v-if="item.value">
+              {{ item.value }}
+            </view>
           </wd-cell>
         </template>
       </wd-cell-group>

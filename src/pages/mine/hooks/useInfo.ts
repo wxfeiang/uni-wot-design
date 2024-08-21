@@ -64,6 +64,7 @@ const serveList = ref([
   {
     title: '设置',
     icon: shezhi,
+    url: '/pages-sub/system/sysconfig/index',
   },
 
   {

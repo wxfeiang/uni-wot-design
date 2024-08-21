@@ -114,8 +114,12 @@ const orderGuild = () => {
   console.log('🍎')
 }
 
-const acton = () => {
-  toast.show('功能开发中，敬请期待!...')
+const acton = (item) => {
+  if (item.url) {
+    routeTo({ url: '/pages-sub/system/sysconfig/index' })
+  } else {
+    toast.show('功能开发中，敬请期待!...')
+  }
 }
 </script>
 
@@ -208,7 +212,7 @@ const acton = () => {
           v-for="(item, index) in serveList"
           :key="index"
           class="w-24% text-center mb-20px pt-10px"
-          @click="acton"
+          @click="acton(item)"
         >
           <image class="size-26px" :src="item.icon" />
           <view class="text-12px mt-10px">{{ item.title }}</view>

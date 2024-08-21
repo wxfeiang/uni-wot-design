@@ -21,7 +21,8 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
-       "/pages-sub/system/sysconfig/index";
+       "/pages-sub/system/sysconfig/index" |
+       "/pages-sub/system/sysconfig/setting";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
