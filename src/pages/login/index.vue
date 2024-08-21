@@ -109,7 +109,6 @@ function handleClickLeft() {
 
 <style lang="scss" scoped>
 .top {
-  // background: #3c63e2;
   @apply relative;
 }
 

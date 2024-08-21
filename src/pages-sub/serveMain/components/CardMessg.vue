@@ -19,7 +19,7 @@ interface dataType {
   options?: any[]
 }
 
-const { getCadInfo } = useCardMessage()
+const { getCadInfo, loading } = useCardMessage()
 
 const visible = ref<boolean>(false)
 
@@ -123,11 +123,19 @@ const data = ref<dataType[]>([
     options: socialSecurity,
   },
 ])
-const cardInfoData = ref(null)
+const cardInfoData = ref<any[]>([])
 onLoad(async () => {
   try {
     const res: any = await getCadInfo()
-    cardInfoData.value = res
+    Object.keys(res).forEach((key) => {
+      data.value.forEach((item) => {
+        if (item.prop === key) {
+          item.value = res[key]
+          cardInfoData.value.push(item)
+        }
+      })
+    })
+    console.log('🍢[res]:======>', cardInfoData.value)
   } catch (error) {
     console.log('🧀[error]:', error)
   }
@@ -135,19 +143,22 @@ onLoad(async () => {
 </script>
 <template>
   <view class="p-15px">
-    <!--     {{ cardInfoData }}-->
     <view class="rounded-10px overflow-hidden bg-#fff">
-      <wd-cell-group title="基本信息" border>
-        <wd-cell :title="item.title" border v-for="(item, index) in data" :key="index">
-          <!--  -->
-          <view v-if="item.type === 'dict'">
-            {{ changeDict(item.options, cardInfoData[item.prop]) }}
-          </view>
-          <view v-else>
-            {{ cardInfoData[item.prop] }}
-          </view>
-        </wd-cell>
-      </wd-cell-group>
+      <template v-if="cardInfoData.length === 0 && !loading">
+        <wd-status-tip image="search" tip="没有查询到该信息" />
+      </template>
+      <template v-else>
+        <wd-cell-group title="基本信息" border>
+          <wd-cell :title="item.title" border v-for="(item, index) in cardInfoData" :key="index">
+            <view v-if="item.type === 'dict'">
+              {{ changeDict(item.options, item.value) }}
+            </view>
+            <view v-else>
+              {{ item.value }}
+            </view>
+          </wd-cell>
+        </wd-cell-group>
+      </template>
     </view>
     <view class="mt-20px">
       <wd-button type="primary" :round="false" size="medium" @click="back" block>返 回</wd-button>

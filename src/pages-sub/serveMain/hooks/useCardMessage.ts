@@ -3,7 +3,11 @@ import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 const { userInfo } = useUserStore()
 // 卡基础信息
-const { send: getCadInfo, data: cardInfoData } = useRequest(
+const {
+  send: getCadInfo,
+  data: cardInfoData,
+  loading,
+} = useRequest(
   getCardBasicInfo({
     xm: userInfo.userName,
     zjhm: userInfo.idCardNumber,
@@ -17,5 +21,5 @@ const { send: getCadInfo, data: cardInfoData } = useRequest(
 )
 
 export default () => {
-  return { cardInfoData, getCadInfo }
+  return { cardInfoData, getCadInfo, loading }
 }

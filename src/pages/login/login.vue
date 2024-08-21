@@ -14,7 +14,7 @@ import topbg from '@/static/images/login/topbg.png'
 import { pathToBase64 } from 'image-tools'
 import useLogin from './utils/useLogin'
 
-const { Login, model, rules, read } = useLogin()
+const { Login, model, rules, read, model2, getCodeUrl, codeflog } = useLogin()
 const form = ref(null)
 
 const topbgBase64 = ref('')
@@ -41,11 +41,6 @@ const otherLogins = ref([
     icon: 'fa6-brands:qq',
     name: 'QQ',
     color: '#4980ff',
-  },
-  {
-    icon: 'i-carbon:email',
-    name: '邮箱',
-    color: '#e6162d',
   },
 ])
 const bTitle = ref('欢迎登录雄安一卡通')
@@ -84,18 +79,17 @@ function tabChange(event) {
               <wd-input
                 type="text"
                 v-model="model.username"
-                placeholder="请输入手机号/邮箱"
+                placeholder="请输入姓名"
                 :rules="rules.username"
                 prop="username"
               />
             </view>
             <view class="py-2 mb-5">
-              <view class="my-5px color-#000000">身份证</view>
+              <view class="my-5px color-#000000">身份证号</view>
               <wd-input
                 type="text"
                 v-model="model.password"
-                show-password
-                placeholder="请输入密码"
+                placeholder="请输入身份证号"
                 :rules="rules.password"
                 prop="password"
               />
@@ -108,8 +102,8 @@ function tabChange(event) {
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
+                    <text class="color-#336EFD">《隐私政策》</text>
+                    <text class="color-#336EFD">《用户协议》</text>
                   </wd-checkbox>
                 </view>
               </view>
@@ -119,13 +113,13 @@ function tabChange(event) {
       </wd-tab>
       <wd-tab title="验证码登录">
         <view class="px-30px pt-20px">
-          <wd-form ref="form" :model="model">
+          <wd-form ref="form" :model="model2">
             <view class="py-10px mb-2">
               <view class="my-5px color-#000000">手机号</view>
               <wd-input
                 type="text"
-                v-model="model.username"
-                placeholder="请输入手机号/邮箱"
+                v-model="model2.username"
+                placeholder="请输入手机号"
                 :rules="rules.username"
                 prop="username"
               />
@@ -134,23 +128,39 @@ function tabChange(event) {
               <view class="my-5px color-#000000">验证码</view>
               <wd-input
                 type="text"
-                v-model="model.password"
-                show-password
+                v-model="model2.co"
                 placeholder="请输入验证码"
+                :rules="rules.co"
+                use-suffix-slot
+                prop="co"
+                :maxlength="4"
+              >
+                <template #suffix>
+                  <dy-verify />
+                </template>
+              </wd-input>
+            </view>
+
+            <view class="py-2 mb-5">
+              <view class="my-5px color-#000000">手机验证码</view>
+              <wd-input
+                type="text"
+                v-model="model2.password"
+                placeholder="请输入手机验证码"
                 :rules="rules.password"
                 prop="password"
+                :maxlength="6"
               />
             </view>
 
             <view>
               <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
-
               <view class="mt-10px">
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
-                    <text class="color-#336EFD">《在线考试及相关授权》</text>
+                    <text class="color-#336EFD">《隐私政策》</text>
+                    <text class="color-#336EFD">《用户协议》</text>
                   </wd-checkbox>
                 </view>
               </view>
@@ -185,5 +195,8 @@ function tabChange(event) {
 }
 :deep(.wd-tabs__nav-item.is-active) {
   @apply color-#fff !important;
+}
+:deep(.wd-input) {
+  @apply bg-transparent;
 }
 </style>

@@ -259,7 +259,7 @@ function del() {
     <view class="box">
       <camera
         mode="normal"
-        :device-position="currData.devicePosition"
+        :device-position="currData!.devicePosition"
         flash="auto"
         class="facevideo"
         binderror="cameraError"

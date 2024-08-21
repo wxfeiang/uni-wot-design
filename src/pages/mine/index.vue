@@ -120,14 +120,13 @@ const acton = () => {
 </script>
 
 <template>
-  <!-- 顶部 backgroundImage: url(${imgUrl}) -->
   <view
     class="py-10px imgUrl"
     :style="`padding-top:${navtop}px ;background-image: url(${bgUrlBase64})`"
   >
     <view class="px-10px">
       <view class="flex justify-between items-center">
-        <view class="flex items-center">
+        <view class="flex items-center gap-20px">
           <template v-if="isLogined">
             <view class="flex gap-20px items-center">
               <view>
@@ -217,25 +216,6 @@ const acton = () => {
       </view>
     </view>
   </view>
-
-  <!-- <view class="p-10px bg-#f5f5f5">
-    <view class="rounded-10px overflow-hidden">
-      <wd-cell-group border>
-        <template v-for="(item, index) in setInfo" :key="index">
-          <wd-cell :title="item.name" is-link>
-            <template #icon v-if="item.icon">
-              <view class="mr-10px">
-                <wd-icon name="setting1" size="22px" color="#4689fd"></wd-icon>
-              </view>
-            </template>
-            <view class="color-#999">
-              {{ item.rightValue }}
-            </view>
-          </wd-cell>
-        </template>
-      </wd-cell-group>
-    </view>
-  </view> -->
 
   <view class="bottom-10 left-0 right-0 mt-10px">
     <view class="px-10" v-if="isLogined">
