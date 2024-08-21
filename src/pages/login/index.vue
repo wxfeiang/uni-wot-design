@@ -12,132 +12,213 @@
 }
 </route>
 <script lang="ts" setup>
-import { NAVIGATE_TYPE } from '@/enums/routerEnum'
-import { routeTo } from '@/utils'
+import bg0 from '@/static/images/login/bg1.png'
+import bg1 from '@/static/images/login/bg2.png'
+import logo from '@/static/images/login/logo.png'
+import topbg from '@/static/images/login/topbg.png'
+import { pathToBase64 } from 'image-tools'
 import useLogin from './utils/useLogin'
-
-import loginbg from '@/static/images/login/login-bg.png'
-
-const { Login, model, rules, read, LoadingKey, LoadingInfo } = useLogin()
+const { sendPhoneCode, countdown, sending } = usePhoneCode()
+const { Login, model, rules, read, model2, getCodeUrl, codeflog } = useLogin()
 const form = ref(null)
 
-const to = () => {
-  routeTo({ url: '/pages/aa/index', navType: NAVIGATE_TYPE.NAVIGATE_TO })
-}
+const topbgBase64 = ref('')
+const bg0Base64 = ref('')
+const bg1Base64 = ref('')
+const { safeAreaInsets } = uni.getSystemInfoSync()
 
-function toAgereement(type) {
-  routeTo({ url: '/pages-sub/components/webView/index', data: { type } })
-}
-function handleClickLeft() {
-  uni.navigateBack()
+const navtop = ref(0)
+navtop.value = safeAreaInsets.top + 44
+
+onLoad(async () => {
+  // 设置背景图片
+  topbgBase64.value = await pathToBase64(topbg)
+  bg0Base64.value = await pathToBase64(bg0)
+  bg1Base64.value = await pathToBase64(bg1)
+})
+const otherLogins = ref([
+  {
+    icon: 'i-carbon:logo-wechat',
+    name: '微信',
+    color: '#00c800',
+  },
+  {
+    icon: 'fa6-brands:qq',
+    name: 'QQ',
+    color: '#4980ff',
+  },
+])
+const bTitle = ref('欢迎登录雄安一卡通')
+const sTitle = ref('一卡在手，生活无忧')
+
+const tbBg = ref(bg0)
+const tab = ref<number>(0)
+function tabChange(event) {
+  if (event.index === 0) {
+    tbBg.value = bg0
+  } else {
+    tbBg.value = bg1
+    getCodeUrl()
+  }
 }
 </script>
 <template>
-  <view class="top relative">
-    <wd-navbar
-      safeAreaInsetTop
-      rightDisabled
-      placeholder
-      leftArrow
-      fixed
-      :bordered="false"
-      title="实名认证"
-      custom-class="nav_bg"
-    >
-      <template #left>
-        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
-      </template>
-    </wd-navbar>
-    <view class="absolute top-0 left-0 right-0 size-full z-0 h-240px">
-      <wd-img :width="160" :height="200" :src="loginbg" custom-class="custom-class-img" />
+  <view
+    class="h-285px bg-cover"
+    :style="`padding-top:${navtop}px ;background-image: url(${topbgBase64})`"
+  >
+    <view class="flex justify-center">
+      <wd-img :width="54" :height="54" :src="logo" round />
     </view>
-    <view class="absolute top-120px left-0 right-0">
-      <view class="px-30px">
-        <view class="color-#fff font-size-20px line-height-40px">登录实名认证</view>
-        <view class="color-#f3f3f3 font-size-16px line-height-30px">提升账号安全,保障合法权益</view>
-      </view>
-      <view class="mt-30px">
-        <view class="pb-100px rounded-10px overflow-hidden bg-#fff">
-          <view class="text-center line-height-60px color-#000 font-500">
-            使用有效身份证信息认证
-          </view>
-          <view class="py-10px px-20px bg-#fff">
-            <wd-form ref="form" :model="model">
-              <wd-cell-group>
-                <wd-input
-                  label="姓名:"
-                  label-width="100px"
-                  type="text"
-                  v-model="model.username"
-                  placeholder="请输入姓名"
-                  :rules="rules.username"
-                  prop="username"
-                  custom-class="custom-cell"
-                  custom-input-class="custom-input-right"
-                />
+    <view class="text-center mt-20px color-#fff">
+      <view class="font-size-22px font-medium">{{ bTitle }}</view>
+      <view class="font-size-14px mt-10px font-normal">{{ sTitle }}</view>
+    </view>
+  </view>
+  <view class="h-500px bg-cover mt-[-50px]" :style="`background-image: url(${tbBg})`">
+    <wd-tabs v-model="tab" custom-class="custom-class-tab" @change="tabChange">
+      <wd-tab title="身份证登录">
+        <view class="px-30px pt-20px">
+          <wd-form ref="form" :model="model">
+            <view class="py-10px mb-2">
+              <view class="my-5px color-#000000">姓名</view>
+              <wd-input
+                type="text"
+                v-model="model.username"
+                placeholder="请输入姓名"
+                :rules="rules.username"
+                prop="username"
+              />
+            </view>
+            <view class="py-2 mb-5">
+              <view class="my-5px color-#000000">身份证号</view>
+              <wd-input
+                type="text"
+                v-model="model.password"
+                placeholder="请输入身份证号"
+                :rules="rules.password"
+                prop="password"
+              />
+            </view>
 
-                <wd-input
-                  label="身份证号码:"
-                  label-width="100px"
-                  type="text"
-                  v-model="model.password"
-                  placeholder="请输入身份证号码"
-                  :rules="rules.password"
-                  prop="password"
-                  custom-class="custom-cell"
-                  custom-input-class="custom-input-right"
-                />
-              </wd-cell-group>
-            </wd-form>
-          </view>
-          <view class="mt-20px px-25px">
-            <wd-button
-              type="primary"
-              size="medium"
-              @click="Login(form)"
-              block
-              :loading="LoadingKey || LoadingInfo"
-            >
-              登 录
-            </wd-button>
-          </view>
+            <view>
+              <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
+
+              <view class="mt-10px">
+                <view class="">
+                  <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
+                    已阅读并同意
+                    <text class="color-#336EFD">《隐私政策》</text>
+                    <text class="color-#336EFD">《用户协议》</text>
+                  </wd-checkbox>
+                </view>
+              </view>
+            </view>
+          </wd-form>
         </view>
+      </wd-tab>
+      <wd-tab title="验证码登录">
+        <view class="px-30px pt-20px">
+          <wd-form ref="form" :model="model2">
+            <view class="py-10px mb-2">
+              <view class="my-5px color-#000000">手机号</view>
+              <wd-input
+                type="text"
+                v-model="model2.username"
+                placeholder="请输入手机号"
+                :rules="rules.username"
+                prop="username"
+              />
+            </view>
+            <view class="py-2 mb-5">
+              <view class="my-5px color-#000000">验证码</view>
+              <wd-input
+                type="text"
+                v-model="model2.co"
+                placeholder="请输入验证码"
+                :rules="rules.co"
+                use-suffix-slot
+                prop="co"
+                :maxlength="4"
+              >
+                <template #suffix>
+                  <dy-verify />
+                </template>
+              </wd-input>
+            </view>
+
+            <view class="py-2 mb-5">
+              <view class="my-5px color-#000000">手机验证码</view>
+              <wd-input
+                type="text"
+                v-model="model2.password"
+                placeholder="请输入手机验证码"
+                :rules="rules.password"
+                prop="password"
+                :maxlength="6"
+              >
+                <template #suffix>
+                  <wd-button
+                    size="small"
+                    plain
+                    custom-class="button"
+                    :round="false"
+                    @click="sendPhoneCode"
+                    :loading="sending"
+                    :disabled="sending || countdown > 0"
+                  >
+                    {{
+                      sending ? '发送中...' : countdown > 0 ? `${countdown}S后获取` : '获取验证码'
+                    }}
+                  </wd-button>
+                </template>
+              </wd-input>
+            </view>
+
+            <view>
+              <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
+              <view class="mt-10px">
+                <view class="">
+                  <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
+                    已阅读并同意
+                    <text class="color-#336EFD">《隐私政策》</text>
+                    <text class="color-#336EFD">《用户协议》</text>
+                  </wd-checkbox>
+                </view>
+              </view>
+            </view>
+          </wd-form>
+        </view>
+      </wd-tab>
+    </wd-tabs>
+
+    <view class="fixed bottom-60px left-0 right-0">
+      <wd-divider>更多登录方式</wd-divider>
+      <view class="flex justify-center items-center mt-20px gap-10px">
+        <view
+          v-for="(item, index) in otherLogins"
+          :key="index"
+          :class="item.icon"
+          class="color-#336EFD font-size-20px"
+        />
       </view>
     </view>
   </view>
 </template>
-
 <style lang="scss" scoped>
-.top {
-  @apply relative;
-}
-
-:deep(.custom-class-img) {
-  @apply size-full!;
-}
-
-:deep(.nav_bg) {
-  @apply bg-transparent!;
-  .wd-navbar__title {
-    color: var(--color-nav-text);
-  }
-  .wd-navbar__left {
-    color: var(--color-nav-text);
-  }
-}
 :deep(.label-class),
 :deep(.text-btn) {
   font-size: 12px !important;
   color: #999 !important;
 }
-:deep(.custom-cell) {
-  @apply rounded-30! bg-#eef0f2!  mb-20px;
+:deep(.custom-class-tab),
+:deep(.wd-tabs__nav) {
+  @apply bg-transparent!;
 }
-
-:deep(.custom-input-right) {
-  @apply text-right! color-#999999!;
+:deep(.wd-tabs__nav-item.is-active) {
+  @apply color-[#fff]!;
 }
-:deep(.wd-input__error-message) {
-  @apply text-right!;
+:deep(.wd-input) {
+  @apply bg-transparent!;
 }
 </style>

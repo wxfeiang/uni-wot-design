@@ -9,6 +9,7 @@ import { startFacialRecognitionVerify } from '@/utils/uniapi'
 import { Toast } from '@/utils/uniapi/prompt'
 // 获取验证码
 const { getCodeUrl, codeflog } = useImageVerify()
+
 const authStore = useUserStore()
 const read = ref(false)
 const rules = {

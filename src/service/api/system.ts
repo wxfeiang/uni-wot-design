@@ -1,7 +1,7 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 
-import { useCaptcha, useRequest } from 'alova/client'
+import { useRequest } from 'alova/client'
 
 import { METHOD_INSTANCE } from '../model/baseModel'
 const CONFIG = baseUrlApi('/captcha/config')
@@ -82,22 +82,16 @@ export function getCode(config: any) {
  * @param {} config
  * @return {}
  */
-export function getPhoneCode(data: any, config: any) {
-  const methodInstance = request.Post(
-    PHNECODE, // 请求地址
-    data,
-    {
-      responseType: 'arraybuffer', // 配置参数
-    },
-  )
+export function getPhoneCode(data: any) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
   }
-  methodInstance.meta = meta
 
-  return useCaptcha(methodInstance, config)
+  return request.Post(PHNECODE, data, {
+    meta,
+  })
 }
 
 /**
