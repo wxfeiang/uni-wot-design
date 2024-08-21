@@ -124,7 +124,7 @@ const data = ref<dataType[]>([
   },
 ])
 const cardInfoData = ref<any[]>([])
-onLoad(async () => {
+onMounted(async () => {
   try {
     const res: any = await getCadInfo()
     Object.keys(res).forEach((key) => {
