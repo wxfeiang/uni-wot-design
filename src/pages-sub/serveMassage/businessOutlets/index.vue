@@ -12,6 +12,7 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import { useLocation } from '@/utils/uniapi'
 
 const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
 
@@ -98,6 +99,11 @@ function toLocation(e) {
     address: e.lable,
   })
 }
+onMounted(async () => {
+  console.log('🍝')
+  const location = await useLocation()
+  console.log('🍥[location]:', location)
+})
 </script>
 
 <template>
