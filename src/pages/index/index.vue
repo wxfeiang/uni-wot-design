@@ -107,7 +107,7 @@ const mainData = ref([
     icon: jiaofeitong,
   },
   {
-    title: '停车缴费',
+    title: '雄安乐泊',
     type: 'star',
     icon: boche,
   },
