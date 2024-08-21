@@ -16,6 +16,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
+       "/pages-sub/serveMain/cop" |
        "/pages-sub/serveMain/index" |
        "/pages-sub/cadManager/index" |
        "/pages-sub/serveMassage/businessOutlets/index" |

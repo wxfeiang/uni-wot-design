@@ -120,12 +120,7 @@
       "pages": [
         {
           "path": "OcrCamera",
-          "type": "page",
-          "layout": "default",
-          "needLogin": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
+          "type": "page"
         },
         {
           "path": "cardApplyFromType",
@@ -156,6 +151,15 @@
         },
         {
           "path": "cardMessType",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "cop",
           "type": "page",
           "layout": "default",
           "needLogin": true,
