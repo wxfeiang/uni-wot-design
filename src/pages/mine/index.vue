@@ -51,21 +51,21 @@ navtop.value = safeAreaInsets.top + 44
 const topAction = ref([
   {
     text: '余额',
-    number: 1000,
+    number: 0,
     type: 'sacn',
   },
   {
     text: '积分',
-    number: 1,
+    number: 0,
   },
   {
     text: '优惠券',
-    number: 2,
+    number: 0,
   },
   {
     text: '银行卡',
     type: 'card',
-    number: 2,
+    number: 0,
   },
 ])
 
