@@ -232,7 +232,7 @@ const getphonenumber = async (e) => {
       // 微信登录
       const wxLoginCode = await getLoginCode()
       // openid
-      const openId = await sendOpenIdCode({ code: wxLoginCode })
+      const { openId }: any = await sendOpenIdCode({ code: wxLoginCode })
       const param = {
         encryptedData: encodeURIComponent(encodeURIComponent(e.encryptedData)),
         iv: encodeURIComponent(encodeURIComponent(e.iv)),
@@ -247,8 +247,13 @@ const getphonenumber = async (e) => {
       // TODO: 最终登录 存储信息
     } catch (error) {
       console.log('🍓[error]:', error)
+      Toast(error?.data?.msg)
     }
   }
+}
+
+const shuziLogin = () => {
+  Toast('功能开发中...')
 }
 export default () => {
   return {
@@ -271,5 +276,6 @@ export default () => {
     submitPhoneLogin,
     getphonenumber,
     openIdCode,
+    shuziLogin,
   }
 }

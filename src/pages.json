@@ -225,6 +225,20 @@
           }
         }
       ]
+    },
+    {
+      "root": "pages-sub/system",
+      "pages": [
+        {
+          "path": "sysconfig/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
     }
   ]
 }

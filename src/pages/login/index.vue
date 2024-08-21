@@ -15,6 +15,7 @@
 import bg0 from '@/static/images/login/bg1.png'
 import bg1 from '@/static/images/login/bg2.png'
 import logo from '@/static/images/login/logo.png'
+import shuzi from '@/static/images/login/shuzi.png'
 import topbg from '@/static/images/login/topbg.png'
 import { pathToBase64 } from 'image-tools'
 import useLogin from './utils/useLogin'
@@ -32,6 +33,7 @@ const {
   countdown,
   sending,
   submitPhoneLogin,
+  shuziLogin,
   getphonenumber,
 } = useLogin()
 const form = ref(null)
@@ -211,15 +213,17 @@ function tabChange(event) {
 
     <view class="fixed bottom-60px left-0 right-0">
       <wd-divider>更多登录方式</wd-divider>
-      <view class="flex justify-center items-center mt-20px gap-10px">
-        <!-- <view
-          v-for="(item, index) in otherLogins"
-          :key="index"
-          :class="item.icon"
-          class="color-#336EFD font-size-20px"
-        /> -->
-        <wd-button type="text" open-type="getPhoneNumber" @getphonenumber="getphonenumber">
+      <view class="flex justify-center items-center mt-20px gap-20px">
+        <wd-button
+          type="text"
+          open-type="getPhoneNumber"
+          @getphonenumber="getphonenumber"
+          custom-class="custom-class-ftn"
+        >
           <view class="i-carbon:logo-wechat color-#336EFD font-size-20px" />
+        </wd-button>
+        <wd-button type="text" custom-class="custom-class-ftn" @click="shuziLogin">
+          <wd-img width="26" height="26" :src="shuzi"></wd-img>
         </wd-button>
       </view>
     </view>
@@ -243,5 +247,11 @@ function tabChange(event) {
 }
 :deep(.wd-tabs__line) {
   @apply hidden!;
+}
+:deep(.wd-img) {
+  vertical-align: middle !important;
+}
+:deep(.custom-class-ftn) {
+  margin: 0 !important;
 }
 </style>
