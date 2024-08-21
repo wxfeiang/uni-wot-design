@@ -7,13 +7,16 @@ import { useRequest } from 'alova/client'
 import { useUserStore } from '@/store'
 import { startFacialRecognitionVerify } from '@/utils/uniapi'
 import { Toast } from '@/utils/uniapi/prompt'
-
+// 获取验证码
+const { getCodeUrl, codeflog } = useImageVerify()
 const authStore = useUserStore()
 const read = ref(false)
 const rules = {
   username: [{ required: true, message: '请填写用户名' }],
   password: [{ required: true, message: '请填写身份证号码' }],
+  co: [{ required: true, message: '图形验证码不能为空' }],
 }
+
 const model = ref({
   username: '',
   password: '',
@@ -107,6 +110,28 @@ const Login = (form) => {
   })
 }
 
+const model2 = ref({
+  username: '',
+  password: '',
+  co: '',
+})
+
+onMounted(() => {
+  getCodeUrl()
+})
+
 export default () => {
-  return { Login, model, rules, read, LoadingKey, LoadingInfo, sendFaceLogin, LoadingFace }
+  return {
+    Login,
+    model,
+    rules,
+    read,
+    LoadingKey,
+    LoadingInfo,
+    sendFaceLogin,
+    LoadingFace,
+    model2,
+    getCodeUrl,
+    codeflog,
+  }
 }
