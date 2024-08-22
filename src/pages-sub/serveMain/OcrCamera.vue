@@ -194,11 +194,11 @@ function reverseCamera() {
   currData.value.devicePosition = currData.value.devicePosition === 'back' ? 'front' : 'back'
 }
 function cameraError(e) {
-  // console.log(e.detail)
-  // toast.error('以拒绝，使用请手动开启')
-  // setTimeout(() => {
-  //   close()
-  // }, 5000)
+  console.log(e.detail)
+  toast.error('以拒绝，使用请手动开启')
+  setTimeout(() => {
+    close()
+  }, 5000)
 }
 
 // 关闭相机

@@ -220,7 +220,7 @@ function tabChange(event) {
           @getphonenumber="getphonenumber"
           custom-class="custom-class-ftn"
         >
-          <view class="i-carbon:logo-wechat color-#336EFD font-size-20px" />
+          <i class="iconfont xa-weixin text-20px"></i>
         </wd-button>
         <wd-button type="text" custom-class="custom-class-ftn" @click="shuziLogin">
           <wd-img width="26" height="26" :src="shuzi"></wd-img>
