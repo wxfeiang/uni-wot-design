@@ -17,6 +17,7 @@ import bg1 from '@/static/images/login/bg2.png'
 import logo from '@/static/images/login/logo.png'
 import shuzi from '@/static/images/login/shuzi.png'
 import topbg from '@/static/images/login/topbg.png'
+import weixin from '@/static/images/login/weixin.png'
 import { pathToBase64 } from 'image-tools'
 import useLogin from './utils/useLogin'
 
@@ -71,34 +72,46 @@ const sTitle = ref('一卡在手，生活无忧')
 const tbBg = ref(bg0)
 const tab = ref<number>(0)
 function tabChange(event) {
+  console.log('🥘[event]:', event)
   if (event.index === 0) {
-    tbBg.value = bg0
+    // tbBg.value = bg0
   } else {
-    tbBg.value = bg1
+    // tbBg.value = bg1
     getCodeUrl()
   }
 }
 </script>
 <template>
   <view
-    class="h-285px bg-cover"
+    class="h-285rpx bg-cover relative"
     :style="`padding-top:${navtop}px ;background-image: url(${topbgBase64})`"
   >
     <view class="flex justify-center">
       <wd-img :width="54" :height="54" :src="logo" round />
     </view>
-    <view class="text-center mt-20px color-#fff">
+    <view class="text-center mt-20rpx color-#fff">
       <view class="font-size-22px font-medium">{{ bTitle }}</view>
-      <view class="font-size-14px mt-10px font-normal">{{ sTitle }}</view>
+      <view class="font-size-14px mt-10rpx font-normal">{{ sTitle }}</view>
     </view>
   </view>
-  <view class="h-500px bg-cover mt-[-50px]" :style="`background-image: url(${tbBg})`">
+  <!-- <view
+    class="h-300rpx bg-cover mt-[-50rpx] relative z-10"
+    :style="`background-image: url(${bg0})`"
+    v-if="tab === 0"
+  ></view>
+  <view
+    class="h-300rpx bg-cover mt-[-50rpx] relative z-10"
+    :style="`background-image: url(${bg1})`"
+    v-else
+  ></view> -->
+
+  <view class="h-300rpx bg-cover relative z-10">
     <wd-tabs v-model="tab" custom-class="custom-class-tab" @change="tabChange">
       <wd-tab title="身份证登录">
         <view class="px-30px pt-20px">
           <wd-form ref="form" :model="model">
-            <view class="py-10px mb-2">
-              <view class="my-5px color-#000000">姓名</view>
+            <view class="py-5px mb-2">
+              <view class="my-2px color-#000000">姓名</view>
               <wd-input
                 type="text"
                 v-model="model.username"
@@ -108,7 +121,7 @@ function tabChange(event) {
               />
             </view>
             <view class="py-2 mb-5">
-              <view class="my-5px color-#000000">身份证号</view>
+              <view class="my-2px color-#000000">身份证号</view>
               <wd-input
                 type="text"
                 v-model="model.password"
@@ -137,8 +150,8 @@ function tabChange(event) {
       <wd-tab title="验证码登录">
         <view class="px-30px pt-15px">
           <wd-form ref="form2" :model="model2">
-            <view class="py-10px mb-2">
-              <view class="my-5px color-#000000">手机号</view>
+            <view class="py-5px mb-2">
+              <view class="my-2px color-#000000">手机号</view>
               <wd-input
                 type="text"
                 v-model="model2.phone"
@@ -148,7 +161,7 @@ function tabChange(event) {
               />
             </view>
             <view class="py-2 mb-2">
-              <view class="my-5px color-#000000">验证码</view>
+              <view class="my-2px color-#000000">验证码</view>
               <wd-input
                 type="text"
                 v-model="model2.imgcode"
@@ -165,7 +178,7 @@ function tabChange(event) {
             </view>
 
             <view class="py-2 mb-2">
-              <view class="my-5px color-#000000">短信验证码</view>
+              <view class="my-2px color-#000000">短信验证码</view>
               <wd-input
                 type="text"
                 v-model="model2.code"
@@ -210,21 +223,26 @@ function tabChange(event) {
         </view>
       </wd-tab>
     </wd-tabs>
-
-    <view class="fixed bottom-30px left-0 right-0">
-      <wd-divider>更多登录方式</wd-divider>
-      <view class="flex justify-center items-center mt-15px gap-20px">
+  </view>
+  <view class="fixed bottom-20rpx left-0 right-0">
+    <wd-divider>更多登录方式</wd-divider>
+    <view class="flex justify-center items-center gap-20px">
+      <view class="flex flex-col items-center">
         <wd-button
           type="text"
           open-type="getPhoneNumber"
           @getphonenumber="getphonenumber"
           custom-class="custom-class-ftn"
         >
-          <i class="iconfont xa-weixin text-20px"></i>
+          <wd-img width="26" height="26" :src="weixin"></wd-img>
         </wd-button>
+        <view class="font-size-12px">微信</view>
+      </view>
+      <view class="flex flex-col items-center">
         <wd-button type="text" custom-class="custom-class-ftn" @click="shuziLogin">
           <wd-img width="26" height="26" :src="shuzi"></wd-img>
         </wd-button>
+        <view class="font-size-12px">数字身份</view>
       </view>
     </view>
   </view>
@@ -240,7 +258,7 @@ function tabChange(event) {
   @apply bg-transparent!;
 }
 :deep(.wd-tabs__nav-item.is-active) {
-  @apply color-[#fff]!;
+  @apply color-[#fff]! bg-#3177f6!;
 }
 :deep(.wd-input) {
   @apply bg-transparent!;

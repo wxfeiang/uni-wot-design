@@ -7,9 +7,6 @@ export default defineUniPages({
     navigationBarBackgroundColor: '#f8f8f8',
     navigationBarTextStyle: 'black',
     backgroundColor: '#FFFFFF',
-    // #ifdef MP-WEIXIN
-    'ocr-navigator': 'plugin://ocr-plugin/ocr-navigator',
-    // #endif
   },
   easycom: {
     autoscan: true,

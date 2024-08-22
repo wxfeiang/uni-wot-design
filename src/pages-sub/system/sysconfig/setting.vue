@@ -1,9 +1,11 @@
 <route lang="json5" type="page">
 {
-  layout: 'default',
   needLogin: true,
   style: {
-    navigationStyle: 'custom',
+    navigationBarTitleText: '免密登录设置',
+    backgroundColor: '#fff',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTextStyle: 'black',
   },
 }
 </route>
@@ -17,14 +19,14 @@ function handleClickLeft() {
 </script>
 
 <template>
-  <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
+  <!-- <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
     <template #left>
       <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
     </template>
     <template #title>
       <text class="color-#fff">设置</text>
     </template>
-  </wd-navbar>
+  </wd-navbar> -->
   <view class="py-20px px-10px">
     <view class="bg-#fff">
       <wd-radio-group v-model="value" shape="dot" cell>
@@ -33,7 +35,7 @@ function handleClickLeft() {
         <wd-radio value="3">3天免登录</wd-radio>
       </wd-radio-group>
     </view>
-
+    <view class="text-14px m-10px">退出后需要重新登录</view>
     <view class="p-10px mt-20px">
       <wd-button block>修改</wd-button>
     </view>

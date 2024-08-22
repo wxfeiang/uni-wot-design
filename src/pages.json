@@ -4,8 +4,7 @@
     "navigationBarTitleText": "unibest",
     "navigationBarBackgroundColor": "#f8f8f8",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#FFFFFF",
-    "ocr-navigator": "plugin://ocr-plugin/ocr-navigator"
+    "backgroundColor": "#FFFFFF"
   },
   "easycom": {
     "autoscan": true,
@@ -232,19 +231,23 @@
         {
           "path": "sysconfig/index",
           "type": "page",
-          "layout": "default",
           "needLogin": true,
           "style": {
-            "navigationStyle": "custom"
+            "navigationBarTitleText": "设置",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
           }
         },
         {
           "path": "sysconfig/setting",
           "type": "page",
-          "layout": "default",
           "needLogin": true,
           "style": {
-            "navigationStyle": "custom"
+            "navigationBarTitleText": "免密登录设置",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
           }
         }
       ]

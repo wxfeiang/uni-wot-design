@@ -1,9 +1,11 @@
 <route lang="json5" type="page">
 {
-  layout: 'default',
   needLogin: true,
   style: {
-    navigationStyle: 'custom',
+    navigationBarTitleText: '设置',
+    backgroundColor: '#fff',
+    navigationBarBackgroundColor: '#fff',
+    navigationBarTextStyle: 'black',
   },
 }
 </route>
@@ -60,9 +62,9 @@ const itemClick = (item: any) => {
         <template v-for="(item, index) in setInfo" :key="index">
           <wd-cell :title="item.name" :is-link="item.islink" clickable @click="itemClick(item)">
             <template #icon v-if="item.icon">
-              <view class="mr-10px">
+              <!-- <view class="mr-10px">
                 <wd-img width="24" height="24" :src="item.icon"></wd-img>
-              </view>
+              </view> -->
             </template>
             <template #title v-if="item.name">
               <view class="color-#999">
