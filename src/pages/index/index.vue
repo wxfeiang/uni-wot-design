@@ -294,14 +294,12 @@ onPageScroll((e) => {
       </template>
     </wd-navbar>
     <wd-sticky :offset-top="navTop">
-      <view
-        :class="`w-100vw flex items-center justify-between gap-5px px-10px box-border ${navbg}`"
-      >
+      <view :class="`w-100vw flex items-center justify-between gap-5px  box-border ${navbg}`">
         <view class="w-30px text-center">
           <i class="iconfont xa-tianqitubiao_qing text-20px"></i>
         </view>
         <view class="color-#fff flex items-center">
-          <view class="w-60px font-size-13px truncate-1">{{ loactionName }}</view>
+          <view class="w-40px font-size-13px truncate-1">{{ loactionName }}</view>
           <wd-icon name="chevron-down" color="#fff" size="14px"></wd-icon>
         </view>
 
@@ -317,7 +315,7 @@ onPageScroll((e) => {
         </view>
       </view>
     </wd-sticky>
-    <view class="p-10px flex justify-between">
+    <view class="px-10px py-5px flex justify-between">
       <view
         v-for="(item, index) in topAction"
         :key="index"
@@ -335,7 +333,7 @@ onPageScroll((e) => {
 
   <!-- 入口类表 -->
 
-  <view class="mt-[-10px] overflow-hidden rounded-t-10px p-10px bg-#fff">
+  <view class="mt-[-10px] overflow-hidden rounded-t-10px px-10px py-5px bg-#fff">
     <wd-grid :column="5" clickable>
       <wd-grid-item
         use-icon-slot
@@ -382,7 +380,6 @@ onPageScroll((e) => {
             <view class="truncate-1">{{ item.articleTitle }}</view>
           </view>
         </template>
-        <view class="color-#999 font-size-12px">更多</view>
       </wd-cell>
     </wd-cell-group>
   </view>
@@ -471,7 +468,7 @@ onPageScroll((e) => {
   @apply bg-transparent!;
 }
 :deep(.nav_hide) {
-  @apply bg-#4689fd!;
+  @apply bg-#189fff!;
 }
 :deep(.swiper_box .wd-swiper__track) {
   @apply px-10px!;

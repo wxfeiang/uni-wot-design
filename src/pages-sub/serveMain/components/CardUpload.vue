@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import card1 from '../static/images/idCard1.jpg'
-import card2 from '../static/images/idCard2.jpg'
-import card3 from '../static/images/idCard3.jpg'
+import card1 from '../static/images/idCard1.png'
+import card2 from '../static/images/idCard2.png'
+import card3 from '../static/images/idCard3.png'
 
 const emit = defineEmits<{
   (e: 'unloadClick', value: any): void

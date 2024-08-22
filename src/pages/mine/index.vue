@@ -224,7 +224,7 @@ const acton = (item) => {
     </view>
   </view>
 
-  <view class="bottom-10 left-0 right-0 mt-10px">
+  <view class="fixed bottom-80rpx left-0 right-0">
     <view class="px-10" v-if="isLogined">
       <wd-button block plain @click="logoutCimfirm">退出登录</wd-button>
     </view>
