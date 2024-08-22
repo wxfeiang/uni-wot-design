@@ -8,6 +8,10 @@
 }
 </route>
 <script lang="ts" setup>
+import { getCurrentInstance, onMounted } from 'vue'
+const instance = getCurrentInstance().proxy
+
+const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
 function loadTempImagePath(url) {
   const { windowWidth, windowHeight } = uni.getSystemInfoSync()
   console.log('🥐[windowWidth, windowHeight ]:', windowWidth, windowHeight, copData.value)
@@ -30,6 +34,10 @@ function loadTempImagePath(url) {
       complete: (res2) => {
         console.log('🍨[res2]:', res2)
         copSrc.value = res2.tempFilePath
+        eventChannel.emit('camera', {
+          data: res2.tempFilePath,
+        })
+        uni.navigateBack()
       },
     })
   })
@@ -54,7 +62,10 @@ function choose() {
     },
   })
 }
+
+function watchData() {}
 const copData = ref()
+
 onMounted(() => {
   uni
     .createSelectorQuery()
@@ -64,6 +75,9 @@ onMounted(() => {
       copData.value = data
     })
     .exec()
+  eventChannel.on('options', function (data) {
+    console.log('options', data)
+  })
 })
 </script>
 <template>

@@ -29,11 +29,26 @@ const wotUpAttrs = {
 }
 
 const show = ref(false)
+const a = ref()
 function upload2(photoType) {
-  routeTo({ url: '/pages-sub/serveMain/OcrCamera', data: { show: true, photoType } })
-  // console.log('🍪======')
-  // show.value = true
-  // console.log('🍣', show.value)
+  // routeTo({ url: '/pages-sub/serveMain/cop', data: { show: true, photoType } })
+  // // console.log('🍪======')
+  // // show.value = true
+  // // console.log('🍣', show.value)
+  uni.navigateTo({
+    url: '/pages-sub/serveMain/cop',
+    events: {
+      // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+      camera: function (data) {
+        console.log('监听到数据回传', data)
+        a.value = data.data
+      },
+    },
+    success: function (res) {
+      // 通过eventChannel向被打开页面传送数据
+      res.eventChannel.emit('options', { data: '进入给你传的谁' })
+    },
+  })
 }
 
 const { cameraData } = useBaseStore()
@@ -46,12 +61,7 @@ onShow(() => {
     <view class="rounded-10px overflow-hidden bg-#fff py-20px">
       <wd-form ref="form" :model="model">
         <view class="bg-blue h-200px" @click="upload2('0')">
-          <wd-img
-            :width="100"
-            :height="100"
-            :src="cameraData[0].url"
-            custom-class="custom-class-img"
-          />
+          <wd-img :width="100" :height="100" :src="a" custom-class="custom-class-img" />
         </view>
         <view class="bg-blue h-200px" @click="upload2('1')">
           <wd-img
