@@ -2,6 +2,10 @@ import { getBranchesInfo } from '@/service/api/source'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 
+import { useBaseStore } from '@/store'
+
+const { userLocation } = useBaseStore()
+
 // 网点信息
 const {
   data: cardInfoData,
@@ -12,6 +16,8 @@ const {
     yhdm: '',
     areaCode: '',
     isMail: '',
+    longitude: userLocation.longitude,
+    latitude: userLocation.latitude,
   }),
   {
     immediate: false,

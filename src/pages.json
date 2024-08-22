@@ -80,11 +80,16 @@
       }
     },
     {
-      "path": "pages/login/login",
+      "path": "pages/login/login2",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "mp-alipay": {
+          "transparentTitle": "always",
+          "titlePenetrate": "YES"
+        }
       }
     },
     {
@@ -212,6 +217,29 @@
       "pages": [
         {
           "path": "index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages-sub/system",
+      "pages": [
+        {
+          "path": "sysconfig/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "sysconfig/setting",
           "type": "page",
           "layout": "default",
           "needLogin": true,

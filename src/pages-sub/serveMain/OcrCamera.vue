@@ -9,6 +9,7 @@
 </route>
 <script lang="ts" setup>
 import { useBaseStore } from '@/store'
+import { Toast } from '@/utils/uniapi/prompt'
 import { pathToBase64 } from 'image-tools'
 import { useToast } from 'wot-design-uni'
 import useCardBhk from './hooks/useCardBhk'
@@ -18,11 +19,10 @@ import card2 from './static/images/Card2.png'
 const { setCameraData } = useBaseStore()
 const { sendPhoto, loadingPhoto } = useCardBhk()
 const toast = useToast()
-const peop = ref(null)
-const fornt = ref(null)
-const back = ref(null)
+const cover = ref(null) // 辅助
 const camera = ref(null)
 const cameraContext = ref(null)
+const copSrc = ref<any>(null) // 截图
 
 const dataList = ref([
   {
@@ -44,7 +44,7 @@ const dataList = ref([
 
 const currentParams = ref(null)
 const camerType = ref<number>()
-const currData = ref()
+const currData = ref<any>()
 onLoad((options: any) => {
   console.log('🥩[options]:', options)
   const { photoType, camerType: opcamerType } = options
@@ -58,133 +58,98 @@ onLoad((options: any) => {
   }
   console.log('🍵[photoType]:', currentParams.value, photoType)
 })
-const imgData = ref<any>(null)
-onMounted(() => {
-  if (uni.createCameraContext) {
-    cameraContext.value = uni.createCameraContext()
-    if (currData.value.imgType === 0) {
-      uni
-        .createSelectorQuery()
-        .select('#peop')
-        .boundingClientRect((data) => {
-          imgData.value = data
-        })
-        .exec()
-    }
-    if (currData.value.imgType === 1) {
-      uni
-        .createSelectorQuery()
-        .select('#fornt')
-        .boundingClientRect((data) => {
-          imgData.value = data
-        })
-        .exec()
-    }
 
-    if (currData.value.imgType === 2) {
-      uni
-        .createSelectorQuery()
-        .select('#back')
-        .boundingClientRect((data) => {
-          imgData.value = data
-        })
-        .exec()
-    }
+const copData = ref<any>(null)
 
-    uni
-      .createSelectorQuery()
-      .select('#camera')
-      .boundingClientRect((data) => {
-        console.log('当前camera----', data) //  打印获取结果
-        camera.value = data
-      })
-      .exec()
-  } else {
-    toast.error('当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。')
-  }
-})
-
-function cameraError(e) {
-  console.log(e.detail)
-  toast.error('以拒绝，使用请手动开启')
-  setTimeout(() => {
-    wx.navigateBack({
-      delta: 1, // 返回上一级页面
-    })
-  }, 3000)
-}
-
-// rpx转px
-function rpx2px(rpx) {
-  const screenWidth = uni.getSystemInfoSync().screenWidth
-  return (screenWidth * Number.parseInt(rpx)) / 750
-}
-//  358 441
-const showImg = ref()
+// 生成截图
 function loadTempImagePath(url) {
-  uni.getImageInfo({
-    src: url,
-    success: (res) => {
-      console.log('🍊[res]:', res)
-      console.log('🍋', imgData.value)
+  return new Promise((resolve, reject) => {
+    const { windowWidth, windowHeight } = uni.getSystemInfoSync()
+    console.log('🥐[windowWidth, windowHeight ]:', windowWidth, windowHeight, copData.value)
 
-      const x = res.width * (imgData.value.width / camera.value.width)
-      const y = res.height * (imgData.value.width / camera.value.height)
-
-      // const imageWidth = res.width * (300 / camera.value.width)
-      // const imageHeight = res.height * (475 / camera.value.height)
-      // console.log('🍇', x, y, imageWidth, imageHeight)
-
-      const testc = uni.createCanvasContext('image-canvas')
-      testc.drawImage(res.path, 0, 0, res.width, res.height)
-
-      const destWidth = currData.value.imgType === 0 ? 358 : res.width
-      const destHeight = currData.value.imgType === 0 ? 441 : res.height
-
-      testc.draw(false, () => {
-        uni.canvasToTempFilePath({
-          x: 0,
-          y: 0,
-          width: res.width,
-          height: res.height,
-          destWidth,
-          destHeight,
-          canvasId: 'image-canvas',
-          fileType: 'jpg',
-          quality: 50,
-          complete: (res2) => {
-            console.log('===========截图后的图片地址:', res2)
-            showImg.value = res2.tempFilePath
-            upload(res2.tempFilePath)
-          },
-        })
+    const x = copData.value.left
+    const y = copData.value.top
+    const testc = uni.createCanvasContext('myCanvas')
+    testc.drawImage(url, 0, 0, windowWidth, windowHeight)
+    testc.draw(false, () => {
+      uni.canvasToTempFilePath({
+        x,
+        y,
+        width: copData.value.width,
+        height: copData.value.height,
+        destWidth: copData.value.width,
+        destHeight: copData.value.height,
+        canvasId: 'myCanvas',
+        fileType: 'jpg',
+        quality: 1,
+        complete: (res) => {
+          resolve(res.tempFilePath)
+        },
+        fail: (err) => {
+          reject(err)
+        },
       })
-    },
+    })
+  })
+}
+// 图片压缩
+function pressImage(src) {
+  return new Promise((resolve, reject) => {
+    uni.compressImage({
+      src,
+      quality: 80, // 压缩比例
+      success: (res) => {
+        resolve(res.tempFilePath)
+      },
+      fail: (err) => {
+        console.log('🥠[err]:', err)
+        Toast('图片压缩,拍照失败')
+      },
+    })
   })
 }
 
+// 从相册选取
+const chooseImage = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['original', 'compressed'],
+    sourceType: ['album'],
+    success: async (res) => {
+      try {
+        // 截图
+        const copUrl = await loadTempImagePath(res.tempFilePaths[0])
+        copSrc.value = copUrl
+        // 压缩
+        const pressUrl = await pressImage(copUrl)
+        // 上传
+        upload(pressUrl)
+      } catch (error) {
+        toast.error('图片拍照失败')
+      }
+    },
+    fail: (err) => {
+      console.log('相册选取失败', err)
+    },
+  })
+}
+// 相机拍照
 const takePhoto = () => {
   cameraContext.value.takePhoto({
     quality: 'high',
-    success: (res) => {
-      const quality = 50
-      uni.compressImage({
-        src: res.tempImagePath,
-        quality, // 压缩比例
-        success: async (ress: any) => {
-          // if (currData.value.imgType === 0) {
-          //   loadTempImagePath(ress.tempFilePath)
-          // } else {
-          //   upload(ress.tempFilePath)
-          // }
-          upload(ress.tempFilePath)
-        },
-        fail: (err) => {
-          console.log('🍚[err]:', err)
-          toast.error('图片压缩====拍照失败')
-          toast.close()
-        },
-      })
+    success: async (res) => {
+      try {
+        // 截图
+        const copUrl = await loadTempImagePath(res.tempImagePath)
+        copSrc.value = copUrl
+        console.log('🥜[ copSrc.value]:', copSrc.value)
+        // 压缩
+        const pressUrl = await pressImage(copUrl)
+        // 上传
+        upload(pressUrl)
+      } catch (error) {
+        toast.error('图片拍照失败')
+      }
     },
     fail: (err) => {
       console.log('🍚[err]:', err)
@@ -193,30 +158,13 @@ const takePhoto = () => {
     },
   })
 }
-// 从相册选取
-const chooseImage = () => {
-  uni.chooseImage({
-    count: 1,
-    sizeType: ['original', 'compressed'],
-    sourceType: ['album'],
-    success: (res) => {
-      // loadTempImagePath(res.tempFilePaths[0])
-      upload(res.tempFilePaths[0])
-    },
-    fail: (err) => {
-      console.log('相册选取失败', err)
-    },
-  })
-}
 // upload
-
 async function upload(ress) {
   console.log('🍢[ress]:', ress)
   const photoBase64 = await pathToBase64(ress)
   toast.loading('正在上传中...')
   const formData = {
     ...currentParams.value,
-    zjhm: '210204199207215655',
     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
   }
   try {
@@ -244,6 +192,14 @@ async function upload(ress) {
 function reverseCamera() {
   currData.value.devicePosition = currData.value.devicePosition === 'back' ? 'front' : 'back'
 }
+function cameraError(e) {
+  // console.log(e.detail)
+  // toast.error('以拒绝，使用请手动开启')
+  // setTimeout(() => {
+  //   close()
+  // }, 5000)
+}
+
 // 关闭相机
 const close = () => {
   console.log('🌭======关闭相机-----')
@@ -251,8 +207,28 @@ const close = () => {
   uni.navigateBack()
 }
 function del() {
-  showImg.value = ''
+  copSrc.value = ''
 }
+onMounted(() => {
+  if (uni.createCameraContext) {
+    cameraContext.value = uni.createCameraContext()
+  } else {
+    toast.error('当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。')
+  }
+  uni
+    .createSelectorQuery()
+    .select('#cover')
+    .boundingClientRect(function (data) {
+      console.log('辅助信息========>:', data)
+      copData.value = data
+      if (currData.value.imgType === 0) {
+        copData.value.width = 358
+        copData.value.height = 448
+        copData.value.left = 28 //
+      }
+    })
+    .exec()
+})
 </script>
 <template>
   <view class="bigBox">
@@ -265,42 +241,49 @@ function del() {
         binderror="cameraError"
         ref="camera"
         id="camera"
+        @error="cameraError"
       ></camera>
       <view class="cover-box flex flex-col justify-center items-center">
-        <view v-if="!showImg" class="flex flex-col justify-center items-center">
+        <view v-if="!copSrc" class="flex flex-col justify-center items-center">
           <!-- 人脸面 -->
           <cover-image
-            ref="peop"
-            id="peop"
+            ref="cover"
+            id="cover"
             v-if="currData.imgType == 0"
             class="w-100% h-700rpx"
             :src="card0"
           />
           <!-- 正面 -->
           <cover-image
-            ref="fornt"
-            id="fornt"
+            ref="cover"
+            id="cover"
             v-if="currData.imgType == 1"
             class="w-350px h-500px"
             :src="card1"
           />
           <!-- 背面 -->
           <cover-image
-            ref="back"
+            ref="cover"
             v-if="currData.imgType == 2"
             class="w-350px h-500px"
             :src="card2"
-            id="back"
+            id="cover"
           />
 
           <wd-toast />
         </view>
-        <view class="center" v-else @click="del">
-          <img :src="showImg" alt="" class="img" />
+        <view class="relative flex flex-col justify-center items-center bgCop size-full" v-else>
+          <view
+            class="p-5px bd-solid_#fff"
+            :style="`width: ${copData.width}px;height:${copData.height}px`"
+            @click="del"
+          >
+            <image :src="copSrc" alt="" :width="copData.width" :height="copData.height" />
+          </view>
         </view>
       </view>
 
-      <view class="w-full absolute bottom-0 bg-#000 font-size-20px color-#fff z-99">
+      <view class="w-full h-10% absolute bottom-0 bg-#000 font-size-20px color-#fff z-99">
         <view class="flex justify-between items-center px-70px py-10px">
           <view class="back" @click="close">
             <wd-icon name="arrow-down" size="22px" color="#fff"></wd-icon>
@@ -314,7 +297,7 @@ function del() {
         </view>
       </view>
     </view>
-    <canvas class="" id="aa" canvas-id="image-canvas"></canvas>
+    <canvas canvas-id="myCanvas" id="aa"></canvas>
   </view>
 </template>
 
@@ -350,21 +333,11 @@ function del() {
   top: 50000px;
   left: 0;
   z-index: 10;
-  width: 5000px;
-  height: 5000px;
-  border: 1px solid #ff0024;
-  /* opacity: 0; */
+  width: 100%;
+  height: 100vh;
 }
-.center {
-  position: relative;
-  box-sizing: content-box;
-  float: left;
-  width: 300px;
-  height: 475px;
-  border: 1px solid #eee;
-}
-.img {
-  width: 300px;
-  height: 475px;
+
+.bgCop {
+  background: rgba(0, 0, 0, 0.9);
 }
 </style>

@@ -1,13 +1,40 @@
 <script lang="ts" setup>
 import useCardLoss from '../hooks/useCardLoss'
-const { submitCard, model, rules, loading } = useCardLoss()
-
+import { cardLoss } from '@/service/api/cardServe'
+import { useMessage } from 'wot-design-uni'
+import { useRequest } from 'alova/client'
+const message = useMessage()
+const { model, rules } = useCardLoss()
 const form = ref(null)
-
 const visible = ref<boolean>(false)
 
 function showKeyBoard() {
   visible.value = true
+}
+// 社保卡挂失
+const { loading, send: sendCardLoss } = useRequest((data) => cardLoss(data), {
+  immediate: false,
+  loading: false,
+})
+const submitCard = (form) => {
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        const data: any = await sendCardLoss(model.value)
+        if (data.data === '成功') {
+          message.alert('挂失成功').then(() => {
+            uni.navigateBack()
+          })
+        } else {
+          message.alert(data.message).then(() => {
+            uni.navigateBack()
+          })
+        }
+      } catch (error) {
+        console.log('数据校验失败')
+      }
+    }
+  })
 }
 </script>
 <template>
@@ -83,6 +110,7 @@ function showKeyBoard() {
       </wd-button>
     </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {

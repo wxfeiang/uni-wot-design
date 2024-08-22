@@ -19,6 +19,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  smTitle: {
+    type: String,
+    default: '',
+  },
+  smTstyle: {
+    type: String,
+    default: '',
+  },
 })
 const toMore = () => {
   emit('moreClick', '')
@@ -31,7 +39,12 @@ onMounted(() => {
 <template>
   <view :class="`flex items-center ${props.customClass}`">
     <view v-if="props.border" class="w-2px h-20px mr-10px bg-blue"></view>
-    <view class="font-bold">{{ props.title }}</view>
+    <view class="font-bold">
+      <text>
+        {{ props.title }}
+      </text>
+      <text :style="`${props.smTstyle}`">{{ props.smTitle }}</text>
+    </view>
     <view v-if="props.more" class="ml-auto text-blueGray text-12px" @click.stop="toMore">
       更多
       <wd-icon name="arrow-right" size="14px"></wd-icon>

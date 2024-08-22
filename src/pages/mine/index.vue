@@ -51,21 +51,21 @@ navtop.value = safeAreaInsets.top + 44
 const topAction = ref([
   {
     text: '余额',
-    number: 1000,
+    number: 0,
     type: 'sacn',
   },
   {
     text: '积分',
-    number: 1,
+    number: 0,
   },
   {
     text: '优惠券',
-    number: 2,
+    number: 0,
   },
   {
     text: '银行卡',
     type: 'card',
-    number: 2,
+    number: 0,
   },
 ])
 
@@ -114,8 +114,12 @@ const orderGuild = () => {
   console.log('🍎')
 }
 
-const acton = () => {
-  toast.show('功能开发中，敬请期待!...')
+const acton = (item) => {
+  if (item.url) {
+    routeTo({ url: '/pages-sub/system/sysconfig/index' })
+  } else {
+    toast.show('功能开发中，敬请期待!...')
+  }
 }
 </script>
 
@@ -164,13 +168,16 @@ const acton = () => {
             </view>
           </template>
         </view>
-        <view class="qiandao text-center line-height-32px color-#fff font-size-14px" @click="acton">
-          <wd-icon name="add-circle" />
-          签到
+        <view
+          class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
+          @click="acton"
+        >
+          <i class="iconfont xa-jinbi2 text-20px"></i>
+          <text>签到</text>
         </view>
       </view>
     </view>
-    <!-- //TODO: -->
+
     <view class="p-10px flex justify-between mt-20px">
       <view
         v-for="(item, index) in topAction"
@@ -183,7 +190,7 @@ const acton = () => {
       </view>
     </view>
   </view>
-  <!-- //TODO: -->
+
   <view class="p-10px">
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
       <dy-title title="我的订单" more @moreClick="orderGuild"></dy-title>
@@ -208,7 +215,7 @@ const acton = () => {
           v-for="(item, index) in serveList"
           :key="index"
           class="w-24% text-center mb-20px pt-10px"
-          @click="acton"
+          @click="acton(item)"
         >
           <image class="size-26px" :src="item.icon" />
           <view class="text-12px mt-10px">{{ item.title }}</view>

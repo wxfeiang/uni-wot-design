@@ -55,36 +55,13 @@ async function upload(photoType: string, type: string) {
     url: '/pages-sub/serveMain/OcrCamera',
     data: { photoType, type, zjhm: userInfo.idCardNumber },
   })
-  // try {
-  //   current.value = photoType
-  //   const { photoBase64, url }: any = await upLoadImg()
 
-  //   const formData = {
-  //     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
-  //     photoType,
-  //     type,
-  //     zjhm: userInfo.idCardNumber,
-  //   }
-  //   const data: any = await sendPhoto(formData)
-  //   if (data.data.data.message || data.data.code === 500) {
-  //     message.alert(data.data.data.message || data.data.msg)
-  //   } else {
-  //     if (photoType === '1') {
-  //       cardUrl.value = url
-  //       model.value.idCardFrontPhotoId = data.data.data.id
-  //     }
-  //     if (photoType === '2') {
-  //       cardUrl2.value = url
-  //       model.value.idCardBackPhotoId = data.data.data.id
-  //     } else if (photoType === '0') {
-  //       cardUrl3.value = url
-  //       model.value.photoId = data.data.data.id
-  //     }
-  //   }
-  // } catch (error) {
-  //   console.log('🥦[error]:', error)
-  //   message.alert('图片上传失败，请重新上传')
-  // }
+  // uni.navigateTo({
+  //   url: '/pages-sub/serveMain/OcrCamera',
+  //   events: {
+  //     getCamera: function (mes) {},
+  //   },
+  // })
 }
 const { cameraData } = useBaseStore()
 onShow(() => {

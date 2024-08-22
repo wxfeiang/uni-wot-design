@@ -13,6 +13,7 @@ import topbg from '@/static/images/index/indetxop_bg.png'
 import qiabao from '@/static/images/index/qiabao.png'
 import saoyisao from '@/static/images/index/saoyisao.png'
 import xianxing from '@/static/images/index/xianxing.png'
+import logo from '@/static/images/login/logo.png'
 
 import boche from '@/static/images/index/boche.png'
 import jiaofeitong from '@/static/images/index/jiaofeitong.png'
@@ -35,12 +36,13 @@ import zhenwu from '@/static/images/index/zhenwu.png'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
 import PLATFORM from '@/utils/platform'
-import { useScancode } from '@/utils/uniapi'
+import { getLocation, useScancode } from '@/utils/uniapi'
 import { useMessage, useToast } from 'wot-design-uni'
 
 import { useBaseStore } from '@/store'
 import useIndex from './hooks/useIndex'
-
+const logoTitle = ref('雄安一卡通')
+const loactionName = ref('雄安新区')
 const message = useMessage()
 const basestore = useBaseStore()
 const toast = useToast()
@@ -51,7 +53,24 @@ defineOptions({
   name: 'Index',
 })
 const { safeAreaInsets } = uni.getSystemInfoSync()
+const weatherList = ref([
+  {
+    name: '多云',
+    icon: 'xa-tianqi_duoyun',
+    type: 1,
+  },
+  {
+    name: '晴',
+    icon: 'xa-tianqitubiao_qing',
+    type: 2,
+  },
 
+  {
+    name: '小雨',
+    icon: 'xa-tianqi-xiaoyu',
+    type: 2,
+  },
+])
 // H5 的情况下要 -44
 
 const topAction = ref([
@@ -242,6 +261,9 @@ onMounted(async () => {
   if (PLATFORM.isH5) {
     navTop.value = navTop.value - 44
   }
+  const location = await getLocation()
+  basestore.setLocation(location)
+
   const mess: any = await sendMessageList({
     page: 1,
     size: 10,
@@ -263,23 +285,36 @@ onPageScroll((e) => {
 <template>
   <!-- 顶部 -->
   <view class="pb-20px bg-size-100 relative">
-    <wd-navbar
-      safeAreaInsetTop
-      placeholder
-      fixed
-      :custom-class="navbg"
-      :bordered="false"
-    ></wd-navbar>
+    <wd-navbar safeAreaInsetTop placeholder fixed :custom-class="navbg" :bordered="false">
+      <template #left>
+        <view class="flex gap-10px items-center">
+          <wd-img :width="24" :height="24" :src="logo"></wd-img>
+          <text class="line-height-44px text-16px color-#fff mt-5px">{{ logoTitle }}</text>
+        </view>
+      </template>
+    </wd-navbar>
     <wd-sticky :offset-top="navTop">
-      <view class="w-100vw">
-        <wd-search
-          placeholder-left
-          placeholder="请输入关键词搜索"
-          hide-cancel
-          disabled
-          :custom-class="navbg"
-          @click="serveClick"
-        />
+      <view
+        :class="`w-100vw flex items-center justify-between gap-5px px-10px box-border ${navbg}`"
+      >
+        <view class="w-30px text-center">
+          <i class="iconfont xa-tianqitubiao_qing text-20px"></i>
+        </view>
+        <view class="color-#fff flex items-center">
+          <view class="w-60px font-size-13px truncate-1">{{ loactionName }}</view>
+          <wd-icon name="chevron-down" color="#fff" size="14px"></wd-icon>
+        </view>
+
+        <view class="flex-1">
+          <wd-search
+            placeholder-left
+            placeholder="请输入关键词搜索"
+            hide-cancel
+            disabled
+            :custom-class="navbg"
+            @click="serveClick"
+          />
+        </view>
       </view>
     </wd-sticky>
     <view class="p-10px flex justify-between">
@@ -322,8 +357,8 @@ onPageScroll((e) => {
 
   <!-- 消息 -->
   <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
-  <view class="p-10px">
-    <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title>
+  <view class="p-10px pr-0">
+    <!-- <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title> -->
     <wd-cell-group>
       <wd-cell
         v-for="(item, index) in mess1"
@@ -333,6 +368,7 @@ onPageScroll((e) => {
         custom-class="cell-item"
         clickable
         @click="messageClick(item)"
+        is-link
       >
         <template #title>
           <view class="flex">
@@ -346,6 +382,7 @@ onPageScroll((e) => {
             <view class="truncate-1">{{ item.articleTitle }}</view>
           </view>
         </template>
+        <view class="color-#999 font-size-12px">更多</view>
       </wd-cell>
     </wd-cell-group>
   </view>
@@ -365,7 +402,7 @@ onPageScroll((e) => {
 
   <!-- 服务专区 -->
   <view class="px-10px py-10px">
-    <dy-title title="服务专区"></dy-title>
+    <dy-title title="服务" smTitle="专区" smTstyle="color: #3177f6"></dy-title>
     <view>
       <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% pr-20px">
         <view
@@ -390,17 +427,24 @@ onPageScroll((e) => {
   <!-- 办事指南 -->
   <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
   <view class="p-10px">
-    <dy-title title="办事指南" more @moreClick="serveGuild"></dy-title>
-    <view class="py-10px h-120px relative">
-      <wd-img :width="100" :height="120" :src="banner2" custom-class="custom-class-img" />
-      <view class="size-full absolute top-0 left-0 text-center pt-40px">
-        <view class="color-#2d62c1 font-size-20px font-400 line-height-30px">服务网点</view>
-        <view class="mt-10px">
-          <wd-button black @click="toBusinessOutlets">一键查询</wd-button>
-        </view>
-      </view>
+    <dy-title
+      title="办事"
+      smTitle="指南"
+      smTstyle="color: #12b6b9"
+      more
+      @moreClick="serveGuild"
+    ></dy-title>
+    <view class="py-10px h-70px relative">
+      <wd-img
+        :width="100"
+        :height="68"
+        :src="banner2"
+        custom-class="custom-class-img"
+        @click="toBusinessOutlets"
+      />
     </view>
   </view>
+  <!-- 列表 -->
   <view class="pl-10px">
     <wd-cell-group border>
       <wd-cell

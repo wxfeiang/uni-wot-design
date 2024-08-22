@@ -11,6 +11,13 @@ export const useBaseStore = defineStore(
   () => {
     // 进入服务页面激活标志
     const active = ref(0)
+    // 当前用户坐标
+    const userLocation = ref({} as any)
+
+    const setLocation = (val) => {
+      userLocation.value = val
+    }
+
     // 相机拍照数据
     const cameraData = ref({
       photo: {} as CameraData, // 人脸
@@ -48,6 +55,8 @@ export const useBaseStore = defineStore(
       cameraData,
       setCameraData,
       clearCameraData,
+      userLocation,
+      setLocation,
     }
   },
   {
