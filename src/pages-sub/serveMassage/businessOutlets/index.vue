@@ -52,7 +52,7 @@ const changeDe = (data) => {
   let num = '0'
   if (data > 10000) {
     company = 'km'
-    num = (data / 1000).toFixed(2)
+    num = (data / 1000).toFixed(1)
   }
   return num + company
 }
