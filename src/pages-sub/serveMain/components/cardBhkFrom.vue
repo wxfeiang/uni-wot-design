@@ -14,13 +14,12 @@ import {
   reason,
   sexList,
 } from '../types/dict'
+import CardUpload from './CardUpload.vue'
 
 import { useBaseStore, useUserStore } from '@/store'
 import { changeDict, routeTo } from '@/utils'
 import dayjs from 'dayjs'
-import card1 from '../static/images/idCard1.jpg'
-import card2 from '../static/images/idCard2.jpg'
-import card3 from '../static/images/idCard3.jpg'
+
 const message = useMessage()
 const {
   modelPhoto,
@@ -37,33 +36,9 @@ const {
 const userStore = useUserStore()
 const { userInfo } = userStore
 
-const cardUrl = ref(card1)
-const cardUrl2 = ref(card2)
-const cardUrl0 = ref(card3)
-
-const wotUpAttrs0 = {
-  formData: {
-    photoType: '1',
-    type: '1',
-    zjhm: '210204199207215655',
-  },
-  limit: 1,
-  'custom-preview-class': 'custom-preview-class',
-  'custom-evoke-class': 'custom-evoke-class',
-  'custom-class': 'custom-class',
-}
-
-const wotUpAttrs1 = {
-  limit: 1,
-  'custom-preview-class': 'custom-preview-class',
-  'custom-evoke-class': 'custom-evoke-class',
-  'custom-class': 'custom-class',
-  formData: {
-    photoType: '1',
-    type: '1',
-    zjhm: '210204199207215655',
-  },
-}
+const cardUrl1 = ref()
+const cardUrl2 = ref()
+const cardUrl0 = ref()
 
 const visible = ref<boolean>(false)
 
@@ -97,37 +72,6 @@ async function upload(photoType: string, type: string) {
     url: '/pages-sub/serveMain/OcrCamera',
     data: { photoType, type, zjhm: userInfo.idCardNumber },
   })
-
-  // try {
-  //   current.value = photoType
-  //   const { photoBase64, url }: any = await upLoadImg()
-
-  //   const formData = {
-  //     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
-  //     photoType,
-  //     type,
-  //     zjhm: userInfo.idCardNumber,
-  //   }
-  //   const data: any = await sendPhoto(formData)
-  //   if (data.data.data.message || data.data.code === 500) {
-  //     message.alert(data.data.data.message || data.data.msg)
-  //   } else {
-  //     if (photoType === '1') {
-  //       cardUrl.value = url
-  //       model.value.idCardFrontPhotoId = data.data.data.id
-  //     }
-  //     if (photoType === '2') {
-  //       cardUrl2.value = url
-  //       model.value.idCardBackPhotoId = data.data.data.id
-  //     } else if (photoType === '0') {
-  //       cardUrl0.value = url
-  //       model.value.photoId = data.data.data.id
-  //     }
-  //   }
-  // } catch (error) {
-  //   console.log('🥦[error]:', error)
-  //   message.alert('图片上传失败，请重新上传')
-  // }
 }
 const { cameraData } = useBaseStore()
 onShow((options) => {
@@ -136,7 +80,7 @@ onShow((options) => {
   console.log('🥧', cameraData)
 
   if (cameraData.idCardFront.id) {
-    cardUrl.value = cameraData.idCardFront.url
+    cardUrl1.value = cameraData.idCardFront.url
     model.value.idCardFrontPhotoId = cameraData.idCardFront.id
     const { words_result: wordsResult }: any = cameraData.idCardFront.data
     model.value.name = wordsResult['姓名'].words
@@ -209,53 +153,14 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-form ref="formPhoto" :model="modelPhoto">
         <view class="mb-20px px-20px">
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('1', '1')"
-            >
-              <view
-                v-if="loadingPhoto && current === '1'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
-            </view>
-            <view class="text-center mt-10px">身份证正面照片</view>
+          <view @click="upload('1', '1')">
+            <Card-Upload :type="1" :imgUrl="cardUrl1" />
           </view>
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('2', '1')"
-            >
-              <view
-                v-if="loadingPhoto && current === '2'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img :width="100" :height="100" :src="cardUrl2" custom-class="custom-class-img" />
-            </view>
-            <view class="text-center mt-10px">身份证国徽面照片</view>
+          <view @click="upload('2', '1')">
+            <Card-Upload :type="2" :imgUrl="cardUrl2" />
           </view>
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('0', '1')"
-            >
-              <view
-                v-if="loadingPhoto && current === '0'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img :width="100" :height="100" :src="cardUrl0" custom-class="custom-class-img" />
-            </view>
-            <view class="text-center mt-10px">本人正面照片</view>
+          <view @click="upload('0', '1')">
+            <Card-Upload :type="0" :imgUrl="cardUrl0" />
           </view>
         </view>
       </wd-form>

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useBaseStore, useUserStore } from '@/store'
+import { changeDict, routeTo } from '@/utils'
 import dayjs from 'dayjs'
 import { useMessage } from 'wot-design-uni'
 import useCardJuvenApply from '../hooks/useCardJuvenApply'
@@ -13,13 +15,6 @@ import {
   regionList,
   sexList,
 } from '../types/dict'
-
-import { useBaseStore, useDbrBaseStore, useUserStore } from '@/store'
-import { changeDict, routeTo } from '@/utils'
-import card1 from '../static/images/idCard1.jpg'
-import card2 from '../static/images/idCard2.jpg'
-import card3 from '../static/images/idCard3.jpg'
-
 const message = useMessage()
 const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
   useCardJuvenApply()
@@ -56,19 +51,18 @@ async function upload(photoType: string, type: string, camerType?: number) {
   })
 }
 
-const dbrCardUrl = ref(card1)
-const dbrCardUrl2 = ref(card2)
-const { dbrCameraData } = useDbrBaseStore()
+const dbrCardUrl = ref()
+const dbrCardUrl2 = ref()
 
-const cardUrl = ref(card1)
-const cardUrl2 = ref(card2)
-const cardUrl0 = ref(card3)
+const cardUrl1 = ref()
+const cardUrl2 = ref()
+const cardUrl0 = ref()
 const { cameraData } = useBaseStore()
 
 onShow(() => {
   console.log('🥧+cameraData', cameraData)
   if (cameraData.idCardFront.id) {
-    cardUrl.value = cameraData.idCardFront.url
+    cardUrl1.value = cameraData.idCardFront.url
     model.value.idCardFrontPhotoId = cameraData.idCardFront.id
     const { words_result: wordsResult }: any = cameraData.idCardFront.data
     model.value.name = wordsResult['姓名'].words
@@ -90,7 +84,6 @@ onShow(() => {
     model.value.photoId = cameraData.photo.id
   }
 
-  console.log('🥧+dbrCameraData', dbrCameraData)
   if (cameraData.idCardFront.id) {
     dbrCardUrl.value = cameraData.dbrCardFront.url
     model.value.dbrIdCardFrontPhotoId = cameraData.dbrCardFront.id
@@ -171,6 +164,7 @@ const footerBtns3 = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
+    type: '',
   },
   {
     text: '确认提交',
@@ -178,6 +172,7 @@ const footerBtns3 = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
+    type: '',
   },
 ])
 function btnClick3(item) {
@@ -197,47 +192,13 @@ function btnClick3(item) {
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-form ref="formPhoto" :model="modelPhoto">
         <view class="mb-20px px-20px">
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('1', '1', 3)"
-            >
-              <view
-                v-if="loadingPhoto && current === '1'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img
-                :width="100"
-                :height="100"
-                :src="dbrCardUrl"
-                custom-class="custom-class-img"
-              />
+          <view class="mb-20px px-20px">
+            <view @click="upload('1', '1', 3)">
+              <Card-Upload :type="1" :imgUrl="dbrCardUrl" smTitle="代办人" />
             </view>
-            <view class="text-center mt-10px">代办人证件正面照片</view>
-          </view>
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('2', '1', 4)"
-            >
-              <view
-                v-if="loadingPhoto && current === '2'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img
-                :width="100"
-                :height="100"
-                :src="dbrCardUrl2"
-                custom-class="custom-class-img"
-              />
+            <view @click="upload('2', '1', 4)">
+              <Card-Upload :type="2" :imgUrl="dbrCardUrl2" smTitle="代办人" />
             </view>
-            <view class="text-center mt-10px">代办人证件国徽面照片</view>
           </view>
         </view>
       </wd-form>
@@ -571,53 +532,14 @@ function btnClick3(item) {
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-form ref="formPhoto" :model="modelPhoto">
         <view class="mb-20px px-20px">
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('1', '1')"
-            >
-              <view
-                v-if="loadingPhoto && current === '1'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
-            </view>
-            <view class="text-center mt-10px">身份证正面照片</view>
+          <view @click="upload('1', '1')">
+            <Card-Upload :type="1" :imgUrl="cardUrl1" />
           </view>
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('2', '1')"
-            >
-              <view
-                v-if="loadingPhoto && current === '2'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img :width="100" :height="100" :src="cardUrl2" custom-class="custom-class-img" />
-            </view>
-            <view class="text-center mt-10px">身份证国徽面照片</view>
+          <view @click="upload('2', '1')">
+            <Card-Upload :type="2" :imgUrl="cardUrl2" />
           </view>
-          <view>
-            <view
-              class="custom-class custom-preview-class mt-20px! relative overflow-hidden"
-              @click="upload('0', '1')"
-            >
-              <view
-                v-if="loadingPhoto && current === '0'"
-                class="flex flex-col justify-center items-center bg-coolGray-5 size-full! absolute left-0 top-0 z-10"
-              >
-                <wd-loading type="outline" />
-              </view>
-
-              <wd-img :width="100" :height="100" :src="cardUrl0" custom-class="custom-class-img" />
-            </view>
-            <view class="text-center mt-10px">本人正面照片</view>
+          <view @click="upload('0', '1')">
+            <Card-Upload :type="0" :imgUrl="cardUrl0" />
           </view>
         </view>
       </wd-form>

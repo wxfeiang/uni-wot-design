@@ -191,7 +191,7 @@ const acton = (item) => {
     </view>
   </view>
 
-  <view class="p-10px">
+  <view class="p-10px" v-if="false">
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
       <dy-title title="我的订单" more @moreClick="orderGuild"></dy-title>
       <view class="pt-20px flex justify-between">
@@ -210,7 +210,7 @@ const acton = (item) => {
   <view class="px-10px">
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
       <dy-title title="功能服务"></dy-title>
-      <view class="p-10px flex justify-between flex-wrap">
+      <view class="p-10px flex flex-wrap">
         <view
           v-for="(item, index) in serveList"
           :key="index"

@@ -16,8 +16,8 @@ const {
     yhdm: '',
     areaCode: '',
     isMail: '',
-    longitude: userLocation.longitude,
-    latitude: userLocation.latitude,
+    longitude: userLocation.longitude.toString(),
+    dimension: userLocation.latitude.toString(),
   }),
   {
     immediate: false,

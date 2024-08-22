@@ -2,7 +2,7 @@
  * @Author: chenkezhan 1763932127@qq.com
  * @Date: 2024-08-16 11:28:39
  * @LastEditors: wxfeiang wxfeiang@qq.com
- * @LastEditTime: 2024-08-20 20:55:27
+ * @LastEditTime: 2024-08-22 17:24:00
  * @FilePath: /xa_card_mini/src/pages/serve/index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -149,17 +149,17 @@ const scrollTop = ref<number>(0)
 const itemScrollTop = ref<number[]>([])
 
 const categories = ref([
-  {
-    label: '社保卡申领',
-    title: '标题一',
-    icon: 'thumb-up',
-    items: mainData.value.slice(0, 3),
-  },
+  // {
+  //   label: '社保卡申领',
+  //   title: '标题一',
+  //   icon: 'thumb-up',
+  //   items: mainData.value.slice(0, 3),
+  // },
   {
     label: '社保卡服务',
     title: '标题二',
     icon: 'qrcode',
-    items: mainData.value.slice(3, 20),
+    items: mainData.value.slice(0, 20),
   },
   // {
   //   label: '生活缴费',
