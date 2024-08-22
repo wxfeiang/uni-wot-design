@@ -168,13 +168,16 @@ const acton = (item) => {
             </view>
           </template>
         </view>
-        <view class="qiandao text-center line-height-32px color-#fff font-size-14px" @click="acton">
-          <wd-icon name="add-circle" />
-          签到
+        <view
+          class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
+          @click="acton"
+        >
+          <i class="iconfont xa-jinbi2 text-20px"></i>
+          <text>签到</text>
         </view>
       </view>
     </view>
-    <!-- //TODO: -->
+
     <view class="p-10px flex justify-between mt-20px">
       <view
         v-for="(item, index) in topAction"
@@ -187,7 +190,7 @@ const acton = (item) => {
       </view>
     </view>
   </view>
-  <!-- //TODO: -->
+
   <view class="p-10px">
     <view class="p-10px rounded-10px overflow-hidden bg-#fff">
       <dy-title title="我的订单" more @moreClick="orderGuild"></dy-title>

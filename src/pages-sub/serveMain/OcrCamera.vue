@@ -273,7 +273,7 @@ onMounted(() => {
 
           <wd-toast />
         </view>
-        <view class="relative flex flex-col justify-center items-center bgCop" v-else>
+        <view class="relative flex flex-col justify-center items-center bgCop size-full" v-else>
           <view
             class="p-5px bd-solid_#fff"
             :style="`width: ${copData.width}px;height:${copData.height}px`"
@@ -284,7 +284,7 @@ onMounted(() => {
         </view>
       </view>
 
-      <view class="w-full absolute bottom-0 bg-#000 font-size-20px color-#fff z-99">
+      <view class="w-full h-10% absolute bottom-0 bg-#000 font-size-20px color-#fff z-99">
         <view class="flex justify-between items-center px-70px py-10px">
           <view class="back" @click="close">
             <wd-icon name="arrow-down" size="22px" color="#fff"></wd-icon>
@@ -339,6 +339,6 @@ onMounted(() => {
 }
 
 .bgCop {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.9);
 }
 </style>

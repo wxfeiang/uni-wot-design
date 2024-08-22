@@ -119,12 +119,18 @@ export default defineManifestConfig({
       desc: '用于拨打电话',
     },
     usingComponents: true,
-    // __usePrivacyCheck__: true,
-    'ocr-plugin': {
-      version: '3.1.5',
-      provider: 'wx4418e3e031e551be',
+
+    permission: {
+      'scope.userLocation': {
+        desc: '你的位置信息将用于小程序位置接口的效果展示',
+      },
+      'scope.userFuzzyLocation': {
+        desc: '你的位置信息将用于小程序位置接口的效果展示',
+      },
     },
+    lazyCodeLoading: 'requiredComponents',
   },
+  requiredPrivateInfos: ['getFuzzyLocation'],
   'mp-alipay': {
     usingComponents: true,
     styleIsolation: 'shared',

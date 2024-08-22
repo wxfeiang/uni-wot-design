@@ -16,7 +16,7 @@ import yinsi from './static/images/yinsi.png'
 import yonghu from './static/images/yonghu.png'
 const setInfo = ref([
   {
-    name: '设置小程序免密登录',
+    name: '小程序免密登录',
     icon: shezhi,
     islink: true,
     url: '/pages-sub/system/sysconfig/setting',

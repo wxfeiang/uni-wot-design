@@ -100,3 +100,20 @@ export const getLoginCode = () => {
     })
   })
 }
+
+export const getLocation = () => {
+  return new Promise((resolve, reject) => {
+    uni.getLocation({
+      type: 'wgs84', // 返回可以用于uni.openLocation的经纬度，默认为wgs84的gps坐标
+      success: (res) => {
+        console.log('当前位置的经度：' + res.longitude)
+        console.log('当前位置的纬度：' + res.latitude)
+        resolve(res)
+      },
+      fail: (err) => {
+        Toast('获取位置失败')
+        reject(err)
+      },
+    })
+  })
+}
