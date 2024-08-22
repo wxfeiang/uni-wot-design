@@ -17,7 +17,7 @@ const {
     areaCode: '',
     isMail: '',
     longitude: userLocation.longitude.toString(),
-    latitude: userLocation.latitude.toString(),
+    dimension: userLocation.latitude.toString(),
   }),
   {
     immediate: false,

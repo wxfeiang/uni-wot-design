@@ -47,6 +47,15 @@ const queryList = async (pageNo, pageSize) => {
     paging.value.complete(false)
   }
 }
+const changeDe = (data) => {
+  let company = 'm'
+  let num = '0'
+  if (data > 10000) {
+    company = 'km'
+    num = (data / 1000).toFixed(2)
+  }
+  return num + company
+}
 </script>
 
 <template>
@@ -66,7 +75,7 @@ const queryList = async (pageNo, pageSize) => {
           :key="index"
           :to="item.url"
           custom-class="cell-item"
-          title-width="70%"
+          title-width="60%"
         >
           <template #icon>
             <view
@@ -83,7 +92,7 @@ const queryList = async (pageNo, pageSize) => {
           </template>
 
           <view class="pt-10px">
-            <view class="truncate-1 color-#999">距离 : {{ item.distance || '100 米' }}</view>
+            <view class="color-#999">距离: {{ changeDe(item.distance) }}</view>
             <view class="flex gap-20px justify-end mt-4px">
               <view class="flex flex-col items-center" @click="toLocation(item)">
                 <view class="i-carbon-location-heart-filled color-#999"></view>
