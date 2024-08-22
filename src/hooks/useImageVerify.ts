@@ -10,7 +10,7 @@ const { send: getCodeUrl, onSuccess: codeSuccess } = getCode({
 const codeImg = ref('')
 const codeflog = ref('')
 codeSuccess((event: any) => {
-  codeflog.value = event.data.header.captchacode
+  codeflog.value = event.data.header.captchaCode
   const img = base64Encode(
     new Uint8Array(event.data.data).reduce((data, byte) => data + String.fromCharCode(byte), ''),
   )

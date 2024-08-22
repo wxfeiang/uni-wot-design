@@ -165,7 +165,6 @@ async function upload(ress) {
   toast.loading('正在上传中...')
   const formData = {
     ...currentParams.value,
-    zjhm: '210204199207215655',
     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
   }
   try {

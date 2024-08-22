@@ -135,7 +135,7 @@ function tabChange(event) {
         </view>
       </wd-tab>
       <wd-tab title="验证码登录">
-        <view class="px-30px pt-20px">
+        <view class="px-30px pt-15px">
           <wd-form ref="form2" :model="model2">
             <view class="py-10px mb-2">
               <view class="my-5px color-#000000">手机号</view>
@@ -211,9 +211,9 @@ function tabChange(event) {
       </wd-tab>
     </wd-tabs>
 
-    <view class="fixed bottom-60px left-0 right-0">
+    <view class="fixed bottom-30px left-0 right-0">
       <wd-divider>更多登录方式</wd-divider>
-      <view class="flex justify-center items-center mt-20px gap-20px">
+      <view class="flex justify-center items-center mt-15px gap-20px">
         <wd-button
           type="text"
           open-type="getPhoneNumber"
