@@ -91,27 +91,8 @@ const Login = (form) => {
             userId,
           }
           const data: any = await sendFaceLogin(loginData)
-          // 保存
-          authStore.setUserInfo(data)
-          // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
-          if (data.cardType !== 3) {
-            const params = {
-              xm: authStore.userInfo.userName,
-              zjhm: authStore.userInfo.idCardNumber,
-              zjlx: '1',
-              zkType: '1',
-              wdcode: '999-130632004',
-              areaCode: 'CHN',
-            }
 
-            const resultData: any = await sendIsReceiveCardInfo(params)
-            console.log('🥞[resultData]:', resultData)
-            authStore.userInfo.cardType = resultData.cardType
-          } else {
-            authStore.userInfo.cardType = data.cardType
-          }
-          // 跳转到登录后的页面
-          uni.navigateBack()
+          await resultData(data)
         } catch (error) {
           Toast(error)
         }
@@ -199,6 +180,8 @@ const submitPhoneLogin = (form) => {
           const data: any = await phoneSend(params)
           console.log('🍷[data]:', data)
 
+          await resultData(data)
+
           getCodeUrl()
         } catch (error) {
           console.log('🍱[error]:', error)
@@ -234,8 +217,8 @@ const getphonenumber = async (e) => {
       // openid
       const { openId }: any = await sendOpenIdCode({ code: wxLoginCode })
       const param = {
-        encryptedData: encodeURIComponent(encodeURIComponent(e.encryptedData)),
-        iv: encodeURIComponent(encodeURIComponent(e.iv)),
+        encryptedData: e.encryptedData,
+        iv: e.iv,
         openId,
         openid: openId,
         userId: openId,
@@ -244,7 +227,9 @@ const getphonenumber = async (e) => {
       console.log('🥫', param)
       const data = await chartSend(param)
       console.log('🍕[data]:', data)
+
       // TODO: 最终登录 存储信息
+      await resultData(data)
     } catch (error) {
       console.log('🍓[error]:', error)
       Toast(error?.data?.msg)
@@ -255,6 +240,31 @@ const getphonenumber = async (e) => {
 const shuziLogin = () => {
   Toast('功能开发中...')
 }
+
+const resultData = async (data) => {
+  // 保存
+  authStore.setUserInfo(data)
+  // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
+  if (data.cardType !== 3) {
+    const params = {
+      xm: authStore.userInfo.userName,
+      zjhm: authStore.userInfo.idCardNumber,
+      zjlx: '1',
+      zkType: '1',
+      wdcode: '999-130632004',
+      areaCode: 'CHN',
+    }
+
+    const resultData: any = await sendIsReceiveCardInfo(params)
+    console.log('🥞[resultData]:', resultData)
+    authStore.userInfo.cardType = resultData.cardType
+  } else {
+    authStore.userInfo.cardType = data.cardType
+  }
+  // 跳转到登录后的页面
+  uni.navigateBack()
+}
+
 export default () => {
   return {
     Login,
