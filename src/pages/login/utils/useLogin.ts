@@ -64,6 +64,7 @@ const Login = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
+        uni.showLoading({ title: '登录中...' })
         const newData = {
           appKey: Constant.APP_KEY,
           name: model.value.username,
@@ -71,31 +72,28 @@ const Login = (form) => {
           type: 1,
           terminal: Constant.TERMINAL,
         }
-        try {
-          // 获取key
-          const { userIdKey }: any = await sendUserIdKey(newData)
-          const verifyData = {
-            name: model.value.username,
-            idCardNumber: model.value.password,
-            userIdKey,
-          }
-          // 用key 验证
-          const { verifyResult }: any = await startFacialRecognitionVerify(verifyData)
-          // info 验证
-          const { openid: userId }: any = await sendUserInfo({
-            verifyResult,
-            idCardNumber: model.value.password,
-          })
-          // 登录
-          const loginData = {
-            userId,
-          }
-          const data: any = await sendFaceLogin(loginData)
 
-          await resultData(data)
-        } catch (error) {
-          Toast(error)
+        // 获取key
+        const { userIdKey }: any = await sendUserIdKey(newData)
+        const verifyData = {
+          name: model.value.username,
+          idCardNumber: model.value.password,
+          userIdKey,
         }
+        // 用key 验证
+        const { verifyResult }: any = await startFacialRecognitionVerify(verifyData)
+        // info 验证
+        const { openid: userId }: any = await sendUserInfo({
+          verifyResult,
+          idCardNumber: model.value.password,
+        })
+        // 登录
+        const loginData = {
+          userId,
+        }
+        const data: any = await sendFaceLogin(loginData)
+
+        await resultData(data)
       } catch (error) {
         console.log('error', error)
       }
@@ -169,6 +167,7 @@ const submitPhoneLogin = (form) => {
     .then(async ({ valid, errors }) => {
       if (valid) {
         try {
+          uni.showLoading({ title: '登录中...' })
           const params = {
             userId: '',
             userPhone: model2.value.phone,
@@ -212,6 +211,7 @@ const getphonenumber = async (e) => {
   }
   if (e.errMsg === 'getPhoneNumber:ok') {
     try {
+      uni.showLoading({ title: '登录中...' })
       // 微信登录
       const wxLoginCode = await getLoginCode()
       // openid
@@ -242,6 +242,7 @@ const shuziLogin = () => {
 }
 
 const resultData = async (data) => {
+  uni.hideLoading()
   // 保存
   authStore.setUserInfo(data)
   // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领

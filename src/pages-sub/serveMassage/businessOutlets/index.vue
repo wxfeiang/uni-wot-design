@@ -14,7 +14,7 @@
 import { useBaseStore } from '@/store'
 import { getLocation } from '@/utils/uniapi'
 import useBusinessOutlets from './hooks/businessOutlets'
-const { setLocation, userLocation } = useBaseStore()
+const baseStore = useBaseStore()
 
 const { sendbranchesInfo, loading } = useBusinessOutlets()
 
@@ -38,18 +38,18 @@ const dataList = ref([])
 onLoad(async (options: any) => {
   location()
 })
+// { setLocation, userLocation }
 const location = async () => {
-  if (!userLocation.longitude) {
+  if (!baseStore.userLocation.longitude) {
+    console.log('🍷')
     try {
       const location = await getLocation()
       console.log('🍾[location]:', location)
-      await setLocation(location)
-      paging.value.reload()
-    } catch (error) {
-      paging.value.complete(false)
-    }
+      await baseStore.setLocation(location)
+      queryList(1, 10)
+    } catch (error) {}
   } else {
-    paging.value.reload()
+    queryList(1, 10)
   }
 }
 
@@ -60,21 +60,24 @@ const queryList = async (pageNo, pageSize) => {
   //   articleType: '0',
   // }
   // 调用接口获取数据
+
   try {
     const params = {
       yhdm: '',
       areaCode: '',
       isMail: '',
-      longitude: userLocation?.longitude?.toString(),
-      dimension: userLocation?.latitude?.toString(),
+      longitude: baseStore.userLocation?.longitude?.toString(),
+      dimension: baseStore.userLocation?.latitude?.toString(),
     }
-
+    uni.showLoading({ title: '加载中' })
     const res: any = await sendbranchesInfo(params)
     dataList.value = res.data.data
-    paging.value.complete(dataList.value)
+    uni.hideLoading()
+    // paging.value.complete(dataList.value)
   } catch (error) {
+    uni.hideLoading()
     console.log('🥒[error]:', error)
-    paging.value.complete(false)
+    // paging.value.complete(false)
   }
 }
 const changeDe = (data) => {
@@ -87,7 +90,11 @@ const changeDe = (data) => {
 
 <template>
   <!--     -->
-  <z-paging
+  <view v-if="!baseStore.userLocation.longitude">
+    <wd-status-tip image="search" tip="暂无网点信息" />
+  </view>
+
+  <!-- <z-paging
     ref="paging"
     v-model="dataList"
     :refresher-enabled="false"
@@ -96,6 +103,8 @@ const changeDe = (data) => {
     @query="queryList"
     :auto="false"
   >
+</z-paging> -->
+  <view v-else>
     <wd-gap bg-color="#f5f5f5"></wd-gap>
     <view class="p-10px">
       <!-- <dy-title title="服务网点" class="py-10px"></dy-title> -->
@@ -137,7 +146,7 @@ const changeDe = (data) => {
         </wd-cell>
       </wd-cell-group>
     </view>
-  </z-paging>
+  </view>
 </template>
 
 <style lang="scss" scoped>

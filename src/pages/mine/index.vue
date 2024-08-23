@@ -140,7 +140,7 @@ const acton = (item) => {
                 <view
                   v-if="isLogined"
                   :style="` background-image: url(${applyBase64})`"
-                  class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-999 px-10px"
+                  class="font-size-10px w-50px h-18px text-center line-height-20px bg mx-auto mt-[-10px] relative z-1 px-10px"
                 >
                   {{ userInfo.cardType === '3' ? '已申领' : '未申领' }}
                 </view>

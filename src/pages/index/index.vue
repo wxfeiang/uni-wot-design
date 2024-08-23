@@ -422,7 +422,7 @@ onPageScroll((e) => {
     <view class="py-10px h-70px relative">
       <wd-img
         :width="100"
-        :height="68"
+        :height="88"
         :src="banner2"
         custom-class="custom-class-img"
         @click="toBusinessOutlets"
