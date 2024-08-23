@@ -6,25 +6,14 @@ import { useBaseStore } from '@/store'
 
 const { userLocation } = useBaseStore()
 
-// 网点信息
 const {
   data: cardInfoData,
   send: sendbranchesInfo,
   loading,
-} = useRequest(
-  getBranchesInfo({
-    yhdm: '',
-    areaCode: '',
-    isMail: '',
-    longitude: userLocation.longitude.toString(),
-    dimension: userLocation.latitude.toString(),
-  }),
-  {
-    immediate: false,
-    loading: false,
-    initialData: [],
-  },
-)
+} = useRequest((data) => getBranchesInfo(data), {
+  immediate: false,
+  loading: false,
+})
 
 // 点击消息
 function messageClick(item) {

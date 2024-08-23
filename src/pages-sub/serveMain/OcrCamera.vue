@@ -94,6 +94,7 @@ function loadTempImagePath(url) {
         fileType: 'jpg',
         quality: 1,
         complete: (res) => {
+          console.log('🍜[res]:', res)
           resolve(res.tempFilePath)
         },
         fail: (err) => {
@@ -130,6 +131,7 @@ const chooseImage = () => {
       try {
         // 截图
         const copUrl = await loadTempImagePath(res.tempFilePaths[0])
+        console.log('🍈[copUrl]:', copUrl)
         copSrc.value = copUrl
         // 压缩
         const pressUrl = await pressImage(copUrl)
@@ -174,7 +176,8 @@ async function upload(ress) {
   const photoBase64 = await pathToBase64(ress)
   toast.loading('正在上传中...')
   const formData = {
-    ...currentParams.value,
+    photoType: currData.value.imgType.toString(),
+    type: currentParams.value.type,
     zjhm: '210204199207215655',
     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
   }
@@ -184,21 +187,23 @@ async function upload(ress) {
       console.log('🍫[resData]:', resData)
       toast.error(resData.data.data.message)
     } else {
-      console.log('🍦[resData]========:', resData)
-
+      console.log('🍖', resData)
       const cameraData = {
         type: currData.value.imgType,
         url: ress,
         id: resData.data.data.id,
-        data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
+        data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data.identifyCardInfo),
       }
 
       eventChannel.emit('camera', {
         cameraData,
       })
+      console.log('🍦[resData]========:', resData)
+
       close()
     }
   } catch (error) {
+    console.log('🍧[error]:', error)
     toast.error('图片上传出问题了')
     toast.close()
   }
@@ -210,9 +215,9 @@ function reverseCamera() {
 function cameraError(e) {
   console.log(e.detail)
   toast.error('以拒绝，使用请手动开启')
-  setTimeout(() => {
-    close()
-  }, 5000)
+  // setTimeout(() => {
+  //   close()
+  // }, 5000)
 }
 
 // 关闭相机

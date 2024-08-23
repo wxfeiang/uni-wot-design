@@ -14,12 +14,7 @@
 import { useBaseStore } from '@/store'
 import { getLocation } from '@/utils/uniapi'
 import useBusinessOutlets from './hooks/businessOutlets'
-const basestore = useBaseStore()
-onLoad(async (options: any) => {
-  const location = await getLocation()
-  console.log('🍾[location]:', location)
-  basestore.setLocation(location)
-})
+const { setLocation, userLocation } = useBaseStore()
 
 const { sendbranchesInfo, loading } = useBusinessOutlets()
 
@@ -40,6 +35,24 @@ function toLocation(e) {
 
 const paging = ref(null)
 const dataList = ref([])
+onLoad(async (options: any) => {
+  location()
+})
+const location = async () => {
+  if (!userLocation.longitude) {
+    try {
+      const location = await getLocation()
+      console.log('🍾[location]:', location)
+      await setLocation(location)
+      paging.value.reload()
+    } catch (error) {
+      paging.value.complete(false)
+    }
+  } else {
+    paging.value.reload()
+  }
+}
+
 const queryList = async (pageNo, pageSize) => {
   // const data = {
   //   page: pageNo,
@@ -48,7 +61,15 @@ const queryList = async (pageNo, pageSize) => {
   // }
   // 调用接口获取数据
   try {
-    const res: any = await sendbranchesInfo()
+    const params = {
+      yhdm: '',
+      areaCode: '',
+      isMail: '',
+      longitude: userLocation?.longitude?.toString(),
+      dimension: userLocation?.latitude?.toString(),
+    }
+
+    const res: any = await sendbranchesInfo(params)
     dataList.value = res.data.data
     paging.value.complete(dataList.value)
   } catch (error) {
@@ -65,12 +86,15 @@ const changeDe = (data) => {
 </script>
 
 <template>
+  <!--     -->
   <z-paging
     ref="paging"
     v-model="dataList"
-    @query="queryList"
     :refresher-enabled="false"
+    :loading-more-enabled="false"
     :auto-show-system-loading="true"
+    @query="queryList"
+    :auto="false"
   >
     <wd-gap bg-color="#f5f5f5"></wd-gap>
     <view class="p-10px">

@@ -108,16 +108,16 @@ function juvenClick(form) {
           :loading="loading"
           v-if="suMit1"
         >
-          查询本人
+          查 询
         </wd-button>
-        <view class="mt-20px flex justify-center">
+        <!-- <view class="mt-20px flex justify-center">
           <wd-text
             text="未成年人申领进度查询"
             type="primary"
             decoration="underline"
             @click="juvenClick(form)"
           />
-        </view>
+        </view> -->
       </view>
     </view>
     <view v-if="cardInfoData && !loading">

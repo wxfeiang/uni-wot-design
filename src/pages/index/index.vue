@@ -224,7 +224,7 @@ function serveClick(item?: any) {
         // 需要传递给目标小程序的数据
       },
     })
-  } else if (item.title === '停车缴费') {
+  } else if (item.title === '雄安乐泊') {
     uni.navigateToMiniProgram({
       appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
       path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
@@ -235,7 +235,6 @@ function serveClick(item?: any) {
   } else if (item.title === 'more') {
     routeTo({
       url: item.url,
-
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
   } else {
@@ -273,7 +272,7 @@ onMounted(async () => {
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 const navbg = ref('nav_show')
 onPageScroll((e) => {
-  if (e.scrollTop > 10) {
+  if (e.scrollTop > 30) {
     navbg.value = 'nav_hide'
   } else {
     navbg.value = 'nav_show'
@@ -352,7 +351,7 @@ onPageScroll((e) => {
   </view>
 
   <!-- 消息 -->
-  <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
+  <wd-gap height="3" bg-color="#f5f5f5"></wd-gap>
   <view class="px-10px pr-0">
     <!-- <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title> -->
     <wd-cell-group>
@@ -368,7 +367,7 @@ onPageScroll((e) => {
       >
         <template #title>
           <view class="flex">
-            <view class="w-50px relative">
+            <view class="drelative mr-5px mt-[-2px]">
               <wd-tag type="danger" color="#e48370" bg-color="#f5f5f5">消息</wd-tag>
               <view
                 v-if="true"
@@ -382,17 +381,8 @@ onPageScroll((e) => {
     </wd-cell-group>
   </view>
   <!-- 广告位 -->
-  <view class="py-7px bg-#f5f5f5 h-120px">
-    <wd-swiper
-      :list="swiperList"
-      autoplay
-      :current="0"
-      :height="120"
-      :indicator="false"
-      @click="swiperClick"
-      imageMode="heightFix"
-      customClass="swiper_box"
-    ></wd-swiper>
+  <view class="py-3px bg-#f5f5f5 h-140px px-10px">
+    <image :src="banner" class="w-100% h-100%"></image>
   </view>
 
   <!-- 服务专区 -->
@@ -420,7 +410,7 @@ onPageScroll((e) => {
     </view>
   </view>
   <!-- 办事指南 -->
-  <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
+  <wd-gap height="3" bg-color="#f5f5f5"></wd-gap>
   <view class="p-10px">
     <dy-title
       title="办事"
@@ -458,7 +448,7 @@ onPageScroll((e) => {
       </wd-cell>
     </wd-cell-group>
   </view>
-  <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
+  <!-- <wd-gap height="" bg-color="#f5f5f5"></wd-gap> -->
 </template>
 
 <style>
