@@ -48,12 +48,9 @@ const queryList = async (pageNo, pageSize) => {
   }
 }
 const changeDe = (data) => {
-  let company = 'm'
+  const company = 'km'
   let num = '0'
-  if (data > 10000) {
-    company = 'km'
-    num = (data / 1000).toFixed(1)
-  }
+  num = (data / 1000).toFixed(1)
   return num + company
 }
 </script>
