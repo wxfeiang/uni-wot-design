@@ -124,10 +124,10 @@ const changeDe = (data) => {
             </view>
           </template>
           <template #title>
-            <view class="truncate-1 color-#000">{{ item.name }}</view>
+            <view class="truncate-2 color-#000">{{ item.name }}</view>
           </template>
           <template #label>
-            <view class="color-#999 truncate-3">地址: {{ item.address }}</view>
+            <view class="color-#999 truncate-2">地址: {{ item.address }}</view>
           </template>
 
           <view class="pt-10px">

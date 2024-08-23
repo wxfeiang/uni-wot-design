@@ -9,9 +9,12 @@
 </route>
 
 <script lang="ts" setup>
-import PLATFORM from '@/utils/platform'
-import useGurid from './hooks/useGurid'
-console.log('🥘[useGurid]:', useGurid)
+import { useMessage } from 'wot-design-uni'
+
+import useNews from './hooks/useGurid'
+const message = useMessage()
+
+const { sendMessageList, messageClick } = useNews()
 
 defineOptions({
   name: 'workGuide',
@@ -21,17 +24,6 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 function handleClickLeft() {
   uni.navigateBack()
 }
-// H5 的情况下要 -44
-const navTop = ref(safeAreaInsets.top + 40)
-onMounted(() => {
-  if (PLATFORM.isH5) {
-    navTop.value = navTop.value - 44
-  }
-})
-
-// 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
-const navbg = ref('nav_show')
-const { sendMessageList, messageClick, messageData } = useGurid()
 
 const paging = ref(null)
 const dataList = ref([])
@@ -43,10 +35,13 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    const resData = await sendMessageList(data)
-    dataList.value = resData.data.data.content
+    const a: any = await sendMessageList(data)
+    console.log('🥠[a ]:', a.data.data.content)
+    dataList.value = a.data.data.content
+
     paging.value.complete(dataList.value)
   } catch (error) {
+    console.log('🥒[error]:', error)
     paging.value.complete(false)
   }
 }
@@ -68,7 +63,7 @@ const queryList = async (pageNo, pageSize) => {
             <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
           </template>
         </wd-navbar>
-        <wd-sticky :offset-top="navTop">
+        <!-- <wd-sticky :offset-top="navTop">
           <view class="w-100vw">
             <wd-search
               placeholder-left
@@ -77,7 +72,7 @@ const queryList = async (pageNo, pageSize) => {
               :custom-class="navbg"
             />
           </view>
-        </wd-sticky>
+        </wd-sticky> -->
       </view>
     </template>
 

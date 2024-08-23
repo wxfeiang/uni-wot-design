@@ -290,28 +290,28 @@ onPageScroll((e) => {
         </view>
       </template>
     </wd-navbar>
-    <wd-sticky :offset-top="navTop">
-      <view :class="`w-100vw flex items-center justify-between gap-2px box-border ${navbg}`">
-        <view class="w-30px text-center">
-          <i class="iconfont xa-tianqitubiao_qing text-20px"></i>
-        </view>
-        <view class="color-#fff flex items-center">
-          <view class="w-40px font-size-13px truncate-1">{{ loactionName }}</view>
-          <wd-icon name="chevron-down" color="#fff" size="14px"></wd-icon>
-        </view>
-
-        <view class="flex-1">
-          <wd-search
-            placeholder-left
-            placeholder="请输入关键词搜索"
-            hide-cancel
-            disabled
-            :custom-class="navbg"
-            @click="serveClick"
-          />
-        </view>
+    <!-- <wd-sticky :offset-top="navTop"> -->
+    <view :class="`w-100vw flex items-center justify-between gap-2px box-border ${navbg}`">
+      <view class="w-30px text-center">
+        <i class="iconfont xa-tianqitubiao_qing text-20px"></i>
       </view>
-    </wd-sticky>
+      <view class="color-#fff flex items-center">
+        <view class="w-40px font-size-13px truncate-1">{{ loactionName }}</view>
+        <wd-icon name="chevron-down" color="#fff" size="14px"></wd-icon>
+      </view>
+
+      <view class="flex-1">
+        <wd-search
+          placeholder-left
+          placeholder="请输入关键词搜索"
+          hide-cancel
+          disabled
+          :custom-class="navbg"
+          @click="serveClick"
+        />
+      </view>
+    </view>
+    <!-- </wd-sticky> -->
     <view class="px-10px pt-5px flex justify-between">
       <view
         v-for="(item, index) in topAction"
@@ -381,7 +381,7 @@ onPageScroll((e) => {
     </wd-cell-group>
   </view>
   <!-- 广告位 -->
-  <view class="py-3px bg-#f5f5f5 h-140px px-10px">
+  <view class="py-3px bg-#f5f5f5 h-140px px-10px" @click="swiperClick">
     <image :src="banner" class="w-100% h-100%"></image>
   </view>
 
