@@ -274,13 +274,13 @@ onMounted(async () => {
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 const navbg = ref('nav_show')
-onPageScroll((e) => {
-  if (e.scrollTop > 50) {
-    navbg.value = 'nav_hide'
-  } else {
-    navbg.value = 'nav_show'
-  }
-})
+// onPageScroll((e) => {
+//   if (e.scrollTop > 50) {
+//     navbg.value = 'nav_hide'
+//   } else {
+//     navbg.value = 'nav_show'
+//   }
+// })
 </script>
 <template>
   <!-- 顶部 -->
@@ -293,7 +293,7 @@ onPageScroll((e) => {
         </view>
       </template>
     </wd-navbar>
-    <wd-sticky :offset-top="navTop">
+    <wd-sticky>
       <view :class="`w-100vw flex items-center justify-between gap-5px  box-border ${navbg}`">
         <view class="w-30px text-center">
           <i class="iconfont xa-tianqitubiao_qing text-20px"></i>
