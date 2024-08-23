@@ -16,6 +16,12 @@ const value = ref('')
 function handleClickLeft() {
   uni.navigateBack()
 }
+const save = () => {
+  uni.showToast({
+    title: '修改成功',
+    icon: 'none',
+  })
+}
 </script>
 
 <template>
@@ -37,7 +43,7 @@ function handleClickLeft() {
     </view>
     <view class="text-14px m-10px">退出后需要重新登录</view>
     <view class="p-10px mt-20px">
-      <wd-button block>修改</wd-button>
+      <wd-button block @click="save">修改</wd-button>
     </view>
   </view>
 </template>

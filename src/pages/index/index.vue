@@ -36,7 +36,7 @@ import zhenwu from '@/static/images/index/zhenwu.png'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
 import PLATFORM from '@/utils/platform'
-import { getLocation, useScancode } from '@/utils/uniapi'
+import { useScancode } from '@/utils/uniapi'
 import { useMessage, useToast } from 'wot-design-uni'
 
 import { useBaseStore } from '@/store'
@@ -261,8 +261,6 @@ onMounted(async () => {
   if (PLATFORM.isH5) {
     navTop.value = navTop.value - 44
   }
-  const location = await getLocation()
-  basestore.setLocation(location)
 
   const mess: any = await sendMessageList({
     page: 1,
@@ -274,13 +272,13 @@ onMounted(async () => {
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 const navbg = ref('nav_show')
-// onPageScroll((e) => {
-//   if (e.scrollTop > 50) {
-//     navbg.value = 'nav_hide'
-//   } else {
-//     navbg.value = 'nav_show'
-//   }
-// })
+onPageScroll((e) => {
+  if (e.scrollTop > 10) {
+    navbg.value = 'nav_hide'
+  } else {
+    navbg.value = 'nav_show'
+  }
+})
 </script>
 <template>
   <!-- 顶部 -->
@@ -293,8 +291,8 @@ const navbg = ref('nav_show')
         </view>
       </template>
     </wd-navbar>
-    <wd-sticky>
-      <view :class="`w-100vw flex items-center justify-between gap-5px  box-border ${navbg}`">
+    <wd-sticky :offset-top="navTop">
+      <view :class="`w-100vw flex items-center justify-between gap-2px box-border ${navbg}`">
         <view class="w-30px text-center">
           <i class="iconfont xa-tianqitubiao_qing text-20px"></i>
         </view>
@@ -315,7 +313,7 @@ const navbg = ref('nav_show')
         </view>
       </view>
     </wd-sticky>
-    <view class="px-10px py-5px flex justify-between">
+    <view class="px-10px pt-5px flex justify-between">
       <view
         v-for="(item, index) in topAction"
         :key="index"
@@ -347,7 +345,7 @@ const navbg = ref('nav_show')
           <image class="size-42px rounded-10px" :src="item.icon" />
         </template>
         <template #text>
-          <view class="text-center mt-10px">{{ item.title }}</view>
+          <view class="text-center mt-2px">{{ item.title }}</view>
         </template>
       </wd-grid-item>
     </wd-grid>
@@ -355,7 +353,7 @@ const navbg = ref('nav_show')
 
   <!-- 消息 -->
   <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
-  <view class="p-10px pr-0">
+  <view class="px-10px pr-0">
     <!-- <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title> -->
     <wd-cell-group>
       <wd-cell
@@ -398,10 +396,10 @@ const navbg = ref('nav_show')
   </view>
 
   <!-- 服务专区 -->
-  <view class="px-10px py-10px">
+  <view class="px-10px pt-10px">
     <dy-title title="服务" smTitle="专区" smTstyle="color: #3177f6"></dy-title>
     <view>
-      <scroll-view scroll-x class="whitespace-nowrap py-10px w-100% pr-20px">
+      <scroll-view scroll-x class="whitespace-nowrap pt-10px w-100% pr-20px">
         <view
           class="inline-block w-160px h-90px mr-10px box-border rounded-4px bg-no-repeat! relative"
           v-for="(item, index) in serveList"
@@ -468,7 +466,7 @@ const navbg = ref('nav_show')
   @apply bg-transparent!;
 }
 :deep(.nav_hide) {
-  @apply bg-#189fff!;
+  @apply bg-#61a2fd!;
 }
 :deep(.swiper_box .wd-swiper__track) {
   @apply px-10px!;

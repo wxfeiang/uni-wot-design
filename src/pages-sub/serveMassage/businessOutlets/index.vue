@@ -11,7 +11,15 @@
 </route>
 
 <script lang="ts" setup>
+import { useBaseStore } from '@/store'
+import { getLocation } from '@/utils/uniapi'
 import useBusinessOutlets from './hooks/businessOutlets'
+const basestore = useBaseStore()
+onLoad(async (options: any) => {
+  const location = await getLocation()
+  console.log('🍾[location]:', location)
+  basestore.setLocation(location)
+})
 
 const { sendbranchesInfo, loading } = useBusinessOutlets()
 
@@ -29,6 +37,7 @@ function toLocation(e) {
     address: e.address,
   })
 }
+
 const paging = ref(null)
 const dataList = ref([])
 const queryList = async (pageNo, pageSize) => {
