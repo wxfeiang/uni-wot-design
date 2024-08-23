@@ -14,7 +14,7 @@ function toAgereement(type) {
 }
 function btnClick(item) {
   if (item.isPeople) {
-    message.alert('非本人申领暂未开通!')
+    message.alert('非本人办理暂未开通!')
   } else {
     routeTo({
       url: '/pages-sub/serveMain/cardApplyFromType',
@@ -25,7 +25,7 @@ function btnClick(item) {
 
 const footerBtns = ref([
   {
-    text: '非本人申领',
+    text: '非本人办理',
     type: 'info',
     size: 'medium',
     round: false,
@@ -35,7 +35,7 @@ const footerBtns = ref([
     isPeople: true,
   },
   {
-    text: '本人申领',
+    text: '本人办理',
     size: 'medium',
     round: false,
     plain: true,

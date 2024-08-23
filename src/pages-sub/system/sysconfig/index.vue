@@ -14,8 +14,6 @@
 import { routeTo } from '@/utils'
 import about from '../static/images/about.png'
 import shezhi from '../static/images/shezhi.png'
-import yinsi from '../static/images/yinsi.png'
-import yonghu from '../static/images/yonghu.png'
 const setInfo = ref([
   {
     name: '小程序免密登录',
@@ -23,21 +21,21 @@ const setInfo = ref([
     islink: true,
     url: '/pages-sub/system/sysconfig/setting',
   },
-  {
-    name: '隐私政策',
-    icon: yinsi,
-    islink: true,
-    articleId: '111',
-    url: '/pages-sub/webView/index',
-  },
+  // {
+  //   name: '隐私政策',
+  //   icon: yinsi,
+  //   islink: true,
+  //   articleId: '111',
+  //   url: '/pages-sub/webView/index',
+  // },
 
-  {
-    name: '用户',
-    icon: yonghu,
-    islink: true,
-    articleId: '111',
-    url: '/pages-sub/webView/index',
-  },
+  // {
+  //   name: '用户协议',
+  //   icon: yonghu,
+  //   islink: true,
+  //   articleId: '111',
+  //   url: '/pages-sub/webView/index',
+  // },
   {
     name: '关于我们',
     icon: about,

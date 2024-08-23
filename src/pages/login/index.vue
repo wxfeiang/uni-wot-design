@@ -226,7 +226,7 @@ function tabChange(event) {
   </view>
   <view class="fixed bottom-20rpx left-0 right-0">
     <wd-divider>更多登录方式</wd-divider>
-    <view class="flex justify-center items-center gap-20px">
+    <view class="flex justify-center items-center gap-40px">
       <view class="flex flex-col items-center">
         <wd-button
           type="text"
@@ -240,7 +240,9 @@ function tabChange(event) {
       </view>
       <view class="flex flex-col items-center">
         <wd-button type="text" custom-class="custom-class-ftn" @click="shuziLogin">
-          <wd-img width="26" height="26" :src="shuzi"></wd-img>
+          <view class="mr-5px">
+            <wd-img width="26" height="26" :src="shuzi"></wd-img>
+          </view>
         </wd-button>
         <view class="font-size-12px">数字身份</view>
       </view>

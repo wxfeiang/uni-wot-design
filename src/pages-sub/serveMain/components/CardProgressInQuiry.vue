@@ -122,7 +122,7 @@ function juvenClick(form) {
     </view>
     <view v-if="cardInfoData && !loading">
       <view class="rounded-10px overflow-hidden bg-#fff">
-        <wd-cell-group title="制卡进度" border>
+        <wd-cell-group title="查询到您的制卡进度信息" border>
           <wd-cell
             :title="item.title"
             :value="cardInfoData[item.prop]"

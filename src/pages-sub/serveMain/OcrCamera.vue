@@ -178,7 +178,7 @@ async function upload(ress) {
   const formData = {
     photoType: currData.value.imgType.toString(),
     type: currentParams.value.type,
-    zjhm: '210204199207215655',
+    zjhm: currentParams.value.zjhm, // '210204199207215655',
     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
   }
   try {
@@ -189,7 +189,7 @@ async function upload(ress) {
     } else {
       console.log('🍖', resData)
       const cameraData = {
-        type: currData.value.imgType,
+        type: currentParams.value.photoType * 1,
         url: ress,
         id: resData.data.data.id,
         data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data.identifyCardInfo),

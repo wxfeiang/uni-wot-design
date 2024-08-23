@@ -135,7 +135,6 @@
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -144,7 +143,6 @@
           "path": "cardApplyType",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

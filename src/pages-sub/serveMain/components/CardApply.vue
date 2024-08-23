@@ -14,7 +14,7 @@ function toAgereement(type) {
 }
 function btnClick(item) {
   if (item.isPeople) {
-    // message.alert('非本人申领暂未开通!')
+    // message.alert('非本人办理暂未开通!')
     routeTo({
       url: '/pages-sub/serveMain/cardApplyFromType',
       data: { base: 'xinshenersl', title: '代未成年人申领' },
@@ -39,7 +39,7 @@ const footerBtns = ref([
     isPeople: true,
   },
   {
-    text: '本人申领',
+    text: '本人办理',
     size: 'medium',
     round: false,
     plain: true,
