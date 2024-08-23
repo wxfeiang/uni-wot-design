@@ -187,7 +187,7 @@ function next() {
             label-width="100px"
             type="text"
             v-model="model.phoneNumber"
-            placeholder="请输入身份证号码"
+            placeholder="请输入手机号码"
             :rules="rules.phoneNumber"
             prop="phoneNumber"
             custom-input-class="custom-input-right"

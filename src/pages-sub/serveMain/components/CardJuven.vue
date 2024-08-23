@@ -298,7 +298,7 @@ function btnClick3(item) {
             label-width="100px"
             type="text"
             v-model="model.dbrAddress"
-            placeholder="请输入代办人户籍地址"
+            placeholder="请输入代办人地址"
             :rules="rules.dbrAddress"
             prop="dbrAddress"
             custom-input-class="custom-input-right"
