@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
 import useCardBhk from '../hooks/useCardBhk'
 import {
@@ -16,7 +17,7 @@ import {
 } from '../types/dict'
 import CardUpload from './CardUpload.vue'
 
-import { useBaseStore, useUserStore } from '@/store'
+import { useUserStore } from '@/store'
 import { changeDict, routeTo } from '@/utils'
 import dayjs from 'dayjs'
 
@@ -68,15 +69,21 @@ onLoad((option: any) => {
 const current = ref('1')
 
 async function upload(photoType: string, type: string) {
-  routeTo({
-    url: '/pages-sub/serveMain/OcrCamera',
-    data: { photoType, type, zjhm: userInfo.idCardNumber },
+  const data = { photoType, type, zjhm: userInfo.idCardNumber }
+  const queryStr = qs.stringify(data)
+  uni.navigateTo({
+    url: `/pages-sub/serveMain/OcrCamera?${queryStr}`,
+    events: {
+      // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+      camera: function (data) {
+        console.log('监听到数据回传', data)
+        // 处理回传数据
+        changeCamearData(data)
+      },
+    },
   })
 }
-const { cameraData } = useBaseStore()
-onShow((options) => {
-  console.log('🍒', options)
-  console.log('🍊============ ')
+function changeCamearData(cameraData) {
   console.log('🥧', cameraData)
 
   if (cameraData.idCardFront.id) {
@@ -108,7 +115,7 @@ onShow((options) => {
     cardUrl0.value = cameraData.photo.url
     model.value.photoId = cameraData.photo.id
   }
-})
+}
 
 const steep = ref(1)
 const bankBranchList = ref([])

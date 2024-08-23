@@ -12,10 +12,10 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import about from './static/images/about.png'
-import shezhi from './static/images/shezhi.png'
-import yinsi from './static/images/yinsi.png'
-import yonghu from './static/images/yonghu.png'
+import about from '../static/images/about.png'
+import shezhi from '../static/images/shezhi.png'
+import yinsi from '../static/images/yinsi.png'
+import yonghu from '../static/images/yonghu.png'
 const setInfo = ref([
   {
     name: '小程序免密登录',
@@ -62,9 +62,9 @@ const itemClick = (item: any) => {
         <template v-for="(item, index) in setInfo" :key="index">
           <wd-cell :title="item.name" :is-link="item.islink" clickable @click="itemClick(item)">
             <template #icon v-if="item.icon">
-              <!-- <view class="mr-10px">
+              <view class="mr-10px">
                 <wd-img width="24" height="24" :src="item.icon"></wd-img>
-              </view> -->
+              </view>
             </template>
             <template #title v-if="item.name">
               <view class="color-#999">

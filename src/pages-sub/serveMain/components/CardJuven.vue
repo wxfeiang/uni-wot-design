@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useBaseStore, useUserStore } from '@/store'
-import { changeDict, routeTo } from '@/utils'
+import { changeDict } from '@/utils'
 import dayjs from 'dayjs'
+import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
 import useCardJuvenApply from '../hooks/useCardJuvenApply'
 import {
@@ -44,10 +45,19 @@ watch(
 )
 
 const current = ref('1')
-async function upload(photoType: string, type: string, camerType?: number) {
-  routeTo({
-    url: '/pages-sub/serveMain/OcrCamera',
-    data: { photoType, type, zjhm: userInfo.idCardNumber, camerType },
+async function upload(photoType: string, type: string) {
+  const data = { photoType, type, zjhm: userInfo.idCardNumber }
+  const queryStr = qs.stringify(data)
+  uni.navigateTo({
+    url: `/pages-sub/serveMain/OcrCamera?${queryStr}`,
+    events: {
+      // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+      camera: function (data) {
+        console.log('监听到数据回传', data)
+        // 处理回传数据
+        changeCamearData(data)
+      },
+    },
   })
 }
 
@@ -59,7 +69,8 @@ const cardUrl2 = ref()
 const cardUrl0 = ref()
 const { cameraData } = useBaseStore()
 
-onShow(() => {
+function changeCamearData(cameraData) {
+  console.log('🥧', cameraData)
   console.log('🥧+cameraData', cameraData)
   if (cameraData.idCardFront.id) {
     cardUrl1.value = cameraData.idCardFront.url
@@ -98,7 +109,7 @@ onShow(() => {
     dbrCardUrl2.value = cameraData.dbrdBackPhoto.url
     model.value.dbrIdCardBackPhotoId = cameraData.dbrdBackPhoto.id
   }
-})
+}
 
 const steep = ref(1)
 function next() {

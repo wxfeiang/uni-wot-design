@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import { useUserStore } from '@/store'
+import { changeDict } from '@/utils'
 import dayjs from 'dayjs'
+import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
 import useCardApply from '../hooks/useCardApply'
 import {
@@ -11,9 +14,6 @@ import {
   regionList,
   sexList,
 } from '../types/dict'
-
-import { useBaseStore, useUserStore } from '@/store'
-import { changeDict, routeTo } from '@/utils'
 
 import CardUpload from './CardUpload.vue'
 const message = useMessage()
@@ -50,21 +50,22 @@ watch(
 
 const current = ref('1')
 async function upload(photoType: string, type: string) {
-  console.log('🥟', photoType, type)
-  routeTo({
-    url: '/pages-sub/serveMain/OcrCamera',
-    data: { photoType, type, zjhm: userInfo.idCardNumber },
+  const data = { photoType, type, zjhm: userInfo.idCardNumber }
+  const queryStr = qs.stringify(data)
+  uni.navigateTo({
+    url: `/pages-sub/serveMain/OcrCamera?${queryStr}`,
+    events: {
+      // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+      camera: function (data) {
+        console.log('监听到数据回传', data)
+        // 处理回传数据
+        changeCamearData(data)
+      },
+    },
   })
-
-  // uni.navigateTo({
-  //   url: '/pages-sub/serveMain/OcrCamera',
-  //   events: {
-  //     getCamera: function (mes) {},
-  //   },
-  // })
 }
-const { cameraData } = useBaseStore()
-onShow(() => {
+
+function changeCamearData(cameraData) {
   console.log('🥧', cameraData)
 
   if (cameraData.idCardFront.id) {
@@ -74,7 +75,12 @@ onShow(() => {
     model.value.name = wordsResult['姓名'].words
     model.value.sex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
     model.value.idCardNumber = wordsResult['公民身份号码'].words
-    model.value.nation = changeDict(ethniCodeList, wordsResult['民族'].words, 'value', 'label')
+    model.value.nation = changeDict(
+      ethniCodeList,
+      wordsResult['民族'].words.replace('族', ''),
+      'value',
+      'label',
+    )
     model.value.address = wordsResult['住址'].words
   }
   if (cameraData.idCardBackPhoto.id) {
@@ -88,7 +94,8 @@ onShow(() => {
     cardUrl0.value = cameraData.photo.url
     model.value.photoId = cameraData.photo.id
   }
-})
+}
+
 const steep = ref(1)
 function next() {
   console.log('🍉', model.value)

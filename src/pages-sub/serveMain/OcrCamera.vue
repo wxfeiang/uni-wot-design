@@ -11,11 +11,15 @@
 import { useBaseStore } from '@/store'
 import { Toast } from '@/utils/uniapi/prompt'
 import { pathToBase64 } from 'image-tools'
+import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
 import { useToast } from 'wot-design-uni'
 import useCardBhk from './hooks/useCardBhk'
 import card0 from './static/images/Card0.png'
 import card1 from './static/images/Card1.png'
 import card2 from './static/images/Card2.png'
+const instance = getCurrentInstance().proxy
+
+const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
 const { setCameraData } = useBaseStore()
 const { sendPhoto, loadingPhoto } = useCardBhk()
 const toast = useToast()
@@ -165,6 +169,7 @@ async function upload(ress) {
   toast.loading('正在上传中...')
   const formData = {
     ...currentParams.value,
+
     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
   }
   try {
@@ -180,7 +185,10 @@ async function upload(ress) {
         id: resData.data.data.id,
         data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
       }
-      setCameraData(camerType.value * 1, cameraData)
+
+      eventChannel.emit('camera', {
+        data: cameraData,
+      })
       close()
     }
   } catch (error) {
