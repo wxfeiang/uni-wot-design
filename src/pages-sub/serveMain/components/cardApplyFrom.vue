@@ -44,9 +44,10 @@ watch(
   () => submitStatus.value,
   () => {
     message.alert(statusDel.value).then(() => {
-      if (submitStatus.value === 1) {
-        uni.navigateBack()
-      }
+      // if (submitStatus.value === 1) {
+
+      // }
+      uni.navigateBack()
     })
   },
   { deep: true },
