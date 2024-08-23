@@ -6,6 +6,8 @@ import {
   regionList,
   sexList,
 } from '@/pages-sub/serveMain/types/dict'
+import dayjs from 'dayjs'
+
 const { cardQury, model, rules, loading, cardChangeInfo, changeSubmit } = useCardChange()
 
 const form = ref(null)
@@ -36,6 +38,10 @@ const data1 = ref([
     prop: 'shbzhm',
   },
 ])
+
+const defaultValue = ref<number>(Date.now())
+const minData = ref<number>(dayjs().subtract(100, 'year').valueOf())
+const maxData = ref<number>(dayjs().add(50, 'year').valueOf())
 </script>
 <template>
   <view class="p-15px">
@@ -81,8 +87,6 @@ const data1 = ref([
               type="text"
               v-model="model.shbzhm"
               placeholder="请输入社会保障号码"
-              :rules="rules.shbzhm"
-              prop="shbzhm"
               custom-input-class="custom-input-right"
             />
           </wd-cell-group>
@@ -160,8 +164,6 @@ const data1 = ref([
                 label-width="100px"
                 v-model="cardChangeInfo.address"
                 placeholder="请输入居住地址"
-                :rules="rules.address"
-                prop="address"
                 custom-class="custom-cell"
                 custom-input-class="custom-input-right"
                 auto-height
@@ -172,8 +174,6 @@ const data1 = ref([
                 type="text"
                 v-model="cardChangeInfo.phone"
                 placeholder="请输入移动电话"
-                :rules="rules.phone"
-                prop="phone"
                 custom-class="custom-cell"
                 custom-input-class="custom-input-right"
               />
@@ -182,9 +182,10 @@ const data1 = ref([
                 label-width="100"
                 custom-value-class="custom-input-right"
                 label="证件有效期起始日期"
+                :minDate="minData"
+                :maxDate="maxData"
+                :default-value="defaultValue"
                 v-model="cardChangeInfo.cardStartTime"
-                :rules="rules.cardStartTime"
-                prop="cardStartTime"
                 align-right
               />
               <wd-datetime-picker
@@ -193,8 +194,6 @@ const data1 = ref([
                 custom-value-class="custom-input-right"
                 label="证件有效期终止日期"
                 v-model="cardChangeInfo.cardEndTime"
-                :rules="rules.cardEndTime"
-                prop="cardEndTime"
                 align-right
               />
               <wd-picker
