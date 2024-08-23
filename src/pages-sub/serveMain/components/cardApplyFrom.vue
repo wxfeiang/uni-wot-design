@@ -16,6 +16,10 @@ import {
 } from '../types/dict'
 
 import CardUpload from './CardUpload.vue'
+
+const minDate = dayjs('191000101').valueOf()
+const maxDate = dayjs('20991225').valueOf()
+
 const message = useMessage()
 const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
   useCardApply()
@@ -204,6 +208,8 @@ function next() {
             v-model="model.birthdate"
             :rules="rules.birthdate"
             prop="birthdate"
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
           <wd-input
             label="户籍地址:"
@@ -250,6 +256,8 @@ function next() {
             :rules="rules.startDate"
             prop="startDate"
             align-right
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
           <wd-datetime-picker
             type="date"
@@ -260,6 +268,8 @@ function next() {
             :rules="rules.endDate"
             prop="endDate"
             align-right
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
           <wd-picker
             :columns="occupationList"

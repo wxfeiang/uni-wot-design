@@ -20,7 +20,8 @@ import CardUpload from './CardUpload.vue'
 const message = useMessage()
 const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
   useCardJuvenApply()
-
+const minDate = dayjs('191000101').valueOf()
+const maxDate = dayjs('20991225').valueOf()
 const userStore = useUserStore()
 const { userInfo } = userStore
 
@@ -80,7 +81,12 @@ function changeCamearData(cameraData) {
     model.value.name = wordsResult['姓名'].words
     model.value.sex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
     model.value.idCardNumber = wordsResult['公民身份号码'].words
-    model.value.nation = changeDict(ethniCodeList, wordsResult['民族'].words, 'value', 'label')
+    model.value.nation = changeDict(
+      ethniCodeList,
+      wordsResult['民族'].words.replace('族', ''),
+      'value',
+      'label',
+    )
     model.value.address = wordsResult['住址'].words
   }
   if (cameraData.type === 2) {
@@ -381,6 +387,8 @@ function btnClick3(item) {
             v-model="model.birthdate"
             :rules="rules.birthdate"
             prop="birthdate"
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
           <wd-picker
             :columns="regionList"
@@ -437,6 +445,8 @@ function btnClick3(item) {
             :rules="rules.startDate"
             prop="startDate"
             align-right
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
           <wd-datetime-picker
             type="date"
@@ -447,6 +457,8 @@ function btnClick3(item) {
             :rules="rules.endDate"
             prop="endDate"
             align-right
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
           <wd-picker
             :columns="occupationList"

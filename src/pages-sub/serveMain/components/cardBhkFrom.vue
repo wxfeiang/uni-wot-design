@@ -20,7 +20,8 @@ import CardUpload from './CardUpload.vue'
 import { useUserStore } from '@/store'
 import { changeDict, routeTo } from '@/utils'
 import dayjs from 'dayjs'
-
+const minDate = dayjs('191000101').valueOf()
+const maxDate = dayjs('20991225').valueOf()
 const message = useMessage()
 const {
   modelPhoto,
@@ -266,6 +267,8 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.startDate"
             prop="startDate"
             align-right
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
           <wd-datetime-picker
             type="date"
@@ -276,6 +279,8 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.endDate"
             prop="endDate"
             align-right
+            :maxDate="maxDate"
+            :minDate="minDate"
           />
 
           <wd-picker

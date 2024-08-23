@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import useCardChange from '../hooks/useCardChange'
 import {
   ethniCodeList,
   occupationList,
@@ -7,7 +6,9 @@ import {
   sexList,
 } from '@/pages-sub/serveMain/types/dict'
 import dayjs from 'dayjs'
-
+import useCardChange from '../hooks/useCardChange'
+const minDate = dayjs('191000101').valueOf()
+const maxDate = dayjs('20991225').valueOf()
 const { cardQury, model, rules, loading, cardChangeInfo, changeSubmit } = useCardChange()
 
 const form = ref(null)
@@ -195,6 +196,8 @@ const maxData = ref<number>(dayjs().add(50, 'year').valueOf())
                 label="证件有效期终止日期"
                 v-model="cardChangeInfo.cardEndTime"
                 align-right
+                :maxDate="maxDate"
+                :minDate="minDate"
               />
               <wd-picker
                 label="职业"
