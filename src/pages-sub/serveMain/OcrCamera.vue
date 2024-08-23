@@ -52,9 +52,16 @@ const currData = ref<any>()
 onLoad((options: any) => {
   console.log('🥩[options]:', options)
   const { photoType, camerType: opcamerType } = options
+  let imgType = photoType * 1
+  if (photoType * 1 === 3) {
+    imgType = 1
+  }
+  if (photoType * 1 === 4) {
+    imgType = 2
+  }
 
   currData.value = dataList.value.find((item) => {
-    return item.imgType === photoType * 1
+    return item.imgType === imgType
   })
   camerType.value = opcamerType || photoType * 1
   currentParams.value = {
@@ -164,12 +171,11 @@ const takePhoto = () => {
 }
 // upload
 async function upload(ress) {
-  console.log('🍢[ress]:', ress)
   const photoBase64 = await pathToBase64(ress)
   toast.loading('正在上传中...')
   const formData = {
     ...currentParams.value,
-
+    zjhm: '210204199207215655',
     photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
   }
   try {
@@ -181,13 +187,14 @@ async function upload(ress) {
       console.log('🍦[resData]========:', resData)
 
       const cameraData = {
+        type: currData.value.imgType,
         url: ress,
         id: resData.data.data.id,
         data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data?.identifyCardInfo),
       }
 
       eventChannel.emit('camera', {
-        data: cameraData,
+        cameraData,
       })
       close()
     }

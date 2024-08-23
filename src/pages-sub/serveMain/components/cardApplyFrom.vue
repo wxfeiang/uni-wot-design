@@ -57,9 +57,9 @@ async function upload(photoType: string, type: string) {
     events: {
       // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
       camera: function (data) {
-        console.log('监听到数据回传', data)
+        console.log('监听到数据回传', data.cameraData)
         // 处理回传数据
-        changeCamearData(data)
+        changeCamearData(data.cameraData)
       },
     },
   })
@@ -68,10 +68,10 @@ async function upload(photoType: string, type: string) {
 function changeCamearData(cameraData) {
   console.log('🥧', cameraData)
 
-  if (cameraData.idCardFront.id) {
-    cardUrl1.value = cameraData.idCardFront.url
-    model.value.idCardFrontPhotoId = cameraData.idCardFront.id
-    const { words_result: wordsResult }: any = cameraData.idCardFront.data
+  if (cameraData.type === 1) {
+    cardUrl1.value = cameraData.url
+    model.value.idCardFrontPhotoId = cameraData.id
+    const { words_result: wordsResult }: any = cameraData.data
     model.value.name = wordsResult['姓名'].words
     model.value.sex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
     model.value.idCardNumber = wordsResult['公民身份号码'].words
@@ -83,16 +83,16 @@ function changeCamearData(cameraData) {
     )
     model.value.address = wordsResult['住址'].words
   }
-  if (cameraData.idCardBackPhoto.id) {
-    cardUrl2.value = cameraData.idCardBackPhoto.url
-    const { words_result: wordsResult }: any = cameraData.idCardFront.data
-    model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
+  if (cameraData.type === 2) {
+    cardUrl2.value = cameraData.url
+    const { words_result: wordsResult }: any = cameraData.data
+    model.value.idCardBackPhotoId = cameraData.id
     model.value.startDate = dayjs(wordsResult['签发日期'].words).valueOf()
     model.value.endDate = dayjs(wordsResult['失效日期'].words).valueOf()
   }
-  if (cameraData.photo.id) {
-    cardUrl0.value = cameraData.photo.url
-    model.value.photoId = cameraData.photo.id
+  if (cameraData.type === 0) {
+    cardUrl0.value = cameraData.url
+    model.value.photoId = cameraData.id
   }
 }
 

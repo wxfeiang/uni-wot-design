@@ -16,6 +16,7 @@ import {
   regionList,
   sexList,
 } from '../types/dict'
+import CardUpload from './CardUpload.vue'
 const message = useMessage()
 const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
   useCardJuvenApply()
@@ -53,9 +54,9 @@ async function upload(photoType: string, type: string) {
     events: {
       // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
       camera: function (data) {
-        console.log('监听到数据回传', data)
+        console.log('监听到数据回传', data.cameraData)
         // 处理回传数据
-        changeCamearData(data)
+        changeCamearData(data.cameraData)
       },
     },
   })
@@ -72,42 +73,42 @@ const { cameraData } = useBaseStore()
 function changeCamearData(cameraData) {
   console.log('🥧', cameraData)
   console.log('🥧+cameraData', cameraData)
-  if (cameraData.idCardFront.id) {
-    cardUrl1.value = cameraData.idCardFront.url
-    model.value.idCardFrontPhotoId = cameraData.idCardFront.id
-    const { words_result: wordsResult }: any = cameraData.idCardFront.data
+  if (cameraData.type === 1) {
+    cardUrl1.value = cameraData.url
+    model.value.idCardFrontPhotoId = cameraData.id
+    const { words_result: wordsResult }: any = cameraData.data
     model.value.name = wordsResult['姓名'].words
     model.value.sex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
     model.value.idCardNumber = wordsResult['公民身份号码'].words
     model.value.nation = changeDict(ethniCodeList, wordsResult['民族'].words, 'value', 'label')
     model.value.address = wordsResult['住址'].words
   }
-  if (cameraData.idCardBackPhoto.id) {
-    cardUrl2.value = cameraData.idCardBackPhoto.url
+  if (cameraData.type === 2) {
+    cardUrl2.value = cameraData.url
 
-    const { words_result: wordsResult }: any = cameraData.idCardFront.data
-    model.value.idCardBackPhotoId = cameraData.idCardBackPhoto.id
+    const { words_result: wordsResult }: any = cameraData.data
+    model.value.idCardBackPhotoId = cameraData.id
     model.value.startDate = dayjs(wordsResult['签发日期'].words).valueOf()
     model.value.endDate = dayjs(wordsResult['失效日期'].words).valueOf()
   }
-  if (cameraData.photo.id) {
-    cardUrl0.value = cameraData.photo.url
-    model.value.photoId = cameraData.photo.id
+  if (cameraData.type === 0) {
+    cardUrl0.value = cameraData.url
+    model.value.photoId = cameraData.id
   }
 
-  if (cameraData.idCardFront.id) {
-    dbrCardUrl.value = cameraData.dbrCardFront.url
-    model.value.dbrIdCardFrontPhotoId = cameraData.dbrCardFront.id
+  if (cameraData.type === 3) {
+    dbrCardUrl.value = cameraData.url
+    model.value.dbrIdCardFrontPhotoId = cameraData.id
 
-    const { words_result: wordsResult }: any = cameraData.dbrCardFront.data
+    const { words_result: wordsResult }: any = cameraData.data
     model.value.dbrName = wordsResult['姓名'].words
     model.value.dbrZjhm = wordsResult['公民身份号码'].words
     model.value.dbrSex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
     model.value.dbrAddress = wordsResult['住址'].words
   }
-  if (cameraData.idCardBackPhoto.id) {
-    dbrCardUrl2.value = cameraData.dbrdBackPhoto.url
-    model.value.dbrIdCardBackPhotoId = cameraData.dbrdBackPhoto.id
+  if (cameraData.type === 4) {
+    dbrCardUrl2.value = cameraData.url
+    model.value.dbrIdCardBackPhotoId = cameraData.id
   }
 }
 
@@ -203,13 +204,11 @@ function btnClick3(item) {
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-form ref="formPhoto" :model="modelPhoto">
         <view class="mb-20px px-20px">
-          <view class="mb-20px px-20px">
-            <view @click="upload('1', '1', 3)">
-              <Card-Upload :type="1" :imgUrl="dbrCardUrl" smTitle="代办人" />
-            </view>
-            <view @click="upload('2', '1', 4)">
-              <Card-Upload :type="2" :imgUrl="dbrCardUrl2" smTitle="代办人" />
-            </view>
+          <view @click="upload('3', '1')">
+            <Card-Upload :type="1" :imgUrl="dbrCardUrl" smTitle="代办人" />
+          </view>
+          <view @click="upload('4', '1')">
+            <Card-Upload :type="2" :imgUrl="dbrCardUrl2" smTitle="代办人" />
           </view>
         </view>
       </wd-form>
@@ -585,16 +584,5 @@ export default {
 }
 :deep(.custom-input-right) {
   @apply text-right! color-#999999!;
-}
-
-:deep(.custom-class) {
-  @apply w-80% mx-a bd-dashed_#1890ff rounded-10px;
-}
-:deep(.custom-evoke-class),
-:deep(.custom-preview-class) {
-  @apply w-full h-150px  m-0;
-}
-:deep(.custom-class-img) {
-  @apply wh-full! overflow-hidden rounded-10px;
 }
 </style>
