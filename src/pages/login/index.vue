@@ -151,25 +151,25 @@ page {
     color: var(--color-nav-text);
   }
 }
-:deep(.label-class),
-:deep(.text-btn) {
-  font-size: 12px !important;
-  color: #999 !important;
-}
-:deep(.wd-input__error-message),
-:deep(.custom-input-right) {
-  @apply text-right! color-#999999!;
-}
-:deep(.custom-class-tab) {
-  @apply bg-#1890ff;
-}
-:deep(.wd-tabs__nav) {
-  @apply bg-amber!;
-}
-:deep(.wd-tabs__line) {
-  @apply none;
-}
-:deep(.wd-tabs__nav-item.is-active) {
-  @apply color-#fff!;
-}
+// :deep(.label-class),
+// :deep(.text-btn) {
+//   font-size: 12px !important;
+//   color: #999 !important;
+// }
+// :deep(.wd-input__error-message),
+// :deep(.custom-input-right) {
+//   @apply text-right! color-#999999!;
+// }
+// :deep(.custom-class-tab) {
+//   @apply bg-#1890ff;
+// }
+// :deep(.wd-tabs__nav) {
+//   @apply bg-amber!;
+// }
+// :deep(.wd-tabs__line) {
+//   @apply none;
+// }
+// :deep(.wd-tabs__nav-item.is-active) {
+//   @apply color-#fff!;
+// }
 </style>

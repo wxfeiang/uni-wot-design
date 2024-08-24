@@ -60,16 +60,12 @@ onShow(() => {
   <view class="p-10px py-20px" v-if="!show">
     <view class="rounded-10px overflow-hidden bg-#fff py-20px">
       <wd-form ref="form" :model="model">
-        <view class="bg-blue h-200px" @click="upload2('0')">
-          <wd-img :width="100" :height="100" :src="a" custom-class="custom-class-img" />
+        <view class="bg-blue h-200px mb-10px" @click="upload2('0')">
+          <!-- <wd-img :width="100" :height="100" :src="a" custom-class="custom-class-img" /> -->
+          <image class="rotate-270 size-full! scale-100" :src="a" mode="aspectFit"></image>
         </view>
         <view class="bg-blue h-200px" @click="upload2('1')">
-          <wd-img
-            :width="100"
-            :height="100"
-            :src="cameraData[1].url"
-            custom-class="custom-class-img"
-          />
+          <image class="h-full" :src="a" mode="aspectFit"></image>
         </view>
         <view class="bg-blue h-200px" @click="upload2('2')">
           <wd-img
@@ -132,9 +128,11 @@ export default {
 }
 :deep(.custom-evoke-class),
 :deep(.custom-preview-class) {
-  @apply w-full h-200px  m-0;
+  @apply w-full h-180px  m-0;
 }
 :deep(.custom-class-img) {
-  @apply wh-full! overflow-hidden rounded-10px;
+  @apply size-full overflow-hidden rounded-10px;
 }
+// rotate(270deg) scaleY(1.8) scaleX(1.4); 摆正
+// rotate(90deg) scaleY(1.8) scaleX(1.4); 自拍
 </style>
