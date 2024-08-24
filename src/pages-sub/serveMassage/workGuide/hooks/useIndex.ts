@@ -1,5 +1,5 @@
 import { epList } from '@/service/api/auth'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 const {
   send: sendLogin2,
   loading,
@@ -12,7 +12,7 @@ const {
   onSuccess: any
 } = useRequest(epList(), {
   initialData: {}, // 设置data状态的初始数据
-  immediate: true, // 是否立即发送请求，默认为true
+  immediate: false, // 是否立即发送请求，默认为true
 })
 
 const list = ref([])

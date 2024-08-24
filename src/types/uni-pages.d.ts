@@ -11,10 +11,12 @@ interface NavigateToOptions {
        "/pages/mine/index" |
        "/pages/serve/index" |
        "/pages/shop/index" |
+       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
+       "/pages-sub/serveMain/cop" |
        "/pages-sub/serveMain/index" |
        "/pages-sub/cadManager/index" |
        "/pages-sub/serveMassage/businessOutlets/index" |

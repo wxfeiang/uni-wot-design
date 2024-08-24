@@ -12,7 +12,9 @@
 import PLATFORM from '@/utils/platform'
 import { useMessage } from 'wot-design-uni'
 import useIndex from './hooks/useIndex'
+import { useUserStore } from '@/store'
 const message = useMessage()
+const user = useUserStore()
 
 const { epListData, sendLogin2 } = useIndex()
 
@@ -43,13 +45,23 @@ onPageScroll((e) => {
 })
 const paging = ref(null)
 
-const dataList = ref(null)
+const dataList = ref([])
+onLoad(() => {
+  if (user.userInfo.token) {
+    console.log('🍾==========')
+    // 特定的情况下 被动调用的  :auto="false"
+    queryList(0, 10)
+  } else {
+    console.log('🥪')
+    paging.value.reload()
+  }
+})
 const queryList = async (pageNo, pageSize) => {
+  console.log('🍬[pageNo, pageSize]:', pageNo, pageSize)
   // 调用接口获取数据
   try {
-    console.log('🍤[pageNo, pageSize]:', pageNo, pageSize)
     const a = await sendLogin2()
-    console.log('🍞[a ]:', a.data.data.list)
+
     dataList.value = a.data.data.list
     paging.value.complete(dataList.value)
   } catch (error) {
@@ -58,7 +70,7 @@ const queryList = async (pageNo, pageSize) => {
 }
 </script>
 <template>
-  <z-paging ref="paging" v-model="dataList" @query="queryList">
+  <z-paging ref="paging" v-model="dataList" :auto="false" @query="queryList">
     <template #top>
       <!-- 顶部 -->
       <view class="bg-blue pb-10px">
@@ -85,6 +97,7 @@ const queryList = async (pageNo, pageSize) => {
           </view>
         </wd-sticky>
       </view>
+      <wd-button @click="paging.reload()">点击刷新</wd-button>
     </template>
 
     <!-- leibiao  -->

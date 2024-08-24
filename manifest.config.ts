@@ -118,6 +118,18 @@ export default defineManifestConfig({
     makePhoneCall: {
       desc: '用于拨打电话',
     },
+    optimization: { subPackages: true },
+    permission: {
+      'scope.userLocation': {
+        desc: '你的位置信息将用于小程序位置接口的效果展示',
+      },
+      'scope.userFuzzyLocation': {
+        desc: '你的位置信息将用于小程序位置接口的效果展示',
+      },
+    },
+    requiredPrivateInfos: ['getLocation', 'chooseLocation'],
+    lazyCodeLoading: 'requiredComponents',
+
     usingComponents: true,
     // __usePrivacyCheck__: true,
   },

@@ -1,33 +1,35 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
-import { useRequest } from 'alova'
+import { useRequest } from 'alova/client'
 import { METHOD_INSTANCE } from '../model/baseModel'
-// const LOGIN = baseUrlApi('/system/api/helper/productLogin')
 const LOGIN = baseUrlApi('/employee/login')
-
-const EP_LIST = baseUrlApi('/employee/list')
-
 const LOGIN_OUT = '/logout'
 const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'
 const GET_AGREEMENT = baseUrlApi('/agreement')
+const EP_LIST = baseUrlApi('/employee/list')
 /**
  * 登录
  * @param params 初始参数()
  */
-export function sysLogin(data, config: any) {
+export function sysLogin(data: any) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
     resAll: true,
   }
-  return useRequest(
-    (newTodo) =>
-      request.Post(LOGIN, newTodo, {
-        meta,
-      }),
-    { ...config },
+
+  return request.Post(
+    LOGIN, // 请求地址
+    data,
+    {
+      meta,
+      // transform(rawData, headers) {
+      //   console.log('🍆[rawData]:', rawData, '=======', headers)
+      //   return 1
+      // },
+    },
   )
 }
 /**
@@ -38,9 +40,6 @@ export function testToken() {
   return request.Get(TEST_TOKEN)
 }
 
-/**
- * 登出
- */
 /**
  * 登出
  */

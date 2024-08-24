@@ -118,6 +118,10 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
+          "path": "OcrCamera",
+          "type": "page"
+        },
+        {
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
@@ -146,6 +150,15 @@
         },
         {
           "path": "cardMessType",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "cop",
           "type": "page",
           "layout": "default",
           "needLogin": true,

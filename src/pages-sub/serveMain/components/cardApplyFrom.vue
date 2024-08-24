@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import { useBaseStore } from '@/store'
 import { routeTo } from '@/utils'
 import useCardFrom from '../hooks/useCardFrom'
+
 const { Login, model, rules, loading, read } = useCardFrom()
-
 const form = ref(null)
-
 function toQueryDetil(data?: any) {
   routeTo({ url: '/pages-sub/serveMain/cardMessType' })
 }
@@ -27,12 +27,60 @@ const wotUpAttrs = {
   'custom-evoke-class': 'custom-evoke-class',
   'custom-class': 'custom-class',
 }
+
+const show = ref(false)
+const a = ref()
+function upload2(photoType) {
+  // routeTo({ url: '/pages-sub/serveMain/cop', data: { show: true, photoType } })
+  // // console.log('🍪======')
+  // // show.value = true
+  // // console.log('🍣', show.value)
+  uni.navigateTo({
+    url: '/pages-sub/serveMain/cop',
+    events: {
+      // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+      camera: function (data) {
+        console.log('监听到数据回传', data)
+        a.value = data.data
+      },
+    },
+    success: function (res) {
+      // 通过eventChannel向被打开页面传送数据
+      res.eventChannel.emit('options', { data: '进入给你传的谁' })
+    },
+  })
+}
+
+const { cameraData } = useBaseStore()
+onShow(() => {
+  console.log('🥒----', cameraData)
+})
 </script>
 <template>
-  <view class="p-10px py-20px">
+  <view class="p-10px py-20px" v-if="!show">
     <view class="rounded-10px overflow-hidden bg-#fff py-20px">
       <wd-form ref="form" :model="model">
-        <view class="mb-20px">
+        <view class="bg-blue h-200px" @click="upload2('0')">
+          <wd-img :width="100" :height="100" :src="a" custom-class="custom-class-img" />
+        </view>
+        <view class="bg-blue h-200px" @click="upload2('1')">
+          <wd-img
+            :width="100"
+            :height="100"
+            :src="cameraData[1].url"
+            custom-class="custom-class-img"
+          />
+        </view>
+        <view class="bg-blue h-200px" @click="upload2('2')">
+          <wd-img
+            :width="100"
+            :height="100"
+            :src="cameraData[2].url"
+            custom-class="custom-class-img"
+          />
+        </view>
+
+        <!-- <view class="mb-20px">
           <dy-upload v-model="url2" :limit="1" showFileDy :defaultAttrs="wotUpAttrs" isAes>
             <view class="custom-preview-class">
               <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
@@ -45,7 +93,7 @@ const wotUpAttrs = {
               <wd-img :width="100" :height="100" :src="cardUrl" custom-class="custom-class-img" />
             </view>
           </dy-upload>
-        </view>
+        </view> -->
       </wd-form>
     </view>
     <view class="mt-10px">

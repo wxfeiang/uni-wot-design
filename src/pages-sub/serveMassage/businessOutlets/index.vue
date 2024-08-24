@@ -12,8 +12,10 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import { useLocation } from '@/utils/uniapi'
 
 const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
+const banner = ref('../static/images/banner.png')
 
 const mainData = ref([
   {
@@ -98,12 +100,18 @@ function toLocation(e) {
     address: e.lable,
   })
 }
+onMounted(async () => {
+  console.log('🍝')
+  const location = await useLocation()
+  console.log('🍥[location]:', location)
+})
 </script>
 
 <template>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
   <view class="p-10px">
     <dy-title title="服务网点" class="py-10px"></dy-title>
+    <image class="h-100px" :src="banner"></image>
 
     <wd-cell-group border>
       <wd-cell

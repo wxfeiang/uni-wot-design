@@ -17,6 +17,7 @@ export default defineUniPages({
       '^dy-(.*)': 'components/dy-$1/dy-$1.vue',
     },
   },
+
   tabBar: {
     color: '#000000',
     selectedColor: '#3177f6',
