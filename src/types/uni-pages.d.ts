@@ -5,7 +5,6 @@
 
 interface NavigateToOptions {
   url: "/pages/index/index" |
-       "/pages/about/about" |
        "/pages/login/index" |
        "/pages/mine/index" |
        "/pages/serve/index" |
@@ -15,7 +14,6 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
-       "/pages-sub/cadManager/index" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/workGuide/index" |

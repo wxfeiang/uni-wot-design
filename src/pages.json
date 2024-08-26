@@ -54,15 +54,9 @@
     {
       "path": "pages/index/index",
       "type": "home",
+      "layout": "default",
       "style": {
         "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/about/about",
-      "type": "page",
-      "style": {
-        "navigationBarTitleText": "关于"
       }
     },
     {
@@ -81,6 +75,7 @@
     {
       "path": "pages/mine/index",
       "type": "page",
+      "layout": "default",
       "style": {
         "navigationStyle": "custom"
       }
@@ -89,6 +84,7 @@
       "path": "pages/serve/index",
       "type": "page",
       "needLogin": true,
+      "layout": "default",
       "style": {
         "navigationBarTitleText": "服务中心",
         "backgroundColor": "#fff",
@@ -99,6 +95,7 @@
     {
       "path": "pages/shop/index",
       "type": "page",
+      "layout": "default",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
@@ -153,18 +150,6 @@
       ]
     },
     {
-      "root": "pages-sub/cadManager",
-      "pages": [
-        {
-          "path": "index",
-          "type": "page",
-          "style": {
-            "navigationBarTitleText": "分包页面 标题"
-          }
-        }
-      ]
-    },
-    {
       "root": "pages-sub/serveMassage",
       "pages": [
         {
@@ -181,6 +166,7 @@
         {
           "path": "messageList/index",
           "type": "home",
+          "layout": "default",
           "needLogin": true,
           "style": {
             "navigationStyle": "custom"
