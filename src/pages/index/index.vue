@@ -371,7 +371,15 @@ onPageScroll((e) => {
   </view>
   <!-- 广告位 -->
   <view class="py-3px bg-#f5f5f5 h-140px px-10px" @click="swiperClick">
-    <image :src="banner" class="w-100% h-100%"></image>
+    <wd-swiper
+      :list="swiperList"
+      :autoplay="false"
+      :current="0"
+      :height="140"
+      :indicator="false"
+      @click="swiperClick"
+      imageMode="aspectFill"
+    ></wd-swiper>
   </view>
 
   <!-- 服务专区 -->

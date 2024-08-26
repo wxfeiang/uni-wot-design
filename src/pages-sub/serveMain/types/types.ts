@@ -10,3 +10,9 @@ export interface RegisterForm {
   // 当前项内容
   content: string
 }
+
+export interface Camera {
+  title: string
+  imgType: number
+  devicePosition: 'front' | 'back'
+}

@@ -17,6 +17,7 @@ import useCardBhk from './hooks/useCardBhk'
 import card0 from './static/images/Card0.png'
 import card1 from './static/images/Card1.png'
 import card2 from './static/images/Card2.png'
+import { Camera } from './types/types'
 const instance = getCurrentInstance().proxy
 
 const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
@@ -28,7 +29,7 @@ const camera = ref(null)
 const cameraContext = ref(null)
 const copSrc = ref<any>(null) // 截图
 
-const dataList = ref([
+const dataList = ref<Camera[]>([
   {
     title: '人脸正面照片',
     imgType: 0,
@@ -48,7 +49,11 @@ const dataList = ref([
 
 const currentParams = ref(null)
 const camerType = ref<number>()
-const currData = ref<any>()
+const currData = ref<Camera>({
+  title: '人脸正面照片',
+  imgType: 0,
+  devicePosition: 'front',
+})
 onLoad((options: any) => {
   console.log('🥩[options]:', options)
   const { photoType, camerType: opcamerType } = options
@@ -255,7 +260,7 @@ onMounted(() => {
     <view class="box">
       <camera
         mode="normal"
-        :device-position="currData!.devicePosition"
+        :device-position="currData.devicePosition"
         flash="auto"
         class="facevideo"
         binderror="cameraError"
