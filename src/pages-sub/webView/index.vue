@@ -22,7 +22,7 @@ const title = ref()
 onLoad((options) => {
   types.value = options.type
   showTop.value = options.showTop
-  title.value = decodeURIComponent(options.title) || '详情'
+  title.value = options.title ? decodeURIComponent(options.title) : '详情'
 
   AarData(types.value)
 })
