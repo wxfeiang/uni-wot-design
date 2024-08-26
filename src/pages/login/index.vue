@@ -99,7 +99,7 @@ const unifiedLogin = (type: number, $event?: any) => {
     } else if (type === 2) {
       shuziLogin()
     } else if (type === 3) {
-      getphonenumber($event)
+      console.log('🥔 wxchart')
     }
   } else {
     message
@@ -287,8 +287,18 @@ const unifiedLogin = (type: number, $event?: any) => {
       <view class="flex flex-col items-center">
         <wd-button
           type="text"
+          @click="unifiedLogin(3)"
+          custom-class="custom-class-ftn"
+          v-if="!read"
+        >
+          <wd-img width="26" height="26" :src="weixin"></wd-img>
+        </wd-button>
+
+        <wd-button
+          type="text"
+          v-else
           open-type="getPhoneNumber"
-          @getphonenumber="unifiedLogin(3, $event)"
+          @getphonenumber="getphonenumber"
           custom-class="custom-class-ftn"
         >
           <wd-img width="26" height="26" :src="weixin"></wd-img>
