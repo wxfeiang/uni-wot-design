@@ -18,7 +18,9 @@ import logo from '@/static/images/login/logo.png'
 import shuzi from '@/static/images/login/shuzi.png'
 import topbg from '@/static/images/login/topbg.png'
 import weixin from '@/static/images/login/weixin.png'
+import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
+import { useMessage } from 'wot-design-uni'
 import useLogin from './utils/useLogin'
 
 const {
@@ -80,6 +82,39 @@ function tabChange(event) {
     getCodeUrl()
   }
 }
+const toAgreement = (articleId: string, title: string) => {
+  console.log('🍤[item]:')
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: articleId, showTop: true, title },
+  })
+}
+const message = useMessage('wd-message-box-slot')
+const unifiedLogin = (type: number, $event?: any) => {
+  if (read.value) {
+    if (type === 0) {
+      Login(form.value)
+    } else if (type === 1) {
+      submitPhoneLogin(form2.value)
+    } else if (type === 2) {
+      shuziLogin()
+    } else if (type === 3) {
+      getphonenumber($event)
+    }
+  } else {
+    message
+      .confirm({
+        title: '提示',
+      })
+      .then(() => {
+        read.value = true
+      })
+      .catch((error) => {
+        console.log(error)
+        read.value = false
+      })
+  }
+}
 </script>
 <template>
   <view
@@ -132,14 +167,26 @@ function tabChange(event) {
             </view>
 
             <view>
-              <wd-button type="primary" size="medium" @click="Login(form)" block>登 录</wd-button>
+              <wd-button type="primary" size="medium" @click="unifiedLogin(0)" block>
+                登 录
+              </wd-button>
 
               <view class="mt-15px">
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
-                    <text class="color-#336EFD">《隐私政策》</text>
-                    <text class="color-#336EFD">《用户协议》</text>
+                    <text
+                      class="color-#336EFD"
+                      @click.stop="toAgreement('1710488285782016005', '隐私政策')"
+                    >
+                      《隐私政策》
+                    </text>
+                    <text
+                      class="color-#336EFD"
+                      @click.stop="toAgreement('1710488285782016006', '用户协议')"
+                    >
+                      《用户协议》
+                    </text>
                   </wd-checkbox>
                 </view>
               </view>
@@ -206,15 +253,25 @@ function tabChange(event) {
             </view>
 
             <view>
-              <wd-button type="primary" size="medium" @click="submitPhoneLogin(form2)" block>
+              <wd-button type="primary" size="medium" @click="unifiedLogin(1)" block>
                 登 录
               </wd-button>
               <view class="mt-15px">
                 <view class="">
                   <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
                     已阅读并同意
-                    <text class="color-#336EFD">《隐私政策》</text>
-                    <text class="color-#336EFD">《用户协议》</text>
+                    <text
+                      class="color-#336EFD"
+                      @click.stop="toAgreement('1710488285782016005', '隐私政策')"
+                    >
+                      《隐私政策》
+                    </text>
+                    <text
+                      class="color-#336EFD"
+                      @click.stop="toAgreement('1710488285782016006', '用户协议')"
+                    >
+                      《用户协议》
+                    </text>
                   </wd-checkbox>
                 </view>
               </view>
@@ -231,7 +288,7 @@ function tabChange(event) {
         <wd-button
           type="text"
           open-type="getPhoneNumber"
-          @getphonenumber="getphonenumber"
+          @getphonenumber="unifiedLogin(3, $event)"
           custom-class="custom-class-ftn"
         >
           <wd-img width="26" height="26" :src="weixin"></wd-img>
@@ -248,6 +305,17 @@ function tabChange(event) {
       </view>
     </view>
   </view>
+  <wd-message-box selector="wd-message-box-slot">
+    <view class="text-left">
+      我已阅读并同意
+      <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016005', '隐私政策')">
+        《隐私政策》
+      </text>
+      <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016006', '用户协议')">
+        《用户协议》
+      </text>
+    </view>
+  </wd-message-box>
 </template>
 <style lang="scss" scoped>
 :deep(.label-class),

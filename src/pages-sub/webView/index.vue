@@ -18,10 +18,11 @@ function handleClickLeft() {
 
 const remark = ref(null)
 const showTop = ref(1)
+const title = ref()
 onLoad((options) => {
-  console.log('🍬[options]:', options)
   types.value = options.type
   showTop.value = options.showTop
+  title.value = decodeURIComponent(options.title) || '详情'
 
   AarData(types.value)
 })
@@ -34,7 +35,7 @@ onLoad((options) => {
         <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
       </template>
       <template #title>
-        <text class="color-#fff">详情</text>
+        <text class="color-#fff">{{ title }}</text>
       </template>
     </wd-navbar>
     <view class="mt-20px" v-if="!showTop">

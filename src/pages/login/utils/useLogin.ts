@@ -57,10 +57,6 @@ const {
 })
 
 const Login = (form) => {
-  if (!read.value) {
-    Toast('请先阅读并同意相关协议')
-    return
-  }
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
@@ -158,10 +154,6 @@ const { loading: phoneLoading, send: phoneSend } = useRequest((data) => phoneLog
 })
 
 const submitPhoneLogin = (form) => {
-  if (!read.value) {
-    Toast('请先阅读并同意相关协议')
-    return
-  }
   form
     .validate('phone')
     .then(async ({ valid, errors }) => {
@@ -205,10 +197,6 @@ const { loading: chartLoading, send: chartSend } = useRequest((data) => phoneCha
 })
 
 const getphonenumber = async (e) => {
-  if (!read.value) {
-    Toast('请先阅读并同意相关协议')
-    return
-  }
   if (e.errMsg === 'getPhoneNumber:ok') {
     try {
       uni.showLoading({ title: '登录中...' })
