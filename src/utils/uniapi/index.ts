@@ -1,5 +1,10 @@
 import { Toast } from './prompt'
 
+/**
+ * @description: 打开第三方小程序
+ * @param {} appId
+ * @param {} path
+ */
 export const openWxChart = (appId: string, path: string) => {
   uni.navigateToMiniProgram({
     appId, // 填入目标小程序的 appId
@@ -62,17 +67,31 @@ export const px2rpx = (px: number) => {
   return px / (uni.upx2px(100) / 100)
 }
 
+/**
+ * @description:  扫码
+ * @return {}
+ */
 export const useScancode = () => {
   // 允许从相机和相册扫码
-  uni.scanCode({
-    success: function (res) {
-      console.log('条码类型：' + res.scanType)
-      console.log('条码内容：' + res.result)
-    },
+  return new Promise((resolve, reject) => {
+    uni.scanCode({
+      success: function (res) {
+        console.log('条码类型：' + res.scanType)
+        console.log('条码内容：' + res.result)
+        resolve(res)
+      },
+      fail: function (err) {
+        reject(err)
+      },
+    })
   })
 }
+/**
+ * @description:  调用人脸识别
+ * @param {} data
+ * @return {}
+ */
 export const startFacialRecognitionVerify = (data) => {
-  console.log('🍩[data]:人脸识别参数====', data)
   return new Promise((resolve, reject) => {
     uni.startFacialRecognitionVerify({
       ...data,
@@ -97,8 +116,11 @@ export const startFacialRecognitionVerify = (data) => {
   })
 }
 
+/**
+ * @description: 获取登录凭证（code）
+ * @return {}
+ */
 export const getLoginCode = () => {
-  // 获取登录凭证（code）
   return new Promise((resolve, reject) => {
     wx.login({
       success: function (wxres) {
@@ -111,6 +133,10 @@ export const getLoginCode = () => {
   })
 }
 
+/**
+ * @description: 获取当前位置
+ * @return {}
+ */
 export const getLocation = () => {
   return new Promise((resolve, reject) => {
     uni.getLocation({
@@ -121,7 +147,6 @@ export const getLocation = () => {
         resolve(res)
       },
       fail: (err) => {
-        console.log('🥫[err]:', err)
         Toast('获取位置失败')
         reject(err)
       },
