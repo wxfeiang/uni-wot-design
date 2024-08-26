@@ -33,6 +33,12 @@ export const useUserStore = defineStore(
       return userInfo.value?.appSign ? { appSign: `${userInfo.value?.appSign}` } : {}
     }
 
+    const noLoginRequired = ref('30')
+
+    function setNoLoginRequired(val: string) {
+      noLoginRequired.value = val
+    }
+
     return {
       userInfo,
       setUserInfo,
@@ -41,6 +47,8 @@ export const useUserStore = defineStore(
       reset,
       getAuthorization,
       isTokenExpired,
+      noLoginRequired,
+      setNoLoginRequired,
     }
   },
   {

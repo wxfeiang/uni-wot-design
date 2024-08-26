@@ -37,7 +37,7 @@ import zhenwu from '@/static/images/index/zhenwu.png'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
 import PLATFORM from '@/utils/platform'
-import { useScancode } from '@/utils/uniapi'
+import { openWxChart, useScancode } from '@/utils/uniapi'
 import { useMessage, useToast } from 'wot-design-uni'
 
 import { useBaseStore } from '@/store'
@@ -123,12 +123,16 @@ const mainData = ref([
   },
   {
     title: '雄安缴费通',
-    type: 'order',
+    type: 'wxChart',
     icon: jiaofeitong,
+    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+    path: 'pages/index/index',
   },
   {
     title: '雄安乐泊',
-    type: 'star',
+    type: 'wxChart',
+    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
     icon: boche,
   },
   {
@@ -217,22 +221,8 @@ const serveList = ref([
   },
 ])
 function serveClick(item?: any) {
-  if (item.title === '雄安缴费通') {
-    uni.navigateToMiniProgram({
-      appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
-      path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
-      extraData: {
-        // 需要传递给目标小程序的数据
-      },
-    })
-  } else if (item.title === '雄安乐泊') {
-    uni.navigateToMiniProgram({
-      appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
-      path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
-      extraData: {
-        // 需要传递给目标小程序的数据
-      },
-    })
+  if (item.type === 'wxChart') {
+    openWxChart(item.appId, item.path)
   } else if (item.title === 'more') {
     routeTo({
       url: item.url,
@@ -242,8 +232,6 @@ function serveClick(item?: any) {
     toast.show('功能开发中，敬请期待!...')
     // message.alert('功能开发中，敬请期待!...')
   }
-
-  // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 function messageGuild() {
   routeTo({ url: '/pages-sub/serveMassage/messageList/index' })

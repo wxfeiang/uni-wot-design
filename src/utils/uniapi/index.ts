@@ -1,5 +1,15 @@
 import { Toast } from './prompt'
 
+export const openWxChart = (appId: string, path: string) => {
+  uni.navigateToMiniProgram({
+    appId, // 填入目标小程序的 appId
+    path, // 打开的页面路径，如果为空则打开首页
+    extraData: {
+      // 需要传递给目标小程序的数据
+    },
+  })
+}
+
 /**
  * @description 设置系统剪贴板的内容
  * @param data 需要设置的内容
