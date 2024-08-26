@@ -14,7 +14,7 @@ import { pathToBase64 } from 'image-tools'
 import jinbi from './static/images/jinbi.png'
 import bg from './static/images/topbg.png'
 const topbgBase64 = ref('')
-const title = '积分'
+const title = ref('积分')
 const handleClickLeft = () => {
   uni.navigateBack()
 }
@@ -56,10 +56,7 @@ const dataList = ref([
 </script>
 
 <template>
-  <view
-    class="h-482rpx bg-cover"
-    :style="`padding-top:${navTop}px ;background-image: url(${topbgBase64})`"
-  >
+  <view class="h-482rpx bg-cover" :style="`background-image: url(${topbgBase64})`">
     <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
       <template #left>
         <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
@@ -85,7 +82,7 @@ const dataList = ref([
       </view>
     </view>
   </view>
-  <view class="px-10px mt-[-150rpx]">
+  <view class="px-10px mt-[-120rpx]">
     <view class="bg-#fff px-10px py-15px rounded-md">
       <view class="flex justify-between">
         <view class="text-14px">
@@ -136,6 +133,12 @@ page {
 <style lang="scss" scoped>
 :deep(.nav_bg) {
   @apply bg-transparent!;
+  .wd-navbar__title {
+    color: var(--color-nav-text);
+  }
+  .wd-navbar__left {
+    color: var(--color-nav-text);
+  }
 }
 .bg {
   background: #feb329;
