@@ -59,7 +59,7 @@ onMounted(() => {
         :height="100"
         :src="props.imgUrl"
         v-if="props.imgUrl"
-        :class="current!.type !== 0 ? ' rotate-[-90deg]' : 'rotate-0'"
+        :class="current!.type !== 0 ? 'img1' : ''"
       ></image>
       <image
         :width="100"
@@ -87,5 +87,11 @@ onMounted(() => {
 :deep(.wd-img),
 :deep(.wd-img__image) {
   @apply wh-full!;
+}
+.img1 {
+  transform: rotate(270deg) scaleY(1.8) scaleX(1.4);
+}
+.img2 {
+  transform: rotate(90deg) scaleY(1.8) scaleX(1.4);
 }
 </style>

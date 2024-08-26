@@ -1,6 +1,7 @@
 <!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
 <route lang="json5" type="home">
 {
+  layout: 'default',
   needLogin: true,
   style: {
     navigationStyle: 'custom',
@@ -9,12 +10,11 @@
 </route>
 
 <script lang="ts" setup>
-import { useMessage } from 'wot-design-uni'
-
+import useNav from '@/hooks/useNav'
 import useNews from './hooks/useGurid'
-const message = useMessage()
 
 const { sendMessageList, messageClick } = useNews()
+const { navTop } = useNav()
 
 defineOptions({
   name: 'workGuide',
@@ -63,16 +63,11 @@ const queryList = async (pageNo, pageSize) => {
             <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
           </template>
         </wd-navbar>
-        <!-- <wd-sticky :offset-top="navTop">
+        <wd-sticky>
           <view class="w-100vw">
-            <wd-search
-              placeholder-left
-              placeholder="请输入关键词搜索"
-              hide-cancel
-              :custom-class="navbg"
-            />
+            <wd-search placeholder-left placeholder="请输入关键词搜索" hide-cancel />
           </view>
-        </wd-sticky> -->
+        </wd-sticky>
       </view>
     </template>
 
@@ -81,12 +76,22 @@ const queryList = async (pageNo, pageSize) => {
       <wd-cell
         v-for="(item, index) in dataList"
         :key="index"
-        :title="item.articleTitle"
-        :label="item.articleTitle"
+        title-width="90%"
         is-link
         clickable
         @click="messageClick(item)"
-      />
+      >
+        <template #title>
+          <view class="truncate-1">
+            {{ item.articleTitle }}
+          </view>
+        </template>
+        <template #label>
+          <view class="truncate-2 color-#999">
+            {{ item.articleTitle }}
+          </view>
+        </template>
+      </wd-cell>
     </wd-cell-group>
   </z-paging>
 </template>
