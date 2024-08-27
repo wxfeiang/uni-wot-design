@@ -52,14 +52,14 @@ onMounted(() => {
 
 <template>
   <view>
-    <view class="custom-class custom-preview-class mt-20px! relative overflow-hidden">
+    <view class="custom-class custom-preview-class mt-20px! relative overflow-hidden text-center">
       <image
         class="custom-class-img"
         :width="100"
         :height="100"
         :src="props.imgUrl"
         v-if="props.imgUrl"
-        :class="current!.type !== 0 ? 'img1' : ''"
+        :class="current!.type !== 0 ? 'img1' : 'img2'"
       ></image>
       <image
         :width="100"
@@ -92,6 +92,6 @@ onMounted(() => {
   transform: rotate(270deg) scaleY(1.8) scaleX(1.4);
 }
 .img2 {
-  transform: rotate(90deg) scaleY(1.8) scaleX(1.4);
+  @apply w-50%!;
 }
 </style>
