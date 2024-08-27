@@ -1,11 +1,20 @@
 ## 升级uni-app
 
+```
 npx @dcloudio/uvm@latest
+```
+
+- 升级到特定版本
+
+```
 npx @dcloudio/uvm@ 3.0.0-alpha-4000120240201002
+```
 
 ## 类型报错提示
 
+```
 pnpm add -D @types/node
+```
 
 ## 项目说明
 
@@ -13,17 +22,26 @@ pnpm
 
 ## 项目文档
 
-## 发布微信
+### 发布微信
 
-# 仅编译uni-app项目到微信小程序
+- 仅编译uni-app项目到微信小程序
+
+```
 
 cli publish --platform mp-weixin --project 项目名称
 
-# 编译uni-app项目到微信小程序，并上传发行小程序到微信平台
+```
 
+- 编译uni-app项目到微信小程序，并上传发行小程序到微信平台
+
+```
 cli publish --platform mp-weixin --project 项目名称 --upload true --appid 小程序appid --description 发布描述 --version 发布版本 --privatekey 小程序上传密钥文件
+```
 
+```
 cli publish --platform mp-weixin --project 项目名称 --upload true --appid 小程序appid --description 发布描述 --version 发布版本 --privatekey 小程序上传密钥文件 --robot 2
+
+```
 
 ## 文件说明
 
@@ -178,15 +196,22 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 
 ```
 
-## UI地址
+## 项目框架
 
 [unibest 框架](https://codercup.github.io/unibest-docs/)
+
+## 项目UI库
 
 [wot-design UI库](https://wot-design-uni.pages.dev/)
 
 ## 代码提交相关
 
+```
 pnpm cz
+
+```
+
+**_按照提示规范化提交_**
 
 # Commit Message 类型
 
@@ -276,39 +301,17 @@ needLogin: false, // false 表示需要登录 默认不需要配置
 
 # 注意事项
 
-## 本地资源
+- 本地资源
 
-尽量避免直接使用本地资源作为背景图片
+  尽量避免直接使用本地资源作为背景图片
 
-不要使用绝对路径
+  不要使用绝对路径
 
-## css
+- css
 
-采用原子类的写法 ,可以使用 @apply
+  采用原子类的写法 ,可以使用 @apply,
+  尽量不要单独自定义样式
 
-尽量不要单独自定义样式
-
-```
-<wd-input
-            type="text"
-            label="验证码"
-            center
-            v-model="model.username"
-            placeholder="请输入验证码"
-            :rules="rules.username"
-            custom-input-class="custom-input-right"
-          >
-<template #suffix>
-<wd-button
-size="small"
-plain
-custom-class="button"
-:round="false"
-@click="getCode"
-:loading="sending"
-:disabled="sending || countdown > 0" >
-{{ loading ? '发送中...' : countdown > 0 ? `${countdown}S后获取` : '获取验证码' }}
-</wd-button>
-</template>
-</wd-input>
-```
+- ts
+  尽量不要使用 any 类型
+  页面逻辑较少的不要是 hooks 方式了
