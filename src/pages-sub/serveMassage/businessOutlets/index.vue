@@ -39,17 +39,12 @@ onMounted(async () => {
   location()
 })
 const location = async () => {
-  if (!baseStore.userLocation.longitude) {
-    paging.value.complete([])
-    try {
-      const location = await getLocation()
-      await baseStore.setLocation(location)
-      paging.value.reload()
-    } catch (error) {
-      uni.showToast({ title: '定位失败', icon: 'none' })
-      console.log('🍶[error]:', error)
-    }
-  } else {
+  try {
+    const location = await getLocation()
+    await baseStore.setLocation(location)
+    paging.value.reload()
+  } catch (error) {
+    uni.showToast({ title: '定位失败', icon: 'none' })
     paging.value.reload()
   }
 }
@@ -125,7 +120,9 @@ const changeDe = (data) => {
             </template>
 
             <view class="pt-10px">
-              <view class="color-#999">距离: {{ changeDe(item.distance) }}</view>
+              <view class="color-#999" v-if="item.distance">
+                距离: {{ changeDe(item.distance) }}
+              </view>
               <view class="flex gap-20px justify-end mt-4px">
                 <view class="flex flex-col items-center" @click="toLocation(item)">
                   <view class="i-carbon-location-heart-filled color-#999"></view>
