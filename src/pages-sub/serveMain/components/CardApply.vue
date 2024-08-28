@@ -106,7 +106,7 @@ const value = ref()
         <view class="flex gap-15px mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
             <wd-button
-              :disabled="item.isRead || isApply"
+              :disabled="item.isRead || item.isApply"
               :round="item.round"
               block
               :size="item.size"
