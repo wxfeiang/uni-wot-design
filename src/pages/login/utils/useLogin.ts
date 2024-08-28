@@ -81,6 +81,7 @@ const Login = (form) => {
         // info 验证
         const { openid: userId }: any = await sendUserInfo({
           verifyResult,
+          name: model.value.username,
           idCardNumber: model.value.password,
         })
         // 登录
