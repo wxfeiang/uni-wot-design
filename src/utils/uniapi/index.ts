@@ -71,10 +71,10 @@ export const px2rpx = (px: number) => {
  * @description:  扫码
  * @return {}
  */
-export const useScancode = () => {
+export const useScancode = (options?: any) => {
   // 允许从相机和相册扫码
   return new Promise((resolve, reject) => {
-    uni.scanCode({
+    uni.scanCode(...options, {
       success: function (res) {
         console.log('条码类型：' + res.scanType)
         console.log('条码内容：' + res.result)

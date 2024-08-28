@@ -35,7 +35,8 @@ const footerBtns = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
-    disabled: true,
+    isRead: true,
+    isApply: false,
     isPeople: true,
   },
   {
@@ -44,7 +45,8 @@ const footerBtns = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
-    disabled: true,
+    isRead: true,
+    isApply: false,
     isPeople: false,
   },
 ])
@@ -52,8 +54,8 @@ const footerBtns = ref([
 watch(
   () => read.value,
   (val) => {
-    footerBtns.value[0].disabled = !val
-    footerBtns.value[1].disabled = !val
+    footerBtns.value[0].isRead = !val
+    footerBtns.value[1].isRead = !val
   },
   {
     immediate: true,
@@ -71,6 +73,7 @@ onMounted(async () => {
 
   isApply.value = resultCode
   if (isApply.value === '0') {
+    footerBtns.value[1].isApply = true
     message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
       uni.navigateBack()
     })
@@ -103,7 +106,7 @@ const value = ref()
         <view class="flex gap-15px mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
             <wd-button
-              :disabled="item.disabled"
+              :disabled="item.isRead || isApply"
               :round="item.round"
               block
               :size="item.size"
