@@ -71,7 +71,7 @@ const queryList = async (pageNo, pageSize) => {
     }
     uni.showLoading({ title: '加载中' })
     const res: any = await sendbranchesInfo(params)
-    dataList.value = res.data.data
+    dataList.value = res.data.data.content
     uni.hideLoading()
     // paging.value.complete(dataList.value)
   } catch (error) {
