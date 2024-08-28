@@ -85,7 +85,8 @@
   "mp-weixin": {
     "appid": "wxa6bde233fffd3f6d",
     "setting": {
-      "urlCheck": false
+      "urlCheck": false,
+      "minified": true
     },
     "usingComponents": true,
     "makePhoneCall": {

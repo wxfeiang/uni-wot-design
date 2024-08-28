@@ -147,7 +147,7 @@ onMounted(() => {
       <view class="flex justify-between items-center">
         <view class="flex items-center gap-20px">
           <template v-if="isLogined">
-            <view class="flex gap-20px items-center">
+            <view class="flex gap-15px items-center">
               <view>
                 <view class="p-5px rounded-50% size-64px">
                   <wd-img :width="60" :height="60" :src="anvter" round />
@@ -175,10 +175,10 @@ onMounted(() => {
             </view>
           </template>
           <template v-else>
-            <view class="p-5px bg-#fff rounded-50% size-70px">
-              <wd-img :width="70" :height="70" :src="anvter" round />
+            <view class="p-10px bg-#fff rounded-50% size-60px">
+              <wd-img :width="60" :height="60" :src="anvter" round />
             </view>
-            <view @click="login" class="flex gap-15px">
+            <view @click="login" class="flex gap-5px">
               <view class="font-bold color-#fff">未登录</view>
             </view>
           </template>

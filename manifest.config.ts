@@ -114,6 +114,7 @@ export default defineManifestConfig({
     appid: VITE_WX_APPID,
     setting: {
       urlCheck: false,
+      minified: true,
     },
     makePhoneCall: {
       desc: '用于拨打电话',
