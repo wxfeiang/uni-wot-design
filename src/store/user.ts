@@ -2,7 +2,12 @@ import { TOKEN_OVER } from '@/utils/constant'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const initState = { nickname: '', avatar: '', tokenTime: new Date().getTime(), appSign: '' }
+const initState = {
+  nickname: '',
+  avatar: '',
+  tokenTime: new Date().getTime(),
+  appSign: '',
+}
 
 export const useUserStore = defineStore(
   'user',

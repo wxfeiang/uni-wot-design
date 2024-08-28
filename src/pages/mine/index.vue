@@ -23,9 +23,16 @@ import shouho from '../../static/images/mine/shouho.png'
 import yiwancheng from '../../static/images/mine/yiwancheng.png'
 
 import useInfo from './hooks/useInfo'
+const { navTop } = useNav()
 
 const anvter = ref(
-  'https://img.zcool.cn/community/01c39c5bada9dda8012099c89a96f0.jpg@1280w_1l_2o_100sh.jpg',
+  'https://img1.baidu.com/it/u=2223092495,2890927007&fm=253&fmt=auto&app=138&f=PNG?w=304&h=304',
+)
+const anvter2 = ref(
+  'https://img0.baidu.com/it/u=2264664417,2109988758&fm=253&fmt=auto&app=138&f=PNG?w=265&h=265',
+)
+const anvter1 = ref(
+  'https://img2.baidu.com/it/u=3064118432,511138708&fm=253&fmt=auto&app=138&f=PNG?w=400&h=400',
 )
 const { setInfo, LogOut, loading, serveList } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
@@ -44,10 +51,6 @@ function logoutCimfirm() {
       LogOut()
     })
 }
-const { safeAreaInsets } = uni.getSystemInfoSync()
-
-const navtop = ref(0)
-navtop.value = safeAreaInsets.top + 44
 
 const topAction = ref([
   {
@@ -122,12 +125,23 @@ const acton = (item) => {
     toast.show('功能开发中，敬请期待!...')
   }
 }
+
+const sexAnvter = () => {
+  if (userInfo.value.sex === '1') {
+    anvter.value = anvter1.value
+  } else if (userInfo.value.sex === '2') {
+    anvter.value = anvter2.value
+  }
+}
+onMounted(() => {
+  sexAnvter()
+})
 </script>
 
 <template>
   <view
     class="py-10px imgUrl"
-    :style="`padding-top:${navtop}px ;background-image: url(${bgUrlBase64})`"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64})`"
   >
     <view class="px-10px">
       <view class="flex justify-between items-center">
@@ -136,7 +150,7 @@ const acton = (item) => {
             <view class="flex gap-20px items-center">
               <view>
                 <view class="p-5px rounded-50% size-64px">
-                  <wd-img :width="70" :height="70" :src="anvter" round />
+                  <wd-img :width="60" :height="60" :src="anvter" round />
                 </view>
                 <view
                   v-if="isLogined"
