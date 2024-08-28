@@ -35,34 +35,31 @@ function toLocation(e) {
 
 const paging = ref(null)
 const dataList = ref([])
-onLoad(async (options: any) => {
+onMounted(async () => {
   location()
 })
-// { setLocation, userLocation }
 const location = async () => {
   if (!baseStore.userLocation.longitude) {
-    console.log('🍷')
+    paging.value.complete([])
     try {
       const location = await getLocation()
-      console.log('🍾[location]:', location)
       await baseStore.setLocation(location)
-      queryList(1, 10)
-    } catch (error) {}
+      paging.value.reload()
+    } catch (error) {
+      uni.showToast({ title: '定位失败', icon: 'none' })
+      console.log('🍶[error]:', error)
+    }
   } else {
-    queryList(1, 10)
+    paging.value.reload()
   }
 }
 
 const queryList = async (pageNo, pageSize) => {
-  // const data = {
-  //   page: pageNo,
-  //   size: pageSize,
-  //   articleType: '0',
-  // }
   // 调用接口获取数据
-
   try {
     const params = {
+      number: pageNo,
+      size: pageSize,
       yhdm: '',
       areaCode: '',
       isMail: '',
@@ -72,12 +69,10 @@ const queryList = async (pageNo, pageSize) => {
     uni.showLoading({ title: '加载中' })
     const res: any = await sendbranchesInfo(params)
     dataList.value = res.data.data.content
-    uni.hideLoading()
-    // paging.value.complete(dataList.value)
+    paging.value.complete(dataList.value)
   } catch (error) {
-    uni.hideLoading()
     console.log('🥒[error]:', error)
-    // paging.value.complete(false)
+    paging.value.complete(false)
   }
 }
 const changeDe = (data) => {
@@ -90,11 +85,11 @@ const changeDe = (data) => {
 
 <template>
   <!--     -->
-  <view v-if="!baseStore.userLocation.longitude">
+  <!-- <view v-if="!baseStore.userLocation.longitude">
     <wd-status-tip image="search" tip="暂无网点信息" />
-  </view>
+  </view> -->
 
-  <!-- <z-paging
+  <z-paging
     ref="paging"
     v-model="dataList"
     :refresher-enabled="false"
@@ -103,50 +98,50 @@ const changeDe = (data) => {
     @query="queryList"
     :auto="false"
   >
-</z-paging> -->
-  <view v-else>
-    <wd-gap bg-color="#f5f5f5"></wd-gap>
-    <view class="p-10px">
-      <!-- <dy-title title="服务网点" class="py-10px"></dy-title> -->
-      <wd-cell-group border>
-        <wd-cell
-          v-for="(item, index) in dataList"
-          :key="index"
-          :to="item.url"
-          custom-class="cell-item"
-          title-width="60%"
-        >
-          <template #icon>
-            <view
-              class="cell-icon mt-10px mr-10px p-4px bg-blue size-20px color-#fff text-center rounded-4px"
-            >
-              {{ item.name[0] }}
-            </view>
-          </template>
-          <template #title>
-            <view class="truncate-2 color-#000">{{ item.name }}</view>
-          </template>
-          <template #label>
-            <view class="color-#999 truncate-2">地址: {{ item.address }}</view>
-          </template>
+    <view>
+      <wd-gap bg-color="#f5f5f5"></wd-gap>
+      <view class="p-10px">
+        <!-- <dy-title title="服务网点" class="py-10px"></dy-title> -->
+        <wd-cell-group border>
+          <wd-cell
+            v-for="(item, index) in dataList"
+            :key="index"
+            :to="item.url"
+            custom-class="cell-item"
+            title-width="60%"
+          >
+            <template #icon>
+              <view
+                class="cell-icon mt-10px mr-10px p-4px bg-blue size-20px color-#fff text-center rounded-4px"
+              >
+                {{ item.name[0] }}
+              </view>
+            </template>
+            <template #title>
+              <view class="truncate-2 color-#000">{{ item.name }}</view>
+            </template>
+            <template #label>
+              <view class="color-#999 truncate-2">地址: {{ item.address }}</view>
+            </template>
 
-          <view class="pt-10px">
-            <view class="color-#999">距离: {{ changeDe(item.distance) }}</view>
-            <view class="flex gap-20px justify-end mt-4px">
-              <view class="flex flex-col items-center" @click="toLocation(item)">
-                <view class="i-carbon-location-heart-filled color-#999"></view>
-                <view class="text-center color-#999">导航</view>
-              </view>
-              <view class="flex flex-col items-center" @click="toPhone(item)">
-                <view class="i-carbon-phone-voice-filled color-#999"></view>
-                <view class="text-center color-#999">电话</view>
+            <view class="pt-10px">
+              <view class="color-#999">距离: {{ changeDe(item.distance) }}</view>
+              <view class="flex gap-20px justify-end mt-4px">
+                <view class="flex flex-col items-center" @click="toLocation(item)">
+                  <view class="i-carbon-location-heart-filled color-#999"></view>
+                  <view class="text-center color-#999">导航</view>
+                </view>
+                <view class="flex flex-col items-center" @click="toPhone(item)">
+                  <view class="i-carbon-phone-voice-filled color-#999"></view>
+                  <view class="text-center color-#999">电话</view>
+                </view>
               </view>
             </view>
-          </view>
-        </wd-cell>
-      </wd-cell-group>
+          </wd-cell>
+        </wd-cell-group>
+      </view>
     </view>
-  </view>
+  </z-paging>
 </template>
 
 <style lang="scss" scoped>
