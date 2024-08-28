@@ -8,7 +8,6 @@
 }
 </route>
 <script lang="ts" setup>
-import { useBaseStore } from '@/store'
 import { Toast } from '@/utils/uniapi/prompt'
 import { pathToBase64 } from 'image-tools'
 import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
@@ -21,7 +20,6 @@ import { Camera } from './types/types'
 const instance = getCurrentInstance().proxy
 
 const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
-const { setCameraData } = useBaseStore()
 const { sendPhoto, loadingPhoto } = useCardBhk()
 const toast = useToast()
 const cover = ref(null) // 辅助
@@ -316,7 +314,7 @@ onMounted(() => {
           <view @click="takePhoto" hover-class="color-red">
             <view class="i-carbon-circle-filled font-size-50px color-#fff"></view>
           </view>
-          <view @click="chooseImage">
+          <view @click="reverseCamera">
             <wd-icon name="refresh1" size="22px" color="#fff"></wd-icon>
           </view>
         </view>
