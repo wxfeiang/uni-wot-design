@@ -109,6 +109,7 @@
     "useUpdateApp": true,
     "useFilePase": true,
     "usePhoneCode": true,
-    "useNav": true
+    "useNav": true,
+    "useSoket": true
   }
 }

@@ -92,15 +92,7 @@ const toAgreement = (articleId: string, title: string) => {
 const message = useMessage('wd-message-box-slot')
 const unifiedLogin = (type: number, $event?: any) => {
   if (read.value) {
-    if (type === 0) {
-      Login(form.value)
-    } else if (type === 1) {
-      submitPhoneLogin(form2.value)
-    } else if (type === 2) {
-      shuziLogin()
-    } else if (type === 3) {
-      console.log('🥔 wxchart')
-    }
+    readChange(type)
   } else {
     message
       .confirm({
@@ -108,11 +100,23 @@ const unifiedLogin = (type: number, $event?: any) => {
       })
       .then(() => {
         read.value = true
+        readChange(type)
       })
       .catch((error) => {
         console.log(error)
         read.value = false
       })
+  }
+}
+const readChange = (type: number) => {
+  if (type === 0) {
+    Login(form.value)
+  } else if (type === 1) {
+    submitPhoneLogin(form2.value)
+  } else if (type === 2) {
+    shuziLogin()
+  } else if (type === 3) {
+    console.log('🥔 wxchart')
   }
 }
 </script>

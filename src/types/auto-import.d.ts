@@ -95,6 +95,7 @@ declare global {
   const usePhoneCode: typeof import('../hooks/usePhoneCode')['default']
   const useRequest: typeof import('../hooks/useRequest')['default']
   const useSlots: typeof import('vue')['useSlots']
+  const useSoket: typeof import('../hooks/useSoket')['default']
   const useSystem: typeof import('../hooks/useSystemFig')['default']
   const useSystemFig: typeof import('../hooks/useSystemFig')['default']
   const useUpdateApp: typeof import('../hooks/useUpdateApp')['default']
