@@ -108,6 +108,7 @@
     "useSystemFig": true,
     "useUpdateApp": true,
     "useFilePase": true,
-    "usePhoneCode": true
+    "usePhoneCode": true,
+    "useMitt": true
   }
 }

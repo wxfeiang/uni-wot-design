@@ -99,6 +99,7 @@
     "js-base64": "^3.7.7",
     "js-md5": "^0.8.3",
     "jsencrypt": "^3.3.2",
+    "mitt": "^3.0.1",
     "mp-html": "^2.5.0",
     "pinia": "2.0.36",
     "pinia-plugin-persistedstate": "3.2.1",

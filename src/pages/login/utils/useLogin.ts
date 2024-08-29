@@ -2,6 +2,10 @@ import { sysLogin, testToken } from '@/service/api/auth'
 import { useUserStore } from '@/store'
 //
 import { useRequest } from 'alova/client'
+import { useMessage, useToast } from 'wot-design-uni'
+const message = useMessage()
+
+const toast = useToast()
 
 // 获取验证码
 const { getCodeUrl, codeflog } = useImageVerify()
@@ -31,28 +35,39 @@ const Login = (form) => {
   //
   // console.log('🍤', message)
   // message.alert('操作成功')
-
-  form.validate().then(async ({ valid, errors }) => {
-    if (valid) {
-      try {
-        const a = {
-          username: 'admin',
-          password: '123456admin',
-          verifyCode: '',
-        }
-        try {
-          const data: any = await sendLogin2(a)
-          console.log('🥦[data]:', data)
-          authStore.setUserInfo(data.data.data)
-          // 跳转到登录后的页面
-        } catch (error) {
-          getCodeUrl()
-        }
-      } catch (error) {}
-    } else {
-      console.log('🥖')
-    }
-  })
+  message
+    .confirm({
+      msg: '提示文案',
+      title: '标题',
+    })
+    .then(() => {
+      console.log('点击了确定按钮')
+    })
+    .catch(() => {
+      console.log('点击了取消按钮')
+    })
+  // form.validate().then(async ({ valid, errors }) => {
+  //   if (valid) {
+  //     try {
+  //       const a = {
+  //         username: 'admin',
+  //         password: '123456admin',
+  //         verifyCode: '',
+  //       }
+  //       toast.show('提示信息')
+  //       try {
+  //         const data: any = await sendLogin2(a)
+  //         console.log('🥦[data]:', data)
+  //         authStore.setUserInfo(data.data.data)
+  //         // 跳转到登录后的页面
+  //       } catch (error) {
+  //         getCodeUrl()
+  //       }
+  //     } catch (error) {}
+  //   } else {
+  //     console.log('🥖')
+  //   }
+  // })
 }
 
 const { send: tesToken, data: authInfo } = useRequest(testToken, {

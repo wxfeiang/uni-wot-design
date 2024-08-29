@@ -9,6 +9,9 @@
 </route>
 <script lang="ts" setup>
 import { getCurrentInstance, onMounted } from 'vue'
+import { useMessage } from 'wot-design-uni'
+const message = useMessage()
+
 const instance = getCurrentInstance().proxy
 
 const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
@@ -44,6 +47,17 @@ function loadTempImagePath(url) {
 }
 const copSrc = ref('')
 function choose() {
+  message
+    .confirm({
+      msg: '提示文案',
+      title: '标题',
+    })
+    .then(() => {
+      console.log('点击了确定按钮')
+    })
+    .catch(() => {
+      console.log('点击了取消按钮')
+    })
   // uni.chooseImage({
   //   count: 1,
   //   sizeType: ['original', 'compressed'],
@@ -53,14 +67,14 @@ function choose() {
   //   },
   // })
 
-  const ctx = uni.createCameraContext()
-  ctx.takePhoto({
-    quality: 'high',
+  // const ctx = uni.createCameraContext()
+  // ctx.takePhoto({
+  //   quality: 'high',
 
-    success: (res) => {
-      loadTempImagePath(res.tempImagePath)
-    },
-  })
+  //   success: (res) => {
+  //     loadTempImagePath(res.tempImagePath)
+  //   },
+  // })
 }
 
 function watchData() {}

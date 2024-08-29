@@ -8,6 +8,7 @@
 
 <script lang="ts" setup>
 import type { ConfigProviderThemeVars } from 'wot-design-uni'
+console.log('🌶=======')
 
 const themeVars: ConfigProviderThemeVars = {
   // colorTheme: 'red',
