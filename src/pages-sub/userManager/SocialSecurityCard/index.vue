@@ -50,7 +50,8 @@ const opts = ref({
   lineColor: '#000000',
   fontSize: 20,
   width: 2,
-  text: '1234567890123456789',
+  text: '0',
+  value: '11111111',
 })
 
 // function findCan() {

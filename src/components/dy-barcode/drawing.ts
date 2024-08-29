@@ -15,6 +15,7 @@ export interface Baroptions {
   textAlign?: string
   textPosition?: string
   textMargin: number // 文本与条码的间距
+  value?: string //显示内容
   fontSize: number
   background?: string
   lineColor?: string
@@ -108,7 +109,8 @@ function drawCanvasText(
       ctx.textAlign = 'center'
     }
 
-    ctx.fillText(encoding.text, x, y)
+    console.log('🍚[encoding.text]:', encoding)
+    ctx.fillText(encoding.options.value || encoding.text, x, y)
   }
 }
 

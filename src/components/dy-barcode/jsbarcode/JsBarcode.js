@@ -21,6 +21,7 @@ const API = function () { }
 // Will return an object with all barcodes calls and the data that is used
 // by the renderers
 const JsBarcode = function (element, text, options) {
+  console.log('🍮[text]:', text);
   const api = new API()
 
   if (typeof element === 'undefined') {
@@ -81,6 +82,7 @@ function registerBarcode(barcodes, name) {
 
 // encode() handles the Encoder call and builds the binary string to be rendered
 function encode(text, Encoder, options) {
+  console.log('🍰[text]:', text);
   // Ensure that text is a string
   text = '' + text
 
