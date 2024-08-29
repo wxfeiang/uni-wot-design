@@ -370,7 +370,7 @@ onPageScroll((e) => {
     </wd-cell-group>
   </view>
   <!-- 广告位 -->
-  <view class="py-3px bg-#f5f5f5 h-140px px-10px" @click="swiperClick">
+  <view class="py-3px bg-#f5f5f5 h-140px px-10px">
     <wd-swiper
       :list="swiperList"
       :autoplay="false"
