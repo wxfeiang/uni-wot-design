@@ -9,87 +9,60 @@
 </route>
 
 <script lang="ts" setup>
-import chuxing from '@/static/images/index/chuxing.png'
-import topbg from '@/static/images/index/indetxop_bg.png'
-import qiabao from '@/static/images/index/qiabao.png'
-import saoyisao from '@/static/images/index/saoyisao.png'
-import xianxing from '@/static/images/index/xianxing.png'
-import logo from '@/static/images/login/logo.png'
-
-import boche from '@/static/images/index/boche.png'
-import jiaofeitong from '@/static/images/index/jiaofeitong.png'
-import more from '@/static/images/index/more.png'
-import shebao from '@/static/images/index/shebao.png'
-import zhenxuan from '@/static/images/index/zhenxuan.png'
+import bgTip from '@/static/images/index/bgTip.png'
+import dzsbk from '@/static/images/index/dzsbk.png'
+import indexbg from '@/static/images/index/indexbg.png'
+import kfw from '@/static/images/index/kfw.png'
+import msgicon from '@/static/images/index/msgicon.png'
+import xabc from '@/static/images/index/xabc.png'
+import xajft from '@/static/images/index/xajft.png'
 
 import banner from '@/static/images/index/banner.png'
-import banner2 from '@/static/images/index/banner2.png'
 
-import butie from '@/static/images/index/butie.png'
-import jiaotong from '@/static/images/index/jiaotong.png'
-import jingxiongtong from '@/static/images/index/jingxiongtong.png'
-import kanbing from '@/static/images/index/kanbing.png'
-import tushujieyue from '@/static/images/index/tushujieyue.png'
-import xiaofei from '@/static/images/index/xiaofei.png'
-import zhanma from '@/static/images/index/zhanma.png'
-import zhenwu from '@/static/images/index/zhenwu.png'
+import btnbg from '@/static/images/index/btnbg.png'
+import znlogo from '@/static/images/index/znlogo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
-import { routeTo } from '@/utils'
-import PLATFORM from '@/utils/platform'
-import { openWxChart, useScancode } from '@/utils/uniapi'
-import { useMessage, useToast } from 'wot-design-uni'
-
 import { useBaseStore } from '@/store'
+import { routeTo } from '@/utils'
+import { openWxChart, useScancode } from '@/utils/uniapi'
+import { pathToBase64 } from 'image-tools'
+import { useToast } from 'wot-design-uni'
 import useIndex from './hooks/useIndex'
-const logoTitle = ref('雄安一卡通')
-const loactionName = ref('雄安新区')
-const message = useMessage()
-const basestore = useBaseStore()
-const toast = useToast()
-
-const { messageData, messageClick, sendMessageList } = useIndex()
-
+const { navTop } = useNav()
 defineOptions({
   name: 'Index',
 })
-const { safeAreaInsets } = uni.getSystemInfoSync()
-const weatherList = ref([
-  {
-    name: '多云',
-    icon: 'xa-tianqi_duoyun',
-    type: 1,
-  },
-  {
-    name: '晴',
-    icon: 'xa-tianqitubiao_qing',
-    type: 2,
-  },
 
-  {
-    name: '小雨',
-    icon: 'xa-tianqi-xiaoyu',
-    type: 2,
-  },
-])
-// H5 的情况下要 -44
+const logoTitle = ref('雄安一卡通')
+
+const basestore = useBaseStore()
+const toast = useToast()
+
+const { messageClick, sendMessageList, messageLoading } = useIndex()
 
 const topAction = ref([
   {
-    icon: saoyisao,
-    text: '扫一扫',
+    icon: dzsbk,
+    text: '电子社保卡',
     type: 'sacn',
   },
   {
-    icon: xianxing,
-    text: '收付款',
+    icon: xajft,
+    text: '雄安缴费通',
+    type: 'wxChart',
+    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+    path: 'pages/index/index',
   },
   {
-    icon: chuxing,
-    text: '公交出行',
+    icon: xabc,
+    text: '雄安乐泊',
+    type: 'wxChart',
+    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
   },
   {
-    icon: qiabao,
+    icon: kfw,
     text: '卡服务',
     type: 'card',
     url: '/pages/serve/index',
@@ -100,64 +73,18 @@ const topAction = ref([
 function actionTop(item: any) {
   if (item.type === 'sacn') {
     useScancode()
-  }
-  if (item.type === 'card') {
-    console.log('🍚[item]:', item)
-
+  } else if (item.type === 'wxChart') {
+    openWxChart(item.appId, item.path)
+  } else if (item.type === 'card') {
     basestore.active = item.active
     routeTo({
       url: item.url,
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
   } else {
-    // message.alert('功能开发中，敬请期待!...')
     toast.show('功能开发中，敬请期待!...')
   }
 }
-
-const mainData = ref([
-  {
-    title: '社保查询',
-    type: 'card',
-    icon: shebao,
-  },
-  {
-    title: '雄安缴费通',
-    type: 'wxChart',
-    icon: jiaofeitong,
-    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
-    path: 'pages/index/index',
-  },
-  {
-    title: '雄安乐泊',
-    type: 'wxChart',
-    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
-    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
-    icon: boche,
-  },
-  {
-    title: '雄安甄选',
-    type: 'coupon',
-    icon: zhenxuan,
-  },
-  // {
-  //   title: '图书借阅',
-  //   type: 'coupon',
-  //   icon: tushu,
-  // },
-  // {
-  //   title: '金融超市',
-  //   type: 'coupon',
-  //   icon: shop,
-  // },
-  {
-    title: '更多',
-    icon: more,
-    type: 'card',
-    url: '/pages/serve/index',
-    active: 1,
-  },
-])
 
 const swiperList = ref([banner])
 
@@ -173,53 +100,6 @@ function swiperClick() {
   // // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
-function toBusinessOutlets() {
-  routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
-}
-
-const serveList = ref([
-  {
-    title: '政务服务',
-    url: zhenwu,
-    color: '#8f533a',
-  },
-  {
-    title: '交通出行',
-    url: jiaotong,
-    color: '#219974',
-  },
-  {
-    title: '就医购药',
-    url: kanbing,
-    color: '#396183',
-  },
-  {
-    title: '待遇发放',
-    url: zhanma,
-    color: '#219974',
-  },
-  {
-    title: '金融服务',
-    url: jingxiongtong,
-    color: '#3b3a9d',
-  },
-  {
-    title: '文化体验',
-    url: tushujieyue,
-    color: '#8f533a',
-  },
-
-  {
-    title: '旅游观光',
-    url: butie,
-    color: '#8f533a',
-  },
-  {
-    title: '京雄互通',
-    url: xiaofei,
-    color: '#3b3a9d',
-  },
-])
 function serveClick(item?: any) {
   if (item.type === 'wxChart') {
     openWxChart(item.appId, item.path)
@@ -233,23 +113,23 @@ function serveClick(item?: any) {
     // message.alert('功能开发中，敬请期待!...')
   }
 }
-function messageGuild() {
-  routeTo({ url: '/pages-sub/serveMassage/messageList/index' })
-}
 
 function serveGuild() {
   routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
 }
 
-const navTop = ref(safeAreaInsets.top + 40)
-
 const mess1 = ref([])
 const mess2 = ref([])
-onMounted(async () => {
-  if (PLATFORM.isH5) {
-    navTop.value = navTop.value - 44
-  }
 
+const topbgBase64 = ref('')
+const btnbgBase64 = ref('')
+
+onLoad(async () => {
+  // 设置背景图片
+  topbgBase64.value = await pathToBase64(indexbg)
+  btnbgBase64.value = await pathToBase64(btnbg)
+})
+onMounted(async () => {
   const mess: any = await sendMessageList({
     page: 1,
     size: 10,
@@ -270,182 +150,124 @@ onPageScroll((e) => {
 </script>
 <template>
   <!-- 顶部 -->
-  <view class="pb-20px bg-size-100 relative">
-    <wd-navbar safeAreaInsetTop placeholder fixed :custom-class="navbg" :bordered="false">
+
+  <view
+    class="box-border bg-cover h-310px relative"
+    :style="` background-image: url(${topbgBase64})`"
+  >
+    <wd-navbar safeAreaInsetTop placeholder :custom-class="navbg" fixed :bordered="false">
       <template #left>
         <view class="flex gap-10px items-center">
-          <wd-img :width="24" :height="24" :src="logo"></wd-img>
-          <text class="line-height-44px text-16px color-#fff mt-5px">{{ logoTitle }}</text>
+          <text class="line-height-44px text-18px color-#fff mt-5px">{{ logoTitle }}</text>
         </view>
       </template>
     </wd-navbar>
     <!-- <wd-sticky :offset-top="navTop"> -->
     <view :class="`w-100vw flex items-center justify-between gap-2px box-border ${navbg}`">
-      <view class="w-30px text-center">
-        <i class="iconfont xa-tianqitubiao_qing text-20px"></i>
-      </view>
-      <view class="color-#fff flex items-center">
-        <view class="w-40px font-size-13px truncate-1">{{ loactionName }}</view>
-        <wd-icon name="chevron-down" color="#fff" size="14px"></wd-icon>
-      </view>
-
-      <view class="flex-1">
-        <wd-search
-          placeholder-left
-          placeholder="请输入关键词搜索"
-          hide-cancel
-          disabled
-          :custom-class="navbg"
-          @click="serveClick"
-        />
+      <view class="flex-1 px-20px">
+        <view
+          class="flex justify-between items-center serch-bg px-10px py-5px color-#fff opacity-65"
+        >
+          <wd-icon name="search" size="16px"></wd-icon>
+          <view class="text-left text-14px flex-1 px-10px">请输入搜索关键词</view>
+          <view class="text-12px relative search-type">搜索</view>
+        </view>
       </view>
     </view>
     <!-- </wd-sticky> -->
-    <view class="px-10px pt-5px flex justify-between">
+    <view class="px-14px pt-5px mt-18px flex justify-between">
       <view
         v-for="(item, index) in topAction"
         :key="index"
-        class="w-20% text-center color-#fff"
+        class="w-1/4 text-center color-#fff"
         @click="actionTop(item)"
       >
-        <wd-img :width="26" :height="26" :src="item.icon" />
-        <view class="mt-4px text-12px">{{ item.text }}</view>
+        <wd-img :width="50" :height="50" :src="item.icon" />
+        <view class="mt-4px text-14px">{{ item.text }}</view>
       </view>
     </view>
-    <view class="absolute top-0 left-0 right-0 size-full z-[-1]">
-      <wd-img :width="160" :height="90" :src="topbg" custom-class="custom-class-img" />
+    <view class="flex justify-center absolute bottom-6px w-full">
+      <wd-img :width="207" :height="44" :src="bgTip" />
     </view>
-  </view>
-
-  <!-- 入口类表 -->
-
-  <view class="mt-[-10px] overflow-hidden rounded-t-10px px-10px py-5px bg-#fff">
-    <wd-grid :column="5" clickable>
-      <wd-grid-item
-        use-icon-slot
-        use-text-slot
-        v-for="(item, index) in mainData"
-        :key="index"
-        custom-class="grid-item"
-        @itemclick="serveClick(item)"
-      >
-        <template #icon>
-          <image class="size-42px rounded-10px" :src="item.icon" />
-        </template>
-        <template #text>
-          <view class="text-center mt-2px">{{ item.title }}</view>
-        </template>
-      </wd-grid-item>
-    </wd-grid>
   </view>
 
   <!-- 消息 -->
-  <wd-gap height="3" bg-color="#f5f5f5"></wd-gap>
-  <view class="px-10px pr-0">
-    <!-- <dy-title title="消息专区" more @moreClick="messageGuild"></dy-title> -->
-    <wd-cell-group>
-      <wd-cell
-        v-for="(item, index) in mess1"
-        :key="index"
-        :to="item.url"
-        title-width="280px"
-        custom-class="cell-item"
-        clickable
-        @click="messageClick(item)"
-        is-link
+  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <view class="px-10px">
+    <view
+      class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px"
+      @click="messageClick(mess1[0])"
+    >
+      <view class="w-60px h-full mr-10px msg flex justify-center items-center">
+        <wd-badge is-dot>
+          <wd-img :width="20" :height="20" :src="msgicon" />
+        </wd-badge>
+      </view>
+      <wd-skeleton
+        :custom-style="{ width: '100%' }"
+        animation="flashed"
+        :loading="messageLoading || !mess1[0]"
+        :row-col="[{ width: '100%', height: '20px' }]"
       >
-        <template #title>
-          <view class="flex">
-            <view class="drelative mr-5px mt-[-2px]">
-              <wd-tag type="danger" color="#e48370" bg-color="#f5f5f5">消息</wd-tag>
-              <view
-                v-if="true"
-                class="absolute top-4px left-[-2px] wh-5px rounded-50% bg-red"
-              ></view>
-            </view>
-            <view class="truncate-1">{{ item.articleTitle }}</view>
-          </view>
-        </template>
-      </wd-cell>
-    </wd-cell-group>
+        <view class="flex-1 color-#666 truncate-1 text-14px">{{ mess1[0].articleTitle }}</view>
+      </wd-skeleton>
+    </view>
   </view>
+
   <!-- 广告位 -->
-  <view class="py-3px bg-#f5f5f5 h-140px px-10px">
+  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <view class="py-3px h-135px px-10px">
     <wd-swiper
       :list="swiperList"
       :autoplay="false"
       :current="0"
-      :height="140"
+      :height="135"
       :indicator="false"
       @click="swiperClick"
       imageMode="aspectFill"
     ></wd-swiper>
   </view>
 
-  <!-- 服务专区 -->
-  <view class="px-10px pt-10px">
-    <dy-title title="服务" smTitle="专区" smTstyle="color: #3177f6"></dy-title>
-    <view>
-      <scroll-view scroll-x class="whitespace-nowrap pt-10px w-100% pr-20px">
-        <view
-          class="inline-block w-160px h-90px mr-10px box-border rounded-4px bg-no-repeat! relative"
-          v-for="(item, index) in serveList"
-          :key="index"
-          @click="serveClick(item)"
-        >
-          <wd-img :width="160" :height="90" :src="item.url" custom-class="custom-class-img" />
-          <view class="size-full absolute top-0 left-0">
-            <view
-              class="font-bold color-white font-size-16px line-height-40px px-10px"
-              :style="`color: ${item.color}`"
-            >
-              {{ item.title }}
-            </view>
-          </view>
-        </view>
-      </scroll-view>
-    </view>
-  </view>
   <!-- 办事指南 -->
-  <wd-gap height="3" bg-color="#f5f5f5"></wd-gap>
-  <view class="p-10px">
-    <dy-title
-      title="办事"
-      smTitle="指南"
-      smTstyle="color: #12b6b9"
-      more
-      @moreClick="serveGuild"
-    ></dy-title>
-    <view class="py-10px h-70px relative">
-      <wd-img
-        :width="100"
-        :height="88"
-        :src="banner2"
-        custom-class="custom-class-img"
-        @click="toBusinessOutlets"
-      />
+  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <view class="px-10px">
+    <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
+    <view class="p-12px mt-20px relative zhbg">
+      <view class="flex gap-20px justify-around items-center">
+        <wd-img :width="140" :height="52" :src="znlogo" />
+        <view
+          class="flex gap-10px text-16px color-#fff items-center bg-cover w-153px h-38px justify-center"
+          :style="` background-image: url(${btnbgBase64})`"
+          @click="serveGuild"
+        >
+          <wd-icon name="search" size="16px"></wd-icon>
+          <view>网点一键查询</view>
+        </view>
+      </view>
+
+      <view class="p-15px mt-16px zn-item" @click="messageClick(mess2[0])">
+        <view style="display: flex">
+          <wd-skeleton
+            :custom-style="{ width: '100%' }"
+            animation="flashed"
+            theme="text"
+            :loading="messageLoading || !mess2[0]"
+            :row="2"
+          >
+            <view class="color-#333 truncate-1">{{ mess2[0].articleTitle }}</view>
+            <view class="flex gap-20px color-#888 text-14px mt-10px">
+              <view>日期：{{ mess2[0].createTime }}</view>
+              <view>
+                <wd-icon name="browse" size="14px"></wd-icon>
+                {{ mess2[0].createBy }}次
+              </view>
+            </view>
+          </wd-skeleton>
+        </view>
+      </view>
     </view>
   </view>
-  <!-- 列表 -->
-  <view class="pl-10px">
-    <wd-cell-group border>
-      <wd-cell
-        v-for="(item, index) in mess2"
-        :key="index"
-        :to="item.url"
-        clickable
-        custom-class="cell-item"
-        @click="messageClick(item)"
-      >
-        <template #title>
-          <view class="truncate-1 color-#000">{{ item.articleTitle }}</view>
-        </template>
-
-        <view class="truncate-1 color-#999">{{ item.updateTime }}</view>
-      </wd-cell>
-    </wd-cell-group>
-  </view>
-  <!-- <wd-gap height="" bg-color="#f5f5f5"></wd-gap> -->
+  <wd-gap height="15" bg-color="#fff"></wd-gap>
 </template>
 
 <style>
@@ -453,19 +275,33 @@ onPageScroll((e) => {
   @apply bg-transparent!;
 }
 :deep(.nav_hide) {
-  @apply bg-#61a2fd!;
-}
-:deep(.swiper_box .wd-swiper__track) {
-  @apply px-10px!;
-}
-:deep(.grid-item .wd-grid-item__wrapper) {
-  @apply size-auto!;
-}
-:deep(.cell-item) {
-  @apply pl-0!;
+  @apply bg-#2B66ED!;
 }
 
-:deep(.custom-class-img) {
-  @apply size-full!;
+.serch-bg {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 6px 6px 6px 6px;
+}
+.search-type::after {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: -10px;
+  width: 1px;
+  content: '';
+  background: rgba(255, 255, 255, 0.65);
+}
+.msg {
+  background: linear-gradient(-74deg, transparent 10px, #2d69ef 0) top right;
+}
+.zhbg {
+  height: 179px;
+  background: linear-gradient(180deg, #c0dcff 0%, #f5f9fe 100%);
+  border-radius: 6px 6px 6px 6px;
+}
+.zn-item {
+  background: #ffffff;
+  border-radius: 6px 6px 6px 6px;
+  box-shadow: 0px 0px 13px 1px rgba(12, 86, 182, 0.16);
 }
 </style>

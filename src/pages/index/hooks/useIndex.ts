@@ -7,7 +7,8 @@ const {
   send: sendMessageList,
   data: messageData,
   onSuccess: messageSucess,
-}: { send: any; data: any; onSuccess: any } = useRequest(
+  loading: messageLoading,
+} = useRequest(
   getMessageList({
     page: 1,
     size: 10,
@@ -34,5 +35,5 @@ function messageClick(item) {
 }
 
 export default () => {
-  return { messageData, messageClick, sendMessageList }
+  return { messageData, messageClick, sendMessageList, messageLoading }
 }
