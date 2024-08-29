@@ -9,10 +9,10 @@
 </route>
 
 <script lang="ts" setup>
+import { useUserStore } from '@/store'
 import PLATFORM from '@/utils/platform'
 import { useMessage } from 'wot-design-uni'
 import useIndex from './hooks/useIndex'
-import { useUserStore } from '@/store'
 const message = useMessage()
 const user = useUserStore()
 
@@ -46,7 +46,7 @@ onPageScroll((e) => {
 const paging = ref(null)
 
 const dataList = ref([])
-onLoad(() => {
+onMounted(() => {
   if (user.userInfo.token) {
     console.log('🍾==========')
     // 特定的情况下 被动调用的  :auto="false"
@@ -73,31 +73,15 @@ const queryList = async (pageNo, pageSize) => {
   <z-paging ref="paging" v-model="dataList" :auto="false" @query="queryList">
     <template #top>
       <!-- 顶部 -->
-      <view class="bg-blue pb-10px">
-        <wd-navbar
-          safeAreaInsetTop
-          placeholder
-          fixed
-          :custom-class="navbg"
-          :bordered="false"
-          title="办事指南"
-        >
+      <view class="pb-10px">
+        <wd-navbar safeAreaInsetTop placeholder fixed :custom-class="navbg" :bordered="false">
           <template #left>
-            <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
+            <wd-icon @click="handleClickLeft" name="arrow-left" size="22px"></wd-icon>
+            <view class="">办事指南</view>
           </template>
         </wd-navbar>
-        <wd-sticky :offset-top="navTop">
-          <view class="w-100vw">
-            <wd-search
-              placeholder-left
-              placeholder="请输入关键词搜索"
-              hide-cancel
-              :custom-class="navbg"
-            />
-          </view>
-        </wd-sticky>
       </view>
-      <wd-button @click="paging.reload()">点击刷新</wd-button>
+      <!-- <wd-button @click="paging.reload()">点击刷新</wd-button> -->
     </template>
 
     <!-- leibiao  -->
@@ -111,8 +95,6 @@ const queryList = async (pageNo, pageSize) => {
       />
     </wd-cell-group>
   </z-paging>
-
-  <view>asdcas</view>
 </template>
 
 <style lang="scss" scoped>

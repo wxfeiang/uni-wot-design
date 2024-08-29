@@ -4,6 +4,7 @@ import { useUserStore } from '@/store/user'
 const setInfo = ref([
   {
     name: '我的社保卡',
+    path: '/pages-sub/userManager/SocialSecurityCard/index',
   },
   {
     name: '设置',

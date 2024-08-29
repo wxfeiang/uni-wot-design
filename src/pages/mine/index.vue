@@ -32,7 +32,9 @@ function logoutCimfirm() {
 function topAction() {
   console.log('🍬------')
 }
-
+function itemclik(item) {
+  routeTo({ url: item.path })
+}
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const navtop = ref(0)
@@ -71,7 +73,7 @@ console.log('🍏', navtop.value)
     <view class="rounded-10px overflow-hidden">
       <wd-cell-group border>
         <template v-for="(item, index) in setInfo" :key="index">
-          <wd-cell :title="item.name" is-link>
+          <wd-cell :title="item.name" is-link @click="itemclik(item)">
             <template #icon v-if="item.icon">
               <view class="mr-10px">
                 <wd-icon name="setting1" size="22px" color="#4689fd"></wd-icon>

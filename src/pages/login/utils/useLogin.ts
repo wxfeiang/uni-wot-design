@@ -46,28 +46,28 @@ const Login = (form) => {
     .catch(() => {
       console.log('点击了取消按钮')
     })
-  // form.validate().then(async ({ valid, errors }) => {
-  //   if (valid) {
-  //     try {
-  //       const a = {
-  //         username: 'admin',
-  //         password: '123456admin',
-  //         verifyCode: '',
-  //       }
-  //       toast.show('提示信息')
-  //       try {
-  //         const data: any = await sendLogin2(a)
-  //         console.log('🥦[data]:', data)
-  //         authStore.setUserInfo(data.data.data)
-  //         // 跳转到登录后的页面
-  //       } catch (error) {
-  //         getCodeUrl()
-  //       }
-  //     } catch (error) {}
-  //   } else {
-  //     console.log('🥖')
-  //   }
-  // })
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        const a = {
+          username: 'admin',
+          password: '123456admin',
+          verifyCode: '',
+        }
+        toast.show('提示信息')
+        try {
+          const data: any = await sendLogin2(a)
+          console.log('🥦[data]:', data)
+          authStore.setUserInfo(data.data.data)
+          // 跳转到登录后的页面
+        } catch (error) {
+          getCodeUrl()
+        }
+      } catch (error) {}
+    } else {
+      console.log('🥖')
+    }
+  })
 }
 
 const { send: tesToken, data: authInfo } = useRequest(testToken, {
