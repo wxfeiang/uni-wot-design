@@ -55,7 +55,7 @@ const {
 </script>
 
 <template>
-  <dy-navbar leftTitle="搜索页"></dy-navbar>
+  <dy-navbar leftTitle="搜索页" left></dy-navbar>
   <view class="p-10px">
     <view class="rounded-3px overflow-hidden bg-#C7C7C7/18">
       <wd-search
@@ -72,25 +72,6 @@ const {
     </view>
   </view>
 
-  <!-- history -->
-  <view class="px-20px mt-10px" v-if="historySearch && serchValue.length === 0">
-    <view class="flex justify-between items-center">
-      <view class="text-16px font-semibold">历史搜索</view>
-      <view @click="cleatHistory">
-        <wd-icon name="delete" size="16px"></wd-icon>
-      </view>
-    </view>
-    <view>
-      <view
-        class="mt-5px text-16px color-#444 line-height-30px truncate-1"
-        v-for="(item, index) in historySearch"
-        :key="index"
-        @click="toDetile(item)"
-      >
-        {{ item }}
-      </view>
-    </view>
-  </view>
   <!-- content -->
   <view class="px-20px mt-10px" v-if="!loading || (serchListData && serchValue.length > 0)">
     <view
@@ -112,6 +93,25 @@ const {
       }"
       tip="抱歉没有找到您想要搜索的内容"
     />
+  </view>
+  <!-- history -->
+  <view class="px-20px mt-10px" v-if="historySearch && serchValue.length === 0">
+    <view class="flex justify-between items-center">
+      <view class="text-16px font-semibold">历史搜索</view>
+      <view @click="cleatHistory">
+        <wd-icon name="delete" size="16px"></wd-icon>
+      </view>
+    </view>
+    <view>
+      <view
+        class="mt-5px text-16px color-#444 line-height-30px truncate-1"
+        v-for="(item, index) in historySearch"
+        :key="index"
+        @click="toDetile(item)"
+      >
+        {{ item }}
+      </view>
+    </view>
   </view>
 </template>
 

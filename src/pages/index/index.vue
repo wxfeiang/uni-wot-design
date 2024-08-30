@@ -28,8 +28,9 @@ import { routeTo } from '@/utils'
 import { openWxChart, useScancode } from '@/utils/uniapi'
 import { pathToBase64 } from 'image-tools'
 import { useToast } from 'wot-design-uni'
-import useIndex from './hooks/useIndex'
-const { navTop } = useNav()
+import { messProps } from './utils/types'
+import useIndex from './utils/useIndex'
+
 defineOptions({
   name: 'Index',
 })
@@ -120,9 +121,12 @@ function serveGuild() {
 const toServhFor = () => {
   routeTo({ url: '/pages-sub/serveMassage/serchFor/index' })
 }
+function toBusinessOutlets() {
+  routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
+}
 
-const mess1 = ref([])
-const mess2 = ref([])
+const mess1 = ref<messProps[]>([])
+const mess2 = ref<messProps[]>([])
 
 const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
@@ -212,7 +216,7 @@ onPageScroll((e) => {
         :loading="messageLoading || !mess1[0]"
         :row-col="[{ width: '100%', height: '20px' }]"
       >
-        <view class="flex-1 color-#666 truncate-1 text-14px">{{ mess1[0].articleTitle }}</view>
+        <view class="flex-1 color-#666 truncate-1 text-14px">{{ mess1[0]?.articleTitle }}</view>
       </wd-skeleton>
     </view>
   </view>
@@ -241,7 +245,7 @@ onPageScroll((e) => {
         <view
           class="flex gap-10px text-16px color-#fff items-center bg-cover w-153px h-38px justify-center"
           :style="` background-image: url(${btnbgBase64})`"
-          @click="serveGuild"
+          @click="toBusinessOutlets"
         >
           <wd-icon name="search" size="16px"></wd-icon>
           <view>网点一键查询</view>

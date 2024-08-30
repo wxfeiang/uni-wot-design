@@ -1,6 +1,7 @@
 import { getMessageList } from '@/service/api/source'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
+import { messProps } from './types'
 
 // 消息列表
 const {
@@ -19,15 +20,8 @@ const {
     initialData: [],
   },
 )
-const mdData = ref(null)
-// const sendMessageList = async (data) => {
-//   try {
-//     const a = messageList(data)
-//     console.log('🌯[a ]:', a)
-//   } catch (error) {}
-// }
 
-function messageClick(item) {
+function messageClick(item: messProps) {
   routeTo({
     url: '/pages-sub/webView/index',
     data: { type: item.articleId },

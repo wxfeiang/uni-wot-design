@@ -22,6 +22,7 @@ export const useBaseStore = defineStore(
     const historySearch = ref([])
 
     const setHistorySearch = (val) => {
+      if (historySearch.value.includes(val)) return
       historySearch.value.unshift(val)
       if (historySearch.value.length > 10) {
         historySearch.value.pop()
