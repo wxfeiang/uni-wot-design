@@ -16,7 +16,7 @@ import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
 import useLogin from './utils/useLogin'
 
-import loginbg from '@/static/images/login/login-bg.png'
+// import loginbg from '@/static/images/login/login-bg.png'
 
 const { Login, model, rules, read, LoadingKey, LoadingInfo } = useLogin()
 const form = ref(null)
@@ -49,7 +49,7 @@ function handleClickLeft() {
       </template>
     </wd-navbar>
     <view class="absolute top-0 left-0 right-0 size-full z-0 h-240px">
-      <wd-img :width="160" :height="200" :src="loginbg" custom-class="custom-class-img" />
+      <!-- <wd-img :width="160" :height="200" :src="loginbg" custom-class="custom-class-img" /> -->
     </view>
     <view class="absolute top-120px left-0 right-0">
       <view class="px-30px">
