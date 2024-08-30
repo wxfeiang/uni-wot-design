@@ -166,11 +166,11 @@ onPageScroll((e) => {
     <view :class="`w-100vw flex items-center justify-between gap-2px box-border ${navbg}`">
       <view class="flex-1 px-20px">
         <view
-          class="flex justify-between items-center serch-bg px-10px py-5px color-#fff opacity-65"
+          class="flex justify-between items-center serch-bg px-10px py-10px color-#fff opacity-65"
         >
           <wd-icon name="search" size="16px"></wd-icon>
-          <view class="text-left text-14px flex-1 px-10px">请输入搜索关键词</view>
-          <view class="text-12px relative search-type">搜索</view>
+          <view class="text-left text-16px flex-1 px-10px">请输入搜索关键词</view>
+          <view class="text-14px relative search-type">搜索</view>
         </view>
       </view>
     </view>
