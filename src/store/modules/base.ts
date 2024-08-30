@@ -18,10 +18,26 @@ export const useBaseStore = defineStore(
       userLocation.value = val
     }
 
+    // 用户历史搜索记录
+    const historySearch = ref([])
+
+    const setHistorySearch = (val) => {
+      historySearch.value.unshift(val)
+      if (historySearch.value.length > 10) {
+        historySearch.value.pop()
+      }
+    }
+    const clearHistorySearch = () => {
+      historySearch.value = []
+    }
+
     return {
       active,
       userLocation,
       setLocation,
+      historySearch,
+      setHistorySearch,
+      clearHistorySearch,
     }
   },
   {

@@ -1,9 +1,9 @@
 import { cardFirstApplication, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
-import { useBaseStore, useUserStore } from '@/store'
+import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
-const { clearCameraData } = useBaseStore()
+
 const read = ref(0)
 const { userInfo } = useUserStore()
 const serchData = ref({
@@ -113,7 +113,6 @@ const submitCard = (form) => {
         } else {
           submitStatus.value = 1
           statusDel.value = '提交成功了!'
-          clearCameraData()
         }
       } catch (error) {
         console.log('数据校验失败')

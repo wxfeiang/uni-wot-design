@@ -30,14 +30,7 @@ onLoad((options) => {
 
 <template>
   <view class="">
-    <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
-      <template #left>
-        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
-      </template>
-      <template #title>
-        <text class="color-#fff">{{ title }}</text>
-      </template>
-    </wd-navbar>
+    <dy-navbar :leftTitle="articleTitle"></dy-navbar>
     <view class="mt-20px" v-if="!showTop">
       <view class="text-center line-height-30px">{{ articleTitle }}</view>
       <view class="text-center flex justify-center gap-20px mt-10px">

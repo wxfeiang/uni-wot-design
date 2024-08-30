@@ -1,5 +1,5 @@
 <!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
-<route lang="json5" type="home">
+<route lang="json5">
 {
   layout: 'default',
   needLogin: true,
@@ -20,10 +20,6 @@ defineOptions({
   name: 'workGuide',
 })
 const { safeAreaInsets } = uni.getSystemInfoSync()
-
-function handleClickLeft() {
-  uni.navigateBack()
-}
 
 const paging = ref(null)
 const dataList = ref([])
@@ -50,14 +46,7 @@ const queryList = async (pageNo, pageSize) => {
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
-      <view class="">
-        <wd-navbar safeAreaInsetTop placeholder fixed :bordered="false">
-          <template #left>
-            <wd-icon @click="handleClickLeft" name="arrow-left" size="22px"></wd-icon>
-            <view>办事指南</view>
-          </template>
-        </wd-navbar>
-      </view>
+      <dy-navbar leftTitle="办事指南"></dy-navbar>
     </template>
     <view class="px-10px">
       <!-- leibiao  -->

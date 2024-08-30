@@ -186,8 +186,17 @@
           }
         },
         {
+          "path": "serchFor/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "workGuide/index",
-          "type": "home",
+          "type": "page",
           "layout": "default",
           "needLogin": true,
           "style": {

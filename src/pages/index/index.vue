@@ -117,6 +117,9 @@ function serveClick(item?: any) {
 function serveGuild() {
   routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
 }
+const toServhFor = () => {
+  routeTo({ url: '/pages-sub/serveMassage/serchFor/index' })
+}
 
 const mess1 = ref([])
 const mess2 = ref([])
@@ -163,7 +166,7 @@ onPageScroll((e) => {
       </template>
     </wd-navbar>
     <!-- <wd-sticky :offset-top="navTop"> -->
-    <view :class="`w-100vw flex items-center justify-between gap-2px box-border ${navbg}`">
+    <view class="w-100vw flex items-center justify-between gap-2px box-border" @click="toServhFor">
       <view class="flex-1 px-20px">
         <view
           class="flex justify-between items-center serch-bg px-10px py-10px color-#fff opacity-65"

@@ -64,3 +64,21 @@ export function getBranchesInfo(data: any) {
     meta,
   })
 }
+
+/**
+ * @description: 资源检索列表
+ * @return {}
+ */
+
+export function getSerchList(data: any) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+
+  return request.Post(GET_BRANCHES_INFO, data, {
+    meta,
+  })
+}
