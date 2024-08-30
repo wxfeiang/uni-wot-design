@@ -109,7 +109,7 @@ onMounted(async () => {
 
 <template>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
-  <view class="p-20px">
+  <view class="pl-10px">
     <wd-cell-group border>
       <wd-cell
         v-for="(item, index) in mainData"
@@ -124,8 +124,8 @@ onMounted(async () => {
           </view>
         </template>
         <template #title>
-          <view class="flex justify-between items-center">
-            <view class="truncate-1 color-#000 font-bold mb-10px text-16px">{{ item.title }}</view>
+          <view class="flex justify-between items-center mb-10px">
+            <view class="truncate-1 color-#000 font-bold text-16px">{{ item.title }}</view>
             <view class="color-#A3A9B6 text-12px">2020-2020-2020</view>
           </view>
         </template>
