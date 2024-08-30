@@ -40,12 +40,6 @@ export default defineUniPages({
         text: '服务',
       },
       {
-        iconPath: 'static/tabbar/shop.png',
-        selectedIconPath: 'static/tabbar/shop-a.png',
-        pagePath: 'pages/shop/index',
-        text: '商城',
-      },
-      {
         iconPath: 'static/tabbar/mine.png',
         selectedIconPath: 'static/tabbar/mine-a.png',
         pagePath: 'pages/mine/index',
