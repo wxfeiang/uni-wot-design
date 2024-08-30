@@ -51,48 +51,42 @@ const queryList = async (pageNo, pageSize) => {
     <template #top>
       <!-- 顶部 -->
       <view class="">
-        <wd-navbar
-          safeAreaInsetTop
-          placeholder
-          fixed
-          custom-class="nav_bg"
-          :bordered="false"
-          title="办事指南"
-        >
+        <wd-navbar safeAreaInsetTop placeholder fixed :bordered="false">
           <template #left>
-            <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
+            <wd-icon @click="handleClickLeft" name="arrow-left" size="22px"></wd-icon>
+            <view>办事指南</view>
           </template>
         </wd-navbar>
-        <wd-sticky>
-          <view class="w-100vw">
-            <wd-search placeholder-left placeholder="请输入关键词搜索" hide-cancel />
-          </view>
-        </wd-sticky>
       </view>
     </template>
-
-    <!-- leibiao  -->
-    <wd-cell-group border>
-      <wd-cell
-        v-for="(item, index) in dataList"
-        :key="index"
-        title-width="90%"
-        is-link
-        clickable
-        @click="messageClick(item)"
-      >
-        <template #title>
-          <view class="truncate-1">
-            {{ item.articleTitle }}
-          </view>
-        </template>
-        <template #label>
-          <view class="truncate-2 color-#999">
-            {{ item.articleTitle }}
-          </view>
-        </template>
-      </wd-cell>
-    </wd-cell-group>
+    <view class="px-10px">
+      <!-- leibiao  -->
+      <wd-cell-group>
+        <wd-cell
+          v-for="(item, index) in dataList"
+          :key="index"
+          title-width="100%"
+          clickable
+          @click="messageClick(item)"
+          custom-class="custom-class-cell"
+        >
+          <template #title>
+            <view class="truncate-1">
+              {{ item.articleTitle }}
+            </view>
+          </template>
+          <template #label>
+            <view class="flex gap-20px color-#888 text-14px mt-10px">
+              <view>日期：{{ item.createTime }}</view>
+              <view>
+                <wd-icon name="browse" size="14px"></wd-icon>
+                {{ item.createBy }}次
+              </view>
+            </view>
+          </template>
+        </wd-cell>
+      </wd-cell-group>
+    </view>
   </z-paging>
 </template>
 
@@ -105,5 +99,10 @@ const queryList = async (pageNo, pageSize) => {
   .wd-navbar__left {
     color: var(--color-nav-text);
   }
+}
+:deep(.custom-class-cell) {
+  background: linear-gradient(90deg, #e2f2ff 0%, #ffffff 100%);
+
+  @apply rounded-6px my-10px;
 }
 </style>
