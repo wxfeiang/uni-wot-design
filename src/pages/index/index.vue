@@ -35,7 +35,7 @@ defineOptions({
   name: 'Index',
 })
 
-const logoTitle = ref('雄安一卡通')
+const { VITE_APP_LOGOTITLE } = import.meta.env
 
 const basestore = useBaseStore()
 const toast = useToast()
@@ -165,7 +165,7 @@ onPageScroll((e) => {
     <wd-navbar safeAreaInsetTop placeholder :custom-class="navbg" fixed :bordered="false">
       <template #left>
         <view class="flex gap-10px items-center">
-          <text class="line-height-44px text-18px color-#fff mt-5px">{{ logoTitle }}</text>
+          <text class="line-height-44px text-18px color-#fff mt-5px">{{ VITE_APP_LOGOTITLE }}</text>
         </view>
       </template>
     </wd-navbar>
