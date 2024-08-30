@@ -7,6 +7,10 @@ const setInfo = ref([
     path: '/pages-sub/userManager/SocialSecurityCard/index',
   },
   {
+    name: '消息',
+    path: '/pages-sub/serveMassage/newsManager/index',
+  },
+  {
     name: '设置',
     icon: 'star',
     rightValue: '设置小程序服务',

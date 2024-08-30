@@ -137,7 +137,7 @@ onUnmounted(() => {
     >
       <view class="rotate-90">
         <dy-barcode :width="636" :option="opts"></dy-barcode>
-        <view class="color-#999 text-14px mt-[-16px] text-center">{{ opts.value }}</view>
+        <view class="color-#999 text-14px mt-[-5px] text-center">{{ opts.value }}</view>
       </view>
     </view>
   </wd-overlay>

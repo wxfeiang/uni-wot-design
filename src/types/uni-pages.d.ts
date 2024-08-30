@@ -20,6 +20,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/index" |
        "/pages-sub/cadManager/index" |
        "/pages-sub/serveMassage/businessOutlets/index" |
+       "/pages-sub/serveMassage/newsManager/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
        "/pages-sub/userManager/SocialSecurityCard/index";

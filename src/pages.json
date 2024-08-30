@@ -207,6 +207,17 @@
           }
         },
         {
+          "path": "newsManager/index",
+          "type": "page",
+          "needLogin": true,
+          "style": {
+            "navigationBarTitleText": "服务网点",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
           "path": "workGuide/index",
           "type": "home",
           "needLogin": true,

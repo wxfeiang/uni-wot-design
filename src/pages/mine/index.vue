@@ -40,6 +40,9 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 const navtop = ref(0)
 navtop.value = safeAreaInsets.top + 44
 console.log('🍏', navtop.value)
+const news = () => {
+  routeTo({ url: '/pages-sub/serveMassage/newsManager/index' })
+}
 </script>
 <template>
   <!-- 顶部 -->
