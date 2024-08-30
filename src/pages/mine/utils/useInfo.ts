@@ -9,6 +9,7 @@ import smrz from '@/static/images/mine/smrz.png'
 import wdjf from '@/static/images/mine/wdjf.png'
 import yhxy from '@/static/images/mine/yhxy.png'
 import yszc from '@/static/images/mine/yszc.png'
+import { routeTo } from '@/utils'
 
 // 退出操作
 const { loading, send: sendLogOut } = useRequest(logout, {
@@ -30,31 +31,37 @@ const serveList = ref<serveProps[]>([
     icon: smrz,
     title: '实名认证',
     path: '/mine/realName',
-    islink: true,
+    islink: false,
   },
   {
     icon: wdjf,
     title: '我的积分 ',
     path: '/mine/realName',
-    islink: true,
+    islink: false,
   },
   {
     icon: mmdl,
     title: '小程序免密登录',
-    path: '/mine/realName',
+    path: '/pages-sub/system/sysconfig/setting',
     islink: true,
   },
   {
     icon: yhxy,
     title: '用户协议',
-    path: '/mine/realName',
+    path: '/pages-sub/webView/index',
     islink: true,
+    data: {
+      articleId: '1710488285782016006',
+    },
   },
   {
     icon: yszc,
     title: '隐私政策',
-    path: '/mine/realName',
+    path: '/pages-sub/webView/index',
     islink: true,
+    data: {
+      articleId: '1710488285782016005',
+    },
   },
   {
     icon: gywm,
@@ -63,11 +70,24 @@ const serveList = ref<serveProps[]>([
     islink: true,
   },
 ])
-
+const serveClick = (item: serveProps) => {
+  if (item.islink) {
+    routeTo({
+      url: item.path,
+      data: { type: item.data?.articleId, showTop: true, title: item.title },
+    })
+  } else {
+    uni.showToast({
+      title: '功能开发中...',
+      icon: 'none',
+    })
+  }
+}
 export default () => {
   return {
     LogOut,
     loading,
     serveList,
+    serveClick,
   }
 }

@@ -22,7 +22,7 @@ import useInfo from './utils/useInfo'
 const { VITE_APP_LOGOTITLE } = import.meta.env
 const { navTop } = useNav()
 
-const { LogOut, loading, serveList } = useInfo()
+const { LogOut, loading, serveList, serveClick } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 function login() {
@@ -40,17 +40,10 @@ function logoutCimfirm() {
     })
 }
 
-function actionTop(item: any) {
-  // message.alert('功能开发中，敬请期待!...')
-  toast.show('功能开发中，敬请期待!...')
-}
-
-const vipbgBase64 = ref()
 const bgUrlBase64 = ref()
-const applyBase64 = ref()
+
 onLoad(async () => {
   // 设置背景图片
-
   bgUrlBase64.value = await pathToBase64(imgUrl)
 })
 
@@ -61,17 +54,6 @@ const acton = (item) => {
     toast.show('功能开发中，敬请期待!...')
   }
 }
-
-const sexAnvter = () => {
-  if (userInfo.value.sex === '1') {
-    anvter.value = anvter1.value
-  } else if (userInfo.value.sex === '2') {
-    anvter.value = anvter2.value
-  }
-}
-onMounted(() => {
-  sexAnvter()
-})
 </script>
 
 <template>
@@ -144,6 +126,8 @@ onMounted(() => {
           custom-class="custom-class-mine-cell"
           v-for="(item, index) in serveList"
           :key="index"
+          clickable
+          @click="serveClick(item)"
         >
           <template #icon>
             <wd-img :src="item.icon" width="28" height="28px"></wd-img>
