@@ -100,11 +100,13 @@ const acton = (item) => {
             </view>
           </template>
           <template v-else>
-            <view class="p-10px bg-#fff rounded-50% size-60px">
-              <wd-img :width="60" :height="60" :src="anvter" round />
-            </view>
-            <view @click="login" class="flex gap-5px">
-              <view class="font-bold color-#fff">立即登录</view>
+            <view class="flex items-center">
+              <view class="p-5px rounded-50% size-64px">
+                <wd-img :width="60" :height="60" :src="anvter" round />
+              </view>
+              <view @click="login">
+                <view class="font-bold">立即登录</view>
+              </view>
             </view>
           </template>
         </view>
