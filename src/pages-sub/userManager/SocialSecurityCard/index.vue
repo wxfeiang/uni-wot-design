@@ -4,7 +4,7 @@ import { needLoginPages } from '../../../utils/index';
   layout: 'default',
   needLogin: true,
   style: {
-    navigationBarTitleText: '社保卡2',
+    navigationStyle: 'custom',
   },
 }
 </route>
@@ -46,31 +46,121 @@ import { needLoginPages } from '../../../utils/index';
 
 //   size: 460, // 二维码大小 Number 单位rpx 必传
 // })
+import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
+import { usegetScreenBrightness, useSetScreenBrightness } from '@/utils/uniapi'
 const opts = ref({
   lineColor: '#000000',
   fontSize: 20,
   width: 2,
-  text: '0',
-  value: '11111111',
+  textMargin: 0,
+  text: '1234567890657890',
+  value: '1234567890657890',
+  displayValue: false,
 })
+const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
+const str = ref<any>('')
 
-// function findCan() {
-//   QRCode(qar.value, (res) => {
-//     console.log(res)
-//   })
-// }
-// onMounted(() => {
-//   findCan()
-// })
+const cfig = ref()
+cfig.value = {
+  logoImage: 'https://cdn.tmui.design/public/design/logoCir.png',
+  str: str.value,
+  logoWidth: 60,
+  logoHeight: 60,
+  size: 440,
+}
+const barcodeBg = ref(false)
+const logcation = ref('北京市')
+const user = ref({
+  name: '张三',
+  shbzkh: '1234567890657890',
+})
+const show = ref(false)
+const textArr = ref([
+  '电子社保卡二维码用于身份认证和支付',
+  '结算时向商家出示',
+  '请不要将二维码及数字发送给他人',
+])
+const lingdu = ref(0)
+onMounted(async () => {
+  lingdu.value = (await usegetScreenBrightness()) as number
+  console.log('🍖[ lingdu.value]:', lingdu.value)
+
+  useSetScreenBrightness(1)
+})
+onUnmounted(() => {
+  useSetScreenBrightness(lingdu.value)
+})
 </script>
 
 <template>
-  <!-- <view class="qrcode-view bg-#1890ff">
-    <canvas canvas-id="qrcode" ref="qrcode" id="qrcode" style="width: 460rpx; height: 460rpx" />
-  </view> -->
-  <dy-barcode :width="636" :option="opts"></dy-barcode>
+  <view v-if="!show">
+    <view class="bg-#2D69EF h-280px">
+      <view class="flex">
+        <view>logout</view>
+        <view>电子社保卡</view>
+      </view>
+      <view class="color-#fff">
+        <view>姓名：{{ user.name }}</view>
+        <view>社会保障卡号：{{ user.shbzkh }}</view>
+      </view>
+    </view>
+    <view class="mt-[-120px] px-15px">
+      <view class="bg-#fff pt-26px pb-5px rounded-10px overflow-hidden">
+        <view class="flex justify-center flex-col items-center" @click="barcodeBg = true">
+          <dy-barcode :width="636" :option="opts"></dy-barcode>
+          <view class="color-#999 text-14px mt-[-16px]">{{ opts.value }}</view>
+        </view>
+
+        <view class="flex justify-center mt-20px flex-col items-center">
+          <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
+          <view>
+            <text class="text-#999999 text-14px mr-10px">60秒自动刷新</text>
+            <wd-button type="text">手动刷新</wd-button>
+          </view>
+        </view>
+
+        <view
+          class="flex justify-between items-center text-14px color-#555 bt-1px_dashed_#E2E2E2 py-10px px-15px mt-20px"
+        >
+          <view>参保地</view>
+          <view>
+            {{ logcation }}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <wd-overlay :show="barcodeBg">
+    <view
+      class="size-full flex flex-col justify-center items-center bg-#fff"
+      @click="barcodeBg = false"
+    >
+      <view class="rotate-90">
+        <dy-barcode :width="636" :option="opts"></dy-barcode>
+        <view class="color-#999 text-14px mt-[-16px] text-center">{{ opts.value }}</view>
+      </view>
+    </view>
+  </wd-overlay>
+  <wd-overlay :show="show">
+    <view class="size-full flex flex-col justify-center items-center bg-#fff">
+      <wd-status-tip image="https://img.wot-design-uni.cn/static/1.jpg" />
+      <view class="mt-20px">
+        <view class="mt-10px text-center" v-for="(item, index) in textArr" :key="index">
+          <wd-text :text="item" color="#555"></wd-text>
+        </view>
+      </view>
+      <view class="mt-20px w-100% px-40px box-border">
+        <wd-button type="primary" :round="false" @click="show = false" color="#2D69EF" block>
+          我知道了
+        </wd-button>
+      </view>
+    </view>
+  </wd-overlay>
 </template>
 
-<style lang="scss" scoped>
-//
+<style>
+page {
+  background: #f7f7f7;
+}
 </style>
+<style lang="scss" scoped></style>

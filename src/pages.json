@@ -238,7 +238,7 @@
           "layout": "default",
           "needLogin": true,
           "style": {
-            "navigationBarTitleText": "社保卡2"
+            "navigationStyle": "custom"
           }
         }
       ]
