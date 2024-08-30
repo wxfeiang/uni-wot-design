@@ -143,7 +143,7 @@ const acton = (item) => {
   </view>
   <view class="fixed bottom-55px left-0 right-0">
     <view class="px-10" v-if="isLogined">
-      <wd-button block plain @click="logoutCimfirm" custom-class="custom-class-mine-login">
+      <wd-button block @click="logoutCimfirm" custom-class="custom-class-mine-login">
         退出登录
       </wd-button>
     </view>

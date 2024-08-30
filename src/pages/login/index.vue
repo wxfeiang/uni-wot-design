@@ -12,14 +12,11 @@
 }
 </route>
 <script lang="ts" setup>
-import bg0 from '@/static/images/login/bg1.png'
-import bg1 from '@/static/images/login/bg2.png'
 import logo from '@/static/images/login/logo.png'
+import logoTitle from '@/static/images/login/logoTitle.png'
+import sfz from '@/static/images/login/sfz.png'
 import shuzi from '@/static/images/login/shuzi.png'
-import topbg from '@/static/images/login/topbg.png'
-import weixin from '@/static/images/login/weixin.png'
 import { routeTo } from '@/utils'
-import { pathToBase64 } from 'image-tools'
 import { useMessage } from 'wot-design-uni'
 import useLogin from './utils/useLogin'
 
@@ -41,37 +38,11 @@ const {
 } = useLogin()
 const form = ref(null)
 const form2 = ref(null)
+const { navTop } = useNav()
 
-const topbgBase64 = ref('')
-const bg0Base64 = ref('')
-const bg1Base64 = ref('')
-const { safeAreaInsets } = uni.getSystemInfoSync()
-
-const navtop = ref(0)
-navtop.value = safeAreaInsets.top + 44
-
-onLoad(async () => {
-  // 设置背景图片
-  topbgBase64.value = await pathToBase64(topbg)
-  bg0Base64.value = await pathToBase64(bg0)
-  bg1Base64.value = await pathToBase64(bg1)
-})
-const otherLogins = ref([
-  {
-    icon: 'i-carbon:logo-wechat',
-    name: '微信',
-    color: '#00c800',
-  },
-  {
-    icon: 'fa6-brands:qq',
-    name: 'QQ',
-    color: '#4980ff',
-  },
-])
 const bTitle = ref('欢迎登录雄安一卡通')
 const sTitle = ref('一卡在手，生活无忧')
 
-const tbBg = ref(bg0)
 const tab = ref<number>(0)
 function tabChange(event) {
   console.log('🥘[event]:', event)
@@ -121,201 +92,67 @@ const readChange = (type: number) => {
 }
 </script>
 <template>
-  <view
-    class="h-285rpx bg-cover relative"
-    :style="`padding-top:${navtop}px ;background-image: url(${topbgBase64})`"
-  >
+  <view class="bg-cover relative bg-#fff" :style="`padding-top:${navTop + 40}px`">
     <view class="flex justify-center">
-      <wd-img :width="54" :height="54" :src="logo" round />
+      <wd-img :width="97" :height="97" :src="logo" round />
     </view>
-    <view class="text-center mt-20rpx color-#fff">
-      <view class="font-size-22px font-medium">{{ bTitle }}</view>
-      <view class="font-size-14px mt-10rpx font-normal">{{ sTitle }}</view>
+    <view class="flex justify-center mt-20px">
+      <wd-img :width="316" :height="54" :src="logoTitle" />
     </view>
   </view>
-  <!-- <view
-    class="h-300rpx bg-cover mt-[-50rpx] relative z-10"
-    :style="`background-image: url(${bg0})`"
-    v-if="tab === 0"
-  ></view>
-  <view
-    class="h-300rpx bg-cover mt-[-50rpx] relative z-10"
-    :style="`background-image: url(${bg1})`"
-    v-else
-  ></view> -->
 
-  <view class="h-300rpx bg-cover relative z-10">
-    <wd-tabs v-model="tab" custom-class="custom-class-tab" @change="tabChange">
-      <wd-tab title="身份证登录">
-        <view class="px-30px pt-20px">
-          <wd-form ref="form" :model="model">
-            <view class="py-5px mb-2">
-              <view class="my-2px color-#000000">姓名</view>
-              <wd-input
-                type="text"
-                v-model="model.username"
-                placeholder="请输入姓名"
-                :rules="rules.username"
-                prop="username"
-              />
-            </view>
-            <view class="py-2 mb-5">
-              <view class="my-2px color-#000000">身份证号</view>
-              <wd-input
-                type="text"
-                v-model="model.password"
-                placeholder="请输入身份证号"
-                :rules="rules.password"
-                prop="password"
-              />
-            </view>
+  <view class="mt-30px">
+    <view class="px-10 mt-20px">
+      <wd-button
+        block
+        open-type="getPhoneNumber"
+        @getphonenumber="getphonenumber"
+        custom-class="custom-class-mine-login"
+      >
+        微信快捷登录
+      </wd-button>
+    </view>
 
-            <view>
-              <wd-button type="primary" size="medium" @click="unifiedLogin(0)" block>
-                登 录
-              </wd-button>
-
-              <view class="mt-15px">
-                <view class="">
-                  <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
-                    已阅读并同意
-                    <text
-                      class="color-#336EFD"
-                      @click.stop="toAgreement('1710488285782016005', '隐私政策')"
-                    >
-                      《隐私政策》
-                    </text>
-                    <text
-                      class="color-#336EFD"
-                      @click.stop="toAgreement('1710488285782016006', '用户协议')"
-                    >
-                      《用户协议》
-                    </text>
-                  </wd-checkbox>
-                </view>
-              </view>
-            </view>
-          </wd-form>
+    <view class="px-10 mt-20px">
+      <wd-button block plain hairline custom-class="custom-class-mine-login2">
+        手机验证码登录
+      </wd-button>
+    </view>
+    <view class="px-10 mt-15px">
+      <view class="flex gap-10px">
+        <wd-checkbox v-model="read" prop="read" custom-label-class="label-class"></wd-checkbox>
+        <view class="text-12px color-#A6A6A6">
+          <text @click="read = !read">未注册账号验证后自动注册并登录，登录即表示 同意</text>
+          <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016005', '隐私政策')">
+            《隐私政策》、
+          </text>
+          <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016006', '用户协议')">
+            《用户协议》
+          </text>
         </view>
-      </wd-tab>
-      <wd-tab title="验证码登录">
-        <view class="px-30px pt-15px">
-          <wd-form ref="form2" :model="model2">
-            <view class="py-5px mb-2">
-              <view class="my-2px color-#000000">手机号</view>
-              <wd-input
-                type="text"
-                v-model="model2.phone"
-                placeholder="请输入手机号"
-                :rules="rules2.phone"
-                prop="phone"
-              />
-            </view>
-            <view class="py-2 mb-2">
-              <view class="my-2px color-#000000">验证码</view>
-              <wd-input
-                type="text"
-                v-model="model2.imgcode"
-                placeholder="请输入验证码"
-                :rules="rules2.imgcode"
-                use-suffix-slot
-                prop="imgcode"
-                :maxlength="4"
-              >
-                <template #suffix>
-                  <dy-verify />
-                </template>
-              </wd-input>
-            </view>
-
-            <view class="py-2 mb-2">
-              <view class="my-2px color-#000000">短信验证码</view>
-              <wd-input
-                type="text"
-                v-model="model2.code"
-                placeholder="请输入短信验证码"
-                :rules="rules2.code"
-                prop="code"
-                :maxlength="6"
-              >
-                <template #suffix>
-                  <wd-button
-                    size="small"
-                    plain
-                    custom-class="button"
-                    :round="false"
-                    @click="submitPhoneCode(form2)"
-                    :loading="sending"
-                    :disabled="sending || countdown > 0"
-                  >
-                    {{
-                      sending ? '发送中...' : countdown > 0 ? `${countdown}S后获取` : '获取验证码'
-                    }}
-                  </wd-button>
-                </template>
-              </wd-input>
-            </view>
-
-            <view>
-              <wd-button type="primary" size="medium" @click="unifiedLogin(1)" block>
-                登 录
-              </wd-button>
-              <view class="mt-15px">
-                <view class="">
-                  <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
-                    已阅读并同意
-                    <text
-                      class="color-#336EFD"
-                      @click.stop="toAgreement('1710488285782016005', '隐私政策')"
-                    >
-                      《隐私政策》
-                    </text>
-                    <text
-                      class="color-#336EFD"
-                      @click.stop="toAgreement('1710488285782016006', '用户协议')"
-                    >
-                      《用户协议》
-                    </text>
-                  </wd-checkbox>
-                </view>
-              </view>
-            </view>
-          </wd-form>
-        </view>
-      </wd-tab>
-    </wd-tabs>
+      </view>
+    </view>
   </view>
-  <view class="fixed bottom-20rpx left-0 right-0">
+
+  <view class="fixed bottom-20px left-0 right-0">
     <wd-divider>更多登录方式</wd-divider>
-    <view class="flex justify-center items-center gap-40px">
+    <view class="flex justify-center items-center gap-20px mt-10px">
       <view class="flex flex-col items-center">
         <wd-button
           type="text"
+          size="large"
+          custom-class="custom-class-ftn"
           @click="unifiedLogin(3)"
-          custom-class="custom-class-ftn"
-          v-if="!read"
         >
-          <wd-img width="26" height="26" :src="weixin"></wd-img>
+          <wd-img width="33" height="33" :src="sfz"></wd-img>
         </wd-button>
-
-        <wd-button
-          type="text"
-          v-else
-          open-type="getPhoneNumber"
-          @getphonenumber="getphonenumber"
-          custom-class="custom-class-ftn"
-        >
-          <wd-img width="26" height="26" :src="weixin"></wd-img>
-        </wd-button>
-        <view class="font-size-12px">微信</view>
+        <view class="font-size-12px mt-[-5px] color-#666">身份证登录</view>
       </view>
       <view class="flex flex-col items-center">
-        <wd-button type="text" custom-class="custom-class-ftn" @click="shuziLogin">
-          <view class="mr-5px">
-            <wd-img width="26" height="26" :src="shuzi"></wd-img>
-          </view>
+        <wd-button type="text" size="large" custom-class="custom-class-ftn" @click="shuziLogin">
+          <wd-img width="33" height="33" :src="shuzi"></wd-img>
         </wd-button>
-        <view class="font-size-12px">数字身份</view>
+        <view class="font-size-12px mt-[-5px] color-#666">数字身份</view>
       </view>
     </view>
   </view>
@@ -332,6 +169,13 @@ const readChange = (type: number) => {
   </wd-message-box>
 </template>
 <style lang="scss" scoped>
+:deep(.custom-class-mine-login) {
+  color: #fff !important;
+  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
+  border: none !important;
+  border-radius: 6px !important;
+}
+
 :deep(.label-class),
 :deep(.text-btn) {
   font-size: 12px !important;
