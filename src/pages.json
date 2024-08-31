@@ -244,6 +244,15 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
+          "path": "SocialSecurityCard/barcode",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "SocialSecurityCard/index",
           "type": "page",
           "layout": "default",

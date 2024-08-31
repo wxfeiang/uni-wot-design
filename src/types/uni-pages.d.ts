@@ -23,6 +23,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/newsManager/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
+       "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}

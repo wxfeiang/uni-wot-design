@@ -1,4 +1,3 @@
-import { needLoginPages } from '../../../utils/index';
 <route lang="json5" type="page">
 {
   layout: 'default',
@@ -10,44 +9,10 @@ import { needLoginPages } from '../../../utils/index';
 </route>
 
 <script lang="ts" setup>
-// import { QRCode } from '@uni-ui/code-plugs'
-// const qrcode = ref(null)
-// const qar = ref({
-//   // 所有属性配置示例
-//   id: 'qrcode',
-//   ctx: qrcode.value,
-//   code: 'https://tmui.design/com/Barcode.html', // 必传
-//   level: 4, // 纠错等级 0~4 默认4 非必传
-//   type: 'none', // 码点 目前只支持 none 其它暂不支持 非必传
-//   src: '/static/35.png', // 画布背景 非必传
-//   padding: 10, // 二维码margin Number 单位rpx 默认0 非必传
-//   border: {
-//     // 非必传
-//     color: ['#F27121', '#8A2387', '#1b82d2'], // 边框颜色支持渐变色 最多10种颜色 如果默认黑色此属性不需要传
-//     opacity: 0.6, // 边框透明度 默认为1不透明 0~1
-//     lineWidth: 6, // 边框宽度
-//     degree: 15, // 边框圆角度数 默认5
-//   },
-//   text: {
-//     // 二维码绘制文字 非必传
-//     opacity: 1, // 文字透明度 默认不透明1  0~1 非必传
-//     font: 'bold 20px system-ui', // 文字是否加粗 默认normal 20px system-ui 非必传
-//     color: ['#000000'], // 文字颜色 多个颜色支持渐变色 默认黑色 非必传
-//     content: '这是一个测试', // 文字内容
-//   },
-//   img: {
-//     src: 'https://p6.itc.cn/q_70/images03/20230428/feaf395d51b441baaee78bd6e1dbdc78.png', // 图片地址
-//     size: 40, // 图片大小
-//     degree: 15, // 圆角大小 如果type为round生效
-//     type: 'round', // 图片展示类型 默认none 可选值  round圆角  circle圆 如果为round 可以传入degree设置圆角大小 默认 5
-//     color: '#ffffff', // 图片周围的白色边框
-//     width: 8, // 图片周围白色边框的宽度 默认5
-//   },
-
-//   size: 460, // 二维码大小 Number 单位rpx 必传
-// })
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
-import { usegetScreenBrightness, useSetScreenBrightness } from '@/utils/uniapi'
+import { routeTo } from '@/utils'
+import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
+import stkts from '../static/image/sbkts.png'
 const opts = ref({
   lineColor: '#000000',
   fontSize: 20,
@@ -74,26 +39,51 @@ const user = ref({
   name: '张三',
   shbzkh: '1234567890657890',
 })
-const show = ref(false)
+const show = ref(true)
 const textArr = ref([
   '电子社保卡二维码用于身份认证和支付',
   '结算时向商家出示',
   '请不要将二维码及数字发送给他人',
 ])
 const lingdu = ref(0)
-onMounted(async () => {
+const isShow = async () => {
+  show.value = !show.value
   lingdu.value = (await usegetScreenBrightness()) as number
   console.log('🍖[ lingdu.value]:', lingdu.value)
+  setTimeout(() => {
+    useSetScreenBrightness(1)
+    useSetKeepScreenOn(true)
+  }, 3000)
+}
+const sendTiem = ref(60)
+let timer = null
+const incrementCount = () => {
+  timer = setInterval(() => {
+    if (sendTiem.value > 0) {
+      sendTiem.value--
+    } else {
+      // 刷新二维码请求
+      sendTiem.value = 60
+    }
+  }, 1000)
+}
 
-  useSetScreenBrightness(1)
+onMounted(() => {
+  incrementCount()
 })
 onUnmounted(() => {
+  timer && clearInterval(timer)
+
+  useSetKeepScreenOn()
   useSetScreenBrightness(lingdu.value)
 })
+const barodeClick = () => {
+  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
+}
 </script>
 
 <template>
-  <view v-if="!show">
+  <view v-if="!show" class="mt-0">
     <view class="bg-#2D69EF h-280px">
       <view class="flex">
         <view>logout</view>
@@ -106,7 +96,7 @@ onUnmounted(() => {
     </view>
     <view class="mt-[-120px] px-15px">
       <view class="bg-#fff pt-26px pb-5px rounded-10px overflow-hidden">
-        <view class="flex justify-center flex-col items-center" @click="barcodeBg = true">
+        <view class="flex justify-center flex-col items-center" @click="barodeClick">
           <dy-barcode :width="636" :option="opts"></dy-barcode>
           <view class="color-#999 text-14px mt-[-16px]">{{ opts.value }}</view>
         </view>
@@ -114,7 +104,7 @@ onUnmounted(() => {
         <view class="flex justify-center mt-20px flex-col items-center">
           <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
           <view>
-            <text class="text-#999999 text-14px mr-10px">60秒自动刷新</text>
+            <text class="text-#999999 text-14px mr-10px">{{ sendTiem }}秒自动刷新</text>
             <wd-button type="text">手动刷新</wd-button>
           </view>
         </view>
@@ -130,27 +120,36 @@ onUnmounted(() => {
       </view>
     </view>
   </view>
-  <wd-overlay :show="barcodeBg">
+  <!-- 横屏显示 -->
+  <!-- <view class="size-100vh fixed top-0 left-0 right-0 z-99999 rotate-90" v-if="barcodeBg">
     <view
-      class="size-full flex flex-col justify-center items-center bg-#fff"
+      class="size-full flex flex-col justify-center items-center bg-#1890ff relative z-99"
       @click="barcodeBg = false"
     >
-      <view class="rotate-90">
+      <view>
         <dy-barcode :width="636" :option="opts"></dy-barcode>
         <view class="color-#999 text-14px mt-[-5px] text-center">{{ opts.value }}</view>
       </view>
     </view>
-  </wd-overlay>
+  </view> -->
+
+  <!-- 提示信息 -->
   <wd-overlay :show="show">
     <view class="size-full flex flex-col justify-center items-center bg-#fff">
-      <wd-status-tip image="https://img.wot-design-uni.cn/static/1.jpg" />
+      <wd-status-tip
+        :image="stkts"
+        :image-size="{
+          height: 132,
+          width: 224,
+        }"
+      />
       <view class="mt-20px">
         <view class="mt-10px text-center" v-for="(item, index) in textArr" :key="index">
           <wd-text :text="item" color="#555"></wd-text>
         </view>
       </view>
       <view class="mt-20px w-100% px-40px box-border">
-        <wd-button type="primary" :round="false" @click="show = false" color="#2D69EF" block>
+        <wd-button type="primary" :round="false" @click="isShow" color="#2D69EF" block>
           我知道了
         </wd-button>
       </view>

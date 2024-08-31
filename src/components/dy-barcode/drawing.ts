@@ -36,6 +36,7 @@ let isAndroid = false
 isAndroid = uni.getSystemInfoSync().osName === 'android'
 // #endif
 let ctx: CanvasRenderingContext2D
+
 function drawCanvasBarcode(
   options: Baroptions = JsBarcodeOptions,
   encoding: BarcodeObjType,
@@ -109,7 +110,6 @@ function drawCanvasText(
       ctx.textAlign = 'center'
     }
 
-    console.log('🍚[encoding.text]:', encoding)
     ctx.fillText(encoding.options.value || encoding.text, x, y)
   }
 }
@@ -122,6 +122,8 @@ function drawBarCode(
   canvasWidth = 300,
 ) {
   ctx = context
+  console.log('🥦[ctx]:', ctx)
+  //  ctx.rotate((90 * Math.PI) / 180)
   drawCanvasText(options, encoding, is2d, canvasWidth)
   drawCanvasBarcode(options, encoding, is2d, canvasWidth)
   // #ifdef APP-NVUE

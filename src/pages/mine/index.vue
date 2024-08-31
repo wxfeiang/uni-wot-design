@@ -107,7 +107,7 @@ const news = () => {
     <wd-gap bg-color="#F3F7F8"></wd-gap>
   </template>
   <template v-else>
-    <view class="fixed bottom-30 left-0 right-0">
+    <view class="fixed dy-bottom-tabbar left-0 right-0">
       <view class="px-10">
         <wd-button block :round="false" hairline plain @click="login">立即登录</wd-button>
       </view>

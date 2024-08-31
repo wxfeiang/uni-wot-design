@@ -104,3 +104,9 @@ export const usegetScreenBrightness = () => {
     })
   })
 }
+export const useSetKeepScreenOn = (flog = false) => {
+  // 保持屏幕常亮
+  uni.setKeepScreenOn({
+    keepScreenOn: flog,
+  })
+}

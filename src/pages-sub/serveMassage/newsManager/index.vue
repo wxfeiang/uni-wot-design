@@ -11,131 +11,69 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
-import { useLocation } from '@/utils/uniapi'
-
-const cardUrl = ref('https://cdn.uviewui.com/uview/demo/upload/positive.png')
-const banner = ref('../static/images/banner.png')
-
+import orderImg from '../static/images/news/ddxx.png'
+import sysImg from '../static/images/news/xtxx.png'
+import payImg from '../static/images/news/zfxx.png'
 const mainData = ref([
   {
-    title: '社保查询',
-    icon: 'card',
-    url: 'https://img0.baidu.com/it/u=3265037425,1108192406&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=800',
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
+    title: '系统消息',
+    type: 'system',
+    path: '',
+    read: 5,
+    icon: sysImg,
+    label: '这是一条系统消息',
+    time: '2020-2020-2020',
   },
   {
-    title: '保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
+    title: '支付消息  ',
+    type: 'pay',
+    path: '',
+    read: 5,
+    icon: payImg,
+    label: '这是一条系统消息',
+    time: '2020-2020-2020',
   },
   {
-    title: '保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
-  },
-  {
-    title: '社保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
-  },
-  {
-    title: '社保查询',
-    icon: 'card',
-    url: cardUrl,
-    lable:
-      '兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦兰州市城关区高欣大厦',
-    longitude: 103.834,
-    latitude: 36.0613,
-    distance: '120米',
-    tel: '0931-1234567',
+    title: '订单消息',
+    type: 'order',
+    path: 'order',
+    read: 1,
+    icon: orderImg,
+    label: '这是一条系统消息',
+    time: '2020-2020-2020',
   },
 ])
-
-function gridClick(item: any) {
-  console.log('🍝')
-  if (item.title === '申请') {
-    routeTo({ url: '/pages-sub/serveMain/cardApplyType' })
-  } else {
-    routeTo({ url: '/pages-sub/serveMain/cardFromType' })
-  }
-}
-
-function toPhone(e) {
-  uni.makePhoneCall({
-    phoneNumber: '0931-1234567',
-    fail: function (e) {
-      console.log('🍥', e)
-    },
-  })
-}
-function toLocation(e) {
-  uni.openLocation({
-    latitude: e.latitude,
-    longitude: e.longitude,
-    name: e.title,
-    address: e.lable,
-  })
-}
-onMounted(async () => {
-  console.log('🍝')
-  const location = await useLocation()
-  console.log('🍥[location]:', location)
-})
 </script>
 
 <template>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
-  <view class="pl-10px">
+  <view class="px-15px">
     <wd-cell-group border>
       <wd-cell
         v-for="(item, index) in mainData"
         :key="index"
-        :to="item.url"
         custom-class="cell-item"
         title-width="100%"
       >
         <template #icon>
           <view class="cell-icon mt-10px mr-10px">
-            <wd-img :src="item.url" :width="45" :height="45"></wd-img>
+            <wd-img :src="item.icon" :width="45" :height="45"></wd-img>
           </view>
         </template>
         <template #title>
           <view class="flex justify-between items-center mb-10px">
             <view class="truncate-1 color-#000 font-bold text-16px">{{ item.title }}</view>
-            <view class="color-#A3A9B6 text-12px">2020-2020-2020</view>
+            <view class="color-#A3A9B6 text-12px">{{ item.time }}</view>
           </view>
         </template>
         <template #label>
           <view class="flex">
-            <view class="color-#999 truncate-1 flex-1">地址: {{ item.lable }}</view>
+            <view class="color-#999 truncate-1 flex-1">{{ item.label }}</view>
             <view
+              v-if="item.read"
               class="size-20px bg-#E81010 rounded-50% text-center color-#fff text-12px line-height-20px"
             >
-              5
+              {{ item.read }}
             </view>
           </view>
         </template>
