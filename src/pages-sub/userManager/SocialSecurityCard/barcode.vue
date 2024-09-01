@@ -39,7 +39,7 @@ const barcodeBack = () => {
 <template>
   <!-- 横屏显示 -->
   <view class="w-100vw h-100vh fixed top-0 left-0 right-0 z-99999" v-if="show" @click="barcodeBack">
-    <view class="flex flex-col justify-center items-center bg-#fff relative z-99">
+    <view class="size-full flex flex-col justify-center items-center bg-#fff relative z-99">
       <view>
         <dy-barcode :width="636" :option="opts"></dy-barcode>
         <view class="color-#999 text-14px mt-[-5px] text-center">{{ opts!.value }}</view>

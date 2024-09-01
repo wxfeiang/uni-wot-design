@@ -41,7 +41,7 @@ const user = ref({
   name: '张三',
   shbzkh: '1234567890657890',
 })
-const show = ref(true)
+const show = ref(false)
 const textArr = ref([
   '电子社保卡二维码用于身份认证和支付',
   '结算时向商家出示',
@@ -49,13 +49,9 @@ const textArr = ref([
 ])
 const lingdu = ref(0)
 const isShow = async () => {
+  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
   show.value = !show.value
   lingdu.value = (await usegetScreenBrightness()) as number
-  console.log('🍖[ lingdu.value]:', lingdu.value)
-  setTimeout(() => {
-    useSetScreenBrightness(1)
-    useSetKeepScreenOn(true)
-  }, 3000)
 }
 const sendTiem = ref(60)
 let timer = null
@@ -114,6 +110,12 @@ watch(
 onMounted(() => {
   incrementCount()
   disableScreenCapture()
+  console.log('🍖[ lingdu.value]:', lingdu.value)
+
+  setTimeout(() => {
+    useSetScreenBrightness(1)
+    useSetKeepScreenOn(true)
+  }, 3000)
 })
 onUnmounted(() => {
   timer && clearInterval(timer)
@@ -122,8 +124,7 @@ onUnmounted(() => {
   useSetScreenBrightness(0.5)
 })
 const barodeClick = () => {
-  // barcodeBg.value = true
-  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
+  show.value = !show.value
 }
 </script>
 
