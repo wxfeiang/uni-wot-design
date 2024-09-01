@@ -151,7 +151,7 @@ const msg = ref([
 const swiperList = ref<bannerProps[]>([
   {
     id: '1',
-    path: 'wew',
+    path: '/pages-sub/serveMain/cardApplyType',
     title: 'title1',
     description: '',
     islink: true,
@@ -161,7 +161,7 @@ const swiperList = ref<bannerProps[]>([
   },
   {
     id: '2',
-    path: 'wew',
+    path: 'https://mp.weixin.qq.com/s/C8X3gjrs1Jr_M6n31C98RA',
     title: 'title1',
     description: '',
     islink: true,
@@ -171,7 +171,7 @@ const swiperList = ref<bannerProps[]>([
   },
   {
     id: '3',
-    path: '',
+    path: 'https://mp.weixin.qq.com/s/Zgq5vECtrgkwv1vNI1DNpw',
     title: 'title1',
     description: '',
     islink: true,
@@ -181,10 +181,11 @@ const swiperList = ref<bannerProps[]>([
   },
 ])
 const current = ref<number>(0)
-function swiperClick(item) {
+function swiperClick(data) {
+  const { item } = data
   console.log('🍵[item]:', item)
 
-  // routeTo({ url: '/pages-sub/serveMain/index' })
+  routeTo({ url: '/pages-sub/webView/index', data: { url: item.path, showType: item.type } })
 }
 
 function toBusinessOutlets() {

@@ -131,7 +131,7 @@ const barodeClick = () => {
 
 <template>
   <view v-if="!show">
-    <view class="bg-#2D69EF h-945rpx">
+    <view class="bg-#2D69EF h-300px">
       <wd-navbar
         safeAreaInsetTop
         placeholder

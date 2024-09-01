@@ -5,5 +5,6 @@ export interface bannerProps {
   description?: string
   islink: boolean
   image: string
-  type: 'h5' | 'article'
+  type: 'h5' | 'article' | 'router'
+  data?: any
 }
