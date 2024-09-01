@@ -10,7 +10,8 @@
 
 <script lang="ts" setup>
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
-import { routeTo } from '@/utils'
+import { getPhoneCode } from '@/service/api/system'
+import logo from '@/static/images/logo.png'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import stkts from '../static/image/sbkts.png'
 const opts = ref({
@@ -27,7 +28,7 @@ const str = ref<any>('')
 
 const cfig = ref()
 cfig.value = {
-  logoImage: 'https://cdn.tmui.design/public/design/logoCir.png',
+  logoImage: logo,
   str: str.value,
   logoWidth: 60,
   logoHeight: 60,
@@ -67,29 +68,74 @@ const incrementCount = () => {
     }
   }, 1000)
 }
+function disableScreenCapture() {
+  // 判断当前环境是否支持setScreenCaptured方法
+  // uni.setUserCaptureScreen({
+  //   enable: false,
+  //   success: (res) => {
+  //     console.log('setUserCaptureScreen success: ' + JSON.stringify(res))
+  //   },
+  //   fail: (res) => {
+  //     console.log('setUserCaptureScreen fail: ' + JSON.stringify(res))
+  //   },
+  //   complete: (res) => {
+  //     console.log('setUserCaptureScreen complete: ' + JSON.stringify(res))
+  //   },
+  // })
+}
+
+// 获取验证码
+const {
+  send: getCode,
+  loading: sending,
+  countdown,
+  data: codeDatas,
+} = getPhoneCode(
+  {
+    phone: '121212',
+  },
+  {
+    immediate: true,
+    initialCountdown: 60,
+    loading: false,
+  },
+)
+watch(
+  () => countdown.value,
+  () => {
+    if (countdown.value === 0) {
+      getCode()
+    }
+  },
+  { deep: true },
+)
 
 onMounted(() => {
   incrementCount()
+  disableScreenCapture()
 })
 onUnmounted(() => {
   timer && clearInterval(timer)
 
-  useSetKeepScreenOn()
-  useSetScreenBrightness(lingdu.value)
+  useSetKeepScreenOn(false)
+  useSetScreenBrightness(0.5)
 })
 const barodeClick = () => {
-  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
+  barcodeBg.value = true
+  // routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
 }
 </script>
 
 <template>
   <view v-if="!show" class="mt-0">
     <view class="bg-#2D69EF h-280px">
-      <view class="flex">
-        <view>logout</view>
-        <view>电子社保卡</view>
+      <view class="flex gap-5px items-center justify-center">
+        <view>
+          <wd-img :src="logo" :width="38" :height="38"></wd-img>
+        </view>
+        <view class="color-#fff font-600">电子社保卡</view>
       </view>
-      <view class="color-#fff">
+      <view class="color-#fff mt-20px pl-30px">
         <view>姓名：{{ user.name }}</view>
         <view>社会保障卡号：{{ user.shbzkh }}</view>
       </view>
@@ -101,10 +147,10 @@ const barodeClick = () => {
           <view class="color-#999 text-14px mt-[-16px]">{{ opts.value }}</view>
         </view>
 
-        <view class="flex justify-center mt-20px flex-col items-center">
+        <view class="flex justify-center mt-10px flex-col items-center">
           <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
           <view>
-            <text class="text-#999999 text-14px mr-10px">{{ sendTiem }}秒自动刷新</text>
+            <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
             <wd-button type="text">手动刷新</wd-button>
           </view>
         </view>
@@ -121,9 +167,9 @@ const barodeClick = () => {
     </view>
   </view>
   <!-- 横屏显示 -->
-  <!-- <view class="size-100vh fixed top-0 left-0 right-0 z-99999 rotate-90" v-if="barcodeBg">
+  <wd-overlay :show="barcodeBg">
     <view
-      class="size-full flex flex-col justify-center items-center bg-#1890ff relative z-99"
+      class="size-full flex flex-col justify-center items-center bg-#fff relative z-99"
       @click="barcodeBg = false"
     >
       <view>
@@ -131,7 +177,7 @@ const barodeClick = () => {
         <view class="color-#999 text-14px mt-[-5px] text-center">{{ opts.value }}</view>
       </view>
     </view>
-  </view> -->
+  </wd-overlay>
 
   <!-- 提示信息 -->
   <wd-overlay :show="show">

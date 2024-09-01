@@ -38,13 +38,13 @@
  */
 import { uuid } from '@/utils/aes/uuid'
 import { computed, getCurrentInstance, nextTick, onMounted, PropType, ref, watch } from 'vue'
-import CanvasRenderingContext2D from '../../tool/gcanvas/context-2d/RenderingContext.js'
 import { BarcodeObjType, Baroptions, drawBarCode } from './drawing'
+import CanvasRenderingContext2D from './jsbarcode/gcanvas/context-2d/RenderingContext.js'
 import { JsBarcode } from './jsbarcode/JsBarcode.js'
 import JsBarcodeOptions from './jsbarcode/options/defaults.js'
 // #ifdef APP-NVUE
 
-import { enable, WeexBridge } from '../../tool/gcanvas/index.js'
+import { enable, WeexBridge } from './jsbarcode/gcanvas/index.js'
 // #endif
 const proxy = getCurrentInstance()?.proxy ?? null
 
