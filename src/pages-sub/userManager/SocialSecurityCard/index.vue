@@ -116,6 +116,7 @@ onMounted(() => {
     useSetScreenBrightness(1)
     useSetKeepScreenOn(true)
   }, 3000)
+  getCode()
 })
 onUnmounted(() => {
   timer && clearInterval(timer)
@@ -130,7 +131,7 @@ const barodeClick = () => {
 
 <template>
   <view v-if="!show">
-    <view class="bg-#2D69EF h-280px">
+    <view class="bg-#2D69EF h-945rpx">
       <wd-navbar
         safeAreaInsetTop
         placeholder
@@ -145,7 +146,7 @@ const barodeClick = () => {
         </view>
         <view class="color-#fff font-600">电子社保卡</view>
       </view>
-      <view class="color-#fff mt-20px pl-30px">
+      <view class="color-#fff mt-20px pl-30px line-height-30px">
         <view>姓名：{{ user.name }}</view>
         <view>社会保障卡号：{{ user.shbzkh }}</view>
       </view>
