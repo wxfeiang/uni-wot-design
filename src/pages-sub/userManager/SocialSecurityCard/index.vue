@@ -51,7 +51,6 @@ const lingdu = ref(0)
 const isShow = async () => {
   routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
   show.value = !show.value
-  lingdu.value = (await usegetScreenBrightness()) as number
 }
 const sendTiem = ref(60)
 let timer = null
@@ -107,22 +106,22 @@ watch(
   { deep: true },
 )
 
-onMounted(() => {
+onMounted(async () => {
   incrementCount()
   disableScreenCapture()
-  console.log('🍖[ lingdu.value]:', lingdu.value)
-
-  setTimeout(() => {
-    useSetScreenBrightness(1)
-    useSetKeepScreenOn(true)
-  }, 3000)
   getCode()
+  lingdu.value = (await usegetScreenBrightness()) as number
+
+  setTimeout(async () => {
+    await useSetScreenBrightness(1)
+    await useSetKeepScreenOn(true)
+  }, 3000)
 })
-onUnmounted(() => {
+onUnmounted(async () => {
   timer && clearInterval(timer)
 
-  useSetKeepScreenOn(false)
-  useSetScreenBrightness(0.5)
+  await useSetKeepScreenOn(false)
+  await useSetScreenBrightness(lingdu.value + 0.05)
 })
 const barodeClick = () => {
   show.value = !show.value
@@ -140,7 +139,7 @@ const barodeClick = () => {
         :title="2323"
         :bordered="false"
       ></wd-navbar>
-      <view class="flex gap-5px items-center justify-center mt-30px">
+      <view class="flex gap-5px items-center justify-center mt-15px">
         <view>
           <wd-img :src="logo" :width="38" :height="38"></wd-img>
         </view>
@@ -152,7 +151,7 @@ const barodeClick = () => {
       </view>
     </view>
     <view class="mt-[-80px] px-15px">
-      <view class="bg-#fff pt-26px pb-5px rounded-10px overflow-hidden">
+      <view class="bg-#fff pt-20px pb-5px rounded-10px overflow-hidden">
         <view class="flex justify-center flex-col items-center" @click="barodeClick">
           <dy-barcode :width="636" :option="opts"></dy-barcode>
           <view class="color-#999 text-14px mt-[-16px]">{{ opts.value }}</view>
@@ -219,8 +218,4 @@ page {
   background: #f7f7f7;
 }
 </style>
-<style lang="scss" scoped>
-:deep(.nav_show) {
-  @apply bg-transparent!;
-}
-</style>
+<style lang="scss" scoped></style>
