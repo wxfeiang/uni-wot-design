@@ -44,10 +44,11 @@ page {
   padding-top: 4px;
   color: red;
 }
-
+.nav_show {
+  @apply bg-transparent!;
+}
 .nav_bg {
-  color: var(--color-nav-text);
-  background-color: var(--color-nav-bg);
+  @apply bg-transparent!;
 }
 :deep(.nav_bg) {
   color: var(--color-nav-text);

@@ -12,6 +12,7 @@
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import { getPhoneCode } from '@/service/api/system'
 import logo from '@/static/images/logo.png'
+import { routeTo } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import stkts from '../static/image/sbkts.png'
 const opts = ref({
@@ -121,15 +122,23 @@ onUnmounted(() => {
   useSetScreenBrightness(0.5)
 })
 const barodeClick = () => {
-  barcodeBg.value = true
-  // routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
+  // barcodeBg.value = true
+  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
 }
 </script>
 
 <template>
-  <view v-if="!show" class="mt-0">
+  <view v-if="!show">
     <view class="bg-#2D69EF h-280px">
-      <view class="flex gap-5px items-center justify-center">
+      <wd-navbar
+        safeAreaInsetTop
+        placeholder
+        fixed
+        custom-class="nav_show"
+        :title="2323"
+        :bordered="false"
+      ></wd-navbar>
+      <view class="flex gap-5px items-center justify-center mt-30px">
         <view>
           <wd-img :src="logo" :width="38" :height="38"></wd-img>
         </view>
@@ -140,7 +149,7 @@ const barodeClick = () => {
         <view>社会保障卡号：{{ user.shbzkh }}</view>
       </view>
     </view>
-    <view class="mt-[-120px] px-15px">
+    <view class="mt-[-80px] px-15px">
       <view class="bg-#fff pt-26px pb-5px rounded-10px overflow-hidden">
         <view class="flex justify-center flex-col items-center" @click="barodeClick">
           <dy-barcode :width="636" :option="opts"></dy-barcode>
@@ -167,7 +176,7 @@ const barodeClick = () => {
     </view>
   </view>
   <!-- 横屏显示 -->
-  <wd-overlay :show="barcodeBg">
+  <!-- <wd-overlay :show="barcodeBg">
     <view
       class="size-full flex flex-col justify-center items-center bg-#fff relative z-99"
       @click="barcodeBg = false"
@@ -177,7 +186,7 @@ const barodeClick = () => {
         <view class="color-#999 text-14px mt-[-5px] text-center">{{ opts.value }}</view>
       </view>
     </view>
-  </wd-overlay>
+  </wd-overlay> -->
 
   <!-- 提示信息 -->
   <wd-overlay :show="show">
@@ -208,4 +217,8 @@ page {
   background: #f7f7f7;
 }
 </style>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.nav_show) {
+  @apply bg-transparent!;
+}
+</style>

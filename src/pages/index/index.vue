@@ -1,6 +1,8 @@
 <!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
 <route lang="json5" type="home">
 {
+  layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -22,7 +24,6 @@ import shop from '@/static/images/index/shop.png'
 import tushu from '@/static/images/index/tushu.png'
 import zhenxuan from '@/static/images/index/zhenxuan.png'
 
-import banner from '@/static/images/index/banner.png'
 import banner2 from '@/static/images/index/banner2.png'
 
 import butie from '@/static/images/index/butie.png'
@@ -41,8 +42,10 @@ import { useScancode } from '@/utils/uniapi'
 import { useMessage } from 'wot-design-uni'
 
 import { useBaseStore } from '@/store/modules/base'
+import { bannerProps } from './utils/types'
 const message = useMessage()
 const basestore = useBaseStore()
+const bannerUrl = 'http://47.99.93.97/v1/'
 
 defineOptions({
   name: 'Index',
@@ -145,11 +148,43 @@ const msg = ref([
   },
 ])
 
-const swiperList = ref([banner, banner2])
+const swiperList = ref<bannerProps[]>([
+  {
+    id: '1',
+    path: 'wew',
+    title: 'title1',
+    description: '',
+    islink: true,
+    image:
+      bannerUrl + 'public/uploads/image/1725172090859-99aee48d-2b43-4956-9430-73f201586f40.png',
+    type: 'h5',
+  },
+  {
+    id: '2',
+    path: 'wew',
+    title: 'title1',
+    description: '',
+    islink: true,
+    image:
+      bannerUrl + 'public/uploads/image/1725172128186-2ab9df4e-54db-4228-ab3a-f93f5a9c7f59.png',
+    type: 'h5',
+  },
+  {
+    id: '3',
+    path: '',
+    title: 'title1',
+    description: '',
+    islink: true,
+    image:
+      bannerUrl + 'public/uploads/image/1725172156390-21e78f8b-2791-4cc1-b8ff-1b01c015058e.png',
+    type: 'h5',
+  },
+])
 const current = ref<number>(0)
-function swiperClick() {
-  console.log('🍏')
-  routeTo({ url: '/pages-sub/serveMain/index' })
+function swiperClick(item) {
+  console.log('🍵[item]:', item)
+
+  // routeTo({ url: '/pages-sub/serveMain/index' })
 }
 
 function toBusinessOutlets() {
@@ -235,6 +270,7 @@ onPageScroll((e) => {
       placeholder
       fixed
       :custom-class="navbg"
+      :title="2323"
       :bordered="false"
     ></wd-navbar>
     <wd-sticky :offset-top="navTop">
@@ -315,14 +351,17 @@ onPageScroll((e) => {
     </wd-cell-group>
   </view>
   <!-- 广告位 -->
-  <view class="px-20px py-10px bg-#f5f5f5 h-120px">
+  <view class="py-10px bg-#f5f5f5 swiper">
     <wd-swiper
       :list="swiperList"
-      autoplay
+      :autoplay="false"
       :current="0"
       :height="120"
-      :indicator="false"
       @click="swiperClick"
+      :indicator="{ type: 'dots-bar' }"
+      custom-indicator-class="custom-indicator-class"
+      value-key="image"
+      imageMode="scaleToFill"
     ></wd-swiper>
   </view>
 
@@ -384,6 +423,13 @@ onPageScroll((e) => {
 }
 :deep(.nav_hide) {
   @apply bg-#4689fd!;
+}
+
+.swiper {
+  --wot-swiper-radius: 0;
+  --wot-swiper-item-padding: 0 24rpx;
+  --wot-swiper-nav-dot-color: #fff;
+  --wot-swiper-nav-dot-active-color: #4d80f0;
 }
 
 .bg-size-100 {

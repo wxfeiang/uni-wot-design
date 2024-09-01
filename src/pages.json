@@ -55,6 +55,8 @@
     {
       "path": "pages/index/index",
       "type": "home",
+      "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationStyle": "custom"
       }
