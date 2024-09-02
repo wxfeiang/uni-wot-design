@@ -29,6 +29,10 @@ const PERSON_INFO_CHANGE = baseUrlApi('/card/app/personInfoChange')
 const CARD_LOSS = baseUrlApi('/card/app/getLossInfo')
 
 const UNBOXING_INFO = baseUrlApi('/card/app/getUnboxingInfo')
+
+const CARDSIGN_VALID = baseUrlApi('/card/app/signValid')
+const GET_SIGN_PARAM = baseUrlApi('/card/app/getSignParam')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -191,6 +195,26 @@ export function cardSocialStart(data) {
 export function getUnboxingInfo(data) {
   return request.Post(
     UNBOXING_INFO, // 请求地址
+    data,
+  )
+}
+
+/**
+ * 电子社保卡相关
+ */
+export function getSignValid(data) {
+  return request.Post(
+    CARDSIGN_VALID, // 请求地址
+    data,
+  )
+}
+
+/**
+ * 电子社保卡相关H5
+ */
+export function getSignParam(data) {
+  return request.Post(
+    GET_SIGN_PARAM, // 请求地址
     data,
   )
 }

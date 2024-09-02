@@ -50,7 +50,7 @@ const search = async () => {
   uni.showLoading({ title: '加载中' })
   // 发起请求
   try {
-    const data: any = await sendSerchList({ keyword: serchValue.value })
+    const data: any = await sendSerchList({ articleTitle: serchValue.value })
     console.log('🥒[data]:', data)
     serchListData.value = data.data.data.content
     console.log(serchListData.value)

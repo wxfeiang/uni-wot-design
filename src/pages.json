@@ -297,6 +297,14 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "SocialSecurityCard/indexback",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     }

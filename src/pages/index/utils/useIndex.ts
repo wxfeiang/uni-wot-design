@@ -41,24 +41,24 @@ const swiperList = ref<bannerProps[]>([
     data: { base: 'shebaoksl', title: '社保卡申领' },
   },
   {
-    id: '2',
-    path: 'https://mp.weixin.qq.com/s/C8X3gjrs1Jr_M6n31C98RA',
+    id: '1710488285782016007',
+    path: '/pages-sub/webView/index',
     title: 'title1',
     description: '',
     islink: true,
     image:
       bannerUrl + 'public/uploads/image/1725172128186-2ab9df4e-54db-4228-ab3a-f93f5a9c7f59.png',
-    type: 'webView',
+    type: 'article',
   },
   {
-    id: '3',
-    path: 'https://mp.weixin.qq.com/s/Zgq5vECtrgkwv1vNI1DNpw',
+    id: '1710488285782016008',
+    path: '/pages-sub/webView/index',
     title: 'title1',
     description: '',
     islink: true,
     image:
       bannerUrl + 'public/uploads/image/1725172156390-21e78f8b-2791-4cc1-b8ff-1b01c015058e.png',
-    type: 'webView',
+    type: 'article',
   },
 ])
 

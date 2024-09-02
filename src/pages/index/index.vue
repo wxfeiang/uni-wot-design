@@ -97,7 +97,10 @@ function swiperClick(data) {
     routeTo({ url: item.path, data: { ...item.data } })
   } else {
     console.log('🍵[item]:', item)
-    routeTo({ url: '/pages-sub/webView/index', data: { url: item.path, showType: item.type } })
+    routeTo({
+      url: '/pages-sub/webView/index',
+      data: { type: item.id },
+    })
   }
 }
 

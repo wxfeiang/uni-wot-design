@@ -79,7 +79,7 @@ const alovaInstance = createAlova({
           const resAllData = responseAes(response)
           const { data: rdata, code: rode, msg: rmsg } = resAllData
           console.log(method.url + '====>🍯[解析后的数据]:', resAllData)
-          if (rode !== ResultEnum.CODE || rdata.code) {
+          if (rode !== ResultEnum.CODE || (rdata.code && rdata.code * 1 !== ResultEnum.CODE)) {
             rmsg && checkStatus(statusCode, rdata.msg || rmsg || '')
             return Promise.reject(resAllData)
           } else {
