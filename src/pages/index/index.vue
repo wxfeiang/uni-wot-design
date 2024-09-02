@@ -17,8 +17,6 @@ import msgicon from '@/static/images/index/msgicon.png'
 import xabc from '@/static/images/index/xabc.png'
 import xajft from '@/static/images/index/xajft.png'
 
-import banner from '@/static/images/index/banner.png'
-
 import btnbg from '@/static/images/index/btnbg.png'
 import znlogo from '@/static/images/index/znlogo.png'
 
@@ -40,13 +38,14 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const basestore = useBaseStore()
 const toast = useToast()
 
-const { messageClick, sendMessageList, messageLoading } = useIndex()
+const { messageClick, sendMessageList, messageLoading, swiperList } = useIndex()
 
 const topAction = ref([
   {
     icon: dzsbk,
     text: '电子社保卡',
-    type: 'sacn',
+    type: 'router',
+    path: '/pages-sub/userManager/SocialSecurityCard/index',
   },
   {
     icon: xajft,
@@ -65,8 +64,8 @@ const topAction = ref([
   {
     icon: kfw,
     text: '卡服务',
-    type: 'card',
-    url: '/pages/serve/index',
+    type: 'switchTab',
+    path: '/pages/serve/index',
     active: 1,
   },
 ])
@@ -76,42 +75,28 @@ function actionTop(item: any) {
     useScancode()
   } else if (item.type === 'wxChart') {
     openWxChart(item.appId, item.path)
-  } else if (item.type === 'card') {
+  } else if (item.type === 'switchTab') {
     basestore.active = item.active
     routeTo({
-      url: item.url,
+      url: item.path,
       navType: NAVIGATE_TYPE.SWITCH_TAB,
+    })
+  } else if (item.type === 'router') {
+    routeTo({
+      url: item.path,
     })
   } else {
     toast.show('功能开发中，敬请期待!...')
   }
 }
 
-const swiperList = ref([banner])
-
-function swiperClick() {
-  console.log('🍏')
-  routeTo({
-    url: '/pages-sub/serveMain/cardApplyType',
-    data: { base: 'shebaoksl', title: '社保卡申领' },
-  })
-  // top-[-2px]
-  // toast.show('功能开发中，敬请期待!...')
-  // // message.alert('功能开发中，敬请期待!...')
-  // // routeTo({ url: '/pages-sub/serveMain/index' })
-}
-
-function serveClick(item?: any) {
-  if (item.type === 'wxChart') {
-    openWxChart(item.appId, item.path)
-  } else if (item.title === 'more') {
-    routeTo({
-      url: item.url,
-      navType: NAVIGATE_TYPE.SWITCH_TAB,
-    })
+function swiperClick(data) {
+  const { item } = data
+  console.log('🍵[item]:', item)
+  if (item.type === 'router') {
+    routeTo({ url: item.path, data: { ...item.data } })
   } else {
-    toast.show('功能开发中，敬请期待!...')
-    // message.alert('功能开发中，敬请期待!...')
+    routeTo({ url: item.path, data: { url: item.path, showType: item.type } })
   }
 }
 
@@ -125,8 +110,15 @@ function toBusinessOutlets() {
   routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
 }
 
-const mess1 = ref<messProps[]>([])
-const mess2 = ref<messProps[]>([])
+const mess1 = ref<messProps[]>([
+  {
+    articleId: '',
+    createTime: '',
+    createBy: '',
+    articleTitle: '',
+  },
+])
+const mess2 = ref<messProps[]>([{ articleId: '', createTime: '', createBy: '', articleTitle: '' }])
 
 const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
@@ -223,15 +215,17 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px px-10px">
+  <view class="py-3px h-135px swiper">
     <wd-swiper
       :list="swiperList"
       :autoplay="false"
       :current="0"
       :height="135"
-      :indicator="false"
       @click="swiperClick"
-      imageMode="aspectFill"
+      :indicator="{ type: 'dots-bar' }"
+      custom-indicator-class="custom-indicator-class"
+      value-key="image"
+      imageMode="scaleToFill"
     ></wd-swiper>
   </view>
 
@@ -310,5 +304,11 @@ onPageScroll((e) => {
   background: #ffffff;
   border-radius: 6px 6px 6px 6px;
   box-shadow: 0px 0px 13px 1px rgba(12, 86, 182, 0.16);
+}
+.swiper {
+  --wot-swiper-radius: 0;
+  --wot-swiper-item-padding: 0 24rpx;
+  --wot-swiper-nav-dot-color: #fff;
+  --wot-swiper-nav-dot-active-color: #4d80f0;
 }
 </style>

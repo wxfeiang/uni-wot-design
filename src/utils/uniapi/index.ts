@@ -153,3 +153,30 @@ export const getLocation = () => {
     })
   })
 }
+
+export const useSetScreenBrightness = (value?: number) => {
+  return new Promise((resolve, reject) => {
+    uni.setScreenBrightness({
+      value,
+      success: function () {
+        resolve('success')
+      },
+    })
+  })
+}
+
+export const usegetScreenBrightness = () => {
+  return new Promise((resolve, reject) => {
+    uni.getScreenBrightness({
+      success: function (res) {
+        resolve(res.value)
+      },
+    })
+  })
+}
+export const useSetKeepScreenOn = (flog = false) => {
+  // 保持屏幕常亮
+  uni.setKeepScreenOn({
+    keepScreenOn: flog,
+  })
+}

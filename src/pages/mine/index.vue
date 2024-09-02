@@ -68,7 +68,7 @@ const acton = (item) => {
           <template v-if="isLogined">
             <view class="flex gap-15px items-center">
               <view>
-                <view class="p-5px rounded-50% size-64px">
+                <view class="p-5px pl-10px rounded-50% size-64px">
                   <wd-img :width="60" :height="60" :src="anvter1" round />
                 </view>
 
@@ -141,7 +141,7 @@ const acton = (item) => {
       </wd-cell-group>
     </view>
   </view>
-  <view class="fixed bottom-55px left-0 right-0">
+  <view class="fixed dy-bottom-tabbar left-0 right-0">
     <view class="px-10" v-if="isLogined">
       <wd-button block @click="logoutCimfirm" custom-class="custom-class-mine-login">
         退出登录

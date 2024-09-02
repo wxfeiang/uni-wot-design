@@ -12,14 +12,12 @@
 }
 </route>
 <script lang="ts" setup>
-import logo from '@/static/images/login/logo.png'
 import logoTitle from '@/static/images/login/logoTitle.png'
-import sfz from '@/static/images/login/sfz.png'
-import shuzi from '@/static/images/login/shuzi.png'
-import { routeTo } from '@/utils'
-import { useMessage } from 'wot-design-uni'
-import useLogin from './utils/useLogin'
 
+import logo from '@/static/images/logo.png'
+import { useMessage } from 'wot-design-uni'
+import loginOuther from './compoents/loginOuther.vue'
+import useLogin from './utils/useLogin'
 const {
   Login,
   model,
@@ -34,51 +32,35 @@ const {
   sending,
   submitPhoneLogin,
   shuziLogin,
-  getphonenumber,
+  getphonenumberLogin,
+  goPhoneLogin,
+  toAgreement,
 } = useLogin()
 const form = ref(null)
 const form2 = ref(null)
 const { navTop } = useNav()
 
-const bTitle = ref('欢迎登录雄安一卡通')
-const sTitle = ref('一卡在手，生活无忧')
-
-const tab = ref<number>(0)
-function tabChange(event) {
-  console.log('🥘[event]:', event)
-  if (event.index === 0) {
-    // tbBg.value = bg0
-  } else {
-    // tbBg.value = bg1
-    getCodeUrl()
-  }
-}
-const toAgreement = (articleId: string, title: string) => {
-  console.log('🍤[item]:')
-  routeTo({
-    url: '/pages-sub/webView/index',
-    data: { type: articleId, showTop: true, title },
-  })
-}
 const message = useMessage('wd-message-box-slot')
+
 const unifiedLogin = (type: number, $event?: any) => {
   if (read.value) {
     readChange(type)
   } else {
-    message
-      .confirm({
-        title: '提示',
-      })
-      .then(() => {
-        read.value = true
-        readChange(type)
-      })
-      .catch((error) => {
-        console.log(error)
-        read.value = false
-      })
+    message.confirm({
+      title: '提示',
+    })
   }
 }
+
+function cancel() {
+  message.close()
+}
+function getphonenumber(e) {
+  cancel()
+  read.value = true
+  getphonenumberLogin(e)
+}
+
 const readChange = (type: number) => {
   if (type === 0) {
     Login(form.value)
@@ -104,6 +86,7 @@ const readChange = (type: number) => {
   <view class="mt-30px">
     <view class="px-10 mt-20px">
       <wd-button
+        v-if="read"
         block
         open-type="getPhoneNumber"
         @getphonenumber="getphonenumber"
@@ -111,10 +94,13 @@ const readChange = (type: number) => {
       >
         微信快捷登录
       </wd-button>
+      <wd-button v-else block custom-class="custom-class-mine-login" @click="unifiedLogin(3)">
+        微信快捷登录
+      </wd-button>
     </view>
 
     <view class="px-10 mt-20px">
-      <wd-button block plain hairline custom-class="custom-class-mine-login2">
+      <wd-button block plain hairline custom-class="custom-class-mine-login2" @click="goPhoneLogin">
         手机验证码登录
       </wd-button>
     </view>
@@ -133,30 +119,9 @@ const readChange = (type: number) => {
       </view>
     </view>
   </view>
+  <login-Outher></login-Outher>
 
-  <view class="fixed bottom-20px left-0 right-0">
-    <wd-divider>更多登录方式</wd-divider>
-    <view class="flex justify-center items-center gap-20px mt-10px">
-      <view class="flex flex-col items-center">
-        <wd-button
-          type="text"
-          size="large"
-          custom-class="custom-class-ftn"
-          @click="unifiedLogin(3)"
-        >
-          <wd-img width="33" height="33" :src="sfz"></wd-img>
-        </wd-button>
-        <view class="font-size-12px mt-[-5px] color-#666">身份证登录</view>
-      </view>
-      <view class="flex flex-col items-center">
-        <wd-button type="text" size="large" custom-class="custom-class-ftn" @click="shuziLogin">
-          <wd-img width="33" height="33" :src="shuzi"></wd-img>
-        </wd-button>
-        <view class="font-size-12px mt-[-5px] color-#666">数字身份</view>
-      </view>
-    </view>
-  </view>
-  <wd-message-box selector="wd-message-box-slot">
+  <wd-message-box selector="wd-message-box-slot" custom-class="custom-class-mes">
     <view class="text-left">
       我已阅读并同意
       <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016005', '隐私政策')">
@@ -165,6 +130,15 @@ const readChange = (type: number) => {
       <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016006', '用户协议')">
         《用户协议》
       </text>
+    </view>
+
+    <view class="flex justify-around items-center py-20px">
+      <view class="flex-1">
+        <wd-button type="info" @click="cancel">取消</wd-button>
+      </view>
+      <view class="flex-1">
+        <wd-button open-type="getPhoneNumber" @getphonenumber="getphonenumber">我同意</wd-button>
+      </view>
     </view>
   </wd-message-box>
 </template>
@@ -202,5 +176,10 @@ const readChange = (type: number) => {
 }
 :deep(.custom-class-ftn) {
   margin: 0 !important;
+}
+:deep(.custom-class-mes) {
+  .wd-message-box__actions {
+    @apply hidden;
+  }
 }
 </style>

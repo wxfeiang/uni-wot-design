@@ -1,7 +1,7 @@
 {
   "globalStyle": {
     "navigationStyle": "default",
-    "navigationBarTitleText": "unibest",
+    "navigationBarTitleText": "雄安一卡通",
     "navigationBarBackgroundColor": "#f8f8f8",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#FFFFFF"
@@ -80,7 +80,20 @@
       }
     },
     {
-      "path": "pages/login/phone",
+      "path": "pages/login/phoneLogin",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom",
+        "mp-alipay": {
+          "transparentTitle": "always",
+          "titlePenetrate": "YES"
+        }
+      }
+    },
+    {
+      "path": "pages/login/sfzLogin",
       "type": "page",
       "layout": "default",
       "needLogin": true,
@@ -120,6 +133,10 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
       }
+    },
+    {
+      "path": "pages/login/compoents/loginOuther",
+      "type": "page"
     }
   ],
   "subPackages": [
@@ -193,6 +210,17 @@
           }
         },
         {
+          "path": "newsManager/index",
+          "type": "page",
+          "needLogin": true,
+          "style": {
+            "navigationBarTitleText": "服务网点",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
           "path": "serchFor/index",
           "type": "page",
           "layout": "default",
@@ -249,6 +277,27 @@
             "backgroundColor": "#fff",
             "navigationBarBackgroundColor": "#fff",
             "navigationBarTextStyle": "black"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages-sub/userManager",
+      "pages": [
+        {
+          "path": "SocialSecurityCard/barcode",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
           }
         }
       ]

@@ -12,6 +12,7 @@ import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import { useRequest } from 'alova/client'
 
 import { useUserStore } from '@/store'
+import { routeTo } from '@/utils'
 import { getLoginCode, startFacialRecognitionVerify } from '@/utils/uniapi'
 import { Toast } from '@/utils/uniapi/prompt'
 // 获取验证码
@@ -22,9 +23,8 @@ const openId = ref('')
 const authStore = useUserStore()
 const read = ref(false)
 const rules = {
-  username: [{ required: true, message: '请填写用户名' }],
+  username: [{ required: true, message: '请输入姓名' }],
   password: [{ required: true, message: '请填写身份证号码' }],
-  co: [{ required: true, message: '图形验证码不能为空' }],
 }
 
 const model = ref({
@@ -110,8 +110,8 @@ const rules2 = {
     { required: true, message: '请输入手机号', trigger: 'blur' },
     { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
   ],
-  imgcode: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
-  code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+  imgcode: [{ required: true, message: '请输入图形验证码', trigger: 'blur' }],
+  code: [{ required: true, message: '请输入手机验证码', trigger: 'blur' }],
 }
 
 const submitPhoneCode = (form) => {
@@ -156,7 +156,7 @@ const { loading: phoneLoading, send: phoneSend } = useRequest((data) => phoneLog
 
 const submitPhoneLogin = (form) => {
   form
-    .validate('phone')
+    .validate()
     .then(async ({ valid, errors }) => {
       if (valid) {
         try {
@@ -197,7 +197,7 @@ const { loading: chartLoading, send: chartSend } = useRequest((data) => phoneCha
   loading: false,
 })
 
-const getphonenumber = async (e) => {
+const getphonenumberLogin = async (e) => {
   if (e.errMsg === 'getPhoneNumber:ok') {
     try {
       uni.showLoading({ title: '登录中...' })
@@ -226,6 +226,16 @@ const getphonenumber = async (e) => {
   }
 }
 
+const goPhoneLogin = () => {
+  routeTo({
+    url: '/pages/login/phoneLogin',
+  })
+}
+const goSfzLogin = () => {
+  routeTo({
+    url: '/pages/login/sfzLogin',
+  })
+}
 const shuziLogin = () => {
   Toast('功能开发中...')
 }
@@ -255,6 +265,13 @@ const resultData = async (data) => {
   uni.navigateBack()
 }
 
+const toAgreement = (articleId: string, title: string) => {
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: articleId, showTop: true, title },
+  })
+}
+
 export default () => {
   return {
     Login,
@@ -274,8 +291,11 @@ export default () => {
     sending,
     phoneLoading,
     submitPhoneLogin,
-    getphonenumber,
+    getphonenumberLogin,
     openIdCode,
     shuziLogin,
+    goPhoneLogin,
+    goSfzLogin,
+    toAgreement,
   }
 }

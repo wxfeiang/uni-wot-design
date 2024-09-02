@@ -11,11 +11,64 @@
 </route>
 
 <script lang="ts" setup>
+import defaultImg from '@/static/images/logo.png'
 import { useBaseStore } from '@/store'
 import { getLocation } from '@/utils/uniapi'
+import gdyh from '../static/images/businessOutlets/gdyh.png'
+import gsyh from '../static/images/businessOutlets/gsyh.png'
+import jsyh from '../static/images/businessOutlets/jsyh.png'
+import jtyh from '../static/images/businessOutlets/jtyh.png'
+import nyyh from '../static/images/businessOutlets/nyyh.png'
+import zgyh from '../static/images/businessOutlets/zgyh.png'
+import zxyh from '../static/images/businessOutlets/zxyh.png'
 import useBusinessOutlets from './hooks/businessOutlets'
 const baseStore = useBaseStore()
+const bankLogoList = ref([
+  {
+    logo: gsyh,
+    title: '工商银行',
+  },
+  {
+    logo: jtyh,
+    title: '交通银行',
+  },
+  {
+    logo: jsyh,
+    title: '建设银行',
+  },
+  {
+    logo: zgyh,
+    title: '中国银行',
+  },
+  {
+    logo: nyyh,
+    title: '农业银行',
+  },
+  {
+    logo: gdyh,
+    title: '招商银行',
+  },
 
+  {
+    logo: zxyh,
+    title: '中信银行',
+  },
+  {
+    logo: '',
+    title: '浦发银行',
+  },
+  {
+    logo: '',
+    title: '邮政储蓄银行',
+  },
+  {
+    logo: '',
+    title: '民生银行',
+  },
+])
+function getLogo(data: string) {
+  return bankLogoList.value.find((item) => data.indexOf(item.title) !== -1).logo ?? defaultImg
+}
 const { sendbranchesInfo, loading } = useBusinessOutlets()
 
 function toPhone(e) {
@@ -106,10 +159,8 @@ const changeDe = (data) => {
             title-width="60%"
           >
             <template #icon>
-              <view
-                class="cell-icon mt-10px mr-10px p-4px bg-blue size-20px color-#fff text-center rounded-4px"
-              >
-                {{ item.name[0] }}
+              <view class="mt-10px mr-10px">
+                <wd-img :src="getLogo(item.name)" :width="30" :height="30"></wd-img>
               </view>
             </template>
             <template #title>

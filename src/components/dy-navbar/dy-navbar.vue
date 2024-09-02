@@ -7,6 +7,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isNavShow: {
+    type: Boolean,
+    default: false,
+  },
 })
 function handleClickLeft() {
   uni.navigateBack()
@@ -20,15 +24,23 @@ function handleClickLeft() {
       placeholder
       fixed
       :bordered="false"
-      custom-class="custom-class-nav-left"
+      :custom-class="`custom-class-nav-left ${props.isNavShow ? 'nav_show' : ''}`"
       v-if="props.left"
     >
       <template #left>
-        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px"></wd-icon>
+        <wd-icon
+          @click="handleClickLeft"
+          name="arrow-left"
+          size="22px"
+          :color="props.isNavShow ? '#fff' : ''"
+        ></wd-icon>
       </template>
       <template #title>
         <view class="flex items-center" @click="handleClickLeft">
-          <view class="ml-5px truncate-1 text-left font-400">
+          <view
+            class="ml-5px truncate-1 text-left font-400"
+            :class="props.isNavShow ? 'color-#fff' : ''"
+          >
             {{ props.leftTitle }}
           </view>
         </view>

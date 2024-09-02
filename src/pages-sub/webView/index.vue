@@ -19,17 +19,24 @@ function handleClickLeft() {
 const remark = ref(null)
 const showTop = ref(1)
 const title = ref()
+const showType = ref()
+const webUrl = ref('')
 onLoad((options) => {
-  types.value = options.type
-  showTop.value = options.showTop
-  title.value = options.title ? decodeURIComponent(options.title) : '详情'
-
-  AarData(types.value)
+  showType.value = options.showType
+  if (showType.value === 'h5') {
+    webUrl.value = decodeURIComponent(options.url)
+  } else {
+    types.value = options.type
+    showTop.value = options.showTop
+    title.value = options.title ? decodeURIComponent(options.title) : '详情'
+    AarData(types.value)
+  }
 })
 </script>
 
 <template>
-  <view class="">
+  <web-view :src="webUrl" v-if="showType === 'h5'"></web-view>
+  <view class="" v-else>
     <dy-navbar :leftTitle="articleTitle" left></dy-navbar>
     <view class="mt-20px" v-if="!showTop">
       <view class="text-center line-height-30px">{{ articleTitle }}</view>

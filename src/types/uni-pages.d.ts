@@ -7,10 +7,12 @@ interface NavigateToOptions {
   url: "/pages/index/index" |
        "/pages/login/index" |
        "/pages/login/login2" |
-       "/pages/login/phone" |
+       "/pages/login/phoneLogin" |
+       "/pages/login/sfzLogin" |
        "/pages/mine/index" |
        "/pages/serve/index" |
        "/pages/shop/index" |
+       "/pages/login/compoents/loginOuther" |
        "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
@@ -18,11 +20,14 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/cardMessType" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
+       "/pages-sub/serveMassage/newsManager/index" |
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
        "/pages-sub/system/sysconfig/index" |
-       "/pages-sub/system/sysconfig/setting";
+       "/pages-sub/system/sysconfig/setting" |
+       "/pages-sub/userManager/SocialSecurityCard/barcode" |
+       "/pages-sub/userManager/SocialSecurityCard/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

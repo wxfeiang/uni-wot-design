@@ -1,21 +1,4 @@
 @import './iconfont.css';
-
-.test {
-  // 可以通过 @apply 多个样式封装整体样式
-  @apply mt-4 ml-4;
-
-  padding-top: 4px;
-  color: red;
-}
-
-.nav_bg {
-  color: var(--color-nav-text);
-  background-color: var(--color-nav-bg);
-}
-:deep(.nav_bg) {
-  color: var(--color-nav-text);
-  background-color: var(--color-nav-bg);
-}
 :root,
 page {
   font-family: 'San Francisco', Rotobo, arial, 'PingFang SC', 'Noto SansCJK', 'Microsoft Yahei',
@@ -31,4 +14,21 @@ page {
   --color-nav-bg: #4689fd !important;
   //统一固定导航栏字体颜色
   --color-nav-text: #fff !important;
+}
+
+.test {
+  // 可以通过 @apply 多个样式封装整体样式
+  @apply mt-4 ml-4;
+  padding-top: 4px;
+  color: red;
+}
+.dy-bottom-tabbar {
+  bottom: var(--window-bottom) !important;
+}
+.nav_show {
+  @apply bg-transparent!;
+}
+.nav_bg {
+  color: var(--color-nav-text);
+  background-color: var(--color-nav-bg);
 }
