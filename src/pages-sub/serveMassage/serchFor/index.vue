@@ -109,8 +109,16 @@ const toDetile = (item: any) => {
         @change="change"
       >
         <template #suffix>
-          <view class="color-#666 px-3px" @click="search" v-if="serchValue.length > 0">搜索</view>
-          <view class="color-#666 px-3px" @click="cancel" v-else>取消</view>
+          <view
+            class="color-#333 px-5px text-14px relative search-type"
+            @click="search"
+            v-if="serchValue.length > 0"
+          >
+            搜索
+          </view>
+          <view class="color-#333 px-5px text-14px relative search-type" @click="cancel" v-else>
+            取消
+          </view>
         </template>
       </wd-search>
     </view>
@@ -170,5 +178,14 @@ const toDetile = (item: any) => {
   .wd-search__cancel {
     @apply text-14px;
   }
+}
+.search-type::after {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: -5px;
+  width: 1px;
+  content: '';
+  background: #333;
 }
 </style>
