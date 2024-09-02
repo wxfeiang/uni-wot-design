@@ -237,11 +237,15 @@ const goSfzLogin = () => {
   })
 }
 const shuziLogin = () => {
+  const pages = getCurrentPages() // 当前页面栈
+  console.log('🍻[pages]:', pages)
   Toast('功能开发中...')
 }
 
 const resultData = async (data) => {
+  uni.showLoading({ title: '登录成功' })
   uni.hideLoading()
+
   // 保存
   authStore.setUserInfo(data)
   // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
@@ -262,7 +266,10 @@ const resultData = async (data) => {
     authStore.userInfo.cardType = data.cardType
   }
   // 跳转到登录后的页面
-  uni.navigateBack()
+
+  const pages = getCurrentPages() // 当前页面栈
+  const index = pages[pages.length - 1].route === 'pages/login/index' ? 1 : 2
+  uni.navigateBack({ delta: index })
 }
 
 const toAgreement = (articleId: string, title: string) => {

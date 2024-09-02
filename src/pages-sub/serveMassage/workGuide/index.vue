@@ -67,10 +67,10 @@ const queryList = async (pageNo, pageSize) => {
           <template #label>
             <view class="flex gap-20px color-#888 text-14px mt-10px">
               <view>日期：{{ item.createTime }}</view>
-              <view>
+              <!-- <view>
                 <wd-icon name="browse" size="14px"></wd-icon>
                 {{ item.createBy }}次
-              </view>
+              </view> -->
             </view>
           </template>
         </wd-cell>

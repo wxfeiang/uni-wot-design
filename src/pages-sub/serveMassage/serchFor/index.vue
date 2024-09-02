@@ -16,22 +16,56 @@ import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
 import kong from '../static/images/kong.png'
 const { historySearch } = storeToRefs(useBaseStore())
-//
+const serchListData = ref([])
 const serchValue = ref('')
 const cancel = () => {
   console.log('取消')
+  serchValue.value = ''
+  if (serchValue.value.length === 0) {
+    serchListData.value = []
+  }
 }
 const clear = () => {
   console.log('清除')
+
+  if (serchValue.value.length === 0) {
+    serchListData.value = []
+  }
 }
-const search = () => {
-  console.log('搜索')
-  useBaseStore().setHistorySearch(serchValue.value)
+
+const {
+  loading,
+  send: sendSerchList,
+  onSuccess: SerchListSucess,
+} = useRequest((data) => getSerchList(data), {
+  immediate: false,
+  loading: false,
+  initialData: [],
+})
+
+const search = async () => {
+  if (serchValue.value.length === 0) {
+    return
+  }
+  uni.showLoading({ title: '加载中' })
+  // 发起请求
+  try {
+    const data: any = await sendSerchList({ keyword: serchValue.value })
+    serchListData.value = data.data.content as any
+    console.log(serchListData.value)
+    useBaseStore().setHistorySearch(serchValue.value)
+  } catch (error) {
+    console.log('🍛[error]:', error)
+  } finally {
+    uni.hideLoading()
+  }
 }
 const change = () => {
   console.log('改变')
+  if (serchValue.value.length === 0) {
+    serchListData.value = []
+  }
   // useBaseStore().setHistorySearch(serchValue.value)
-  // 发起请求
 }
 const cleatHistory = () => {
   console.log('清除历史')
@@ -41,23 +75,12 @@ const toDetile = (item: string) => {
   // 跳转详情
   routeTo({ url: '' })
 }
-
-const {
-  loading,
-  send: sendSerchList,
-  onSuccess: SerchListSucess,
-  data: serchListData,
-} = useRequest((data) => getSerchList(data), {
-  immediate: false,
-  loading: false,
-  initialData: [],
-})
 </script>
 
 <template>
   <dy-navbar leftTitle="搜索页" left></dy-navbar>
   <view class="p-10px">
-    <view class="rounded-3px overflow-hidden bg-#C7C7C7/18">
+    <view class="rounded-3px overflow-hidden bg-#C7C7C7/18 py-5px">
       <wd-search
         v-model="serchValue"
         maxlength="10"
@@ -80,7 +103,7 @@ const {
       :key="index"
     >
       <wd-icon name="search" size="16px" color="#A7A7A7"></wd-icon>
-      <view class="flex-1 text-16px truncate-1">搜索结果</view>
+      <view class="flex-1 text-16px truncate-1">{{ item.articleTitle }}</view>
       <wd-icon name="arrow-right" size="16px" color="#A7A7A7"></wd-icon>
     </view>
   </view>

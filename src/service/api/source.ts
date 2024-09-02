@@ -78,7 +78,7 @@ export function getSerchList(data: any) {
     resAll: true,
   }
 
-  return request.Post(GET_BRANCHES_INFO, data, {
+  return request.Post(MESSAGE_LIST, data, {
     meta,
   })
 }

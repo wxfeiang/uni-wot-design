@@ -22,6 +22,7 @@ const title = ref()
 const showType = ref()
 const webUrl = ref('')
 onLoad((options) => {
+  console.log('🍑[options]=======:', options)
   showType.value = options.showType
   if (showType.value === 'webView') {
     webUrl.value = decodeURIComponent(options.url)
@@ -37,7 +38,7 @@ onLoad((options) => {
 <template>
   <web-view :src="webUrl" v-if="showType === 'webView'"></web-view>
   <view class="" v-else>
-    <dy-navbar :leftTitle="articleTitle" left></dy-navbar>
+    <dy-navbar :leftTitle="title" left></dy-navbar>
     <view class="mt-20px" v-if="!showTop">
       <view class="text-center line-height-30px">{{ articleTitle }}</view>
       <view class="text-center flex justify-center gap-20px mt-10px">

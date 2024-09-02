@@ -23,7 +23,7 @@ page {
   color: red;
 }
 .dy-bottom-tabbar {
-  bottom: var(--window-bottom) !important;
+  bottom: calc(var(--window-bottom) + 5px) !important;
 }
 .nav_show {
   @apply bg-transparent!;

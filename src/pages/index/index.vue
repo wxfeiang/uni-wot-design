@@ -81,7 +81,7 @@ function actionTop(item: any) {
       url: item.path,
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
-  } else if (item.type === 'router') {
+  } else if (item.type === 'router-----') {
     routeTo({
       url: item.path,
     })
@@ -92,11 +92,12 @@ function actionTop(item: any) {
 
 function swiperClick(data) {
   const { item } = data
-  console.log('🍵[item]:', item)
+
   if (item.type === 'router') {
     routeTo({ url: item.path, data: { ...item.data } })
   } else {
-    routeTo({ url: item.path, data: { url: item.path, showType: item.type } })
+    console.log('🍵[item]:', item)
+    routeTo({ url: '/pages-sub/webView/index', data: { url: item.path, showType: item.type } })
   }
 }
 
@@ -258,10 +259,10 @@ onPageScroll((e) => {
             <view class="color-#333 truncate-1">{{ mess2[0].articleTitle }}</view>
             <view class="flex gap-20px color-#888 text-14px mt-10px">
               <view>日期：{{ mess2[0].createTime }}</view>
-              <view>
+              <!-- <view>
                 <wd-icon name="browse" size="14px"></wd-icon>
                 {{ mess2[0].createBy }}次
-              </view>
+              </view> -->
             </view>
           </wd-skeleton>
         </view>
