@@ -18,6 +18,7 @@ import kong from '../static/images/kong.png'
 const { historySearch } = storeToRefs(useBaseStore())
 const serchListData = ref([])
 const serchValue = ref('')
+const flog = ref(false)
 const cancel = () => {
   console.log('取消')
   serchValue.value = ''
@@ -53,6 +54,10 @@ const search = async () => {
     const data: any = await sendSerchList({ articleTitle: serchValue.value })
     console.log('🥒[data]:', data)
     serchListData.value = data.data.data.content
+    if (!serchListData.value.length) {
+      console.log('🌯')
+      flog.value = true
+    }
     console.log(serchListData.value)
     useBaseStore().setHistorySearch(serchValue.value)
   } catch (error) {
@@ -63,10 +68,13 @@ const search = async () => {
 }
 const change = () => {
   console.log('改变')
+  console.log('🥘====', serchValue.value)
   if (serchValue.value.length === 0) {
     serchListData.value = []
+    flog.value = true
+  } else {
+    flog.value = false
   }
-  // useBaseStore().setHistorySearch(serchValue.value)
 }
 const cleatHistory = () => {
   console.log('清除历史')
@@ -99,7 +107,12 @@ const toDetile = (item: any) => {
         @clear="clear"
         @search="search"
         @change="change"
-      />
+      >
+        <template #suffix>
+          <view class="color-#666 px-3px" @click="search" v-if="serchValue.length > 0">搜索</view>
+          <view class="color-#666 px-3px" @click="cancel" v-else>取消</view>
+        </template>
+      </wd-search>
     </view>
   </view>
 
@@ -116,7 +129,7 @@ const toDetile = (item: any) => {
       <wd-icon name="arrow-right" size="16px" color="#A7A7A7"></wd-icon>
     </view>
   </view>
-  <view class="mt-30" v-if="!serchListData">
+  <view class="mt-30" v-if="serchListData.length === 0 && serchValue.length !== 0 && flog">
     <wd-status-tip
       :image="kong"
       :image-size="{
