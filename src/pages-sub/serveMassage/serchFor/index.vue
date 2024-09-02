@@ -51,7 +51,8 @@ const search = async () => {
   // 发起请求
   try {
     const data: any = await sendSerchList({ keyword: serchValue.value })
-    serchListData.value = data.data.content as any
+    console.log('🥒[data]:', data)
+    serchListData.value = data.data.data.content
     console.log(serchListData.value)
     useBaseStore().setHistorySearch(serchValue.value)
   } catch (error) {
@@ -71,9 +72,16 @@ const cleatHistory = () => {
   console.log('清除历史')
   useBaseStore().clearHistorySearch()
 }
-const toDetile = (item: string) => {
+const histortSerch = (item: string) => {
   // 跳转详情
-  routeTo({ url: '' })
+  serchValue.value = item
+  search()
+}
+const toDetile = (item: any) => {
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: item.articleId },
+  })
 }
 </script>
 
@@ -98,9 +106,10 @@ const toDetile = (item: string) => {
   <!-- content -->
   <view class="px-20px mt-10px" v-if="!loading || (serchListData && serchValue.length > 0)">
     <view
-      class="flex gap-10px justify-between items-center text-16px bb-1px_dashed_#707070 py-10px"
+      class="flex gap-10px justify-between items-center text-16px bb-1px_dashed_#707070 py-10px border-#707070/20!"
       v-for="(item, index) in serchListData"
       :key="index"
+      @click="toDetile(item)"
     >
       <wd-icon name="search" size="16px" color="#A7A7A7"></wd-icon>
       <view class="flex-1 text-16px truncate-1">{{ item.articleTitle }}</view>
@@ -130,7 +139,7 @@ const toDetile = (item: string) => {
         class="mt-5px text-16px color-#444 line-height-30px truncate-1"
         v-for="(item, index) in historySearch"
         :key="index"
-        @click="toDetile(item)"
+        @click="histortSerch(item)"
       >
         {{ item }}
       </view>

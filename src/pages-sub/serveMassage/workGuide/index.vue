@@ -60,7 +60,7 @@ const queryList = async (pageNo, pageSize) => {
           custom-class="custom-class-cell"
         >
           <template #title>
-            <view class="truncate-1">
+            <view class="truncate-1 text-16px">
               {{ item.articleTitle }}
             </view>
           </template>

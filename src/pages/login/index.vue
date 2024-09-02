@@ -20,16 +20,9 @@ import loginOuther from './compoents/loginOuther.vue'
 import useLogin from './utils/useLogin'
 const {
   Login,
-  model,
-  rules,
+
   read,
-  model2,
-  rules2,
-  getCodeUrl,
-  codeflog,
-  submitPhoneCode,
-  countdown,
-  sending,
+
   submitPhoneLogin,
   shuziLogin,
   getphonenumberLogin,
@@ -38,7 +31,6 @@ const {
 } = useLogin()
 const form = ref(null)
 const form2 = ref(null)
-const { navTop } = useNav()
 
 const message = useMessage('wd-message-box-slot')
 
@@ -74,52 +66,65 @@ const readChange = (type: number) => {
 }
 </script>
 <template>
-  <view class="bg-cover relative bg-#fff" :style="`padding-top:${navTop + 40}px`">
-    <view class="flex justify-center">
-      <wd-img :width="97" :height="97" :src="logo" round />
-    </view>
-    <view class="flex justify-center mt-20px">
-      <wd-img :width="316" :height="54" :src="logoTitle" />
-    </view>
-  </view>
+  <view class="w-100vw h-100vh flex flex-col justify-around">
+    <view>
+      <view class="flex justify-center">
+        <wd-img :width="97" :height="97" :src="logo" round />
+      </view>
+      <view class="flex justify-center mt-20px">
+        <wd-img :width="316" :height="54" :src="logoTitle" />
+      </view>
+      <view class="mt-30px">
+        <view class="px-10 mt-20px">
+          <wd-button
+            v-if="read"
+            block
+            open-type="getPhoneNumber"
+            @getphonenumber="getphonenumber"
+            custom-class="custom-class-mine-login"
+          >
+            微信快捷登录
+          </wd-button>
+          <wd-button v-else block custom-class="custom-class-mine-login" @click="unifiedLogin(3)">
+            微信快捷登录
+          </wd-button>
+        </view>
 
-  <view class="mt-30px">
-    <view class="px-10 mt-20px">
-      <wd-button
-        v-if="read"
-        block
-        open-type="getPhoneNumber"
-        @getphonenumber="getphonenumber"
-        custom-class="custom-class-mine-login"
-      >
-        微信快捷登录
-      </wd-button>
-      <wd-button v-else block custom-class="custom-class-mine-login" @click="unifiedLogin(3)">
-        微信快捷登录
-      </wd-button>
-    </view>
-
-    <view class="px-10 mt-20px">
-      <wd-button block plain hairline custom-class="custom-class-mine-login2" @click="goPhoneLogin">
-        手机验证码登录
-      </wd-button>
-    </view>
-    <view class="px-10 mt-15px">
-      <view class="flex gap-10px">
-        <wd-checkbox v-model="read" prop="read" custom-label-class="label-class"></wd-checkbox>
-        <view class="text-12px color-#A6A6A6">
-          <text @click="read = !read">未注册账号验证后自动注册并登录，登录即表示 同意</text>
-          <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016005', '隐私政策')">
-            《隐私政策》、
-          </text>
-          <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016006', '用户协议')">
-            《用户协议》
-          </text>
+        <view class="px-10 mt-20px">
+          <wd-button
+            block
+            plain
+            hairline
+            custom-class="custom-class-mine-login2"
+            @click="goPhoneLogin"
+          >
+            手机验证码登录
+          </wd-button>
+        </view>
+        <view class="px-10 mt-15px">
+          <view class="flex gap-10px">
+            <wd-checkbox v-model="read" prop="read" custom-label-class="label-class"></wd-checkbox>
+            <view class="text-12px color-#A6A6A6">
+              <text @click="read = !read">未注册账号验证后自动注册并登录，登录即表示 同意</text>
+              <text
+                class="color-#336EFD"
+                @click.stop="toAgreement('1710488285782016005', '隐私政策')"
+              >
+                《隐私政策》、
+              </text>
+              <text
+                class="color-#336EFD"
+                @click.stop="toAgreement('1710488285782016006', '用户协议')"
+              >
+                《用户协议》
+              </text>
+            </view>
+          </view>
         </view>
       </view>
     </view>
+    <login-Outher></login-Outher>
   </view>
-  <login-Outher></login-Outher>
 
   <wd-message-box selector="wd-message-box-slot" custom-class="custom-class-mes">
     <view class="text-left">
@@ -143,13 +148,6 @@ const readChange = (type: number) => {
   </wd-message-box>
 </template>
 <style lang="scss" scoped>
-:deep(.custom-class-mine-login) {
-  color: #fff !important;
-  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
-  border: none !important;
-  border-radius: 6px !important;
-}
-
 :deep(.label-class),
 :deep(.text-btn) {
   font-size: 12px !important;

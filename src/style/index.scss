@@ -14,14 +14,25 @@ page {
   --color-nav-bg: #4689fd !important;
   //统一固定导航栏字体颜色
   --color-nav-text: #fff !important;
+  //
+  --btn-round: 6px;
 }
 
-.test {
-  // 可以通过 @apply 多个样式封装整体样式
-  @apply mt-4 ml-4;
-  padding-top: 4px;
-  color: red;
+// .test {
+//   // 可以通过 @apply 多个样式封装整体样式
+//   @apply mt-4 ml-4;
+//   padding-top: 4px;
+//   color: red;
+// }
+.custom-class-mine-login {
+  color: #fff !important;
+  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
+  border: none !important;
+  border-radius: var(--btn-round) !important;
 }
+// .custom-class-mine-login2 {
+//   border-radius: var(--btn-round) !important;
+// }
 .dy-bottom-tabbar {
   bottom: calc(var(--window-bottom) + 5px) !important;
 }

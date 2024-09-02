@@ -19,7 +19,7 @@ import { storeToRefs } from 'pinia'
 import { useMessage, useToast } from 'wot-design-uni'
 
 import useInfo from './utils/useInfo'
-const { VITE_APP_LOGOTITLE } = import.meta.env
+
 const { navTop } = useNav()
 
 const { LogOut, loading, serveList, serveClick } = useInfo()
@@ -61,7 +61,6 @@ const acton = (item) => {
     class="px-15px box-border bg-cover h-235px"
     :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64})`"
   >
-    <view>{{ VITE_APP_LOGOTITLE }}</view>
     <view class="mt-35px">
       <view class="flex justify-between items-center">
         <view class="flex items-center gap-20px">
@@ -120,7 +119,7 @@ const acton = (item) => {
       </view>
     </view>
   </view>
-  <view class="bg-#fff overflow-hidden bg-cell mt-[-20px] py-10px">
+  <view class="bg-#fff overflow-hidden bg-cell mt-[-10px] py-10px">
     <view class="px-5px">
       <wd-cell-group border>
         <wd-cell
@@ -137,30 +136,20 @@ const acton = (item) => {
           <template #title>
             <view class="ml-10px">{{ item.title }}</view>
           </template>
+          <view v-if="item.value" class="color-#999">{{ item.value }}</view>
         </wd-cell>
       </wd-cell-group>
     </view>
   </view>
-  <view class="fixed dy-bottom-tabbar left-0 right-0">
-    <view class="px-10" v-if="isLogined">
+  <view class="fixed dy-bottom-tabbar left-0 right-0" v-if="isLogined">
+    <view class="px-10">
       <wd-button block @click="logoutCimfirm" custom-class="custom-class-mine-login">
         退出登录
-      </wd-button>
-    </view>
-
-    <view class="px-10" v-else>
-      <wd-button block plain hairline @click="login" custom-class="custom-class-mine-login">
-        立即登录
       </wd-button>
     </view>
   </view>
 </template>
 
-<style>
-page {
-  background: #f5f5f5;
-}
-</style>
 <style lang="scss" scoped>
 .dy-bg {
   background: rgb(204 204 204 / 0.5);

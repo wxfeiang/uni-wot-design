@@ -7,7 +7,7 @@ const { shuziLogin, goSfzLogin } = useLogin()
 </script>
 
 <template>
-  <view class="fixed bottom-20px left-0 right-0">
+  <view class="left-0 right-0">
     <wd-divider>更多登录方式</wd-divider>
     <view class="flex justify-center items-center gap-20px mt-10px">
       <view class="flex flex-col items-center">

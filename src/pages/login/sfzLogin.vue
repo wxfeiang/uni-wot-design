@@ -82,7 +82,7 @@ onMounted(() => {})
 
   <view class="mt-30px">
     <view class="px-30px">
-      <wd-form ref="form" :model="model2">
+      <wd-form ref="form" :model="model">
         <wd-cell-group>
           <wd-input
             label-width="100px"
@@ -156,12 +156,6 @@ onMounted(() => {})
   </wd-message-box>
 </template>
 <style lang="scss" scoped>
-:deep(.custom-class-mine-login) {
-  color: #fff !important;
-  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
-  border: none !important;
-  border-radius: 6px !important;
-}
 :deep(.custom-cell) {
   @apply bg-#f7f7f7! py-5px! px-5px rounded-6px mb-10px;
 }

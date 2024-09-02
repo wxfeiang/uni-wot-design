@@ -22,13 +22,11 @@ import { useMessage } from 'wot-design-uni'
 import useLogin from './utils/useLogin'
 const {
   Login,
-  model,
-  rules,
+
   read,
   model2,
   rules2,
   getCodeUrl,
-  codeflog,
   submitPhoneCode,
   countdown,
   sending,
@@ -66,6 +64,9 @@ const readChange = (type: number) => {
     submitPhoneLogin(form2.value)
   }
 }
+onMounted(() => {
+  getCodeUrl()
+})
 </script>
 <template>
   <view class="bg-cover relative bg-#fff" :style="`padding-top:${navTop - 10}px`">
@@ -134,7 +135,7 @@ const readChange = (type: number) => {
             custom-class="custom-cell"
             no-border
             clearable
-            :maxlength="4"
+            :maxlength="6"
           >
             <template #prefix>
               <wd-img :src="yzm" :width="32" :height="32"></wd-img>
@@ -190,12 +191,6 @@ const readChange = (type: number) => {
   </wd-message-box>
 </template>
 <style lang="scss" scoped>
-:deep(.custom-class-mine-login) {
-  color: #fff !important;
-  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
-  border: none !important;
-  border-radius: 6px !important;
-}
 :deep(.custom-cell) {
   @apply bg-#f7f7f7! py-5px! px-5px rounded-6px mb-10px;
 }
