@@ -67,7 +67,7 @@ const bankLogoList = ref([
   },
 ])
 function getLogo(data: string) {
-  return bankLogoList.value.find((item) => data.indexOf(item.title) !== -1).logo ?? defaultImg
+  return bankLogoList.value.find((item) => data.indexOf(item.title) !== -1)?.logo ?? defaultImg
 }
 const { sendbranchesInfo, loading } = useBusinessOutlets()
 

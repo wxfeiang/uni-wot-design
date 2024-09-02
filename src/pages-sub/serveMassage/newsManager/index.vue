@@ -1,11 +1,9 @@
 <route lang="json5" type="page">
 {
+  layout: 'default',
   needLogin: true,
   style: {
-    navigationBarTitleText: '服务网点',
-    backgroundColor: '#fff',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTextStyle: 'black',
+    navigationStyle: 'custom',
   },
 }
 </route>
@@ -46,6 +44,7 @@ const mainData = ref([
 </script>
 
 <template>
+  <dy-navbar leftTitle="消息列表" left></dy-navbar>
   <wd-gap bg-color="#f5f5f5"></wd-gap>
   <view class="px-15px">
     <wd-cell-group border>

@@ -68,12 +68,12 @@ const acton = (item) => {
           <template v-if="isLogined">
             <view class="flex gap-15px items-center">
               <view>
-                <view class="p-5px pl-10px rounded-50% size-64px">
+                <view class="p-5px rounded-50% size-64px">
                   <wd-img :width="60" :height="60" :src="anvter1" round />
                 </view>
 
                 <view
-                  class="flex items-center mt-[-15px] relative z-9 pl-10px"
+                  class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]"
                   v-if="userInfo.cardType === '3'"
                 >
                   <wd-img :src="h1" width="22" height="18"></wd-img>
@@ -83,7 +83,7 @@ const acton = (item) => {
                     已申领
                   </view>
                 </view>
-                <view class="flex items-center mt-[-15px] relative z-9 pl-10px" v-else>
+                <view class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]" v-else>
                   <wd-img :src="h0" width="22" height="18"></wd-img>
                   <view
                     class="color-#fff text-10px text-center bg-#ccc rounded-100 px-10px ml-[-10px] mt-2px"

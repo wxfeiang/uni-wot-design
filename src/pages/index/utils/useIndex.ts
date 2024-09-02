@@ -48,7 +48,7 @@ const swiperList = ref<bannerProps[]>([
     islink: true,
     image:
       bannerUrl + 'public/uploads/image/1725172128186-2ab9df4e-54db-4228-ab3a-f93f5a9c7f59.png',
-    type: 'h5',
+    type: 'webView',
   },
   {
     id: '3',
@@ -58,7 +58,7 @@ const swiperList = ref<bannerProps[]>([
     islink: true,
     image:
       bannerUrl + 'public/uploads/image/1725172156390-21e78f8b-2791-4cc1-b8ff-1b01c015058e.png',
-    type: 'h5',
+    type: 'webView',
   },
 ])
 

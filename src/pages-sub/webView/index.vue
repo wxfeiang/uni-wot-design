@@ -23,7 +23,7 @@ const showType = ref()
 const webUrl = ref('')
 onLoad((options) => {
   showType.value = options.showType
-  if (showType.value === 'h5') {
+  if (showType.value === 'webView') {
     webUrl.value = decodeURIComponent(options.url)
   } else {
     types.value = options.type
@@ -35,7 +35,7 @@ onLoad((options) => {
 </script>
 
 <template>
-  <web-view :src="webUrl" v-if="showType === 'h5'"></web-view>
+  <web-view :src="webUrl" v-if="showType === 'webView'"></web-view>
   <view class="" v-else>
     <dy-navbar :leftTitle="articleTitle" left></dy-navbar>
     <view class="mt-20px" v-if="!showTop">

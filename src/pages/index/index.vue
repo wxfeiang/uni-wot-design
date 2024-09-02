@@ -218,7 +218,7 @@ onPageScroll((e) => {
   <view class="py-3px h-135px swiper">
     <wd-swiper
       :list="swiperList"
-      :autoplay="false"
+      :autoplay="true"
       :current="0"
       :height="135"
       @click="swiperClick"

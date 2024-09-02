@@ -212,12 +212,10 @@
         {
           "path": "newsManager/index",
           "type": "page",
+          "layout": "default",
           "needLogin": true,
           "style": {
-            "navigationBarTitleText": "服务网点",
-            "backgroundColor": "#fff",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTextStyle": "black"
+            "navigationStyle": "custom"
           }
         },
         {
