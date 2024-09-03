@@ -66,7 +66,7 @@ const topAction = ref([
     text: '卡服务',
     type: 'switchTab',
     path: '/pages/serve/index',
-    active: 1,
+    active: 0,
   },
 ])
 
@@ -81,7 +81,7 @@ function actionTop(item: any) {
       url: item.path,
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
-  } else if (item.type === 'router') {
+  } else if (item.type === 'router======') {
     routeTo({
       url: item.path,
     })
@@ -219,7 +219,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px swiper px-[-3px]">
+  <view class="py-3px h-135px swiper mx-[-2px]">
     <wd-swiper
       :list="swiperList"
       :autoplay="true"

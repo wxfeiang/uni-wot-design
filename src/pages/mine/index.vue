@@ -48,16 +48,16 @@ const bgUrlBase64 = ref()
 onLoad(async () => {
   // 设置背景图片
   bgUrlBase64.value = await pathToBase64(imgUrl)
-  const params = {
-    xm: userInfo.value.userName,
-    zjhm: userInfo.value.idCardNumber,
-    zjlx: '1',
-    zkType: '1',
-    wdcode: '999-130632004',
-    areaCode: 'CHN',
-  }
-  const data = await sendIsReceiveCardInfo(params)
-  console.log('🥘[data]:', data)
+  // const params = {
+  //   xm: userInfo.value.userName,
+  //   zjhm: userInfo.value.idCardNumber,
+  //   zjlx: '1',
+  //   zkType: '1',
+  //   wdcode: '999-130632004',
+  //   areaCode: 'CHN',
+  // }
+  // const data = await sendIsReceiveCardInfo(params)
+  // console.log('🥘[data]:', data)
 })
 
 const acton = (item) => {

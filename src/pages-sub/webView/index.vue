@@ -21,7 +21,7 @@ const showTop = ref(1)
 const title = ref()
 const showType = ref()
 const webUrl = ref('')
-onLoad((options) => {
+onLoad(async (options) => {
   console.log('🍑[options]=======:', options)
   showType.value = options.showType
   if (showType.value === 'webView') {
@@ -30,7 +30,7 @@ onLoad((options) => {
     types.value = options.type
     showTop.value = options.showTop
     title.value = options.title ? decodeURIComponent(options.title) : '详情'
-    AarData(types.value)
+    await AarData(types.value)
   }
 })
 </script>
