@@ -49,8 +49,8 @@ onLoad(async () => {
   // 设置背景图片
   bgUrlBase64.value = await pathToBase64(imgUrl)
   const params = {
-    xm: '李泽奎', // userInfo.value.userName,
-    zjhm: '130636198809260531', // userInfo.value.idCardNumber,
+    xm: userInfo.value.userName,
+    zjhm: userInfo.value.idCardNumber,
     zjlx: '1',
     zkType: '1',
     wdcode: '999-130632004',
@@ -71,10 +71,10 @@ const acton = (item) => {
 
 <template>
   <view
-    class="px-15px box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
-    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100%;  `"
+    class="box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 235px;  `"
   >
-    <view class="mt-5%">
+    <view class="px-15px mt-5%">
       <view class="flex justify-between items-center">
         <view class="flex items-center gap-20px">
           <template v-if="isLogined">
@@ -132,7 +132,7 @@ const acton = (item) => {
         </view> -->
       </view>
     </view>
-    <view class="bg-#fff overflow-hidden bg-cell mt-10% py-10px">
+    <view class="bg-#fff overflow-hidden bg-cell mt-6% py-10px">
       <view class="px-5px">
         <wd-cell-group border>
           <wd-cell

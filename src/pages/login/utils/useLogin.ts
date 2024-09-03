@@ -24,7 +24,7 @@ const authStore = useUserStore()
 const read = ref(false)
 const rules = {
   username: [{ required: true, message: '请输入姓名' }],
-  password: [{ required: true, message: '请填写身份证号码' }],
+  password: [{ required: true, message: '请输入身份证号码' }],
 }
 
 const model = ref({
