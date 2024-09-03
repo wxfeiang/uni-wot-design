@@ -167,7 +167,7 @@ onPageScroll((e) => {
     </wd-navbar>
     <!-- <wd-sticky :offset-top="navTop"> -->
     <view class="w-100vw flex items-center justify-between gap-2px box-border" @click="toServhFor">
-      <view class="flex-1 px-20px">
+      <view class="flex-1 px-10px">
         <view
           class="flex justify-between items-center serch-bg px-10px py-10px color-#fff opacity-65"
         >
@@ -178,7 +178,7 @@ onPageScroll((e) => {
       </view>
     </view>
     <!-- </wd-sticky> -->
-    <view class="px-14px pt-5px mt-18px flex justify-between">
+    <view class="pt-5px mt-18px flex justify-between">
       <view
         v-for="(item, index) in topAction"
         :key="index"
@@ -201,7 +201,7 @@ onPageScroll((e) => {
       class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px"
       @click="messageClick(mess1[0])"
     >
-      <view class="w-60px h-full mr-10px msg flex justify-center items-center">
+      <view class="w-60px h-full mr-10px msg flex pl-10px box-border items-center">
         <wd-badge is-dot>
           <wd-img :width="20" :height="20" :src="msgicon" />
         </wd-badge>
@@ -219,7 +219,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px swiper">
+  <view class="py-3px h-135px swiper px-[-3px]">
     <wd-swiper
       :list="swiperList"
       :autoplay="true"

@@ -304,5 +304,6 @@ export default () => {
     goPhoneLogin,
     goSfzLogin,
     toAgreement,
+    sendIsReceiveCardInfo,
   }
 }

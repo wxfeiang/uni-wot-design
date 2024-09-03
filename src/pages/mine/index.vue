@@ -18,7 +18,10 @@ import { pathToBase64 } from 'image-tools'
 import { storeToRefs } from 'pinia'
 import { useMessage, useToast } from 'wot-design-uni'
 
+import useLogin from '../login/utils/useLogin'
+
 import useInfo from './utils/useInfo'
+const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
 
@@ -45,6 +48,16 @@ const bgUrlBase64 = ref()
 onLoad(async () => {
   // 设置背景图片
   bgUrlBase64.value = await pathToBase64(imgUrl)
+  const params = {
+    xm: '李泽奎', // userInfo.value.userName,
+    zjhm: '130636198809260531', // userInfo.value.idCardNumber,
+    zjlx: '1',
+    zkType: '1',
+    wdcode: '999-130632004',
+    areaCode: 'CHN',
+  }
+  const data = await sendIsReceiveCardInfo(params)
+  console.log('🥘[data]:', data)
 })
 
 const acton = (item) => {
@@ -58,10 +71,10 @@ const acton = (item) => {
 
 <template>
   <view
-    class="px-15px box-border bg-cover h-235px"
-    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64})`"
+    class="px-15px box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100%;  `"
   >
-    <view class="mt-35px">
+    <view class="mt-5%">
       <view class="flex justify-between items-center">
         <view class="flex items-center gap-20px">
           <template v-if="isLogined">
@@ -109,38 +122,40 @@ const acton = (item) => {
             </view>
           </template>
         </view>
-        <view
+        <!-- FIX:暂时注释  -->
+        <!-- <view
           class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
           @click="acton"
         >
           <i class="iconfont xa-jinbi2 text-20px"></i>
           <text>签到</text>
-        </view>
+        </view> -->
+      </view>
+    </view>
+    <view class="bg-#fff overflow-hidden bg-cell mt-10% py-10px">
+      <view class="px-5px">
+        <wd-cell-group border>
+          <wd-cell
+            :is-link="item.islink"
+            custom-class="custom-class-mine-cell"
+            v-for="(item, index) in serveList"
+            :key="index"
+            clickable
+            @click="serveClick(item)"
+          >
+            <template #icon>
+              <wd-img :src="item.icon" width="28" height="28px"></wd-img>
+            </template>
+            <template #title>
+              <view class="ml-10px">{{ item.title }}</view>
+            </template>
+            <view v-if="item.value" class="color-#999">{{ item.value }}</view>
+          </wd-cell>
+        </wd-cell-group>
       </view>
     </view>
   </view>
-  <view class="bg-#fff overflow-hidden bg-cell mt-[-10px] py-10px">
-    <view class="px-5px">
-      <wd-cell-group border>
-        <wd-cell
-          :is-link="item.islink"
-          custom-class="custom-class-mine-cell"
-          v-for="(item, index) in serveList"
-          :key="index"
-          clickable
-          @click="serveClick(item)"
-        >
-          <template #icon>
-            <wd-img :src="item.icon" width="28" height="28px"></wd-img>
-          </template>
-          <template #title>
-            <view class="ml-10px">{{ item.title }}</view>
-          </template>
-          <view v-if="item.value" class="color-#999">{{ item.value }}</view>
-        </wd-cell>
-      </wd-cell-group>
-    </view>
-  </view>
+
   <view class="fixed dy-bottom-tabbar left-0 right-0" v-if="isLogined">
     <view class="px-10">
       <wd-button block @click="logoutCimfirm" custom-class="custom-class-mine-login">

@@ -36,12 +36,12 @@ const swiperList = ref<bannerProps[]>([
     description: '',
     islink: true,
     image:
-      bannerUrl + 'public/uploads/image/1725172090859-99aee48d-2b43-4956-9430-73f201586f40.png',
+      bannerUrl + 'public/uploads/image/1725327394702-c3cb364e-544b-41d4-97d2-1c4daf1f4b7e.png',
     type: 'router',
     data: { base: 'shebaoksl', title: '社保卡申领' },
   },
   {
-    id: '1710488285782016007',
+    id: '1710488285782016008',
     path: '/pages-sub/webView/index',
     title: 'title1',
     description: '',
@@ -51,7 +51,7 @@ const swiperList = ref<bannerProps[]>([
     type: 'article',
   },
   {
-    id: '1710488285782016008',
+    id: '1710488285782016007',
     path: '/pages-sub/webView/index',
     title: 'title1',
     description: '',

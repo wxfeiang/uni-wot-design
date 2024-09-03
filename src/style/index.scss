@@ -30,6 +30,9 @@ page {
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
+.dy-tab-full-hight {
+  height: calc(100vh - var(--window-bottom));
+}
 // .custom-class-mine-login2 {
 //   border-radius: var(--btn-round) !important;
 // }

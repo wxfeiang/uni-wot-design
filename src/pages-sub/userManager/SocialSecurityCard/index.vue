@@ -72,7 +72,7 @@ const getSignValidH5 = async (data) => {
     // 获取
     params = {
       channelNo: '1331000204', // 前端可不传
-      signNo: '', // 渠道号
+      signNo: data.signNo, // 渠道号
       aac002: '321087197912280054',
       aac003: '王冬',
       aab301: '',

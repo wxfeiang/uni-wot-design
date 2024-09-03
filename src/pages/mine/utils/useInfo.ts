@@ -3,6 +3,7 @@ import { useUserStore } from '@/store/user'
 import { useRequest } from 'alova/client'
 import type { serveProps } from '../utils/types'
 
+import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import gywm from '@/static/images/mine/gywm.png'
 import mmdl from '@/static/images/mine/mmdl.png'
 import smrz from '@/static/images/mine/smrz.png'
@@ -84,11 +85,22 @@ const serveClick = (item: serveProps) => {
     })
   }
 }
+
+const {
+  loading: ReceiveCardInfo,
+  send: sendIsReceiveCardInfo,
+  onSuccess: cardQuerySucess,
+} = useRequest((data) => getIsReceiveCardInfo(data), {
+  immediate: false,
+  loading: false,
+})
+
 export default () => {
   return {
     LogOut,
     loading,
     serveList,
     serveClick,
+    sendIsReceiveCardInfo,
   }
 }
