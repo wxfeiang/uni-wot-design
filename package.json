@@ -1,14 +1,14 @@
 {
-  "name": "online-ui",
+  "name": "vue_uni-app",
   "type": "commonjs",
   "version": "1.0.1",
-  "description": "项目模板",
+  "description": "vue3.4+uni-app",
   "author": {
-    "name": "online",
-    "zhName": "数嘉科技",
-    "email": "1020103647@qq.com",
-    "github": "https://github.com/codercup",
-    "gitee": "https://gitee.com/codercup"
+    "name": "",
+    "zhName": "",
+    "email": "",
+    "github": "",
+    "gitee": ""
   },
   "homepage": "",
   "engines": {
