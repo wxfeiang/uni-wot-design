@@ -9,9 +9,9 @@
 </route>
 
 <script lang="ts" setup>
-import useNews from './utils/useInter'
+import useInter from './utils/useInter'
 
-const { sendMessageList, messageClick } = useNews()
+const { sendMessageList } = useInter()
 
 defineOptions({
   name: 'interList',
@@ -72,7 +72,6 @@ const changeTab = (e) => {
           :key="index"
           title-width="80%"
           clickable
-          @click="messageClick(item)"
           custom-class="custom-class-cell"
         >
           <template #title>

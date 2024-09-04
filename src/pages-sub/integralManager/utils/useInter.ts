@@ -1,18 +1,17 @@
-import { getMessageList } from '@/service/api/source'
-import { routeTo } from '@/utils'
+import { findXcxScoreUser, getInterList } from '@/service/api/userMessage'
 import { useRequest } from 'alova/client'
-// 消息列表
-const { send: sendMessageList, data: messageData } = useRequest((data) => getMessageList(data), {
+// 查询信息
+const { send: sendInterInfo, loading } = useRequest((data) => findXcxScoreUser(data), {
   immediate: false,
   loading: false,
 })
 
-function messageClick(item) {
-  routeTo({
-    url: '/pages-sub/webView/index',
-    data: { type: item.articleId },
-  })
-}
+// 查询列表
+const { send: sendMessageList, loading: listLoading } = useRequest((data) => getInterList(data), {
+  immediate: false,
+  loading: false,
+})
+
 export default () => {
-  return { sendMessageList, messageData, messageClick }
+  return { sendMessageList, loading, sendInterInfo }
 }

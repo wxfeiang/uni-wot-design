@@ -14,6 +14,11 @@ import { pathToBase64 } from 'image-tools'
 import jinbi from './static/images/jinbi.png'
 import jinb2 from './static/images/jinbi2.png'
 import bg from './static/images/topbg.png'
+
+import useInter from './utils/useInter'
+
+const { sendInterInfo } = useInter()
+
 const topbgBase64 = ref('')
 const title = ref('积分')
 const dataList = ref([
@@ -59,10 +64,16 @@ const tips = ref(false)
 const qiandao = () => {
   tips.value = true
 }
-
+const infoData = ref()
+const getInterInfo = async () => {
+  const data: any = await sendInterInfo()
+  console.log(data)
+  infoData.value = data
+}
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
+  getInterInfo()
 })
 </script>
 
@@ -72,12 +83,12 @@ onLoad(async () => {
     <view class="flex justify-between mt-5px pl-25px pr-10px">
       <view class="flex justify-between flex-col">
         <view class="text-14px font-500 color-#fff">可用积分</view>
-        <view class="text-28px font-500 color-#fff my-10px">989</view>
+        <view class="text-28px font-500 color-#fff my-10px">{{ infoData.curscore || 0 }}</view>
         <view class="text-13px font-500 color-#fff">
           累计获得积分
-          <text>{{ '908' }}</text>
+          <text>{{ infoData.totalScore }}</text>
           ,已使用积分
-          <text>{{ '908' }}</text>
+          <text>{{ infoData.income }}</text>
         </view>
       </view>
       <view class="flex justify-between flex-col items-end">
@@ -96,7 +107,7 @@ onLoad(async () => {
       <view class="flex justify-between">
         <view class="text-14px">
           您已连续签到
-          <text class="color-#ff4920 text-16px">{{ '5' }}</text>
+          <text class="color-#ff4920 text-16px">{{ infoData.maxDay }}</text>
           天
         </view>
         <view
