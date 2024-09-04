@@ -16,6 +16,10 @@ npx @dcloudio/uvm@ 3.0.0-alpha-4000120240201002
 pnpm add -D @types/node
 ```
 
+```
+--registry https://registry.npmmirror.com
+```
+
 ## 项目说明
 
 pnpm

@@ -16,7 +16,7 @@ export const constast = () => {
     appKey: Constant.APP_KEY,
     timestamp: getTimeStamp(),
     replay: uuid(),
-    userDId: userStore.userInfo.userDId,
+    userDid: userStore.userInfo.userDid,
   }
 }
 

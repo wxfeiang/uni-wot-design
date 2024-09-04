@@ -7,7 +7,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  center: {
+    type: Boolean,
+    default: false,
+  },
   isNavShow: {
+    type: Boolean,
+    default: false,
+  },
+  border: {
     type: Boolean,
     default: false,
   },
@@ -23,7 +31,7 @@ function handleClickLeft() {
       safeAreaInsetTop
       placeholder
       fixed
-      :bordered="false"
+      :bordered="props.border"
       :custom-class="`custom-class-nav-left ${props.isNavShow ? 'nav_show' : ''}`"
       v-if="props.left"
     >
@@ -43,6 +51,30 @@ function handleClickLeft() {
           >
             {{ props.leftTitle }}
           </view>
+        </view>
+      </template>
+    </wd-navbar>
+    <!-- dy 中 -->
+    <wd-navbar
+      v-if="props.center"
+      fixed
+      placeholder
+      left-arrow
+      :bordered="props.border"
+      :custom-class="`${props.isNavShow ? 'nav_show' : ''}`"
+      safeAreaInsetTop
+    >
+      <template #left>
+        <wd-icon
+          @click="handleClickLeft"
+          name="arrow-left"
+          size="22px"
+          :color="props.isNavShow ? '#fff' : ''"
+        ></wd-icon>
+      </template>
+      <template #title>
+        <view class="truncate-1 font-400 text-center" :class="props.isNavShow ? 'color-#fff' : ''">
+          {{ props.leftTitle }}
         </view>
       </template>
     </wd-navbar>

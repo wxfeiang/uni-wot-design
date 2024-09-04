@@ -67,6 +67,9 @@ const acton = (item) => {
     toast.show('功能开发中，敬请期待!...')
   }
 }
+const qiandao = () => {
+  routeTo({ url: '/pages-sub/integralManager/index' })
+}
 </script>
 
 <template>
@@ -122,14 +125,13 @@ const acton = (item) => {
             </view>
           </template>
         </view>
-        <!-- FIX:暂时注释  -->
-        <!-- <view
+        <view
           class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
-          @click="acton"
+          @click="qiandao"
         >
           <i class="iconfont xa-jinbi2 text-20px"></i>
           <text>签到</text>
-        </view> -->
+        </view>
       </view>
     </view>
     <view class="bg-#fff overflow-hidden bg-cell mt-6% py-10px">
