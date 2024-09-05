@@ -18,7 +18,7 @@ import {
 import CardUpload from './CardUpload.vue'
 
 import { useUserStore } from '@/store'
-import { changeDict, routeTo } from '@/utils'
+import { changeDict } from '@/utils'
 import dayjs from 'dayjs'
 const minDate = dayjs('191000101').valueOf()
 const maxDate = dayjs('20991225').valueOf()
@@ -121,22 +121,17 @@ function changeCamearData(cameraData) {
 const steep = ref(1)
 const bankBranchList = ref([])
 function next() {
-  console.log('🍉', model.value)
-  // if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-  //   steep.value = 2
-  // } else {
-  //   message.alert('请上传图片')
-  // }
-
-  steep.value = 2
+  if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
+    steep.value = 2
+  } else {
+    message.alert({
+      msg: '请先上传身份证证件照/人像照片',
+      title: '提示',
+      closeOnClickModal: false,
+    })
+  }
 }
 
-function cramert(photoType: string, type: string) {
-  routeTo({
-    url: '/pages-sub/serveMain/OcrCamera',
-    data: { photoType, type, zjhm: userInfo.idCardNumber },
-  })
-}
 // 查询邮寄银行网点
 async function handleChange(pickerView, value, columnIndex, resolve) {
   console.log(model.value.area, model.value.bankCode, model.value.isPostcard)

@@ -16,7 +16,7 @@ export const constast = () => {
     appKey: Constant.APP_KEY,
     timestamp: getTimeStamp(),
     replay: uuid(),
-    userDid: userStore.userInfo.userDid,
+    userId: userStore.userInfo.userId,
   }
 }
 
@@ -111,7 +111,6 @@ export function changeRes(res: any, code: string) {
 export function responseAes(res: any) {
   const aesRes = decrypt(res.header.responsek ?? res.header.ResponseK)
   const aesResiv = decrypt(res.header.responsev ?? res.header.Responsev)
-
   if (!aesRes || !aesResiv) {
     return { msg: '解密出现问题了----' }
   }

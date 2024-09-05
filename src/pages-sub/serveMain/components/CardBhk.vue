@@ -4,25 +4,43 @@ import { data as dataInfo } from '../types/data'
 
 import { useMessage } from 'wot-design-uni'
 
-import useCardApply from '../hooks/useCardApply'
-const message = useMessage()
-const { sendCardQury, serchData, read } = useCardApply()
+const message = useMessage('wd-message-box-slot')
+const message2 = useMessage()
+const read = ref<boolean>(false)
 
 const showData = ref<any>({})
-function toAgereement(type) {
+function toAgereement() {
   routeTo({ url: '/pages-sub/webView/index', data: { type: '1710488285782016005', showTop: 1 } })
 }
 function btnClick(item) {
-  if (item.isPeople) {
-    message.alert('非本人办理暂未开通!')
+  if (!read.value) {
+    message
+      .alert({
+        title: '提示',
+        confirmButtonText: '同意并办理',
+      })
+      .then(() => {
+        read.value = true
+        toApply(item)
+      })
   } else {
-    routeTo({
-      url: '/pages-sub/serveMain/cardApplyFromType',
-      data: { base: 'shebaokbh', title: '社保卡补换信息' },
-    })
+    toApply(item)
   }
 }
-
+async function toApply(item) {
+  if (item.isPeople) {
+    message2.alert({
+      msg: '非本人业务暂未提供办理!',
+      title: '提示',
+      closeOnClickModal: false,
+    })
+    return
+  }
+  routeTo({
+    url: '/pages-sub/serveMain/cardApplyFromType',
+    data: item.data,
+  })
+}
 const footerBtns = ref([
   {
     text: '非本人办理',
@@ -31,7 +49,6 @@ const footerBtns = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
-    disabled: true,
     isPeople: true,
   },
   {
@@ -40,37 +57,14 @@ const footerBtns = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
-    disabled: true,
+
     isPeople: false,
+    data: { base: 'shebaokbh', title: '社保卡补换信息' },
   },
 ])
 
-watch(
-  () => read.value,
-  (val) => {
-    footerBtns.value[0].disabled = !val
-    footerBtns.value[1].disabled = !val
-  },
-  {
-    immediate: true,
-  },
-)
-
-const isApply = ref(null)
-
 onMounted(async () => {
   showData.value = dataInfo[1]
-  // 如果阅读协议页面回来 则
-  read.value = 0
-  // const { resultCode }: any = await sendCardQury(serchData.value)
-  // // 0 不让在申请了
-
-  // isApply.value = resultCode
-  // if (isApply.value === '0') {
-  //   message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
-  //     uni.navigateBack()
-  //   })
-  // }
 })
 const value = ref()
 </script>
@@ -90,7 +84,7 @@ const value = ref()
         <view class="">
           <wd-checkbox custom-label-class="label-class" v-model="read" size="large">
             我已阅读并同意以上内容,并接受
-            <text class="color-#4d80f0" @click.stop="toAgereement(5)">
+            <text class="color-#4d80f0" @click.stop="toAgereement">
               《雄安一卡通申办业务须知协议》
             </text>
             协议
@@ -99,7 +93,6 @@ const value = ref()
         <view class="flex gap-15px mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
             <wd-button
-              :disabled="item.disabled"
               :round="item.round"
               block
               :size="item.size"
@@ -114,6 +107,10 @@ const value = ref()
     </view>
   </view>
 
+  <wd-message-box selector="wd-message-box-slot">
+    我已阅读并同意以上内容,并接受
+    <text class="color-#4d80f0" @click.stop="toAgereement">《雄安一卡通申办业务须知协议》</text>
+  </wd-message-box>
   <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">

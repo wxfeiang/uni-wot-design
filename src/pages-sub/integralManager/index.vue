@@ -64,7 +64,12 @@ const tips = ref(false)
 const qiandao = () => {
   tips.value = true
 }
-const infoData = ref()
+const infoData = ref({
+  curscore: 0,
+  maxDay: 0,
+  totalScore: 0,
+  income: 0,
+})
 const getInterInfo = async () => {
   const data: any = await sendInterInfo()
   console.log(data)

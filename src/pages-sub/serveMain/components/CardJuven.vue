@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useBaseStore, useUserStore } from '@/store'
+import { useUserStore } from '@/store'
 import { changeDict } from '@/utils'
 import dayjs from 'dayjs'
 import qs from 'qs'
@@ -70,7 +70,6 @@ const dbrCardUrl2 = ref()
 const cardUrl1 = ref()
 const cardUrl2 = ref()
 const cardUrl0 = ref()
-const { cameraData } = useBaseStore()
 
 function changeCamearData(cameraData) {
   console.log('🥧', cameraData)
@@ -124,7 +123,11 @@ function next() {
   if (model.value.dbrIdCardFrontPhotoId && model.value.dbrIdCardBackPhotoId) {
     steep.value = 2
   } else {
-    message.alert('请上传图片')
+    message.alert({
+      msg: '请先上传身份证证件照/人像照片',
+      title: '提示',
+      closeOnClickModal: false,
+    })
   }
 }
 
@@ -134,6 +137,8 @@ const footerBtns1 = ref([
     size: 'medium',
     round: false,
     plain: true,
+    type: '',
+
     customClass: 'btn-class',
   },
   {
@@ -141,6 +146,7 @@ const footerBtns1 = ref([
     size: 'medium',
     round: false,
     plain: true,
+    type: '',
     customClass: 'btn-class',
   },
 ])
@@ -158,6 +164,7 @@ const footerBtns2 = ref([
     size: 'medium',
     round: false,
     plain: true,
+    type: '',
     customClass: 'btn-class',
   },
   {
@@ -165,6 +172,7 @@ const footerBtns2 = ref([
     size: 'medium',
     round: false,
     plain: true,
+    type: '',
     customClass: 'btn-class',
   },
 ])
@@ -201,7 +209,11 @@ function btnClick3(item) {
     if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
       submitCard(form)
     } else {
-      message.alert('请上传图片')
+      message.alert({
+        msg: '请先上传身份证证件照/人像照片',
+        title: '提示',
+        closeOnClickModal: false,
+      })
     }
   }
 }
@@ -319,7 +331,7 @@ function btnClick3(item) {
           :round="item.round"
           block
           :size="item.size"
-          :type="item.type"
+          :type="item?.type"
           @click="btnClick1(item)"
         >
           {{ item.text }}

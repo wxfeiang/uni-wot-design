@@ -5,24 +5,54 @@ import { data as dataInfo } from '../types/data'
 import { useMessage } from 'wot-design-uni'
 
 import useCardApply from '../hooks/useCardApply'
-const message = useMessage()
+const message = useMessage('wd-message-box-slot')
+const message2 = useMessage()
 const { sendCardQury, serchData, read } = useCardApply()
 
 const showData = ref<any>({})
 function toAgereement(type) {
   routeTo({ url: '/pages-sub/webView/index', data: { type: '1710488285782016005', showTop: 1 } })
 }
-function btnClick(item) {
-  if (item.isPeople) {
-    // message.alert('非本人办理暂未开通!')
-    routeTo({
-      url: '/pages-sub/serveMain/cardApplyFromType',
-      data: { base: 'xinshenersl', title: '代未成年人申领' },
-    })
+async function btnClick(item) {
+  if (!read.value) {
+    message
+      .alert({
+        title: '提示',
+        confirmButtonText: '同意并办理',
+      })
+      .then(() => {
+        read.value = 1
+        toApply(item)
+      })
   } else {
+    toApply(item)
+  }
+}
+
+async function toApply(item) {
+  if (item.index === 1) {
+    const { resultCode }: any = await sendCardQury(serchData.value)
+    isApply.value = resultCode
+    if (isApply.value === '0') {
+      message2
+        .alert({
+          msg: '您已申领过一卡通，请勿重复申请',
+          title: '提示',
+          closeOnClickModal: false,
+        })
+        .then(() => {
+          uni.navigateBack()
+        })
+    } else {
+      routeTo({
+        url: '/pages-sub/serveMain/cardApplyFromType',
+        data: item.data,
+      })
+    }
+  } else if (item.index === 0) {
     routeTo({
       url: '/pages-sub/serveMain/cardApplyFromType',
-      data: { base: 'shebaoksl', title: '社保卡申领信息' },
+      data: item.data,
     })
   }
 }
@@ -38,6 +68,8 @@ const footerBtns = ref([
     isRead: true,
     isApply: false,
     isPeople: true,
+    index: 0,
+    data: { base: 'xinshenersl', title: '代未成年人申领' },
   },
   {
     text: '本人办理',
@@ -48,19 +80,10 @@ const footerBtns = ref([
     isRead: true,
     isApply: false,
     isPeople: false,
+    index: 1,
+    data: { base: 'shebaoksl', title: '社保卡申领信息' },
   },
 ])
-
-watch(
-  () => read.value,
-  (val) => {
-    footerBtns.value[0].isRead = !val
-    footerBtns.value[1].isRead = !val
-  },
-  {
-    immediate: true,
-  },
-)
 
 const isApply = ref(null)
 
@@ -68,16 +91,6 @@ onMounted(async () => {
   showData.value = dataInfo[0]
   // 如果阅读协议页面回来 则
   read.value = 0
-  const { resultCode }: any = await sendCardQury(serchData.value)
-  // 0 不让在申请了
-
-  isApply.value = resultCode
-  if (isApply.value === '0') {
-    footerBtns.value[1].isApply = true
-    message.alert('当前用户已申领过一卡通，请勿重复申领').then(() => {
-      uni.navigateBack()
-    })
-  }
 })
 const value = ref()
 </script>
@@ -106,7 +119,6 @@ const value = ref()
         <view class="flex gap-15px mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
             <wd-button
-              :disabled="item.isRead || item.isApply"
               :round="item.round"
               block
               :size="item.size"
@@ -121,6 +133,10 @@ const value = ref()
     </view>
   </view>
 
+  <wd-message-box selector="wd-message-box-slot">
+    我已阅读并同意以上内容,并接受
+    <text class="color-#4d80f0" @click.stop="toAgereement(5)">《雄安一卡通申办业务须知协议》</text>
+  </wd-message-box>
   <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">

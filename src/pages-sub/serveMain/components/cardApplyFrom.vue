@@ -44,16 +44,12 @@ watch(
   () => submitStatus.value,
   () => {
     message.alert(statusDel.value).then(() => {
-      // if (submitStatus.value === 1) {
-
-      // }
       uni.navigateBack()
     })
   },
   { deep: true },
 )
 
-const current = ref('1')
 async function upload(photoType: string, type: string) {
   const data = { photoType, type, zjhm: userInfo.idCardNumber }
   const queryStr = qs.stringify(data)
@@ -103,11 +99,14 @@ function changeCamearData(cameraData) {
 
 const steep = ref(1)
 function next() {
-  console.log('🍉', model.value)
   if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
     steep.value = 2
   } else {
-    message.alert('请上传图片')
+    message.alert({
+      msg: '请先上传身份证证件照/人像照片',
+      title: '提示',
+      closeOnClickModal: false,
+    })
   }
 }
 </script>
