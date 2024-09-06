@@ -9,17 +9,17 @@
 </route>
 
 <script lang="ts" setup>
+import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
 import jinbi from './static/images/jinbi.png'
 import jinb2 from './static/images/jinbi2.png'
 import bg from './static/images/topbg.png'
-
 import { signInRules } from './utils/types'
 import useInter from './utils/useInter'
 
 const { sendInterInfo } = useInter()
-
+const userStore = useUserStore()
 const topbgBase64 = ref('')
 const title = ref('积分')
 const dataList = ref<signInRules[]>([])
@@ -33,34 +33,51 @@ const toAgreement = () => {
   })
 }
 const tips = ref(false)
-const qiandao = () => {
-  tips.value = true
+const qiandao = async () => {
+  // 调用签到接口 成功返回 数据  显示弹框、
+  uni.showLoading({ title: '签到中' })
+  try {
+    tips.value = true
+  } catch (error) {
+    console.log('🌭', error)
+  } finally {
+    uni.hideLoading()
+  }
 }
 const infoData = ref({
   curscore: 0,
   maxDay: 0,
   totalScore: 0,
   income: 0,
+  resultList: [],
 })
 const getInterInfo = async () => {
-  const data: any = await sendInterInfo()
-  console.log(data)
+  const params = {
+    data: {
+      userDid: userStore.userInfo.userId,
+    },
+  }
+  const data: any = await sendInterInfo(params)
+  console.log(data, '======')
   infoData.value = data
+  infoData.value.resultList = data.resultList
+  signInfo()
 }
 const signInfo = () => {
-  const start = 1
-  for (let i = 0; i < 7; i++) {
-    dataList.value.push({
-      title: start,
-      value: i,
-    })
+  if (!infoData.value.resultList || infoData.value.resultList.length === 0) {
+    const start = 1
+    for (let i = 0; i < 7; i++) {
+      dataList.value.push({
+        title: start,
+        value: i,
+      })
+    }
   }
 }
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
   getInterInfo()
-  signInfo()
 })
 </script>
 
@@ -109,25 +126,25 @@ onLoad(async () => {
         <view class="flex items-center gap-10px flex-wrap justify-between">
           <view
             class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
-            :class="index === dataList.length - 1 ? 'ml-auto w-2.55/6! text-left' : ''"
-            v-for="(item, index) in dataList"
+            :class="index === infoData.resultList.length - 1 ? 'ml-auto w-2.55/6! text-left' : ''"
+            v-for="(item, index) in infoData.resultList"
             :key="index"
           >
-            <view>
+            <view class="text-14px">
               第
-              <text>{{ item.title }}</text>
+              <text>{{ item.signDay }}</text>
               天
             </view>
             <view class="my-5px relative">
               <image
-                v-if="index === dataList.length - 1"
+                v-if="index === infoData.resultList.length - 1"
                 class="w-43px h-43px absolute right-0 top-[-30rpx]"
                 :src="jinbi"
                 mode="aspectFit"
               ></image>
               <image v-else class="w-23px h-23px" :src="jinbi" mode="aspectFit"></image>
             </view>
-            <view class="color-#999">+{{ item.value }}</view>
+            <view class="color-#999">+{{ item.signIntegral }}</view>
           </view>
         </view>
       </view>
