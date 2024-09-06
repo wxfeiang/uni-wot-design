@@ -81,7 +81,7 @@ function actionTop(item: any) {
       url: item.path,
       navType: NAVIGATE_TYPE.SWITCH_TAB,
     })
-  } else if (item.type === 'router======') {
+  } else if (item.type === 'router') {
     routeTo({
       url: item.path,
     })

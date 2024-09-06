@@ -15,42 +15,14 @@ import jinbi from './static/images/jinbi.png'
 import jinb2 from './static/images/jinbi2.png'
 import bg from './static/images/topbg.png'
 
+import { signInRules } from './utils/types'
 import useInter from './utils/useInter'
 
 const { sendInterInfo } = useInter()
 
 const topbgBase64 = ref('')
 const title = ref('积分')
-const dataList = ref([
-  {
-    title: 1,
-    value: 20,
-  },
-  {
-    title: 2,
-    value: 20,
-  },
-  {
-    title: 3,
-    value: 20,
-  },
-  {
-    title: 4,
-    value: 20,
-  },
-  {
-    title: 5,
-    value: 20,
-  },
-  {
-    title: 6,
-    value: 20,
-  },
-  {
-    title: 7,
-    value: 20,
-  },
-])
+const dataList = ref<signInRules[]>([])
 const toMingxi = () => {
   routeTo({ url: '/pages-sub/integralManager/interList' })
 }
@@ -75,10 +47,20 @@ const getInterInfo = async () => {
   console.log(data)
   infoData.value = data
 }
+const signInfo = () => {
+  const start = 1
+  for (let i = 0; i < 7; i++) {
+    dataList.value.push({
+      title: start,
+      value: i,
+    })
+  }
+}
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
   getInterInfo()
+  signInfo()
 })
 </script>
 
