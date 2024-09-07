@@ -247,6 +247,14 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
+          "path": "Cashier/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "收银员管理"
+          }
+        },
+        {
           "path": "SocialSecurityCard/barcode",
           "type": "page",
           "layout": "default",
