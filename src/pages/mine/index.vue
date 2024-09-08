@@ -128,6 +128,7 @@ const qiandao = () => {
         <view
           class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
           @click="qiandao"
+          v-if="isLogined"
         >
           <i class="iconfont xa-jinbi2 text-20px"></i>
           <text>签到</text>
