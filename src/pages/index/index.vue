@@ -38,7 +38,7 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const basestore = useBaseStore()
 const toast = useToast()
 
-const { messageClick, sendMessageList, messageLoading, swiperList } = useIndex()
+const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea } = useIndex()
 
 const topAction = ref([
   {
@@ -102,6 +102,12 @@ function swiperClick(data) {
       data: { type: item.id },
     })
   }
+}
+function serveClick(item) {
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: item.id, title: item.title },
+  })
 }
 
 function serveGuild() {
@@ -233,11 +239,37 @@ onPageScroll((e) => {
     ></wd-swiper>
   </view>
 
+  <!-- 服务专区 -->
+  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <view class="px-10px">
+    <dy-title title="服务专区" bottom></dy-title>
+    <view class="flex gap-10px flex-wrap justify-between">
+      <view
+        class="relative w-22.5% h-80px overflow-hidden rounded-7px"
+        :style="`background:${item.bgcolor}`"
+        v-for="(item, index) in serviceArea"
+        :key="index"
+        @click="serveClick(item)"
+      >
+        <view class="text-center text-14px my-10px">{{ item.title }}</view>
+        <view class="pl-10px">
+          <wd-img :src="item.icon" width="34" height="34"></wd-img>
+        </view>
+
+        <view
+          class="absolute bottom-0 right-0 w-18px h-18px text-center rounded-tl-7px"
+          :style="`background: ${item.iconbg}`"
+        >
+          <wd-icon name="chevron-right" size="14px" color="#fff"></wd-icon>
+        </view>
+      </view>
+    </view>
+  </view>
   <!-- 办事指南 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
   <view class="px-10px">
     <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
-    <view class="p-12px mt-20px relative zhbg">
+    <view class="p-12px relative zhbg">
       <view class="flex gap-20px justify-around items-center">
         <wd-img :width="140" :height="52" :src="znlogo" />
         <view

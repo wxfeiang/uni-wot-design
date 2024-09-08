@@ -3,6 +3,15 @@ import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 import { bannerProps, messProps } from './types'
 
+import zhenwufuwu from '@/static/images/index/1.png'
+import jiaotongchuxing from '@/static/images/index/2.png'
+import jiyyigouyao from '@/static/images/index/3.png'
+import daiyufafang from '@/static/images/index/4.png'
+import jinrongruwu from '@/static/images/index/5.png'
+import wenhuatiyan from '@/static/images/index/6.png'
+import lvyouguanguang from '@/static/images/index/7.png'
+import jinxonghutong from '@/static/images/index/8.png'
+
 // 消息列表
 const {
   send: sendMessageList,
@@ -61,7 +70,72 @@ const swiperList = ref<bannerProps[]>([
     type: 'article',
   },
 ])
-
+const serviceArea = ref([
+  {
+    title: '政务服务',
+    icon: zhenwufuwu,
+    bgcolor: 'linear-gradient( 180deg, #FFE8E8 0%, #FFCCCC 100%);',
+    iconbg: '#D84D4C',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016016',
+  },
+  {
+    title: '交通出行',
+    icon: jiaotongchuxing,
+    bgcolor: 'linear-gradient( 180deg, #F2FBF8 0%, #E6F8F0 100%);',
+    iconbg: '#78CEA8',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016010',
+  },
+  {
+    title: '就医购药',
+    icon: jiyyigouyao,
+    bgcolor: 'linear-gradient( 180deg, #D1F2FF 0%, #E2F1FF 100%);',
+    iconbg: '#46ABFF',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016013',
+  },
+  {
+    title: '待遇发放',
+    icon: daiyufafang,
+    bgcolor: 'linear-gradient( 180deg, #FEFCF4 0%, #FFE3CE 100%);',
+    iconbg: '#FC9559',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016009 ',
+  },
+  {
+    title: '金融服务',
+    icon: jinrongruwu,
+    bgcolor: 'linear-gradient( 180deg, #FEFCF1 0%, #FFEA98 100%);',
+    iconbg: '#F1C63A',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016011',
+  },
+  {
+    title: '文化体验',
+    icon: wenhuatiyan,
+    bgcolor: 'linear-gradient( 180deg, #EFF4FE 0%, #CAE4FD 100%);',
+    iconbg: '#2994FF',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016015',
+  },
+  {
+    title: '旅游观光',
+    icon: lvyouguanguang,
+    bgcolor: 'linear-gradient( 180deg, #FEEEEF 0%, #FDC9C9 100%);',
+    iconbg: '#F24848',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016014',
+  },
+  {
+    title: '京雄互通',
+    icon: jinxonghutong,
+    bgcolor: 'linear-gradient( 180deg, #D8DAFF 0%, #DDE0FA 100%);',
+    iconbg: '#5339FF',
+    path: '/pages-sub/serveMassage/serviceArea/index',
+    id: '1710488285782016012',
+  },
+])
 export default () => {
-  return { messageData, messageClick, sendMessageList, messageLoading, swiperList }
+  return { messageData, messageClick, sendMessageList, messageLoading, swiperList, serviceArea }
 }

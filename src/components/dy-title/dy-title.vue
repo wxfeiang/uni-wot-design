@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <view :class="`flex items-center ${props.customClass}`">
+  <view :class="`flex items-center mb-20px ${props.customClass}`">
     <view v-if="props.border" class="w-2px h-20px mr-10px bg-blue"></view>
     <view class="font-bold relative">
       <text>
