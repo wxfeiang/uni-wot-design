@@ -1,7 +1,6 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -9,20 +8,16 @@
 </route>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
 import jinbi from './static/images/jinbi.png'
 import jinb2 from './static/images/jinbi2.png'
 import bg from './static/images/topbg.png'
-import { signInRules } from './utils/types'
 import useInter from './utils/useInter'
 
 const { sendInterInfo, sendSign } = useInter()
-const userStore = useUserStore()
 const topbgBase64 = ref('')
 const title = ref('积分')
-const dataList = ref<signInRules[]>([])
 const toMingxi = () => {
   routeTo({ url: '/pages-sub/integralManager/interList' })
 }
@@ -33,13 +28,18 @@ const toAgreement = () => {
   })
 }
 const tips = ref(false)
+const qiandaoMsg = ref({
+  maxDay: 0,
+  signIntegral: 0,
+})
 const qiandao = async () => {
   try {
     const { data }: any = await sendSign()
-    console.log('🍚[data]:', data)
-    // tips.value = true
+    qiandaoMsg.value = { ...qiandaoMsg.value, ...data }
+    tips.value = true
+    getInterInfo()
   } catch (error) {
-    console.log('🌭', error)
+    console.log('error', error)
   }
 }
 const infoData = ref({
@@ -50,29 +50,15 @@ const infoData = ref({
   resultList: [],
 })
 const getInterInfo = async () => {
-  // const params = {
-  //   data: {
-  //     userDid: userStore.userInfo.userId,
-  //   },
-  // }
-  // params
-  const data: any = await sendInterInfo()
-  console.log(data, '======')
-  infoData.value = data
-  infoData.value.resultList = data.resultList
-  signInfo()
-}
-const signInfo = () => {
-  if (!infoData.value.resultList || infoData.value.resultList.length === 0) {
-    const start = 1
-    for (let i = 0; i < 7; i++) {
-      dataList.value.push({
-        title: start,
-        value: i,
-      })
-    }
+  try {
+    const data: any = await sendInterInfo()
+    infoData.value = { ...infoData.value, ...data }
+    infoData.value.resultList = data.resultList
+  } catch (error) {
+    console.log('🍪[error]:', error)
   }
 }
+
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
@@ -86,7 +72,14 @@ onLoad(async () => {
     <view class="flex justify-between mt-5px pl-25px pr-10px">
       <view class="flex justify-between flex-col">
         <view class="text-14px font-500 color-#fff">可用积分</view>
-        <view class="text-28px font-500 color-#fff my-10px">{{ infoData.curscore || 0 }}</view>
+        <view class="text-28px font-500 color-#fff my-10px">
+          <wd-count-to
+            :endVal="infoData.curscore || 0"
+            separator=""
+            color="#fff"
+            :fontSize="14"
+          ></wd-count-to>
+        </view>
         <view class="text-13px font-500 color-#fff">
           累计获得积分
           <text>{{ infoData.totalScore }}</text>
@@ -125,7 +118,7 @@ onLoad(async () => {
         <view class="flex items-center gap-10px flex-wrap justify-between">
           <view
             class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
-            :class="index === infoData.resultList.length - 1 ? 'ml-auto w-2.55/6! text-left' : ''"
+            :class="index === 6 ? 'ml-auto w-2.55/6! text-left' : ''"
             v-for="(item, index) in infoData.resultList"
             :key="index"
           >
@@ -136,7 +129,7 @@ onLoad(async () => {
             </view>
             <view class="my-5px relative">
               <image
-                v-if="index === infoData.resultList.length - 1"
+                v-if="index === 6"
                 class="w-43px h-43px absolute right-0 top-[-30rpx]"
                 :src="jinbi"
                 mode="aspectFit"
@@ -161,9 +154,9 @@ onLoad(async () => {
         <view class="color-#000 text-18px font-semibold mb-10px">签到成功，再接再厉</view>
         <view class="color-#666 text-14px">
           当前已连续签到
-          <text class="color-#E95433">{{ '4' }}</text>
+          <text class="color-#E95433">{{ qiandaoMsg.maxDay }}</text>
           天，积分
-          <text class="color-#E95433">+ {{ '4' }}</text>
+          <text class="color-#E95433">+ {{ qiandaoMsg.signIntegral }}</text>
         </view>
       </view>
     </view>

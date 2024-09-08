@@ -9,9 +9,15 @@ const SIGN_IN = baseUrlApi('/member/app/ScoreUser/signIn')
  * @param params 初始参数()
  * */
 export function findXcxScoreUser(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
   return request.Post(
     FIND_XCX_SCORE_USER, // 地址
     data,
+    {
+      meta,
+    },
   )
 }
 
