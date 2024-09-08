@@ -8,6 +8,7 @@ import { checkStatus } from '@/utils/http/checkStatus'
 
 import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
 import { assign } from 'lodash-es'
+import { HideLoading, Loading } from '../uniapi/prompt'
 
 const timeOut = import.meta.env.VITE_SERVER_TIME_OUT
 
@@ -31,7 +32,10 @@ const alovaInstance = createAlova({
     const userStore = useUserStore()
     beforeQuest(method)
     // 默认不是用全局加载状态。。。
-    // Loading('加载中...');
+    if (method?.meta?.loading) {
+      Loading('加载中...')
+    }
+
     let token = {}
     if (!method?.meta?.ignorToken) {
       token = userStore.getAuthorization()
@@ -48,6 +52,9 @@ const alovaInstance = createAlova({
      */
     onSuccess: async (response, method) => {
       const { config, meta } = method
+      if (meta?.loading) {
+        HideLoading()
+      }
 
       const { enableDownload, enableUpload, responseType } = config as any
       // 返回所有结果
@@ -99,6 +106,10 @@ const alovaInstance = createAlova({
      * @param method
      */
     onError: (err, method) => {
+      const { config, meta } = method
+      if (meta?.loading) {
+        HideLoading()
+      }
       checkStatus(500)
       // eslint-disable-next-line prefer-promise-reject-errors
       return Promise.reject({ err, method })

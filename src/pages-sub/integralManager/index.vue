@@ -18,7 +18,7 @@ import bg from './static/images/topbg.png'
 import { signInRules } from './utils/types'
 import useInter from './utils/useInter'
 
-const { sendInterInfo } = useInter()
+const { sendInterInfo, sendSign } = useInter()
 const userStore = useUserStore()
 const topbgBase64 = ref('')
 const title = ref('积分')
@@ -34,14 +34,12 @@ const toAgreement = () => {
 }
 const tips = ref(false)
 const qiandao = async () => {
-  // 调用签到接口 成功返回 数据  显示弹框、
-  uni.showLoading({ title: '签到中' })
   try {
-    tips.value = true
+    const { data }: any = await sendSign()
+    console.log('🍚[data]:', data)
+    // tips.value = true
   } catch (error) {
     console.log('🌭', error)
-  } finally {
-    uni.hideLoading()
   }
 }
 const infoData = ref({
@@ -52,12 +50,13 @@ const infoData = ref({
   resultList: [],
 })
 const getInterInfo = async () => {
-  const params = {
-    data: {
-      userDid: userStore.userInfo.userId,
-    },
-  }
-  const data: any = await sendInterInfo(params)
+  // const params = {
+  //   data: {
+  //     userDid: userStore.userInfo.userId,
+  //   },
+  // }
+  // params
+  const data: any = await sendInterInfo()
   console.log(data, '======')
   infoData.value = data
   infoData.value.resultList = data.resultList

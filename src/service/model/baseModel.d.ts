@@ -15,4 +15,5 @@ export declare interface METHOD_INSTANCE<T = any> {
   ignorToken: true // 忽略token
   resAll?: boolean // 返回所有数据
   resdata?: boolean // 不加解密的情况下只返回data
+  loading?: boolean // 是否显示loading
 }

@@ -1,4 +1,4 @@
-import { findXcxScoreUser, getInterList } from '@/service/api/userMessage'
+import { findXcxScoreUser, getInterList, interSignIn } from '@/service/api/userMessage'
 import { useRequest } from 'alova/client'
 // 查询信息
 const { send: sendInterInfo, loading } = useRequest((data) => findXcxScoreUser(data), {
@@ -12,6 +12,12 @@ const { send: sendMessageList, loading: listLoading } = useRequest((data) => get
   loading: false,
 })
 
+// 点击签到
+const { send: sendSign } = useRequest((data) => interSignIn(data), {
+  immediate: false,
+  loading: false,
+})
+
 export default () => {
-  return { sendMessageList, loading, sendInterInfo }
+  return { sendMessageList, loading, sendInterInfo, sendSign }
 }

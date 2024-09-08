@@ -1,8 +1,8 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
+import { METHOD_INSTANCE } from '../model/baseModel'
 const FIND_XCX_SCORE_USER = baseUrlApi('/member/app/ScoreUser/findXcxScoreUser')
-
-const SIGN_IN_LIST = baseUrlApi('/member/app/signIn/webList')
+const SIGN_IN = baseUrlApi('/member/app/ScoreUser/signIn')
 
 /**
  *  积分信息
@@ -19,10 +19,16 @@ export function findXcxScoreUser(data) {
  * 用户积分签到
  * @param params 初始参数()
  * */
-export function faceLogin(data) {
+export function interSignIn(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
   return request.Post(
-    '', // 地址
+    SIGN_IN, // 地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -31,8 +37,5 @@ export function faceLogin(data) {
  * @param params 初始参数()
  * */
 export function getInterList(data) {
-  return request.Post(
-    SIGN_IN_LIST, // 地址
-    data,
-  )
+  return request.Post(SIGN_IN, data)
 }
