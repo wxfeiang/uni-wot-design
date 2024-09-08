@@ -43,5 +43,5 @@ export function interSignIn(data) {
  * @param params 初始参数()
  * */
 export function getInterList(data) {
-  return request.Post(SIGN_IN, data)
+  return request.Post(FIND_XCX_SCORE_USER, data)
 }

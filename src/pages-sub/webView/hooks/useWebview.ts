@@ -16,7 +16,7 @@ const AarData = async (articleId) => {
   try {
     const data: any = await sedAarData(params)
     console.log('🍈[data]:', data)
-    content.value = data.data.data.articleContent
+    content.value = data.data.data.articleContent || ''
     createTime.value = data.data.data.createTime
     articleTitle.value = data.data.data.articleTitle
   } catch (error) {

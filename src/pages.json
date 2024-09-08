@@ -315,6 +315,7 @@
           "path": "index",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -323,7 +324,6 @@
           "path": "interList",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

@@ -76,7 +76,7 @@ const serviceArea = ref([
     icon: zhenwufuwu,
     bgcolor: 'linear-gradient( 180deg, #FFE8E8 0%, #FFCCCC 100%);',
     iconbg: '#D84D4C',
-    path: '/pages-sub/serveMassage/serviceArea/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016016',
   },
   {
@@ -84,7 +84,7 @@ const serviceArea = ref([
     icon: jiaotongchuxing,
     bgcolor: 'linear-gradient( 180deg, #F2FBF8 0%, #E6F8F0 100%);',
     iconbg: '#78CEA8',
-    path: '/pages-sub/serveMassage/serviceArea/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016010',
   },
   {
@@ -92,7 +92,7 @@ const serviceArea = ref([
     icon: jiyyigouyao,
     bgcolor: 'linear-gradient( 180deg, #D1F2FF 0%, #E2F1FF 100%);',
     iconbg: '#46ABFF',
-    path: '/pages-sub/serveMassage/serviceArea/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016013',
   },
   {
@@ -100,15 +100,15 @@ const serviceArea = ref([
     icon: daiyufafang,
     bgcolor: 'linear-gradient( 180deg, #FEFCF4 0%, #FFE3CE 100%);',
     iconbg: '#FC9559',
-    path: '/pages-sub/serveMassage/serviceArea/index',
-    id: '1710488285782016009 ',
+    path: '/pages-sub/webView/index',
+    id: '1710488285782016009',
   },
   {
     title: '金融服务',
     icon: jinrongruwu,
     bgcolor: 'linear-gradient( 180deg, #FEFCF1 0%, #FFEA98 100%);',
     iconbg: '#F1C63A',
-    path: '/pages-sub/serveMassage/serviceArea/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016011',
   },
   {
@@ -116,7 +116,7 @@ const serviceArea = ref([
     icon: wenhuatiyan,
     bgcolor: 'linear-gradient( 180deg, #EFF4FE 0%, #CAE4FD 100%);',
     iconbg: '#2994FF',
-    path: '/pages-sub/serveMassage/serviceArea/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016015',
   },
   {
@@ -124,7 +124,7 @@ const serviceArea = ref([
     icon: lvyouguanguang,
     bgcolor: 'linear-gradient( 180deg, #FEEEEF 0%, #FDC9C9 100%);',
     iconbg: '#F24848',
-    path: '/pages-sub/serveMassage/serviceArea/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016014',
   },
   {
@@ -132,7 +132,7 @@ const serviceArea = ref([
     icon: jinxonghutong,
     bgcolor: 'linear-gradient( 180deg, #D8DAFF 0%, #DDE0FA 100%);',
     iconbg: '#5339FF',
-    path: '/pages-sub/serveMassage/serviceArea/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016012',
   },
 ])

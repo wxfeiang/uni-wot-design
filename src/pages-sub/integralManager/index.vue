@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -19,7 +20,8 @@ const { sendInterInfo, sendSign } = useInter()
 const topbgBase64 = ref('')
 const title = ref('积分')
 const toMingxi = () => {
-  routeTo({ url: '/pages-sub/integralManager/interList' })
+  uni.showToast({ title: '功能开发中!', icon: 'none' })
+  // routeTo({ url: '/pages-sub/integralManager/interList' })
 }
 const toAgreement = () => {
   routeTo({
@@ -34,7 +36,7 @@ const qiandaoMsg = ref({
 })
 const qiandao = async () => {
   try {
-    const { data }: any = await sendSign()
+    const data: any = await sendSign()
     qiandaoMsg.value = { ...qiandaoMsg.value, ...data }
     tips.value = true
     getInterInfo()
@@ -43,7 +45,7 @@ const qiandao = async () => {
   }
 }
 const infoData = ref({
-  curscore: 0,
+  curScore: 0,
   maxDay: 0,
   totalScore: 0,
   income: 0,
@@ -74,10 +76,10 @@ onLoad(async () => {
         <view class="text-14px font-500 color-#fff">可用积分</view>
         <view class="text-28px font-500 color-#fff my-10px">
           <wd-count-to
-            :endVal="infoData.curscore || 0"
+            :endVal="infoData.curScore || 0"
             separator=""
+            :fontSize="36"
             color="#fff"
-            :fontSize="14"
           ></wd-count-to>
         </view>
         <view class="text-13px font-500 color-#fff">

@@ -105,7 +105,7 @@ function swiperClick(data) {
 }
 function serveClick(item) {
   routeTo({
-    url: '/pages-sub/webView/index',
+    url: item.path,
     data: { type: item.id, title: item.title },
   })
 }
@@ -161,8 +161,8 @@ onPageScroll((e) => {
   <!-- 顶部 -->
 
   <view
-    class="box-border bg-cover h-310px relative"
-    :style="` background-image: url(${topbgBase64})`"
+    class="box-border h-310px relative bg-no-repeat bg-cover"
+    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
   >
     <wd-navbar safeAreaInsetTop placeholder :custom-class="navbg" fixed :bordered="false">
       <template #left>
