@@ -8,6 +8,7 @@ interface NavigateToOptions {
        "/pages/aa/index" |
        "/pages/about/about" |
        "/pages/login/index" |
+       "/pages/login/index2" |
        "/pages/mine/index" |
        "/pages/serve/index" |
        "/pages/shop/index" |

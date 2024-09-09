@@ -91,6 +91,19 @@
       }
     },
     {
+      "path": "pages/login/index2",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom",
+        "mp-alipay": {
+          "transparentTitle": "always",
+          "titlePenetrate": "YES"
+        }
+      }
+    },
+    {
       "path": "pages/mine/index",
       "type": "page",
       "style": {
