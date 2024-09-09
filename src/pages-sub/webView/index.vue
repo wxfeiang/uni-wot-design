@@ -9,6 +9,7 @@
 </route>
 
 <script lang="ts" setup>
+import { removeT } from '@/utils'
 import useWebview from './hooks/useWebview'
 const { content, AarData, articleTitle, createTime } = useWebview()
 const types = ref(null)
@@ -46,7 +47,7 @@ onLoad(async (options) => {
           来源： {{ remark || '一卡通平台' }}
         </view>
         <view class="text-center color-#999 font-size-12px line-height-20px">
-          发布时间：{{ createTime }}
+          发布时间：{{ removeT(createTime) }}
         </view>
       </view>
     </view>

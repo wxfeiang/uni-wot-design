@@ -17,7 +17,7 @@ export const constast = () => {
     timestamp: getTimeStamp(),
     replay: uuid(),
     userId: userStore.userInfo.userId,
-    userDid: userStore.userInfo.userId,
+    userDid: userStore.userInfo.userDId,
   }
 }
 

@@ -22,7 +22,7 @@ import znlogo from '@/static/images/index/znlogo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
-import { routeTo } from '@/utils'
+import { removeT, routeTo } from '@/utils'
 import { openWxChart, useScancode } from '@/utils/uniapi'
 import { pathToBase64 } from 'image-tools'
 import { useToast } from 'wot-design-uni'
@@ -294,7 +294,7 @@ onPageScroll((e) => {
           >
             <view class="color-#333 truncate-1">{{ mess2[0].articleTitle }}</view>
             <view class="flex gap-20px color-#888 text-14px mt-10px">
-              <view>日期：{{ mess2[0].createTime }}</view>
+              <view>日期：{{ removeT(mess2[0].createTime) }}</view>
               <view>
                 <!-- <wd-icon name="browse" size="14px"></wd-icon>
                 {{ mess2[0].createBy }}次 -->

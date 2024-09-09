@@ -11,6 +11,7 @@
 
 <script lang="ts" setup>
 import useNav from '@/hooks/useNav'
+import { removeT } from '@/utils/index'
 import useNews from './hooks/useGurid'
 
 const { sendMessageList, messageClick } = useNews()
@@ -25,19 +26,16 @@ const paging = ref(null)
 const dataList = ref([])
 const queryList = async (pageNo, pageSize) => {
   const data = {
-    page: pageNo,
+    number: pageNo,
     size: pageSize,
     articleType: '1',
   }
   // 调用接口获取数据
   try {
     const a: any = await sendMessageList(data)
-    console.log('🥠[a ]:', a.data.data.content)
     dataList.value = a.data.data.content
-
     paging.value.complete(dataList.value)
   } catch (error) {
-    console.log('🥒[error]:', error)
     paging.value.complete(false)
   }
 }
@@ -66,7 +64,7 @@ const queryList = async (pageNo, pageSize) => {
           </template>
           <template #label>
             <view class="flex gap-20px color-#888 text-14px">
-              <view>日期：{{ item.createTime }}</view>
+              <view>日期：{{ removeT(item.createTime) }}</view>
               <!-- <view>
                 <wd-icon name="browse" size="14px"></wd-icon>
                 {{ item.createBy }}次
