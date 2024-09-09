@@ -9,7 +9,7 @@
 </route>
 
 <script lang="ts" setup>
-import { removeT } from '@/utils'
+import { changeDict, removeT } from '@/utils'
 import useInter from './utils/useInter'
 const { sendMessageList } = useInter()
 
@@ -90,7 +90,7 @@ const changeTab = (e) => {
         >
           <template #title>
             <view class="truncate-1 text-16px">
-              {{ item.articleTitle }}
+              {{ changeDict(typeList, item.type) }}
             </view>
           </template>
           <template #label>
@@ -103,7 +103,7 @@ const changeTab = (e) => {
               :class="item.type == 1 ? 'color-#fa4350' : 'color-#34d19d'"
               class="text-16px font-bold"
             >
-              {{ item.type == item.incom ? '+' : '-' }} {{ '20' }}
+              {{ item.type == item.incomeExpenses ? '+' : '-' }} {{ item.incom }}
             </view>
           </view>
         </wd-cell>
