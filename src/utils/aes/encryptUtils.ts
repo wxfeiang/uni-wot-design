@@ -93,6 +93,7 @@ export function beforeQuest(method: any) {
 
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
+  console.log('🥡', initParams)
 
   createFilter(method)
 }

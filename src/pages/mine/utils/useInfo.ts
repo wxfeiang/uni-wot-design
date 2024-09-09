@@ -31,8 +31,8 @@ const serveList = ref<serveProps[]>([
   {
     icon: smrz,
     title: '实名认证',
-    path: '/mine/realName',
-    islink: false,
+    path: '/pages/login/login2',
+    islink: true,
   },
   {
     icon: wdjf,

@@ -4,6 +4,8 @@ import { METHOD_INSTANCE } from '../model/baseModel'
 const FIND_XCX_SCORE_USER = baseUrlApi('/member/app/ScoreUser/findXcxScoreUser')
 const SIGN_IN = baseUrlApi('/member/app/ScoreUser/signIn')
 
+const GET_USER_SCORE_PAGE = baseUrlApi('/member/app/UserScore/getUserScorePage')
+
 /**
  *  积分信息
  * @param params 初始参数()
@@ -43,5 +45,5 @@ export function interSignIn(data) {
  * @param params 初始参数()
  * */
 export function getInterList(data) {
-  return request.Post(FIND_XCX_SCORE_USER, data)
+  return request.Post(GET_USER_SCORE_PAGE, data)
 }

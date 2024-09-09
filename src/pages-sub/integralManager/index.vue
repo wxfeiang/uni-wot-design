@@ -19,8 +19,7 @@ const { sendInterInfo, sendSign } = useInter()
 const topbgBase64 = ref('')
 const title = ref('积分')
 const toMingxi = () => {
-  uni.showToast({ title: '功能开发中!', icon: 'none' })
-  // routeTo({ url: '/pages-sub/integralManager/interList' })
+  routeTo({ url: '/pages-sub/integralManager/interList' })
 }
 const toAgreement = () => {
   routeTo({

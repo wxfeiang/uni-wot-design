@@ -12,7 +12,7 @@ const showData = ref<any>({})
 function toAgereement() {
   routeTo({
     url: '/pages-sub/webView/index',
-    data: { type: '1710488285782016005', showTop: 1, title: '补卡须知' },
+    data: { type: '1710488285782016019', showTop: 1, title: '补卡须知' },
   })
 }
 function btnClick(item) {
