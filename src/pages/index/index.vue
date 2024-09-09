@@ -143,6 +143,7 @@ onMounted(async () => {
     page: 1,
     size: 10,
   })
+  console.log('🍍', mess)
   mess1.value = mess.data.data.content.filter((i) => i.articleType === '0')
   mess2.value = mess.data.data.content.filter((i) => i.articleType === '1')
 })

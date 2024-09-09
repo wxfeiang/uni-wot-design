@@ -155,36 +155,28 @@ const { loading: phoneLoading, send: phoneSend } = useRequest((data) => phoneLog
 })
 
 const submitPhoneLogin = (form) => {
-  form
-    .validate()
-    .then(async ({ valid, errors }) => {
-      if (valid) {
-        try {
-          uni.showLoading({ title: '登录中...' })
-          const params = {
-            userId: '',
-            userPhone: model2.value.phone,
-            userName: '',
-            verCode: model2.value.code,
-            shopId: '',
-          }
-          console.log('🧀', params)
-          const data: any = await phoneSend(params)
-          console.log('🍷[data]:', data)
-
-          await resultData(data)
-
-          getCodeUrl()
-        } catch (error) {
-          console.log('🍱[error]:', error)
-
-          getCodeUrl()
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        uni.showLoading({ title: '登录中...' })
+        const params = {
+          userId: '',
+          userPhone: model2.value.phone,
+          userName: '',
+          verCode: model2.value.code,
+          shopId: '',
         }
+        const data: any = await phoneSend(params)
+        console.log('🍷[data]:', data)
+
+        await resultData(data)
+      } catch (error) {
+        console.log('🍱[error]:', error)
+      } finally {
+        getCodeUrl()
       }
-    })
-    .catch((error) => {
-      console.log(error, 'error')
-    })
+    }
+  })
 }
 
 const { loading: openLoading, send: sendOpenIdCode } = useRequest((data) => openIdCode(data), {
@@ -220,7 +212,6 @@ const getphonenumberLogin = async (e) => {
       // TODO: 最终登录 存储信息
       await resultData(data)
     } catch (error) {
-      console.log('🍓[error]:', error)
       Toast(error?.data?.msg)
     }
   }
@@ -244,7 +235,6 @@ const shuziLogin = () => {
 
 const resultData = async (data) => {
   uni.showLoading({ title: '登录成功' })
-  uni.hideLoading()
 
   // 保存
   authStore.setUserInfo(data)
@@ -262,11 +252,9 @@ const resultData = async (data) => {
     const resultData: any = await sendIsReceiveCardInfo(params)
     console.log('🥞[resultData]:', resultData)
     authStore.userInfo.cardType = resultData.cardType
-  } else {
-    authStore.userInfo.cardType = data.cardType
   }
   // 跳转到登录后的页面
-
+  uni.hideLoading()
   const pages = getCurrentPages() // 当前页面栈
   const index = pages[pages.length - 1].route === 'pages/login/index' ? 1 : 2
   uni.navigateBack({ delta: index })

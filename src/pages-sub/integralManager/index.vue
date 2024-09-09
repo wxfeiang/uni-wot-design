@@ -99,7 +99,7 @@ onLoad(async () => {
       </view>
     </view>
   </view>
-  <view class="px-10px mt-[-120rpx]">
+  <view class="px-10px mt-[-110rpx]">
     <view class="bg-#fff px-10px py-15px rounded-md">
       <view class="flex justify-between">
         <view class="text-14px">
