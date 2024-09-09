@@ -68,7 +68,7 @@ const acton = (item) => {
   }
 }
 const qiandao = () => {
-  routeTo({ url: '/pages-sub/integralManager/index' })
+  routeTo({ url: '/pages-sub/marketManager/integral/index' })
 }
 </script>
 

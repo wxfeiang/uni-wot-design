@@ -309,10 +309,10 @@
       ]
     },
     {
-      "root": "pages-sub/integralManager",
+      "root": "pages-sub/marketManager",
       "pages": [
         {
-          "path": "index",
+          "path": "integral/index",
           "type": "page",
           "layout": "default",
           "style": {
@@ -320,7 +320,7 @@
           }
         },
         {
-          "path": "interList",
+          "path": "integral/interList",
           "type": "page",
           "layout": "default",
           "style": {
