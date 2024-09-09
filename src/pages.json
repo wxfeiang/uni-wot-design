@@ -312,6 +312,14 @@
       "root": "pages-sub/marketManager",
       "pages": [
         {
+          "path": "couopn/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "integral/index",
           "type": "page",
           "layout": "default",
@@ -326,6 +334,10 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "couopn/compoents/couponList",
+          "type": "page"
         }
       ]
     }

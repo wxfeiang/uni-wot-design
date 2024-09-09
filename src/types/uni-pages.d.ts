@@ -29,8 +29,10 @@ interface NavigateToOptions {
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
+       "/pages-sub/marketManager/couopn/index" |
        "/pages-sub/marketManager/integral/index" |
-       "/pages-sub/marketManager/integral/interList";
+       "/pages-sub/marketManager/integral/interList" |
+       "/pages-sub/marketManager/couopn/compoents/couponList";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
