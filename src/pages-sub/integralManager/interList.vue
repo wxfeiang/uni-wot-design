@@ -48,15 +48,15 @@ const typeList = ref([
 const paging = ref(null)
 const dataList = ref([])
 const queryList = async (pageNo, pageSize) => {
-  const data = {
-    page: pageNo,
+  const params = {
+    number: pageNo,
     size: pageSize,
     incomeExpenses: tab.value,
   }
   // 调用接口获取数据
   try {
-    const a: any = await sendMessageList(data)
-    dataList.value = a.data.data.content
+    const data: any = await sendMessageList(params)
+    dataList.value = data.data.data.content
     paging.value.complete(dataList.value)
   } catch (error) {
     paging.value.complete(false)
