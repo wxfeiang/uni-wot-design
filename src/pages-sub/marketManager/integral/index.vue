@@ -67,7 +67,10 @@ onLoad(async () => {
 </script>
 
 <template>
-  <view class="h-482rpx bg-cover" :style="`background-image: url(${topbgBase64})`">
+  <view
+    class="bg-no-repeat flex flex-col min-h-100vh bg-#f5f5f5"
+    :style="`background-image: url(${topbgBase64}); background-size: 100% 210px`"
+  >
     <dy-navbar :leftTitle="title" center isNavShow></dy-navbar>
     <view class="flex justify-between mt-5px pl-25px pr-10px">
       <view class="flex justify-between flex-col">
@@ -97,46 +100,47 @@ onLoad(async () => {
         </view>
       </view>
     </view>
-  </view>
-  <view class="px-10px mt-[-110rpx]">
-    <view class="bg-#fff px-10px py-15px rounded-md">
-      <view class="flex justify-between">
-        <view class="text-14px">
-          您已连续签到
-          <text class="color-#ff4920 text-16px">{{ infoData.maxDay }}</text>
-          天
-        </view>
-        <view
-          class="px-15px text-14px color-#fff bg-#FF7433 line-height-22px rounded-full"
-          @click="qiandao"
-        >
-          签到
-        </view>
-      </view>
 
-      <view class="mt-10px">
-        <view class="flex items-center gap-10px flex-wrap justify-between">
+    <view class="px-10px mt-30px">
+      <view class="bg-#fff px-10px py-15px rounded-md">
+        <view class="flex justify-between">
+          <view class="text-14px">
+            您已连续签到
+            <text class="color-#ff4920 text-16px">{{ infoData.maxDay }}</text>
+            天
+          </view>
           <view
-            class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
-            :class="index === 6 ? 'ml-auto w-2.55/6! text-left' : ''"
-            v-for="(item, index) in infoData.resultList"
-            :key="index"
+            class="px-15px text-14px color-#fff bg-#FF7433 line-height-22px rounded-full"
+            @click="qiandao"
           >
-            <view class="text-14px">
-              第
-              <text>{{ item.signDay }}</text>
-              天
+            签到
+          </view>
+        </view>
+
+        <view class="mt-10px">
+          <view class="flex items-center gap-10px flex-wrap justify-between">
+            <view
+              class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
+              :class="index === 6 ? 'ml-auto w-2.55/6! text-left' : ''"
+              v-for="(item, index) in infoData.resultList"
+              :key="index"
+            >
+              <view class="text-14px">
+                第
+                <text>{{ item.signDay }}</text>
+                天
+              </view>
+              <view class="my-5px relative">
+                <image
+                  v-if="index === 6"
+                  class="w-43px h-43px absolute right-0 top-[-30rpx]"
+                  :src="jinbi"
+                  mode="aspectFit"
+                ></image>
+                <image v-else class="w-23px h-23px" :src="jinbi" mode="aspectFit"></image>
+              </view>
+              <view class="color-#999">+{{ item.signIntegral }}</view>
             </view>
-            <view class="my-5px relative">
-              <image
-                v-if="index === 6"
-                class="w-43px h-43px absolute right-0 top-[-30rpx]"
-                :src="jinbi"
-                mode="aspectFit"
-              ></image>
-              <image v-else class="w-23px h-23px" :src="jinbi" mode="aspectFit"></image>
-            </view>
-            <view class="color-#999">+{{ item.signIntegral }}</view>
           </view>
         </view>
       </view>
@@ -162,11 +166,6 @@ onLoad(async () => {
     </view>
   </wd-popup>
 </template>
-<style>
-page {
-  background: #f5f5f5;
-}
-</style>
 
 <style lang="scss" scoped>
 .bg {
