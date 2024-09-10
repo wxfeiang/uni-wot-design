@@ -158,7 +158,6 @@ const qiandao = () => {
       </view>
     </view>
   </view>
-
   <view class="fixed dy-bottom-tabbar left-0 right-0" v-if="isLogined">
     <view class="px-10">
       <wd-button block @click="logoutCimfirm" custom-class="custom-class-mine-login">
