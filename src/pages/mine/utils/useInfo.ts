@@ -37,7 +37,7 @@ const serveList = ref<serveProps[]>([
   {
     icon: wdjf,
     title: '我的积分 ',
-    path: '/pages-sub/integralManager/index',
+    path: '/pages-sub/marketManager/integral/index',
     islink: true,
   },
   {
