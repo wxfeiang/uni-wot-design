@@ -119,8 +119,22 @@ const toServhFor = () => {
 function toBusinessOutlets() {
   routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
 }
+function toMessage() {
+  routeTo({ url: '/pages-sub/serveMassage/messageList/index' })
+}
+function toMessageItem(e) {
+  const { index } = e
+
+  messageClick(mess1.value[index])
+}
 
 const mess1 = ref<messProps[]>([
+  {
+    articleId: '',
+    createTime: '',
+    createBy: '',
+    articleTitle: '',
+  },
   {
     articleId: '',
     createTime: '',
@@ -144,7 +158,7 @@ onMounted(async () => {
     size: 10,
   })
   console.log('🍍', mess)
-  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0')
+  // mess1.value = mess.data.data.content.filter((i) => i.articleType === '0')
   mess2.value = mess.data.data.content.filter((i) => i.articleType === '1')
 })
 
@@ -204,23 +218,34 @@ onPageScroll((e) => {
   <!-- 消息 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
   <view class="px-10px">
-    <view
-      class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px"
-      @click="messageClick(mess1[0])"
-    >
+    <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
       <view class="w-60px h-full mr-10px msg flex pl-10px box-border items-center">
         <wd-badge is-dot>
           <wd-img :width="20" :height="20" :src="msgicon" />
         </wd-badge>
       </view>
-      <wd-skeleton
-        :custom-style="{ width: '100%' }"
-        animation="flashed"
-        :loading="messageLoading || !mess1[0]"
-        :row-col="[{ width: '100%', height: '20px' }]"
+      <view class="flex-1">
+        <wd-skeleton
+          animation="flashed"
+          :loading="messageLoading || mess1.length > 0"
+          :row-col="[{ width: '80%', height: '20px' }]"
+        >
+          <wd-notice-bar
+            custom-class="custom-class-noticebar"
+            direction="vertical"
+            :delay="3"
+            @click="toMessageItem"
+            :text="mess1.map((item) => item.articleTitle + '...')"
+          />
+        </wd-skeleton>
+      </view>
+
+      <view
+        @click.stop="toMessage"
+        class="absolute right-0 top-0 pl-15px pr-10px py-3px color-#fff text-12px bg-#2D69EF rounded-bl-11px"
       >
-        <view class="flex-1 color-#666 truncate-1 text-14px">{{ mess1[0]?.articleTitle }}</view>
-      </wd-skeleton>
+        更多
+      </view>
     </view>
   </view>
 
@@ -347,5 +372,8 @@ onPageScroll((e) => {
   --wot-swiper-item-padding: 0 24rpx;
   --wot-swiper-nav-dot-color: #fff;
   --wot-swiper-nav-dot-active-color: #4d80f0;
+}
+:deep(.custom-class-noticebar) {
+  @apply p-0! bg-transparent!  color-#333! text-14px! w-60vw overflow-hidden truncate-1!;
 }
 </style>

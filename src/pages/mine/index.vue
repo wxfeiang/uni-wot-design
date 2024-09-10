@@ -142,7 +142,7 @@ const qiandao = () => {
             :key="index"
             @click="serveClick(item)"
           >
-            <view class="text-20px font-600">
+            <view class="text-20px">
               {{ item.value }}
             </view>
             <view class="text-14px mt-10px">
