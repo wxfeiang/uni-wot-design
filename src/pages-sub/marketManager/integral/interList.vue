@@ -9,8 +9,8 @@
 </route>
 
 <script lang="ts" setup>
+import { changeDict, removeT } from '@/utils'
 import useInter from './utils/useInter'
-
 const { sendMessageList } = useInter()
 
 defineOptions({
@@ -31,18 +31,32 @@ const tablist = ref([
     title: '支出',
   },
 ])
+const typeList = ref([
+  {
+    label: '签到',
+    value: 1,
+  },
+  {
+    label: '转发',
+    value: 2,
+  },
+  {
+    label: '大转盘',
+    value: 1,
+  },
+])
 const paging = ref(null)
 const dataList = ref([])
 const queryList = async (pageNo, pageSize) => {
-  const data = {
-    page: pageNo,
+  const params = {
+    number: pageNo,
     size: pageSize,
-    type: tab.value,
+    incomeExpenses: tab.value,
   }
   // 调用接口获取数据
   try {
-    const a: any = await sendMessageList(data)
-    dataList.value = a.data.data.content
+    const data: any = await sendMessageList(params)
+    dataList.value = data.data.data.content
     paging.value.complete(dataList.value)
   } catch (error) {
     paging.value.complete(false)
@@ -76,12 +90,12 @@ const changeTab = (e) => {
         >
           <template #title>
             <view class="truncate-1 text-16px">
-              {{ item.articleTitle }}
+              {{ changeDict(typeList, item.type) }}
             </view>
           </template>
           <template #label>
             <view class="flex gap-20px color-#888 text-14px">
-              <view>{{ item.createTime }}</view>
+              <view>{{ removeT(item.createTime) }}</view>
             </view>
           </template>
           <view class="flex justify-center">
@@ -89,7 +103,7 @@ const changeTab = (e) => {
               :class="item.type == 1 ? 'color-#fa4350' : 'color-#34d19d'"
               class="text-16px font-bold"
             >
-              {{ item.type == item.articleTitle ? '+' : '-' }} {{ '20' }}
+              {{ item.incomeExpenses === 1 ? '+' : '-' }} {{ item.incom }}
             </view>
           </view>
         </wd-cell>

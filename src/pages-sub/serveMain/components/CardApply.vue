@@ -11,7 +11,10 @@ const { sendCardQury, serchData, read } = useCardApply()
 
 const showData = ref<any>({})
 function toAgereement(type) {
-  routeTo({ url: '/pages-sub/webView/index', data: { type: '1710488285782016005', showTop: 1 } })
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: '1710488285782016019', showTop: 1, title: '申领须知' },
+  })
 }
 async function btnClick(item) {
   if (!read.value) {
@@ -21,7 +24,7 @@ async function btnClick(item) {
         confirmButtonText: '同意并办理',
       })
       .then(() => {
-        read.value = 1
+        read.value = true
         toApply(item)
       })
   } else {
@@ -90,7 +93,7 @@ const isApply = ref(null)
 onMounted(async () => {
   showData.value = dataInfo[0]
   // 如果阅读协议页面回来 则
-  read.value = 0
+  // read.value = 0
 })
 const value = ref()
 </script>

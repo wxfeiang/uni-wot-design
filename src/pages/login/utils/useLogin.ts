@@ -56,11 +56,11 @@ const {
   loading: false,
 })
 
-const Login = (form) => {
+const Login = (form, flog?: boolean) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        uni.showLoading({ title: '登录中...' })
+        uni.showLoading({ title: flog ? '加载中...' : '登录中...' })
         const newData = {
           appKey: Constant.APP_KEY,
           name: model.value.username,
@@ -90,7 +90,7 @@ const Login = (form) => {
         }
         const data: any = await sendFaceLogin(loginData)
 
-        await resultData(data)
+        await resultData(data, flog)
       } catch (error) {
         console.log('error', error)
       }
@@ -233,31 +233,33 @@ const shuziLogin = () => {
   Toast('功能开发中...')
 }
 
-const resultData = async (data) => {
+const resultData = async (data, flog?: boolean) => {
   uni.showLoading({ title: '登录成功' })
 
   // 保存
   authStore.setUserInfo(data)
   // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
   if (data.cardType !== 3) {
-    const params = {
-      xm: authStore.userInfo.userName,
-      zjhm: authStore.userInfo.idCardNumber,
-      zjlx: '1',
-      zkType: '1',
-      wdcode: '999-130632004',
-      areaCode: 'CHN',
+    try {
+      const params = {
+        xm: authStore.userInfo.userName,
+        zjhm: authStore.userInfo.idCardNumber,
+        zjlx: '1',
+        zkType: '1',
+        wdcode: '999-130632004',
+        areaCode: 'CHN',
+      }
+      const resultData: any = await sendIsReceiveCardInfo(params)
+      authStore.userInfo.cardType = resultData.cardType
+    } catch (error) {
+      console.log('🍡[error]:', error)
     }
-
-    const resultData: any = await sendIsReceiveCardInfo(params)
-    console.log('🥞[resultData]:', resultData)
-    authStore.userInfo.cardType = resultData.cardType
   }
   // 跳转到登录后的页面
   uni.hideLoading()
   const pages = getCurrentPages() // 当前页面栈
   const index = pages[pages.length - 1].route === 'pages/login/index' ? 1 : 2
-  uni.navigateBack({ delta: index })
+  uni.navigateBack({ delta: flog ? 1 : index })
 }
 
 const toAgreement = (articleId: string, title: string) => {

@@ -129,7 +129,7 @@ onMounted(() => {
             v-model="model2.code"
             placeholder="请输入手机验证码"
             :rules="rules2.code"
-            prop="password"
+            prop="code"
             use-prefix-slot
             use-suffix-slot
             custom-class="custom-cell"
@@ -145,7 +145,6 @@ onMounted(() => {
                 size="small"
                 plain
                 custom-class="button"
-                :round="false"
                 @click="submitPhoneCode(form2)"
                 :loading="sending"
                 :disabled="sending || countdown > 0"

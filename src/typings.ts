@@ -26,6 +26,7 @@ type IUserInfo = {
   userName?: string
   userPhone?: string
   userId?: string
+  userDId?: string | number
   sex?: '1' | '2' // 1:男 2:女
   idCardNumber?: string
   cardType?: '0' | '1' | '2' | '3' // 是否申请完成判断  社保卡类型：0：未领取，1：持有二代卡，2：持有三代卡（非雄安一卡通），3：持有雄安一卡通

@@ -109,7 +109,7 @@ const qiandao = () => {
               </view>
               <view>
                 <view class="font-size-20px font-medium">
-                  {{ isLogined ? userInfo.userName : '立即登录' }}
+                  {{ isLogined ? (userInfo.userName ?? '微信用户') : '立即登录' }}
                 </view>
               </view>
             </view>

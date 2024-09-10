@@ -17,7 +17,7 @@ export const constast = () => {
     timestamp: getTimeStamp(),
     replay: uuid(),
     userId: userStore.userInfo.userId,
-    userDid: userStore.userInfo.userId,
+    userDid: userStore.userInfo.userDId,
   }
 }
 
@@ -93,6 +93,7 @@ export function beforeQuest(method: any) {
 
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
+  console.log('🥡', initParams)
 
   createFilter(method)
 }

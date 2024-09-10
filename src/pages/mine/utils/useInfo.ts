@@ -31,14 +31,14 @@ const serveList = ref<serveProps[]>([
   {
     icon: smrz,
     title: '实名认证',
-    path: '/mine/realName',
-    islink: false,
+    path: '/pages/login/login2',
+    islink: true,
   },
   {
     icon: wdjf,
     title: '我的积分 ',
-    path: '/mine/realName',
-    islink: false,
+    path: '/pages-sub/integralManager/index',
+    islink: true,
   },
   {
     icon: mmdl,

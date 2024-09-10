@@ -236,3 +236,13 @@ export function getUrlKeyValue(key: string) {
   }
   return ''
 }
+
+/**
+ * @description:  日期时间去除T
+ * @param {} date 传入的key
+ * @return {}  value
+ */
+export function removeT(date: string) {
+  if (!date) return ''
+  return date.replace('T', ' ')
+}

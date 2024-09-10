@@ -4,7 +4,7 @@ import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
 
-const read = ref(0)
+const read = ref(false)
 const { userInfo } = useUserStore()
 const serchData = ref({
   xm: userInfo.userName,
