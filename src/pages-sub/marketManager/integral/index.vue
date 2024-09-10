@@ -10,9 +10,9 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
-import jinbi from '../static/images/jinbi.png'
-import jinb2 from '../static/images/jinbi2.png'
-import bg from '../static/images/topbg.png'
+import jinbi from '../static/images/integral/jinbi.png'
+import jinb2 from '../static/images/integral/jinbi2.png'
+import bg from '../static/images/integral/topbg.png'
 import useInter from './utils/useInter'
 
 const { sendInterInfo, sendSign } = useInter()

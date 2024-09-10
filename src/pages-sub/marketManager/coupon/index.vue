@@ -8,10 +8,11 @@
 </route>
 
 <script lang="ts" setup>
+import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
-import hubgtitle from '../static/images/hubgtitle.png'
-import myyhbtn from '../static/images/myyhbtn.png'
-import bg from '../static/images/yhbg.png'
+import hubgtitle from '../static/images/coupon/hubgtitle.png'
+import myyhbtn from '../static/images/coupon/myyhbtn.png'
+import bg from '../static/images/coupon/yhbg.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
 
@@ -31,7 +32,7 @@ const conponList = ref<conponListProps[]>([
     couponEndTime: '2022-09-30',
     couponStartTime: '2022-09-01',
     couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: 1, // 优惠券状态
+    couponStatus: null, // 优惠券状态
   },
   {
     id: '1',
@@ -45,9 +46,12 @@ const conponList = ref<conponListProps[]>([
     couponEndTime: '2022-09-30',
     couponStartTime: '2022-09-01',
     couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: 1, // 优惠券状态
+    couponStatus: null, // 优惠券状态
   },
 ])
+function toYouhuiquan() {
+  routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon' })
+}
 
 onLoad(async () => {
   // 设置背景图片
@@ -56,33 +60,28 @@ onLoad(async () => {
 </script>
 
 <template>
-  <view class="h-280px bg-cover" :style="`background-image: url(${topbgBase64})`">
+  <view
+    class="flex flex-col bg-no-repeat bg-#ffd7af h-100vh"
+    :style="`background-image: url(${topbgBase64});background-size: 100% 260px`"
+  >
     <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
-    <view class="ml-40px mt-20px">
+
+    <view class="mt-30px ml-40px">
       <wd-img :src="hubgtitle" width="196" height="73"></wd-img>
     </view>
-    <view class="ml-60px mt-20px">
+    <view class="mt-20px ml-60px" @click="toYouhuiquan">
       <wd-img :src="myyhbtn" width="153" height="35"></wd-img>
     </view>
-  </view>
-  <view class="mt-[-60rpx] bg-#ffd7af rounded-20px overflow-hidden">
-    <view class="pt-20px px-10px">
-      <view
-        class="mb-15px rounded-4px overflow-hidden"
-        v-for="(item, index) in conponList"
-        :key="index"
-      >
-        <Coupon-List :data="item"></Coupon-List>
+
+    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px">
+      <view class="pt-10px px-10px">
+        <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
+          <Coupon-List :data="item"></Coupon-List>
+        </view>
       </view>
     </view>
   </view>
 </template>
-<style>
-page {
-  background: #ffd7af;
-}
-</style>
-
 <style lang="scss" scoped>
 .bg {
   background: #feb329;
