@@ -103,7 +103,7 @@ const changeTab = (e) => {
               :class="item.type == 1 ? 'color-#fa4350' : 'color-#34d19d'"
               class="text-16px font-bold"
             >
-              {{ item.type == item.incomeExpenses ? '+' : '-' }} {{ item.incom }}
+              {{ item.incomeExpenses === 1 ? '+' : '-' }} {{ item.incom }}
             </view>
           </view>
         </wd-cell>
