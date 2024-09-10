@@ -70,7 +70,6 @@
       "path": "pages/login/login2",
       "type": "page",
       "layout": "default",
-      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "mp-alipay": {
