@@ -135,7 +135,11 @@ onLoad(async () => {
     </template>
     <view class="mt-10px">
       <view class="pt-10px px-10px">
-        <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
+        <view
+          class="rounded-4px overflow-hidden my-10px"
+          v-for="(item, index) in conponList"
+          :key="index"
+        >
           <Coupon-List :data="item"></Coupon-List>
         </view>
       </view>

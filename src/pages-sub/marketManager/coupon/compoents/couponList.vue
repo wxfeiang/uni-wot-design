@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { pathToBase64 } from 'image-tools'
-import ybg from '../../static/images/coupon/items.png'
+import bg from '../../static/images/coupon/items.png'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 
@@ -58,8 +58,7 @@ const statusCoupopn = computed(() => {
 })
 onLoad(async () => {
   // 设置背景图片
-  topbgBase64.value = await pathToBase64(ybg)
-  console.log('🍜[topbgBase64.value]:', topbgBase64.value)
+  topbgBase64.value = await pathToBase64(bg)
 })
 //
 </script>
@@ -107,7 +106,7 @@ onLoad(async () => {
     </view>
     <!-- 详情显示 -->
     <view :class="open ? 'block' : 'hidden'">
-      <view class="p-10px ml-[-5px] mt-16px bg-#FFE1C2 color-#6D341C text-12px line-height-20px">
+      <view class="p-10px ml-[-5px] mt-20px bg-#FFE1C2 color-#6D341C text-12px line-height-20px">
         <view>领取时间: {{ props.data.couponTime }}</view>
         <view>有效期: {{ props.data.couponTime }}</view>
         <view>优惠内容: {{ props.data.couponConternt }}</view>
