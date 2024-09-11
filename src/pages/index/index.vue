@@ -239,16 +239,15 @@ onPageScroll((e) => {
     <wd-gap height="15" bg-color="#fff"></wd-gap>
     <view class="px-10px">
       <view
-        class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-5px pr-30px"
+        class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-10px pr-30px"
       >
         <view>
           <wd-img :src="logo" height="40" width="40"></wd-img>
         </view>
-        <view class="">
+        <view class="flex-1">
           <view class="text-14px">关注雄安一卡通公众号</view>
           <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
         </view>
-
         <view class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000">立即关注</view>
         <view class="absolute top-0 right-0" @click="closeAd">
           <wd-icon name="close-circle" size="22px" color="#E4C29C"></wd-icon>
