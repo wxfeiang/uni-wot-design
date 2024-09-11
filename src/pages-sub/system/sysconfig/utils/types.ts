@@ -1,9 +1,9 @@
 interface serveProps {
-  icon?: string
+  icon: string
   path: string
   title: string
   islink: boolean
-  value?: string | number
+  value?: string
   id?: string
   data?: any
 }

@@ -50,22 +50,11 @@ const queryList = async (pageNo, pageSize) => {
 <template>
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
-      <!-- 顶部 -->
-      <view class="">
-        <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_bg" :bordered="false">
-          <template #left>
-            <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
-          </template>
-          <template #title>
-            <text class="color-#fff">消息列表</text>
-          </template>
-        </wd-navbar>
-      </view>
+      <dy-navbar leftTitle="消息列表" left></dy-navbar>
     </template>
 
     <!-- leibiao  -->
     <view v-for="(item, index) in dataList" :key="index">
-      <wd-gap bg-color="#f5f5f5"></wd-gap>
       <wd-cell-group border use-slot>
         <template #title>
           <view>

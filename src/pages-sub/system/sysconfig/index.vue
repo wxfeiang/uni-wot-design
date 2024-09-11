@@ -12,69 +12,80 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import about from '../static/images/about.png'
-import shezhi from '../static/images/shezhi.png'
-const setInfo = ref([
-  {
-    name: '小程序免密登录',
-    icon: shezhi,
-    islink: true,
-    url: '/pages-sub/system/sysconfig/setting',
-  },
-  // {
-  //   name: '隐私政策',
-  //   icon: yinsi,
-  //   islink: true,
-  //   articleId: '111',
-  //   url: '/pages-sub/webView/index',
-  // },
+import gywm from '../static/images/gywm.png'
+import mmdl from '../static/images/mmdl.png'
+import yhxy from '../static/images/yhxy.png'
+import yszc from '../static/images/yszc.png'
+import { serveProps } from './utils/types'
 
-  // {
-  //   name: '用户协议',
-  //   icon: yonghu,
-  //   islink: true,
-  //   articleId: '111',
-  //   url: '/pages-sub/webView/index',
-  // },
+const serveList = ref<serveProps[]>([
   {
-    name: '关于我们',
-    icon: about,
-    value: 'v1.0.0',
-    islink: false,
+    icon: mmdl,
+    title: '小程序免密登录',
+    path: '/pages-sub/system/sysconfig/setting',
+    islink: true,
+  },
+  {
+    icon: yhxy,
+    title: '用户协议',
+    path: '/pages-sub/webView/index',
+    islink: true,
+    data: {
+      articleId: '1710488285782016006',
+    },
+  },
+  {
+    icon: yszc,
+    title: '隐私政策',
+    path: '/pages-sub/webView/index',
+    islink: true,
+    data: {
+      articleId: '1710488285782016005',
+    },
+  },
+  {
+    icon: gywm,
+    title: '关于我们',
+    path: '/mine/realName',
+    islink: true,
+    value: 'v1.2.0',
   },
 ])
-const itemClick = (item: any) => {
+const serveClick = (item: serveProps) => {
   if (item.islink) {
     routeTo({
-      url: item.url,
-      data: { type: item.articleId },
+      url: item.path,
+      data: { type: item.data?.articleId, showTop: true, title: item.title },
+    })
+  } else {
+    uni.showToast({
+      title: '功能开发中...',
+      icon: 'none',
     })
   }
 }
 </script>
 
 <template>
-  <view class="p-10px bg-#f5f5f5">
+  <view class="py-10px">
     <view class="rounded-10px overflow-hidden">
       <wd-cell-group border>
-        <template v-for="(item, index) in setInfo" :key="index">
-          <wd-cell :title="item.name" :is-link="item.islink" clickable @click="itemClick(item)">
-            <template #icon v-if="item.icon">
-              <view class="mr-10px">
-                <wd-img width="24" height="24" :src="item.icon"></wd-img>
-              </view>
-            </template>
-            <template #title v-if="item.name">
-              <view class="color-#999">
-                {{ item.name }}
-              </view>
-            </template>
-
-            <view class="color-#999" v-if="item.value">
-              {{ item.value }}
-            </view>
-          </wd-cell>
-        </template>
+        <wd-cell
+          :is-link="item.islink"
+          custom-class="custom-class-mine-cell"
+          v-for="(item, index) in serveList"
+          :key="index"
+          clickable
+          @click="serveClick(item)"
+        >
+          <template #icon>
+            <wd-img :src="item.icon" width="28" height="28px"></wd-img>
+          </template>
+          <template #title>
+            <view class="ml-10px">{{ item.title }}</view>
+          </template>
+          <view v-if="item.value" class="color-#999">{{ item.value }}</view>
+        </wd-cell>
       </wd-cell-group>
     </view>
   </view>

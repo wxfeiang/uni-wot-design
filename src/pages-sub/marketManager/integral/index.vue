@@ -10,16 +10,16 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
-import jinbi from './static/images/jinbi.png'
-import jinb2 from './static/images/jinbi2.png'
-import bg from './static/images/topbg.png'
+import jinbi from '../static/images/integral/jinbi.png'
+import jinb2 from '../static/images/integral/jinbi2.png'
+import bg from '../static/images/integral/topbg.png'
 import useInter from './utils/useInter'
 
 const { sendInterInfo, sendSign } = useInter()
 const topbgBase64 = ref('')
 const title = ref('积分')
 const toMingxi = () => {
-  routeTo({ url: '/pages-sub/integralManager/interList' })
+  routeTo({ url: '/pages-sub/marketManager/integral/interList' })
 }
 const toAgreement = () => {
   routeTo({
@@ -69,7 +69,7 @@ onLoad(async () => {
 <template>
   <view
     class="bg-no-repeat flex flex-col min-h-100vh bg-#f5f5f5"
-    :style="`background-image: url(${topbgBase64}); background-size: 100% 210px`"
+    :style="`background-image: url(${topbgBase64}); background-size: 100% 240px`"
   >
     <dy-navbar :leftTitle="title" center isNavShow></dy-navbar>
     <view class="flex justify-between mt-5px pl-25px pr-10px">
@@ -118,7 +118,7 @@ onLoad(async () => {
         </view>
 
         <view class="mt-10px">
-          <view class="flex items-center gap-10px flex-wrap">
+          <view class="flex items-center gap-15px flex-wrap">
             <view
               class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
               :class="index === 6 ? 'ml-auto w-2.55/6! text-left' : ''"

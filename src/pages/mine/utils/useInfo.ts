@@ -4,12 +4,10 @@ import { useRequest } from 'alova/client'
 import type { serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
-import gywm from '@/static/images/mine/gywm.png'
-import mmdl from '@/static/images/mine/mmdl.png'
+import linquan from '@/static/images/mine/linquan.png'
+import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
 import wdjf from '@/static/images/mine/wdjf.png'
-import yhxy from '@/static/images/mine/yhxy.png'
-import yszc from '@/static/images/mine/yszc.png'
 import { routeTo } from '@/utils'
 
 // 退出操作
@@ -27,6 +25,28 @@ const LogOut = async () => {
   // TODO: 清除用户信息
   clearUserInfo()
 }
+
+const topList = ref<serveProps[]>([
+  {
+    title: '积分',
+    value: 0,
+    path: '/pages-sub/marketManager/integral/index',
+    islink: true,
+  },
+  {
+    title: '优惠券',
+    value: 0,
+    path: '/pages-sub/marketManager/coupon/mycoupon',
+    islink: true,
+  },
+  {
+    title: '商品收藏',
+    value: 0,
+    path: '',
+    islink: false,
+  },
+])
+
 const serveList = ref<serveProps[]>([
   {
     icon: smrz,
@@ -37,39 +57,20 @@ const serveList = ref<serveProps[]>([
   {
     icon: wdjf,
     title: '我的积分 ',
-    path: '/pages-sub/integralManager/index',
+    path: '/pages-sub/marketManager/integral/index',
     islink: true,
   },
   {
-    icon: mmdl,
-    title: '小程序免密登录',
-    path: '/pages-sub/system/sysconfig/setting',
+    icon: linquan,
+    title: '领券中心',
+    path: '/pages-sub/marketManager/coupon/index',
     islink: true,
   },
   {
-    icon: yhxy,
-    title: '用户协议',
-    path: '/pages-sub/webView/index',
+    icon: shezhi,
+    title: '设置',
+    path: '/pages-sub/system/sysconfig/index',
     islink: true,
-    data: {
-      articleId: '1710488285782016006',
-    },
-  },
-  {
-    icon: yszc,
-    title: '隐私政策',
-    path: '/pages-sub/webView/index',
-    islink: true,
-    data: {
-      articleId: '1710488285782016005',
-    },
-  },
-  {
-    icon: gywm,
-    title: '关于我们',
-    path: '/mine/realName',
-    islink: true,
-    value: 'v1.2.0',
   },
 ])
 const serveClick = (item: serveProps) => {
@@ -102,5 +103,6 @@ export default () => {
     serveList,
     serveClick,
     sendIsReceiveCardInfo,
+    topList,
   }
 }

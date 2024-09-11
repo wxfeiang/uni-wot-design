@@ -25,7 +25,7 @@ const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
 
-const { LogOut, loading, serveList, serveClick } = useInfo()
+const { LogOut, loading, serveList, serveClick, topList } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 function login() {
@@ -68,14 +68,14 @@ const acton = (item) => {
   }
 }
 const qiandao = () => {
-  routeTo({ url: '/pages-sub/integralManager/index' })
+  routeTo({ url: '/pages-sub/marketManager/integral/index' })
 }
 </script>
 
 <template>
   <view
     class="box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
-    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 235px;  `"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px;  `"
   >
     <view class="px-15px mt-10%">
       <view class="flex justify-between items-center">
@@ -134,8 +134,25 @@ const qiandao = () => {
           <text>签到</text>
         </view>
       </view>
+      <view class="py-10px mt-3%">
+        <view class="flex justify-around">
+          <view
+            class="w-1/3 text-center"
+            v-for="(item, index) in topList"
+            :key="index"
+            @click="serveClick(item)"
+          >
+            <view class="text-20px">
+              {{ item.value }}
+            </view>
+            <view class="text-14px mt-10px">
+              {{ item.title }}
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
-    <view class="bg-#fff overflow-hidden bg-cell mt-6% py-10px">
+    <view class="bg-#fff overflow-hidden bg-cell mt-2% py-10px">
       <view class="px-5px">
         <wd-cell-group border>
           <wd-cell

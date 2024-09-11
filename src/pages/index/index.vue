@@ -1,5 +1,5 @@
 <!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
-<route lang="json5" type="home">
+<route lang="json5">
 {
   layout: 'default',
   style: {
@@ -10,15 +10,11 @@
 
 <script lang="ts" setup>
 import bgTip from '@/static/images/index/bgTip.png'
-import dzsbk from '@/static/images/index/dzsbk.png'
-import indexbg from '@/static/images/index/indexbg.png'
-import kfw from '@/static/images/index/kfw.png'
-import msgicon from '@/static/images/index/msgicon.png'
-import xabc from '@/static/images/index/xabc.png'
-import xajft from '@/static/images/index/xajft.png'
-
 import btnbg from '@/static/images/index/btnbg.png'
+import indexbg from '@/static/images/index/indexbg.png'
+import msgicon from '@/static/images/index/msgicon.png'
 import znlogo from '@/static/images/index/znlogo.png'
+import logo from '@/static/images/logo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
@@ -38,37 +34,8 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const basestore = useBaseStore()
 const toast = useToast()
 
-const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea } = useIndex()
-
-const topAction = ref([
-  {
-    icon: dzsbk,
-    text: '电子社保卡',
-    type: 'router',
-    path: '/pages-sub/userManager/SocialSecurityCard/index',
-  },
-  {
-    icon: xajft,
-    text: '雄安缴费通',
-    type: 'wxChart',
-    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
-    path: 'pages/index/index',
-  },
-  {
-    icon: xabc,
-    text: '雄安乐泊',
-    type: 'wxChart',
-    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
-    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
-  },
-  {
-    icon: kfw,
-    text: '卡服务',
-    type: 'switchTab',
-    path: '/pages/serve/index',
-    active: 0,
-  },
-])
+const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, topAction } =
+  useIndex()
 
 function actionTop(item: any) {
   if (item.type === 'sacn') {
@@ -119,8 +86,22 @@ const toServhFor = () => {
 function toBusinessOutlets() {
   routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
 }
+function toMessage() {
+  routeTo({ url: '/pages-sub/serveMassage/messageList/index' })
+}
+function toMessageItem(e) {
+  const { index } = e
+
+  messageClick(mess1.value[index])
+}
 
 const mess1 = ref<messProps[]>([
+  {
+    articleId: '',
+    createTime: '',
+    createBy: '',
+    articleTitle: '',
+  },
   {
     articleId: '',
     createTime: '',
@@ -140,13 +121,16 @@ onLoad(async () => {
 })
 onMounted(async () => {
   const mess: any = await sendMessageList({
-    number: 1,
+    page: 1,
     size: 50,
   })
-  console.log('🍍', mess)
-  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0')
-  mess2.value = mess.data.data.content.filter((i) => i.articleType === '1')
+  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 3)
+  mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
+const closeAdFlog = ref(true)
+const closeAd = () => {
+  closeAdFlog.value = false
+}
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 const navbg = ref('nav_show')
@@ -204,23 +188,34 @@ onPageScroll((e) => {
   <!-- 消息 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
   <view class="px-10px">
-    <view
-      class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px"
-      @click="messageClick(mess1[0])"
-    >
-      <view class="w-60px h-full mr-10px msg flex pl-10px box-border items-center">
+    <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
+      <view class="w-60px h-full mr-10px msg flex pl-10px box-border items-center pt-8px">
         <wd-badge is-dot>
           <wd-img :width="20" :height="20" :src="msgicon" />
         </wd-badge>
       </view>
-      <wd-skeleton
-        :custom-style="{ width: '100%' }"
-        animation="flashed"
-        :loading="messageLoading || !mess1[0]"
-        :row-col="[{ width: '100%', height: '20px' }]"
+      <view class="flex-1">
+        <wd-skeleton
+          animation="flashed"
+          :loading="messageLoading || mess1.length < 1"
+          :row-col="[{ width: '80%', height: '20px' }]"
+        >
+          <wd-notice-bar
+            custom-class="custom-class-noticebar"
+            direction="vertical"
+            :delay="3"
+            @click="toMessageItem"
+            :text="mess1.map((item) => item.articleTitle + '...')"
+          />
+        </wd-skeleton>
+      </view>
+
+      <view
+        @click.stop="toMessage"
+        class="absolute right-0 top-0 pl-15px pr-10px py-3px color-#fff text-12px bg-#2D69EF rounded-bl-11px"
       >
-        <view class="flex-1 color-#666 truncate-1 text-14px">{{ mess1[0]?.articleTitle }}</view>
-      </wd-skeleton>
+        更多
+      </view>
     </view>
   </view>
 
@@ -239,7 +234,27 @@ onPageScroll((e) => {
       imageMode="scaleToFill"
     ></wd-swiper>
   </view>
-
+  <!--  临时广告 -->
+  <view v-if="closeAdFlog">
+    <wd-gap height="15" bg-color="#fff"></wd-gap>
+    <view class="px-10px">
+      <view
+        class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-10px pr-30px"
+      >
+        <view>
+          <wd-img :src="logo" height="40" width="40"></wd-img>
+        </view>
+        <view class="flex-1">
+          <view class="text-14px">关注雄安一卡通公众号</view>
+          <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
+        </view>
+        <view class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000">立即关注</view>
+        <view class="absolute top-0 right-0" @click="closeAd">
+          <wd-icon name="close-circle" size="22px" color="#E4C29C"></wd-icon>
+        </view>
+      </view>
+    </view>
+  </view>
   <!-- 服务专区 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
   <view class="px-10px">
@@ -283,18 +298,23 @@ onPageScroll((e) => {
         </view>
       </view>
 
-      <view class="p-15px mt-16px zn-item" @click="messageClick(mess2[0])">
+      <view
+        class="p-15px pb-20px mt-16px zn-item"
+        v-for="(item, index) in mess2"
+        :key="index"
+        @click="messageClick(item)"
+      >
         <view style="display: flex">
           <wd-skeleton
             :custom-style="{ width: '100%' }"
             animation="flashed"
             theme="text"
-            :loading="messageLoading || !mess2[0]"
+            :loading="messageLoading || mess2.length < 1"
             :row="2"
           >
-            <view class="color-#333 truncate-1">{{ mess2[0].articleTitle }}</view>
+            <view class="color-#333 truncate-1">{{ item.articleTitle }}</view>
             <view class="flex gap-20px color-#888 text-14px mt-10px">
-              <view>日期：{{ removeT(mess2[0].createTime) }}</view>
+              <view>日期：{{ removeT(item.createTime) }}</view>
               <view>
                 <!-- <wd-icon name="browse" size="14px"></wd-icon>
                 {{ mess2[0].createBy }}次 -->
@@ -333,13 +353,12 @@ onPageScroll((e) => {
   background: linear-gradient(-74deg, transparent 10px, #2d69ef 0) top right;
 }
 .zhbg {
-  height: 179px;
   background: linear-gradient(180deg, #c0dcff 0%, #f5f9fe 100%);
-  border-radius: 6px 6px 6px 6px;
+  border-radius: 6px;
 }
 .zn-item {
   background: #ffffff;
-  border-radius: 6px 6px 6px 6px;
+  border-radius: 6px;
   box-shadow: 0px 0px 13px 1px rgba(12, 86, 182, 0.16);
 }
 .swiper {
@@ -347,5 +366,8 @@ onPageScroll((e) => {
   --wot-swiper-item-padding: 0 24rpx;
   --wot-swiper-nav-dot-color: #fff;
   --wot-swiper-nav-dot-active-color: #4d80f0;
+}
+:deep(.custom-class-noticebar) {
+  @apply p-0! bg-transparent!  color-#333! text-14px! w-60vw overflow-hidden truncate-1!;
 }
 </style>

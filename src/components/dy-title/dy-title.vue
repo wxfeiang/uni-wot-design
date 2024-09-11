@@ -36,9 +36,6 @@ const props = defineProps({
 const toMore = () => {
   emit('moreClick', '')
 }
-onMounted(() => {
-  console.log('🥫', props.customClass)
-})
 </script>
 
 <template>

@@ -119,6 +119,7 @@ export default defineManifestConfig({
     makePhoneCall: {
       desc: '用于拨打电话',
     },
+    ignoreDevUnusedFiles: false, // 忽略未使用的文件
     usingComponents: true,
 
     optimization: { subPackages: true },
