@@ -259,7 +259,9 @@ const resultData = async (data, flog?: boolean) => {
   uni.hideLoading()
   const pages = getCurrentPages() // 当前页面栈
   const index = pages[pages.length - 1].route === 'pages/login/index' ? 1 : 2
-  uni.navigateBack({ delta: flog ? 1 : index })
+  if (!flog) {
+    uni.navigateBack({ delta: index })
+  }
 }
 
 const toAgreement = (articleId: string, title: string) => {
