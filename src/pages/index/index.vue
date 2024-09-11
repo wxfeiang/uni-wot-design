@@ -140,8 +140,8 @@ onLoad(async () => {
 })
 onMounted(async () => {
   const mess: any = await sendMessageList({
-    page: 1,
-    size: 10,
+    number: 1,
+    size: 50,
   })
   console.log('🍍', mess)
   mess1.value = mess.data.data.content.filter((i) => i.articleType === '0')

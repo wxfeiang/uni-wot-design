@@ -48,7 +48,11 @@ function close() {
     data.value[2].value = data.value[2].value.replace(/(\d{1})\d{16}(\d{1})/, '$1************$2')
   }
 }
-close()
+onLoad(() => {
+  if (userInfo.value?.userName) {
+    close()
+  }
+})
 </script>
 <template>
   <dy-navbar leftTitle="实名认证" left></dy-navbar>
