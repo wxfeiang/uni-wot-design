@@ -44,8 +44,10 @@ function close() {
     data.value[0].value = userInfo.value?.userName
     data.value[2].value = userInfo.value?.idCardNumber
   } else {
-    data.value[0].value = data.value[0].value.replace(/(.).*?(.)/, '**$2')
-    data.value[2].value = data.value[2].value.replace(/(\d{1})\d{16}(\d{1})/, '$1************$2')
+    if (userInfo.value?.userName) {
+      data.value[0].value = data.value[0].value.replace(/(.).*?(.)/, '**$2')
+      data.value[2].value = data.value[2].value.replace(/(\d{1})\d{16}(\d{1})/, '$1************$2')
+    }
   }
 }
 close()

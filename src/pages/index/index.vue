@@ -122,7 +122,7 @@ onLoad(async () => {
 onMounted(async () => {
   const mess: any = await sendMessageList({
     page: 1,
-    size: 10,
+    size: 50,
   })
   mess1.value = mess.data.data.content.filter((i) => i.articleType === '3').slice(0, 3)
   mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
