@@ -163,17 +163,6 @@ const payData = ref([
         v-model:visible="visible"
         @confirm="onClose"
       ></dy-keyboard>
-      <!-- <wd-number-keyboard
-        v-model:visible="visible"
-        mode="custom"
-        extra-key="."
-        :close-text="closeText"
-        @input="onInput"
-        @delete="onDelete"
-        @close="onClose"
-        :maxlength="11"
-        :hideOnClickOutside="false"
-      ></wd-number-keyboard> -->
 
       <view class="text-14px color-#2D69EF my-10px">备注</view>
       <wd-textarea v-model="remarks" placeholder="" />
@@ -197,7 +186,7 @@ const payData = ref([
     <view v-if="!payStatus">
       <view>
         <view class="text-center text-40px font-semibold">
-          <text class="text-30px mt-5px">¥</text>
+          <text class="text-30px mt-5px mr-5px">¥</text>
           <text>{{ inValue }}</text>
         </view>
         <view
