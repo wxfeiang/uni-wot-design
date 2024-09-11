@@ -12,30 +12,45 @@ import wenhuatiyan from '@/static/images/index/6.png'
 import lvyouguanguang from '@/static/images/index/7.png'
 import jinxonghutong from '@/static/images/index/8.png'
 
-// 消息列表
-const {
-  send: sendMessageList,
-  data: messageData,
-  onSuccess: messageSucess,
-  loading: messageLoading,
-} = useRequest(
-  getMessageList({
-    page: 1,
-    size: 10,
-  }),
+import kfw from '@/static/images/index/kfw.png'
+import saoyisao from '@/static/images/index/saoyisao.png'
+import xabc from '@/static/images/index/xabc.png'
+import xajft from '@/static/images/index/xajft.png'
+const topAction = ref([
+  // {
+  //   icon: dzsbk,
+  //   text: '电子社保卡',
+  //   type: 'router',
+  //   path: '/pages-sub/userManager/SocialSecurityCard/index',
+  // },
   {
-    immediate: false,
-    loading: false,
-    initialData: [],
+    icon: saoyisao,
+    text: '扫一扫',
+    type: 'sacn',
   },
-)
+  {
+    icon: xajft,
+    text: '雄安缴费通',
+    type: 'wxChart',
+    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+    path: 'pages/index/index',
+  },
+  {
+    icon: xabc,
+    text: '雄安乐泊',
+    type: 'wxChart',
+    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
+  },
+  {
+    icon: kfw,
+    text: '卡服务',
+    type: 'switchTab',
+    path: '/pages/serve/index',
+    active: 0,
+  },
+])
 
-function messageClick(item: messProps) {
-  routeTo({
-    url: '/pages-sub/webView/index',
-    data: { type: item.articleId },
-  })
-}
 const bannerUrl = 'http://47.99.93.97/v1/'
 const swiperList = ref<bannerProps[]>([
   {
@@ -136,6 +151,38 @@ const serviceArea = ref([
     id: '1710488285782016012',
   },
 ])
+// 消息列表
+const {
+  send: sendMessageList,
+  data: messageData,
+  onSuccess: messageSucess,
+  loading: messageLoading,
+} = useRequest(
+  getMessageList({
+    page: 1,
+    size: 10,
+  }),
+  {
+    immediate: false,
+    loading: false,
+    initialData: [],
+  },
+)
+
+function messageClick(item: messProps) {
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: item.articleId },
+  })
+}
 export default () => {
-  return { messageData, messageClick, sendMessageList, messageLoading, swiperList, serviceArea }
+  return {
+    messageData,
+    messageClick,
+    sendMessageList,
+    messageLoading,
+    swiperList,
+    serviceArea,
+    topAction,
+  }
 }
