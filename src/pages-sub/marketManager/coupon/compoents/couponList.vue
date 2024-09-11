@@ -1,10 +1,14 @@
 <script lang="ts" setup>
 import { pathToBase64 } from 'image-tools'
-import bg from '../../static/images/coupon/items.png'
+import ybg from '../../static/images/coupon/items.png'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 
 import { conponListProps } from '../utils/types'
+
+defineOptions({
+  name: 'couponList',
+})
 const emit = defineEmits<{
   (e: 'moreClick', value: any): void
 }>()
@@ -20,7 +24,7 @@ const toMore = () => {
 }
 
 const topbgBase64 = ref('')
-const value = ref<string[]>(['item1'])
+
 const open = ref(false)
 const showDetil = () => {
   open.value = !open.value
@@ -54,15 +58,17 @@ const statusCoupopn = computed(() => {
 })
 onLoad(async () => {
   // 设置背景图片
-  topbgBase64.value = await pathToBase64(bg)
+  topbgBase64.value = await pathToBase64(ybg)
+  console.log('🍜[topbgBase64.value]:', topbgBase64.value)
 })
+//
 </script>
 
 <template>
   <view
+    :style="`background-image: url(${topbgBase64});background-size: 100% 120px`"
     class="bg-no-repeat min-h-120px relative pl-24px pr-10px py-20px box-border rounded-t-10px ml-[-5px]"
     :class="!props.data.couponStatus ? '' : 'grayscale opacity-50'"
-    :style="`background-image: url(${topbgBase64});background-size:100% 120px`"
   >
     <view class="flex justify-between items-center">
       <view class="flex flex-col justify-between">
@@ -110,27 +116,4 @@ onLoad(async () => {
   </view>
 </template>
 
-<style lang="scss" scoped>
-.border {
-  border-radius: 0 0 50% 50% / 20%;
-}
-:deep(.custom-class-coll) {
-  @apply bg-transparent!;
-}
-.accordion-body {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: 250ms grid-template-rows ease;
-}
-
-.accordion-open {
-  grid-template-rows: 1fr;
-}
-.accordion-open {
-  grid-template-rows: 0fr;
-}
-
-// .accordion-body > view {
-//   overflow: hidden;
-// }
-</style>
+<style lang="scss" scoped></style>

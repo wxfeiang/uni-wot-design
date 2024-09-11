@@ -52,7 +52,7 @@ const conponList = ref<conponListProps[]>([
     couponEndTime: '2022-09-30',
     couponStartTime: '2022-09-01',
     couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: 0, // 优惠券状态
+    couponStatus: null, // 优惠券状态
   },
   {
     id: '1',
@@ -115,7 +115,7 @@ onLoad(async () => {
     @query="queryList"
     :auto-show-system-loading="true"
     class="flex flex-col bg-no-repeat h-100vh"
-    :style="`background-image: url(${topbgBase64});background-size: 100% 222px`"
+    :style="`background-image: url(${topbgBase64}); background-size: 100% 222px`"
   >
     <template #top>
       <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>

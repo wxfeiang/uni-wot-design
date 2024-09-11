@@ -92,6 +92,7 @@
     "makePhoneCall": {
       "desc": "用于拨打电话"
     },
+    "ignoreDevUnusedFiles": false,
     "optimization": {
       "subPackages": true
     },
