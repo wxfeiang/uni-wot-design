@@ -9,6 +9,7 @@ interface NavigateToOptions {
        "/pages/about/about" |
        "/pages/login/index" |
        "/pages/login/index2" |
+       "/pages/login/index3" |
        "/pages/mine/index" |
        "/pages/serve/index" |
        "/pages/shop/index" |

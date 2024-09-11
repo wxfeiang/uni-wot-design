@@ -9,15 +9,44 @@
 
 <script lang="ts" setup>
 //
-const inValue = ref<number>()
+const inValue = ref<string>()
 const visible = ref(false)
+const maxlength = ref(11)
+const type = ref('digit')
 
-const onInput = (val: string) => {
-  inValue.value = Number(val)
+const onInput = (key: string) => {
+  switch (key) {
+    case '.':
+      if (inValue.value && !inValue.value.includes('.')) {
+        inValue.value = `${inValue.value}${key}`
+      }
+      break
+    default:
+      if (!inValue.value.includes('.')) {
+        switch (type.value) {
+          case 'digit':
+            inValue.value =
+              inValue.value.length < maxlength.value ? `${inValue.value}${key}` : inValue.value
+            break
+          case 'password':
+            inValue.value =
+              inValue.value.length < maxlength.value ? `${inValue.value}${key}` : inValue.value
+            break
+          default:
+            break
+        }
+      } else {
+        const parts = inValue.value.split('.')
+        if (parts[1].length < 2) {
+          inValue.value = `${inValue.value}${key}`
+        }
+      }
+      break
+  }
 }
 
 const onDelete = () => {
-  // inValue.value = inValue.value?.toString().slice(0, -1)
+  inValue.value = inValue.value.slice(0, -1)
 }
 const remarks = ref('')
 
@@ -60,7 +89,7 @@ const messData = ref([
     <view class="px-20px pt-20px">
       <view class="my-10px text-18px">付款金额</view>
       <wd-input
-        type="number"
+        type="text"
         v-model="inValue"
         placeholder="请输入付款金额"
         use-prefix-slot
@@ -72,13 +101,13 @@ const messData = ref([
         </template>
       </wd-input>
       <wd-number-keyboard
-        v-model="inValue"
         v-model:visible="visible"
         mode="custom"
         extra-key="."
         close-text="付款"
         @input="onInput"
         @delete="onDelete"
+        :maxlength="maxlength"
       ></wd-number-keyboard>
 
       <view class="text-14px color-#2D69EF my-10px">备注</view>
