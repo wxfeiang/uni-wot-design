@@ -60,12 +60,13 @@ onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
 })
-//
+const url =
+  'https://oss.xay.xacloudy.cn/images/2024-09/ffa60c37-8ecc-496d-8880-2ce60cbe1977items.png'
 </script>
 
 <template>
   <view
-    :style="`background-image: url(${topbgBase64});background-size: 100% 120px`"
+    :style="`background-image: url(${url});background-size: 100% 120px`"
     class="bg-no-repeat min-h-120px relative pl-24px pr-10px py-20px box-border rounded-t-10px ml-[-5px]"
     :class="!props.data.couponStatus ? '' : 'grayscale opacity-50'"
   >
