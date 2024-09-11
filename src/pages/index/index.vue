@@ -124,7 +124,8 @@ onMounted(async () => {
     page: 1,
     size: 50,
   })
-  mess1.value = mess.data.data.content.filter((i) => i.articleType === '3').slice(0, 3)
+  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 3)
+  console.log('🍆[mess1.value]:', mess1.value)
   mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
 const closeAdFlog = ref(true)
