@@ -62,14 +62,14 @@ onLoad(async () => {
 <template>
   <view
     class="flex flex-col bg-no-repeat bg-#ffd7af h-100vh"
-    :style="`background-image: url(${topbgBase64});background-size: 100% 260px`"
+    :style="`background-image: url(${topbgBase64});background-size: 100% 290px`"
   >
     <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
 
-    <view class="mt-30px ml-40px">
+    <view class="mt-15px ml-40px">
       <wd-img :src="hubgtitle" width="196" height="73"></wd-img>
     </view>
-    <view class="mt-20px ml-60px" @click="toYouhuiquan">
+    <view class="mt-15px ml-60px" @click="toYouhuiquan">
       <wd-img :src="myyhbtn" width="153" height="35"></wd-img>
     </view>
 

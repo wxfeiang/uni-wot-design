@@ -75,7 +75,7 @@ const qiandao = () => {
 <template>
   <view
     class="box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
-    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 280px;  `"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 300px;  `"
   >
     <view class="px-15px mt-10%">
       <view class="flex justify-between items-center">
