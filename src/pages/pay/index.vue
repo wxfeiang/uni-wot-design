@@ -12,30 +12,42 @@ import pays from '@/static/images/pay/pays.png'
 const inValue = ref<any>()
 const visible = ref(false)
 
-const onInput = (val: string) => {
-  // let num = val.toString() // 先转换成字符串类型
-  // if (num.indexOf('.') === 0) {
-  //   // 第一位就是 .
-  //   num = '0' + num
-  // }
-  // num = num.replace(/[^\d.]/g, '') // 清除“数字”和“.”以外的字符
-  // num = num.replace(/\.{2,}/g, '.') // 只保留第一个. 清除多余的
-  // num = num.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
-  // num = num.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3') // 只能输入两个小数
-  // if (num.indexOf('.') < 0 && num !== '') {
-  //   num = parseFloat(num).toString()
-  // }
-  // console.log('🌶', num)
+const maxlength = ref(11)
+const type = ref('digit')
+
+const onInput = (key: string) => {
+  switch (key) {
+    case '.':
+      if (inValue.value && !inValue.value.includes('.')) {
+        inValue.value = `${inValue.value}${key}`
+      }
+      break
+    default:
+      if (!inValue.value.includes('.')) {
+        switch (type.value) {
+          case 'digit':
+            inValue.value =
+              inValue.value.length < maxlength.value ? `${inValue.value}${key}` : inValue.value
+            break
+          case 'password':
+            inValue.value =
+              inValue.value.length < maxlength.value ? `${inValue.value}${key}` : inValue.value
+            break
+          default:
+            break
+        }
+      } else {
+        const parts = inValue.value.split('.')
+        if (parts[1].length < 2) {
+          inValue.value = `${inValue.value}${key}`
+        }
+      }
+      break
+  }
 }
 
-watch(
-  () => inValue.value,
-  () => {},
-  { deep: true },
-)
-
 const onDelete = () => {
-  // inValue.value = inValue.value?.toString().slice(0, -1)
+  inValue.value = inValue.value.slice(0, -1)
 }
 const closeText = computed(() => {
   return inValue.value && inValue.value > 0 ? '付款' : '关闭'
@@ -68,8 +80,6 @@ const messData = ref([
 
 const collapse = ref(true)
 
-const url =
-  'https://oss.xay.xacloudy.cn/images/2024-09/ffa60c37-8ecc-496d-8880-2ce60cbe1977items.png'
 const openYh = () => {
   collapse.value = !collapse.value
 }
@@ -156,13 +166,16 @@ const payData = ref([
         </template>
       </wd-input>
 
-      <dy-keyboard
-        v-model:value="inValue"
-        :close-text="closeText"
-        type="digit"
+      <wd-number-keyboard
         v-model:visible="visible"
-        @confirm="onClose"
-      ></dy-keyboard>
+        mode="custom"
+        extra-key="."
+        :close-text="closeText"
+        @close="onClose"
+        @input="onInput"
+        @delete="onDelete"
+        :maxlength="maxlength"
+      ></wd-number-keyboard>
 
       <view class="text-14px color-#2D69EF my-10px">备注</view>
       <wd-textarea v-model="remarks" placeholder="" />
