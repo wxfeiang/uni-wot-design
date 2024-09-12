@@ -181,7 +181,9 @@ onLoad(() => {
       </view>
     </view>
     <view v-else>
-      <wd-status-tip image="content" tip="未持有任何卡片" />
+      <view class="mt-40px">
+        <wd-status-tip image="content" tip="未持有任何卡片" />
+      </view>
     </view>
   </view>
 </template>

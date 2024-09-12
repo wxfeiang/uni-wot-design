@@ -14,7 +14,6 @@ import btnbg from '@/static/images/index/btnbg.png'
 import indexbg from '@/static/images/index/indexbg.png'
 import msgicon from '@/static/images/index/msgicon.png'
 import znlogo from '@/static/images/index/znlogo.png'
-import logo from '@/static/images/logo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
@@ -255,8 +254,8 @@ onPageScroll((e) => {
       imageMode="scaleToFill"
     ></wd-swiper>
   </view>
-  <!--  临时广告 -->
-  <view v-if="closeAdFlog">
+  <!--  临时广告 //TODO:暂时注释-->
+  <!-- <view v-if="closeAdFlog">
     <wd-gap height="15" bg-color="#fff"></wd-gap>
     <view class="px-10px">
       <view
@@ -275,7 +274,7 @@ onPageScroll((e) => {
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
   <!-- 服务专区 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
   <view class="px-10px">
