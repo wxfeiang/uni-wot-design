@@ -304,6 +304,14 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "cardManager/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     },
