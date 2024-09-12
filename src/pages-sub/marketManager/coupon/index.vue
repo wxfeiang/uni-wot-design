@@ -15,72 +15,79 @@ import myyhbtn from '../static/images/coupon/myyhbtn.png'
 import bg from '../static/images/coupon/yhbg.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
+import userCoupon from './utils/userCoupon'
 
 const topbgBase64 = ref('')
 const title = ref('领券中心')
-
-const conponList = ref<conponListProps[]>([
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: null, // 优惠券状态
-  },
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: null, // 优惠券状态
-  },
-])
+const { getCouList, couponList } = userCoupon()
+const conponList = ref<conponListProps[]>([])
 function toYouhuiquan() {
   routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon' })
+}
+const paging = ref(null)
+const params = ref({
+  page: '1',
+  size: '10',
+})
+function queryList(pageNo: number, pageSize: number) {
+  params.value.page = pageNo + ''
+  params.value.size = pageSize + ''
+  // 调用接口获取数据
+  try {
+    paging.value.complete(conponList.value)
+  } catch (error) {
+    paging.value.complete(false)
+  }
+}
+
+const getCouponList = async () => {
+  const params = {
+    page: '1',
+    size: '10',
+  }
+  await getCouList(params)
+  conponList.value = couponList.value
 }
 
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
+  getCouponList()
 })
 </script>
 
 <template>
-  <view
+  <z-paging
+    ref="paging"
+    v-model="conponList"
+    @query="queryList"
+    :auto-show-system-loading="true"
     class="flex flex-col bg-no-repeat bg-#ffd7af h-100vh"
-    :style="`background-image: url(${topbgBase64});background-size: 100% 290px`"
+    :style="`background-image: url(${topbgBase64}); background-size: 100% 290px`"
   >
-    <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
+    <!-- <view
+    class="flex flex-col bg-no-repeat bg-#ffd7af h-100vh"
+    :style="`background-image: url(${topbgBase64}); background-size: 100% 290px`"
+  > -->
+    <template #top>
+      <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
 
-    <view class="mt-15px ml-40px">
-      <wd-img :src="hubgtitle" width="196" height="73"></wd-img>
-    </view>
-    <view class="mt-15px ml-60px" @click="toYouhuiquan">
-      <wd-img :src="myyhbtn" width="153" height="35"></wd-img>
-    </view>
-
-    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px">
+      <view class="mt-15px ml-40px">
+        <wd-img :src="hubgtitle" width="196" height="73"></wd-img>
+      </view>
+      <view class="mt-15px ml-60px" @click="toYouhuiquan">
+        <wd-img :src="myyhbtn" width="153" height="35"></wd-img>
+      </view>
+    </template>
+    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px" style="min-height: 50px">
       <view class="pt-10px px-10px">
         <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item"></Coupon-List>
+          <Coupon-List :data="item" :refresh="getCouponList"></Coupon-List>
         </view>
       </view>
     </view>
-  </view>
+  </z-paging>
+  <!-- </view> -->
 </template>
 <style lang="scss" scoped>
 .bg {
@@ -93,5 +100,8 @@ onLoad(async () => {
 }
 :deep(.custom-class-pop) {
   @apply w-80%  rounded-10px;
+}
+:deep(.zp-scroll-view-super) {
+  margin-top: 50px;
 }
 </style>

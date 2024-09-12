@@ -15,6 +15,8 @@ import bg from '../static/images/coupon/myuhbg.png'
 import hubgtitle from '../static/images/coupon/tomyh.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
+import { getUserCouponList } from '@/service/api/coupon'
+import { useUserStore } from '@/store'
 
 const topbgBase64 = ref('')
 const title = ref('我的优惠券')
@@ -24,75 +26,40 @@ const tablist = ref([
   {
     index: 0,
     title: '未使用',
+    count: 0,
   },
   {
     index: 1,
     title: '已使用',
+    count: 0,
   },
   {
     index: 2,
     title: '已过期',
+    count: 0,
   },
 ])
+const params = ref({
+  page: '1',
+  size: '10',
+  status: 0,
+})
+const authStore = useUserStore()
 const changeTab = (e) => {
   tab.value = e.index
-  paging.value.reload()
+  params.value.status = e.index
+  getUserCoupon()
+  // getUserCouList(params.value)
 }
 
-const conponList = ref<conponListProps[]>([
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: null, // 优惠券状态
-  },
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: 1, // 优惠券状态
-  },
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: 2, // 优惠券状态
-  },
-])
+const conponList = ref<conponListProps[]>([])
 
 function queryList(pageNo: number, pageSize: number) {
-  const params = {
-    number: pageNo,
-    size: pageSize,
-  }
+  params.value.page = pageNo + ''
+  params.value.size = pageSize + ''
   // 调用接口获取数据
   try {
-    // const data: any = await sendMessageList(params)
-    // dataList.value = data.data.data.content
+    getUserCoupon()
     paging.value.complete(conponList.value)
   } catch (error) {
     paging.value.complete(false)
@@ -102,9 +69,43 @@ function toYouhuiquan() {
   routeTo({ url: '/pages-sub/marketManager/coupon/index' })
 }
 
+const getUserCoupon = async () => {
+  const param = {
+    phone: authStore.userInfo.userPhone,
+    status: params.value.status,
+    page: params.value.page,
+    size: params.value.size,
+  }
+  const data: any = await getUserCouponList(param)
+  console.log('🍷[userCouponData]:', data)
+  conponList.value = data.content
+}
+
+const getUserCouponCount = async (stu) => {
+  const param = {
+    phone: authStore.userInfo.userPhone,
+    status: stu,
+  }
+  const data: any = await getUserCouponList(param)
+  // console.log(
+  //   '🍷[userCouponCount]:',
+  //   stu === 0 ? '未使用' : stu === 1 ? '已使用' : '已过期',
+  //   data.content.length,
+  // )
+  if (data.content) {
+    tablist.value[param.status].count = data.content.length
+  }
+}
+
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
+  // 获取未使用条数
+  await getUserCouponCount(0)
+  // 获取已使用条数
+  await getUserCouponCount(1)
+  // 获取已过期条数
+  await getUserCouponCount(2)
 })
 </script>
 
@@ -128,7 +129,7 @@ onLoad(async () => {
       <view class="bg-#C30000 mt-42px h-42px">
         <wd-tabs v-model="tab" @change="changeTab" custom-class="custom-class-tab">
           <block v-for="item in tablist" :key="item.index">
-            <wd-tab :title="`${item.title}   (${item.index})`"></wd-tab>
+            <wd-tab :title="`${item.title}   (${item.count})`"></wd-tab>
           </block>
         </wd-tabs>
       </view>
