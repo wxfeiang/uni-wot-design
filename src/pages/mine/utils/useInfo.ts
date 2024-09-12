@@ -5,6 +5,7 @@ import type { serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import linquan from '@/static/images/mine/linquan.png'
+import sfkb from '@/static/images/mine/sfkb.png'
 import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
 import wdjf from '@/static/images/mine/wdjf.png'
@@ -52,6 +53,12 @@ const serveList = ref<serveProps[]>([
     icon: smrz,
     title: '实名认证',
     path: '/pages/login/login2',
+    islink: true,
+  },
+  {
+    icon: sfkb,
+    title: '身份卡包 ',
+    path: '/pages-sub/userManager/cardManager/index',
     islink: true,
   },
   {
