@@ -1,27 +1,34 @@
-import { getCouponList, getUserCouponList } from '@/service/api/coupon'
-import { useUserStore } from '@/store'
+import { getCouponList, getUserCouponList, receiveCoupon } from '@/service/api/userMessage'
+import { useRequest } from 'alova/client'
+// 查询列表
+const { send: sendCouponList, loading: listLoading } = useRequest((data) => getCouponList(data), {
+  immediate: false,
+  loading: false,
+})
 
-const authStore = useUserStore()
-const couponList = ref([])
+// 查询状态查询
+const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
+  (data) => getUserCouponList(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
 
-const getCouList = async (params) => {
-  const param = {
-    phone: authStore.userInfo.userPhone,
-    userDId: authStore.userInfo.userId,
-    page: params.page,
-    size: params.size,
-  }
-  const data: any = await getCouponList(param)
-  console.log('🍷[couponData]:', data)
-  couponList.value = data.content
-  couponList.value.forEach((item) => {
-    item.couponStatus = 3
-  })
-}
+// 用户领取
+
+const { send: sendReceiveCoupon, loading: listLoading3 } = useRequest(
+  (data) => receiveCoupon(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
 
 export default () => {
   return {
-    getCouList,
-    couponList,
+    sendCouponList,
+    sendUserCouponList,
+    sendReceiveCoupon,
   }
 }

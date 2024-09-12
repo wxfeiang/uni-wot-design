@@ -1,19 +1,19 @@
 <script lang="ts" setup>
+import { useUserStore } from '@/store'
+import { Toast } from '@/utils/uniapi/prompt'
 import { pathToBase64 } from 'image-tools'
 import bg from '../../static/images/coupon/items.png'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
-import { receiveCoupon } from '@/service/api/coupon'
-import { useUserStore } from '@/store'
-import { Toast } from '@/utils/uniapi/prompt'
-import { routeTo } from '@/utils'
+import userCoupon from '../utils/userCoupon'
+const { sendReceiveCoupon } = userCoupon()
 
 defineOptions({
   name: 'couponList',
 })
 const emit = defineEmits<{
-  (e: 'refresh', value: any): void
+  (e: 'refresh'): void
 }>()
 
 const props = defineProps({
@@ -22,10 +22,6 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-const toMore = () => {
-  emit('refresh', '')
-}
-
 const topbgBase64 = ref('')
 
 const open = ref(false)
@@ -64,30 +60,31 @@ const statusBg = computed(() => {
   return props.data.couponStatus === 3 || props.data.couponStatus === 0
 })
 const authStore = useUserStore()
-const handleReceive = async () => {
+const handleReceive = async (item) => {
   if (props.data.couponStatus === 0) {
     // 去使用
     // routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
     Toast('功能开发中...')
   } else {
     const params = {
-      phone: authStore.userInfo.userPhone,
       couponId: props.data.couponId,
-      userDId: authStore.userInfo.userId,
     }
-    const data: any = await receiveCoupon(params)
-    if (data === true) {
-      Toast('领取成功')
-      emit('refresh', '')
-    }
+    try {
+      const data: any = await sendReceiveCoupon(params)
+      if (data) {
+        Toast('领取成功')
+        emit('refresh')
+      }
+    } catch (error) {}
   }
 }
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
 })
-const url =
-  'https://oss.xay.xacloudy.cn/images/2024-09/ffa60c37-8ecc-496d-8880-2ce60cbe1977items.png'
+const url = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-09/ffa60c37-8ecc-496d-8880-2ce60cbe1977items.png',
+)
 </script>
 
 <template>
@@ -109,7 +106,7 @@ const url =
           <view
             class="px-15px py-2px rounded-100 bd-1px_#fff color-#fff text-12px"
             v-if="statusCoupopn.btnShow"
-            @click="handleReceive"
+            @click="handleReceive(props.data)"
           >
             {{ statusCoupopn.btnText }}
           </view>

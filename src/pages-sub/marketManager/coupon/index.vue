@@ -16,10 +16,10 @@ import bg from '../static/images/coupon/yhbg.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
-
+const { sendCouponList } = userCoupon()
 const topbgBase64 = ref('')
 const title = ref('领券中心')
-const { getCouList, couponList } = userCoupon()
+
 const conponList = ref<conponListProps[]>([])
 function toYouhuiquan() {
   routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon' })
@@ -30,29 +30,26 @@ const params = ref({
   size: '10',
 })
 function queryList(pageNo: number, pageSize: number) {
-  params.value.page = pageNo + ''
-  params.value.size = pageSize + ''
+  const params = {
+    page: pageNo,
+    size: pageSize,
+  }
   // 调用接口获取数据
   try {
+    const data: any = sendCouponList(params)
+    conponList.value = data.content
+    conponList.value.forEach((item) => {
+      item.couponStatus = 3
+    })
     paging.value.complete(conponList.value)
   } catch (error) {
     paging.value.complete(false)
   }
 }
 
-const getCouponList = async () => {
-  const params = {
-    page: '1',
-    size: '10',
-  }
-  await getCouList(params)
-  conponList.value = couponList.value
-}
-
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
-  getCouponList()
 })
 </script>
 
@@ -82,7 +79,7 @@ onLoad(async () => {
     <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px" style="min-height: 50px">
       <view class="pt-10px px-10px">
         <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item" :refresh="getCouponList"></Coupon-List>
+          <Coupon-List :data="item" :refresh="paging.reload()"></Coupon-List>
         </view>
       </view>
     </view>

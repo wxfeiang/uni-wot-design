@@ -8,6 +8,7 @@
 </route>
 
 <script lang="ts" setup>
+import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
 import myyhbtn from '../static/images/coupon/lingqu.png'
@@ -15,8 +16,8 @@ import bg from '../static/images/coupon/myuhbg.png'
 import hubgtitle from '../static/images/coupon/tomyh.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
-import { getUserCouponList } from '@/service/api/coupon'
-import { useUserStore } from '@/store'
+import userCoupon from './utils/userCoupon'
+const { sendUserCouponList } = userCoupon()
 
 const topbgBase64 = ref('')
 const title = ref('我的优惠券')
@@ -48,18 +49,20 @@ const authStore = useUserStore()
 const changeTab = (e) => {
   tab.value = e.index
   params.value.status = e.index
-  getUserCoupon()
-  // getUserCouList(params.value)
+  paging.value.reload()
 }
 
 const conponList = ref<conponListProps[]>([])
 
-function queryList(pageNo: number, pageSize: number) {
-  params.value.page = pageNo + ''
-  params.value.size = pageSize + ''
+async function queryList(pageNo: number, pageSize: number) {
+  const params = {
+    page: pageNo,
+    size: pageSize,
+  }
   // 调用接口获取数据
   try {
-    getUserCoupon()
+    const data: any = sendUserCouponList(params)
+    conponList.value = data.content
     paging.value.complete(conponList.value)
   } catch (error) {
     paging.value.complete(false)
@@ -69,29 +72,12 @@ function toYouhuiquan() {
   routeTo({ url: '/pages-sub/marketManager/coupon/index' })
 }
 
-const getUserCoupon = async () => {
+const getUserCouponCount = async (status) => {
   const param = {
-    phone: authStore.userInfo.userPhone,
-    status: params.value.status,
-    page: params.value.page,
-    size: params.value.size,
+    status,
   }
-  const data: any = await getUserCouponList(param)
-  console.log('🍷[userCouponData]:', data)
-  conponList.value = data.content
-}
+  const data: any = await sendUserCouponList(param)
 
-const getUserCouponCount = async (stu) => {
-  const param = {
-    phone: authStore.userInfo.userPhone,
-    status: stu,
-  }
-  const data: any = await getUserCouponList(param)
-  // console.log(
-  //   '🍷[userCouponCount]:',
-  //   stu === 0 ? '未使用' : stu === 1 ? '已使用' : '已过期',
-  //   data.content.length,
-  // )
   if (data.content) {
     tablist.value[param.status].count = data.content.length
   }
