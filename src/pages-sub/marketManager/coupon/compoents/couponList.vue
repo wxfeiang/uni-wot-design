@@ -3,14 +3,17 @@ import { pathToBase64 } from 'image-tools'
 import bg from '../../static/images/coupon/items.png'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
-
 import { conponListProps } from '../utils/types'
+import { receiveCoupon } from '@/service/api/coupon'
+import { useUserStore } from '@/store'
+import { Toast } from '@/utils/uniapi/prompt'
+import { routeTo } from '@/utils'
 
 defineOptions({
   name: 'couponList',
 })
 const emit = defineEmits<{
-  (e: 'moreClick', value: any): void
+  (e: 'refresh', value: any): void
 }>()
 
 const props = defineProps({
@@ -20,7 +23,7 @@ const props = defineProps({
   },
 })
 const toMore = () => {
-  emit('moreClick', '')
+  emit('refresh', '')
 }
 
 const topbgBase64 = ref('')
@@ -56,6 +59,29 @@ const statusCoupopnList = ref([
 const statusCoupopn = computed(() => {
   return statusCoupopnList.value[props.data.couponStatus ?? 3]
 })
+// 优惠券背景状态
+const statusBg = computed(() => {
+  return props.data.couponStatus === 3 || props.data.couponStatus === 0
+})
+const authStore = useUserStore()
+const handleReceive = async () => {
+  if (props.data.couponStatus === 0) {
+    // 去使用
+    // routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
+    Toast('功能开发中...')
+  } else {
+    const params = {
+      phone: authStore.userInfo.userPhone,
+      couponId: props.data.couponId,
+      userDId: authStore.userInfo.userId,
+    }
+    const data: any = await receiveCoupon(params)
+    if (data === true) {
+      Toast('领取成功')
+      emit('refresh', '')
+    }
+  }
+}
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
@@ -67,16 +93,22 @@ onLoad(async () => {
   <view
     :style="`background-image: url(${topbgBase64});background-size: 100% 120px`"
     class="bg-no-repeat min-h-120px relative pl-24px pr-10px py-20px box-border rounded-t-10px ml-[-5px]"
-    :class="!props.data.couponStatus ? '' : 'grayscale opacity-50'"
+    :class="statusBg ? '' : 'grayscale opacity-50'"
   >
     <view class="flex justify-between items-center">
       <view class="flex flex-col justify-between">
-        <view class="color-#fff text-22px">{{ props.data.couponTypeName }}</view>
-        <view class="color-#FFC4A6 text-12px">有效期: {{ props.data.couponTime }}</view>
+        <view class="color-#fff text-22px">{{ props.data.couponName }}</view>
+        <view class="color-#FFC4A6 text-12px">
+          有效期:
+          {{
+            props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
+          }}
+        </view>
         <view class="flex justify-between items-center mt-10px">
           <view
             class="px-15px py-2px rounded-100 bd-1px_#fff color-#fff text-12px"
             v-if="statusCoupopn.btnShow"
+            @click="handleReceive"
           >
             {{ statusCoupopn.btnText }}
           </view>
@@ -88,28 +120,46 @@ onLoad(async () => {
       </view>
       <view class="flex flex-col justify-around pt-15px items-end gap-10px">
         <view class="text-32px color-#FF4345">
-          <text>¥</text>
-          <text>{{ props.data.couponAmount }}</text>
+          <text v-if="props.data.couponType != 3">¥</text>
+          <text>
+            {{
+              props.data.couponType == 3
+                ? props.data.couponPrice * 10 + '折券'
+                : props.data.couponPrice
+            }}
+          </text>
         </view>
         <view class="text-12px color-#666">
-          {{ props.data.couponLimit }}
+          {{ '满' + props.data.couponFillPrice + '元可用' }}
         </view>
       </view>
     </view>
-    <view
+    <!-- <view
       class="absolute top-10px right-0 px-15px py-2px rounded-bl-22px rounded-tr-4px bg-#F71603 color-#fff text-12px"
     >
-      {{ props.data.couponAmountTypeName }}
-    </view>
+      {{ props.data.couponSource == 1 ? '平台券' : '商家券' }}
+    </view> -->
     <view class="absolute top-30px right-25% z-99">
       <wd-img :src="statusCoupopn.statsSrc" :width="66" :height="66" />
     </view>
     <!-- 详情显示 -->
     <view :class="open ? 'block' : 'hidden'">
       <view class="p-10px ml-[-5px] mt-20px bg-#FFE1C2 color-#6D341C text-12px line-height-20px">
-        <view>领取时间: {{ props.data.couponTime }}</view>
-        <view>有效期: {{ props.data.couponTime }}</view>
-        <view>优惠内容: {{ props.data.couponConternt }}</view>
+        <view v-if="props.data.couponReceiveBeginDate">
+          领取时间:
+          {{
+            props.data.couponReceiveBeginDate?.slice(0, 10) +
+            ' 至 ' +
+            props.data.couponReceiveEndDate?.slice(0, 10)
+          }}
+        </view>
+        <view>
+          有效期:
+          {{
+            props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
+          }}
+        </view>
+        <view>优惠内容: {{ props.data.couponRemark }}</view>
       </view>
     </view>
   </view>

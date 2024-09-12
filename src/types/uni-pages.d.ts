@@ -13,11 +13,11 @@ interface NavigateToOptions {
        "/pages/serve/index" |
        "/pages/shop/index" |
        "/pages/login/compoents/loginOuther" |
-       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
+       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/newsManager/index" |
