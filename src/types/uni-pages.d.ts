@@ -26,6 +26,7 @@ interface NavigateToOptions {
        "/pages-sub/webView/index" |
        "/pages-sub/system/sysconfig/index" |
        "/pages-sub/system/sysconfig/setting" |
+       "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |

@@ -1,17 +1,56 @@
 import { Toast } from './prompt'
-
+const { VITE_HALF_APPID } = import.meta.env
 /**
  * @description: 打开第三方小程序
  * @param {} appId
  * @param {} path
  */
-export const openWxChart = (appId: string, path: string) => {
-  uni.navigateToMiniProgram({
-    appId, // 填入目标小程序的 appId
-    path, // 打开的页面路径，如果为空则打开首页
-    extraData: {
-      // 需要传递给目标小程序的数据
-    },
+export const openWxChart = (appId: string, path: string, extraData = {}) => {
+  return new Promise((resolve, reject) => {
+    uni.navigateToMiniProgram({
+      appId,
+      path,
+      extraData, // 需要传递给目标小程序的数据
+      envVersion: 'develop', // trial
+      success(res) {
+        // 打开成功
+        resolve(res)
+      },
+      fail: (err) => {
+        uni.showToast({
+          title: '打开失败',
+          icon: 'none',
+        })
+        reject(err)
+      },
+    })
+  })
+}
+/**
+ * @description: 打开第三方小程序(半屏)
+ * @param {} appId
+ * @param {} path
+ */
+export const openEmbeddedMiniProgram = (path: string, extraData = {}, appId = VITE_HALF_APPID) => {
+  return new Promise((resolve, reject) => {
+    uni.openEmbeddedMiniProgram({
+      appId,
+      path,
+      extraData, // 需要传递给目标小程序的数据
+      envVersion: 'develop', // trial
+      success(res) {
+        // 打开成功
+        resolve(res)
+      },
+      fail: (err) => {
+        console.log('🥥[err]:', err)
+        uni.showToast({
+          title: '打开失败!',
+          icon: 'none',
+        })
+        reject(err)
+      },
+    })
   })
 }
 
@@ -21,8 +60,8 @@ export const openWxChart = (appId: string, path: string) => {
  * @param showToast 配置是否弹出提示，默认弹出提示
  * @constructor
  */
-export const SetClipboardData = (data: string, showToast = true) =>
-  new Promise((resolve, reject) => {
+export const SetClipboardData = (data: string, showToast = true) => {
+  return new Promise((resolve, reject) => {
     uni.setClipboardData({
       data,
       showToast,
@@ -34,22 +73,27 @@ export const SetClipboardData = (data: string, showToast = true) =>
       },
     })
   })
-
+}
 /**
  * @description 获取系统剪贴板内容
  * @constructor
  */
-export const GetClipboardData = () =>
-  new Promise((resolve, reject) => {
+export const GetClipboardData = () => {
+  return new Promise((resolve, reject) => {
     uni.getClipboardData({
       success: (res) => {
         resolve(res)
       },
       fail: (err) => {
+        uni.showToast({
+          title: '内容获取失败',
+          icon: 'none',
+        })
         reject(err)
       },
     })
   })
+}
 
 /**
  * rpx 换算为 px
@@ -74,13 +118,18 @@ export const px2rpx = (px: number) => {
 export const useScancode = (options?: any) => {
   // 允许从相机和相册扫码
   return new Promise((resolve, reject) => {
-    uni.scanCode(...options, {
+    uni.scanCode({
+      ...options,
       success: function (res) {
-        console.log('条码类型：' + res.scanType)
-        console.log('条码内容：' + res.result)
+        console.log('条码类型：' + res)
+
         resolve(res)
       },
       fail: function (err) {
+        uni.showToast({
+          title: '无法识别此二维码',
+          icon: 'none',
+        })
         reject(err)
       },
     })

@@ -32,6 +32,9 @@ interface ImportMetaEnv {
 
   /** 网络请求超时 */
   readonly VITE_SERVER_TIME_OUT: number
+
+  /** 半屏幕小程序 */
+  VITE_HALF_APPID: string
 }
 
 interface ImportMeta {

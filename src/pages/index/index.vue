@@ -14,17 +14,17 @@ import btnbg from '@/static/images/index/btnbg.png'
 import indexbg from '@/static/images/index/indexbg.png'
 import msgicon from '@/static/images/index/msgicon.png'
 import znlogo from '@/static/images/index/znlogo.png'
-import logo from '@/static/images/logo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
 import { removeT, routeTo } from '@/utils'
-import { openWxChart, useScancode } from '@/utils/uniapi'
+import { openEmbeddedMiniProgram, openWxChart, useScancode } from '@/utils/uniapi'
 import { pathToBase64 } from 'image-tools'
-import { useToast } from 'wot-design-uni'
+import { useMessage, useToast } from 'wot-design-uni'
 import { messProps } from './utils/types'
 import useIndex from './utils/useIndex'
 
+const message = useMessage()
 defineOptions({
   name: 'Index',
 })
@@ -37,9 +37,27 @@ const toast = useToast()
 const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, topAction } =
   useIndex()
 
-function actionTop(item: any) {
+async function actionTop(item: any) {
   if (item.type === 'sacn') {
-    useScancode()
+    console.log('🍥')
+    const resData = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+
+    // if(resData){
+
+    // }
+    message
+      .confirm({
+        msg: '内容识别成功,请点击确认',
+        title: '提示',
+      })
+      .then(async () => {
+        console.log('点击了确定按钮')
+        const data = await openEmbeddedMiniProgram('/pages/pay/index', { data: 'test' })
+        console.log('🍢[data]:', data)
+      })
+      .catch(() => {
+        console.log('点击了取消按钮')
+      })
   } else if (item.type === 'wxChart') {
     openWxChart(item.appId, item.path)
   } else if (item.type === 'switchTab') {
@@ -56,6 +74,8 @@ function actionTop(item: any) {
     toast.show('功能开发中，敬请期待!...')
   }
 }
+
+async function goPay(item: any) {}
 
 function swiperClick(data) {
   const { item } = data
@@ -234,8 +254,8 @@ onPageScroll((e) => {
       imageMode="scaleToFill"
     ></wd-swiper>
   </view>
-  <!--  临时广告 -->
-  <view v-if="closeAdFlog">
+  <!--  临时广告 //TODO:暂时注释-->
+  <!-- <view v-if="closeAdFlog">
     <wd-gap height="15" bg-color="#fff"></wd-gap>
     <view class="px-10px">
       <view
@@ -254,7 +274,7 @@ onPageScroll((e) => {
         </view>
       </view>
     </view>
-  </view>
+  </view> -->
   <!-- 服务专区 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
   <view class="px-10px">

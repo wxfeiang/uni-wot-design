@@ -282,6 +282,14 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
+          "path": "cardManager/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "SocialSecurityCard/barcode",
           "type": "page",
           "layout": "default",

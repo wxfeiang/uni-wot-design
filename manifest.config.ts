@@ -12,6 +12,7 @@ const {
   VITE_WX_APPID,
   VITE_APP_PUBLIC_BASE,
   VITE_FALLBACK_LOCALE,
+  VITE_HALF_APPID,
 } = env
 
 export default defineManifestConfig({
@@ -133,6 +134,7 @@ export default defineManifestConfig({
     },
     requiredPrivateInfos: ['getLocation', 'chooseLocation'],
     lazyCodeLoading: 'requiredComponents',
+    embeddedAppIdList: [VITE_HALF_APPID],
   },
   requiredPrivateInfos: ['getFuzzyLocation'],
   'mp-alipay': {
