@@ -116,6 +116,7 @@ function itmeClick(item, index) {
   if (activeIndex.value === index) {
     activeIndex.value = -1
     cyhqje.value = ''
+    actualPrice.value = inValue.value * 1
   } else {
     activeIndex.value = index
     cyhqje.value = yhList.value[activeIndex.value].value
