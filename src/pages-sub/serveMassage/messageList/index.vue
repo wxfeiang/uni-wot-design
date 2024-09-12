@@ -89,13 +89,7 @@ const changeTab = (e) => {
 }
 </script>
 <template>
-  <z-paging
-    ref="paging"
-    v-model="dataList"
-    @query="queryList"
-    :auto-show-system-loading="true"
-    class="bg-#F5F6F8"
-  >
+  <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
       <dy-navbar leftTitle="消息列表" left></dy-navbar>
@@ -150,6 +144,11 @@ const changeTab = (e) => {
     </view>
   </z-paging>
 </template>
+<style>
+page {
+  background-color: #f5f6f8;
+}
+</style>
 
 <style lang="scss" scoped>
 .t_bg {

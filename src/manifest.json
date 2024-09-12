@@ -108,7 +108,10 @@
       "getLocation",
       "chooseLocation"
     ],
-    "lazyCodeLoading": "requiredComponents"
+    "lazyCodeLoading": "requiredComponents",
+    "embeddedAppIdList": [
+      "wx762104ad737712d6"
+    ]
   },
   "mp-alipay": {
     "usingComponents": true,
