@@ -9,11 +9,12 @@
 
 <script lang="ts" setup>
 import pays from '@/static/images/pay/pays.png'
-const inValue = ref<any>()
+const inValue = ref<any>() // 输入框的值
 const visible = ref(false)
-
 const maxlength = ref(11)
 const type = ref('digit')
+const actualPrice = ref(0)
+actualPrice.value = inValue.value
 
 const onInput = (key: string) => {
   switch (key) {
@@ -55,7 +56,14 @@ const closeText = computed(() => {
 const show = ref(false)
 const onClose = () => {
   if (inValue.value && inValue.value > 0) {
+    const parts = inValue.value.split('.')
+    if (!parts[1]?.length) {
+      inValue.value = `${inValue.value * 1}.00`
+    }
     show.value = true
+    // TODO:  查询后台当前金额可以用的优惠券
+
+    itmeClick(yhList.value[0], 0)
   }
 }
 const remarks = ref('')
@@ -74,7 +82,7 @@ const messData = ref([
   {
     title: '优惠券',
     isLink: true,
-    value: 20,
+    value: 0,
   },
 ])
 
@@ -87,22 +95,37 @@ const openYh = () => {
 const yhList = ref([
   {
     title: '平台',
-    value: '满100减20',
+    detile: '满100减30',
+    value: 30,
     isLink: false,
+    type: 1, // 满减
   },
   {
     title: '商家',
-    value: '满100减20',
+    detile: '8折券',
+    value: 0.8,
     isLink: false,
+    type: 2, //  折扣
   },
 ])
 
+actualPrice.value = inValue.value
 const activeIndex = ref<number>()
+const cyhqje = ref()
 function itmeClick(item, index) {
   if (activeIndex.value === index) {
     activeIndex.value = -1
+    cyhqje.value = ''
   } else {
     activeIndex.value = index
+    cyhqje.value = yhList.value[activeIndex.value].value
+    if (item.type === 1) {
+      const value = inValue.value * 1 - item.value * 1
+      actualPrice.value = value < 0 ? 0 : value
+    }
+    if (item.type === 2) {
+      actualPrice.value = Number((inValue.value * (item.value * 1)).toFixed(2))
+    }
   }
 
   // 根据index  做优惠计算
@@ -200,12 +223,12 @@ const payData = ref([
       <view>
         <view class="text-center text-40px font-semibold">
           <text class="text-30px mt-5px mr-5px">¥</text>
-          <text>{{ inValue }}</text>
+          <text>{{ actualPrice }}</text>
         </view>
         <view
           class="mt-10px font-400 text-#999 text-20px text-center bg-#F1F0EE px-20px py-5px mx-auto max-w-30% rounded-500 line-through"
         >
-          {{ -1213 }}
+          {{ inValue }}
         </view>
       </view>
       <view class="mt-10px">
@@ -226,15 +249,18 @@ const payData = ref([
               v-if="item.isLink"
               @click="openYh"
             >
-              ¥
-              <text>
-                {{ item.value }}
-              </text>
+              <view v-if="cyhqje">
+                ¥
+                <text>
+                  {{ cyhqje }}
+                </text>
+              </view>
+
               <view :class="collapse ? 'rotate-90' : ''">
                 <wd-icon name="arrow-right" size="14px" color="#999" />
               </view>
             </view>
-            <view class="text-#000 text-14px" v-else>¥ {{ item.value }}</view>
+            <view class="text-#000 text-14px" v-else>{{ item.value }}</view>
           </wd-cell>
         </wd-cell-group>
 
@@ -257,7 +283,7 @@ const payData = ref([
               </view>
               <text>{{ item.title }}</text>
             </view>
-            <view class="color-#2D69EF text-14px">{{ item.value }}</view>
+            <view class="color-#2D69EF text-14px">{{ item.detile }}</view>
           </view>
         </view>
       </view>
