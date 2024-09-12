@@ -6,7 +6,8 @@ const SIGN_IN = baseUrlApi('/member/app/ScoreUser/signIn')
 
 const GET_USER_SCORE_PAGE = baseUrlApi('/member/app/UserScore/getUserScorePage')
 
-const GET_XIN_CANG_CARD_INFO = baseUrlApi('/api/socialSecurityCard/getXinCangCardInfo')
+const GET_XIN_CANG_CARD_INFO = baseUrlApi('/card/app/getXinCangCardInfo')
+const SET_XIN_CANG_CARD_AUTHORIZE = baseUrlApi('/card/app/setXinCangCardAuthorize')
 
 /**
  *  查询雄才卡信息
@@ -18,6 +19,22 @@ export function getXinCangCardInfo(data) {
   }
   return request.Post(
     GET_XIN_CANG_CARD_INFO, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+/**
+ *  查询雄才卡查询授权
+ * @param params
+ * */
+export function setXinCangCardAuthorize(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    SET_XIN_CANG_CARD_AUTHORIZE, // 地址
     data,
     {
       meta,
