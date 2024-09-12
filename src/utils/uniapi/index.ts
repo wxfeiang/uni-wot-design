@@ -121,8 +121,7 @@ export const useScancode = (options?: any) => {
     uni.scanCode({
       ...options,
       success: function (res) {
-        console.log('条码类型：' + res)
-
+        console.log('扫码' + res)
         resolve(res)
       },
       fail: function (err) {

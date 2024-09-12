@@ -9,6 +9,8 @@ const GET_USER_SCORE_PAGE = baseUrlApi('/member/app/UserScore/getUserScorePage')
 const GET_XIN_CANG_CARD_INFO = baseUrlApi('/card/app/getXinCangCardInfo')
 const SET_XIN_CANG_CARD_AUTHORIZE = baseUrlApi('/card/app/setXinCangCardAuthorize')
 
+const PAY_COUPON_USER_PHONE = baseUrlApi('/promotion/app/coupon/payCouponUserPhone')
+
 /**
  *  查询雄才卡信息
  * @param params
@@ -82,4 +84,17 @@ export function interSignIn(data) {
  * */
 export function getInterList(data) {
   return request.Post(GET_USER_SCORE_PAGE, data)
+}
+
+/**
+ * 当前用户可使用的支付券列表
+ * @param params 初始参数()
+ * */
+export function getPayCouponUserPhone(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(PAY_COUPON_USER_PHONE, data, {
+    meta,
+  })
 }

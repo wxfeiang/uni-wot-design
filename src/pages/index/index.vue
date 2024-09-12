@@ -18,7 +18,7 @@ import znlogo from '@/static/images/index/znlogo.png'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
 import { removeT, routeTo } from '@/utils'
-import { openEmbeddedMiniProgram, openWxChart, useScancode } from '@/utils/uniapi'
+import { openWxChart, useScancode } from '@/utils/uniapi'
 import { pathToBase64 } from 'image-tools'
 import { useMessage, useToast } from 'wot-design-uni'
 import { messProps } from './utils/types'
@@ -39,25 +39,31 @@ const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, 
 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
-    console.log('🍥')
     const resData = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+    routeTo({
+      url: '/pages/pay/index',
+      data: { resData: 1 },
+    })
+
+    console.log('🍠[resData]:', resData)
 
     // if(resData){
 
     // }
-    message
-      .confirm({
-        msg: '内容识别成功,请点击确认',
-        title: '提示',
-      })
-      .then(async () => {
-        console.log('点击了确定按钮')
-        const data = await openEmbeddedMiniProgram('/pages/pay/index', { data: 'test' })
-        console.log('🍢[data]:', data)
-      })
-      .catch(() => {
-        console.log('点击了取消按钮')
-      })
+    // TODO:暂时注释
+    // message
+    //   .confirm({
+    //     msg: '内容识别成功,请点击确认',
+    //     title: '提示',
+    //   })
+    //   .then(async () => {
+
+    //     const data = await openEmbeddedMiniProgram('/pages/pay/index', { data: 'test' })
+
+    //   })
+    //   .catch(() => {
+    //     console.log('点击了取消按钮')
+    //   })
   } else if (item.type === 'wxChart') {
     openWxChart(item.appId, item.path)
   } else if (item.type === 'switchTab') {

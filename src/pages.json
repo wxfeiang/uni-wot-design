@@ -113,6 +113,14 @@
       }
     },
     {
+      "path": "pages/pay/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/serve/index",
       "type": "page",
       "needLogin": true,
