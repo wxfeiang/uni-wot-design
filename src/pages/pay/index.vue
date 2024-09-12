@@ -148,6 +148,9 @@ const payData = ref([
     isLink: false,
   },
 ])
+const popClose = () => {
+  activeIndex.value = -1
+}
 </script>
 
 <template>
@@ -216,6 +219,7 @@ const payData = ref([
     lock-scroll
     position="bottom"
     :safe-area-inset-bottom="true"
+    @close="popClose"
   >
     <view class="text-center py-15px">数城云收银</view>
     <!-- 待支付 -->
