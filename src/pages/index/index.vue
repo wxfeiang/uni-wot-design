@@ -39,10 +39,20 @@ const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, 
 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
-    const resData = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+    const resData: any = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+    let url = null
+    // 扫描到小程序码
+    if (resData.scanType === 'WX_CODE') {
+      url = resData.path.split('?')
+    }
+    if (resData.scanType === '') {
+      url = resData.result.split('?')
+    }
+    console.log('🥓[resData]:', resData)
+
     routeTo({
       url: '/pages/pay/index',
-      data: { resData: 1 },
+      data: { url: url[1] },
     })
 
     console.log('🍠[resData]:', resData)

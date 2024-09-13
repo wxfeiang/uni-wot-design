@@ -94,11 +94,11 @@ export function getInterList(data) {
  * 当前用户可使用的支付券列表
  * @param params 初始参数()
  * */
-export function getPayCouponUserPhone(data) {
+export function getPayCouponUserPhone<T>(data) {
   const meta: METHOD_INSTANCE = {
     loading: true,
   }
-  return request.Post(PAY_COUPON_USER_PHONE, data, {
+  return request.Post<T>(PAY_COUPON_USER_PHONE, data, {
     meta,
   })
 }
