@@ -9,7 +9,6 @@
 
 <script lang="ts" setup>
 import pays from '@/static/images/pay/pays.png'
-import { useRequestPayment } from '@/utils/uniapi'
 const inValue = ref<any>() // 输入框的值
 const actualPrice = ref(0)
 actualPrice.value = inValue.value
@@ -54,9 +53,9 @@ onShow(async (options) => {
     actualPrice.value = data.referrerInfo.extraData.actualPrice
     // shopId = data.referrerInfo.extraData.shoId
     // appId = data.referrerInfo.appId
-    await useRequestPayment()
+    // await useRequestPayment()
   } catch (error) {
-    await useRequestPayment()
+    // await useRequestPayment()
   }
 
   // const data = {
@@ -72,6 +71,18 @@ onShow(async (options) => {
   //   apiCategory: 'embedded',
   // }
 })
+const closeBack = () => {
+  console.log('点击凡户籍数据=======')
+  uni.navigateBackMiniProgram({
+    extraData: {
+      data1: 'test',
+    },
+    success(res) {
+      console.log('🍮[res]:', res)
+      // 返回成功
+    },
+  })
+}
 </script>
 
 <template>
@@ -120,12 +131,11 @@ onShow(async (options) => {
           </wd-cell>
         </wd-cell-group>
       </view>
-      <view class="mt-30px fixed bottom-40px left-0 w-full z-99">
-        <!-- <view class="mb-20px">
-          <wd-button block :round="false">立即支付</wd-button>
-        </view> -->
+      <view class="mt-30px fixed bottom-40px left-0 w-full z-99999">
         <view class="mb-10px px-20px">
-          <wd-button type="text" block :round="false" plain hairline>返回商家</wd-button>
+          <wd-button type="text" block :round="false" plain hairline @click="closeBack">
+            返回商家
+          </wd-button>
         </view>
       </view>
     </view>
@@ -156,7 +166,9 @@ onShow(async (options) => {
 
       <view class="mt-30px fixed bottom-40px left-0 w-full z-99">
         <view class="mb-10px px-20px">
-          <wd-button type="text" block :round="false" plain hairline>返回商家</wd-button>
+          <wd-button type="text" block :round="false" plain hairline @click="closeBack">
+            返回商家
+          </wd-button>
         </view>
       </view>
     </view>
