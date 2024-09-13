@@ -5,6 +5,7 @@
 
 interface NavigateToOptions {
   url: "/pages/pay/index" |
+       "/pages/pay/index copy" |
        "/pages/index/index" |
        "/pages/login/index" |
        "/pages/login/login2" |

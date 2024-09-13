@@ -27,33 +27,7 @@ const messData = ref([
     value: 'IRUE8575757848488',
     isLink: false,
   },
-  {
-    title: '优惠券',
-    isLink: true,
-    value: 0,
-  },
 ])
-
-const yhList = ref([
-  {
-    title: '平台',
-    detile: '满100减30',
-    value: 30,
-    isLink: false,
-    type: 1, // 满减
-  },
-  {
-    title: '商家',
-    detile: '8折券',
-    value: 0.8,
-    isLink: false,
-    type: 2, //  折扣
-  },
-])
-
-actualPrice.value = inValue.value
-const activeIndex = ref<number>()
-const cyhqje = ref()
 
 const payStatus = ref(false)
 const payData = ref([
@@ -75,7 +49,7 @@ const payData = ref([
 ])
 
 onLoad(() => {
-  uni.getEnterOptionsSync()
+  uni.getLaunchOptionsSync()
 })
 </script>
 

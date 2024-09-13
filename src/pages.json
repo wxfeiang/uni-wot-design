@@ -54,6 +54,14 @@
       }
     },
     {
+      "path": "pages/pay/index copy",
+      "type": "home",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/index/index",
       "type": "page",
       "layout": "default",
