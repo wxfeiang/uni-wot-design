@@ -22,6 +22,7 @@ export const useSystemStore = defineStore(
     const resstrppd = ref('') // 解密
     const filterData = ref(<STSCONFIG>{})
     const dot = ref('')
+    const opendId = ref('')
 
     function RESSTRPPD(value: string) {
       resstrppd.value = value
@@ -42,6 +43,13 @@ export const useSystemStore = defineStore(
       return status
     }
 
+    function getOpenId() {
+      return opendId.value
+    }
+    function setOpenId(value: string) {
+      opendId.value = value
+    }
+
     return {
       RESSTRPPD,
       fILTERDATA,
@@ -51,6 +59,9 @@ export const useSystemStore = defineStore(
       filterData,
       dot,
       initSystemInfo,
+      setOpenId,
+      getOpenId,
+      opendId,
     }
   },
   {

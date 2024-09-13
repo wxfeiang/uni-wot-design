@@ -14,6 +14,7 @@ const GET_INFO = baseUrlApi('/user/app/getInfo')
 const ADD_XCX_USER_DETAIL = baseUrlApi('/member/app/addXcxUserDetail')
 const ADD_XCX_USER_DETAIL_WXV = baseUrlApi('/member/app/addXcxUserDetailWx')
 const GET_USER_OPEN_ID_BY_CODE = baseUrlApi('/member/app/getUserOpenIdByCode')
+const GET_XA_SC_OPEN_ID = baseUrlApi('/user/app/getXaScOpenId')
 
 /**
  * 获取 人脸识别Key
@@ -99,4 +100,15 @@ export function logout(data) {
  */
 export function refreshToken() {
   return request.Post<LoginModel>(REFRESH_TOKEN, {})
+}
+
+/**
+ * 获取数城openid
+ * @param params 初始参数()
+ * */
+export function getShcOpId(data) {
+  return request.Post(
+    GET_XA_SC_OPEN_ID, // 地址
+    data,
+  )
 }

@@ -9,13 +9,11 @@
 
 <script lang="ts" setup>
 import pays from '@/static/images/pay/pays.png'
+import { useRequestPayment } from '@/utils/uniapi'
 const inValue = ref<any>() // 输入框的值
-
 const actualPrice = ref(0)
 actualPrice.value = inValue.value
-
 const show = ref(true)
-
 const messData = ref([
   {
     title: '订单信息',
@@ -48,8 +46,31 @@ const payData = ref([
   },
 ])
 
-onLoad(() => {
-  uni.getLaunchOptionsSync()
+onShow(async (options) => {
+  const data = uni.getEnterOptionsSync()
+  console.log('🍊[data]:', data)
+  try {
+    inValue.value = data.referrerInfo.extraData.invoice
+    actualPrice.value = data.referrerInfo.extraData.actualPrice
+    // shopId = data.referrerInfo.extraData.shoId
+    // appId = data.referrerInfo.appId
+    await useRequestPayment()
+  } catch (error) {
+    await useRequestPayment()
+  }
+
+  // const data = {
+  //   path: 'pages/pay/index',
+  //   query: {},
+  //   scene: 1037,
+  //   shareTicket: '<Undefined>',
+  //   referrerInfo: {
+  //     appId: 'wxa6bde233fffd3f6d',
+  //     extraData: { userDid: '', invoice: '22.00', shoId: '30562' },
+  //   },
+  //   mode: 'embedded',
+  //   apiCategory: 'embedded',
+  // }
 })
 </script>
 
@@ -99,11 +120,11 @@ onLoad(() => {
           </wd-cell>
         </wd-cell-group>
       </view>
-      <view class="mt-30px">
-        <view class="mb-20px">
+      <view class="mt-30px fixed bottom-40px left-0 w-full z-99">
+        <!-- <view class="mb-20px">
           <wd-button block :round="false">立即支付</wd-button>
-        </view>
-        <view class="mb-10px">
+        </view> -->
+        <view class="mb-10px px-20px">
           <wd-button type="text" block :round="false" plain hairline>返回商家</wd-button>
         </view>
       </view>
@@ -133,9 +154,9 @@ onLoad(() => {
         </wd-cell-group>
       </view>
 
-      <view class="mt-30px">
-        <view class="">
-          <wd-button block :round="false">返回商家</wd-button>
+      <view class="mt-30px fixed bottom-40px left-0 w-full z-99">
+        <view class="mb-10px px-20px">
+          <wd-button type="text" block :round="false" plain hairline>返回商家</wd-button>
         </view>
       </view>
     </view>
