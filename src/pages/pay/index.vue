@@ -199,7 +199,7 @@ async function goPay() {
   }
   console.log('🥥', params)
   await sendPay(params)
-  await openEmbeddedMiniProgram('/pages/pay/index', payList.value)
+  await openEmbeddedMiniProgram('/pages/pay/index', { ...params })
 }
 //  查询商户信息
 const { send: sendShopDetail, data: shhopMessage } = useRequest(
@@ -220,7 +220,8 @@ onLoad(async (options) => {
 
   // 获取到进入页面的所有信息
 })
-onShow(async () => {
+onShow(async (options) => {
+  console.log('🥓[options]:', options)
   // huoquzh
 })
 </script>
