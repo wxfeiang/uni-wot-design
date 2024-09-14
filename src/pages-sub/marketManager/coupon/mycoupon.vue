@@ -62,11 +62,6 @@ async function queryList(pageNo: number, pageSize: number) {
   try {
     const data: any = await sendUserCouponList(params)
     conponList.value = data.coupons.content
-    // if (pageNo > 1) {
-    //   conponList.value.push(...data.coupons.content)
-    // } else {
-    //   conponList.value = data.coupons.content
-    // }
     tablist.value.forEach((e, i) => {
       e.count = data[matchTab.value[i]]
     })

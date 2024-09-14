@@ -21,6 +21,8 @@ import { useMessage, useToast } from 'wot-design-uni'
 import useLogin from '../login/utils/useLogin'
 
 import useInfo from './utils/useInfo'
+import userCoupon from '../../pages-sub/marketManager/coupon/utils/userCoupon'
+const { sendUserCouponList } = userCoupon()
 const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
@@ -58,6 +60,13 @@ onLoad(async () => {
   // }
   // const data = await sendIsReceiveCardInfo(params)
   // console.log('🥘[data]:', data)
+  const params = {
+    status: 0,
+    userDId: userInfo.value.userId,
+    phone: userInfo.value.userPhone,
+  }
+  const data: any = await sendUserCouponList(params)
+  topList.value[1].value = data.unUsedCouponNum
 })
 
 const acton = (item) => {

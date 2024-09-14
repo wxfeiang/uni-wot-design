@@ -85,8 +85,10 @@ const handleReceive = async (item) => {
     try {
       const data: any = await sendReceiveCoupon(params)
       if (data === true) {
-        Toast('领取成功')
         emit('refresh')
+        setTimeout(() => {
+          Toast('领取成功')
+        }, 50)
       }
     } catch (error) {}
   }
