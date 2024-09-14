@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import useChangePwd from '../hooks/useChangePwd'
 import { routeTo } from '@/utils'
+import useChangePwd from '../hooks/useChangePwd'
 const { submitPasswoed, model, rules, loading } = useChangePwd()
 
 const form = ref(null)
@@ -109,8 +109,9 @@ function showKeyBoard() {
         提 交
       </wd-button>
     </view>
-
-    <wd-button type="text" style="margin: 0 auto" @click="Passreset">服务密码重置</wd-button>
+    <view class="flex justify-center mt-10px">
+      <wd-button type="text" @click="Passreset">服务密码重置</wd-button>
+    </view>
   </view>
 </template>
 <script lang="ts">

@@ -21,12 +21,13 @@ import shebaoksl from '@/static/images/serve/shebaoksl.png'
 import kaguas from '@/static/images/serve/kaguas.png'
 import kajiegua from '@/static/images/serve/kajiegua.png'
 import kajindu from '@/static/images/serve/kajindu.png'
-import mimaxiugai from '@/static/images/serve/mimaxiugai.png'
 
 import kabase from '@/static/images/serve/kabase.png'
 
+import jiaofeitong from '@/static/images/serve/jiaofeitong.png'
 import kabiangeng from '@/static/images/serve/kabiangeng.png'
 import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
+import xionganlebo from '@/static/images/serve/xionganlebo.png'
 
 import { useBaseStore } from '@/store/modules/base'
 import { useToast } from 'wot-design-uni'
@@ -125,14 +126,14 @@ const mainData3 = ref([
   {
     title: '雄安乐泊',
     icon: 'coupon',
-    url: 'xionganlebo',
+    url: xionganlebo,
     type: '4',
     base: '',
   },
   {
     title: '雄安缴费通',
     icon: 'coupon',
-    url: 'jiaofeitong',
+    url: jiaofeitong,
     type: '4',
     base: '',
   },
