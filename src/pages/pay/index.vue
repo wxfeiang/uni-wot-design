@@ -8,10 +8,12 @@
 </route>
 
 <script lang="ts" setup>
+import { getShopDetail, getWxPay } from '@/service/api/shop'
 import { getPayCouponUserPhone } from '@/service/api/userMessage'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useRequest } from 'alova/client'
-
+import qs from 'qs'
+import { couponProps, shopDetilProps } from './utils/types'
 const inValue = ref<any>() // 输入框的值
 const visible = ref(false)
 const maxlength = ref(11)
@@ -53,12 +55,17 @@ const onInput = (key: string) => {
 const onDelete = () => {
   inValue.value = inValue.value.slice(0, -1)
 }
-const yhList = ref([])
-const { send: sendYhq } = useRequest((data) => getPayCouponUserPhone(data), {
-  immediate: false,
-  loading: false,
-  initialData: [],
-})
+// 查询可用优惠券
+// const yhList = ref([])
+const { send: sendYhq, data: yhList } = useRequest(
+  (data) => getPayCouponUserPhone<couponProps[]>(data),
+  {
+    immediate: false,
+    loading: false,
+    initialData: [],
+  },
+)
+
 // const yhList = ref([
 //   {
 //     title: '平台',
@@ -92,79 +99,18 @@ const onClose = async () => {
       orderAmount: inValue.value,
     }
     try {
-      const data: any = await sendYhq(params)
+      const data = await sendYhq(params)
       yhList.value = data
+      itmeClick(yhList.value[0], 0)
     } catch (error) {
       console.log('🥞[error]:', error)
-      yhList.value = [
-        {
-          couponNum: 19,
-          couponReceiveWay: 2,
-          couponName: '8折优惠卷',
-          couponSource: 1,
-          flag: 0,
-          couponReceiveEndDate: '2024-09-13T00:00:00',
-          couponUsedObj: 1,
-          couponEndDate: '2024-09-15T00:00:00',
-          couponId: 196,
-          type: 1,
-          couponType: 3,
-          couponStatus: 0,
-          couponReceiveBeginDate: '2024-09-09T00:00:00',
-          couponRemark: '使用规则说明232',
-          receiveNum: 3,
-          couponScop: 1,
-          topFlag: 0,
-          updateTime: '2024-09-12T16:55:28',
-          userId: 1,
-          receiveId: 16163,
-          couponReceiveLimit: 1,
-          couponFillPrice: 0,
-          useQuantity: 1,
-          createTime: '2024-09-10T19:43:25',
-          couponPrice: 0.8,
-          couponCode: '0770775391511543',
-          couponBeginDate: '2024-09-10T00:00:00',
-        },
-        {
-          couponNum: 8,
-          couponReceiveWay: 2,
-          couponName: '满10元减3元',
-          couponSource: 1,
-          flag: 0,
-          couponReceiveEndDate: '2024-09-13T00:00:00',
-          couponUsedObj: 1,
-          couponEndDate: '2024-09-14T00:00:00',
-          couponId: 218,
-          type: 1,
-          couponType: 1,
-          couponStatus: 0,
-          couponReceiveBeginDate: '2024-09-09T00:00:00',
-          couponRemark: '使用规则说明',
-          receiveNum: 2,
-          couponScop: 1,
-          topFlag: 0,
-          updateTime: '2024-09-12T18:03:47',
-          receiveId: 16164,
-          couponReceiveLimit: 1,
-          couponFillPrice: 10,
-          useQuantity: 0,
-          createTime: '2024-09-12T15:18:55',
-          couponPrice: 3,
-          couponCode: '1457034423505223',
-          couponBeginDate: '2024-09-12T00:00:00',
-        },
-      ]
+      yhList.value = []
+      actualPrice.value = inValue.value
     }
-
-    // 打开半屏 小程序
-
-    itmeClick(yhList.value[0], 0)
   }
 }
 
 // 处理优惠券显示
-
 const remarks = ref('')
 const messData = ref([
   // {
@@ -178,7 +124,7 @@ const messData = ref([
   //   isLink: false,
   // },
   {
-    title: '优惠券',
+    title: '优惠金额',
     isLink: true,
     value: 0,
   },
@@ -190,25 +136,28 @@ const openYh = () => {
   collapse.value = !collapse.value
 }
 
-actualPrice.value = inValue.value
 const activeIndex = ref<number>()
 const cyhqje = ref() //  优惠金额
+const sjyhje = ref(0) // 实际优惠金额
 
-function itmeClick(item, index) {
+function itmeClick(item: couponProps, index) {
   if (activeIndex.value === index) {
     activeIndex.value = -1
     cyhqje.value = ''
     actualPrice.value = inValue.value * 1
+    sjyhje.value = 0
   } else {
     activeIndex.value = index
     // cyhqje.value = yhList.value[activeIndex.value].value
     cyhqje.value = item.couponName
-    if (item.type === 1) {
+    if (item.couponType === 1) {
+      sjyhje.value = item.couponPrice * 1
       const value = inValue.value * 1 - item.couponPrice * 1
       actualPrice.value = value < 0 ? 0 : value
     }
-    if (item.type === 3) {
+    if (item.couponType === 3) {
       actualPrice.value = Number((inValue.value * (item.couponPrice * 1)).toFixed(2))
+      sjyhje.value = Number((inValue.value * 1 - actualPrice.value).toFixed(2))
     }
   }
 
@@ -235,18 +184,56 @@ const payData = ref([
 const popClose = () => {
   activeIndex.value = -1
 }
+
+const { send: sendPay, data: payList } = useRequest((data) => getWxPay(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+})
 async function goPay() {
-  await openEmbeddedMiniProgram('/pages/pay/index', { actualPrice })
+  const params = {
+    userDid: '',
+    invoice: inValue.value, // 订单金额
+    actualPrice: actualPrice.value, // 实际支付金额
+    shoId: urlData.value.shopId ?? '30562',
+  }
+  console.log('🥥', params)
+  await sendPay(params)
+  await openEmbeddedMiniProgram('/pages/pay/index', { ...params })
 }
+//  查询商户信息
+const { send: sendShopDetail, data: shhopMessage } = useRequest(
+  (data) => getShopDetail<shopDetilProps>(data),
+  {
+    immediate: false,
+    loading: false,
+    initialData: [],
+  },
+)
+const urlData = ref()
+onLoad(async (options) => {
+  urlData.value = qs.parse(decodeURIComponent(options.url) || options.url)
+  console.log('🥫[urlData.value]:', urlData.value)
+  try {
+    await sendShopDetail({ shopId: urlData.value.shopId ?? '30562' })
+  } catch (error) {}
+
+  // 获取到进入页面的所有信息
+})
+onShow(async (options) => {
+  console.log('🥓[options]:', options)
+  // huoquzh
+})
 </script>
 
 <template>
   <dy-navbar leftTitle="付款" left></dy-navbar>
+
   <view class="px-10px py-20px bg-#f5f5f5">
     <view class="flex justify-between items-center">
       <view>
         <view class="text-18px color-#000">付款给商家</view>
-        <view class="text-14px color-#999999 mt-4px">文文跑江湖的店</view>
+        <view class="text-14px color-#999999 mt-4px">{{ shhopMessage.shopName }}</view>
       </view>
 
       <view>
@@ -260,8 +247,8 @@ async function goPay() {
     </view>
   </view>
 
-  <view class="rounded-t-20px overflow-hidden mt-20px">
-    <view class="bg-#fff">
+  <view class="pt-20px bg-#f5f5f5">
+    <view class="bg-#fff rounded-t-30px overflow-hidden">
       <view class="px-20px pt-20px">
         <view class="my-10px text-18px">付款金额</view>
         <wd-input
@@ -294,7 +281,7 @@ async function goPay() {
       <wd-textarea v-model="remarks" placeholder="" /> -->
       </view>
       <view class="px-20px mt-20px" v-if="show">
-        <view class="mt-10px">
+        <view class="mt-10px max-height-200px overflow-hidden" v-if="yhList && yhList.length > 0">
           <wd-cell-group>
             <wd-cell
               v-for="(item, index) in messData"
@@ -312,12 +299,9 @@ async function goPay() {
                 v-if="item.isLink"
                 @click="openYh"
               >
-                <!-- <view v-if="cyhqje">
-                  ¥
-
-                </view> -->
+                <view v-if="cyhqje">¥</view>
                 <text>
-                  {{ cyhqje }}
+                  {{ sjyhje }}
                 </text>
 
                 <view :class="collapse ? 'rotate-90' : ''">
@@ -492,6 +476,11 @@ async function goPay() {
     </view>
   </wd-popup>-->
 </template>
+<style>
+/* page {
+  background: #f5f5f5;
+} */
+</style>
 
 <style lang="scss" scoped>
 //

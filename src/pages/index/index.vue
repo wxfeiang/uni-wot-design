@@ -39,31 +39,23 @@ const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, 
 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
-    const resData = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+    const resData: any = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+    let url = null
+    // 扫描到小程序码
+    if (resData.scanType === 'WX_CODE') {
+      url = resData.path.split('?')
+    }
+    if (resData.scanType === 'QR_CODE') {
+      url = resData.result.split('?')
+    }
+    console.log('🥓[resData]:', resData)
+
     routeTo({
       url: '/pages/pay/index',
-      data: { resData: 1 },
+      data: { url: url[1] },
     })
 
     console.log('🍠[resData]:', resData)
-
-    // if(resData){
-
-    // }
-    // TODO:暂时注释
-    // message
-    //   .confirm({
-    //     msg: '内容识别成功,请点击确认',
-    //     title: '提示',
-    //   })
-    //   .then(async () => {
-
-    //     const data = await openEmbeddedMiniProgram('/pages/pay/index', { data: 'test' })
-
-    //   })
-    //   .catch(() => {
-    //     console.log('点击了取消按钮')
-    //   })
   } else if (item.type === 'wxChart') {
     openWxChart(item.appId, item.path)
   } else if (item.type === 'switchTab') {
