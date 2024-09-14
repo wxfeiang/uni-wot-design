@@ -35,7 +35,7 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    userDId: authStore.userInfo.userId,
+    userDId: authStore.userInfo.userDId,
     phone: authStore.userInfo.userPhone,
   }
   // 调用接口获取数据

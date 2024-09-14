@@ -80,7 +80,7 @@ const handleReceive = async (item) => {
   } else {
     const params = {
       couponId: props.data.couponId,
-      userDId: authStore.userInfo.userId,
+      userDId: authStore.userInfo.userDId,
     }
     try {
       const data: any = await sendReceiveCoupon(params)

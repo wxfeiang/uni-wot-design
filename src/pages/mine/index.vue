@@ -62,7 +62,7 @@ onLoad(async () => {
     try {
       const params = {
         status: 0,
-        userDId: userInfo.value.userId,
+        userDId: userInfo.value.userDId,
         phone: userInfo.value.userPhone,
       }
       const data: any = await sendUserCouponList(params)
