@@ -45,10 +45,10 @@ const serveList = ref<serveProps[]>([
   },
   {
     icon: gywm,
-    title: '关于我们',
+    title: '版本',
     path: '/mine/realName',
-    islink: true,
-    value: 'v1.2.0',
+    islink: false,
+    value: 'V1.2.0',
   },
 ])
 const serveClick = (item: serveProps) => {

@@ -65,7 +65,7 @@ const swiperList = ref<bannerProps[]>([
     data: { base: 'shebaoksl', title: '社保卡申领' },
   },
   {
-    id: '1710488285782016008',
+    id: '1710488285782016007',
     path: '/pages-sub/webView/index',
     title: 'title1',
     description: '',
@@ -75,7 +75,7 @@ const swiperList = ref<bannerProps[]>([
     type: 'article',
   },
   {
-    id: '1710488285782016007',
+    id: '1710488285782016008',
     path: '/pages-sub/webView/index',
     title: 'title1',
     description: '',
@@ -169,6 +169,10 @@ const {
   },
 )
 
+function getMessageListBytype(data) {
+  return getMessageList(data)
+}
+
 function messageClick(item: messProps) {
   routeTo({
     url: '/pages-sub/webView/index',
@@ -179,6 +183,7 @@ export default () => {
   return {
     messageData,
     messageClick,
+    getMessageListBytype,
     sendMessageList,
     messageLoading,
     swiperList,
