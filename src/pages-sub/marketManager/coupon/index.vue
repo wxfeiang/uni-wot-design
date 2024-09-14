@@ -16,6 +16,8 @@ import bg from '../static/images/coupon/yhbg.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
+import { useUserStore } from '@/store'
+const authStore = useUserStore()
 const { sendCouponList } = userCoupon()
 const topbgBase64 = ref('')
 const title = ref('领券中心')
@@ -29,14 +31,16 @@ const params = ref({
   page: '1',
   size: '10',
 })
-function queryList(pageNo: number, pageSize: number) {
+async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
+    userDId: authStore.userInfo.userId,
+    phone: authStore.userInfo.userPhone,
   }
   // 调用接口获取数据
   try {
-    const data: any = sendCouponList(params)
+    const data: any = await sendCouponList(params)
     conponList.value = data.content
     conponList.value.forEach((item) => {
       item.couponStatus = 3
@@ -76,10 +80,10 @@ onLoad(async () => {
         <wd-img :src="myyhbtn" width="153" height="35"></wd-img>
       </view>
     </template>
-    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px" style="min-height: 50px">
+    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px" style="min-height: 10px">
       <view class="pt-10px px-10px">
         <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item" :refresh="paging.reload()"></Coupon-List>
+          <Coupon-List :data="item" @refresh="paging.reload()"></Coupon-List>
         </view>
       </view>
     </view>
@@ -99,6 +103,6 @@ onLoad(async () => {
   @apply w-80%  rounded-10px;
 }
 :deep(.zp-scroll-view-super) {
-  margin-top: 50px;
+  margin-top: 15rpx;
 }
 </style>

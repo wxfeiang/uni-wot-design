@@ -6,6 +6,7 @@ import bg from '../../static/images/coupon/items.png'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
+import { useScancode } from '@/utils/uniapi'
 import userCoupon from '../utils/userCoupon'
 const { sendReceiveCoupon } = userCoupon()
 
@@ -59,19 +60,31 @@ const statusCoupopn = computed(() => {
 const statusBg = computed(() => {
   return props.data.couponStatus === 3 || props.data.couponStatus === 0
 })
+// 平台券，商家券判断条件
+const sourceStu = computed(() => {
+  return props.data.type === 1
+})
 const authStore = useUserStore()
 const handleReceive = async (item) => {
   if (props.data.couponStatus === 0) {
     // 去使用
-    // routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
-    Toast('功能开发中...')
+    if (props.data.type === 1) {
+      // 扫一扫相关功能
+      const resData = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+      console.log('resData:' + JSON.stringify(resData))
+    } else {
+      // 商城跳转
+      // routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
+      Toast('功能开发中...')
+    }
   } else {
     const params = {
       couponId: props.data.couponId,
+      userDId: authStore.userInfo.userId,
     }
     try {
       const data: any = await sendReceiveCoupon(params)
-      if (data) {
+      if (data === true) {
         Toast('领取成功')
         emit('refresh')
       }
@@ -89,7 +102,7 @@ const url = ref(
 
 <template>
   <view
-    :style="`background-image: url(${url});background-size: 100% 120px`"
+    :style="`background-image: url(${url});background-size: 100% ${sourceStu ? '135px' : '120px'}`"
     class="bg-no-repeat min-h-120px relative pl-24px pr-10px py-20px box-border rounded-t-10px ml-[-5px]"
     :class="statusBg ? '' : 'grayscale opacity-50'"
   >
@@ -102,6 +115,7 @@ const url = ref(
             props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
           }}
         </view>
+        <view v-if="sourceStu" class="color-#FFC4A6 text-12px">仅雄安一卡通支付使用</view>
         <view class="flex justify-between items-center mt-10px">
           <view
             class="px-15px py-2px rounded-100 bd-1px_#fff color-#fff text-12px"
