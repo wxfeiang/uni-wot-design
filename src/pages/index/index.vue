@@ -233,7 +233,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px swiper mx-[-2px]">
+  <view class="py-3px h-135px swiper px-10px">
     <wd-swiper
       :list="swiperList"
       :autoplay="true"

@@ -181,7 +181,7 @@ const categories = ref([
     items: mainData2.value,
   },
   {
-    label: '生活缴费',
+    label: '生活服务',
     title: '标题三',
     icon: 'location',
     items: mainData3.value,
