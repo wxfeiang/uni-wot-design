@@ -157,21 +157,11 @@ const {
   data: messageData,
   onSuccess: messageSucess,
   loading: messageLoading,
-} = useRequest(
-  getMessageList({
-    page: 1,
-    size: 50,
-  }),
-  {
-    immediate: false,
-    loading: false,
-    initialData: [],
-  },
-)
-
-function getMessageListBytype(data) {
-  return getMessageList(data)
-}
+} = useRequest((data) => getMessageList(data), {
+  immediate: false,
+  loading: false,
+  initialData: [],
+})
 
 function messageClick(item: messProps) {
   routeTo({
@@ -183,7 +173,6 @@ export default () => {
   return {
     messageData,
     messageClick,
-    getMessageListBytype,
     sendMessageList,
     messageLoading,
     swiperList,

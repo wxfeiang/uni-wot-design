@@ -34,15 +34,8 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const basestore = useBaseStore()
 const toast = useToast()
 
-const {
-  messageClick,
-  getMessageListBytype,
-  sendMessageList,
-  messageLoading,
-  swiperList,
-  serviceArea,
-  topAction,
-} = useIndex()
+const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, topAction } =
+  useIndex()
 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
@@ -125,21 +118,8 @@ function toMessageItem(e) {
   messageClick(mess1.value[index])
 }
 
-const mess1 = ref<messProps[]>([
-  {
-    articleId: '',
-    createTime: '',
-    createBy: '',
-    articleTitle: '',
-  },
-  {
-    articleId: '',
-    createTime: '',
-    createBy: '',
-    articleTitle: '',
-  },
-])
-const mess2 = ref<messProps[]>([{ articleId: '', createTime: '', createBy: '', articleTitle: '' }])
+const mess1 = ref<messProps[]>([])
+const mess2 = ref<messProps[]>([])
 
 const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
@@ -150,28 +130,15 @@ onLoad(async () => {
   btnbgBase64.value = await pathToBase64(btnbg)
 })
 onMounted(async () => {
-  // const mess: any = await sendMessageList({
-  //   page: 1,
-  //   size: 50,
-  // })
-  // mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 3)
-  // mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
-  await getMessageListBytype({
+  const mess: any = await sendMessageList({
     page: 1,
-    size: 10,
-    articleType: '0',
-  }).then((mes1) => {
-    mess1.value = mes1.data.data.content
+    size: 50,
   })
-
-  const mes2: any = await getMessageListBytype({
-    page: 1,
-    size: 3,
-    articleType: '1',
-  }).then((mes2) => {
-    mess2.value = mes2.data.data.content
-  })
+  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 5)
+  console.log('🥕[mess1.value ]:', mess1.value)
+  mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
+
 const closeAdFlog = ref(true)
 const closeAd = () => {
   closeAdFlog.value = false
@@ -234,8 +201,8 @@ onPageScroll((e) => {
   <wd-gap height="15" bg-color="#fff"></wd-gap>
   <view class="px-10px">
     <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
-      <view class="w-60px h-full mr-10px msg flex pl-10px box-border items-center pt-8px">
-        <wd-badge is-dot>
+      <view class="w-60px h-full mr-10px msg flex pl-15px box-border items-center pt-8px">
+        <wd-badge :is-dot="false">
           <wd-img :width="20" :height="20" :src="msgicon" />
         </wd-badge>
       </view>

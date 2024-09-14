@@ -45,20 +45,22 @@ function logoutCimfirm() {
 
 const bgUrlBase64 = ref()
 
+const acton = (item) => {
+  if (item.url) {
+    routeTo({ url: '/pages-sub/system/sysconfig/index' })
+  } else {
+    toast.show('功能开发中，敬请期待!...')
+  }
+}
+const qiandao = () => {
+  routeTo({ url: '/pages-sub/marketManager/integral/index' })
+}
 onLoad(async () => {
   // 设置背景图片
   bgUrlBase64.value = await pathToBase64(imgUrl)
-  // const params = {
-  //   xm: userInfo.value.userName,
-  //   zjhm: userInfo.value.idCardNumber,
-  //   zjlx: '1',
-  //   zkType: '1',
-  //   wdcode: '999-130632004',
-  //   areaCode: 'CHN',
-  // }
-  // const data = await sendIsReceiveCardInfo(params)
-  // console.log('🥘[data]:', data)
-  if (isLogined) {
+})
+onShow(async () => {
+  if (isLogined.value) {
     try {
       const params = {
         status: 0,
@@ -70,17 +72,6 @@ onLoad(async () => {
     }
   }
 })
-
-const acton = (item) => {
-  if (item.url) {
-    routeTo({ url: '/pages-sub/system/sysconfig/index' })
-  } else {
-    toast.show('功能开发中，敬请期待!...')
-  }
-}
-const qiandao = () => {
-  routeTo({ url: '/pages-sub/marketManager/integral/index' })
-}
 </script>
 
 <template>
