@@ -29,8 +29,8 @@ const toAgreement = () => {
 }
 const tips = ref(false)
 const qiandaoMsg = ref({
-  maxDay: 0,
-  signIntegral: 0,
+  maxDay: '',
+  signIntegral: '',
 })
 const qiandao = async () => {
   try {
