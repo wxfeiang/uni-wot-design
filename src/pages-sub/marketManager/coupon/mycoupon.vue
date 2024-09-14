@@ -54,7 +54,7 @@ async function queryList(pageNo: number, pageSize: number) {
     page: pageNo,
     size: pageSize,
     status: tab.value,
-    userDId: authStore.userInfo.userId,
+    userDId: authStore.userInfo.userDId,
     phone: authStore.userInfo.userPhone,
   }
 
