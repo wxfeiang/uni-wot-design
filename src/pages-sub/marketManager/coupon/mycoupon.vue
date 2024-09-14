@@ -16,8 +16,6 @@ import hubgtitle from '../static/images/coupon/tomyh.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
-import { useUserStore } from '@/store'
-const authStore = useUserStore()
 const { sendUserCouponList } = userCoupon()
 
 const topbgBase64 = ref('')
@@ -54,8 +52,6 @@ async function queryList(pageNo: number, pageSize: number) {
     page: pageNo,
     size: pageSize,
     status: tab.value,
-    userDId: authStore.userInfo.userDId,
-    phone: authStore.userInfo.userPhone,
   }
 
   // 调用接口获取数据

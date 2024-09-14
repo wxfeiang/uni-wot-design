@@ -16,8 +16,6 @@ import bg from '../static/images/coupon/yhbg.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
-import { useUserStore } from '@/store'
-const authStore = useUserStore()
 const { sendCouponList } = userCoupon()
 const topbgBase64 = ref('')
 const title = ref('领券中心')
@@ -27,16 +25,10 @@ function toYouhuiquan() {
   routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon' })
 }
 const paging = ref(null)
-const params = ref({
-  page: '1',
-  size: '10',
-})
 async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    userDId: authStore.userInfo.userDId,
-    phone: authStore.userInfo.userPhone,
   }
   // 调用接口获取数据
   try {
