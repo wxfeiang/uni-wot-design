@@ -10,6 +10,16 @@ import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
 import wdjf from '@/static/images/mine/wdjf.png'
 import { routeTo } from '@/utils'
+import { getUserCouponList } from '@/service/api/userMessage'
+
+// 查询user列表
+const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
+  (data) => getUserCouponList(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
 
 // 退出操作
 const { loading, send: sendLogOut } = useRequest(logout, {
@@ -111,5 +121,6 @@ export default () => {
     serveClick,
     sendIsReceiveCardInfo,
     topList,
+    sendUserCouponList,
   }
 }

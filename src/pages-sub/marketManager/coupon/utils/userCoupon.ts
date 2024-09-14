@@ -6,7 +6,7 @@ const { send: sendCouponList, loading: listLoading } = useRequest((data) => getC
   loading: false,
 })
 
-// 查询状态查询
+// 查询user列表
 const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
   (data) => getUserCouponList(data),
   {
