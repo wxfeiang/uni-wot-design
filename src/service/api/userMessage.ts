@@ -4,7 +4,7 @@ import { METHOD_INSTANCE } from '../model/baseModel'
 const FIND_XCX_SCORE_USER = baseUrlApi('/member/app/ScoreUser/findXcxScoreUser')
 const SIGN_IN = baseUrlApi('/member/app/ScoreUser/signIn')
 
-const GET_USER_SCORE_PAGE = baseUrlApi('/member/app/UserScore/getUserScorePage')
+const GET_USER_SCORE_PAGE = baseUrlApi('/member/app/UserScore/getPointsBreakdown')
 
 const GET_XIN_CANG_CARD_INFO = baseUrlApi('/card/app/getXinCangCardInfo')
 const SET_XIN_CANG_CARD_AUTHORIZE = baseUrlApi('/card/app/setXinCangCardAuthorize')
