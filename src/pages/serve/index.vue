@@ -34,7 +34,7 @@ import { getRect, isArray } from 'wot-design-uni/components/common/util'
 
 const toast = useToast()
 const basestore = useBaseStore()
-const mainData = ref([
+const mainData1 = ref([
   {
     title: '社保卡申领',
     icon: 'card',
@@ -67,7 +67,13 @@ const mainData = ref([
   //   icon: 'coupon',
   //   url: xinshengrq,
   // },
-
+  {
+    title: '社保卡启用',
+    icon: 'coupon',
+    url: shebaok,
+    type: '3',
+    base: 'cardSocialActive',
+  },
   {
     title: '社保卡挂失',
     icon: 'coupon',
@@ -82,14 +88,9 @@ const mainData = ref([
     type: '3',
     base: 'unboxingInfo',
   },
+])
 
-  {
-    title: '社保卡启用',
-    icon: 'coupon',
-    url: shebaok,
-    type: '3',
-    base: 'cardSocialActive',
-  },
+const mainData2 = ref([
   {
     title: '基础信息查询',
     icon: 'coupon',
@@ -97,13 +98,13 @@ const mainData = ref([
     type: '1',
     base: 'cardBaseInfo',
   },
-  {
-    title: '服务密码修改',
-    icon: 'coupon',
-    url: mimaxiugai,
-    type: '3',
-    base: 'changeCardPwd',
-  },
+  // {
+  //   title: '服务密码修改',
+  //   icon: 'coupon',
+  //   url: mimaxiugai,
+  //   type: '3',
+  //   base: 'changeCardPwd',
+  // },
   {
     title: '社保信息变更',
     icon: 'coupon',
@@ -112,11 +113,28 @@ const mainData = ref([
     base: 'cardChange',
   },
   {
-    title: '服务密码重置',
+    title: '服务密码管理',
     icon: 'coupon',
     url: mimachongzhi,
     type: '3',
-    base: 'servepassreset',
+    base: 'changeCardPwd',
+  },
+])
+
+const mainData3 = ref([
+  {
+    title: '雄安乐泊',
+    icon: 'coupon',
+    url: 'xionganlebo',
+    type: '4',
+    base: '',
+  },
+  {
+    title: '雄安缴费通',
+    icon: 'coupon',
+    url: 'jiaofeitong',
+    type: '4',
+    base: '',
   },
 ])
 
@@ -142,29 +160,31 @@ const scrollTop = ref<number>(0)
 const itemScrollTop = ref<number[]>([])
 
 const categories = ref([
-  // {
-  //   label: '社保卡申领',
-  //   title: '标题一',
-  //   icon: 'thumb-up',
-  //   items: mainData.value.slice(0, 3),
-  // },
+  {
+    label: '社保卡申领',
+    title: '标题一',
+    icon: 'thumb-up',
+    items: mainData1.value,
+  },
   {
     label: '社保卡服务',
     title: '标题二',
     icon: 'qrcode',
-    items: mainData.value.slice(0, 20),
+    items: mainData2.value,
   },
-  // {
-  //   label: '生活缴费',
-  //   title: '标题三',
-  //   icon: 'location',
-  //   items: mainData.value.slice(12, 20),
-  // },
+  {
+    label: '生活缴费',
+    title: '标题三',
+    icon: 'location',
+    items: mainData3.value,
+  },
 ])
+
 function handleChange({ value }) {
   active.value = value
   scrollTop.value = itemScrollTop.value[value]
 }
+
 function onScroll(e) {
   const { scrollTop } = e.detail
   const threshold = 50 // 下一个标题与顶部的距离
@@ -179,6 +199,7 @@ function onScroll(e) {
     active.value = index
   }
 }
+
 onLoad((options: any) => {
   active.value = basestore.active
 })
@@ -240,6 +261,7 @@ onMounted(() => {
 :deep(.grid-item .wd-grid-item__wrapper) {
   @apply size-auto!;
 }
+
 :deep(.wd-grid-item) {
   @apply justify-start!;
 }
@@ -250,10 +272,12 @@ onMounted(() => {
   height: calc(100vh - var(--window-top) - constant(safe-area-inset-bottom));
   height: calc(100vh - var(--window-top) - env(safe-area-inset-bottom));
 }
+
 .content {
   flex: 1;
   background: #fff;
 }
+
 :deep(.customClass) {
   @apply text-12px!;
 }

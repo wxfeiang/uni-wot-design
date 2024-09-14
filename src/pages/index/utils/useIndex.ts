@@ -169,6 +169,10 @@ const {
   },
 )
 
+function getMessageListBytype(data) {
+  return getMessageList(data)
+}
+
 function messageClick(item: messProps) {
   routeTo({
     url: '/pages-sub/webView/index',
@@ -179,6 +183,7 @@ export default () => {
   return {
     messageData,
     messageClick,
+    getMessageListBytype,
     sendMessageList,
     messageLoading,
     swiperList,

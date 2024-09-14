@@ -34,8 +34,15 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const basestore = useBaseStore()
 const toast = useToast()
 
-const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, topAction } =
-  useIndex()
+const {
+  messageClick,
+  getMessageListBytype,
+  sendMessageList,
+  messageLoading,
+  swiperList,
+  serviceArea,
+  topAction,
+} = useIndex()
 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
@@ -88,6 +95,7 @@ function swiperClick(data) {
     })
   }
 }
+
 function serveClick(item) {
   routeTo({
     url: item.path,
@@ -98,15 +106,19 @@ function serveClick(item) {
 function serveGuild() {
   routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
 }
+
 const toServhFor = () => {
   routeTo({ url: '/pages-sub/serveMassage/serchFor/index' })
 }
+
 function toBusinessOutlets() {
   routeTo({ url: '/pages-sub/serveMassage/businessOutlets/index' })
 }
+
 function toMessage() {
   routeTo({ url: '/pages-sub/serveMassage/messageList/index' })
 }
+
 function toMessageItem(e) {
   const { index } = e
 
@@ -138,12 +150,27 @@ onLoad(async () => {
   btnbgBase64.value = await pathToBase64(btnbg)
 })
 onMounted(async () => {
-  const mess: any = await sendMessageList({
+  // const mess: any = await sendMessageList({
+  //   page: 1,
+  //   size: 50,
+  // })
+  // mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 3)
+  // mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
+  await getMessageListBytype({
     page: 1,
-    size: 50,
+    size: 10,
+    articleType: '0',
+  }).then((mes1) => {
+    mess1.value = mes1.data.data.content
   })
-  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 3)
-  mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
+
+  const mes2: any = await getMessageListBytype({
+    page: 1,
+    size: 3,
+    articleType: '1',
+  }).then((mes2) => {
+    mess2.value = mes2.data.data.content
+  })
 })
 const closeAdFlog = ref(true)
 const closeAd = () => {
@@ -343,13 +370,14 @@ onPageScroll((e) => {
       </view>
     </view>
   </view>
-  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <!--  <wd-gap height="15" bg-color="#fff"></wd-gap>-->
 </template>
 
 <style>
 :deep(.nav_show) {
   @apply bg-transparent!;
 }
+
 :deep(.nav_hide) {
   @apply bg-#2B66ED!;
 }
@@ -358,6 +386,7 @@ onPageScroll((e) => {
   background: rgba(255, 255, 255, 0.18);
   border-radius: 6px 6px 6px 6px;
 }
+
 .search-type::after {
   position: absolute;
   top: 2px;
@@ -367,24 +396,29 @@ onPageScroll((e) => {
   content: '';
   background: rgba(255, 255, 255, 0.65);
 }
+
 .msg {
   background: linear-gradient(-74deg, transparent 10px, #2d69ef 0) top right;
 }
+
 .zhbg {
   background: linear-gradient(180deg, #c0dcff 0%, #f5f9fe 100%);
   border-radius: 6px;
 }
+
 .zn-item {
   background: #ffffff;
   border-radius: 6px;
   box-shadow: 0px 0px 13px 1px rgba(12, 86, 182, 0.16);
 }
+
 .swiper {
   --wot-swiper-radius: 0;
-  --wot-swiper-item-padding: 0 24rpx;
+  --wot-swiper-item-padding: 0 24 rpx;
   --wot-swiper-nav-dot-color: #fff;
   --wot-swiper-nav-dot-active-color: #4d80f0;
 }
+
 :deep(.custom-class-noticebar) {
   @apply p-0! bg-transparent!  color-#333! text-14px! w-60vw overflow-hidden truncate-1!;
 }
