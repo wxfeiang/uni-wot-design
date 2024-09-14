@@ -45,9 +45,9 @@ const serveList = ref<serveProps[]>([
   },
   {
     icon: gywm,
-    title: '关于我们',
+    title: '版本',
     path: '/mine/realName',
-    islink: true,
+    islink: false,
     value: 'v1.2.0',
   },
 ])
