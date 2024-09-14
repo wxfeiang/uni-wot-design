@@ -48,7 +48,7 @@ const serveList = ref<serveProps[]>([
     title: '版本',
     path: '/mine/realName',
     islink: false,
-    value: 'v1.2.0',
+    value: 'V1.2.0',
   },
 ])
 const serveClick = (item: serveProps) => {
