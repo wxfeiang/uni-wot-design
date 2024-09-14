@@ -72,7 +72,7 @@ onLoad(async () => {
         <wd-img :src="myyhbtn" width="153" height="35"></wd-img>
       </view>
     </template>
-    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px" style="min-height: 10px">
+    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px" style="min-height: 100px">
       <view class="pt-10px px-10px">
         <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
           <Coupon-List :data="item" @refresh="paging.reload()"></Coupon-List>
