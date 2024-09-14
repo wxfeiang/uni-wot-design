@@ -25,7 +25,8 @@ const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
 
-const { LogOut, loading, serveList, serveClick, topList, sendUserCouponList } = useInfo()
+const { LogOut, loading, serveList, serveClick, topList, sendUserCouponList, sendInterInfo } =
+  useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 function login() {
@@ -65,8 +66,11 @@ onShow(async () => {
       const params = {
         status: 0,
       }
+
       const data: any = await sendUserCouponList(params)
       topList.value[1].value = data.unUsedCouponNum
+      const data2: any = await sendInterInfo()
+      topList.value[0].value = data.curScore ?? 0
     } catch {
       topList.value[1].value = 0
     }

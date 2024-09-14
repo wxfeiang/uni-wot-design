@@ -52,9 +52,9 @@ export function setXinCangCardAuthorize(data) {
  *  积分信息
  * @param params 初始参数()
  * */
-export function findXcxScoreUser(data) {
+export function findXcxScoreUser(data, flog?: boolean) {
   const meta: METHOD_INSTANCE = {
-    loading: true,
+    loading: !flog,
   }
   return request.Post(
     FIND_XCX_SCORE_USER, // 地址

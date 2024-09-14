@@ -90,7 +90,7 @@ const changeTab = (e) => {
         >
           <template #title>
             <view class="truncate-1 text-16px">
-              {{ changeDict(typeList, item.type) }}
+              {{ changeDict(typeList, item.type * 1) }}
             </view>
           </template>
           <template #label>
@@ -100,10 +100,10 @@ const changeTab = (e) => {
           </template>
           <view class="flex justify-center">
             <view
-              :class="item.type == 1 ? 'color-#34d19d' : 'color-#fa4350'"
+              :class="item.type === '1' ? 'color-#34d19d' : 'color-#fa4350'"
               class="text-16px font-bold"
             >
-              {{ item.incomeExpenses === 1 ? '+' : '-' }} {{ item.incom }}
+              {{ item.type === '1' ? '+' : '-' }} {{ item.curScore }}
             </view>
           </view>
         </wd-cell>

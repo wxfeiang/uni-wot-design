@@ -21,21 +21,8 @@ const form = ref(null)
 function handleClickLeft() {
   uni.navigateBack()
 }
-
-const data = ref([
-  {
-    title: '姓名',
-    value: userInfo.value?.userName,
-  },
-  {
-    title: '证件类型',
-    value: '身份证',
-  },
-  {
-    title: '身份证号',
-    value: userInfo.value?.idCardNumber,
-  },
-])
+console.log('🌯', userInfo)
+const data = ref([])
 const iconColse = ref(false)
 
 function close() {
@@ -50,7 +37,26 @@ function close() {
     }
   }
 }
-close()
+onShow(() => {
+  if (isLogined.value) {
+    console.log('🍔')
+    data.value = [
+      {
+        title: '姓名',
+        value: userInfo.value.userName,
+      },
+      {
+        title: '证件类型',
+        value: '身份证',
+      },
+      {
+        title: '身份证号',
+        value: userInfo.value.idCardNumber,
+      },
+    ]
+    close()
+  }
+})
 </script>
 <template>
   <dy-navbar leftTitle="实名认证" left></dy-navbar>
