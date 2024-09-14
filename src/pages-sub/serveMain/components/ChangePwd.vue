@@ -1,10 +1,18 @@
 <script lang="ts" setup>
 import useChangePwd from '../hooks/useChangePwd'
+import { routeTo } from '@/utils'
 const { submitPasswoed, model, rules, loading } = useChangePwd()
 
 const form = ref(null)
 
 const visible = ref<boolean>(false)
+
+const Passreset = function () {
+  routeTo({
+    url: '/pages-sub/serveMain/cardFromType',
+    data: { base: 'servepassreset', title: '服务密码管理' },
+  })
+}
 
 function showKeyBoard() {
   visible.value = true
@@ -101,6 +109,8 @@ function showKeyBoard() {
         提 交
       </wd-button>
     </view>
+
+    <wd-button type="text" style="margin: 0 auto" @click="Passreset">服务密码重置</wd-button>
   </view>
 </template>
 <script lang="ts">
