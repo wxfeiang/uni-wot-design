@@ -132,7 +132,7 @@ const submitPhoneCode = (form) => {
           console.log('🧀', params)
           const data: any = await sendPhoneCode(params)
           console.log('🍷[data]:', data)
-          if (data.errorCode === '0') {
+          if (data.errorCode === 0) {
             Toast('验证码发送成功')
           }
 
@@ -234,7 +234,7 @@ const shuziLogin = () => {
 }
 
 const resultData = async (data, flog?: boolean) => {
-  uni.showLoading({ title: '登陆成功' })
+  uni.showLoading({ title: '登录成功' })
   // 保存
   authStore.setUserInfo(data)
   // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领

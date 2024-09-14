@@ -6,7 +6,7 @@ const {
   loading: sending,
   countdown,
 } = useCaptcha((data) => getPhoneCode(data), {
-  initialCountdown: 120,
+  initialCountdown: 90,
   loading: false,
 })
 

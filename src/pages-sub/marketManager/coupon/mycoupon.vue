@@ -8,7 +8,6 @@
 </route>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
 import myyhbtn from '../static/images/coupon/lingqu.png'
@@ -17,6 +16,8 @@ import hubgtitle from '../static/images/coupon/tomyh.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
+import { useUserStore } from '@/store'
+const authStore = useUserStore()
 const { sendUserCouponList } = userCoupon()
 
 const topbgBase64 = ref('')
@@ -40,15 +41,9 @@ const tablist = ref([
     count: 0,
   },
 ])
-const params = ref({
-  page: '1',
-  size: '10',
-  status: 0,
-})
-const authStore = useUserStore()
+const matchTab = ref(['unUsedCouponNum', 'usedCouponNum', 'overdueCouponNum'])
 const changeTab = (e) => {
   tab.value = e.index
-  params.value.status = e.index
   paging.value.reload()
 }
 
@@ -58,11 +53,23 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
+    status: tab.value,
+    userDId: authStore.userInfo.userId,
+    phone: authStore.userInfo.userPhone,
   }
+
   // 调用接口获取数据
   try {
-    const data: any = sendUserCouponList(params)
-    conponList.value = data.content
+    const data: any = await sendUserCouponList(params)
+    conponList.value = data.coupons.content
+    // if (pageNo > 1) {
+    //   conponList.value.push(...data.coupons.content)
+    // } else {
+    //   conponList.value = data.coupons.content
+    // }
+    tablist.value.forEach((e, i) => {
+      e.count = data[matchTab.value[i]]
+    })
     paging.value.complete(conponList.value)
   } catch (error) {
     paging.value.complete(false)
@@ -72,26 +79,9 @@ function toYouhuiquan() {
   routeTo({ url: '/pages-sub/marketManager/coupon/index' })
 }
 
-const getUserCouponCount = async (status) => {
-  const param = {
-    status,
-  }
-  const data: any = await sendUserCouponList(param)
-
-  if (data.content) {
-    tablist.value[param.status].count = data.content.length
-  }
-}
-
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
-  // 获取未使用条数
-  await getUserCouponCount(0)
-  // 获取已使用条数
-  await getUserCouponCount(1)
-  // 获取已过期条数
-  await getUserCouponCount(2)
 })
 </script>
 
