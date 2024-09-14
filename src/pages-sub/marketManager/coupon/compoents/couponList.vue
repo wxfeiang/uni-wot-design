@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/store'
 import { Toast } from '@/utils/uniapi/prompt'
 import { pathToBase64 } from 'image-tools'
 import bg from '../../static/images/coupon/items.png'
@@ -64,7 +63,6 @@ const statusBg = computed(() => {
 const sourceStu = computed(() => {
   return props.data.type === 1
 })
-const authStore = useUserStore()
 const handleReceive = async (item) => {
   if (props.data.couponStatus === 0) {
     // 去使用
@@ -80,7 +78,6 @@ const handleReceive = async (item) => {
   } else {
     const params = {
       couponId: props.data.couponId,
-      userDId: authStore.userInfo.userDId,
     }
     try {
       const data: any = await sendReceiveCoupon(params)
