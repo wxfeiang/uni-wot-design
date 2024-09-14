@@ -30,6 +30,7 @@ import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
 import xionganlebo from '@/static/images/serve/xionganlebo.png'
 
 import { useBaseStore } from '@/store/modules/base'
+import { openWxChart } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
 
@@ -129,6 +130,8 @@ const mainData3 = ref([
     url: xionganlebo,
     type: '4',
     base: '',
+    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
   },
   {
     title: '雄安缴费通',
@@ -136,6 +139,8 @@ const mainData3 = ref([
     url: jiaofeitong,
     type: '4',
     base: '',
+    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+    path: 'pages/index/index',
   },
 ])
 
@@ -151,6 +156,8 @@ function gridClick(item: any) {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
   } else if (item.type === '3') {
     routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
+  } else if (item.type === '4') {
+    openWxChart(item.appId, item.path)
   } else {
     toast.show('功能开发中，敬请期待!...')
   }

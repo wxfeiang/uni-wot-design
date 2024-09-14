@@ -8,20 +8,13 @@ const {
   send: sendMessageList,
   data: messageData,
   onSuccess: messageSucess,
-}: { send: any; data: any; onSuccess: any } = useRequest(
-  getMessageList({
-    page: 1,
-    size: 10,
-    articleType: '0',
-  }),
-  {
-    immediate: false,
-    loading: false,
-    initialData: [],
-  },
-)
+}: { send: any; data: any; onSuccess: any } = useRequest((data) => getMessageList(data), {
+  immediate: false,
+  loading: false,
+  initialData: [],
+})
+
 function messageClick(item) {
-  console.log('🍤[item]:', item)
   routeTo({
     url: '/pages-sub/webView/index',
     data: { type: item.articleId },

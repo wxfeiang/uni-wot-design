@@ -1,15 +1,4 @@
-interface bannerProps {
-  id: string
-  path: string
-  title: string
-  description?: string
-  islink: boolean
-  image: string
-  type: 'webView' | 'article' | 'router'
-  data?: any
-}
-
-interface messProps {
+export interface messProps {
   articleId: string
   articleTitle: string
   articleType: string
@@ -27,5 +16,3 @@ interface messProps {
   type?: 'webView' | 'article' | 'router' // 跳转类型
   data?: any // 额外数据
 }
-
-export type { bannerProps, messProps }
