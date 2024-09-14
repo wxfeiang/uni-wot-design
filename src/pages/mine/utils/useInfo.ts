@@ -4,13 +4,13 @@ import { useRequest } from 'alova/client'
 import type { serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
+import { getUserCouponList } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
-import sfkb from '@/static/images/mine/sfkb.png'
+import sfkb from '@/static/images/mine/sfkb.jpg'
 import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
 import wdjf from '@/static/images/mine/wdjf.png'
 import { routeTo } from '@/utils'
-import { getUserCouponList } from '@/service/api/userMessage'
 
 // 查询user列表
 const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
@@ -27,7 +27,7 @@ const { loading, send: sendLogOut } = useRequest(logout, {
   loading: false,
 })
 
-const { clearUserInfo } = useUserStore()
+const { clearUserInfo, userInfo } = useUserStore()
 const LogOut = async () => {
   try {
     // await sendLogOut()
@@ -70,6 +70,7 @@ const serveList = ref<serveProps[]>([
     title: '身份卡包 ',
     path: '/pages-sub/userManager/cardManager/index',
     islink: true,
+    isSign: true,
   },
   {
     icon: wdjf,
@@ -92,6 +93,13 @@ const serveList = ref<serveProps[]>([
 ])
 const serveClick = (item: serveProps) => {
   if (item.islink) {
+    if (item.isSign && !userInfo.idCardNumber) {
+      uni.showToast({
+        title: '请先实名认证',
+        icon: 'none',
+      })
+      return
+    }
     routeTo({
       url: item.path,
       data: { type: item.data?.articleId, showTop: true, title: item.title },
