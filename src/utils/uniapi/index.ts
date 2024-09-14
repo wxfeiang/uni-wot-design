@@ -17,10 +17,6 @@ export const openWxChart = (appId: string, path: string, extraData = {}) => {
         resolve(res)
       },
       fail: (err) => {
-        uni.showToast({
-          title: '打开失败',
-          icon: 'none',
-        })
         reject(err)
       },
     })
@@ -43,11 +39,6 @@ export const openEmbeddedMiniProgram = (path: string, extraData = {}, appId = VI
         resolve(res)
       },
       fail: (err) => {
-        console.log('🥥[err]:', err)
-        uni.showToast({
-          title: '打开失败!',
-          icon: 'none',
-        })
         reject(err)
       },
     })
