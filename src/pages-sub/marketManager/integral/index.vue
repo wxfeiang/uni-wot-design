@@ -43,10 +43,10 @@ const qiandao = async () => {
   }
 }
 const infoData = ref({
-  curScore: 0,
-  maxDay: 0,
-  totalScore: 0,
-  income: 0,
+  curScore: null,
+  maxDay: null,
+  totalScore: null,
+  income: null,
   resultList: [],
 })
 const getInterInfo = async () => {

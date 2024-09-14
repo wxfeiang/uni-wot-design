@@ -46,7 +46,7 @@ const serveList = ref<serveProps[]>([
   {
     icon: gywm,
     title: '版本',
-    path: '/mine/realName',
+    path: 'min',
     islink: false,
     value: 'V1.2.0',
   },
@@ -58,6 +58,8 @@ const serveClick = (item: serveProps) => {
       data: { type: item.data?.articleId, showTop: true, title: item.title },
     })
   } else {
+    if (item.path) return
+
     uni.showToast({
       title: '功能开发中...',
       icon: 'none',

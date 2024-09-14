@@ -17,46 +17,26 @@ import useLogin from './utils/useLogin'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const { Login, model, rules } = useLogin()
 const form = ref(null)
-
+const store2 = useUserStore()
 function handleClickLeft() {
   uni.navigateBack()
 }
-console.log('🌯', userInfo)
+
 const data = ref([])
 const iconColse = ref(false)
 
-function close() {
-  iconColse.value = !iconColse.value
-  if (!iconColse.value) {
-    data.value[0].value = userInfo.value?.userName
-    data.value[2].value = userInfo.value?.idCardNumber
-  } else {
-    if (userInfo.value?.userName) {
-      data.value[0].value = data.value[0].value.replace(/(.).*?(.)/, '**$2')
-      data.value[2].value = data.value[2].value.replace(/(\d{1})\d{16}(\d{1})/, '$1************$2')
-    }
-  }
-}
-onShow(() => {
-  if (isLogined.value) {
-    console.log('🍔')
-    data.value = [
-      {
-        title: '姓名',
-        value: userInfo.value.userName,
-      },
-      {
-        title: '证件类型',
-        value: '身份证',
-      },
-      {
-        title: '身份证号',
-        value: userInfo.value.idCardNumber,
-      },
-    ]
-    close()
-  }
-})
+// function close() {
+//   iconColse.value = !iconColse.value
+//   if (!iconColse.value) {
+//     data.value[0].value = userInfo.value.userName
+//     data.value[2].value = userInfo.value.idCardNumber
+//   } else {
+//     if (userInfo.value?.userName) {
+//       data.value[0].value = data.value[0].value.replace(/(.).*?(.)/, '**$2')
+//       data.value[2].value = data.value[2].value.replace(/(\d{1})\d{16}(\d{1})/, '$1************$2')
+//     }
+//   }
+// }
 </script>
 <template>
   <dy-navbar leftTitle="实名认证" left></dy-navbar>
@@ -101,21 +81,17 @@ onShow(() => {
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-cell-group title="基本信息" border>
         <template #value>
-          <view @click="close">
+          <!-- <view @click="close">
             <wd-icon
               :name="iconColse ? 'eye-close' : 'view'"
               size="20px"
               :color="iconColse ? '#666' : '#2D69EF'"
             ></wd-icon>
-          </view>
+          </view> -->
         </template>
-        <wd-cell
-          :title="item.title"
-          :value="item.value"
-          border
-          v-for="(item, index) in data"
-          :key="index"
-        ></wd-cell>
+        <wd-cell title="姓名" :value="userInfo.userName" border></wd-cell>
+        <wd-cell title="证件类型" value="身份证" border></wd-cell>
+        <wd-cell title="身份证号" :value="userInfo.idCardNumber" border></wd-cell>
       </wd-cell-group>
     </view>
     <view class="mt-30px">
