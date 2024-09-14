@@ -4,7 +4,7 @@ import { useRequest } from 'alova/client'
 import type { serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
-import { getUserCouponList } from '@/service/api/userMessage'
+import { findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
 import sfkb from '@/static/images/mine/sfkb.jpg'
 import shezhi from '@/static/images/mine/shezhi.png'
@@ -93,9 +93,11 @@ const serveList = ref<serveProps[]>([
 ])
 const serveClick = (item: serveProps) => {
   if (item.islink) {
+    const { userInfo } = useUserStore()
+    console.log(item.isSign && !userInfo.idCardNumber, item.isSign, userInfo)
     if (item.isSign && !userInfo.idCardNumber) {
       uni.showToast({
-        title: '请先实名认证',
+        title: '请先实名认证!',
         icon: 'none',
       })
       return
@@ -120,6 +122,11 @@ const {
   immediate: false,
   loading: false,
 })
+// 查询信息
+const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true), {
+  immediate: false,
+  loading: false,
+})
 
 export default () => {
   return {
@@ -130,5 +137,6 @@ export default () => {
     sendIsReceiveCardInfo,
     topList,
     sendUserCouponList,
+    sendInterInfo,
   }
 }
