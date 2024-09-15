@@ -133,7 +133,6 @@ function next() {
       title: '提示',
       closeOnClickModal: false,
     })
-    steep.value = 2
   }
 }
 </script>

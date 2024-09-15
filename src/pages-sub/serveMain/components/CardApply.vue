@@ -93,13 +93,12 @@ const footerBtns = ref([
 ])
 
 const isApply = ref(null)
-
+onLoad(async () => {
+  read.value = false
+})
 onMounted(async () => {
   showData.value = dataInfo[0]
-  // 如果阅读协议页面回来 则
-  // read.value = 0
 })
-const value = ref()
 </script>
 <template>
   <view class="p-15px">
