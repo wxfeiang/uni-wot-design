@@ -13,10 +13,19 @@ function showKeyBoard() {
 }
 watchEffect(() => {
   if (submitStatus.value) {
-    message.alert({
-      msg: statusDel.value,
-      title: '提示',
-    })
+    message
+      .alert({
+        closeOnClickModal: false,
+        msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+        title: '提示',
+        confirmButtonText: statusDel.value?.message ? '确定' : '返回',
+      })
+      .then(() => {
+        if (!statusDel.value?.message) {
+          uni.navigateBack()
+        }
+        submitStatus.value = false
+      })
   }
 })
 </script>

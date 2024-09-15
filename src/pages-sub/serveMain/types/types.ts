@@ -16,3 +16,7 @@ export interface Camera {
   imgType: number
   devicePosition: 'front' | 'back'
 }
+
+export interface UnboxingProps {
+  message?: string
+}
