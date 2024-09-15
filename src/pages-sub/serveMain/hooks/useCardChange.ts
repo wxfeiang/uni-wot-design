@@ -1,7 +1,7 @@
 import { getCardBasicInfo, personInfoChange } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
-import { useRequest } from 'alova/client'
 import { Toast } from '@/utils/uniapi/prompt'
+import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 
 const userStore = useUserStore()
@@ -14,7 +14,7 @@ const model = ref({
 const rules = {
   xm: [{ required: true, message: '请输入姓名' }],
   zjhm: [{ required: true, message: '请输入证件号码' }],
-  // shbzhm: [{ required: true, message: '请输入社会保障号码' }],
+  shbzhm: [{ required: true, message: '请输入社会保障号码' }],
   // address: [{ required: true, message: '请输入居住地址' }],
   // phone: [{ required: true, message: '请输入移动电话' }],
   // cardStartTime: [{ required: true, message: '请选择起始日期' }],

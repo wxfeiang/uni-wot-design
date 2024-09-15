@@ -2,7 +2,7 @@ import { getUnboxingInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 
 import { useRequest } from 'alova/client'
-import { UnboxingProps } from '../types/types'
+import { statusTisProps } from '../types/types'
 const { userInfo } = useUserStore()
 console.log('🍋[userInfo]:', userInfo)
 const model = ref({
@@ -17,7 +17,7 @@ const rules = {
   zhbzkh: [{ required: true, message: '请输入社会保障卡号' }],
   jbr: [{ required: true, message: '请输入经办人' }],
 }
-const statusDel = ref<UnboxingProps>()
+const statusDel = ref<statusTisProps>()
 const submitStatus = ref(false)
 
 // 社保卡解挂
@@ -31,7 +31,6 @@ const submitUnboxingInfo = (form) => {
     if (valid) {
       try {
         const data: any = await sendUnboxingInfo(model.value)
-        console.log('🍐[data]:', data)
         submitStatus.value = true
         statusDel.value = data
       } catch (error) {

@@ -30,7 +30,6 @@ const navigateToInterceptor = {
     } else {
       needLoginPages = _needLoginPages
     }
-    console.log('🍈', needLoginPages)
     const isNeedLogin = needLoginPages.includes(path)
     if (!isNeedLogin) {
       return true

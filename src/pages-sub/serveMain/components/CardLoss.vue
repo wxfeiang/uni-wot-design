@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import useCardLoss from '../hooks/useCardLoss'
 import { cardLoss } from '@/service/api/cardServe'
-import { useMessage } from 'wot-design-uni'
 import { useRequest } from 'alova/client'
+import { useMessage } from 'wot-design-uni'
+import useCardLoss from '../hooks/useCardLoss'
+import { statusTisProps } from '../types/types'
 const message = useMessage()
 const { model, rules } = useCardLoss()
 const form = ref(null)
@@ -16,20 +17,25 @@ const { loading, send: sendCardLoss } = useRequest((data) => cardLoss(data), {
   immediate: false,
   loading: false,
 })
+const statusDel = ref<statusTisProps>()
 const submitCard = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
         const data: any = await sendCardLoss(model.value)
-        if (data.data === '成功') {
-          message.alert('挂失成功').then(() => {
-            uni.navigateBack()
+        statusDel.value = data
+        message
+          .alert({
+            closeOnClickModal: false,
+            msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+            title: '提示',
+            confirmButtonText: statusDel.value?.message ? '确定' : '返回',
           })
-        } else {
-          message.alert(data.message).then(() => {
-            uni.navigateBack()
+          .then(() => {
+            if (!statusDel.value?.message) {
+              uni.navigateBack()
+            }
           })
-        }
       } catch (error) {
         console.log('数据校验失败')
       }
@@ -68,7 +74,7 @@ const submitCard = (form) => {
           />
           <wd-number-keyboard
             v-model:visible="visible"
-            v-model="model.cardNumber"
+            v-model="model.zjhm"
             :maxlength="18"
             extra-key="X"
             close-text="完成"

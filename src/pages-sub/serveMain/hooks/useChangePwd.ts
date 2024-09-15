@@ -2,6 +2,7 @@ import { changeCardPwd } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 
 import { useRequest } from 'alova/client'
+import { statusTisProps } from '../types/types'
 const { userInfo } = useUserStore()
 const model = ref({
   xm: userInfo.userName,
@@ -19,7 +20,7 @@ const rules = {
   newPwd: [{ required: true, message: '请输入新密码' }],
   jbr: [{ required: true, message: '请输入经办人' }],
 }
-const statusDel = ref('')
+const statusDel = ref<statusTisProps>()
 const submitStatus = ref(false)
 
 // 服务密码修改
@@ -34,12 +35,7 @@ const submitPasswoed = (form) => {
       try {
         const data: any = await sendChangeCardPwd(model.value)
         submitStatus.value = true
-        if (data.message) {
-          statusDel.value = data.message
-        } else {
-          statusDel.value = data
-          uni.navigateBack()
-        }
+        statusDel.value = data
       } catch (error) {
         console.log('数据校验失败')
       }
@@ -56,5 +52,6 @@ export default () => {
     statusDel,
     rules,
     model,
+    submitStatus,
   }
 }
