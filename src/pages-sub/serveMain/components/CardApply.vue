@@ -35,27 +35,23 @@ async function btnClick(item) {
 async function toApply(item) {
   if (item.index === 1) {
     const { resultCode }: any = await sendCardQury(serchData.value)
-    // isApply.value = resultCode
-    // if (isApply.value === '0') {
-    //   message2
-    //     .alert({
-    //       msg: '您已申领过一卡通，请勿重复申请',
-    //       title: '提示',
-    //       closeOnClickModal: false,
-    //     })
-    //     .then(() => {
-    //       uni.navigateBack()
-    //     })
-    // } else {
-    //   routeTo({
-    //     url: '/pages-sub/serveMain/cardApplyFromType',
-    //     data: item.data,
-    //   })
-    // }
-    routeTo({
-      url: '/pages-sub/serveMain/cardApplyFromType',
-      data: item.data,
-    })
+    isApply.value = resultCode
+    if (isApply.value === '0') {
+      message2
+        .alert({
+          msg: '您已申领过一卡通，请勿重复申请',
+          title: '提示',
+          closeOnClickModal: false,
+        })
+        .then(() => {
+          uni.navigateBack()
+        })
+    } else {
+      routeTo({
+        url: '/pages-sub/serveMain/cardApplyFromType',
+        data: item.data,
+      })
+    }
   } else if (item.index === 0) {
     routeTo({
       url: '/pages-sub/serveMain/cardApplyFromType',

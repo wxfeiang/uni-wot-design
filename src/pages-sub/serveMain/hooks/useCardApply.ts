@@ -84,7 +84,7 @@ const rules = {
   endDate: [{ required: true, message: '请选择结束日期' }],
   work: [{ required: true, message: '请输入工作' }],
   bankCode: [{ required: true, message: '请输入银行代码' }],
-  bankBranchCode: [{ required: true, message: '请输入银行网点代码' }],
+  bankBranchCode: [{ required: true, message: '请选择申领网点' }],
   photoId: [{ required: true, message: '请输入照片ID' }],
   idCardFrontPhotoId: [{ required: true, message: '请上传身份证正面照片' }],
   idCardBackPhotoId: [{ required: true, message: '请上传身份证反面照片' }],

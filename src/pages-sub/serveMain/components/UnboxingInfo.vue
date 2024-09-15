@@ -42,6 +42,7 @@ watchEffect(() => {
             placeholder="请输入姓名"
             :rules="rules.xm"
             prop="xm"
+            disabled
             custom-input-class="custom-input-right"
           />
           <wd-input

@@ -73,7 +73,7 @@ onLoad(async () => {
     :style="`background-image: url(${topbgBase64}); background-size: 100% 240px`"
   >
     <dy-navbar :leftTitle="title" center isNavShow></dy-navbar>
-    <view class="flex justify-between mt-5px pl-25px pr-10px">
+    <view class="flex justify-between items-center mt-5px pl-25px pr-10px">
       <view class="flex justify-between flex-col">
         <view class="text-14px font-500 color-#fff">可用积分</view>
         <view class="text-28px font-500 color-#fff my-10px">
@@ -93,10 +93,10 @@ onLoad(async () => {
         </view>
       </view>
       <view class="flex justify-between flex-col items-end">
-        <view class="text-12px font-500 color-#fff" @click="toAgreement">
+        <!-- <view class="text-12px font-500 color-#fff" @click="toAgreement">
           <wd-icon name="info-circle" size="14px"></wd-icon>
           积分规则
-        </view>
+        </view> -->
         <view class="text-12px font-500 color-#fff px-10px py-5px bg" @click="toMingxi">
           积分明细
         </view>

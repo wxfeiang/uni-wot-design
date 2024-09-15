@@ -11,7 +11,7 @@ export const openWxChart = (appId: string, path: string, extraData = {}) => {
       appId,
       path,
       extraData, // 需要传递给目标小程序的数据
-      envVersion: 'develop', // trial
+      envVersion: 'release', // trial
       success(res) {
         // 打开成功
         resolve(res)
