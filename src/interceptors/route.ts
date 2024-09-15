@@ -5,15 +5,20 @@
  * 我这里应为大部分都可以随便进入，所以使用黑名单
  */
 import { useUserStore } from '@/store'
-import { needLoginPages as _needLoginPages, getNeedLoginPages } from '@/utils'
+import { needLoginPages as _needLoginPages, getNeedLoginPages, needLoginFeacePages } from '@/utils'
 import { Modal } from '@/utils/uniapi/prompt'
 
 // TODO Check
 const loginRoute = '/pages/login/index'
+const feaceRouter = '/pages/login/login2'
 
 const isLogined = () => {
   const userStore = useUserStore()
   return userStore.isLogined
+}
+const isIdcard = () => {
+  const userStore = useUserStore()
+  return userStore.userInfo.idCardNumber
 }
 const isDev = import.meta.env.DEV
 
@@ -30,27 +35,47 @@ const navigateToInterceptor = {
     } else {
       needLoginPages = _needLoginPages
     }
+
     const isNeedLogin = needLoginPages.includes(path)
+
     if (!isNeedLogin) {
       return true
     }
     const hasLogin = isLogined()
-    if (hasLogin) {
+    const hasFeace = needLoginFeacePages.includes(path)
+    if (hasLogin && !hasFeace) {
       return true
-    }
-    Modal({
-      title: '提示',
-      content: '您还没有登录，是否立即登录？',
-      showCancel: true,
-    }).then((res: any) => {
-      if (res.confirm) {
-        console.log()
-        // 重定向
-        const redirectRoute = `${loginRoute}?redirect=${encodeURIComponent(url)}`
-        uni.navigateTo({ url: redirectRoute })
+    } else {
+      if (!hasLogin) {
+        Modal({
+          title: '提示',
+          content: '您还没有登录,请先登录？',
+          showCancel: true,
+        }).then((res: any) => {
+          if (res.confirm) {
+            // 重定向
+            const redirectRoute = `${loginRoute}?redirect=${encodeURIComponent(url)}`
+            uni.navigateTo({ url: redirectRoute })
+          }
+        })
+      } else if (hasFeace && !isIdcard()) {
+        Modal({
+          title: '提示',
+          content: '您还没有实名认证,请先认证？',
+          showCancel: true,
+        }).then((res: any) => {
+          if (res.confirm) {
+            // 重定向
+            const redirectRoute = `${feaceRouter}?redirect=${encodeURIComponent(url)}`
+            uni.navigateTo({ url: redirectRoute })
+          }
+        })
+      } else {
+        return true
       }
-    })
-    return false
+
+      return false
+    }
   },
 }
 

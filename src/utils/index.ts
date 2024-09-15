@@ -122,6 +122,15 @@ export const getNeedLoginPages = (): string[] => getAllPages('needLogin').map((p
 export const needLoginPages: string[] = getAllPages('needLogin').map((page) => page.path)
 
 /**
+ * @description: 得到所有的需要人脸识别的pages，包括主包和分包的
+ * @param {} getAllPages
+ * @return {} 只得到 path 数组
+ */
+export const needLoginFeacePages: string[] = getAllPages('needLogin')
+  .filter((page) => page.realNameAuthentication)
+  .map((page) => page.path)
+
+/**
  * @description: 字典值解析
  * @param {} data 字典数组
  * @param {} value 当前比对值

@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  facialRecognition: true,
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
