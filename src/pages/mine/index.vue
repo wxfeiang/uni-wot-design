@@ -1,6 +1,7 @@
 <route lang="json5">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -148,7 +149,7 @@ onShow(async () => {
             @click="serveClick(item)"
           >
             <view class="text-20px">
-              {{ item.value }}
+              {{ isLogined ? item.value : 0 }}
             </view>
             <view class="text-14px mt-10px">
               {{ item.title }}
