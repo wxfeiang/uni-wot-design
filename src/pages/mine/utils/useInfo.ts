@@ -93,14 +93,14 @@ const serveList = ref<serveProps[]>([
 ])
 const serveClick = (item: serveProps) => {
   if (item.islink) {
-    const { userInfo } = useUserStore()
-    if (item.isSign && !userInfo.idCardNumber) {
-      uni.showToast({
-        title: '请先实名认证!',
-        icon: 'none',
-      })
-      return
-    }
+    // const { userInfo } = useUserStore()
+    // if (item.isSign && !userInfo.idCardNumber) {
+    //   uni.showToast({
+    //     title: '请先实名认证!',
+    //     icon: 'none',
+    //   })
+    //   return
+    // }
     routeTo({
       url: item.path,
       data: { type: item.data?.articleId, showTop: true, title: item.title },
