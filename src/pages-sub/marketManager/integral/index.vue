@@ -52,6 +52,7 @@ const infoData = ref({
 const getInterInfo = async () => {
   try {
     const data: any = await sendInterInfo()
+
     infoData.value = { ...infoData.value, ...data }
     infoData.value.resultList = data.resultList
   } catch (error) {
@@ -76,12 +77,13 @@ onLoad(async () => {
       <view class="flex justify-between flex-col">
         <view class="text-14px font-500 color-#fff">可用积分</view>
         <view class="text-28px font-500 color-#fff my-10px">
-          <wd-count-to
+          <!-- <wd-count-to
             :endVal="infoData.curScore || 0"
             separator=""
             :fontSize="36"
             color="#fff"
-          ></wd-count-to>
+          ></wd-count-to> -->
+          {{ infoData.curScore }}
         </view>
         <view class="text-13px font-500 color-#fff">
           累计获得积分
