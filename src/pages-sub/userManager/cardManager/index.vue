@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  facialRecognition: true,
   style: {
     navigationStyle: 'custom',
   },

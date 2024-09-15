@@ -94,7 +94,6 @@ const serveList = ref<serveProps[]>([
 const serveClick = (item: serveProps) => {
   if (item.islink) {
     const { userInfo } = useUserStore()
-    console.log(item.isSign && !userInfo.idCardNumber, item.isSign, userInfo)
     if (item.isSign && !userInfo.idCardNumber) {
       uni.showToast({
         title: '请先实名认证!',

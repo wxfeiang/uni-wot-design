@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { useMessage } from 'wot-design-uni'
 import useUnboxingInfo from '../hooks/useUnboxingInfo'
-
-const { submitUnboxingInfo, model, rules, loading } = useUnboxingInfo()
+const message = useMessage()
+const { submitUnboxingInfo, model, rules, loading, submitStatus, statusDel } = useUnboxingInfo()
 
 const form = ref(null)
 
@@ -10,6 +11,14 @@ const visible = ref<boolean>(false)
 function showKeyBoard() {
   visible.value = true
 }
+watchEffect(() => {
+  if (submitStatus.value) {
+    message.alert({
+      msg: statusDel.value,
+      title: '提示',
+    })
+  }
+})
 </script>
 <template>
   <view class="p-15px">
@@ -83,6 +92,7 @@ function showKeyBoard() {
       </wd-button>
     </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {

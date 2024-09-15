@@ -3,6 +3,7 @@ import { useUserStore } from '@/store/user'
 
 import { useRequest } from 'alova/client'
 const { userInfo } = useUserStore()
+console.log('🍋[userInfo]:', userInfo)
 const model = ref({
   xm: userInfo.userName,
   zjhm: userInfo.idCardNumber,
@@ -29,6 +30,7 @@ const submitUnboxingInfo = (form) => {
     if (valid) {
       try {
         const data: any = await sendUnboxingInfo(model.value)
+        console.log('🍐[data]:', data)
         submitStatus.value = true
         if (data.message) {
           statusDel.value = data.message
@@ -52,5 +54,6 @@ export default () => {
     statusDel,
     rules,
     model,
+    submitStatus,
   }
 }
