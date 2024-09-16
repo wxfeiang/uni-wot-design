@@ -4,11 +4,12 @@ import { data as dataInfo } from '../types/data'
 
 import { useMessage } from 'wot-design-uni'
 
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
 import useCardApply from '../hooks/useCardApply'
 const message = useMessage('wd-message-box-slot')
 const message2 = useMessage()
 const { sendCardQury, serchData, read } = useCardApply()
-
 const showData = ref<any>({})
 function toAgereement(type) {
   routeTo({
@@ -16,6 +17,7 @@ function toAgereement(type) {
     data: { type: '1710488285782016019', showTop: 1, title: '申领须知' },
   })
 }
+const { userInfo } = storeToRefs(useUserStore())
 async function btnClick(item) {
   if (!read.value) {
     message
@@ -34,6 +36,18 @@ async function btnClick(item) {
 
 async function toApply(item) {
   if (item.index === 1) {
+    // if (!userInfo.value.idCardNumber) {
+    //   message2
+    //     .alert({
+    //       msg: '您还没有实名认证,请先认证？',
+    //       title: '提示',
+    //       closeOnClickModal: false,
+    //     })
+    //     .then(() => {
+    //       return false
+    //     })
+    // }
+
     const { resultCode }: any = await sendCardQury(serchData.value)
     isApply.value = resultCode
     if (isApply.value === '0') {

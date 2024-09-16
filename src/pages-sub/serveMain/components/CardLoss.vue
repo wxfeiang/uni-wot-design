@@ -18,23 +18,38 @@ const { loading, send: sendCardLoss } = useRequest((data) => cardLoss(data), {
   loading: false,
 })
 const statusDel = ref<statusTisProps>()
+// msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
 const submitCard = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
         const data: any = await sendCardLoss(model.value)
         statusDel.value = data
+        // msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+        let msg = ''
+        if (statusDel.value && statusDel.value && statusDel.value.message) {
+          if (statusDel.value.message === '服务器异常，请联系管理员') {
+            msg = '提交成功'
+          } else {
+            msg = statusDel.value.message
+          }
+        } else {
+          msg = '提交成功'
+        }
         message
           .alert({
             closeOnClickModal: false,
-            msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+            msg,
             title: '提示',
             confirmButtonText: statusDel.value?.message ? '确定' : '返回',
           })
           .then(() => {
-            if (!statusDel.value?.message) {
+            if (msg === '提交成功') {
               uni.navigateBack()
             }
+            // if (!statusDel.value?.message) {
+            //   uni.navigateBack()
+            // }
           })
       } catch (error) {
         console.log('数据校验失败')

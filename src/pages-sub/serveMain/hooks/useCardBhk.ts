@@ -1,5 +1,9 @@
-import { changeCardData, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
-import { getBranchesInfo } from '@/service/api/source'
+import {
+  changeCardData,
+  getBranchesInfoSlect,
+  getCardcheckInfo,
+  uploadPhoneInfo,
+} from '@/service/api/cardServe'
 import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
@@ -32,7 +36,7 @@ const {
   loading: loadingBranches,
   send: sendBranches,
   onSuccess: branchesSucess,
-} = useRequest((data) => getBranchesInfo(data), {
+} = useRequest((data) => getBranchesInfoSlect(data), {
   immediate: false,
   loading: false,
   initialData: [],
