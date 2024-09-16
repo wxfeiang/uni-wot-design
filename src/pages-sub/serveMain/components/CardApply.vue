@@ -36,18 +36,6 @@ async function btnClick(item) {
 
 async function toApply(item) {
   if (item.index === 1) {
-    // if (!userInfo.value.idCardNumber) {
-    //   message2
-    //     .alert({
-    //       msg: '您还没有实名认证,请先认证？',
-    //       title: '提示',
-    //       closeOnClickModal: false,
-    //     })
-    //     .then(() => {
-    //       return false
-    //     })
-    // }
-
     const { resultCode }: any = await sendCardQury(serchData.value)
     isApply.value = resultCode
     if (isApply.value === '0') {

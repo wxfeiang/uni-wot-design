@@ -111,13 +111,16 @@ const handleChange = async (pickerView, value, columnIndex, resolve) => {
   try {
     const params = {
       yhdm: model.value.bankCode,
-      areaCode: '',
+      areaCode: model.value.areaCode,
       isMail: model.value.isPostcard,
     }
     const data: any = await sendBranches(params)
-    bankBranchList.value = data.content.map((v) => {
-      return { value: v.areaCode, label: v.name }
-    })
+
+    bankBranchList.value = data?.length
+      ? data.map((v) => {
+          return { value: v.areaCode, label: v.name }
+        })
+      : [{ value: '', label: '暂无数据,请重新选择网点!' }]
   } catch (error) {
     bankBranchList.value = []
   }
@@ -296,7 +299,14 @@ function next() {
             :rules="rules.work"
             prop="work"
           />
-
+          <wd-picker
+            :columns="isMailList"
+            custom-value-class="custom-input-right"
+            label="是否邮寄"
+            v-model="model.isPostcard"
+            :rules="rules.isPostcard"
+            prop="isPostcard"
+          />
           <wd-picker
             :columns="areaCodeList"
             custom-value-class="custom-input-right"
@@ -333,14 +343,6 @@ function next() {
             type="text"
             placeholder="请输入联系地址"
             custom-input-class="custom-input-right"
-          />
-          <wd-picker
-            :columns="isMailList"
-            custom-value-class="custom-input-right"
-            label="是否邮寄"
-            v-model="model.isPostcard"
-            :rules="rules.isPostcard"
-            prop="isPostcard"
           />
         </wd-cell-group>
         <template v-if="model.isPostcard == '1'">

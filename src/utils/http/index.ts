@@ -75,7 +75,7 @@ const alovaInstance = createAlova({
           }
           // TODO: 处理白名单返回 处理正确数据返回
           const useSystem = useSystemStore()
-          console.log('🍨', method)
+
           if (useSystem.filterData.whiteList.includes(method.url)) {
             return rawData
           }
