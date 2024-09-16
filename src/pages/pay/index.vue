@@ -8,10 +8,20 @@
 </route>
 
 <script lang="ts" setup>
+import { getWxPay } from '@/service/api/shop'
 import pays from '@/static/images/pay/pays.png'
+import { useSystemStore } from '@/store'
+import { useRequestPayment } from '@/utils/uniapi'
+import { useRequest } from 'alova/client'
+import { useMessage } from 'wot-design-uni'
+const message = useMessage()
+const store = useSystemStore()
 const inValue = ref<any>() // 输入框的值
 const actualPrice = ref(0)
+const merchantId = ref('')
 actualPrice.value = inValue.value
+const flog = ref(false)
+
 const show = ref(true)
 const messData = ref([
   {
@@ -29,11 +39,6 @@ const messData = ref([
 const payStatus = ref(false)
 const payData = ref([
   {
-    title: '支付金额',
-    value: '20.00',
-    isLink: true,
-  },
-  {
     title: '订单信息',
     value: '中国雄安集团数字城市科技有限公司',
     isLink: false,
@@ -44,35 +49,62 @@ const payData = ref([
     isLink: false,
   },
 ])
+const payListInfo = ref()
+
+// 查询订单信息
+const { send: sendPay } = useRequest((data) => getWxPay(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+})
+
+async function getOrderMess() {
+  const params = {
+    totalAmount: 1, // actualPrice.value, // 总金额
+    merchantId: '1833701004270182401', // 商户Id
+    openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
+  }
+  console.log('🥪', params)
+  const data: any = await sendPay(params)
+  console.log('订单数据[data]:', data)
+  if (data.errCode === 'SUCCESS') {
+    payListInfo.value = data
+    payData.value[0].value = data.orderInformation
+    payData.value[1].value = data.merOrderId
+    await useRequestPayment(payListInfo.value)
+  } else {
+    message
+      .alert({
+        msg: data.errMsg,
+        title: '支付提示',
+        closeOnClickModal: false,
+      })
+      .then(() => {
+        closeBack()
+      })
+  }
+}
+onLoad(async () => {
+  // useSystemFig()
+})
 
 onShow(async (options) => {
   const data = uni.getEnterOptionsSync()
-  console.log('🍊[data]:', data)
+  console.log('传入的数据:', data)
   try {
-    inValue.value = data.referrerInfo.extraData.invoice
-    actualPrice.value = data.referrerInfo.extraData.actualPrice
-    // shopId = data.referrerInfo.extraData.shoId
-    // appId = data.referrerInfo.appId
-    // await useRequestPayment()
-  } catch (error) {
-    // await useRequestPayment()
-  }
+    // inValue.value = data.referrerInfo.extraData.invoice
+    // actualPrice.value = data.referrerInfo.extraData.actualPrice
+    // merchantId.value = data.referrerInfo.extraData.merchantId
 
-  // const data = {
-  //   path: 'pages/pay/index',
-  //   query: {},
-  //   scene: 1037,
-  //   shareTicket: '<Undefined>',
-  //   referrerInfo: {
-  //     appId: 'wxa6bde233fffd3f6d',
-  //     extraData: { userDid: '', invoice: '22.00', shoId: '30562' },
-  //   },
-  //   mode: 'embedded',
-  //   apiCategory: 'embedded',
-  // }
+    // await useRequestPayment()
+
+    setTimeout(async () => {
+      getOrderMess()
+    }, 100)
+  } catch (error) {}
 })
 const closeBack = () => {
-  console.log('点击凡户籍数据=======')
+  console.log('点击返回, 关闭弹窗 ,返回上一页面携带数据')
   uni.navigateBackMiniProgram({
     extraData: {
       data1: 'test',

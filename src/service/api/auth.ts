@@ -107,8 +107,17 @@ export function refreshToken() {
  * @param params 初始参数()
  * */
 export function getShcOpId(data) {
+  // const meta: METHOD_INSTANCE = {
+  //   ignoreSign: true,
+  //   ignorEencrypt: true,
+  //   ignorToken: true,
+  //   resdata: true,
+  // }
   return request.Post(
     GET_XA_SC_OPEN_ID, // 地址
     data,
+    // {
+    //   meta,
+    // },
   )
 }

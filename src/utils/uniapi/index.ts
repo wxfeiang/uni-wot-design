@@ -11,16 +11,12 @@ export const openWxChart = (appId: string, path: string, extraData = {}) => {
       appId,
       path,
       extraData, // 需要传递给目标小程序的数据
-      envVersion: 'develop', // trial
+      envVersion: 'release', // trial
       success(res) {
         // 打开成功
         resolve(res)
       },
       fail: (err) => {
-        uni.showToast({
-          title: '打开失败',
-          icon: 'none',
-        })
         reject(err)
       },
     })
@@ -44,10 +40,6 @@ export const openEmbeddedMiniProgram = (path: string, extraData = {}, appId = VI
       },
       fail: (err) => {
         console.log('🥥[err]:', err)
-        uni.showToast({
-          title: '打开失败!',
-          icon: 'none',
-        })
         reject(err)
       },
     })
@@ -233,15 +225,21 @@ export const useSetKeepScreenOn = (flog = false) => {
  * @description: 小程序调用支付
  * @return {}
  */
-export const useRequestPayment = (data?: any) => {
+interface payProps {
+  timeStamp: string
+  nonceStr: string
+  packageStr: string
+  signType: string
+  paySign: string
+}
+export const useRequestPayment = (data: payProps) => {
   return new Promise((resolve, reject) => {
     uni.requestPayment<any>({
-      timeStamp: '1414561699',
-      nonceStr: '5K8264ILTKCH16CQ2502SI8ZNMTM67VS',
-      package: 'prepay_id=wx201410272009395522657a690389285100',
-      signType: 'RSA',
-      paySign:
-        'oR9d8PuhnIc+YZ8cBHFCwfgpaK9gd7vaRvkYD7rthRAZ/X+QBhcCYL21N7cHCTUxbQ+EAt6Uy+lwSN22f5YZvI45MLko8Pfso0jm46v5hqcVwrk6uddkGuT+Cdvu4WBqDzaDjnNa5UK3GfE1Wfl2gHxIIY5lLdUgWFts17D4WuolLLkiFZV+JSHMvH7eaLdT9N5GBovBwu5yYKUR7skR8Fu+LozcSqQixnlEZUfyE55feLOQTUYzLmR9pNtPbPsu6WVhbNHMS3Ss2+AehHvz+n64GDmXxbX++IOBvm2olHu3PsOUGRwhudhVf7UcGcunXt8cqNjKNqZLhLw4jq/xDg==',
+      timeStamp: data.timeStamp,
+      nonceStr: data.nonceStr,
+      package: data.packageStr,
+      signType: data.signType,
+      paySign: data.paySign,
       success: function (res) {
         console.log('🍥[res]:', res)
         resolve(res)

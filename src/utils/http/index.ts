@@ -78,12 +78,9 @@ const alovaInstance = createAlova({
           if (useSystem.filterData.whiteList.includes(method.url)) {
             return rawData
           }
-          // 返回不解析的数据
-          if (meta?.Analysis) {
-            return rawData
-          }
-          // 处理数据
-          const resAllData = responseAes(response)
+
+          // 返回不解析的数据 ()
+          const resAllData = meta?.Analysis ? rawData : responseAes(response)
           const { data: rdata, code: rode, msg: rmsg } = resAllData
           console.log(method.url + '====>🍯[解析后的数据]:', resAllData)
           if (rode !== ResultEnum.CODE || (rdata.code && rdata.code * 1 !== ResultEnum.CODE)) {

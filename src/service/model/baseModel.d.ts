@@ -13,6 +13,6 @@ export declare interface METHOD_INSTANCE<T = any> {
   ignorEencrypt?: boolean // 忽略加密
   ignorToken?: boolean // 忽略token
   resAll?: boolean // 返回所有数据
-  resdata?: boolean // 不加解密的情况下只返回data
+  Analysis?: boolean // 不加解密的情况下只返回data
   loading?: boolean // 是否显示全局loading
 }

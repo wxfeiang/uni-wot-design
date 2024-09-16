@@ -52,16 +52,18 @@ export default (inifConfig?: boolean) => {
     loading: false,
   })
 
-  const openIdFun = async () => {
+  async function openIdFun() {
     // 微信登录
     try {
       const wxLoginCode = await getLoginCode()
-
       // openid
-      const { data }: any = await sendShcOpend({ code: wxLoginCode })
-
+      const data: any = await sendShcOpend({ code: wxLoginCode })
       systemStore.setOpenId(data)
     } catch (e) {}
+  }
+  if (inifConfig) {
+    console.log('🥖')
+    openIdFun()
   }
 
   // #ifndef  H5
@@ -70,7 +72,7 @@ export default (inifConfig?: boolean) => {
     sysConfig()
     sysDot()
     sysResponseConfig()
-    openIdFun()
+    // openIdFun()
   }
 
   // #endif
