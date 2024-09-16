@@ -15,4 +15,5 @@ export declare interface METHOD_INSTANCE<T = any> {
   resAll?: boolean // 返回所有数据
   Analysis?: boolean // 不加解密的情况下只返回data
   loading?: boolean // 是否显示全局loading
+  Tips?: boolean // 是否显示全局提示 (默认显示: false)
 }

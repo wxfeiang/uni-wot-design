@@ -40,23 +40,24 @@ const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, 
 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
-    const resData: any = await useScancode({ onlyFromCamera: true, scanType: ['qrCode'] })
+    const resData: any = await useScancode({ onlyFromCamera: true })
+    console.log('🥓[resData]:', resData)
     let url = null
     // 扫描到小程序码
     if (resData.scanType === 'WX_CODE') {
-      url = resData.path.split('?')
+      url = decodeURIComponent(resData.path).split('?')
+
+      url[1] = url[1].split(',')
+      console.log('🌶[url]=====:', url)
+      url[1] = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
     }
     if (resData.scanType === 'QR_CODE') {
-      url = resData.result.split('?')
+      url = decodeURIComponent(resData.result).split('?')
     }
-    console.log('🥓[resData]:', resData)
-
     routeTo({
       url: '/pages/pay/index',
       data: { url: url[1] },
     })
-
-    console.log('🍠[resData]:', resData)
   } else if (item.type === 'wxChart') {
     openWxChart(item.appId, item.path)
   } else if (item.type === 'switchTab') {
