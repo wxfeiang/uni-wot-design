@@ -52,9 +52,7 @@ const infoData = ref({
 const getInterInfo = async () => {
   try {
     const data: any = await sendInterInfo()
-
-    infoData.value = { ...infoData.value, ...data }
-    infoData.value.resultList = data.resultList
+    infoData.value = data
   } catch (error) {
     console.log('🍪[error]:', error)
   }
@@ -120,11 +118,11 @@ onLoad(async () => {
         </view>
 
         <view class="mt-10px">
-          <view class="flex items-center gap-15px flex-wrap">
+          <view class="flex items-center gap-10px flex-wrap">
             <view
               class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
               :class="index === 6 ? 'ml-auto w-2.55/6! text-left' : ''"
-              v-for="(item, index) in infoData.resultList"
+              v-for="(item, index) in infoData.resultList ?? []"
               :key="index"
             >
               <view class="text-14px">
