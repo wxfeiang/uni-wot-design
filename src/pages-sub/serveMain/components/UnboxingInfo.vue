@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { useMessage } from 'wot-design-uni'
 import useUnboxingInfo from '../hooks/useUnboxingInfo'
-
-const { submitUnboxingInfo, model, rules, loading } = useUnboxingInfo()
+const message = useMessage()
+const { submitUnboxingInfo, model, rules, loading, submitStatus, statusDel } = useUnboxingInfo()
 
 const form = ref(null)
 
@@ -10,6 +11,39 @@ const visible = ref<boolean>(false)
 function showKeyBoard() {
   visible.value = true
 }
+
+watchEffect(() => {
+  if (submitStatus.value) {
+    // msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+    let msg = ''
+    if (statusDel && statusDel.value && statusDel.value.message) {
+      if (statusDel.value.message === '服务器异常，请联系管理员') {
+        msg = '提交成功'
+      } else {
+        msg = statusDel.value.message
+      }
+    } else {
+      msg = '提交成功'
+    }
+
+    message
+      .alert({
+        closeOnClickModal: false,
+        msg,
+        title: '提示',
+        confirmButtonText: statusDel.value?.message ? '确定' : '返回',
+      })
+      .then(() => {
+        if (msg === '提交成功') {
+          uni.navigateBack()
+        }
+        // if (!statusDel.value?.message) {
+        //   uni.navigateBack()
+        // }
+        submitStatus.value = false
+      })
+  }
+})
 </script>
 <template>
   <view class="p-15px">
@@ -24,6 +58,7 @@ function showKeyBoard() {
             placeholder="请输入姓名"
             :rules="rules.xm"
             prop="xm"
+            disabled
             custom-input-class="custom-input-right"
           />
           <wd-input
@@ -83,6 +118,7 @@ function showKeyBoard() {
       </wd-button>
     </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {

@@ -51,7 +51,7 @@ const topAction = ref([
   },
 ])
 
-const bannerUrl = 'http://47.99.93.97/v1/'
+const bannerUrl = 'https://oss.xay.xacloudy.cn'
 const swiperList = ref<bannerProps[]>([
   {
     id: '1',
@@ -60,19 +60,10 @@ const swiperList = ref<bannerProps[]>([
     description: '',
     islink: true,
     image:
-      bannerUrl + 'public/uploads/image/1725327394702-c3cb364e-544b-41d4-97d2-1c4daf1f4b7e.png',
+      bannerUrl +
+      '/images/2024-09/cd5ea186-5790-4381-af88-e885ba51368c1725327394702-c3cb364e-544b-41d4-97d2-1c4daf1f4b7e.png',
     type: 'router',
     data: { base: 'shebaoksl', title: '社保卡申领' },
-  },
-  {
-    id: '1710488285782016008',
-    path: '/pages-sub/webView/index',
-    title: 'title1',
-    description: '',
-    islink: true,
-    image:
-      bannerUrl + 'public/uploads/image/1725172128186-2ab9df4e-54db-4228-ab3a-f93f5a9c7f59.png',
-    type: 'article',
   },
   {
     id: '1710488285782016007',
@@ -81,7 +72,19 @@ const swiperList = ref<bannerProps[]>([
     description: '',
     islink: true,
     image:
-      bannerUrl + 'public/uploads/image/1725172156390-21e78f8b-2791-4cc1-b8ff-1b01c015058e.png',
+      bannerUrl +
+      '/images/2024-09/6e17d89a-f218-4cba-a2b2-22849173a2381725172128186-2ab9df4e-54db-4228-ab3a-f93f5a9c7f59.png',
+    type: 'article',
+  },
+  {
+    id: '1710488285782016008',
+    path: '/pages-sub/webView/index',
+    title: 'title1',
+    description: '',
+    islink: true,
+    image:
+      bannerUrl +
+      '/images/2024-09/741122e4-fb69-4ec6-8d11-b86894bfc4a81725172156390-21e78f8b-2791-4cc1-b8ff-1b01c015058e.png',
     type: 'article',
   },
 ])
@@ -157,17 +160,11 @@ const {
   data: messageData,
   onSuccess: messageSucess,
   loading: messageLoading,
-} = useRequest(
-  getMessageList({
-    page: 1,
-    size: 50,
-  }),
-  {
-    immediate: false,
-    loading: false,
-    initialData: [],
-  },
-)
+} = useRequest((data) => getMessageList(data), {
+  immediate: false,
+  loading: false,
+  initialData: [],
+})
 
 function messageClick(item: messProps) {
   routeTo({

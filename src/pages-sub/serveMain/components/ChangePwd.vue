@@ -1,14 +1,41 @@
 <script lang="ts" setup>
+import { routeTo } from '@/utils'
+import { useMessage } from 'wot-design-uni'
 import useChangePwd from '../hooks/useChangePwd'
-const { submitPasswoed, model, rules, loading } = useChangePwd()
-
+const { submitPasswoed, model, rules, loading, submitStatus, statusDel } = useChangePwd()
+const message = useMessage()
 const form = ref(null)
 
 const visible = ref<boolean>(false)
 
+const Passreset = function () {
+  routeTo({
+    url: '/pages-sub/serveMain/cardFromType',
+    data: { base: 'servepassreset', title: '服务密码管理' },
+  })
+}
+
 function showKeyBoard() {
   visible.value = true
 }
+
+watchEffect(() => {
+  if (submitStatus.value) {
+    message
+      .alert({
+        closeOnClickModal: false,
+        msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+        title: '提示',
+        confirmButtonText: statusDel.value?.message ? '确定' : '返回',
+      })
+      .then(() => {
+        if (!statusDel.value?.message) {
+          uni.navigateBack()
+        }
+        submitStatus.value = false
+      })
+  }
+})
 </script>
 <template>
   <view class="p-15px">
@@ -23,6 +50,7 @@ function showKeyBoard() {
             placeholder="请输入姓名"
             :rules="rules.xm"
             prop="xm"
+            disabled
             custom-input-class="custom-input-right"
           />
           <wd-input
@@ -101,7 +129,11 @@ function showKeyBoard() {
         提 交
       </wd-button>
     </view>
+    <view class="flex justify-center mt-10px">
+      <wd-button type="text" @click="Passreset">服务密码重置</wd-button>
+    </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {

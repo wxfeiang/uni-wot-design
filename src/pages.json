@@ -49,6 +49,7 @@
       "path": "pages/index/index",
       "type": "home",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationStyle": "custom"
       }
@@ -108,6 +109,24 @@
       "path": "pages/mine/index",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/pay/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/pay/sacnResult",
+      "type": "page",
+      "layout": "default",
+      "needLoginPages": true,
       "style": {
         "navigationStyle": "custom"
       }
@@ -143,9 +162,19 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
+          "path": "OcrCamera",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
+          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -154,6 +183,7 @@
           "path": "cardApplyType",
           "type": "page",
           "layout": "default",
+          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -162,6 +192,7 @@
           "path": "cardFromType",
           "type": "page",
           "layout": "default",
+          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -170,15 +201,7 @@
           "path": "cardMessType",
           "type": "page",
           "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "OcrCamera",
-          "type": "page",
-          "layout": "default",
-          "needLogin": true,
+          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -282,14 +305,6 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
-          "path": "cardManager/index",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "SocialSecurityCard/barcode",
           "type": "page",
           "layout": "default",
@@ -309,6 +324,15 @@
           "path": "SocialSecurityCard/indexback",
           "type": "page",
           "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "cardManager/index",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }

@@ -30,8 +30,7 @@ const {
   submitCard,
   submitStatus,
   statusDel,
-  sendPhoto,
-  loadingPhoto,
+
   sendBranches,
 } = useCardBhk()
 
@@ -51,24 +50,26 @@ function showKeyBoard() {
 const form = ref(null)
 
 // 错误提示
-watch(
-  () => submitStatus.value,
-  () => {
-    message.alert(statusDel.value).then(() => {
-      // if (submitStatus.value === 1) {
-
-      // }
-      uni.navigateBack()
-    })
-  },
-  { deep: true },
-)
-
+watchEffect(() => {
+  if (submitStatus.value) {
+    message
+      .alert({
+        closeOnClickModal: false,
+        msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+        title: '提示',
+        confirmButtonText: statusDel.value?.message ? '确定' : '返回',
+      })
+      .then(() => {
+        if (!statusDel.value?.message) {
+          uni.navigateBack()
+        }
+        submitStatus.value = false
+      })
+  }
+})
 onLoad((option: any) => {
   console.log('🍷[option=====]:', option)
 })
-
-const current = ref('1')
 
 async function upload(photoType: string, type: string) {
   const data = { photoType, type, zjhm: userInfo.idCardNumber }
@@ -119,7 +120,7 @@ function changeCamearData(cameraData) {
 }
 
 const steep = ref(1)
-const bankBranchList = ref([])
+
 function next() {
   if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
     steep.value = 2
@@ -131,25 +132,35 @@ function next() {
     })
   }
 }
-
+const bankBranchList = ref([])
 // 查询邮寄银行网点
-async function handleChange(pickerView, value, columnIndex, resolve) {
-  console.log(model.value.area, model.value.bankCode, model.value.isPostcard)
+const handleChange = async (pickerView, value, columnIndex, resolve) => {
+  console.log(
+    '🌰[pickerView, value, columnIndex, resolve]:',
+    pickerView,
+    value,
+    columnIndex,
+    resolve,
+  )
 
-  const formData = {
-    yhdm: model.value.bankCode,
-    areaCode: model.value.area,
-    isMail: model.value.isPostcard,
+  try {
+    const params = {
+      yhdm: model.value.bankCode,
+      areaCode: model.value.area,
+      isMail: model.value.isPostcard,
+    }
+    const data: any = await sendBranches(params)
+    bankBranchList.value = data?.length
+      ? data.map((v) => {
+          return { value: v.areaCode, label: v.name }
+        })
+      : [{ value: '', label: '暂无数据,请重新选择网点!' }]
+  } catch (error) {
+    bankBranchList.value = []
   }
-  console.log(formData)
-  const data: any = await sendBranches(formData)
-  const ldata = []
-  data.forEach((v) => {
-    ldata.push({ value: v.areaCode, label: v.name })
-  })
-  bankBranchList.value = ldata
-  console.log(data)
 }
+//
+const reasonList = computed(() => reason.filter((v) => v.type.includes(model.value.businessType)))
 </script>
 <template>
   <view class="p-10px py-20px" v-if="steep == 1">
@@ -189,7 +200,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.name"
             prop="name"
             custom-input-class="custom-input-right"
-            readonly
+            disabled
           />
           <wd-input
             label="身份证号:"
@@ -200,11 +211,10 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.idCardNumber"
             prop="idCardNumber"
             custom-input-class="custom-input-right"
-            disabled
             @click="showKeyBoard"
             :maxlength="18"
             :mixlength="16"
-            readonly
+            disabled
           />
           <wd-number-keyboard
             v-model:visible="visible"
@@ -241,7 +251,6 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             v-model="model.nation"
             :rules="rules.nation"
             prop="nation"
-            readonly
           />
           <wd-input
             label="通讯地址"
@@ -287,6 +296,16 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             :rules="rules.work"
             prop="work"
           />
+
+          <wd-picker
+            :columns="isMailList"
+            custom-value-class="custom-input-right"
+            label="领取方式"
+            v-model="model.isPostcard"
+            :rules="rules.isPostcard"
+            prop="isPostcard"
+            @confirm="handleChange"
+          />
           <wd-picker
             :columns="areaCodeList"
             custom-value-class="custom-input-right"
@@ -294,16 +313,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             v-model="model.area"
             :rules="rules.area"
             prop="area"
-            :column-change="handleChange"
-          />
-          <wd-picker
-            :columns="isMailList"
-            custom-value-class="custom-input-right"
-            label="邮寄方式"
-            v-model="model.isPostcard"
-            :rules="rules.isPostcard"
-            prop="isPostcard"
-            :column-change="handleChange"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="bankCodeList"
@@ -312,7 +322,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             v-model="model.bankCode"
             :rules="rules.bankCode"
             prop="bankCode"
-            :column-change="handleChange"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="bankBranchList"
@@ -321,6 +331,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             v-model="model.bankBranchCode"
             :rules="rules.bankBranchCode"
             prop="bankBranchCode"
+            :disabled="!model.area && !model.isPostcard && !model.bankCode"
           />
 
           <wd-picker
@@ -329,16 +340,16 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             label="业务类型"
             v-model="model.businessType"
             :rules="rules.businessType"
-            onchange="handleChange"
             prop="businessType"
           />
           <wd-picker
-            :columns="reason"
+            :columns="reasonList"
             custom-value-class="custom-input-right"
             label="补卡原因"
             v-model="model.reason"
             :rules="rules.reason"
             prop="reason"
+            :disabled="!model.businessType"
           />
           <wd-picker
             :columns="isDbbs"
@@ -406,7 +417,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
             />
 
             <wd-input
-              label="代办人代办人地址"
+              label="代办人地址"
               v-model="model.dbrAddress"
               :rules="rules.dbrAddress"
               prop="dbrAddress"
@@ -425,7 +436,7 @@ async function handleChange(pickerView, value, columnIndex, resolve) {
               prop="postcardName"
               label-width="100px"
               type="text"
-              placeholder="请输入邮寄人姓名'"
+              placeholder="请输入邮寄人姓名"
               custom-input-class="custom-input-right"
             />
             <wd-input
@@ -474,6 +485,6 @@ export default {
   @apply text-right!;
 }
 :deep(.custom-input-right) {
-  @apply text-right! color-#999999! truncate-1!;
+  @apply text-right! color-#999999! truncate-1;
 }
 </style>

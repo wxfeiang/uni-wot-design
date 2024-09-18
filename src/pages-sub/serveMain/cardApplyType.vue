@@ -2,6 +2,7 @@
 {
   layout: 'default',
   // needLogin: true,
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },

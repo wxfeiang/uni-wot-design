@@ -10,74 +10,117 @@
 </route>
 
 <script lang="ts" setup>
-import { useMessage } from 'wot-design-uni'
-
+import { removeT } from '@/utils'
+import { messProps } from './hooks/types'
 import useNews from './hooks/useNews'
-const message = useMessage()
 
 const { sendMessageList, messageClick } = useNews()
 
 defineOptions({
-  name: 'workGuide',
+  name: 'messageList',
 })
-const { safeAreaInsets } = uni.getSystemInfoSync()
 
-function handleClickLeft() {
-  uni.navigateBack()
-}
-
+const tab = ref(0)
+const tablist = ref([
+  {
+    index: 0,
+    title: '全部',
+  },
+  {
+    index: 0,
+    title: '系统消息',
+  },
+  {
+    index: 1000,
+    title: '服务通知',
+  },
+])
 const paging = ref(null)
-const dataList = ref([])
+
+const dataList = ref<messProps[]>()
 const queryList = async (pageNo, pageSize) => {
   const data = {
     page: pageNo,
     size: pageSize,
-    articleType: '0',
+    articleType: tablist.value[tab.value].index,
   }
   // 调用接口获取数据
   try {
     const a = await sendMessageList(data)
-    console.log('🥠[a ]:', a.data.data.content)
     dataList.value = a.data.data.content
-
     paging.value.complete(dataList.value)
   } catch (error) {
-    console.log('🥒[error]:', error)
     paging.value.complete(false)
   }
+}
+const changeTab = (e) => {
+  tab.value = e.index
+  paging.value.reload()
 }
 </script>
 <template>
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
+      <!-- 顶部 -->
       <dy-navbar leftTitle="消息列表" left></dy-navbar>
+      <wd-tabs v-model="tab" @change="changeTab">
+        <block v-for="item in tablist" :key="item.index">
+          <wd-tab :title="item.title"></wd-tab>
+        </block>
+      </wd-tabs>
+      <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
     </template>
 
     <!-- leibiao  -->
-    <view v-for="(item, index) in dataList" :key="index">
-      <wd-cell-group border use-slot>
-        <template #title>
-          <view>
-            <wd-badge :is-dot="item.isread">
-              <view class="px-3px t_bg rounded-2px">
-                <wd-icon name="notification" />
-              </view>
-              <!-- <wd-button size="small" icon="notification" type="info" :round="false"></wd-button> -->
-            </wd-badge>
-            <text class="ml-5px">消息提醒</text>
-          </view>
-        </template>
-        <template #value></template>
-        <wd-cell clickable is-link @click="messageClick(item)">
+    <view v-for="(item, index) in dataList" :key="index" class="px-15px">
+      <view class="text-14px color-#999999 py-10px text-center mt-10px">
+        {{ removeT(item.createTime) }}
+      </view>
+      <view class="rounded-10px overflow-hidden">
+        <wd-cell-group use-slot clickable border>
           <template #title>
-            <view class="truncate-1 color-#000">{{ item.articleTitle }}</view>
+            <view class="relative" @click="messageClick(item)">
+              <view>
+                <text class="ml-5px truncate-1">系统消息</text>
+              </view>
+              <!-- <view
+                class="w-10px h-10px rounded-100 absolute top-[-2px] left-[-5px] bg-#E81010"
+                v-if="item.isread"
+              ></view> -->
+            </view>
           </template>
-          <view class="truncate-1 color-#999">查看详情</view>
-        </wd-cell>
-      </wd-cell-group>
+          <template #value>
+            <wd-icon
+              name="arrow-right"
+              size="12px"
+              color="#BEBEBE"
+              @click="messageClick(item)"
+            ></wd-icon>
+          </template>
+          <wd-cell clickable title-width="100%" @click="messageClick(item)">
+            <template #label>
+              <view class="truncate-5 color-#333">{{ item.articleTitle }}</view>
+              <!-- 模版判断 -->
+              <!-- <view class="truncate-5 color-#333" v-if="item.type == 0">{{ item.center }}</view> -->
+              <!-- TODO:暂时注释第二个模板 -->
+              <!-- <view class="truncate-5 px-10px" v-if="item.type == 1">
+                <view class="flex items-center gap-10px" v-for="(i, idx) in item.data" :key="idx">
+                  <view class="color-#999 py-5px max-w-80px truncate-1">{{ i.label }}</view>
+                  <view class="color-#000 py-5px truncate-1 flex-1">{{ i.value }}</view>
+                </view>
+              </view> -->
+            </template>
+          </wd-cell>
+        </wd-cell-group>
+      </view>
     </view>
   </z-paging>
 </template>
+<style>
+page {
+  background-color: #f5f6f8;
+}
+</style>
 
 <style lang="scss" scoped>
 .t_bg {

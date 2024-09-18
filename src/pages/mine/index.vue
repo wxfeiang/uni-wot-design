@@ -1,6 +1,7 @@
 <route lang="json5">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -25,7 +26,8 @@ const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
 
-const { LogOut, loading, serveList, serveClick, topList } = useInfo()
+const { LogOut, loading, serveList, serveClick, topList, sendUserCouponList, sendInterInfo } =
+  useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 function login() {
@@ -45,21 +47,6 @@ function logoutCimfirm() {
 
 const bgUrlBase64 = ref()
 
-onLoad(async () => {
-  // 设置背景图片
-  bgUrlBase64.value = await pathToBase64(imgUrl)
-  // const params = {
-  //   xm: userInfo.value.userName,
-  //   zjhm: userInfo.value.idCardNumber,
-  //   zjlx: '1',
-  //   zkType: '1',
-  //   wdcode: '999-130632004',
-  //   areaCode: 'CHN',
-  // }
-  // const data = await sendIsReceiveCardInfo(params)
-  // console.log('🥘[data]:', data)
-})
-
 const acton = (item) => {
   if (item.url) {
     routeTo({ url: '/pages-sub/system/sysconfig/index' })
@@ -70,6 +57,25 @@ const acton = (item) => {
 const qiandao = () => {
   routeTo({ url: '/pages-sub/marketManager/integral/index' })
 }
+onLoad(async () => {
+  // 设置背景图片
+  bgUrlBase64.value = await pathToBase64(imgUrl)
+})
+onShow(async () => {
+  if (isLogined.value) {
+    try {
+      const params = {
+        status: 0,
+      }
+      const data2: any = await sendInterInfo()
+      topList.value[0].value = data2.curScore ?? 0
+      const data: any = await sendUserCouponList(params)
+      topList.value[1].value = data.unUsedCouponNum
+    } catch {
+      topList.value[1].value = 0
+    }
+  }
+})
 </script>
 
 <template>
@@ -143,7 +149,7 @@ const qiandao = () => {
             @click="serveClick(item)"
           >
             <view class="text-20px">
-              {{ item.value }}
+              {{ isLogined ? item.value : 0 }}
             </view>
             <view class="text-14px mt-10px">
               {{ item.title }}

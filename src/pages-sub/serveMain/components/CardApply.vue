@@ -4,11 +4,12 @@ import { data as dataInfo } from '../types/data'
 
 import { useMessage } from 'wot-design-uni'
 
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
 import useCardApply from '../hooks/useCardApply'
 const message = useMessage('wd-message-box-slot')
 const message2 = useMessage()
 const { sendCardQury, serchData, read } = useCardApply()
-
 const showData = ref<any>({})
 function toAgereement(type) {
   routeTo({
@@ -16,6 +17,7 @@ function toAgereement(type) {
     data: { type: '1710488285782016019', showTop: 1, title: '申领须知' },
   })
 }
+const { userInfo } = storeToRefs(useUserStore())
 async function btnClick(item) {
   if (!read.value) {
     message
@@ -89,13 +91,12 @@ const footerBtns = ref([
 ])
 
 const isApply = ref(null)
-
+onLoad(async () => {
+  read.value = false
+})
 onMounted(async () => {
   showData.value = dataInfo[0]
-  // 如果阅读协议页面回来 则
-  // read.value = 0
 })
-const value = ref()
 </script>
 <template>
   <view class="p-15px">

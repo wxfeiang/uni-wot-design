@@ -4,11 +4,22 @@ import { useRequest } from 'alova/client'
 import type { serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
+import { findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
+import sfkb from '@/static/images/mine/sfkb.jpg'
 import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
 import wdjf from '@/static/images/mine/wdjf.png'
 import { routeTo } from '@/utils'
+
+// 查询user列表
+const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
+  (data) => getUserCouponList(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
 
 // 退出操作
 const { loading, send: sendLogOut } = useRequest(logout, {
@@ -16,7 +27,7 @@ const { loading, send: sendLogOut } = useRequest(logout, {
   loading: false,
 })
 
-const { clearUserInfo } = useUserStore()
+const { clearUserInfo, userInfo } = useUserStore()
 const LogOut = async () => {
   try {
     // await sendLogOut()
@@ -55,6 +66,13 @@ const serveList = ref<serveProps[]>([
     islink: true,
   },
   {
+    icon: sfkb,
+    title: '身份卡包 ',
+    path: '/pages-sub/userManager/cardManager/index',
+    islink: true,
+    isSign: true,
+  },
+  {
     icon: wdjf,
     title: '我的积分 ',
     path: '/pages-sub/marketManager/integral/index',
@@ -75,6 +93,14 @@ const serveList = ref<serveProps[]>([
 ])
 const serveClick = (item: serveProps) => {
   if (item.islink) {
+    // const { userInfo } = useUserStore()
+    // if (item.isSign && !userInfo.idCardNumber) {
+    //   uni.showToast({
+    //     title: '请先实名认证!',
+    //     icon: 'none',
+    //   })
+    //   return
+    // }
     routeTo({
       url: item.path,
       data: { type: item.data?.articleId, showTop: true, title: item.title },
@@ -95,6 +121,11 @@ const {
   immediate: false,
   loading: false,
 })
+// 查询信息
+const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true), {
+  immediate: false,
+  loading: false,
+})
 
 export default () => {
   return {
@@ -104,5 +135,7 @@ export default () => {
     serveClick,
     sendIsReceiveCardInfo,
     topList,
+    sendUserCouponList,
+    sendInterInfo,
   }
 }

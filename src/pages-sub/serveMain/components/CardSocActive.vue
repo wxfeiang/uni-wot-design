@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import cardSocialActive from '../hooks/cardSocialActive'
-import { useMessage } from 'wot-design-uni'
 import { cardSocialStart } from '@/service/api/cardServe'
 import { useRequest } from 'alova/client'
+import { useMessage } from 'wot-design-uni'
+import cardSocialActive from '../hooks/cardSocialActive'
+import { statusTisProps } from '../types/types'
 const message = useMessage()
 const { model, rules } = cardSocialActive()
 const form = ref(null)
@@ -17,25 +18,28 @@ const { loading, send: sendsocialsecardActive } = useRequest((data) => cardSocia
   immediate: false,
   loading: false,
 })
-
+const statusDel = ref<statusTisProps>()
 const submitCardSocialActive = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        console.log(model)
         const data: any = await sendsocialsecardActive(model.value)
-        console.log('==========message' + data.message)
-        if (data.data === '成功') {
-          message.alert('社保卡启用成功').then(() => {
-            uni.navigateBack()
+        statusDel.value = data
+        message
+          .alert({
+            closeOnClickModal: false,
+            msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+            title: '提示',
+            confirmButtonText: statusDel.value?.message ? '确定' : '返回',
           })
-        } else if (data.data !== '成功') {
-          message.alert(data.message).then(() => {
-            uni.navigateBack()
+          .then(() => {
+            if (!statusDel.value?.message) {
+              uni.navigateBack({
+                delta: 2,
+              })
+            }
           })
-        }
       } catch (error) {
-        console.log(error)
         console.log('数据校验失败')
       }
     }
@@ -54,6 +58,7 @@ const submitCardSocialActive = (form) => {
             v-model="model.userName"
             placeholder="请输入姓名"
             :rules="rules.userName"
+            disabled
             prop="userName"
             custom-input-class="custom-input-right"
           />

@@ -7,6 +7,7 @@ import { useMessage } from 'wot-design-uni'
 import useCardApply from '../hooks/useCardApply'
 import {
   areaCodeList,
+  bankCodeList,
   cardType,
   ethniCodeList,
   isMailList,
@@ -15,15 +16,15 @@ import {
   sexList,
 } from '../types/dict'
 
+import useCardBhk from '../hooks/useCardBhk'
 import CardUpload from './CardUpload.vue'
 
 const minDate = dayjs('191000101').valueOf()
 const maxDate = dayjs('20991225').valueOf()
 
 const message = useMessage()
-const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
-  useCardApply()
-
+const { modelPhoto, model, rules, submitCard, submitStatus, statusDel } = useCardApply()
+const { sendBranches } = useCardBhk()
 const userStore = useUserStore()
 const { userInfo } = userStore
 
@@ -40,16 +41,23 @@ function showKeyBoard() {
 const form = ref(null)
 
 // 错误提示
-watch(
-  () => submitStatus.value,
-  () => {
-    message.alert(statusDel.value).then(() => {
-      uni.navigateBack()
-    })
-  },
-  { deep: true },
-)
-
+watchEffect(() => {
+  if (submitStatus.value) {
+    message
+      .alert({
+        closeOnClickModal: false,
+        msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+        title: '提示',
+        confirmButtonText: statusDel.value?.message ? '确定' : '返回',
+      })
+      .then(() => {
+        if (!statusDel.value?.message) {
+          uni.navigateBack()
+        }
+        submitStatus.value = false
+      })
+  }
+})
 async function upload(photoType: string, type: string) {
   const data = { photoType, type, zjhm: userInfo.idCardNumber }
   const queryStr = qs.stringify(data)
@@ -94,6 +102,29 @@ function changeCamearData(cameraData) {
   if (cameraData.type === 0) {
     cardUrl0.value = cameraData.url
     model.value.photoId = cameraData.id
+  }
+}
+
+const bankBranchList = ref([])
+// 查询邮寄银行网点
+const handleChange = async (pickerView, value, columnIndex, resolve) => {
+  try {
+    const params = {
+      yhdm: model.value.bankCode,
+      areaCode: model.value.areaCode,
+      isMail: model.value.isPostcard,
+    }
+    console.log('🥦', params)
+    const data: any = await sendBranches(params)
+    console.log('🥃[data]:', data)
+
+    bankBranchList.value = data?.length
+      ? data.map((v) => {
+          return { value: v.areaCode, label: v.name }
+        })
+      : [{ value: '', label: '暂无数据,请重新选择网点!' }]
+  } catch (error) {
+    bankBranchList.value = []
   }
 }
 
@@ -238,15 +269,6 @@ function next() {
             prop="nation"
           />
 
-          <wd-picker
-            :columns="areaCodeList"
-            custom-value-class="custom-input-right"
-            label="区域代码"
-            v-model="model.areaCode"
-            :rules="rules.areaCode"
-            prop="areaCode"
-          />
-
           <wd-datetime-picker
             type="date"
             label-width="150"
@@ -279,14 +301,42 @@ function next() {
             :rules="rules.work"
             prop="work"
           />
-          <!-- <wd-picker
+          <wd-picker
+            :columns="isMailList"
+            custom-value-class="custom-input-right"
+            label="是否邮寄"
+            v-model="model.isPostcard"
+            :rules="rules.isPostcard"
+            prop="isPostcard"
+            @confirm="handleChange"
+          />
+          <wd-picker
             :columns="areaCodeList"
             custom-value-class="custom-input-right"
-            label="网点编码"
+            label="申领地区"
+            v-model="model.areaCode"
+            :rules="rules.areaCode"
+            prop="areaCode"
+            @confirm="handleChange"
+          />
+          <wd-picker
+            :columns="bankCodeList"
+            custom-value-class="custom-input-right"
+            label="申领银行"
+            v-model="model.bankCode"
+            :rules="rules.bankCode"
+            prop="bankCode"
+            @confirm="handleChange"
+          />
+          <wd-picker
+            :columns="bankBranchList"
+            custom-value-class="custom-input-right"
+            label="申领网点"
             v-model="model.bankBranchCode"
             :rules="rules.bankBranchCode"
             prop="bankBranchCode"
-          /> -->
+            :disabled="!model.areaCode"
+          />
           <wd-input
             label="联系地址"
             v-model="model.address"
@@ -297,15 +347,40 @@ function next() {
             placeholder="请输入联系地址"
             custom-input-class="custom-input-right"
           />
-          <wd-picker
-            :columns="isMailList"
-            custom-value-class="custom-input-right"
-            label="是否邮寄"
-            v-model="model.isPostcard"
-            :rules="rules.isPostcard"
-            prop="isPostcard"
-          />
         </wd-cell-group>
+        <template v-if="model.isPostcard == '1'">
+          <wd-input
+            label="邮寄人姓名"
+            v-model="model.postcardName"
+            :rules="rules.postcardName"
+            prop="postcardName"
+            label-width="100px"
+            type="text"
+            placeholder="请输入邮寄人姓名"
+            custom-input-class="custom-input-right"
+          />
+          <wd-input
+            label="邮寄人手机号"
+            v-model="model.postcardPhone"
+            :rules="rules.postcardPhone"
+            prop="postcardPhone"
+            label-width="100px"
+            type="text"
+            placeholder="请输入邮寄人手机号"
+            custom-input-class="custom-input-right"
+          />
+
+          <wd-input
+            label="邮寄地址"
+            v-model="model.postcardAddress"
+            :rules="rules.postcardAddress"
+            prop="postcardAddress"
+            label-width="100px"
+            type="text"
+            placeholder="请输入邮寄地址"
+            custom-input-class="custom-input-right"
+          />
+        </template>
       </wd-form>
     </view>
     <view class="mt-20px">
@@ -329,6 +404,6 @@ export default {
   @apply text-right!;
 }
 :deep(.custom-input-right) {
-  @apply text-right! color-#999999!;
+  @apply text-right! color-#999999! truncate-1;
 }
 </style>

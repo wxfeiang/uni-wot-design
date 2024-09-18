@@ -3,6 +3,7 @@ import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
+import { statusTisProps } from '../types/types'
 
 const read = ref(false)
 const { userInfo } = useUserStore()
@@ -46,26 +47,27 @@ const model = ref({
   name: userInfo.userName,
   idCardNumber: userInfo.idCardNumber,
   idCardType: '1',
-  sex: '1',
+  sex: '',
   birthdate: '',
   nationality: 'CHN',
-  nation: '01',
-  areaCode: '133199',
+  nation: '',
+  areaCode: '',
   phoneNumber: userInfo.userPhone,
   address: '',
   startDate: null,
   endDate: null,
-  work: '20000',
-  bankCode: '999',
-  bankBranchCode: '999-130632004',
+  work: '',
+  bankCode: '',
+  bankBranchCode: '',
   photoId: '',
   idCardFrontPhotoId: '',
   idCardBackPhotoId: '',
-  isPostcard: '0',
-  postcardaddress: '',
-  postcardPhone: '',
-  postcardName: '',
+
   idName: '',
+  isPostcard: '0',
+  postcardName: '',
+  postcardPhone: '',
+  postcardAddress: '',
 })
 const rules = {
   name: [{ required: true, message: '请输入姓名' }],
@@ -82,19 +84,23 @@ const rules = {
   endDate: [{ required: true, message: '请选择结束日期' }],
   work: [{ required: true, message: '请输入工作' }],
   bankCode: [{ required: true, message: '请输入银行代码' }],
-  bankBranchCode: [{ required: true, message: '请输入银行网点代码' }],
+  bankBranchCode: [{ required: true, message: '请选择申领网点' }],
   photoId: [{ required: true, message: '请输入照片ID' }],
   idCardFrontPhotoId: [{ required: true, message: '请上传身份证正面照片' }],
   idCardBackPhotoId: [{ required: true, message: '请上传身份证反面照片' }],
   isPostcard: [{ required: true, message: '请选择是否邮寄' }],
+  postcardName: [{ required: true, message: '请输入邮寄人姓名', trigger: 'blur' }],
+  postcardPhone: [{ required: true, message: '请输入邮寄人手机号', trigger: 'blur' }],
+  postcardAddress: [{ required: true, message: '请输入', trigger: 'blur' }],
 }
 const { loading: loading2, send: sendCardData } = useRequest((data) => cardFirstApplication(data), {
   immediate: false,
   loading: false,
 })
 
-const submitStatus = ref(0)
-const statusDel = ref('')
+const statusDel = ref<statusTisProps>()
+const submitStatus = ref(false)
+
 const submitCard = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
@@ -107,13 +113,8 @@ const submitCard = (form) => {
 
         const data: any = await sendCardData(params)
 
-        if (data.message) {
-          submitStatus.value = 2
-          statusDel.value = data.message
-        } else {
-          submitStatus.value = 1
-          statusDel.value = '提交成功了!'
-        }
+        submitStatus.value = true
+        statusDel.value = data
       } catch (error) {
         console.log('数据校验失败')
       }

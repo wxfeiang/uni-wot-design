@@ -87,6 +87,8 @@ const maxData = ref<number>(dayjs().add(50, 'year').valueOf())
               label-width="100px"
               type="text"
               v-model="model.shbzhm"
+              prop="shbzhm"
+              :rules="rules.shbzhm"
               placeholder="请输入社会保障号码"
               custom-input-class="custom-input-right"
             />

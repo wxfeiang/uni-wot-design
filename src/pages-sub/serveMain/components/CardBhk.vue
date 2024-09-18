@@ -65,7 +65,9 @@ const footerBtns = ref([
     data: { base: 'shebaokbh', title: '社保卡补换信息' },
   },
 ])
-
+onLoad(async () => {
+  read.value = false
+})
 onMounted(async () => {
   showData.value = dataInfo[1]
 })

@@ -29,8 +29,8 @@ const toAgreement = () => {
 }
 const tips = ref(false)
 const qiandaoMsg = ref({
-  maxDay: 0,
-  signIntegral: 0,
+  maxDay: '',
+  signIntegral: '',
 })
 const qiandao = async () => {
   try {
@@ -43,17 +43,16 @@ const qiandao = async () => {
   }
 }
 const infoData = ref({
-  curScore: 0,
-  maxDay: 0,
-  totalScore: 0,
-  income: 0,
+  curScore: null,
+  maxDay: null,
+  totalScore: null,
+  income: null,
   resultList: [],
 })
 const getInterInfo = async () => {
   try {
     const data: any = await sendInterInfo()
-    infoData.value = { ...infoData.value, ...data }
-    infoData.value.resultList = data.resultList
+    infoData.value = data
   } catch (error) {
     console.log('🍪[error]:', error)
   }
@@ -72,16 +71,17 @@ onLoad(async () => {
     :style="`background-image: url(${topbgBase64}); background-size: 100% 240px`"
   >
     <dy-navbar :leftTitle="title" center isNavShow></dy-navbar>
-    <view class="flex justify-between mt-5px pl-25px pr-10px">
+    <view class="flex justify-between items-center mt-5px pl-25px pr-10px">
       <view class="flex justify-between flex-col">
         <view class="text-14px font-500 color-#fff">可用积分</view>
         <view class="text-28px font-500 color-#fff my-10px">
-          <wd-count-to
+          <!-- <wd-count-to
             :endVal="infoData.curScore || 0"
             separator=""
             :fontSize="36"
             color="#fff"
-          ></wd-count-to>
+          ></wd-count-to> -->
+          {{ infoData.curScore }}
         </view>
         <view class="text-13px font-500 color-#fff">
           累计获得积分
@@ -91,10 +91,10 @@ onLoad(async () => {
         </view>
       </view>
       <view class="flex justify-between flex-col items-end">
-        <view class="text-12px font-500 color-#fff" @click="toAgreement">
+        <!-- <view class="text-12px font-500 color-#fff" @click="toAgreement">
           <wd-icon name="info-circle" size="14px"></wd-icon>
           积分规则
-        </view>
+        </view> -->
         <view class="text-12px font-500 color-#fff px-10px py-5px bg" @click="toMingxi">
           积分明细
         </view>
@@ -118,11 +118,11 @@ onLoad(async () => {
         </view>
 
         <view class="mt-10px">
-          <view class="flex items-center gap-15px flex-wrap">
+          <view class="flex items-center gap-10px flex-wrap">
             <view
               class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
               :class="index === 6 ? 'ml-auto w-2.55/6! text-left' : ''"
-              v-for="(item, index) in infoData.resultList"
+              v-for="(item, index) in infoData.resultList ?? []"
               :key="index"
             >
               <view class="text-14px">

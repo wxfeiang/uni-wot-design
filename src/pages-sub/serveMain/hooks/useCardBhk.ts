@@ -1,9 +1,14 @@
-import { changeCardData, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
-import { getBranchesInfo } from '@/service/api/source'
+import {
+  changeCardData,
+  getBranchesInfoSlect,
+  getCardcheckInfo,
+  uploadPhoneInfo,
+} from '@/service/api/cardServe'
 import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 import cloneDeep from 'lodash-es/cloneDeep'
+import { statusTisProps } from '../types/types'
 
 const read = ref(0)
 const { userInfo } = useUserStore()
@@ -31,7 +36,7 @@ const {
   loading: loadingBranches,
   send: sendBranches,
   onSuccess: branchesSucess,
-} = useRequest((data) => getBranchesInfo(data), {
+} = useRequest((data) => getBranchesInfoSlect(data), {
   immediate: false,
   loading: false,
   initialData: [],
@@ -53,23 +58,23 @@ const {
 const bankBranchList = []
 // 补卡信息提交
 const model = ref({
-  name: '',
-  idCardNumber: '',
-  sex: '1',
+  name: userInfo.userName,
+  idCardNumber: userInfo.idCardNumber,
+  sex: userInfo.sex,
   nation: '01',
   phoneNumber: userInfo.userPhone,
   mailAddress: '',
   startDate: null,
   endDate: null,
-  work: '20000',
-  bankCode: '999',
-  bankBranchCode: '999-130632004',
-  businessType: '1',
-  reason: '2',
+  work: '',
+  bankCode: '',
+  bankBranchCode: '',
+  businessType: '',
+  reason: '',
   photoId: '',
   idCardFrontPhotoId: '',
   idCardBackPhotoId: '',
-  dbbs: '0',
+  dbbs: '',
 
   // --
   dbrName: '',
@@ -133,8 +138,9 @@ const { loading: loading3, send: sendBranchesInfos } = useRequest((data) => chan
   loading: false,
 })
 
-const submitStatus = ref(0)
-const statusDel = ref('')
+const statusDel = ref<statusTisProps>()
+const submitStatus = ref(false)
+
 const submitCard = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
@@ -142,17 +148,11 @@ const submitCard = (form) => {
         const params = cloneDeep(model.value)
         params.startDate = dayjs(params.startDate).format('YYYYMMDD')
         params.endDate = dayjs(params.endDate).format('YYYYMMDD')
-        console.log('🌮[params]:', params)
 
         const data: any = await sendCardData(params)
 
-        if (data.message) {
-          submitStatus.value = 2
-          statusDel.value = data.message
-        } else {
-          submitStatus.value = 1
-          statusDel.value = '提交成功了!'
-        }
+        submitStatus.value = true
+        statusDel.value = data
       } catch (error) {
         console.log('数据校验失败')
       }

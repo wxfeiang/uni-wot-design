@@ -52,15 +52,15 @@ export function getArtacleDetail(data) {
  * @return {}
  */
 
-export function getBranchesInfo(data: any) {
+export function getBranchesInfo<T>(data: any) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
 
-  return request.Post(GET_BRANCHES_INFO, data, {
+  return request.Post<T>(GET_BRANCHES_INFO, data, {
     meta,
   })
 }

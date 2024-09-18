@@ -33,6 +33,8 @@ const UNBOXING_INFO = baseUrlApi('/card/app/getUnboxingInfo')
 const CARDSIGN_VALID = baseUrlApi('/card/app/signValid')
 const GET_SIGN_PARAM = baseUrlApi('/card/app/getSignParam')
 
+const GET_BRANCHES_INFO_SELECT = baseUrlApi('/card/app/getBranchesInfoSelect')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -217,4 +219,17 @@ export function getSignParam(data) {
     GET_SIGN_PARAM, // 请求地址
     data,
   )
+}
+
+export function getBranchesInfoSlect<T>(data: any) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    Analysis: true,
+  }
+
+  return request.Post<T>(GET_BRANCHES_INFO_SELECT, data, {
+    meta,
+  })
 }

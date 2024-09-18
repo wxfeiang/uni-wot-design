@@ -10,6 +10,8 @@ interface NavigateToOptions {
        "/pages/login/phoneLogin" |
        "/pages/login/sfzLogin" |
        "/pages/mine/index" |
+       "/pages/pay/index" |
+       "/pages/pay/sacnResult" |
        "/pages/serve/index" |
        "/pages/shop/index" |
        "/pages/login/compoents/loginOuther" |

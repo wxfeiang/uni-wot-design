@@ -15,6 +15,8 @@ import bg from '../static/images/coupon/myuhbg.png'
 import hubgtitle from '../static/images/coupon/tomyh.png'
 import CouponList from './compoents/couponList.vue'
 import { conponListProps } from './utils/types'
+import userCoupon from './utils/userCoupon'
+const { sendUserCouponList } = userCoupon()
 
 const topbgBase64 = ref('')
 const title = ref('我的优惠券')
@@ -24,75 +26,41 @@ const tablist = ref([
   {
     index: 0,
     title: '未使用',
+    count: 0,
   },
   {
     index: 1,
     title: '已使用',
+    count: 0,
   },
   {
     index: 2,
     title: '已过期',
+    count: 0,
   },
 ])
+const matchTab = ref(['unUsedCouponNum', 'usedCouponNum', 'overdueCouponNum'])
 const changeTab = (e) => {
   tab.value = e.index
   paging.value.reload()
 }
 
-const conponList = ref<conponListProps[]>([
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: null, // 优惠券状态
-  },
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: 1, // 优惠券状态
-  },
-  {
-    id: '1',
-    couponType: 1,
-    couponTypeName: '中秋节月饼',
-    couponAmount: '2000',
-    couponAmountType: 2,
-    couponAmountTypeName: '平台券',
-    couponLimit: '满200元可用',
-    couponTime: '2022-09-01至2022-09-30',
-    couponEndTime: '2022-09-30',
-    couponStartTime: '2022-09-01',
-    couponConternt: '领取时间：长期（xxx-xxxx',
-    couponStatus: 2, // 优惠券状态
-  },
-])
+const conponList = ref<conponListProps[]>([])
 
-function queryList(pageNo: number, pageSize: number) {
+async function queryList(pageNo: number, pageSize: number) {
   const params = {
-    number: pageNo,
+    page: pageNo,
     size: pageSize,
+    status: tab.value,
   }
+
   // 调用接口获取数据
   try {
-    // const data: any = await sendMessageList(params)
-    // dataList.value = data.data.data.content
+    const data: any = await sendUserCouponList(params)
+    conponList.value = data.coupons.content
+    tablist.value.forEach((e, i) => {
+      e.count = data[matchTab.value[i]]
+    })
     paging.value.complete(conponList.value)
   } catch (error) {
     paging.value.complete(false)
@@ -128,7 +96,7 @@ onLoad(async () => {
       <view class="bg-#C30000 mt-42px h-42px">
         <wd-tabs v-model="tab" @change="changeTab" custom-class="custom-class-tab">
           <block v-for="item in tablist" :key="item.index">
-            <wd-tab :title="`${item.title}   (${item.index})`"></wd-tab>
+            <wd-tab :title="`${item.title}   (${item.count})`"></wd-tab>
           </block>
         </wd-tabs>
       </view>
