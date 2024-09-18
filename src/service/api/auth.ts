@@ -1,50 +1,97 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
-import { useRequest } from 'alova/client'
-import { METHOD_INSTANCE } from '../model/baseModel'
-const LOGIN = baseUrlApi('/employee/login')
-const LOGIN_OUT = '/logout'
+const LOGIN = baseUrlApi('/system/api/helper/productLogin')
+const LOGIN_OUT = baseUrlApi('/captcha/faceLoginOut')
 const REFRESH_TOKEN = '/refresh/token'
 const TEST_TOKEN = '/employee/test'
 const GET_AGREEMENT = baseUrlApi('/agreement')
-const EP_LIST = baseUrlApi('/employee/list')
-/**
- * 登录
- * @param params 初始参数()
- */
-export function sysLogin(data: any) {
-  const meta: METHOD_INSTANCE = {
-    ignoreSign: true,
-    ignorEencrypt: true,
-    ignorToken: true,
-    resAll: true,
-  }
+const FACE_LOGIN = baseUrlApi('/user/app/faceLogin')
 
+const FACE_LOGIN_OUT = baseUrlApi('/captcha/faceLoginOut')
+
+const USER_ID_KEY = baseUrlApi('/user/app/getUserIdKey')
+const GET_INFO = baseUrlApi('/user/app/getInfo')
+const ADD_XCX_USER_DETAIL = baseUrlApi('/member/app/addXcxUserDetail')
+const ADD_XCX_USER_DETAIL_WXV = baseUrlApi('/member/app/addXcxUserDetailWx')
+const GET_USER_OPEN_ID_BY_CODE = baseUrlApi('/member/app/getUserOpenIdByCode')
+
+/**
+ * 获取 人脸识别Key
+ * @param params
+ */
+
+export function getUserIdKey(data) {
   return request.Post(
-    LOGIN, // 请求地址
+    USER_ID_KEY, // 地址
     data,
-    {
-      meta,
-      // transform(rawData, headers) {
-      //   console.log('🍆[rawData]:', rawData, '=======', headers)
-      //   return 1
-      // },
-    },
+  )
+}
+
+/**
+ * 获取 识别后信息
+ * @param params
+ */
+export function getUserInfo(data) {
+  return request.Post(
+    GET_INFO, // 地址
+    data,
+  )
+}
+
+/**
+ * 人脸登录
+ * @param params 初始参数()
+ * */
+export function faceLogin(data) {
+  return request.Post(
+    FACE_LOGIN, // 地址
+    data,
+  )
+}
+
+/**
+ * 手机登录
+ * @param params 初始参数()
+ * */
+export function phoneLogin(data) {
+  return request.Post(
+    ADD_XCX_USER_DETAIL, // 地址
+    data,
   )
 }
 /**
- * 测试token
- * @param params
- */
-export function testToken() {
-  return request.Get(TEST_TOKEN)
+ * 登录凭证
+ * @param params 初始参数()
+ * */
+export function openIdCode(data) {
+  return request.Post(
+    GET_USER_OPEN_ID_BY_CODE, // 地址
+    data,
+  )
+}
+
+/**
+ * 微信快捷
+ * @param params 初始参数()
+ * */
+export function phoneChartLogin(data) {
+  return request.Post(
+    ADD_XCX_USER_DETAIL_WXV, // 地址
+    data,
+  )
 }
 
 /**
  * 登出
+ * 测试token
+ * @param params
  */
-export function logout(config: any) {
-  return useRequest(request.Post(LOGIN_OUT), { ...config })
+export function logout(data) {
+  // TODO: 地址么有配置
+  return request.Post(
+    FACE_LOGIN, // 地址
+    data,
+  )
 }
 
 /**
@@ -52,28 +99,4 @@ export function logout(config: any) {
  */
 export function refreshToken() {
   return request.Post<LoginModel>(REFRESH_TOKEN, {})
-}
-
-/**
- * 获取各种富文本协议内容
- */
-export function agreement(params: any, config: any) {
-  return useRequest((newTodo) => request.Get(GET_AGREEMENT, { params: newTodo }), { ...config })
-}
-
-export function epList() {
-  const meta: METHOD_INSTANCE = {
-    ignoreSign: true,
-    ignorEencrypt: true,
-    ignorToken: true,
-    resAll: true,
-  }
-
-  return request.Post(
-    EP_LIST, // 请求地址
-    {}, // 请求参数
-    {
-      meta,
-    },
-  )
 }

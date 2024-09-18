@@ -39,7 +39,7 @@ export default (inifConfig?: boolean) => {
     loading: false,
   })
   responseConfigSuccess((data: any) => {
-    const code = changeRes(data.data, data.data.data.data.paramRespId)
+    const code = changeRes(data.data, data.data.data.data.pubK)
     systemStore.RESSTRPPD(code)
   })
   // #ifndef  H5

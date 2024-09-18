@@ -1,7 +1,8 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
+  // needLogin: true,
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -10,13 +11,18 @@
 
 <script lang="ts" setup>
 import CardApplyFrom from './components/cardApplyFrom.vue'
+import CardBhkFrom from './components/cardBhkFrom.vue'
+import CardJuven from './components/CardJuven.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
   uni.navigateBack()
 }
-onMounted(() => {
-  navTitle.value = '身份证填写'
+const baseCon = ref('')
+onLoad((options) => {
+  console.log('🌯=======>>>>[options]:', options)
+  baseCon.value = options.base
+  navTitle.value = decodeURIComponent(options.title)
 })
 </script>
 
@@ -36,8 +42,12 @@ onMounted(() => {
         <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
       </template>
     </wd-navbar>
-
-    <Card-ApplyFrom />
+    <!-- 社保卡申领 -->
+    <Card-ApplyFrom v-if="baseCon === 'shebaoksl'" />
+    <!-- 补卡换卡 -->
+    <Card-BhkFrom v-if="baseCon === 'shebaokbh'" />
+    <!--未成年人申领 -->
+    <Card-Juven v-if="baseCon === 'xinshenersl'" />
   </view>
 </template>
 

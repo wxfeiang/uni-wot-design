@@ -109,6 +109,10 @@
     "useUpdateApp": true,
     "useFilePase": true,
     "usePhoneCode": true,
-    "useMitt": true
+    "useMitt": true,
+    "onWatcherCleanup": true,
+    "useId": true,
+    "useModel": true,
+    "useTemplateRef": true
   }
 }

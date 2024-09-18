@@ -90,11 +90,12 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useFilePase: typeof import('../hooks/useFilePase')['default']
   const useImageVerify: typeof import('../hooks/useImageVerify')['default']
-  const useMitt: typeof import('../hooks/useMitt')['useMitt']
+  const useNav: typeof import('../hooks/useNav')['default']
   const useNavbarWeixin: (typeof import('../hooks/useNavbarWeixin'))['default']
   const usePhoneCode: typeof import('../hooks/usePhoneCode')['default']
   const useRequest: typeof import('../hooks/useRequest')['default']
   const useSlots: typeof import('vue')['useSlots']
+  const useSoket: typeof import('../hooks/useSoket')['default']
   const useSystem: typeof import('../hooks/useSystemFig')['default']
   const useSystemFig: typeof import('../hooks/useSystemFig')['default']
   const useUpdateApp: typeof import('../hooks/useUpdateApp')['default']
@@ -190,7 +191,7 @@ declare module 'vue' {
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
-    readonly useMitt: UnwrapRef<typeof import('../hooks/useMitt')['useMitt']>
+    readonly useNav: UnwrapRef<typeof import('../hooks/useNav')['default']>
     readonly usePhoneCode: UnwrapRef<typeof import('../hooks/usePhoneCode')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>

@@ -1,23 +1,18 @@
 import { getPhoneCode } from '@/service/api/system'
-
+import { useCaptcha } from 'alova/client'
 // 获取验证码
 const {
-  send: getCode,
+  send: sendPhoneCode,
   loading: sending,
   countdown,
-} = getPhoneCode(
-  {
-    phone: '121212',
-  },
-  {
-    initialCountdown: 120,
-    loading: false,
-  },
-)
+} = useCaptcha((data) => getPhoneCode(data), {
+  initialCountdown: 90,
+  loading: false,
+})
 
 export default () => {
   return {
-    getCode,
+    sendPhoneCode,
     countdown,
     sending,
   }

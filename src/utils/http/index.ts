@@ -1,12 +1,14 @@
-import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 import AdapterUniapp from '@alova/adapter-uniapp'
 import { createAlova } from 'alova'
+
+import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 // eslint-disable-next-line import/named
-import { useUserStore } from '@/store'
+import { useSystemStore, useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
 
-import { responseAes } from '@/utils/aes/encryptUtils'
+import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
 import { assign } from 'lodash-es'
+import { HideLoading, Loading } from '../uniapi/prompt'
 
 const timeOut = import.meta.env.VITE_SERVER_TIME_OUT
 
@@ -16,25 +18,28 @@ const HEADER = {
 }
 
 /**
- * alova 请求实例a
+ * alova 请求实例
  * @link
  */
 
 const alovaInstance = createAlova({
   // baseURL: baseUrl(), //TODO:多服务配置情况下不需要基本前缀
-  ...AdapterUniapp(), // 适配器
+  ...AdapterUniapp(),
 
   timeout: timeOut,
+  cacheFor: null,
   beforeRequest: (method) => {
     const userStore = useUserStore()
-    // beforeQuest(method)
+    beforeQuest(method)
     // 默认不是用全局加载状态。。。
-    // Loading('加载中...');
+    if (method?.meta?.loading) {
+      Loading('加载中...')
+    }
+
     let token = {}
-    // if (!method?.meta?.ignorToken) {
-    //   token = userStore.getAuthorization()
-    // }
-    token = userStore.getAuthorization()
+    if (!method?.meta?.ignorToken) {
+      token = userStore.getAuthorization()
+    }
     method.config.headers = assign(method.config.headers, HEADER, token)
   },
 
@@ -47,6 +52,9 @@ const alovaInstance = createAlova({
      */
     onSuccess: async (response, method) => {
       const { config, meta } = method
+      if (meta?.loading) {
+        HideLoading()
+      }
 
       const { enableDownload, enableUpload, responseType } = config as any
       // 返回所有结果
@@ -66,22 +74,25 @@ const alovaInstance = createAlova({
             return rawData
           }
           // TODO: 处理白名单返回 处理正确数据返回
-          // const useSystem = useSystemStore()
-          // if (useSystem.filterData.whiteList.includes(method.url)) {
-          //   return rawData
-          // }
-          // 处理数据
-          const resAllData = responseAes(response)
-          const { data: rdata, code: rode, msg: rmsg } = resAllData
-          if (rode === ResultEnum.CODE) {
-            return rdata as any
-          } else {
-            rmsg && checkStatus(statusCode, rmsg || '')
+          const useSystem = useSystemStore()
+
+          if (useSystem.filterData.whiteList.includes(method.url)) {
+            return rawData
           }
-          return Promise.reject(resAllData)
+          // 返回不解析的数据 ()
+          const resAllData = meta?.Analysis ? rawData : responseAes(response)
+          const { data: rdata, code: rode, msg: rmsg } = resAllData
+          console.log(method.url + '====>🍯[解析后的数据]:', resAllData)
+          if (rode !== ResultEnum.CODE || (rdata.code && rdata.code * 1 !== ResultEnum.CODE)) {
+            !meta?.Tips && rmsg && checkStatus(statusCode, rdata.msg || rmsg || '')
+            return Promise.reject(resAllData)
+          } else {
+            // success
+            return rdata as any
+          }
         }
       }
-      checkStatus(statusCode, msg || '')
+      !meta?.Tips && checkStatus(statusCode, msg || '')
       return Promise.reject(rawData)
     },
 
@@ -92,6 +103,11 @@ const alovaInstance = createAlova({
      * @param method
      */
     onError: (err, method) => {
+      const { config, meta } = method
+      if (meta?.loading) {
+        HideLoading()
+      }
+      checkStatus(500)
       // eslint-disable-next-line prefer-promise-reject-errors
       return Promise.reject({ err, method })
     },

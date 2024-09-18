@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -9,14 +9,24 @@
 </route>
 
 <script lang="ts" setup>
+import CardChange from '@/pages-sub/serveMain/components/CardChange.vue'
+import CardLoss from '@/pages-sub/serveMain/components/CardLoss.vue'
+import ChangePwd from '@/pages-sub/serveMain/components/ChangePwd.vue'
 import CardProgressInQuiry from './components/CardProgressInQuiry.vue'
+import CardSocActive from './components/CardSocActive.vue'
+import ServePassRest from './components/ServePassRest.vue'
+import UnboxingInfo from './components/UnboxingInfo.vue'
 
 const navTitle = ref('')
 function handleClickLeft() {
   uni.navigateBack()
 }
-onMounted(() => {
-  navTitle.value = '申领'
+const baseCon = ref('')
+
+onLoad((options: any) => {
+  console.log('🌯[options]:', options)
+  baseCon.value = options.base
+  navTitle.value = decodeURIComponent(options.title)
 })
 </script>
 
@@ -40,8 +50,26 @@ onMounted(() => {
     <dy-title :title="navTitle" customClass="custom-title"></dy-title>
 
     <!-- 动态加载类型对应的组件 -->
-    <!-- CardProgressInquiry 卡进度查询-->
-    <Card-ProgressInQuiry />
+    <!--  卡进度查询-->
+    <Card-ProgressInQuiry v-if="baseCon === 'kajindu'" />
+
+    <!-- 卡信息变更 -->
+    <Card-Change v-if="baseCon === 'cardChange'" />
+
+    <!-- 服务密码重置 -->
+    <Serve-PassRest v-if="baseCon === 'servepassreset'" />
+
+    <!--服务密码修改 -->
+    <Change-Pwd v-if="baseCon === 'changeCardPwd'" />
+
+    <!--社保卡挂失 -->
+    <Card-Loss v-if="baseCon === 'cardLoss'" />
+
+    <!-- 社保卡启用 -->
+    <Card-SocActive v-if="baseCon === 'cardSocialActive'" />
+
+    <!-- 社保卡解挂 -->
+    <Unboxing-info v-if="baseCon === 'unboxingInfo'" />
   </view>
 </template>
 

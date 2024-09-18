@@ -11,8 +11,9 @@ export declare interface METHOD_INSTANCE<T = any> {
   data?: T
   ignoreSign?: boolean // 忽略签名
   ignorEencrypt?: boolean // 忽略加密
-  ignorToken?: boolean // 返回所有数据
-  ignorToken: true // 忽略token
+  ignorToken?: boolean // 忽略token
   resAll?: boolean // 返回所有数据
-  resData?: boolean // 返回data所有数据
+  Analysis?: boolean // 不加解密的情况下只返回data
+  loading?: boolean // 是否显示全局loading
+  Tips?: boolean // 是否显示全局提示 (默认显示: false)
 }

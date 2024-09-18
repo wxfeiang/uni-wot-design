@@ -12,165 +12,172 @@
 }
 </route>
 <script lang="ts" setup>
-import { NAVIGATE_TYPE } from '@/enums/routerEnum'
-import { routeTo } from '@/utils'
+import logoTitle from '@/static/images/login/logoTitle.png'
+
+import logo from '@/static/images/logo.png'
 import { useMessage } from 'wot-design-uni'
+import loginOuther from './compoents/loginOuther.vue'
 import useLogin from './utils/useLogin'
-const { Login, model, rules, read, loading, columns } = useLogin()
+const {
+  Login,
+
+  read,
+
+  submitPhoneLogin,
+  shuziLogin,
+  getphonenumberLogin,
+  goPhoneLogin,
+  toAgreement,
+} = useLogin()
 const form = ref(null)
-const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
-const to = () => {
-  routeTo({ url: '/pages/aa/index', navType: NAVIGATE_TYPE.NAVIGATE_TO })
+const form2 = ref(null)
+
+const message = useMessage('wd-message-box-slot')
+
+const unifiedLogin = (type: number, $event?: any) => {
+  if (read.value) {
+    readChange(type)
+  } else {
+    message.confirm({
+      title: '提示',
+    })
+  }
 }
-const tab = ref<number>(0)
-function toAgereement(type) {
-  routeTo({ url: '/pages-sub/components/webView/index', data: { type } })
+
+function cancel() {
+  message.close()
 }
-function handleClickLeft() {
-  uni.navigateBack()
+function getphonenumber(e) {
+  cancel()
+  read.value = true
+  getphonenumberLogin(e)
 }
-function handleConfirm({ value }) {
-  model.value.select = value
-}
-const message = useMessage()
-function test() {
-  message.alert('操作成功')
+
+const readChange = (type: number) => {
+  if (type === 0) {
+    Login(form.value)
+  } else if (type === 1) {
+    submitPhoneLogin(form2.value)
+  } else if (type === 2) {
+    shuziLogin()
+  } else if (type === 3) {
+    console.log('🥔 wxchart')
+  }
 }
 </script>
 <template>
-  <view class="top">
-    <wd-navbar
-      safeAreaInsetTop
-      rightDisabled
-      placeholder
-      leftArrow
-      fixed
-      :bordered="false"
-      title="实名认证"
-      custom-class="nav_bg"
-    >
-      <template #left>
-        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
-      </template>
-    </wd-navbar>
-    <view class="mt-40px px-30px">
-      <view class="color-#fff font-size-20px line-height-40px">登录实名认证</view>
-      <view class="color-#f3f3f3 font-size-16px line-height-30px">提升账号安全,保障合法权益</view>
-    </view>
-    <wd-tabs v-model="tab" custom-class="custom-class-tab">
-      <block v-for="item in 2" :key="item">
-        <wd-tab :title="`标签${item}`">
-          <view class="content">内容{{ item }}</view>
-        </wd-tab>
-      </block>
-    </wd-tabs>
-
-    <view @click="test">test</view>
-
-    <view class="p-30px">
-      <view class="pb-100px rounded-10px overflow-hidden bg-#fff">
-        <view class="text-center line-height-50px bg-#f3f3f3f3">使用有效身份证件信息认证</view>
-        <view class="py-10px bg-#fff">
-          <wd-form ref="form" :model="model">
-            <wd-cell-group border>
-              <wd-input
-                label="身份证号码:"
-                label-width="100px"
-                type="text"
-                v-model="model.username"
-                placeholder="请输入身份证号码"
-                :rules="rules.username"
-                prop="username"
-                custom-input-class="custom-input-right"
-                :maxlength="18"
-                :mixlength="16"
-              />
-
-              <wd-input
-                label="姓名:"
-                label-width="100px"
-                type="text"
-                v-model="model.password"
-                placeholder="请输入姓名"
-                :rules="rules.password"
-                prop="password"
-                custom-input-class="custom-input-right"
-              />
-              <wd-select-picker
-                label="类型切换"
-                v-model="model.select"
-                :columns="columns"
-                type="radio"
-              ></wd-select-picker>
-              <wd-picker
-                :columns="columns"
-                label="单列选项"
-                v-model="model.select"
-                @confirm="handleConfirm"
-              />
-              <!--  :default-value="defaultValue" -->
-              <wd-datetime-picker
-                type="date"
-                :minDate="-639129600000"
-                v-model="model.date"
-                label="日期选择"
-              />
-            </wd-cell-group>
-          </wd-form>
-        </view>
-        <view class="mt-20px px-25px">
+  <view class="w-100vw h-100vh flex flex-col justify-around">
+    <view class="mt-18%">
+      <view class="flex justify-center">
+        <wd-img :width="97" :height="97" :src="logo" round />
+      </view>
+      <view class="flex justify-center mt-20px">
+        <wd-img :width="316" :height="54" :src="logoTitle" />
+      </view>
+      <view class="mt-30px">
+        <view class="px-10 mt-20px">
           <wd-button
-            type="primary"
-            :round="false"
-            size="medium"
-            @click="Login(form)"
+            v-if="read"
             block
-            :loading="loading"
+            open-type="getPhoneNumber"
+            @getphonenumber="getphonenumber"
+            custom-class="custom-class-mine-login"
           >
-            查 询
+            微信快捷登录
           </wd-button>
+          <wd-button v-else block custom-class="custom-class-mine-login" @click="unifiedLogin(3)">
+            微信快捷登录
+          </wd-button>
+        </view>
+
+        <view class="px-10 mt-20px">
+          <wd-button
+            block
+            plain
+            hairline
+            custom-class="custom-class-mine-login2"
+            @click="goPhoneLogin"
+          >
+            手机验证码登录
+          </wd-button>
+        </view>
+        <view class="px-10 mt-15px">
+          <view class="flex gap-10px">
+            <wd-checkbox v-model="read" prop="read" custom-label-class="label-class"></wd-checkbox>
+            <view class="text-12px color-#A6A6A6">
+              <text @click="read = !read">未注册账号验证后自动注册并登录，登录即表示 同意</text>
+              <text
+                class="color-#336EFD"
+                @click.stop="toAgreement('1710488285782016005', '隐私政策')"
+              >
+                《隐私政策》、
+              </text>
+              <text
+                class="color-#336EFD"
+                @click.stop="toAgreement('1710488285782016006', '用户协议')"
+              >
+                《用户协议》
+              </text>
+            </view>
+          </view>
         </view>
       </view>
     </view>
+    <login-Outher></login-Outher>
   </view>
+
+  <wd-message-box selector="wd-message-box-slot" custom-class="custom-class-mes">
+    <view class="text-left">
+      我已阅读并同意
+      <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016005', '隐私政策')">
+        《隐私政策》
+      </text>
+      <text class="color-#336EFD" @click.stop="toAgreement('1710488285782016006', '用户协议')">
+        《用户协议》
+      </text>
+    </view>
+
+    <view class="flex justify-around items-center py-20px">
+      <view class="flex-1">
+        <wd-button type="info" @click="cancel">取消</wd-button>
+      </view>
+      <view class="flex-1">
+        <wd-button open-type="getPhoneNumber" @getphonenumber="getphonenumber">我同意</wd-button>
+      </view>
+    </view>
+  </wd-message-box>
 </template>
-<style>
-page {
-  background: #f5f5f5;
-}
-</style>
 <style lang="scss" scoped>
-.top {
-  background-image: linear-gradient(to bottom, #4689fd, rgb(110, 163, 247));
+:deep(.label-class),
+:deep(.text-btn) {
+  font-size: 12px !important;
+  color: #999 !important;
 }
-:deep(.nav_bg) {
-  background-color: #4689fd;
-  .wd-navbar__title {
-    color: var(--color-nav-text);
-  }
-  .wd-navbar__left {
-    color: var(--color-nav-text);
+:deep(.custom-class-tab),
+:deep(.wd-tabs__nav) {
+  @apply bg-transparent!;
+}
+:deep(.wd-tabs__nav-item) {
+  @apply color-[#fff]! bg-#3177f6!;
+}
+:deep(.wd-tabs__nav-item.is-active) {
+  @apply color-[#000]! bg-#fff!;
+}
+:deep(.wd-input) {
+  @apply bg-transparent!;
+}
+:deep(.wd-tabs__line) {
+  @apply hidden!;
+}
+:deep(.wd-img) {
+  vertical-align: middle !important;
+}
+:deep(.custom-class-ftn) {
+  margin: 0 !important;
+}
+:deep(.custom-class-mes) {
+  .wd-message-box__actions {
+    @apply hidden;
   }
 }
-// :deep(.label-class),
-// :deep(.text-btn) {
-//   font-size: 12px !important;
-//   color: #999 !important;
-// }
-// :deep(.wd-input__error-message),
-// :deep(.custom-input-right) {
-//   @apply text-right! color-#999999!;
-// }
-// :deep(.custom-class-tab) {
-//   @apply bg-#1890ff;
-// }
-// :deep(.wd-tabs__nav) {
-//   @apply bg-amber!;
-// }
-// :deep(.wd-tabs__line) {
-//   @apply none;
-// }
-// :deep(.wd-tabs__nav-item.is-active) {
-//   @apply color-#fff!;
-// }
 </style>

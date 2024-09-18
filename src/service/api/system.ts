@@ -1,14 +1,14 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 
-import { useCaptcha, useRequest } from 'alova/client'
+import { useRequest } from 'alova/client'
 
 import { METHOD_INSTANCE } from '../model/baseModel'
 const CONFIG = baseUrlApi('/captcha/config')
 const CODE = baseUrlApi('/captcha/getCode')
 const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
-const GETDOT = baseUrlApi('/system/api/user/getDot')
-const PHNECODE = baseUrlApi('/base/captchaImage')
+const GETDOT = baseUrlApi('/captcha/getDot')
+const PHNECODE = baseUrlApi('/member/app/sendVerificationCode')
 
 export const PRIVACY_UPLOAD = baseUrlApi('/system/file/minio/privacyUpload')
 export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
@@ -61,10 +61,9 @@ export const getResponseConfig = (config: any) => {
 export function getCode(config: any) {
   const methodInstance = request.Post(
     CODE, // 请求地址
-    {}, // 请求参数
+    {},
     {
-      //  设置响应数据类型
-      responseType: 'arraybuffer',
+      responseType: 'arraybuffer', // 配置参数
     },
   )
   const meta: METHOD_INSTANCE = {
@@ -77,22 +76,20 @@ export function getCode(config: any) {
   return useRequest(methodInstance, config)
 }
 
-export function getPhoneCode(data: any, config: any) {
-  const methodInstance = request.Post(
-    PHNECODE, // 请求地址
-    data,
-    {
-      responseType: 'arraybuffer', // 配置参数
-    },
-  )
-  const meta: METHOD_INSTANCE = {
-    ignoreSign: true,
-    ignorEencrypt: true,
-    ignorToken: true,
-  }
-  methodInstance.meta = meta
+/**
+ * @description:  获取手机验证吗
+ * @param {} data
+ * @param {} config
+ * @return {}
+ */
+export function getPhoneCode(data: any) {
+  // const meta: METHOD_INSTANCE = {
+  //   ignoreSign: true,
+  //   ignorEencrypt: true,
+  //   ignorToken: true,
+  // }
 
-  return useCaptcha(methodInstance, config)
+  return request.Post(PHNECODE, data)
 }
 
 /**

@@ -21,7 +21,6 @@ export const useSystemStore = defineStore(
 
     const resstrppd = ref('') // 解密
     const filterData = ref(<STSCONFIG>{})
-    const userDId = ref('')
     const dot = ref('')
 
     function RESSTRPPD(value: string) {
@@ -50,7 +49,6 @@ export const useSystemStore = defineStore(
       appSecret,
       resstrppd,
       filterData,
-      userDId,
       dot,
       initSystemInfo,
     }

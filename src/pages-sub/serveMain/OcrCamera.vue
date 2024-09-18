@@ -1,236 +1,330 @@
+<route lang="json5" type="page">
+{
+  layout: 'default',
+  realNameAuthentication: true,
+  style: {
+    navigationStyle: 'custom',
+  },
+}
+</route>
+<script lang="ts" setup>
+import { Toast } from '@/utils/uniapi/prompt'
+import { pathToBase64 } from 'image-tools'
+import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
+import { useToast } from 'wot-design-uni'
+import useCardBhk from './hooks/useCardBhk'
+import card0 from './static/images/Card0.png'
+import card1 from './static/images/Card1.png'
+import card2 from './static/images/Card2.png'
+import { Camera } from './types/types'
+const instance = getCurrentInstance().proxy
+
+const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
+const { sendPhoto, loadingPhoto } = useCardBhk()
+const toast = useToast()
+const cover = ref(null) // 辅助
+const camera = ref(null)
+const cameraContext = ref(null)
+const copSrc = ref<any>(null) // 截图
+
+const dataList = ref<Camera[]>([
+  {
+    title: '人脸正面照片',
+    imgType: 0,
+    devicePosition: 'front',
+  },
+  {
+    title: '身份证人像面',
+    imgType: 1,
+    devicePosition: 'back',
+  },
+  {
+    title: '身份证国徽面',
+    imgType: 2,
+    devicePosition: 'back',
+  },
+])
+
+const currentParams = ref(null)
+const camerType = ref<number>()
+const currData = ref<Camera>({
+  title: '人脸正面照片',
+  imgType: 0,
+  devicePosition: 'front',
+})
+onLoad((options: any) => {
+  console.log('🥩[options]:', options)
+  const { photoType, camerType: opcamerType } = options
+  let imgType = photoType * 1
+  if (photoType * 1 === 3) {
+    imgType = 1
+  }
+  if (photoType * 1 === 4) {
+    imgType = 2
+  }
+
+  currData.value = dataList.value.find((item) => {
+    return item.imgType === imgType
+  })
+  camerType.value = opcamerType || photoType * 1
+  currentParams.value = {
+    ...options,
+  }
+  console.log('🍵[photoType]:', currentParams.value, photoType)
+})
+
+const copData = ref<any>(null)
+
+// 生成截图
+function loadTempImagePath(url) {
+  return new Promise((resolve, reject) => {
+    const { windowWidth, windowHeight } = uni.getSystemInfoSync()
+    console.log('🥐[windowWidth, windowHeight ]:', windowWidth, windowHeight, copData.value)
+
+    const x = copData.value.left
+    const y = copData.value.top
+    const testc = uni.createCanvasContext('myCanvas')
+    testc.drawImage(url, 0, 0, windowWidth, windowHeight)
+    testc.draw(false, () => {
+      uni.canvasToTempFilePath({
+        x,
+        y,
+        width: copData.value.width,
+        height: copData.value.height,
+        destWidth: copData.value.width,
+        destHeight: copData.value.height,
+        canvasId: 'myCanvas',
+        fileType: 'jpg',
+        quality: 1,
+        complete: (res) => {
+          console.log('🍜[res]:', res)
+          resolve(res.tempFilePath)
+        },
+        fail: (err) => {
+          reject(err)
+        },
+      })
+    })
+  })
+}
+// 图片压缩
+function pressImage(src) {
+  return new Promise((resolve, reject) => {
+    uni.compressImage({
+      src,
+      quality: 80, // 压缩比例
+      success: (res) => {
+        resolve(res.tempFilePath)
+      },
+      fail: (err) => {
+        console.log('🥠[err]:', err)
+        Toast('图片压缩,拍照失败')
+      },
+    })
+  })
+}
+
+// 从相册选取
+const chooseImage = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['original', 'compressed'],
+    sourceType: ['album'],
+    success: async (res) => {
+      try {
+        // 截图
+        const copUrl = await loadTempImagePath(res.tempFilePaths[0])
+        console.log('🍈[copUrl]:', copUrl)
+        copSrc.value = copUrl
+        // 压缩
+        const pressUrl = await pressImage(copUrl)
+        // 上传
+        upload(pressUrl)
+      } catch (error) {
+        toast.error('图片拍照失败')
+      }
+    },
+    fail: (err) => {
+      console.log('相册选取失败', err)
+    },
+  })
+}
+// 相机拍照
+const takePhoto = () => {
+  cameraContext.value.takePhoto({
+    quality: 'high',
+    success: async (res) => {
+      try {
+        // 截图
+        const copUrl = await loadTempImagePath(res.tempImagePath)
+        copSrc.value = copUrl
+        console.log('🥜[ copSrc.value]:', copSrc.value)
+        // 压缩
+        const pressUrl = await pressImage(copUrl)
+        // 上传
+        upload(pressUrl)
+      } catch (error) {
+        toast.error('图片拍照失败')
+      }
+    },
+    fail: (err) => {
+      console.log('🍚[err]:', err)
+      toast.error('图片拍照失败')
+      toast.close()
+    },
+  })
+}
+// upload
+async function upload(ress) {
+  const photoBase64 = await pathToBase64(ress)
+  toast.loading('正在上传中...')
+  const formData = {
+    photoType: currData.value.imgType.toString(),
+    type: currentParams.value.type,
+    zjhm: currentParams.value.zjhm, // '210204199207215655',
+    photoBase64: photoBase64.replace('data:image/png;', 'data:image/jpg;'),
+  }
+  try {
+    const resData: any = await sendPhoto(formData)
+    if (resData.data.data.message) {
+      console.log('🍫[resData]:', resData)
+      toast.error(resData.data.data.message)
+    } else {
+      console.log('🍖', resData)
+      const cameraData = {
+        type: currentParams.value.photoType * 1,
+        url: ress,
+        id: resData.data.data.id,
+        data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data.identifyCardInfo),
+      }
+
+      eventChannel.emit('camera', {
+        cameraData,
+      })
+      console.log('🍦[resData]========:', resData)
+
+      close()
+    }
+  } catch (error) {
+    console.log('🍧[error]:', error)
+    toast.error('图片上传出问题了')
+    toast.close()
+  }
+}
+
+function reverseCamera() {
+  currData.value.devicePosition = currData.value.devicePosition === 'back' ? 'front' : 'back'
+}
+function cameraError(e) {
+  console.log(e.detail)
+  toast.error('以拒绝，使用请手动开启')
+  // setTimeout(() => {
+  //   close()
+  // }, 5000)
+}
+
+// 关闭相机
+const close = () => {
+  console.log('🌭======关闭相机-----')
+  toast.close()
+  uni.navigateBack()
+}
+function del() {
+  copSrc.value = ''
+}
+onMounted(() => {
+  if (uni.createCameraContext) {
+    cameraContext.value = uni.createCameraContext()
+  } else {
+    toast.error('当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。')
+  }
+  uni
+    .createSelectorQuery()
+    .select('#cover')
+    .boundingClientRect(function (data) {
+      console.log('辅助信息========>:', data)
+      copData.value = data
+      if (currData.value.imgType === 0) {
+        copData.value.width = 358
+        copData.value.height = 448
+        copData.value.left = 28 //
+      }
+    })
+    .exec()
+})
+</script>
 <template>
   <view class="bigBox">
     <view class="box">
-      <!-- back -->
-      <camera device-position="back" flash="off" @error="error" class="facevideo"></camera>
-      <view class="cover-box">
-        <view class="top top1"></view>
-        <view class="left left1"></view>
-        <view class="center">
-          <view class="loading" v-show="fontShow">{{ fontMes }}</view>
-          <img :src="src" alt="" :show="isShow" class="img" />
+      <camera
+        mode="normal"
+        :device-position="currData.devicePosition"
+        flash="auto"
+        class="facevideo"
+        binderror="cameraError"
+        ref="camera"
+        id="camera"
+        @error="cameraError"
+      ></camera>
+      <view class="cover-box flex flex-col justify-center items-center">
+        <view v-if="!copSrc" class="flex flex-col justify-center items-center">
+          <!-- 人脸面 -->
+          <cover-image
+            ref="cover"
+            id="cover"
+            v-if="currData.imgType == 0"
+            class="w-100% h-700rpx"
+            :src="card0"
+          />
+          <!-- 正面 -->
+          <cover-image
+            ref="cover"
+            id="cover"
+            v-if="currData.imgType == 1"
+            class="w-350px h-500px"
+            :src="card1"
+          />
+          <!-- 背面 -->
+          <cover-image
+            ref="cover"
+            v-if="currData.imgType == 2"
+            class="w-350px h-500px"
+            :src="card2"
+            id="cover"
+          />
+
+          <wd-toast />
         </view>
-        <view class="left"></view>
-        <view class="bottom">
-          <view class="btn-box">
-            <view class="camera" @click="getPictur" v-show="btnShow">
-              <view class="cemera-btn"></view>
-            </view>
-            <view style="display: flex; align-items: center">
-              <button type="default" class="btn" @click="reGetPictur" v-show="!btnShow">
-                重拍
-              </button>
-              <button type="primary" class="btn" @click="surePictur" v-show="!btnShow">确认</button>
-            </view>
+        <view class="relative flex flex-col justify-center items-center bgCop size-full" v-else>
+          <view
+            class="p-5px bd-solid_#fff"
+            :style="`width: ${copData.width}px;height:${copData.height}px`"
+            @click="del"
+          >
+            <image :src="copSrc" alt="" :width="copData.width" :height="copData.height" />
           </view>
         </view>
       </view>
-      <canvas canvas-id="myCanvas" id="aa"></canvas>
+
+      <view class="w-full h-10% absolute bottom-0 bg-#000 font-size-20px color-#fff z-99">
+        <view class="flex justify-between items-center px-70px py-10px">
+          <view class="back" @click="close">
+            <wd-icon name="arrow-down" size="22px" color="#fff"></wd-icon>
+          </view>
+          <view @click="takePhoto" hover-class="color-red">
+            <view class="i-carbon-circle-filled font-size-50px color-#fff"></view>
+          </view>
+          <view @click="reverseCamera">
+            <wd-icon name="refresh1" size="22px" color="#fff"></wd-icon>
+          </view>
+        </view>
+      </view>
     </view>
+    <canvas canvas-id="myCanvas" id="aa"></canvas>
   </view>
 </template>
-<script>
-// import { pathToBase64 } from 'image-tools'
-// export default {
-//   data() {
-//     return {
-//       path: this.api.VUE_APP_API_IMG + '/uploads/uni-app/logo.png',
-//       canvasH: '',
-//       canvasW: '',
-//       src: '',
-//       isShow: false,
-//       fontShow: false,
-//       fontMes: '拍摄中...',
-//       btnShow: true,
-//       isReadMes: true, // 当识别失败后，阻止未重拍行为，请求后台识别
-//       type: 'face', // 拍摄身份证的正反面
-//     }
-//   },
-//   onLoad(opt) {
-//     this.type = opt.type == 1 ? 'face' : 'back'
-//   },
-//   methods: {
-//     surePictur() {
-//       this.fontMes = '正在识别中...'
-//       this.fontShow = true
-//       if (!this.isReadMes) {
-//         this.fontMes = '未识别到有效信息'
-//         return
-//       } else {
-//       }
-//       this.getCrdMes(this.src)
-//     },
-//     reGetPictur() {
-//       this.fontMes = '正在识别中...'
-//       this.src = ''
-//       this.btnShow = true
-//       this.fontShow = false
-//       this.isReadMes = true
-//     },
-//     getPictur() {
-//       const _this = this
-//       this.fontShow = true
-//       this.btnShow = false
-//       const camera = uni.createCameraContext()
-//       camera.takePhoto({
-//         quality: 'high',
-//         success: function (mes) {
-//           console.log('拍照成功了')
-//           console.log(mes)
-//           _this.getImagePortion(mes.tempImagePath)
-//         },
-//         fail: function (err) {
-//           console.log('拍照失败了')
-//           console.log(err)
-//         },
-//       })
-//     },
-//     getImagePortion(src, newWidth, newHeight, startX, startY, ratio) {
-//       // src = this.api.VUE_APP_API_IMG + '/uploads/uni-app/logo.png';
-//       const _this = this
-//       uni.getImageInfo({
-//         src,
-//         success: (res) => {
-//           const ctx = wx.createCanvasContext('myCanvas', _this)
-//           ctx.drawImage(res.path, 0, 0, res.width, res.height)
-//           ctx.draw()
-//           console.log('执行完了')
-//           const info0 = uni.createSelectorQuery().in(_this).select('.facevideo')
-//           const info1 = uni.createSelectorQuery().in(_this).select('.top1')
-//           const info2 = uni.createSelectorQuery().in(_this).select('.left1')
-//           const FLAG = {
-//             flag1: false,
-//             flag2: false,
-//             flag3: false,
-//           }
-//           const _info0 = {
-//             height: 0,
-//             width: 0,
-//           }
-//           const _info1 = {
-//             height: 0,
-//             width: 0,
-//           }
-//           const checkFlag = function () {
-//             if (FLAG.flag1 && FLAG.flag2 && FLAG.flag3) _this.getImg(res, _info0, _info1)
-//           }
-//           info0
-//             .boundingClientRect(function (data) {
-//               _info0.width = data.width
-//               _info0.height = data.height
-//               FLAG.flag1 = true
-//               checkFlag()
-//             })
-//             .exec(function (res) {
-//               // 注意：exec方法必须执行，即便什么也不做，否则不会获取到任何数据
-//             })
-//           info1
-//             .boundingClientRect(function (data) {
-//               _info1.height = data.height
-//               FLAG.flag2 = true
-//               checkFlag()
-//             })
-//             .exec(function (res) {
-//               // 注意：exec方法必须执行，即便什么也不做，否则不会获取到任何数据
-//             })
-//           info2
-//             .boundingClientRect(function (data) {
-//               _info1.width = data.width
-//               FLAG.flag3 = true
-//               checkFlag()
-//             })
-//             .exec(function (res) {
-//               // 注意：exec方法必须执行，即便什么也不做，否则不会获取到任何数据
-//             })
-//         },
-//         fail: (err) => {
-//           console.log(err)
-//         },
-//       })
-//     },
-//     getImg(mes, _info0, _info1) {
-//       const _this = this
-//       const image_x = parseInt(mes.width * (_info1.width / _info0.width))
-//       const image_y = parseInt(mes.height * (_info1.height / _info0.height))
-//       const image_width = parseInt(mes.width * (300 / _info0.width))
-//       const image_height = parseInt(mes.height * (475 / _info0.height))
-//       uni.canvasToTempFilePath({
-//         canvasId: 'myCanvas',
-//         x: image_x,
-//         y: image_y,
-//         width: image_width,
-//         height: image_height,
-//         destWidth: image_width,
-//         destHeight: image_height,
-//         success: function (res) {
-//           console.log(res)
-//           _this.isShow = true
-//           _this.src = res.tempFilePath
-//           _this.fontShow = false
-//           // _this.getCrdMes(res.tempFilePath);
-//         },
-//         fail: function (e) {
-//           uni.hideLoading()
-//           uni.showToast({
-//             title: '出错啦...',
-//             icon: 'loading',
-//           })
-//         },
-//       })
-//     },
-//     getCrdMes(data) {
-//       // 调用阿里巴巴的接口，识别身份证中的信息
-//       const _this = this
-//       console.log(_this.type)
-//       pathToBase64(data)
-//         .then((base64) => {
-//           // console.log('11', base64)
-//           const str = base64.substring(base64.indexOf(',') + 1)
-//           // console.log(str);
-//           const json = {
-//             image: str,
-//             configure: {
-//               side: _this.type,
-//             },
-//           }
-//           uni.request({
-//             url: 'https://cardnumber.market.alicloudapi.com/rest/160601/ocr/ocr_idcard.json', // 测试api
-//             dataType: 'json',
-//             // 注意APPCODE和AppCode之间一定要有个英文半角空格否则接口返回400
-//             header: {
-//               Authorization: 'APPCODE 你的AppCode', // APPCODE值
-//             },
-//             method: 'POST',
-//             data: JSON.stringify(json),
-//             success(res) {
-//               if (res.statusCode == 463) {
-//                 _this.fontMes = '未识别到有效信息'
-//                 _this.btnShow = false
-//                 _this.isReadMes = false
-//               } else {
-//                 _this.fontShow = false
-//                 _this.back.call(_this, res, str)
-//               }
-//             },
-//           })
-//         })
-//         .catch((error) => {
-//           console.error(error)
-//         })
-//     },
-//     back(mes, img_src) {
-//       console.log(mes)
-//       const eventChannel = this.getOpenerEventChannel()
-//       mes.data.img_src = this.src
-//       eventChannel.emit('getFaceMes', mes.data)
-//       uni.navigateBack({
-//         delta: 1,
-//       })
-//     },
-//   },
-// }
-</script>
-<style>
+
+<style lang="scss" scoped>
 .bigBox {
   position: fixed;
   top: 0;
@@ -245,19 +339,17 @@
   width: 100%;
   height: 100%;
 }
-
-.cover-box {
-  position: absolute;
-  z-index: 20;
-  width: 100%;
-  height: 100%;
-}
-
 .facevideo {
   position: absolute;
   z-index: 10;
   width: 100%;
   height: 100%;
+}
+.cover-box {
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  height: 90%;
 }
 #aa {
   position: absolute;
@@ -266,90 +358,9 @@
   z-index: 10;
   width: 100%;
   height: 100vh;
-  border: 1px solid #ff0024;
-  /* opacity: 0; */
 }
 
-.camera-view {
-  width: 100%;
-  height: 100%;
-}
-
-.center {
-  position: relative;
-  box-sizing: content-box;
-  float: left;
-  width: 300px;
-  height: 475px;
-  border: 1px solid #eee;
-}
-
-.top {
-  float: left;
-  width: 100%;
-  height: calc(100% - 475px - 150rpx);
-  background: rgba(0, 0, 0, 0.3);
-}
-.bottom {
-  float: left;
-  width: 100%;
-  height: calc(150rpx - 4rpx);
-  background: rgba(0, 0, 0, 0.3);
-}
-.left {
-  float: left;
-  width: calc((100% - 302px) / 2);
-  height: calc(475px + 2px);
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.img-box {
-  position: absolute;
-  z-index: 20;
-  width: 100%;
-  height: 100%;
-}
-
-.img {
-  width: 300px;
-  height: 475px;
-}
-.loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.8);
-}
-.btn-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-.camera {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100rpx;
-  height: 100rpx;
-  border: 1px solid #fff;
-  border-radius: 90%;
-}
-.cemera-btn {
-  width: 80%;
-  height: 80%;
-  background: #fff;
-  border-radius: 90%;
-}
-.btn:not(:first-child) {
-  margin-left: 20rpx;
+.bgCop {
+  background: rgba(0, 0, 0, 0.9);
 }
 </style>

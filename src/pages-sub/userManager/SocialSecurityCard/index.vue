@@ -1,7 +1,6 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -9,208 +8,134 @@
 </route>
 
 <script lang="ts" setup>
-import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
-import { getPhoneCode } from '@/service/api/system'
-import logo from '@/static/images/logo.png'
-import { routeTo } from '@/utils'
-import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
-import stkts from '../static/image/sbkts.png'
-const opts = ref({
-  lineColor: '#000000',
-  fontSize: 20,
-  width: 2,
-  textMargin: 0,
-  text: '1234567890657890',
-  value: '1234567890657890',
-  displayValue: false,
-})
-const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
-const str = ref<any>('')
+import { getSignParam, getSignValid } from '@/service/api/cardServe'
+import { useUserStore } from '@/store'
+import { useRequest } from 'alova/client'
+import { storeToRefs } from 'pinia'
+import { useMessage } from 'wot-design-uni'
+const message = useMessage()
+const webUrl = ref('')
+const { userInfo } = storeToRefs(useUserStore())
 
-const cfig = ref()
-cfig.value = {
-  logoImage: logo,
-  str: str.value,
-  logoWidth: 60,
-  logoHeight: 60,
-  size: 440,
-}
-const barcodeBg = ref(false)
-const logcation = ref('北京市')
-const user = ref({
-  name: '张三',
-  shbzkh: '1234567890657890',
+// 查卡
+
+const { send: sendSignValid, loading: LoadingValid } = useRequest((data) => getSignValid(data), {
+  immediate: false,
+  loading: false,
 })
-const show = ref(false)
-const textArr = ref([
-  '电子社保卡二维码用于身份认证和支付',
-  '结算时向商家出示',
-  '请不要将二维码及数字发送给他人',
-])
-const lingdu = ref(0)
-const isShow = async () => {
-  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
-  show.value = !show.value
-}
-const sendTiem = ref(60)
-let timer = null
-const incrementCount = () => {
-  timer = setInterval(() => {
-    if (sendTiem.value > 0) {
-      sendTiem.value--
-    } else {
-      // 刷新二维码请求
-      sendTiem.value = 60
-    }
-  }, 1000)
-}
-function disableScreenCapture() {
-  // 判断当前环境是否支持setScreenCaptured方法
-  // uni.setUserCaptureScreen({
-  //   enable: false,
-  //   success: (res) => {
-  //     console.log('setUserCaptureScreen success: ' + JSON.stringify(res))
-  //   },
-  //   fail: (res) => {
-  //     console.log('setUserCaptureScreen fail: ' + JSON.stringify(res))
-  //   },
-  //   complete: (res) => {
-  //     console.log('setUserCaptureScreen complete: ' + JSON.stringify(res))
-  //   },
-  // })
+
+const sendSignValidFun = async () => {
+  const params = {
+    channelNo: '1331000204', // 前端可不传
+    signNo: '', // 渠道号
+    aac002: userInfo.value.idCardNumber,
+    aac003: userInfo.value.userName,
+    aab301: '',
+    isWeb: '1', // 默认1
+    isWebView: '',
+    isIndep: '',
+    aac067: '',
+    openId: '',
+    isAuthFace: '',
+    isChannelScan: '',
+    bankMsg: '',
+    operatingSystemVersion: '',
+    equipmentNumber: '',
+    uuid: '',
+    devicMAC: '',
+    netReach: '',
+    root: '',
+    type: 'main', // main：申领   cardInfo：电子社保卡首页   paymentCode：二维码
+  }
+  const data: any = await sendSignValid(params)
+  console.log('🌮[data]:', data.data)
+  if (!data.data.canSignFlag) {
+    message
+      .alert({
+        msg: data.data.canNotSignMsg,
+        title: '提示',
+      })
+      .then(() => {
+        uni.navigateBack()
+      })
+  } else if (data.data.canSignFlag) {
+    getSignValidH5(data.data)
+  }
 }
 
-// 获取验证码
-const {
-  send: getCode,
-  loading: sending,
-  countdown,
-  data: codeDatas,
-} = getPhoneCode(
-  {
-    phone: '121212',
-  },
-  {
-    immediate: true,
-    initialCountdown: 60,
-    loading: false,
-  },
-)
-watch(
-  () => countdown.value,
-  () => {
-    if (countdown.value === 0) {
-      getCode()
+// 社保卡展示链接
+const { send: sendSignParam, loading: LoadingParams } = useRequest((data) => getSignParam(data), {
+  immediate: false,
+  loading: false,
+})
+
+const getSignValidH5 = async (data) => {
+  let params = {}
+  if (data.signFlag === '1') {
+    // 获取
+    params = {
+      channelNo: '1331000204', // 前端可不传
+      signNo: data.signNo, // 渠道号
+      aac002: userInfo.value.idCardNumber,
+      aac003: userInfo.value.userName,
+      aab301: '',
+      isWeb: '1', // 默认1
+      isWebView: '',
+      isIndep: '',
+      aac067: '',
+      openId: '',
+      isAuthFace: '',
+      isChannelScan: '',
+      bankMsg: '',
+      operatingSystemVersion: '',
+      equipmentNumber: '',
+      uuid: '',
+      devicMAC: '',
+      netReach: '',
+      root: '',
+      type: 'paymentCode',
+      returlUrl: '/page/index/index',
     }
-  },
-  { deep: true },
-)
+  } else {
+    // 申领
+    params = {
+      channelNo: '1331000204', // 前端可不传
+      signNo: '', // 渠道号
+      aac002: '321087197912280054',
+      aac003: '王冬',
+      aab301: '',
+      isWeb: '1', // 默认1
+      isWebView: '',
+      isIndep: '',
+      aac067: '',
+      openId: '',
+      isAuthFace: '',
+      isChannelScan: '',
+      bankMsg: '',
+      operatingSystemVersion: '',
+      equipmentNumber: '',
+      uuid: '',
+      devicMAC: '',
+      netReach: '',
+      root: '',
+      type: 'main',
+    }
+  }
+  try {
+    const rData: any = await sendSignParam(params)
+    webUrl.value = rData.data
+  } catch (error) {
+    console.log('🍏[error]:', error)
+  }
+}
 
 onMounted(async () => {
-  incrementCount()
-  disableScreenCapture()
-  getCode()
-  lingdu.value = (await usegetScreenBrightness()) as number
-
-  setTimeout(async () => {
-    await useSetScreenBrightness(1)
-    await useSetKeepScreenOn(true)
-  }, 3000)
+  sendSignValidFun()
 })
-onUnmounted(async () => {
-  timer && clearInterval(timer)
-
-  await useSetKeepScreenOn(false)
-  await useSetScreenBrightness(lingdu.value + 0.05)
-})
-const barodeClick = () => {
-  show.value = !show.value
-}
 </script>
 
 <template>
-  <view v-if="!show">
-    <view class="bg-#2D69EF h-300px">
-      <wd-navbar
-        safeAreaInsetTop
-        placeholder
-        fixed
-        custom-class="nav_show"
-        :title="2323"
-        :bordered="false"
-      ></wd-navbar>
-      <view class="flex gap-5px items-center justify-center mt-15px">
-        <view>
-          <wd-img :src="logo" :width="38" :height="38"></wd-img>
-        </view>
-        <view class="color-#fff font-600">电子社保卡</view>
-      </view>
-      <view class="color-#fff mt-20px pl-30px line-height-30px">
-        <view>姓名：{{ user.name }}</view>
-        <view>社会保障卡号：{{ user.shbzkh }}</view>
-      </view>
-    </view>
-    <view class="mt-[-80px] px-15px">
-      <view class="bg-#fff pt-20px pb-5px rounded-10px overflow-hidden">
-        <view class="flex justify-center flex-col items-center" @click="barodeClick">
-          <dy-barcode :width="636" :option="opts"></dy-barcode>
-          <view class="color-#999 text-14px mt-[-16px]">{{ opts.value }}</view>
-        </view>
-
-        <view class="flex justify-center mt-10px flex-col items-center">
-          <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
-          <view>
-            <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
-            <wd-button type="text">手动刷新</wd-button>
-          </view>
-        </view>
-
-        <view
-          class="flex justify-between items-center text-14px color-#555 bt-1px_dashed_#E2E2E2 py-10px px-15px mt-20px"
-        >
-          <view>参保地</view>
-          <view>
-            {{ logcation }}
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <!-- 横屏显示 -->
-  <!-- <wd-overlay :show="barcodeBg">
-    <view
-      class="size-full flex flex-col justify-center items-center bg-#fff relative z-99"
-      @click="barcodeBg = false"
-    >
-      <view>
-        <dy-barcode :width="636" :option="opts"></dy-barcode>
-        <view class="color-#999 text-14px mt-[-5px] text-center">{{ opts.value }}</view>
-      </view>
-    </view>
-  </wd-overlay> -->
-
-  <!-- 提示信息 -->
-  <wd-overlay :show="show">
-    <view class="size-full flex flex-col justify-center items-center bg-#fff">
-      <wd-status-tip
-        :image="stkts"
-        :image-size="{
-          height: 132,
-          width: 224,
-        }"
-      />
-      <view class="mt-20px">
-        <view class="mt-10px text-center" v-for="(item, index) in textArr" :key="index">
-          <wd-text :text="item" color="#555"></wd-text>
-        </view>
-      </view>
-      <view class="mt-20px w-100% px-40px box-border">
-        <wd-button type="primary" :round="false" @click="isShow" color="#2D69EF" block>
-          我知道了
-        </wd-button>
-      </view>
-    </view>
-  </wd-overlay>
+  <web-view :src="webUrl"></web-view>
 </template>
 
 <style>

@@ -1,6 +1,7 @@
 <!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
-<route lang="json5" type="home">
+<route lang="json5">
 {
+  layout: 'default',
   needLogin: true,
   style: {
     navigationStyle: 'custom',
@@ -9,98 +10,74 @@
 </route>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/store'
-import PLATFORM from '@/utils/platform'
-import { useMessage } from 'wot-design-uni'
-import useIndex from './hooks/useIndex'
-const message = useMessage()
-const user = useUserStore()
+import useNav from '@/hooks/useNav'
+import { removeT } from '@/utils/index'
+import useNews from './hooks/useGurid'
 
-const { epListData, sendLogin2 } = useIndex()
+const { sendMessageList, messageClick } = useNews()
+const { navTop } = useNav()
 
 defineOptions({
   name: 'workGuide',
 })
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
-function handleClickLeft() {
-  uni.navigateBack()
-}
-// H5 的情况下要 -44
-const navTop = ref(safeAreaInsets.top + 40)
-onMounted(() => {
-  if (PLATFORM.isH5) {
-    navTop.value = navTop.value - 44
-  }
-})
-
-// 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
-const navbg = ref('nav_show')
-onPageScroll((e) => {
-  if (e.scrollTop > 50) {
-    navbg.value = 'nav_hide'
-  } else {
-    navbg.value = 'nav_show'
-  }
-})
 const paging = ref(null)
-
 const dataList = ref([])
-onMounted(() => {
-  if (user.userInfo.token) {
-    console.log('🍾==========')
-    // 特定的情况下 被动调用的  :auto="false"
-    queryList(0, 10)
-  } else {
-    console.log('🥪')
-    paging.value.reload()
-  }
-})
 const queryList = async (pageNo, pageSize) => {
-  console.log('🍬[pageNo, pageSize]:', pageNo, pageSize)
+  const data = {
+    number: pageNo,
+    size: pageSize,
+    articleType: '1',
+  }
   // 调用接口获取数据
   try {
-    const a = await sendLogin2()
-
-    dataList.value = a.data.data.list
+    const a: any = await sendMessageList(data)
+    dataList.value = a.data.data.content
     paging.value.complete(dataList.value)
   } catch (error) {
-    console.log('🍋[error]:', error)
+    paging.value.complete(false)
   }
 }
 </script>
 <template>
-  <z-paging ref="paging" v-model="dataList" :auto="false" @query="queryList">
+  <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
-      <view class="pb-10px">
-        <wd-navbar safeAreaInsetTop placeholder fixed :custom-class="navbg" :bordered="false">
-          <template #left>
-            <wd-icon @click="handleClickLeft" name="arrow-left" size="22px"></wd-icon>
-            <view class="">办事指南</view>
-          </template>
-        </wd-navbar>
-      </view>
-      <!-- <wd-button @click="paging.reload()">点击刷新</wd-button> -->
+      <dy-navbar leftTitle="办事指南" left></dy-navbar>
     </template>
-
-    <!-- leibiao  -->
-    <wd-cell-group border>
-      <wd-cell
-        v-for="(item, index) in dataList"
-        :key="index"
-        :title="item.name"
-        :label="item.idNumber"
-        is-link
-      />
-    </wd-cell-group>
+    <view class="px-10px">
+      <!-- leibiao  -->
+      <wd-cell-group>
+        <wd-cell
+          v-for="(item, index) in dataList"
+          :key="index"
+          title-width="100%"
+          clickable
+          @click="messageClick(item)"
+          custom-class="custom-class-cell"
+        >
+          <template #title>
+            <view class="truncate-1 text-16px">
+              {{ item.articleTitle }}
+            </view>
+          </template>
+          <template #label>
+            <view class="flex gap-20px color-#888 text-14px">
+              <view>日期：{{ removeT(item.createTime) }}</view>
+              <!-- <view>
+                <wd-icon name="browse" size="14px"></wd-icon>
+                {{ item.createBy }}次
+              </view> -->
+            </view>
+          </template>
+        </wd-cell>
+      </wd-cell-group>
+    </view>
   </z-paging>
 </template>
 
 <style lang="scss" scoped>
-:deep(.nav_show) {
-  @apply bg-transparent!;
-}
 :deep(.nav_bg) {
   background-color: var(--color-nav-bg);
   .wd-navbar__title {
@@ -109,5 +86,10 @@ const queryList = async (pageNo, pageSize) => {
   .wd-navbar__left {
     color: var(--color-nav-text);
   }
+}
+:deep(.custom-class-cell) {
+  background: linear-gradient(90deg, #e2f2ff 0%, #ffffff 100%);
+
+  @apply rounded-6px my-10px;
 }
 </style>

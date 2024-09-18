@@ -1,56 +1,48 @@
-// @import './iconfont.css';
-
+@import './iconfont.css';
 :root,
 page {
   font-family: 'San Francisco', Rotobo, arial, 'PingFang SC', 'Noto SansCJK', 'Microsoft Yahei',
     sans-serif;
 
   // 修改按主题色
-  // --wot-color-theme: #2d69ef;
-  // // 修改按钮背景色
-  // //--wot-button-primary-bg-color: red;
+  // --wot-color-theme: #37c2bc;
 
-  // // 统一固定导航栏背景色
-  // --color-nav-bg: #1890ff !important;
-  // //统一固定导航栏字体颜色
-  // --color-nav-text: #fff !important;
-  // // 统一按钮背景色(渐变)
-  // --wot-button-primary-bg-color: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
+  // 修改按钮背景色
+  // --wot-button-primary-bg-color: green;
 
-  // // 同意镂空背景色
-  // --custom-class-plain-bg-color: #2d69ef;
+  // 统一固定导航栏背景色
+  --color-nav-bg: #4689fd !important;
+  //统一固定导航栏字体颜色
+  --color-nav-text: #fff !important;
+  //
+  --btn-round: 6px;
 }
 
-.dy-bottom-tabbar {
-  bottom: var(--window-bottom) !important;
-}
-
-// .wd-button.is-primary {
-//   background-color: var(--wot-button-primary-bg-color) !important;
-//   border-radius: 6px !important;
-//   color: #fff !important;
-
-// .wd-button.is-plain.is-primary {
-//   color: var(--custom-class-plain-bg-color) !important;
-//   border: 0.1px solid var(--custom-class-plain-bg-color) !important;
-//   border-radius: 6px !important;
-
-//   // @apply rounded-4px!  bd-1px_dashed_#E2E2E2!;
+// .test {
+//   // 可以通过 @apply 多个样式封装整体样式
+//   @apply mt-4 ml-4;
+//   padding-top: 4px;
+//   color: red;
 // }
-
-.test {
-  // 可以通过 @apply 多个样式封装整体样式
-  @apply mt-4 ml-4;
-  padding-top: 4px;
-  color: red;
+.custom-class-mine-login {
+  color: #fff !important;
+  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
+  border: none !important;
+  border-radius: var(--btn-round) !important;
+}
+.dy-tab-full-hight {
+  height: calc(100vh - var(--window-bottom));
+}
+// .custom-class-mine-login2 {
+//   border-radius: var(--btn-round) !important;
+// }
+.dy-bottom-tabbar {
+  bottom: calc(var(--window-bottom) + 5px) !important;
 }
 .nav_show {
   @apply bg-transparent!;
 }
 .nav_bg {
-  @apply bg-transparent!;
-}
-:deep(.nav_bg) {
   color: var(--color-nav-text);
   background-color: var(--color-nav-bg);
 }

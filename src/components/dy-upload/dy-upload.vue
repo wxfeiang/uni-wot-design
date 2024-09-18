@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { changeUploadUrl, rightFileUrl } from '@/utils/file'
+import { pathToBase64 } from 'image-tools'
 import { FilesList, uploadProps } from './types'
 defineOptions({
   name: 'dy-upload',
@@ -64,6 +65,39 @@ const handleChange = (e: any) => {
   const str = changeUploadUrl(e.fileList)
   emit('update:modelValue', str)
 }
+
+/* *
+ * 构建 formData
+ * @param {Object} { file, formData, resolve }
+ * @return {Object} formData
+ * */
+const buildFormData = ({ file, formData, resolve }) => {
+  console.log('🍱[file, formData, resolve ]:', file, formData)
+  let imageName = file.url.substring(file.url.lastIndexOf('/') + 1) // 从图片路径中截取图片名称
+  // #ifdef H5
+  // h5端url中不包含扩展名，可以拼接一下name
+  imageName = imageName + file.name
+  // #endif
+  // const signature = 'your <signatureString>' // 签名信息
+  // const ossAccessKeyId = 'your <accessKey>' // 你的AccessKey ID
+  // const policy = 'your <policyBase64Str>' // policy信息
+  // const key = `20231120/${imageName}` // 图片上传到oss的路径(拼接你的文件夹和文件名)
+  // const success_action_status = '200' // 将上传成功状态码设置为200，默认状态码为204
+
+  formData = {
+    ...formData,
+    photoBase64: pathToBase64(file.thumb),
+    // key,
+    // OSSAccessKeyId: ossAccessKeyId,
+    // policy,
+    // signature,
+    // success_action_status,
+  }
+  console.log('🥠=====formdata', formData)
+
+  resolve(formData) // 组装成功后返回 formData，必须返回
+}
+//    :formData="{ ...defaultFormDarta, ...props.formData }"
 </script>
 <template>
   <wd-upload
@@ -77,8 +111,8 @@ const handleChange = (e: any) => {
     :show-limit-num="props.showFileList"
     :action="props.action"
     :header="props.header"
-    :formData="{ ...defaultFormDarta, ...props.formData }"
     @change="handleChange"
+    :build-form-data="buildFormData"
   >
     <template #default v-if="props.showFileDy">
       <slot></slot>

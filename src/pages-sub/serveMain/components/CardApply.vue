@@ -1,64 +1,101 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import useCardFrom from '../hooks/useCardFrom'
-const { Login, model, rules, loading, read } = useCardFrom()
-const form = ref(null)
-const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
+import { data as dataInfo } from '../types/data'
 
-const applyData = ref([
-  {
-    title: '[申领条件]',
-    type: 'idcard',
-    list: ['1.本人为柳州市柳北区户籍居民', '2.本人年龄在18-60周岁之间'],
-  },
-])
+import { useMessage } from 'wot-design-uni'
 
+import { useUserStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import useCardApply from '../hooks/useCardApply'
+const message = useMessage('wd-message-box-slot')
+const message2 = useMessage()
+const { sendCardQury, serchData, read } = useCardApply()
 const showData = ref<any>({})
 function toAgereement(type) {
-  routeTo({ url: '/pages-sub/webView/index', data: { type } })
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: { type: '1710488285782016019', showTop: 1, title: '申领须知' },
+  })
 }
-function toAgereement2(type) {
-  console.log('🍥', type)
-  routeTo({ url: '/pages-sub/serveMain/cardApplyFromType', data: { type } })
+const { userInfo } = storeToRefs(useUserStore())
+async function btnClick(item) {
+  if (!read.value) {
+    message
+      .alert({
+        title: '提示',
+        confirmButtonText: '同意并办理',
+      })
+      .then(() => {
+        read.value = true
+        toApply(item)
+      })
+  } else {
+    toApply(item)
+  }
+}
+
+async function toApply(item) {
+  if (item.index === 1) {
+    const { resultCode }: any = await sendCardQury(serchData.value)
+    isApply.value = resultCode
+    if (isApply.value === '0') {
+      message2
+        .alert({
+          msg: '您已申领过一卡通，请勿重复申请',
+          title: '提示',
+          closeOnClickModal: false,
+        })
+        .then(() => {
+          uni.navigateBack()
+        })
+    } else {
+      routeTo({
+        url: '/pages-sub/serveMain/cardApplyFromType',
+        data: item.data,
+      })
+    }
+  } else if (item.index === 0) {
+    routeTo({
+      url: '/pages-sub/serveMain/cardApplyFromType',
+      data: item.data,
+    })
+  }
 }
 
 const footerBtns = ref([
   {
-    text: '非本人申领',
+    text: '代未成年人申领',
     type: 'info',
     size: 'medium',
     round: false,
     plain: true,
     customClass: 'btn-class',
-    disabled: true,
+    isRead: true,
+    isApply: false,
+    isPeople: true,
+    index: 0,
+    data: { base: 'xinshenersl', title: '代未成年人申领' },
   },
   {
-    text: '本人申领',
+    text: '本人办理',
     size: 'medium',
     round: false,
     plain: true,
     customClass: 'btn-class',
-    disabled: true,
+    isRead: true,
+    isApply: false,
+    isPeople: false,
+    index: 1,
+    data: { base: 'shebaoksl', title: '社保卡申领信息' },
   },
 ])
 
-watch(
-  () => read.value,
-  (val) => {
-    footerBtns.value[0].disabled = !val
-    footerBtns.value[1].disabled = !val
-  },
-  {
-    immediate: true,
-  },
-)
-onLoad((e: any) => {
-  showData.value = applyData.value.find((item) => {
-    return item.type === 'idcard'
-  })
-
-  // 如果阅读协议页面回来 则
-  read.value = true
+const isApply = ref(null)
+onLoad(async () => {
+  read.value = false
+})
+onMounted(async () => {
+  showData.value = dataInfo[0]
 })
 </script>
 <template>
@@ -66,29 +103,31 @@ onLoad((e: any) => {
     <view class="text-center color-#000 font-bold line-height-60px text-20px">
       {{ showData.title }}
     </view>
-    <view v-for="(item, index) in showData!.list" :key="index">
+    <view v-for="(item, index) in showData.list" :key="index">
       <wd-text color="#000" custom-class="custom-text" :text="item"></wd-text>
       <wd-gap bg-color="#f5f5f5"></wd-gap>
     </view>
 
     <!-- 底部 -->
-    <view class="fixed bottom-3 left-0 right-0">
+    <view class="fixed bottom-3 left-0 right-0 w-full">
       <view class="px-20px py-1">
-        <view>
-          <wd-checkbox v-model="read" prop="read" custom-label-class="label-class">
-            已阅读并同意
-            <text class="color-#4d80f0" @click.stop="toAgereement(5)">《在线考试及相关授权》</text>
+        <view class="">
+          <wd-checkbox custom-label-class="label-class" v-model="read" size="large">
+            我已阅读并同意以上内容,并接受
+            <text class="color-#4d80f0" @click.stop="toAgereement(5)">
+              《雄安一卡通申办业务须知协议》
+            </text>
+            协议
           </wd-checkbox>
         </view>
         <view class="flex gap-15px mt-20px">
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
             <wd-button
-              :disabled="item.disabled"
               :round="item.round"
               block
               :size="item.size"
               :type="item.type"
-              @click="toAgereement2(2)"
+              @click="btnClick(item)"
             >
               {{ item.text }}
             </wd-button>
@@ -97,6 +136,12 @@ onLoad((e: any) => {
       </view>
     </view>
   </view>
+
+  <wd-message-box selector="wd-message-box-slot">
+    我已阅读并同意以上内容,并接受
+    <text class="color-#4d80f0" @click.stop="toAgereement(5)">《雄安一卡通申办业务须知协议》</text>
+  </wd-message-box>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {
@@ -109,10 +154,14 @@ export default {
 :deep(.custom-text) {
   @apply mb-10px!;
 }
+:deep(.wd-checkbox) {
+  @apply flex!;
+}
+:deep(.wd-checkbox__shape) {
+  @apply w-26px!;
+}
 
-// // /* #ifdef */
-// :deep(.custom-text span) {
-//   @apply pl-40px!;
-// }
-// // /* #endif */
+:deep(.label-class .wd-checkbox__txt) {
+  @apply whitespace-pre-wrap!;
+}
 </style>

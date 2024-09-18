@@ -1,69 +1,170 @@
 <script lang="ts" setup>
-import useCardFrom from '../hooks/useCardFrom'
-const { Login, model, rules, loading, read } = useCardFrom()
-const form = ref(null)
-const logo = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
+import { changeDict } from '@/utils'
+import useCardMessage from '../hooks/useCardMessage'
+import {
+  bankCodeList,
+  cardType,
+  ethniCodeList,
+  occupationList,
+  regionList,
+  sexList,
+  socialSecurity,
+} from '../types/dict'
 
-// function toRegister() {
-//   routeTo({ url: '/pages/login/register' })
-// }
+interface dataType {
+  title: string
+  value: string
+  prop: string
+  type?: string
+  options?: any[]
+}
+
+const { getCadInfo, loading } = useCardMessage()
 
 const visible = ref<boolean>(false)
 
-function showKeyBoard() {
-  visible.value = true
-}
-const onInput = (value) => {
-  model.password += value
-}
-const onDelete = (value) => {
-  // console.log(value)
-  // model.password += value
-  model.password = value
-}
 const back = () => {
   uni.navigateBack()
 }
-const data = ref([
+
+const data = ref<dataType[]>([
   {
     title: '姓名',
-    value: '张三',
+    value: '',
+    prop: 'xm',
+  },
+  {
+    title: '证件号码',
+    value: '',
+    prop: 'zjhm',
+  },
+  {
+    title: '证件有效期限',
+    value: '',
+    prop: 'zjyxq',
+  },
+  {
+    title: '证件类型',
+    value: '',
+    prop: 'zjlx',
+    type: 'dict',
+    options: cardType,
   },
   {
     title: '性别',
-    value: '男',
+    value: '',
+    prop: 'xb',
+    type: 'dict',
+    options: sexList,
   },
   {
-    title: '年龄',
-    value: '18',
+    title: '出生日期',
+    value: '',
+    prop: 'csrq',
   },
   {
-    title: '电话',
-    value: '123456789',
+    title: '国籍',
+    value: '',
+    prop: 'gj',
+    type: 'dict',
+    options: regionList,
   },
   {
-    title: '地址',
-    value: '北京市',
+    title: '民族',
+    value: '',
+    prop: 'mz',
+    type: 'dict',
+    options: ethniCodeList,
+  },
+  {
+    title: '职业',
+    value: '',
+    prop: 'zy',
+    type: 'dict',
+    options: occupationList,
+  },
+  {
+    title: '区域代码',
+    value: '',
+    prop: 'areaCode',
+  },
+  {
+    title: '常住所在地地址',
+    value: '',
+    prop: 'address',
+  },
+  {
+    title: '社会保障卡号',
+    value: '',
+    prop: 'zhbzkh',
+  },
+  {
+    title: '银行行号',
+    value: '',
+    prop: 'yhhh',
+    type: 'dict',
+    options: bankCodeList,
+  },
+  {
+    title: '银行卡号',
+    value: '',
+    prop: 'yhkh',
+  },
+  {
+    title: '联系电话',
+    value: '',
+    prop: 'phone',
+  },
+  {
+    title: '卡应用状态',
+    value: '',
+    prop: 'cardStatus',
+    type: 'dict',
+    options: socialSecurity,
   },
 ])
+const cardInfoData = ref<any[]>([])
+onMounted(async () => {
+  try {
+    const res: any = await getCadInfo()
+    Object.keys(res).forEach((key) => {
+      data.value.forEach((item) => {
+        if (item.prop === key) {
+          item.value = res[key]
+          cardInfoData.value.push(item)
+        }
+      })
+    })
+    console.log('🍢[res]:======>', cardInfoData.value)
+  } catch (error) {
+    console.log('🧀[error]:', error)
+  }
+})
+onUnmounted(() => {
+  cardInfoData.value = null
+})
 </script>
 <template>
   <view class="p-15px">
     <view class="rounded-10px overflow-hidden bg-#fff">
-      <wd-cell-group title="基本信息" border>
-        <wd-cell
-          :title="item.title"
-          :value="item.value"
-          border
-          v-for="(item, index) in data"
-          :key="index"
-        ></wd-cell>
-      </wd-cell-group>
+      <template v-if="cardInfoData.length === 0 && !loading">
+        <wd-status-tip image="search" tip="没有查询到该信息" />
+      </template>
+      <template v-else>
+        <wd-cell-group title="基本信息" border>
+          <wd-cell :title="item.title" border v-for="(item, index) in cardInfoData" :key="index">
+            <view v-if="item.type === 'dict'">
+              {{ changeDict(item.options, item.value) }}
+            </view>
+            <view v-else>
+              {{ item.value }}
+            </view>
+          </wd-cell>
+        </wd-cell-group>
+      </template>
     </view>
     <view class="mt-20px">
-      <wd-button type="primary" :round="false" size="medium" @click="back" block :loading="loading">
-        返 回
-      </wd-button>
+      <wd-button type="primary" :round="false" size="medium" @click="back" block>返 回</wd-button>
     </view>
   </view>
 </template>

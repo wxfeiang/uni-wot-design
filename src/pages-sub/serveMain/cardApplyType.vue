@@ -1,7 +1,8 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
+  // needLogin: true,
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -10,10 +11,18 @@
 
 <script lang="ts" setup>
 import CardApply from './components/CardApply.vue'
-const navTitle = ref('')
+import CardBhk from './components/CardBhk.vue'
+import CardJuvenApply from './components/CardJuvenApply.vue'
 
-onMounted(() => {
-  navTitle.value = '申请须知'
+const navTitle = ref('')
+function handleClickLeft() {
+  uni.navigateBack()
+}
+const baseCon = ref('')
+onLoad((options: any) => {
+  console.log('🌯=======[options]:', options)
+  baseCon.value = options.base
+  navTitle.value = decodeURIComponent(options.title)
 })
 </script>
 
@@ -28,11 +37,17 @@ onMounted(() => {
       :bordered="false"
       :title="navTitle"
       custom-class="nav_bg"
-    ></wd-navbar>
+    >
+      <template #left>
+        <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
+      </template>
+    </wd-navbar>
 
-    <!-- 动态加载类型对应的组件 -->
-    <!-- CardProgressInquiry 卡进度查询-->
-    <Card-Apply />
+    <Card-Apply v-if="baseCon === 'shebaoksl'" />
+    <!-- 补卡换卡 -->
+    <Card-Bhk v-if="baseCon === 'shebaokbh'" />
+    <!-- 未成年人申领 -->
+    <Card-Juven-Apply v-if="baseCon === 'xinshenersl'" />
   </view>
 </template>
 

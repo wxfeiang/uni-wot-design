@@ -3,7 +3,7 @@ import { ref } from 'vue'
 type CameraData = {
   id: string
   url: string
-  data: object
+  data?: object
 }
 
 export const useBaseStore = defineStore(
@@ -11,34 +11,34 @@ export const useBaseStore = defineStore(
   () => {
     // 进入服务页面激活标志
     const active = ref(0)
-    // 相机拍照数据
+    // 当前用户坐标
+    const userLocation = ref({} as any)
 
-    const cameraData = ref<CameraData[]>([
-      {
-        id: '',
-        url: '',
-        data: {},
-      },
-      {
-        id: '',
-        url: '',
-        data: {},
-      },
-      {
-        id: ' ',
-        url: '',
-        data: {},
-      },
-    ])
+    const setLocation = (val) => {
+      userLocation.value = val
+    }
 
-    const setCameraData = (photoType, val) => {
-      cameraData.value[photoType] = val
+    // 用户历史搜索记录
+    const historySearch = ref([])
+
+    const setHistorySearch = (val) => {
+      if (historySearch.value.includes(val)) return
+      historySearch.value.unshift(val)
+      if (historySearch.value.length > 10) {
+        historySearch.value.pop()
+      }
+    }
+    const clearHistorySearch = () => {
+      historySearch.value = []
     }
 
     return {
       active,
-      cameraData,
-      setCameraData,
+      userLocation,
+      setLocation,
+      historySearch,
+      setHistorySearch,
+      clearHistorySearch,
     }
   },
   {

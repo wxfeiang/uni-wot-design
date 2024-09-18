@@ -5,34 +5,43 @@
 
 interface NavigateToOptions {
   url: "/pages/index/index" |
-       "/pages/aa/index" |
-       "/pages/about/about" |
        "/pages/login/index" |
-       "/pages/login/index2" |
-       "/pages/login/index3" |
+       "/pages/login/login2" |
+       "/pages/login/phoneLogin" |
+       "/pages/login/sfzLogin" |
        "/pages/mine/index" |
+       "/pages/pay/index" |
+       "/pages/pay/sacnResult" |
        "/pages/serve/index" |
        "/pages/shop/index" |
+       "/pages/login/compoents/loginOuther" |
        "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
-       "/pages-sub/serveMain/cop" |
-       "/pages-sub/serveMain/index" |
-       "/pages-sub/cadManager/index" |
        "/pages-sub/serveMassage/businessOutlets/index" |
+       "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/newsManager/index" |
+       "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
-       "/pages-sub/userManager/Cashier/index" |
+       "/pages-sub/system/sysconfig/index" |
+       "/pages-sub/system/sysconfig/setting" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
-       "/pages-sub/userManager/SocialSecurityCard/index";
+       "/pages-sub/userManager/SocialSecurityCard/index" |
+       "/pages-sub/userManager/SocialSecurityCard/indexback" |
+       "/pages-sub/userManager/cardManager/index" |
+       "/pages-sub/marketManager/coupon/index" |
+       "/pages-sub/marketManager/coupon/mycoupon" |
+       "/pages-sub/marketManager/integral/index" |
+       "/pages-sub/marketManager/integral/interList" |
+       "/pages-sub/marketManager/coupon/compoents/couponList";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/index/index" | "/pages/serve/index" | "/pages/shop/index" | "/pages/mine/index"
+  url: "/pages/index/index" | "/pages/serve/index" | "/pages/mine/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

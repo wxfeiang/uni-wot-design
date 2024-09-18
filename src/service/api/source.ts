@@ -1,36 +1,84 @@
+import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
-import { useRequest } from 'alova'
-const TYPELIST = '/myresources/tbbType'
-const CONTENTLIST = '/myresources/tbbTypeContList'
 
-const CONTENTDESC = '/myresources/tbbTypeDesc'
+import { METHOD_INSTANCE } from '../model/baseModel'
+const MESSAGE_LIST = baseUrlApi('/member/app/manageArticle/listSysArtaclePage')
+
+const ARTACLE_DETAIL = baseUrlApi('/member/app/manageArticle/findArtacleDetail')
+
+const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
+
 /**
- * 获取类型
- * @param params
+ * @description: 获取消息列表
+ * @param {} data
+ * @return {}
  */
-
-export function getTypeList(config: any) {
-  return useRequest(request.Get(TYPELIST), { ...config })
+export function getMessageList(data) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+  return request.Post(
+    MESSAGE_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
 }
 
 /**
- * 类型类表
- * @param params
+ * @description: 获取文章详情
+ * @param {} data
+ * @return {}
  */
+export function getArtacleDetail(data) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
 
-export function getcontentList(config: any) {
-  return useRequest((newTodo) => request.Post(CONTENTLIST, newTodo), {
-    ...config,
+  return request.Post(ARTACLE_DETAIL, data, {
+    meta,
   })
 }
 
 /**
- * 类型类表
- * @param params
+ * @description: 获取网点信息
+ * @return {}
  */
 
-export function getcontentDesc(config: any) {
-  return useRequest((newTodo) => request.Post(CONTENTDESC, newTodo), {
-    ...config,
+export function getBranchesInfo<T>(data: any) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    Analysis: true,
+  }
+
+  return request.Post<T>(GET_BRANCHES_INFO, data, {
+    meta,
+  })
+}
+
+/**
+ * @description: 资源检索列表
+ * @return {}
+ */
+
+export function getSerchList(data: any) {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+
+  return request.Post(MESSAGE_LIST, data, {
+    meta,
   })
 }

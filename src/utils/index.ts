@@ -122,19 +122,23 @@ export const getNeedLoginPages = (): string[] => getAllPages('needLogin').map((p
 export const needLoginPages: string[] = getAllPages('needLogin').map((page) => page.path)
 
 /**
+ * @description: 得到所有的需要人脸识别的pages，包括主包和分包的
+ * @param {} getAllPages
+ * @return {} 只得到 path 数组
+ */
+export const needLoginFeacePages: string[] = getAllPages('needLogin')
+  .filter((page) => page.realNameAuthentication)
+  .map((page) => page.path)
+
+/**
  * @description: 字典值解析
  * @param {} data 字典数组
  * @param {} value 当前比对值
- * @param {} key  要比对的key [label]
- * @param {} val  要比对的val [value]
+ * @param {} key  要比对的key
+ * @param {} val  要比对的val
  */
-export const changeDict = (
-  data: string[],
-  value: any,
-  key: string = 'label',
-  val: string = 'value',
-) => {
-  return data.filter((item: any) => item[val] === value)[key]
+export const changeDict = (data: any, value: any, key: string = 'label', val: string = 'value') => {
+  return data.find((item: any) => item[val] === value)?.[key] ?? ''
 }
 
 /**
@@ -183,6 +187,7 @@ export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_
   if (navType === NAVIGATE_TYPE.NAVIGATE_BACK || !navType) {
     uni.navigateBack({
       delta: 1,
+      url,
     })
     return
   }
@@ -239,4 +244,40 @@ export function getUrlKeyValue(key: string) {
     }
   }
   return ''
+}
+
+/**
+ * @description:  日期时间去除T
+ * @param {} date 传入的key
+ * @return {}  value
+ */
+export function removeT(date: string) {
+  if (!date) return ''
+  return date.replace('T', ' ')
+}
+
+/**
+ * @description:  处理小程序码扫码结果
+ * @param {} resData 传入的结果
+ * @return {}  obg 返回拼接后的url /  不符合的提示
+ */
+export function sceneResult(resData: any) {
+  // 如果不是小程序码的标志 直接返回
+  let status = false
+  let url = null
+  let path = null
+  // 扫描到小程序码
+  if (resData.scanType === 'WX_CODE') {
+    url = decodeURIComponent(resData.path).split('?')
+    url[1] = url[1].split(',')
+    status = url[1][2] === 'xaCard'
+    path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
+    console.log('🍝[path]:', path, status)
+  } else if (resData.scanType === 'QR_CODE') {
+    url = decodeURIComponent(resData.result).split('?')
+  }
+  return {
+    status,
+    url: path,
+  }
 }

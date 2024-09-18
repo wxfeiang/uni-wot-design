@@ -1,24 +1,39 @@
 <route lang="json5">
 {
+  layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
 }
 </route>
 <script lang="ts" setup>
-import useInfo from './hooks/useInfo'
-
+import anvter from '@/static/images/mine/anvter.png'
+import anvter1 from '@/static/images/mine/anvter1.png'
+import imgUrl from '@/static/images/mine/bg.png'
+import h0 from '@/static/images/mine/h0.png'
+import h1 from '@/static/images/mine/h1.png'
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
+import { pathToBase64 } from 'image-tools'
 import { storeToRefs } from 'pinia'
-import { useMessage } from 'wot-design-uni'
-const anvter = ref('https://unpkg.com/wot-design-uni-assets/meng.jpg')
-const { setInfo, LogOut, loading } = useInfo()
+import { useMessage, useToast } from 'wot-design-uni'
+
+import useLogin from '../login/utils/useLogin'
+
+import useInfo from './utils/useInfo'
+const { sendIsReceiveCardInfo } = useLogin()
+
+const { navTop } = useNav()
+
+const { LogOut, loading, serveList, serveClick, topList, sendUserCouponList, sendInterInfo } =
+  useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 function login() {
   routeTo({ url: '/pages/login/index' })
 }
+const toast = useToast()
 function logoutCimfirm() {
   message
     .confirm({
@@ -29,94 +44,186 @@ function logoutCimfirm() {
       LogOut()
     })
 }
-function topAction() {
-  console.log('🍬------')
-}
-function itemclik(item) {
-  routeTo({ url: item.path })
-}
-const { safeAreaInsets } = uni.getSystemInfoSync()
 
-const navtop = ref(0)
-navtop.value = safeAreaInsets.top + 44
-console.log('🍏', navtop.value)
-const news = () => {
-  routeTo({ url: '/pages-sub/serveMassage/newsManager/index' })
+const bgUrlBase64 = ref()
+
+const acton = (item) => {
+  if (item.url) {
+    routeTo({ url: '/pages-sub/system/sysconfig/index' })
+  } else {
+    toast.show('功能开发中，敬请期待!...')
+  }
 }
+const qiandao = () => {
+  routeTo({ url: '/pages-sub/marketManager/integral/index' })
+}
+onLoad(async () => {
+  // 设置背景图片
+  bgUrlBase64.value = await pathToBase64(imgUrl)
+})
+onShow(async () => {
+  if (isLogined.value) {
+    try {
+      const params = {
+        status: 0,
+      }
+      const data2: any = await sendInterInfo()
+      topList.value[0].value = data2.curScore ?? 0
+      const data: any = await sendUserCouponList(params)
+      topList.value[1].value = data.unUsedCouponNum
+    } catch {
+      topList.value[1].value = 0
+    }
+  }
+})
 </script>
-<template>
-  <!-- 顶部 -->
-  <view class="py-20px bg-#4689fd" :style="`padding-top:${navtop}px`">
-    <view class="text-center color-#fff">我的</view>
-    <view class="p-20px">
-      <view class="flex items-center gap-15px">
-        <template v-if="isLogined">
-          <view class="p-5px bg-#fff rounded-50% size-70px">
-            <wd-img :width="70" :height="70" :src="userInfo.avatar" round />
-          </view>
 
-          <view>
-            <view class="font-bold color-#fff">{{ 'ss' }}</view>
+<template>
+  <view
+    class="box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px;  `"
+  >
+    <view class="px-15px mt-10%">
+      <view class="flex justify-between items-center">
+        <view class="flex items-center gap-20px">
+          <template v-if="isLogined">
+            <view class="flex gap-15px items-center">
+              <view>
+                <view class="p-5px rounded-50% size-64px">
+                  <wd-img :width="60" :height="60" :src="anvter1" round />
+                </view>
+
+                <view
+                  class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]"
+                  v-if="userInfo.cardType === '3'"
+                >
+                  <wd-img :src="h1" width="22" height="18"></wd-img>
+                  <view
+                    class="color-#fff text-10px text-center h-bg rounded-100 px-10px ml-[-10px] mt-2px"
+                  >
+                    已申领
+                  </view>
+                </view>
+                <view class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]" v-else>
+                  <wd-img :src="h0" width="22" height="18"></wd-img>
+                  <view
+                    class="color-#fff text-10px text-center bg-#ccc rounded-100 px-10px ml-[-10px] mt-2px"
+                  >
+                    未申领
+                  </view>
+                </view>
+              </view>
+              <view>
+                <view class="font-size-20px font-medium">
+                  {{ isLogined ? (userInfo.userName ?? '微信用户') : '立即登录' }}
+                </view>
+              </view>
+            </view>
+          </template>
+          <template v-else>
+            <view class="flex items-center">
+              <view class="p-5px rounded-50% size-64px">
+                <wd-img :width="60" :height="60" :src="anvter" round />
+              </view>
+              <view @click="login">
+                <view class="font-bold">立即登录</view>
+              </view>
+            </view>
+          </template>
+        </view>
+        <view
+          class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
+          @click="qiandao"
+          v-if="isLogined"
+        >
+          <i class="iconfont xa-jinbi2 text-20px"></i>
+          <text>签到</text>
+        </view>
+      </view>
+      <view class="py-10px mt-3%">
+        <view class="flex justify-around">
+          <view
+            class="w-1/3 text-center"
+            v-for="(item, index) in topList"
+            :key="index"
+            @click="serveClick(item)"
+          >
+            <view class="text-20px">
+              {{ isLogined ? item.value : 0 }}
+            </view>
+            <view class="text-14px mt-10px">
+              {{ item.title }}
+            </view>
           </view>
-        </template>
-        <template v-else>
-          <view class="p-5px bg-#fff rounded-50% size-70px">
-            <wd-img :width="70" :height="70" :src="anvter" round />
-          </view>
-          <view @click="login">
-            <view class="font-bold color-#fff">未登录</view>
-          </view>
-        </template>
+        </view>
+      </view>
+    </view>
+    <view class="bg-#fff overflow-hidden bg-cell mt-2% py-10px">
+      <view class="px-5px">
+        <wd-cell-group border>
+          <wd-cell
+            :is-link="item.islink"
+            custom-class="custom-class-mine-cell"
+            v-for="(item, index) in serveList"
+            :key="index"
+            clickable
+            @click="serveClick(item)"
+          >
+            <template #icon>
+              <wd-img :src="item.icon" width="28" height="28px"></wd-img>
+            </template>
+            <template #title>
+              <view class="ml-10px">{{ item.title }}</view>
+            </template>
+            <view v-if="item.value" class="color-#999">{{ item.value }}</view>
+          </wd-cell>
+        </wd-cell-group>
       </view>
     </view>
   </view>
-
-  <wd-gap bg-color="#F3F7F8"></wd-gap>
-  <view class="p-10px bg-#f5f5f5">
-    <view class="rounded-10px overflow-hidden">
-      <wd-cell-group border>
-        <template v-for="(item, index) in setInfo" :key="index">
-          <wd-cell :title="item.name" is-link @click="itemclik(item)">
-            <template #icon v-if="item.icon">
-              <view class="mr-10px">
-                <wd-icon name="setting1" size="22px" color="#4689fd"></wd-icon>
-              </view>
-            </template>
-            <view class="color-#999">
-              {{ item.rightValue }}
-            </view>
-          </wd-cell>
-        </template>
-      </wd-cell-group>
-    </view>
-  </view>
-  <wd-button type="primary" :round="false" size="medium" block>查 询</wd-button>
-  <wd-gap bg-color="#F3F7F8"></wd-gap>
-  <template v-if="isLogined">
+  <view class="fixed dy-bottom-tabbar left-0 right-0" v-if="isLogined">
     <view class="px-10">
-      <wd-button
-        block
-        :round="false"
-        plain
-        custom-class="custom-class-plain"
-        @click="logoutCimfirm"
-      >
+      <wd-button block @click="logoutCimfirm" custom-class="custom-class-mine-login">
         退出登录
       </wd-button>
     </view>
-    <wd-gap bg-color="#F3F7F8"></wd-gap>
-  </template>
-  <template v-else>
-    <view class="fixed dy-bottom-tabbar left-0 right-0">
-      <view class="px-10">
-        <wd-button block :round="false" hairline plain @click="login">立即登录</wd-button>
-      </view>
-    </view>
-  </template>
+  </view>
 </template>
 
-<style>
-page {
-  background: #f5f5f5;
+<style lang="scss" scoped>
+.dy-bg {
+  background: rgb(204 204 204 / 0.5);
+}
+.qiandao {
+  width: 82px;
+  height: 32px;
+  background: linear-gradient(270deg, #99c7f2 0%, #71a2fb 100%);
+  border-radius: 19px;
+}
+
+.bg {
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.h-bg {
+  background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
+}
+:deep(.custom-class-mine-login) {
+  color: #fff !important;
+  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
+  border: none !important;
+  border-radius: 6px !important;
+}
+.bg-cell {
+  border-radius: 25px 25px 0 0;
+  box-shadow: 0px -5px 10px 1px rgba(56, 113, 241, 0.11);
+}
+:deep(.custom-class-mine-cell) {
+  .wd-cell__left {
+    @apply items-center!;
+  }
+  .wd-cell__wrapper {
+    @apply pr-5px!;
+  }
 }
 </style>

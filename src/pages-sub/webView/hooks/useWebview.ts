@@ -1,23 +1,26 @@
-import { agreement } from '@/service/api/auth'
-
+import { getArtacleDetail } from '@/service/api/source'
+import { useRequest } from 'alova/client'
 const content = ref('')
-const { send: getAarData, loading: Loading } = agreement(
-  {},
-  {
-    immediate: false,
-    loading: false,
-  },
-)
+const articleTitle = ref('')
+const createTime = ref('')
 
-const AarData = async (id) => {
+const { send: sedAarData, loading: Loading } = useRequest((data) => getArtacleDetail(data), {
+  immediate: false,
+  loading: false,
+})
+
+const AarData = async (articleId) => {
   const params = {
-    id,
+    articleId,
   }
   try {
-    const data: any = await getAarData(params)
-    content.value = data[0].url
+    const data: any = await sedAarData(params)
+    content.value = data.data.data.articleContent ?? ''
+    createTime.value = data.data.data.createTime
+    articleTitle.value = data.data.data.articleTitle
   } catch (error) {
-    console.log('🥜')
+    content.value = ''
+    console.log(error)
   }
 }
 
@@ -26,5 +29,7 @@ export default () => {
     content,
     AarData,
     Loading,
+    articleTitle,
+    createTime,
   }
 }

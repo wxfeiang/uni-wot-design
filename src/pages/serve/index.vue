@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   needLogin: true,
+  layout: 'default',
   style: {
     navigationBarTitleText: '服务中心',
     backgroundColor: '#fff',
@@ -16,98 +17,149 @@ import { routeTo } from '@/utils'
 import shebaok from '@/static/images/serve/shebaok.png'
 import shebaokbh from '@/static/images/serve/shebaokbh.png'
 import shebaoksl from '@/static/images/serve/shebaoksl.png'
-import xinshenersl from '@/static/images/serve/xinshenersl.png'
 
 import kaguas from '@/static/images/serve/kaguas.png'
+import kajiegua from '@/static/images/serve/kajiegua.png'
 import kajindu from '@/static/images/serve/kajindu.png'
-import mimaxiugai from '@/static/images/serve/mimaxiugai.png'
 
 import kabase from '@/static/images/serve/kabase.png'
 
-import kajiegua from '@/static/images/serve/kajiegua.png'
-import xinshengrq from '@/static/images/serve/xinshengrq.png'
-
+import jiaofeitong from '@/static/images/serve/jiaofeitong.png'
 import kabiangeng from '@/static/images/serve/kabiangeng.png'
 import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
+import xionganlebo from '@/static/images/serve/xionganlebo.png'
 
 import { useBaseStore } from '@/store/modules/base'
+import { openWxChart } from '@/utils/uniapi'
+import { useToast } from 'wot-design-uni'
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
 
+const toast = useToast()
 const basestore = useBaseStore()
-const mainData = ref([
+const mainData1 = ref([
   {
     title: '社保卡申领',
     icon: 'card',
     url: shebaoksl,
-    type: '1',
+    type: '2',
+    base: 'shebaoksl',
   },
   {
     title: '社保卡补换',
     icon: 'order',
     url: shebaokbh,
     type: '2',
+    base: 'shebaokbh',
   },
   {
-    title: '新生儿申领',
-    icon: 'star',
-    url: xinshenersl,
+    title: '制卡进度查询',
+    base: 'kajindu',
+    url: kajindu,
     type: '3',
   },
-  {
-    title: '卡挂失',
-    icon: 'coupon',
-    url: kaguas,
-  },
-  {
-    title: '卡进度查询',
-    icon: 'coupon',
-    url: kajindu,
-  },
+  // {
+  //   title: '未成年人申领',
+  //   icon: 'star',
+  //   url: xinshenersl,
+  //   type: '2',
+  //   base: 'xinshenersl',
+  // },
+  // {
+  //   title: '未成年人申领查询',
+  //   icon: 'coupon',
+  //   url: xinshengrq,
+  // },
   {
     title: '社保卡启用',
     icon: 'coupon',
     url: shebaok,
+    type: '3',
+    base: 'cardSocialActive',
   },
   {
-    title: '密码修改',
+    title: '社保卡挂失',
     icon: 'coupon',
-    url: mimaxiugai,
+    url: kaguas,
+    type: '3',
+    base: 'cardLoss',
   },
   {
-    title: '卡基础信息',
+    title: '社保卡解挂',
+    icon: 'kajiegua',
+    url: kajiegua,
+    type: '3',
+    base: 'unboxingInfo',
+  },
+])
+
+const mainData2 = ref([
+  {
+    title: '基础信息查询',
     icon: 'coupon',
     url: kabase,
+    type: '1',
+    base: 'cardBaseInfo',
   },
+  // {
+  //   title: '服务密码修改',
+  //   icon: 'coupon',
+  //   url: mimaxiugai,
+  //   type: '3',
+  //   base: 'changeCardPwd',
+  // },
   {
-    title: '卡解卦',
-    icon: 'coupon',
-    url: kajiegua,
-  },
-  {
-    title: '卡信息变更',
+    title: '社保信息变更',
     icon: 'coupon',
     url: kabiangeng,
+    type: '3',
+    base: 'cardChange',
   },
   {
-    title: '密码重置',
+    title: '服务密码管理',
     icon: 'coupon',
     url: mimachongzhi,
+    type: '3',
+    base: 'changeCardPwd',
+  },
+])
+
+const mainData3 = ref([
+  {
+    title: '雄安乐泊',
+    icon: 'coupon',
+    url: xionganlebo,
+    type: '4',
+    base: '',
+    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
   },
   {
-    title: '新生儿申领查询',
+    title: '雄安缴费通',
     icon: 'coupon',
-    url: xinshengrq,
+    url: jiaofeitong,
+    type: '4',
+    base: '',
+    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+    path: 'pages/index/index',
   },
 ])
 
 function gridClick(item: any) {
-  console.log('🍝', item)
+  const { base, title } = item
+  console.log('🍓[base, title ]:', base, title)
   if (item.type === '1') {
-    routeTo({ url: '/pages-sub/serveMain/cardMessType' })
+    routeTo({
+      url: '/pages-sub/serveMain/cardMessType',
+      data: { base, title },
+    })
   } else if (item.type === '2') {
-    routeTo({ url: '/pages-sub/serveMain/cardApplyType' })
+    routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
+  } else if (item.type === '3') {
+    routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
+  } else if (item.type === '4') {
+    openWxChart(item.appId, item.path)
   } else {
-    routeTo({ url: '/pages-sub/serveMain/cardFromType' })
+    toast.show('功能开发中，敬请期待!...')
   }
 }
 
@@ -120,25 +172,27 @@ const categories = ref([
     label: '社保卡申领',
     title: '标题一',
     icon: 'thumb-up',
-    items: mainData.value.slice(0, 3),
+    items: mainData1.value,
   },
   {
     label: '社保卡服务',
     title: '标题二',
     icon: 'qrcode',
-    items: mainData.value.slice(3, 12),
+    items: mainData2.value,
   },
   {
-    label: '生活缴费',
+    label: '生活服务',
     title: '标题三',
     icon: 'location',
-    items: mainData.value.slice(12, 20),
+    items: mainData3.value,
   },
 ])
+
 function handleChange({ value }) {
   active.value = value
   scrollTop.value = itemScrollTop.value[value]
 }
+
 function onScroll(e) {
   const { scrollTop } = e.detail
   const threshold = 50 // 下一个标题与顶部的距离
@@ -153,6 +207,7 @@ function onScroll(e) {
     active.value = index
   }
 }
+
 onLoad((options: any) => {
   active.value = basestore.active
 })
@@ -186,7 +241,7 @@ onMounted(() => {
       @scroll="onScroll"
     >
       <view v-for="(item, index) in categories" :key="index" class="category">
-        <dy-title :title="item.label" class="py-8px pl-10px"></dy-title>
+        <dy-title :title="item.label" class="py-4px pl-10px"></dy-title>
         <wd-grid :column="3" clickable>
           <wd-grid-item
             use-icon-slot
@@ -200,11 +255,11 @@ onMounted(() => {
               <image class="wh-42px rounded-10px" :src="cell.url" />
             </template>
             <template #text>
-              <view class="text-center mt-10px">{{ cell.title }}</view>
+              <view class="text-center mt-5px">{{ cell.title }}</view>
             </template>
           </wd-grid-item>
         </wd-grid>
-        <wd-gap bg-color="#f5f5f5"></wd-gap>
+        <wd-gap height="6" bg-color="#f5f5f5"></wd-gap>
       </view>
     </scroll-view>
   </view>
@@ -215,16 +270,22 @@ onMounted(() => {
   @apply size-auto!;
 }
 
+:deep(.wd-grid-item) {
+  @apply justify-start!;
+}
+
 .wraper {
   display: flex;
   height: calc(100vh - var(--window-top));
   height: calc(100vh - var(--window-top) - constant(safe-area-inset-bottom));
   height: calc(100vh - var(--window-top) - env(safe-area-inset-bottom));
 }
+
 .content {
   flex: 1;
   background: #fff;
 }
+
 :deep(.customClass) {
   @apply text-12px!;
 }
