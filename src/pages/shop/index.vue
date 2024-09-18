@@ -8,31 +8,92 @@
   },
 }
 </route>
+<script lang="ts" setup>
+import indexbg from '@/static/images/index/indexbg.png'
+import { pathToBase64 } from 'image-tools'
+
+defineOptions({
+  name: 'Index',
+})
+
+const { VITE_APP_LOGOTITLE } = import.meta.env
+const topbgBase64 = ref('')
+onLoad(async () => {
+  // 设置背景图片
+  topbgBase64.value = await pathToBase64(indexbg)
+})
+
+// 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
+</script>
 <template>
-  <view class="pt-300px">
-    <wd-status-tip image="content" tip="服务正在建设中..." />
+  <view
+    class="box-border h-310px relative bg-no-repeat bg-cover"
+    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
+  >
+    <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_custom" :bordered="false">
+      <template #left>
+        <view class="flex gap-10px items-center">
+          <text class="line-height-44px text-18px color-#fff mt-5px">{{ VITE_APP_LOGOTITLE }}</text>
+        </view>
+      </template>
+    </wd-navbar>
+
+    <wd-sticky :offset-top="navTop">
+      <view class="w-100vw flex items-center justify-between gap-2px box-border">
+        <view class="flex-1 px-10px flex justify-between">
+          <view
+            class="flex justify-between w-70vw items-center serch-bg px-10px py-10px color-#fff opacity-65"
+          >
+            <wd-icon name="search" size="16px"></wd-icon>
+            <view class="text-left text-16px flex-1 px-10px">请输入搜索关键词</view>
+            <view class="text-14px relative search-type">搜索</view>
+          </view>
+          <view>
+            <wd-button type="icon" icon="cart"></wd-button>
+          </view>
+        </view>
+      </view>
+    </wd-sticky>
+
+    <wd-tabs
+      v-model="tab"
+      animated
+      :slidable-num="6"
+      :map-num="15"
+      custom-class="shopNav"
+      color="#fff"
+      inactive-color="#fff"
+    >
+      <block v-for="item in 6" :key="item">
+        <wd-tab :title="`标签${item}`"></wd-tab>
+      </block>
+    </wd-tabs>
   </view>
 </template>
-
-<script lang="ts" setup>
-defineOptions({
-  name: 'Home',
-})
-
-// 获取屏幕边界到安全区域距离
-const { safeAreaInsets } = uni.getSystemInfoSync()
-const author = ref('wxfeiang')
-const description = ref(
-  'unibest 是一个集成了多种工具和技术的 uniapp 开发模板，由 uniapp + Vue3 + Ts + Vite4 + UnoCss + UniUI + VSCode 构建，模板具有代码提示、自动格式化、统一配置、代码片段等功能，并内置了许多常用的基本组件和基本功能，让你编写 uniapp 拥有 best 体验。',
-)
-
-onLoad(() => {
-  console.log(author)
-})
-</script>
 
 <style>
 .main-title-color {
   color: #d14328;
 }
+
+:deep(.nav_custom) {
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent !important;
+}
+
+.shopNav {
+  position: absolute !important;
+  bottom: 0px;
+  background: transparent !important;
+}
+
+:deep(.wd-tabs__nav) {
+  color: #fff;
+  background: transparent !important;
+}
+/*:deep(.wd-tabs__nav-item) {*/
+/*  color: #fff;*/
+/*}*/
 </style>
