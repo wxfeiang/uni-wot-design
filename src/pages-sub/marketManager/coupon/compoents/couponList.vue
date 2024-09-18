@@ -170,7 +170,7 @@ const url = ref(
             props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
           }}
         </view>
-        <view>优惠内容: {{ props.data.couponRemark }}</view>
+        <view>优惠内容: {{ '满' + props.data.couponFillPrice + '元可用' }}</view>
       </view>
     </view>
   </view>
