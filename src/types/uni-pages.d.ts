@@ -11,14 +11,15 @@ interface NavigateToOptions {
        "/pages/login/sfzLogin" |
        "/pages/mine/index" |
        "/pages/pay/index" |
+       "/pages/pay/sacnResult" |
        "/pages/serve/index" |
        "/pages/shop/index" |
        "/pages/login/compoents/loginOuther" |
+       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
-       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/newsManager/index" |
@@ -27,10 +28,10 @@ interface NavigateToOptions {
        "/pages-sub/webView/index" |
        "/pages-sub/system/sysconfig/index" |
        "/pages-sub/system/sysconfig/setting" |
-       "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
+       "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
        "/pages-sub/marketManager/integral/index" |

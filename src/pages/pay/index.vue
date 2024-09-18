@@ -55,6 +55,9 @@ const onInput = (key: string) => {
 const onDelete = () => {
   inValue.value = inValue.value.slice(0, -1)
 }
+function goback() {
+  uni.navigateBack()
+}
 // 查询可用优惠券
 const { send: sendYhq, data: yhList } = useRequest(
   (data) => getPayCouponUserPhone<couponProps[]>(data),
@@ -373,7 +376,7 @@ onShow(async () => {
             <wd-button block :round="false" @click="goPay">立即支付</wd-button>
           </view>
           <view class="mb-10px">
-            <wd-button type="text" block :round="false" plain hairline @click="uni.navigateBack()">
+            <wd-button type="text" block :round="false" plain hairline @click="goback">
               返回首页
             </wd-button>
           </view>
