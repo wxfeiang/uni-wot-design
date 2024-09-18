@@ -304,7 +304,7 @@ const reasonList = computed(() => reason.filter((v) => v.type.includes(model.val
             v-model="model.isPostcard"
             :rules="rules.isPostcard"
             prop="isPostcard"
-            :columnChange="handleChange"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="areaCodeList"
@@ -313,7 +313,7 @@ const reasonList = computed(() => reason.filter((v) => v.type.includes(model.val
             v-model="model.area"
             :rules="rules.area"
             prop="area"
-            :columnChange="handleChange"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="bankCodeList"
@@ -322,7 +322,7 @@ const reasonList = computed(() => reason.filter((v) => v.type.includes(model.val
             v-model="model.bankCode"
             :rules="rules.bankCode"
             prop="bankCode"
-            :columnChange="handleChange"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="bankBranchList"
@@ -485,6 +485,6 @@ export default {
   @apply text-right!;
 }
 :deep(.custom-input-right) {
-  @apply text-right! truncate-1!;
+  @apply text-right! color-#999999! truncate-1;
 }
 </style>

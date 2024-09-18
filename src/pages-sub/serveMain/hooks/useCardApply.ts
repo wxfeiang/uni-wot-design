@@ -64,7 +64,7 @@ const model = ref({
   idCardBackPhotoId: '',
 
   idName: '',
-  isPostcard: '',
+  isPostcard: '0',
   postcardName: '',
   postcardPhone: '',
   postcardAddress: '',

@@ -114,7 +114,9 @@ const handleChange = async (pickerView, value, columnIndex, resolve) => {
       areaCode: model.value.areaCode,
       isMail: model.value.isPostcard,
     }
+    console.log('🥦', params)
     const data: any = await sendBranches(params)
+    console.log('🥃[data]:', data)
 
     bankBranchList.value = data?.length
       ? data.map((v) => {
@@ -306,6 +308,7 @@ function next() {
             v-model="model.isPostcard"
             :rules="rules.isPostcard"
             prop="isPostcard"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="areaCodeList"
@@ -314,7 +317,7 @@ function next() {
             v-model="model.areaCode"
             :rules="rules.areaCode"
             prop="areaCode"
-            :columnChange="handleChange"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="bankCodeList"
@@ -323,7 +326,7 @@ function next() {
             v-model="model.bankCode"
             :rules="rules.bankCode"
             prop="bankCode"
-            :columnChange="handleChange"
+            @confirm="handleChange"
           />
           <wd-picker
             :columns="bankBranchList"
@@ -401,6 +404,6 @@ export default {
   @apply text-right!;
 }
 :deep(.custom-input-right) {
-  @apply text-right! color-#999999!;
+  @apply text-right! color-#999999! truncate-1;
 }
 </style>

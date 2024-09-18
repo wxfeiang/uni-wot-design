@@ -87,7 +87,7 @@ const model = ref({
   familyRelation: '',
   dbrPhone: '',
   // -----
-  isPostcard: '',
+  isPostcard: '0',
   postcardName: '',
   postcardPhone: '',
   postcardAddress: '',
