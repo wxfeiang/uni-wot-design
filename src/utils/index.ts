@@ -265,17 +265,19 @@ export function sceneResult(resData: any) {
   // 如果不是小程序码的标志 直接返回
   let status = false
   let url = null
+  let path = null
   // 扫描到小程序码
   if (resData.scanType === 'WX_CODE') {
     url = decodeURIComponent(resData.path).split('?')
     url[1] = url[1].split(',')
-    url[1] = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
     status = url[1][2] === 'xaCard'
+    path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
+    console.log('🍝[path]:', path, status)
   } else if (resData.scanType === 'QR_CODE') {
     url = decodeURIComponent(resData.result).split('?')
   }
   return {
     status,
-    url: url[1],
+    url: path,
   }
 }

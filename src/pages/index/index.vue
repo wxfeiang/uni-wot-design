@@ -41,6 +41,7 @@ const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
     const resData: any = await useScancode({ onlyFromCamera: true })
+    console.log('🥩[resData]:', resData)
     const { status, url } = sceneResult(resData)
     if (status) {
       routeTo({
