@@ -1,12 +1,3 @@
-export interface shopDetilProps {
-  liveNum: number
-  address: string
-  shopName: string
-  shopPhone: string
-  shopId: string
-  url?: string
-}
-
 export interface couponProps {
   type: number
   couponSource: number
@@ -41,4 +32,25 @@ export interface couponProps {
   shopList?: any
   itemList?: any
   receiveId: number
+}
+
+export interface shopDetilProps {
+  shopPicture: string
+  inShopPicture: string
+  updateUser: string
+  accountPicture: string
+  updateTime: string
+  terminalId: string
+  businessDesc: string
+  merchantName: string
+  merchantNumber: string
+  rejectReason: string
+  isDeleted: number
+  createTime: string
+  merchantId: string
+  accountProve: string
+  auditStatus: number
+  createUser: string
+  id: string
+  merchantType: number
 }

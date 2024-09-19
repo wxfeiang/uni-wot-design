@@ -18,7 +18,7 @@ import user from '@/static/images/login/user.png'
 import yzm from '@/static/images/login/yzm.png'
 import logo from '@/static/images/logo.png'
 import { useMessage } from 'wot-design-uni'
-// import loginOuther from './compoents/loginOuther.vue'
+// import loginOuther from './components/loginOuther.vue'
 import useLogin from './utils/useLogin'
 const {
   Login,

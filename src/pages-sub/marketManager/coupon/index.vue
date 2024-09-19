@@ -13,7 +13,7 @@ import { pathToBase64 } from 'image-tools'
 import hubgtitle from '../static/images/coupon/hubgtitle.png'
 import myyhbtn from '../static/images/coupon/myyhbtn.png'
 import bg from '../static/images/coupon/yhbg.png'
-import CouponList from './compoents/couponList.vue'
+import CouponList from './components/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
 const { sendCouponList } = userCoupon()

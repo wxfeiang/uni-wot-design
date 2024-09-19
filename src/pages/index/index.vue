@@ -41,6 +41,7 @@ const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
     const resData: any = await useScancode({ onlyFromCamera: true })
+
     const { status, url } = sceneResult(resData)
     if (status) {
       routeTo({
@@ -56,7 +57,7 @@ async function actionTop(item: any) {
   } else if (item.type === 'wxChart') {
     openWxChart(item.appId, item.path)
   } else if (item.type === 'switchTab') {
-    basestore.active = item.active
+    basestore.setActive(item.active)
     routeTo({
       url: item.path,
       navType: NAVIGATE_TYPE.SWITCH_TAB,
@@ -70,15 +71,12 @@ async function actionTop(item: any) {
   }
 }
 
-async function goPay(item: any) {}
-
 function swiperClick(data) {
   const { item } = data
 
   if (item.type === 'router') {
     routeTo({ url: item.path, data: { ...item.data } })
   } else {
-    console.log('🍵[item]:', item)
     routeTo({
       url: '/pages-sub/webView/index',
       data: { type: item.id },
@@ -132,7 +130,7 @@ onMounted(async () => {
     size: 50,
   })
   mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 5)
-  console.log('🥕[mess1.value ]:', mess1.value)
+
   mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
 

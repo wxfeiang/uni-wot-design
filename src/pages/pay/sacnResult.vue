@@ -72,5 +72,4 @@ onLaunch((options) => {
 </script>
 <template>
   <dy-navbar leftTitle="扫码结果" left></dy-navbar>
-  <view>audisrfnvjk</view>
 </template>

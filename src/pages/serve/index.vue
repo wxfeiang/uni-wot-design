@@ -146,7 +146,7 @@ const mainData3 = ref([
 
 function gridClick(item: any) {
   const { base, title } = item
-  console.log('🍓[base, title ]:', base, title)
+
   if (item.type === '1') {
     routeTo({
       url: '/pages-sub/serveMain/cardMessType',
@@ -208,7 +208,7 @@ function onScroll(e) {
   }
 }
 
-onLoad((options: any) => {
+onShow((options: any) => {
   active.value = basestore.active
 })
 onMounted(() => {

@@ -13,7 +13,10 @@ import { getPayCouponUserPhone } from '@/service/api/userMessage'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useRequest } from 'alova/client'
 import qs from 'qs'
+import { useMessage } from 'wot-design-uni'
 import { couponProps, shopDetilProps } from './utils/types'
+
+const message = useMessage()
 const inValue = ref<any>() // 输入框的值
 const visible = ref(false)
 const maxlength = ref(11)
@@ -78,74 +81,20 @@ const onClose = async () => {
     if (!parts[1]?.length) {
       inValue.value = `${inValue.value * 1}.00`
     }
+    console.log('🌽', inValue.value)
     show.value = true
     // TODO:  查询后台当前金额可以用的优惠券
     const params = {
-      orderAmount: inValue.value,
+      orderAmount: inValue.value * 1,
     }
+    console.log('🍦[params]:', params)
     try {
       const data = await sendYhq(params)
       yhList.value = data
       itmeClick(yhList.value[0], 0)
     } catch (error) {
-      console.log('🥞[error]:', error)
-      yhList.value = [
-        {
-          couponNum: 19,
-          couponReceiveWay: 2,
-          couponName: '8折优惠卷',
-          couponSource: 1,
-          flag: 0,
-          couponReceiveEndDate: '2024-09-13T00:00:00',
-          couponUsedObj: 1,
-          couponEndDate: '2024-09-15T00:00:00',
-          couponId: 196,
-          type: 1,
-          couponType: 3,
-          couponReceiveBeginDate: '2024-09-09T00:00:00',
-          couponRemark: '使用规则说明232',
-          receiveNum: 3,
-          couponScop: 1,
-          topFlag: 0,
-          updateTime: '2024-09-12T16:55:28',
-          userId: 1,
-          receiveId: 16163,
-          couponReceiveLimit: 1,
-          couponFillPrice: 0,
-          useQuantity: 1,
-          createTime: '2024-09-10T19:43:25',
-          couponPrice: 0.8,
-          couponCode: '0770775391511543',
-          couponBeginDate: '2024-09-10T00:00:00',
-        },
-        {
-          couponNum: 8,
-          couponReceiveWay: 2,
-          couponName: '满10元减3元',
-          couponSource: 1,
-          flag: 0,
-          couponReceiveEndDate: '2024-09-13T00:00:00',
-          couponUsedObj: 1,
-          couponEndDate: '2024-09-14T00:00:00',
-          couponId: 218,
-          type: 1,
-          couponType: 1,
-          couponReceiveBeginDate: '2024-09-09T00:00:00',
-          couponRemark: '使用规则说明',
-          receiveNum: 2,
-          couponScop: 1,
-          topFlag: 0,
-          updateTime: '2024-09-12T18:03:47',
-          receiveId: 16164,
-          couponReceiveLimit: 1,
-          couponFillPrice: 10,
-          useQuantity: 0,
-          createTime: '2024-09-12T15:18:55',
-          couponPrice: 3,
-          couponCode: '1457034423505223',
-          couponBeginDate: '2024-09-12T00:00:00',
-        },
-      ]
+      console.log('🥦[error]:', params, error)
+      yhList.value = []
       actualPrice.value = inValue.value
     }
   }
@@ -215,20 +164,8 @@ const payData = ref([
 const popClose = () => {
   activeIndex.value = -1
 }
-
-async function goPay() {
-  const params = {
-    userDid: '',
-    invoice: inValue.value, // 订单金额
-    actualPrice: actualPrice.value, // 实际支付金额
-    merchantId: urlData.value.shopId,
-  }
-
-  // await sendPay(params)
-  await openEmbeddedMiniProgram('/pages/pay/index', { ...params })
-}
 //  查询商户信息
-const { send: sendShopDetail, data: shhopMessage } = useRequest(
+const { send: sendShopDetail, data: shopMessage } = useRequest(
   (data) => getShopDetail<shopDetilProps>(data),
   {
     immediate: false,
@@ -236,20 +173,55 @@ const { send: sendShopDetail, data: shhopMessage } = useRequest(
     initialData: [],
   },
 )
+async function goPay() {
+  if (inValue.value <= 0) {
+    message.alert({
+      msg: '金额不能小于或等于0',
+      title: '提示',
+      closeOnClickModal: false,
+    })
+    return
+  }
+
+  const params = {
+    userDid: '',
+    invoice: inValue.value, // 订单金额
+    actualPrice: actualPrice.value, // 实际支付金额
+    merchantId: shopMessage.value.merchantId,
+    couponId: yhList.value[activeIndex.value]?.couponId ?? '',
+  }
+  console.log('🍩', params)
+  await openEmbeddedMiniProgram('/pages/pay/index', { ...params })
+}
+
 const urlData = ref()
 onLoad(async (options) => {
   urlData.value = qs.parse(decodeURIComponent(options.url) || options.url)
-  console.log('🥫[urlData.value]:', urlData.value)
+  console.log('地址数据======', urlData.value)
   try {
     await sendShopDetail({ shopId: urlData.value.merchantId })
-  } catch (error) {}
+    // const shopdata: any =
+    // console.log('🥒[shopMessage.value]:', JSON.stringify(shopdata))
+    // shopMessage.value = shopdata
+  } catch (error) {
+    console.log('🍢[error]:', error)
+    message
+      .alert({
+        msg: '查询店铺数据异常,无法支付!',
+        title: '提示',
+        closeOnClickModal: false,
+      })
+      .then((res) => {
+        uni.navigateBack()
+      })
+  }
 
   // 获取到进入页面的所有信息
 })
 onShow(async () => {
   const data = uni.getEnterOptionsSync()
   console.log('🥨[data]:', data)
-  if (data.referrerInfo.extraData.back) {
+  if (data.referrerInfo?.extraData?.back) {
     //  上一个页面返回的
     uni.navigateBack()
   }
@@ -258,23 +230,17 @@ onShow(async () => {
 
 <template>
   <dy-navbar leftTitle="付款" left></dy-navbar>
-
   <view class="px-10px py-20px bg-#f5f5f5">
     <view class="flex justify-between items-center">
       <view>
         <view class="text-18px color-#000">付款给商家</view>
         <view class="text-14px color-#999999 mt-4px">
-          {{ shhopMessage.shopName ?? '数城科技' }}
+          {{ shopMessage.merchantName }}
         </view>
       </view>
 
       <view>
-        <wd-img
-          width="58px"
-          height="58px"
-          radius="7px"
-          src="https://img0.baidu.com/it/u=123020064,1503144048&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800"
-        ></wd-img>
+        <wd-img width="58px" height="58px" radius="7px" :src="shopMessage.shopPicture"></wd-img>
       </view>
     </view>
   </view>
