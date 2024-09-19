@@ -97,12 +97,6 @@ const onClose = async () => {
       yhList.value = []
       actualPrice.value = inValue.value
     }
-  } else {
-    message.alert({
-      msg: '金额不能小于或等于0',
-      title: '提示',
-      closeOnClickModal: false,
-    })
   }
 }
 
@@ -180,6 +174,15 @@ const { send: sendShopDetail, data: shopMessage } = useRequest(
   },
 )
 async function goPay() {
+  if (inValue.value <= 0) {
+    message.alert({
+      msg: '金额不能小于或等于0',
+      title: '提示',
+      closeOnClickModal: false,
+    })
+    return
+  }
+
   const params = {
     userDid: '',
     invoice: inValue.value, // 订单金额

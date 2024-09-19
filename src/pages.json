@@ -151,10 +151,6 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
       }
-    },
-    {
-      "path": "pages/login/compoents/loginOuther",
-      "type": "page"
     }
   ],
   "subPackages": [

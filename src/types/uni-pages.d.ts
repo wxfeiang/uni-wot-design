@@ -14,7 +14,6 @@ interface NavigateToOptions {
        "/pages/pay/sacnResult" |
        "/pages/serve/index" |
        "/pages/shop/index" |
-       "/pages/login/compoents/loginOuther" |
        "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
