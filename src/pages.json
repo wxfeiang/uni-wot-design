@@ -373,10 +373,6 @@
           "style": {
             "navigationStyle": "custom"
           }
-        },
-        {
-          "path": "coupon/compoents/couponList",
-          "type": "page"
         }
       ]
     }

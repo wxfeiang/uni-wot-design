@@ -137,8 +137,8 @@ function itmeClick(item: couponProps, index) {
     // cyhqje.value = yhList.value[activeIndex.value].value
     cyhqje.value = item.couponName
     if (item.couponType === 1) {
-      sjyhje.value = item.couponFillPrice * 1
-      const value = inValue.value * 1 - item.couponFillPrice * 1
+      sjyhje.value = item.couponPrice * 1
+      const value = inValue.value * 1 - item.couponPrice * 1
       actualPrice.value = value < 0 ? 0 : value
     }
     if (item.couponType === 3) {
