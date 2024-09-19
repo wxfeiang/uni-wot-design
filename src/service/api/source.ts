@@ -1,5 +1,4 @@
 import { request } from '@/utils/http'
-import { useRequest } from 'alova'
 const TYPELIST = '/myresources/tbbType'
 const CONTENTLIST = '/myresources/tbbTypeContList'
 
@@ -9,8 +8,8 @@ const CONTENTDESC = '/myresources/tbbTypeDesc'
  * @param params
  */
 
-export function getTypeList(config: any) {
-  return useRequest(request.Get(TYPELIST), { ...config })
+export function getTypeList<T>() {
+  return request.Get<T>(TYPELIST)
 }
 
 /**
@@ -18,10 +17,8 @@ export function getTypeList(config: any) {
  * @param params
  */
 
-export function getcontentList(config: any) {
-  return useRequest((newTodo) => request.Post(CONTENTLIST, newTodo), {
-    ...config,
-  })
+export function getcontentList() {
+  return request.Post(CONTENTLIST)
 }
 
 /**
@@ -29,8 +26,6 @@ export function getcontentList(config: any) {
  * @param params
  */
 
-export function getcontentDesc(config: any) {
-  return useRequest((newTodo) => request.Post(CONTENTDESC, newTodo), {
-    ...config,
-  })
+export function getcontentDesc() {
+  return request.Post(CONTENTDESC)
 }

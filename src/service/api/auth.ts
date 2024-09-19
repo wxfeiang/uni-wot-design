@@ -1,6 +1,6 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
-import { useRequest } from 'alova'
+import { METHOD_INSTANCE } from '../model/baseModel'
 const LOGIN = baseUrlApi('/employee/login')
 const LOGIN_OUT = baseUrlApi('/logout')
 const REFRESH_TOKEN = baseUrlApi('/refresh/token')
@@ -12,12 +12,15 @@ const CODEIMG = baseUrlApi('/base/captchaImage')
  * @param params
  */
 
-export function login(params: any, config: any) {
-  return useRequest((newTodo) => request.Post(LOGIN, newTodo), { ...config })
+export function login(data) {
+  return request.Post(
+    LOGIN, // 地址
+    data,
+  )
 }
 
-export function captchaImage(config: any) {
-  return useRequest(request.Post(CODEIMG), { ...config })
+export function captchaImage() {
+  return request.Post(CODEIMG)
 }
 
 /**
@@ -26,16 +29,16 @@ export function captchaImage(config: any) {
  */
 
 export const testToken = (config: any) => {
-  const methodInstance = request.Get(TEST_TOKEN, {
+  const meta: METHOD_INSTANCE = {
+    ignorToken: true,
+  }
+
+  return request.Get(TEST_TOKEN, {
     params: {
       userId: 1,
     },
+    meta,
   })
-  methodInstance.meta = {
-    ignoreToken: true,
-  }
-
-  return useRequest(methodInstance, config)
 }
 
 // export const downFile = (config: any) => {
@@ -60,17 +63,12 @@ export const testToken = (config: any) => {
 //   return useRequest(methodInstance, config);
 // };
 export const downFile = (config: any) => {
-  const methodInstance = request.Post(DOWNFILE, {
+  return request.Post(DOWNFILE, {
     params: {
       userId: 2,
     },
     responseType: 'arraybuffer',
   })
-  // methodInstance.meta = {
-  //   ignoreToken: true,
-  // };
-
-  return useRequest(methodInstance, config)
 }
 
 /**
