@@ -101,7 +101,7 @@ export const getAllPages = (key = 'needLogin') => {
         })
       })
   })
-  console.log('🍟', subPages)
+
   const result = [...mainPages, ...subPages]
   console.log(`getAllPages by ${key} result: `, result)
   return result
@@ -174,7 +174,7 @@ export const baseUrl = () => {
  */
 export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
   let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
-  console.log('🍑[data]:', data)
+  console.log('挑战携带参数:', data)
 
   if (data) {
     const queryStr = qs.stringify(data)
