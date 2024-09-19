@@ -81,6 +81,7 @@ const onClose = async () => {
     if (!parts[1]?.length) {
       inValue.value = `${inValue.value * 1}.00`
     }
+    console.log('🌽', inValue.value)
     show.value = true
     // TODO:  查询后台当前金额可以用的优惠券
     const params = {
@@ -96,6 +97,12 @@ const onClose = async () => {
       yhList.value = []
       actualPrice.value = inValue.value
     }
+  } else {
+    message.alert({
+      msg: '金额不能小于或等于0',
+      title: '提示',
+      closeOnClickModal: false,
+    })
   }
 }
 
@@ -319,7 +326,7 @@ onShow(async () => {
                 <text>{{ item.couponName }}</text>
               </view>
               <view class="color-#2D69EF text-14px" v-if="item.couponType === 1">
-                ¥ {{ item.couponFillPrice }}
+                ¥ {{ item.couponPrice }}
               </view>
               <view class="color-#2D69EF text-14px" v-if="item.couponType === 3">
                 {{ item.couponPrice * 10 }} 折
