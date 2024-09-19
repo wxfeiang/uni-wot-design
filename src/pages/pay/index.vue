@@ -84,14 +84,15 @@ const onClose = async () => {
     show.value = true
     // TODO:  查询后台当前金额可以用的优惠券
     const params = {
-      orderAmount: inValue.value,
+      orderAmount: inValue.value * 1,
     }
+    console.log('🍦[params]:', params)
     try {
       const data = await sendYhq(params)
       yhList.value = data
       itmeClick(yhList.value[0], 0)
     } catch (error) {
-      console.log('🥦[error]:', error)
+      console.log('🥦[error]:', params, error)
       yhList.value = []
       actualPrice.value = inValue.value
     }
