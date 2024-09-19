@@ -375,6 +375,33 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/buyOrder",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/info",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/list",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     }

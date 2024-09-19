@@ -34,7 +34,10 @@ interface NavigateToOptions {
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
        "/pages-sub/marketManager/integral/index" |
-       "/pages-sub/marketManager/integral/interList";
+       "/pages-sub/marketManager/integral/interList" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/info" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/list";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
