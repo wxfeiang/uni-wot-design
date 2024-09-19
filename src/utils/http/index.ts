@@ -84,7 +84,7 @@ const alovaInstance = createAlova({
           const { data: rdata, code: rode, msg: rmsg } = resAllData
           console.log(method.url + '====>🍯[解析后的数据]:', resAllData)
           if (rode !== ResultEnum.CODE || (rdata.code && rdata.code * 1 !== ResultEnum.CODE)) {
-            rmsg && checkStatus(statusCode, rdata.msg || rmsg || '')
+            !meta?.Tips && rmsg && checkStatus(statusCode, rdata.msg || rmsg || '')
             return Promise.reject(resAllData)
           } else {
             // success
@@ -92,7 +92,7 @@ const alovaInstance = createAlova({
           }
         }
       }
-      checkStatus(statusCode, msg || '')
+      !meta?.Tips && checkStatus(statusCode, msg || '')
       return Promise.reject(rawData)
     },
 

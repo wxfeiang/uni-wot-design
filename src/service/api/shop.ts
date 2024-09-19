@@ -14,6 +14,7 @@ export function getWxPay<T>(data) {
     ignorToken: true,
     Analysis: true,
     loading: true,
+    Tips: true,
   }
   return request.Post<T>(
     WX_PAY, // 请求地址

@@ -61,8 +61,9 @@ export default (inifConfig?: boolean) => {
       systemStore.setOpenId(data)
     } catch (e) {}
   }
-  if (inifConfig) {
-    console.log('🥖')
+  console.log('🥔', inifConfig)
+  if (inifConfig || !systemStore.opendId) {
+    console.log('🥝')
     openIdFun()
   }
 

@@ -19,6 +19,7 @@ const store = useSystemStore()
 const inValue = ref<any>() // 输入框的值
 const actualPrice = ref(0)
 const merchantId = ref('')
+const couponId = ref('')
 actualPrice.value = inValue.value
 const flog = ref(false)
 
@@ -60,23 +61,39 @@ const { send: sendPay } = useRequest((data) => getWxPay(data), {
 
 async function getOrderMess() {
   const params = {
-    totalAmount: 1, // actualPrice.value, // 总金额
-    merchantId: '1833701004270182401', // 商户Id
+    actualAmount: actualPrice.value, // 实际支付金额
+    totalAmount: inValue.value, // 总金额
+    merchantId: merchantId.value, // '1833701004270182401', // 商户Id
     openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
+    couponId: couponId.value, //
   }
-  console.log('🥪', params)
-  const data: any = await sendPay(params)
-  console.log('订单数据[data]:', data)
-  if (data.errCode === 'SUCCESS') {
-    payListInfo.value = data
-    payData.value[0].value = data.orderInformation
-    payData.value[1].value = data.merOrderId
-    await useRequestPayment(payListInfo.value)
-  } else {
+  console.log('订单入参数据', params)
+  try {
+    const data: any = await sendPay(params)
+    console.log('订单数据[data]:', data)
+    if (data.errCode === 'SUCCESS') {
+      payListInfo.value = data
+      payData.value[0].value = data.orderInformation
+      payData.value[1].value = data.merOrderId
+      const payRes = await useRequestPayment(payListInfo.value)
+      console.log('🍦[payRes]:', payRes)
+    } else {
+      message
+        .alert({
+          msg: data.errMsg,
+          title: '提示',
+          closeOnClickModal: false,
+        })
+        .then(() => {
+          closeBack()
+        })
+    }
+  } catch (error) {
+    console.log('🧀[error]:', error)
     message
       .alert({
-        msg: data.errMsg,
-        title: '支付提示',
+        msg: '支付信息查询失败,请重试!',
+        title: '提示',
         closeOnClickModal: false,
       })
       .then(() => {
@@ -91,27 +108,38 @@ onLoad(async () => {
 onShow(async (options) => {
   const data = uni.getEnterOptionsSync()
   console.log('传入的数据:', data)
-  try {
-    // inValue.value = data.referrerInfo.extraData.invoice
-    // actualPrice.value = data.referrerInfo.extraData.actualPrice
-    // merchantId.value = data.referrerInfo.extraData.merchantId
+  // data.referrerInfo.extraData = {
+  //   invoice: '2.00',
+  //   actualPrice: '1.00',
+  //   merchantId: '1835238852856737794',
+  //   couponId: 257,
+  // }
 
-    // await useRequestPayment()
+  inValue.value = data.referrerInfo?.extraData?.invoice
+  actualPrice.value = data.referrerInfo?.extraData?.actualPrice
+  merchantId.value = data.referrerInfo?.extraData?.merchantId
+  couponId.value = data.referrerInfo?.extraData?.couponId
 
-    setTimeout(async () => {
-      getOrderMess()
-    }, 100)
-  } catch (error) {}
+  await getOrderMess()
 })
 const closeBack = () => {
   console.log('点击返回, 关闭弹窗 ,返回上一页面携带数据')
   uni.navigateBackMiniProgram({
     extraData: {
-      data1: 'test',
+      back: true,
     },
     success(res) {
       console.log('🍮[res]:', res)
       // 返回成功
+    },
+  })
+  // 关闭当前小程序
+  uni.exitMiniProgram({
+    success(res) {
+      console.log('🍷', res)
+    }, // 接口调用成功的回调函数
+    fail(res) {
+      console.log('🌮', res)
     },
   })
 }
@@ -166,7 +194,7 @@ const closeBack = () => {
       <view class="mt-30px fixed bottom-40px left-0 w-full z-99999">
         <view class="mb-10px px-20px">
           <wd-button type="text" block :round="false" plain hairline @click="closeBack">
-            返回商家
+            返回首页
           </wd-button>
         </view>
       </view>
@@ -199,7 +227,7 @@ const closeBack = () => {
       <view class="mt-30px fixed bottom-40px left-0 w-full z-99">
         <view class="mb-10px px-20px">
           <wd-button type="text" block :round="false" plain hairline @click="closeBack">
-            返回商家
+            返回首页
           </wd-button>
         </view>
       </view>
