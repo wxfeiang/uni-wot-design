@@ -86,7 +86,7 @@ onLoad(async () => {
       </view>
     </view>
 
-    <view class="p4 fixed b0 w-full box-border" style="bottom: 50px">
+    <view class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border" style="bottom: 50px">
       <wd-button block custom-class="duihuanBtn" :round="false">立即兑换</wd-button>
     </view>
   </view>
