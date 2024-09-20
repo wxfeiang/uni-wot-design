@@ -177,6 +177,15 @@
         "navigationBarBackgroundColor": "#fff",
         "navigationBarTextStyle": "black"
       }
+    },
+    {
+      "path": "pages/shop/shopInfo",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom"
+      }
     }
   ],
   "subPackages": [

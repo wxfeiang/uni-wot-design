@@ -16,6 +16,7 @@ interface NavigateToOptions {
        "/pages/shop/goodsSearch" |
        "/pages/shop/index" |
        "/pages/shop/shopCar" |
+       "/pages/shop/shopInfo" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |

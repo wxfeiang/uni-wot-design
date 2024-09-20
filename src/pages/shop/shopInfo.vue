@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 
-const title = ref('积分兑换')
+const title = ref('确认订单')
 
 async function getList(item: any) {
   uni.showLoading({ title: '' })
