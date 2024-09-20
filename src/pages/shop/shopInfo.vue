@@ -40,9 +40,9 @@ function closeSkuChoose(e) {
   showSkuChoose.value = false
 }
 
-const gopath = function (e) {
+const gopath = function (url, e) {
   routeTo({
-    url: '/pages-sub/marketManager/IntegralMarket/info',
+    url,
     data: e,
   })
 }
@@ -102,13 +102,28 @@ onLoad(async () => {
     </view>
 
     <view
-      class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border flex justify-between items-center"
-      style="bottom: 50px"
+      class="z-10 px-4 py-4 shadow bg-white fixed b0 w-full box-border flex justify-between items-center"
+      style="bottom: 0px"
     >
       <wd-icon name="goods" size="22px" color="#f44d24"></wd-icon>
       <view flex justify-right items-center>
-        <wd-button block custom-class="duihuanBtn" :round="false">加入购物车</wd-button>
-        <wd-button block custom-class="duihuanBtn" :round="false" class="ml-3">立即购买</wd-button>
+        <wd-button
+          block
+          custom-class="duihuanBtn"
+          :round="false"
+          @click="gopath('/pages/shop/shopCar')"
+        >
+          加入购物车
+        </wd-button>
+        <wd-button
+          block
+          custom-class="duihuanBtn"
+          :round="false"
+          @click="gopath('/pages/shop/order')"
+          class="ml-3"
+        >
+          立即购买
+        </wd-button>
       </view>
     </view>
   </view>
@@ -183,7 +198,7 @@ onLoad(async () => {
 
 .contentBox {
   box-sizing: border-box;
-  min-height: calc(100vh - 390px);
+  min-height: calc(100vh - 340px);
   padding-bottom: 80px;
 }
 </style>

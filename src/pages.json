@@ -153,6 +153,7 @@
       "path": "pages/shop/goodsSearch",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
@@ -162,6 +163,7 @@
       "path": "pages/shop/index",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
@@ -171,6 +173,7 @@
       "path": "pages/shop/order",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationBarTitleText": "确认订单",
         "backgroundColor": "#F3F4F6",
@@ -182,6 +185,7 @@
       "path": "pages/shop/shopCar",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationBarTitleText": "购物车",
         "backgroundColor": "#fff",

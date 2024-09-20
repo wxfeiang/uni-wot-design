@@ -26,9 +26,9 @@ function changeTab(e) {
   console.log(e)
 }
 
-const gopath = function (e) {
+const gopath = function (url, e) {
   routeTo({
-    url: '/pages-sub/marketManager/IntegralMarket/info',
+    url,
     data: e,
   })
 }
@@ -86,8 +86,15 @@ onLoad(async () => {
       </view>
     </view>
 
-    <view class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border" style="bottom: 50px">
-      <wd-button block custom-class="duihuanBtn" :round="false">立即兑换</wd-button>
+    <view class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border" style="bottom: 0px">
+      <wd-button
+        block
+        custom-class="duihuanBtn"
+        :round="false"
+        @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder')"
+      >
+        立即兑换
+      </wd-button>
     </view>
   </view>
   <!-- </view> -->

@@ -110,6 +110,7 @@
     "useFilePase": true,
     "usePhoneCode": true,
     "useNav": true,
-    "useSoket": true
+    "useSoket": true,
+    "useColPickerData": true
   }
 }

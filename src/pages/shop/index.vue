@@ -2,6 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
     navigationBarTitleText: '商城',
@@ -20,6 +21,8 @@ import led from '@/static/images/shop/led.png'
 import tuijian from '@/static/images/shop/tuijian.png'
 import { pathToBase64 } from 'image-tools'
 
+import { routeTo } from '@/utils'
+
 defineOptions({
   name: 'Index',
 })
@@ -29,6 +32,13 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
 const searchIcon = ref('')
 const carIcon = ref('')
+
+const gopath = function (url, e) {
+  routeTo({
+    url,
+    data: e,
+  })
+}
 
 const goCar = () => {
   uni.navigateTo({
@@ -82,7 +92,10 @@ onLoad(async () => {
       src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
     />
     <div class="w-full mt-10px flex justify-between">
-      <div class="pos-relative">
+      <div
+        class="pos-relative"
+        @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')"
+      >
         <wd-img :width="174" :height="76" :src="bgjifen" />
         <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
         <view class="pos-absolute left-87px top-18px">
@@ -90,7 +103,7 @@ onLoad(async () => {
           <view class="font-size-12px" style="color: #6e6e6e">福利来袭</view>
         </view>
       </div>
-      <div class="pos-relative">
+      <div class="pos-relative" @click="gopath('/pages-sub/marketManager/coupon/index')">
         <wd-img :width="174" :height="76" :src="quanbg" />
         <wd-img :width="80" :height="80" :src="quan" custom-class="img" />
         <view class="pos-absolute left-87px top-18px">
@@ -106,7 +119,10 @@ onLoad(async () => {
       <wd-img :width="80" :height="30" :src="tuijian" custom-class="ml-2px" />
     </view>
     <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
-      <view class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px">
+      <view
+        class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
+        @click="gopath('/pages/shop/shopInfo')"
+      >
         <wd-img :width="175" :height="160" :src="topbgBase64" />
         <view class="w-155px name my-10px m-auto">
           赵州雪梨干泡水赵雪雪梨干无硫赵州雪梨干泡水赵雪雪梨干无硫河北石家庄...河北石家庄...

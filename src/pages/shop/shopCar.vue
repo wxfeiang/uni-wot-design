@@ -2,6 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationBarTitleText: '购物车',
     backgroundColor: '#fff',

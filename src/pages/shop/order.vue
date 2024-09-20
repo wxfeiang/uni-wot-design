@@ -2,6 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationBarTitleText: '确认订单',
     backgroundColor: '#F3F4F6',
