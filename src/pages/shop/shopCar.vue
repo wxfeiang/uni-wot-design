@@ -42,7 +42,9 @@ onLoad(async () => {
       </div>
 
       <view class="w-full mt-15px flex">
-        <wd-checkbox v-model="value" @change="handleChange" style="align-self: center"></wd-checkbox>
+        <view class="flex items-center">
+          <wd-checkbox v-model="value" @change="handleChange"></wd-checkbox>
+        </view>
         <wd-img :width="105" :height="105" :src="topbgBase64" custom-image="img" />
         <view class="ml-15px flex-1 flex flex-col justify-between">
           <view class="w-190px name">overflow-hiddenhiddenhiddenhiddenhiddenhidden</view>
