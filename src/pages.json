@@ -150,6 +150,15 @@
       }
     },
     {
+      "path": "pages/shop/goodsSearch",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "商城"
+      }
+    },
+    {
       "path": "pages/shop/index",
       "type": "page",
       "layout": "default",
@@ -157,21 +166,43 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
       }
+    },
+    {
+      "path": "pages/shop/order",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "确认订单",
+        "backgroundColor": "#F3F4F6",
+        "navigationBarBackgroundColor": "#F3F4F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/shop/shopCar",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "购物车",
+        "backgroundColor": "#fff",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
+      "path": "pages/shop/shopInfo",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom"
+      }
     }
   ],
   "subPackages": [
     {
       "root": "pages-sub/serveMain",
       "pages": [
-        {
-          "path": "OcrCamera",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
         {
           "path": "cardApplyFromType",
           "type": "page",
@@ -201,6 +232,15 @@
         },
         {
           "path": "cardMessType",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "OcrCamera",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -307,6 +347,37 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
+          "path": "address/editor",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "收获地址",
+            "backgroundColor": "#ffffff",
+            "navigationBarBackgroundColor": "#ffffff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "address/list",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "收获地址",
+            "backgroundColor": "#ffffff",
+            "navigationBarBackgroundColor": "#ffffff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "cardManager/index",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "SocialSecurityCard/barcode",
           "type": "page",
           "layout": "default",
@@ -326,15 +397,6 @@
           "path": "SocialSecurityCard/indexback",
           "type": "page",
           "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "cardManager/index",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -372,6 +434,33 @@
           "path": "integral/interList",
           "type": "page",
           "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/buyOrder",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/info",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/list",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
