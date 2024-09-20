@@ -15,6 +15,7 @@ interface NavigateToOptions {
        "/pages/serve/index" |
        "/pages/shop/goodsSearch" |
        "/pages/shop/index" |
+       "/pages/shop/order" |
        "/pages/shop/shopCar" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
@@ -29,6 +30,8 @@ interface NavigateToOptions {
        "/pages-sub/webView/index" |
        "/pages-sub/system/sysconfig/index" |
        "/pages-sub/system/sysconfig/setting" |
+       "/pages-sub/userManager/address/editor" |
+       "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |

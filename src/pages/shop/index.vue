@@ -29,6 +29,13 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
 const searchIcon = ref('')
 const carIcon = ref('')
+
+const goCar = () => {
+  uni.navigateTo({
+    url: '/pages/shop/shopCar',
+  })
+}
+
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(indexbg)
@@ -62,7 +69,7 @@ onLoad(async () => {
         />
         <view class="searchbtn">搜索</view>
       </view>
-      <view class="caricon">
+      <view class="caricon" @click="goCar">
         <wd-img :width="30" :height="28" :src="carIcon" />
       </view>
     </view>

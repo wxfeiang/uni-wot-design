@@ -168,6 +168,17 @@
       }
     },
     {
+      "path": "pages/shop/order",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "确认订单",
+        "backgroundColor": "#F3F4F6",
+        "navigationBarBackgroundColor": "#F3F4F6",
+        "navigationBarTextStyle": "black"
+      }
+    },
+    {
       "path": "pages/shop/shopCar",
       "type": "page",
       "layout": "default",
@@ -326,6 +337,28 @@
     {
       "root": "pages-sub/userManager",
       "pages": [
+        {
+          "path": "address/editor",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "收获地址",
+            "backgroundColor": "#ffffff",
+            "navigationBarBackgroundColor": "#ffffff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "address/list",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "收获地址",
+            "backgroundColor": "#ffffff",
+            "navigationBarBackgroundColor": "#ffffff",
+            "navigationBarTextStyle": "black"
+          }
+        },
         {
           "path": "cardManager/index",
           "type": "page",

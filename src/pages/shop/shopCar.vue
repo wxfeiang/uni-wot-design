@@ -50,15 +50,15 @@ onLoad(async () => {
         ></wd-checkbox>
         <wd-img :width="105" :height="105" :src="topbgBase64" custom-image="img" />
         <view class="ml-15px flex-1 flex flex-col justify-between">
-          <view class="w-190px name">overflow-hiddenhiddenhiddenhiddenhiddenhidden</view>
+          <view class="w-210px name">overflow-hiddenhiddenhiddenhiddenhiddenhidden</view>
           <view style="font-size: 14px; color: #757575">灰色</view>
-          <view class="w-190px">
+          <view class="w-full">
             <wd-tag color="#FAA21E" bg-color="#FF6609" plain>7天无理由退货</wd-tag>
             <wd-tag color="#FAA21E" bg-color="#FF6609" plain style="margin-left: 10px">
               运费险
             </wd-tag>
           </view>
-          <view class="w-190px flex justify-between">
+          <view class="w-full flex justify-between">
             <view class="flex items-center" style="font-weight: 600; color: #f44d24">
               <text style="font-size: 14px">￥</text>
               <text style="font-size: 18px">0</text>
