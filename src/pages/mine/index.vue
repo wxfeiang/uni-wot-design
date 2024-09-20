@@ -68,10 +68,11 @@ onShow(async () => {
         status: 0,
       }
       const data2: any = await sendInterInfo()
-      topList.value[0].value = data2.curScore ?? 0
+      topList.value[0].value = data2.totalIntegral ?? 0
       const data: any = await sendUserCouponList(params)
       topList.value[1].value = data.unUsedCouponNum
     } catch {
+      topList.value[0].value = 0
       topList.value[1].value = 0
     }
   }
