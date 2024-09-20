@@ -13,7 +13,9 @@ interface NavigateToOptions {
        "/pages/pay/index" |
        "/pages/pay/sacnResult" |
        "/pages/serve/index" |
+       "/pages/shop/goodsSearch" |
        "/pages/shop/index" |
+       "/pages/shop/shopCar" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |

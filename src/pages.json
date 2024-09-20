@@ -150,12 +150,32 @@
       }
     },
     {
+      "path": "pages/shop/goodsSearch",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "商城"
+      }
+    },
+    {
       "path": "pages/shop/index",
       "type": "page",
       "layout": "default",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
+      }
+    },
+    {
+      "path": "pages/shop/shopCar",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "购物车",
+        "backgroundColor": "#fff",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black"
       }
     }
   ],

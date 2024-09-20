@@ -9,28 +9,41 @@
 }
 </route>
 <script lang="ts" setup>
-import indexbg from '@/static/images/index/indexbg.png'
+import indexbg from '@/static/images/shop/navbg.png'
+import searchicon from '@/static/images/shop/search.png'
+import caricon from '@/static/images/shop/shopcar.png'
+import bgjifen from '@/static/images/shop/bgjifen.png'
+import jifen from '@/static/images/shop/jifen.png'
+import quanbg from '@/static/images/shop/quanbg.png'
+import quan from '@/static/images/shop/quan.png'
+import led from '@/static/images/shop/led.png'
+import tuijian from '@/static/images/shop/tuijian.png'
 import { pathToBase64 } from 'image-tools'
 
 defineOptions({
   name: 'Index',
 })
 
+const { navTop } = useNav()
 const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
+const searchIcon = ref('')
+const carIcon = ref('')
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(indexbg)
+  searchIcon.value = await pathToBase64(searchicon)
+  carIcon.value = await pathToBase64(caricon)
 })
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
   <view
-    class="box-border h-310px relative bg-no-repeat bg-cover"
+    class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
     :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
   >
-    <wd-navbar safeAreaInsetTop placeholder fixed custom-class="nav_custom" :bordered="false">
+    <wd-navbar safeAreaInsetTop placeholder custom-class="nav_custom" :bordered="false">
       <template #left>
         <view class="flex gap-10px items-center">
           <text class="line-height-44px text-18px color-#fff mt-5px">{{ VITE_APP_LOGOTITLE }}</text>
@@ -38,36 +51,66 @@ onLoad(async () => {
       </template>
     </wd-navbar>
 
-    <wd-sticky :offset-top="navTop">
-      <view class="w-100vw flex items-center justify-between gap-2px box-border">
-        <view class="flex-1 px-10px flex justify-between">
-          <view
-            class="flex justify-between w-70vw items-center serch-bg px-10px py-10px color-#fff opacity-65"
-          >
-            <wd-icon name="search" size="16px"></wd-icon>
-            <view class="text-left text-16px flex-1 px-10px">请输入搜索关键词</view>
-            <view class="text-14px relative search-type">搜索</view>
-          </view>
-          <view>
-            <wd-button type="icon" icon="cart"></wd-button>
-          </view>
+    <!-- <wd-sticky :offset-top="navTop"> -->
+    <view class="w-100vw flex items-center justify-center gap-2px box-border m-t-10px">
+      <view class="pl-10px pr-2px flex items-center search pos-relative">
+        <wd-img :width="17" :height="18" :src="searchIcon" />
+        <input
+          class="uni-input m-l-10px flex-1"
+          confirm-type="search"
+          placeholder="请输入搜索关键词"
+        />
+        <view class="searchbtn">搜索</view>
+      </view>
+      <view class="caricon">
+        <wd-img :width="30" :height="28" :src="carIcon" />
+      </view>
+    </view>
+    <!-- </wd-sticky> -->
+  </view>
+  <view class="w-full p-10px pt-153px box-border banner">
+    <wd-img
+      width="100%"
+      :height="150"
+      src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
+    />
+    <div class="w-full mt-10px flex justify-between">
+      <div class="pos-relative">
+        <wd-img :width="174" :height="76" :src="bgjifen" />
+        <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
+        <view class="pos-absolute left-87px top-18px">
+          <view class="font-size-16px" style="color: #e22525">积分商城</view>
+          <view class="font-size-12px" style="color: #6e6e6e">福利来袭</view>
+        </view>
+      </div>
+      <div class="pos-relative">
+        <wd-img :width="174" :height="76" :src="quanbg" />
+        <wd-img :width="80" :height="80" :src="quan" custom-class="img" />
+        <view class="pos-absolute left-87px top-18px">
+          <view class="font-size-16px" style="color: #8839b6">领券中心</view>
+          <view class="font-size-12px" style="color: #6e6e6e">优惠多多</view>
+        </view>
+      </div>
+    </div>
+  </view>
+  <view class="list py-10px">
+    <view class="flex px-18px box-border mb-16px">
+      <wd-img :width="28" :height="28" :src="led" />
+      <wd-img :width="80" :height="30" :src="tuijian" custom-class="ml-2px" />
+    </view>
+    <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
+      <view class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px">
+        <wd-img :width="175" :height="160" :src="topbgBase64" />
+        <view class="w-155px name my-10px m-auto">
+          赵州雪梨干泡水赵雪雪梨干无硫赵州雪梨干泡水赵雪雪梨干无硫河北石家庄...河北石家庄...
+        </view>
+        <view>
+          <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
+          <text style="font-size: 18px; font-weight: 600; color: #f44d24">58.8</text>
+          <text style="margin-left: 8px; font-size: 12px; color: #999999">已售2353件</text>
         </view>
       </view>
-    </wd-sticky>
-
-    <wd-tabs
-      v-model="tab"
-      animated
-      :slidable-num="6"
-      :map-num="15"
-      custom-class="shopNav"
-      color="#fff"
-      inactive-color="#fff"
-    >
-      <block v-for="item in 6" :key="item">
-        <wd-tab :title="`标签${item}`"></wd-tab>
-      </block>
-    </wd-tabs>
+    </view>
   </view>
 </template>
 
@@ -83,17 +126,65 @@ onLoad(async () => {
   background-color: transparent !important;
 }
 
-.shopNav {
+.search {
+  box-sizing: border-box;
+  width: 308px;
+  height: 35px;
+  background: #ffffff;
+  border-radius: 20px 20px 20px 20px;
+}
+
+.img {
   position: absolute !important;
-  bottom: 0px;
-  background: transparent !important;
+  bottom: 6px;
+  left: 7px;
+}
+
+.searchbtn {
+  width: 57px;
+  line-height: 31px;
+  color: #fff;
+  text-align: center;
+  background: #f44d24;
+  border-radius: 20px 20px 20px 20px;
+}
+
+.caricon {
+  position: relative;
+  margin-left: 16px;
+}
+
+.name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.banner {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #f3f4f6 100%);
+}
+
+.caricon::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  content: '';
+  background-color: #ff0707;
+  border: 1px solid #ffffff;
+  border-radius: 50px;
+}
+
+.list {
+  min-height: calc(100vh - 417px);
+  background: #f7f7f7;
 }
 
 :deep(.wd-tabs__nav) {
   color: #fff;
   background: transparent !important;
 }
-/*:deep(.wd-tabs__nav-item) {*/
-/*  color: #fff;*/
-/*}*/
 </style>
