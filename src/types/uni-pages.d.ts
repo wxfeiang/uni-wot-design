@@ -20,14 +20,14 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
+       "/pages-sub/system/sysconfig/index" |
+       "/pages-sub/system/sysconfig/setting" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/newsManager/index" |
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
-       "/pages-sub/system/sysconfig/index" |
-       "/pages-sub/system/sysconfig/setting" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
@@ -41,7 +41,7 @@ interface NavigateToOptions {
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/index/index" | "/pages/serve/index" | "/pages/mine/index"
+  url: "/pages/index/index" | "/pages/serve/index" | "/pages/shop/index" | "/pages/mine/index"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

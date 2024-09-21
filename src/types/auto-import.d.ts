@@ -68,6 +68,7 @@ declare global {
   const onUnload: typeof import('@dcloudio/uni-app')['onUnload']
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
+  const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
   const provide: typeof import('vue')['provide']
   const reactive: typeof import('vue')['reactive']
   const readonly: typeof import('vue')['readonly']
@@ -89,7 +90,9 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useFilePase: typeof import('../hooks/useFilePase')['default']
+  const useId: typeof import('vue')['useId']
   const useImageVerify: typeof import('../hooks/useImageVerify')['default']
+  const useModel: typeof import('vue')['useModel']
   const useNav: typeof import('../hooks/useNav')['default']
   const useNavbarWeixin: (typeof import('../hooks/useNavbarWeixin'))['default']
   const usePhoneCode: typeof import('../hooks/usePhoneCode')['default']
@@ -98,6 +101,7 @@ declare global {
   const useSoket: typeof import('../hooks/useSoket')['default']
   const useSystem: typeof import('../hooks/useSystemFig')['default']
   const useSystemFig: typeof import('../hooks/useSystemFig')['default']
+  const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useUpdateApp: typeof import('../hooks/useUpdateApp')['default']
   const useUpload: typeof import('../hooks/useUpload')['default']
   const useUpload2: typeof import('../hooks/useUpload2')['default']
@@ -172,6 +176,7 @@ declare module 'vue' {
     readonly onUnload: UnwrapRef<typeof import('@dcloudio/uni-app')['onUnload']>
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
+    readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
@@ -190,11 +195,14 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>
+    readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
+    readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useNav: UnwrapRef<typeof import('../hooks/useNav')['default']>
     readonly usePhoneCode: UnwrapRef<typeof import('../hooks/usePhoneCode')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
+    readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useUpdateApp: UnwrapRef<typeof import('../hooks/useUpdateApp')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
