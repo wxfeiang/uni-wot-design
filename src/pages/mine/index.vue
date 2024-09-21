@@ -4,6 +4,7 @@
   needLogin: true,
   style: {
     navigationStyle: 'custom',
+    backgroundColor: '#F3F4F6',
   },
 }
 </route>
@@ -13,6 +14,8 @@ import anvter1 from '@/static/images/mine/anvter1.png'
 import imgUrl from '@/static/images/mine/bg.png'
 import h0 from '@/static/images/mine/h0.png'
 import h1 from '@/static/images/mine/h1.png'
+import shop from '@/static/images/mine/shop.png'
+import tongyong from '@/static/images/mine/tongyong.png'
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
@@ -26,7 +29,7 @@ const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
 
-const { LogOut, loading, serveList, serveClick, topList, sendUserCouponList, sendInterInfo } =
+const { LogOut, loading, serveList, orderList, serveClick, topList, sendUserCouponList, sendInterInfo } =
   useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
@@ -79,10 +82,9 @@ onShow(async () => {
 </script>
 
 <template>
-  <view
-    class="box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
-    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px;  `"
-  >
+
+  <view class="box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px;background-color: #f5f6f8;  `">
     <view class="px-15px mt-10%">
       <view class="flex justify-between items-center">
         <view class="flex items-center gap-20px">
@@ -93,22 +95,16 @@ onShow(async () => {
                   <wd-img :width="60" :height="60" :src="anvter1" round />
                 </view>
 
-                <view
-                  class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]"
-                  v-if="userInfo.cardType === '3'"
-                >
+                <view class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]"
+                  v-if="userInfo.cardType === '3'">
                   <wd-img :src="h1" width="22" height="18"></wd-img>
-                  <view
-                    class="color-#fff text-10px text-center h-bg rounded-100 px-10px ml-[-10px] mt-2px"
-                  >
+                  <view class="color-#fff text-10px text-center h-bg rounded-100 px-10px ml-[-10px] mt-2px">
                     已申领
                   </view>
                 </view>
                 <view class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]" v-else>
                   <wd-img :src="h0" width="22" height="18"></wd-img>
-                  <view
-                    class="color-#fff text-10px text-center bg-#ccc rounded-100 px-10px ml-[-10px] mt-2px"
-                  >
+                  <view class="color-#fff text-10px text-center bg-#ccc rounded-100 px-10px ml-[-10px] mt-2px">
                     未申领
                   </view>
                 </view>
@@ -131,23 +127,15 @@ onShow(async () => {
             </view>
           </template>
         </view>
-        <view
-          class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
-          @click="qiandao"
-          v-if="isLogined"
-        >
+        <view class="qiandao flex items-center gap-5px justify-center line-height-32px color-#fff font-size-14px"
+          @click="qiandao" v-if="isLogined">
           <i class="iconfont xa-jinbi2 text-20px"></i>
           <text>签到</text>
         </view>
       </view>
       <view class="py-10px mt-3%">
         <view class="flex justify-around">
-          <view
-            class="w-1/3 text-center"
-            v-for="(item, index) in topList"
-            :key="index"
-            @click="serveClick(item)"
-          >
+          <view class="w-1/3 text-center" v-for="(item, index) in topList" :key="index" @click="serveClick(item)">
             <view class="text-20px">
               {{ isLogined ? item.value : 0 }}
             </view>
@@ -158,8 +146,15 @@ onShow(async () => {
         </view>
       </view>
     </view>
-    <view class="bg-#fff overflow-hidden bg-cell mt-2% py-10px">
-      <view class="px-5px">
+
+    <view class="bg-#fff w-363px mx-auto mt-20px  border-rd-7px overflow-hidden">
+      <wd-grid>
+        <wd-grid-item :icon="item.icon" :text="item.title" v-for="item in orderList " :key="item.value"
+          @itemclick="serveClick(item)" />
+      </wd-grid>
+
+
+      <!-- <view class="px-5px">
         <wd-cell-group border>
           <wd-cell
             :is-link="item.islink"
@@ -174,11 +169,42 @@ onShow(async () => {
             </template>
             <template #title>
               <view class="ml-10px">{{ item.title }}</view>
-            </template>
-            <view v-if="item.value" class="color-#999">{{ item.value }}</view>
-          </wd-cell>
-        </wd-cell-group>
+</template>
+<view v-if="item.value" class="color-#999">{{ item.value }}</view>
+</wd-cell>
+</wd-cell-group>
+</view> -->
+    </view>
+
+    <view class="bg-#fff w-363px mx-auto mt-20px  border-rd-7px overflow-hidden p-b-20px">
+      <view class="flex items-center justify-between box-border p-10px">
+        <view>
+          <wd-img :width="18" :height="18" :src="shop"></wd-img>
+          <text class="font-600 ml-10px">商家服务</text>
+        </view>
+        <wd-icon name="arrow-right" size="16px" style="align-self: flex-end;" color="#888888"></wd-icon>
       </view>
+      <view class="w-full flex mt-10px ">
+        <view class="text-center w-1/2 money">
+          <view style="color: #777777;">今日收款（元）</view>
+          <view class="font-600 mt-10px">0.00</view>
+        </view>
+        <view class="text-center w-1/2">
+          <view style="color: #777777;">今日订单数</view>
+          <view class="font-600 mt-10px">0</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bg-#fff w-363px mx-auto mt-20px  border-rd-7px overflow-hidden">
+      <view class="flex items-center  pl-10px pt-10px   box-border">
+        <wd-img :width="18" :height="18" :src="tongyong"></wd-img>
+        <text class="font-600 ml-10px">实用工具</text>
+      </view>
+      <wd-grid :column="5">
+        <wd-grid-item :icon="item.icon" :text="item.title" v-for="item in serveList " :key="item.value"
+          @itemclick="serveClick(item)" :url="item.path" />
+      </wd-grid>
     </view>
   </view>
   <view class="fixed dy-bottom-tabbar left-0 right-0" v-if="isLogined">
@@ -188,12 +214,15 @@ onShow(async () => {
       </wd-button>
     </view>
   </view>
+
+
 </template>
 
 <style lang="scss" scoped>
 .dy-bg {
   background: rgb(204 204 204 / 0.5);
 }
+
 .qiandao {
   width: 82px;
   height: 32px;
@@ -201,29 +230,39 @@ onShow(async () => {
   border-radius: 19px;
 }
 
+.money {
+  box-sizing: border-box;
+  border-right: 1px solid #D4D4D4;
+}
+
 .bg {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
 .h-bg {
   background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
 }
+
 :deep(.custom-class-mine-login) {
   color: #fff !important;
   background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
   border: none !important;
   border-radius: 6px !important;
 }
+
 .bg-cell {
   border-radius: 25px 25px 0 0;
   box-shadow: 0px -5px 10px 1px rgba(56, 113, 241, 0.11);
 }
+
 :deep(.custom-class-mine-cell) {
   .wd-cell__left {
-    @apply items-center!;
+    @apply items-center !;
   }
+
   .wd-cell__wrapper {
-    @apply pr-5px!;
+    @apply pr-5px !;
   }
 }
 </style>

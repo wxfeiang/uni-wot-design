@@ -117,7 +117,8 @@
       "layout": "default",
       "needLogin": true,
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "backgroundColor": "#F3F4F6"
       }
     },
     {
@@ -379,6 +380,18 @@
           "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "collection/collection",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationBarTitleText": "我的收藏",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
           }
         },
         {

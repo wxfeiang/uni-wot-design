@@ -5,11 +5,18 @@ import type { serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import { findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
-import linquan from '@/static/images/mine/linquan.png'
-import sfkb from '@/static/images/mine/sfkb.jpg'
+import shiming from '@/static/images/mine/shiming.png'
+import shenfen from '@/static/images/mine/shenfen.png'
+import jifen from '@/static/images/mine/jifen.png'
+import quan from '@/static/images/mine/quan.png'
+import shoucang from '@/static/images/mine/shoucang.png'
+import dizhi from '@/static/images/mine/dizhi.png'
 import shezhi from '@/static/images/mine/shezhi.png'
-import smrz from '@/static/images/mine/smrz.png'
-import wdjf from '@/static/images/mine/wdjf.png'
+import yiwancheng from '@/static/images/mine/yiwancheng.png'
+import tuihuan from '@/static/images/mine/tuihuan.png'
+import daishouhuo from '@/static/images/mine/daishouhuo.png'
+import daifukuan from '@/static/images/mine/daifukuan.png'
+import daifahuo from '@/static/images/mine/daifahuo.png'
 import { routeTo } from '@/utils'
 
 // 查询user列表
@@ -36,6 +43,43 @@ const LogOut = async () => {
   // TODO: 清除用户信息
   clearUserInfo()
 }
+const orderList = ref<serveProps[]>([
+  {
+    title: '待付款',
+    icon: daifukuan,
+    value: 0,
+    path: '/pages-sub/marketManager/integral/index',
+    islink: true,
+  },
+  {
+    title: '待发货',
+    icon: daifahuo,
+    value: 0,
+    path: '/pages-sub/marketManager/integral/index',
+    islink: true,
+  },
+  {
+    title: '待收货',
+    icon: daishouhuo,
+    value: 0,
+    path: '/pages-sub/marketManager/integral/index',
+    islink: true,
+  },
+  {
+    title: '已完成',
+    icon: yiwancheng,
+    value: 0,
+    path: '/pages-sub/marketManager/integral/index',
+    islink: true,
+  },
+  {
+    title: '退换/售后',
+    icon: tuihuan,
+    value: 0,
+    path: '/pages-sub/marketManager/integral/index',
+    islink: true,
+  },
+])
 
 const topList = ref<serveProps[]>([
   {
@@ -51,7 +95,7 @@ const topList = ref<serveProps[]>([
     islink: true,
   },
   {
-    title: '商品收藏',
+    title: '银行卡',
     value: 0,
     path: '',
     islink: false,
@@ -60,28 +104,40 @@ const topList = ref<serveProps[]>([
 
 const serveList = ref<serveProps[]>([
   {
-    icon: smrz,
+    icon: shiming,
     title: '实名认证',
     path: '/pages/login/login2',
     islink: true,
   },
   {
-    icon: sfkb,
+    icon: shenfen,
     title: '身份卡包 ',
     path: '/pages-sub/userManager/cardManager/index',
     islink: true,
     isSign: true,
   },
   {
-    icon: wdjf,
+    icon: jifen,
     title: '我的积分 ',
     path: '/pages-sub/marketManager/integral/index',
     islink: true,
   },
   {
-    icon: linquan,
+    icon: quan,
     title: '领券中心',
     path: '/pages-sub/marketManager/coupon/index',
+    islink: true,
+  },
+  {
+    icon: shoucang,
+    title: '商品收藏',
+    path: '/pages-sub/marketManager/collection/collection',
+    islink: true,
+  },
+  {
+    icon: dizhi,
+    title: '收货地址',
+    path: '/pages-sub/marketManager/address/address',
     islink: true,
   },
   {
@@ -133,6 +189,7 @@ export default () => {
     loading,
     serveList,
     serveClick,
+    orderList,
     sendIsReceiveCardInfo,
     topList,
     sendUserCouponList,

@@ -81,21 +81,13 @@ onLoad(async () => {
       </view>
       <view class="w-full flex justify-between items-center mt-15px">
         <view class="mr-50px">备注</view>
-        <wd-input
-          type="text"
-          v-model="value"
-          placeholder="无备注"
-          no-border
-          custom-input-class="inp"
-          style="flex: 1"
-        />
+        <wd-input type="text" v-model="value" placeholder="无备注" no-border custom-input-class="inp" style="flex: 1" />
       </view>
     </view>
   </view>
 
   <view
-    class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center z-999"
-  >
+    class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center z-999">
     <view class="flex flex-col" @click="disCount = true">
       <view style="color: #f44d24" class="font-600">
         <text style="font-size: 14px">￥</text>
@@ -110,12 +102,8 @@ onLoad(async () => {
   </view>
 
   <!-- 券明细 -->
-  <wd-popup
-    v-model="disCount"
-    lock-scroll
-    position="bottom"
-    custom-style="padding:18px 15px;box-sizing:border-box;border-radius:20px 20px 0 0;bottom:80px;"
-  >
+  <wd-popup v-model="disCount" lock-scroll position="bottom"
+    custom-style="padding:18px 15px;box-sizing:border-box;border-radius:20px 20px 0 0;bottom:80px;">
     <view class="font-600 mb-20px">优惠明细</view>
     <view class="font-600 mb-20px w-full flex items-center justify-between">
       <text>合计优惠</text>
@@ -135,7 +123,7 @@ onLoad(async () => {
         </view>
       </view>
       <view class="pl-15px mt-12px w-full flex">
-        <wd-img :width="66" :height="66" :src="topbgBase64" custom-image="img" />
+        <wd-img :width="66" :height="66" :src="topbgBase64" custom-class="img" />
         <view class="self-end ml-10px flex items-center">
           <view class="jian flex items-center justify-center mr-5px">满100减20</view>
           <view style="font-size: 12px; color: #777777">共减￥20</view>

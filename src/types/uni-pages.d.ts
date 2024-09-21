@@ -34,6 +34,7 @@ interface NavigateToOptions {
        "/pages-sub/userManager/address/editor" |
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
+       "/pages-sub/userManager/collection/collection" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
