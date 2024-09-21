@@ -18,6 +18,7 @@ function alert() {
 // import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
 const title = ref('核销优惠券')
 const serchValue = ref('')
+const show = ref(true)
 const footbtn = ref([
   {
     title: '支付',
@@ -50,6 +51,9 @@ const close = () => {
   console.log('🌭======关闭相机-----')
   uni.navigateBack()
 }
+function handleClose() {
+  console.log('🌮')
+}
 
 onMounted(() => {
   if (uni.createCameraContext) {
@@ -73,11 +77,12 @@ onMounted(() => {
         @error="cameraError"
         @scancode="scancode"
       ></camera>
-      <view class="absolute z-20 w-100% h-100%">
+      <view class="absolute z-20 w-100% h-100% bg-#000/30">
         <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
         <!--  -->
         <view class="flex flex-col justify-between items-center h-75% py-20px">
           <!--  -->
+
           <view class="px-10px py-2px rounded-3px overflow-hidden bg-#fff/90 w-85%">
             <wd-input
               v-model="serchValue"
@@ -92,14 +97,37 @@ onMounted(() => {
               </template>
             </wd-input>
           </view>
-
-          <view class="w-250px h-250px bd-1px_#888 relative bg-transparent">
-            <view class="absolute w-90% h-3px bg-green left-5% right-0 animation-to"></view>
+          <!-- 扫码框 -->
+          <view>
+            <view class="w-250px h-250px bd-1px_#888 relative bg-transparent">
+              <view class="absolute w-90% h-3px bg-green left-5% right-0 animation-to"></view>
+            </view>
+            <view class="text-center color-#fff">将二维码放入框内,即可核销</view>
           </view>
-
+          <!-- 底部 -->
           <view class="w-80%">
             <wd-button block :round="false">查看核销记录</wd-button>
           </view>
+          <!-- 核销框 -->
+          <wd-popup
+            v-model="show"
+            position="center"
+            custom-class="custom-class-popup"
+            @close="handleClose"
+          >
+            <view class="text-center">优惠券核销</view>
+
+            <view>优惠券内容</view>
+
+            <view class="flex justify-between items-center py-10px gap-10px">
+              <view class="flex-1">
+                <wd-button block :round="false" type="info">取 消</wd-button>
+              </view>
+              <view class="flex-1">
+                <wd-button block :round="false">确认核销</wd-button>
+              </view>
+            </view>
+          </wd-popup>
         </view>
       </view>
 
@@ -143,5 +171,8 @@ onMounted(() => {
   to {
     top: 250px;
   }
+}
+:deep(.custom-class-popup) {
+  @apply w-80%  rounded-10px bg-#fff p-20px box-border;
 }
 </style>
