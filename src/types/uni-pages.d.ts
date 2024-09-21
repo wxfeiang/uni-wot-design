@@ -34,9 +34,9 @@ interface NavigateToOptions {
        "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
+       "/pages-sub/marketManager/coupon/writeOffCoup" |
        "/pages-sub/marketManager/integral/index" |
-       "/pages-sub/marketManager/integral/interList" |
-       "/pages-sub/marketManager/coupon/compoents/couponList";
+       "/pages-sub/marketManager/integral/interList";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

@@ -361,6 +361,16 @@
           "path": "coupon/mycoupon",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "coupon/writeOffCoup",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -380,10 +390,6 @@
           "style": {
             "navigationStyle": "custom"
           }
-        },
-        {
-          "path": "coupon/compoents/couponList",
-          "type": "page"
         }
       ]
     }

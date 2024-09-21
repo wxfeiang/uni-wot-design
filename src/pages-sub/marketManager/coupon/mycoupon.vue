@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -13,7 +14,7 @@ import { pathToBase64 } from 'image-tools'
 import myyhbtn from '../static/images/coupon/lingqu.png'
 import bg from '../static/images/coupon/myuhbg.png'
 import hubgtitle from '../static/images/coupon/tomyh.png'
-import CouponList from './compoents/couponList.vue'
+import CouponList from './components/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
 const { sendUserCouponList } = userCoupon()
