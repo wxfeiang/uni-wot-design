@@ -18,6 +18,7 @@ interface NavigateToOptions {
        "/pages/shop/order" |
        "/pages/shop/shopCar" |
        "/pages/shop/shopInfo" |
+       "/pages/shop/shopInfoCopy" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |

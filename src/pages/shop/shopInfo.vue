@@ -10,41 +10,28 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import shangdian from '@/static/images/shop/shangdian.png'
+import kefu from '@/static/images/shop/kefu.png'
+import gouwuche from '@/static/images/shop/gouwuche.png'
+import fenxiang from '@/static/images/shop/fenxiang.png'
+import shoucang from '@/static/images/shop/shoucang.png'
+import duihao from '@/static/images/shop/duihao.png'
+import shoucang1 from '@/static/images/shop/shoucang1.png'
 
+const current = ref<number>(0)
 const title = ref('商品详情')
-const showSkuChoose = ref(false)
-const skuList = ref([])
-const skuInfo = ref({})
-const SkuIndex = ref(0)
-
-async function getList(item: any) {
-  uni.showLoading({ title: '' })
-  // 这里是请求数据
-  list.value = 10
-  state.value = 'loading'
-  await uni.hideLoading()
+const swiperList = ref([
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/redpanda.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/capybara.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/panda.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/moon.jpg',
+  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg'
+])
+function handleClick(e) {
+  console.log(e)
 }
-
-function openSkuChoose(e) {
-  showSkuChoose.value = true
-}
-
-function skuChoose(index) {
-  SkuIndex.value = index
-  console.log('SkuIndex', index)
-  // skuInfo.value = skuList.value[index]
-  closeSkuChoose()
-}
-
-function closeSkuChoose(e) {
-  showSkuChoose.value = false
-}
-
-const gopath = function (url, e) {
-  routeTo({
-    url,
-    data: e,
-  })
+function onChange(e) {
+  console.log(e)
 }
 
 onLoad(async () => {
@@ -53,152 +40,108 @@ onLoad(async () => {
 </script>
 
 <template>
-  <view class="pageBoxBg w-screen">
-    <view class="bannerBg">
-      <dy-navbar :leftTitle="title" left></dy-navbar>
-    </view>
-    <!--    <view class="flex justify-between items-center navbg w-screen h-90px">-->
-    <!--      <view class="flex justify-left items-start flex-col">-->
-    <!--        <view class="text-base text-white mb-1">我的积分</view>-->
-    <!--        <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>-->
-    <!--      </view>-->
-    <!--      <view class="text-2xl text-white">32857</view>-->
-    <!--    </view>-->
-
-    <view class="cardtop"></view>
-    <view class="bg-white w-screen p4 box-border pt-0 absolute contentBox">
-      <view class="flex justify-between items-center w-full mb-2">
-        <view class="flex justify-left items-center">
-          <wd-text text="3323" :lines="1" size="24px" color="#FB2549" class="font-bold"></wd-text>
-          <wd-text text="￥" :lines="1" size="12px" color="#FB2549" class="ml-1"></wd-text>
+  <view class="pageBoxBg w-screen pos-relative ">
+    <dy-navbar :leftTitle="title" left style="background: transparent"></dy-navbar>
+    <wd-swiper :list="swiperList" autoplay v-model:current="current" @click="handleClick" height="400px"
+      customStyle="border-radius: 0" @change="onChange"></wd-swiper>
+    <view class="bg-#F5F6F8 w-full pos-absolute p-20px box-border overflow-hidden"
+      style=' top:420px;border-radius: 20px 20px 0 0 ;'>
+      <view class="w-full flex justify-between items-center">
+        <view class="flex items-center">
+          <wd-text text="￥" color="#F44D24" size="16px"></wd-text>
+          <wd-text text="75" color="#F44D24" size="25px"></wd-text>
+          <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
+            <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
+            <wd-text text="￥" color="#fff" size="10px"></wd-text>
+            <wd-text text="29.9" color="#fff" size="18px"></wd-text>
+          </view>
         </view>
-
-        <wd-text text="已兑1153件" :lines="1" size="12px" color="#999999" class="ml-1"></wd-text>
-      </view>
-      <wd-text
-        text="知味观糕点礼盒杭州特产中式送礼送长辈中式糕点心中秋月节饼团购"
-        :lines="2"
-        size="18px"
-        color="#000000"
-        class="font-bold mb-2"
-      ></wd-text>
-
-      <view class="flex justify-left items-center borders pt-2 pb-2 mt-2 mb-2">
-        <wd-text text="商品规格" :lines="1" size="14px" color="#000000"></wd-text>
-        <wd-text
-          @click="openSkuChoose"
-          text="兑换后7天有效，每天可兑换一次"
-          :lines="1"
-          size="14px"
-          color="#777777"
-          class="ml-2"
-        ></wd-text>
+        <wd-text text="已售300" color="#F44D24" size="14px"></wd-text>
       </view>
 
-      <view class="mt-2 mb-1">
-        <wd-text text="商品详情" :lines="1" size="18px" color="#000000" class="font-bold"></wd-text>
-        <view></view>
+      <view class="w-full text-cut-line2 mt-10px font-600">
+        文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字
+      </view>
+
+      <view class="mt-10px flex items-center color-#999999">
+        <view class="mr-20px">
+          <wd-img :width="16" :height="16" :src="shoucang"></wd-img>
+          <!-- <wd-img :width="16" :height="16" :src="shoucang1"></wd-img> -->
+          <text class="ml-5px">收藏</text>
+        </view>
+        <view>
+          <wd-img :width="16" :height="16" :src="fenxiang"></wd-img>
+          <text class="ml-5px">分享</text>
+        </view>
+      </view>
+
+      <view class="w-full bg-white p-15px box-border flex items-center border-rd-10px mt-10px">
+        <view>配送</view>
+        <view class=" flex items-center color-#999 ml-15px">
+          <wd-img :width="16" :height="16" :src="duihao"></wd-img>
+          <text class="ml-5px">快递配送</text>
+        </view>
+        <view class=" flex items-center color-#999 ml-15px">
+          <wd-img :width="16" :height="16" :src="duihao"></wd-img>
+          <text class="ml-5px">到店自提</text>
+        </view>
+      </view>
+
+      <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px">
+        <view>评价（200+）</view>
+        <view class=" flex mt-10px">
+          <wd-img :width="45" :height="45"
+            src="https://registry.npmmirror.com/wot-design-uni-assets/*/files/redpanda.jpg" round></wd-img>
+          <view class="flex-1 overflow-hidden ml-10px">
+            <view class="w-full flex items-center justify-between">
+              <view>
+                <wd-text text="用户姓名" bold color='#333'></wd-text>
+                <wd-text text="已购" size='12px' color='#999' custom-style="margin:0 10px;"></wd-text>
+                <wd-text text="60" size='12px' color='#999'></wd-text>
+              </view>
+              <wd-text text="9天前" size='12px' color='#999'></wd-text>
+
+            </view>
+            <view class="text">评价评价评价评价评价评价评价评价评价评价评价评价评价评价评价评价</view>
+          </view>
+        </view>
+        <view class="color-#999   w-full pt-5px flex items-center justify-center mt-10px"
+          style="border-top: 1px solid #eee;">
+          <text>查看全部评价</text>
+          <wd-icon name="arrow-right" size="20px"></wd-icon>
+        </view>
+      </view>
+
+      <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px">
+        <view class="font-600 mb-10px">商品详情</view>
+        <wd-img width="100%" mode='widthFix'
+          src="https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg"></wd-img>
+
       </view>
     </view>
 
-    <view
-      class="z-10 px-4 py-4 shadow bg-white fixed b0 w-full box-border flex justify-between items-center"
-      style="bottom: 0px"
-    >
-      <wd-icon name="goods" size="22px" color="#f44d24"></wd-icon>
-      <view flex justify-right items-center>
-        <wd-button
-          block
-          custom-class="duihuanBtn"
-          :round="false"
-          @click="gopath('/pages/shop/shopCar')"
-        >
-          加入购物车
-        </wd-button>
-        <wd-button
-          block
-          custom-class="duihuanBtn"
-          :round="false"
-          @click="gopath('/pages/shop/order')"
-          class="ml-3"
-        >
-          立即购买
-        </wd-button>
-      </view>
-    </view>
+
   </view>
 
-  <wd-action-sheet v-model="showSkuChoose" title="规格选择" @close="closeSkuChoose">
-    <view class="bg-white p4 w-full box-border overflow-hidden">
-      <wd-button
-        size="small"
-        :plain="index == SkuIndex ? false : true"
-        class="float mr-2 mb-3"
-        v-for="(item, index) in 10"
-        :key="index"
-        @click="skuChoose(index)"
-      >
-        小号按钮
-      </wd-button>
-    </view>
-  </wd-action-sheet>
-  <!-- </view> -->
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {
-  min-height: calc(100vh - 50px);
+  min-height: 100vh;
   background: #f3f4f6;
 }
 
-.bannerBg {
-  width: 100vw;
-  height: 300px;
-  background-image: url('https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+.text-cut-line2 {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.navbg {
-  box-sizing: border-box;
-  padding: 0px 30px 20px 30px;
-  background-image: url('https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
-:deep(.wd-navbar) {
-  width: 100%;
-  color: #ffffff !important;
-  background-color: transparent !important;
-}
-
-:deep(.wd-navbar__title) {
-  color: #ffffff !important;
-}
-
-.cardtop {
-  position: relative;
-  top: -14px;
-  z-index: 2;
-  float: left;
-  width: 100vw;
-  height: 15px;
-  background: #ffffff;
-  border-radius: 15px 15px 0 0;
-}
-
-:deep(.duihuanBtn) {
-  background: #f44d24 !important;
-}
-
-.borders {
-  border-top: 1px dotted #e4e7ec;
-  border-bottom: 1px dotted #e4e7ec;
-}
-
-.contentBox {
-  box-sizing: border-box;
-  min-height: calc(100vh - 340px);
-  padding-bottom: 80px;
+.text {
+  overflow: hidden;
+  color: #333333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
