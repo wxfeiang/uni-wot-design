@@ -8,17 +8,18 @@
 }
 </route>
 <script lang="ts" setup>
+import { routeTo } from '@/utils'
 import { Toast } from '@/utils/uniapi/prompt'
 import { useMessage } from 'wot-design-uni'
+import sucessImg from '../static/images/coupon/success.png'
+import CouponLine from './components/couponLine.vue'
 const message = useMessage()
 
-function alert() {
-  message.alert('操作成功')
-}
 // import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
 const title = ref('核销优惠券')
 const serchValue = ref('')
-const show = ref(true)
+const show = ref(false)
+const sucessShow = ref(true)
 const footbtn = ref([
   {
     title: '支付',
@@ -54,6 +55,16 @@ const close = () => {
 function handleClose() {
   console.log('🌮')
 }
+function toMingxi() {
+  sucessShow.value = false
+  routeTo({
+    url: '/pages-sub/marketManager/coupon/writeOffCoupList',
+  })
+}
+
+function continueOff() {
+  sucessShow.value = false
+}
 
 onMounted(() => {
   if (uni.createCameraContext) {
@@ -80,7 +91,7 @@ onMounted(() => {
       <view class="absolute z-20 w-100% h-100% bg-#000/30">
         <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
         <!--  -->
-        <view class="flex flex-col justify-between items-center h-75% py-20px">
+        <view class="flex flex-col justify-between items-center h-85% py-20px">
           <!--  -->
 
           <view class="px-10px py-2px rounded-3px overflow-hidden bg-#fff/90 w-85%">
@@ -102,11 +113,11 @@ onMounted(() => {
             <view class="w-250px h-250px bd-1px_#888 relative bg-transparent">
               <view class="absolute w-90% h-3px bg-green left-5% right-0 animation-to"></view>
             </view>
-            <view class="text-center color-#fff">将二维码放入框内,即可核销</view>
+            <view class="text-center color-#fff mt-10px">将二维码放入框内,即可核销</view>
           </view>
           <!-- 底部 -->
           <view class="w-80%">
-            <wd-button block :round="false">查看核销记录</wd-button>
+            <wd-button block :round="false" @click="toMingxi">查看核销记录</wd-button>
           </view>
           <!-- 核销框 -->
           <wd-popup
@@ -115,11 +126,14 @@ onMounted(() => {
             custom-class="custom-class-popup"
             @close="handleClose"
           >
-            <view class="text-center">优惠券核销</view>
+            <view class="text-center font-600 text-18px py-5px">优惠券核销</view>
+            <view class="my-10px">
+              <CouponLine></CouponLine>
+            </view>
 
-            <view>优惠券内容</view>
+            <view class="bb-1px_#888_dashed my-30px"></view>
 
-            <view class="flex justify-between items-center py-10px gap-10px">
+            <view class="flex justify-between items-center py-10px gap-10px mb-15px">
               <view class="flex-1">
                 <wd-button block :round="false" type="info">取 消</wd-button>
               </view>
@@ -128,36 +142,45 @@ onMounted(() => {
               </view>
             </view>
           </wd-popup>
-        </view>
-      </view>
+          <!-- 核销成功 -->
+          <wd-overlay :show="sucessShow">
+            <view class="size-full flex flex-col justify-start pt-100px items-center bg-#fff">
+              <wd-status-tip
+                :image="sucessImg"
+                :image-size="{
+                  height: 81,
+                  width: 81,
+                }"
+              />
 
-      <view class="w-full absolute bottom-0 bg-#000 font-size-20px color-#fff py-20px z-99">
-        <wd-tabs v-model="tab" custom-class="custom-class-tab">
-          <block v-for="item in footbtn" :key="item">
-            <wd-tab :title="item.title"></wd-tab>
-          </block>
-        </wd-tabs>
+              <view class="mt-40px w-100% px-40px box-border">
+                <view class="mb-20px">
+                  <wd-button
+                    type="primary"
+                    :round="false"
+                    plain
+                    hairline
+                    block
+                    @click="continueOff"
+                  >
+                    继续核销
+                  </wd-button>
+                </view>
+                <view>
+                  <wd-button type="primary" :round="false" color="#2D69EF" block @click="toMingxi">
+                    查看核销记录
+                  </wd-button>
+                </view>
+              </view>
+            </view>
+          </wd-overlay>
+        </view>
       </view>
     </view>
   </vie>
 </template>
 
 <style lang="scss" scoped>
-:deep(.custom-class-tab),
-:deep(.custom-class-tab .wd-tabs__nav) {
-  @apply bg-transparent!;
-}
-:deep(.custom-class-tab) {
-  .wd-tabs__nav-item {
-    @apply text-#838383;
-  }
-  .wd-tabs__nav-item.is-active {
-    @apply color-#fff;
-  }
-  .wd-tabs__line {
-    @apply bg-#fff h-1px;
-  }
-}
 :deep(.custom-class-input) {
   @apply bg-transparent!;
 }
@@ -173,6 +196,16 @@ onMounted(() => {
   }
 }
 :deep(.custom-class-popup) {
-  @apply w-80%  rounded-10px bg-#fff p-20px box-border;
+  @apply w-90%  rounded-10px bg-#fff p-20px box-border  overflow-hidden;
+  &:before {
+    @apply absolute w-27px h-27px  rounded-full top-60% left-[-14px]
+    content-[''];
+    background-color: rgba(0, 0, 0, 0.65);
+  }
+  &:after {
+    @apply absolute w-27px h-27px  rounded-full top-60% right-[-14px]
+    content-[''];
+    background-color: rgba(0, 0, 0, 0.65);
+  }
 }
 </style>

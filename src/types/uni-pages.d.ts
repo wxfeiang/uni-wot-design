@@ -35,6 +35,7 @@ interface NavigateToOptions {
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
        "/pages-sub/marketManager/coupon/writeOffCoup" |
+       "/pages-sub/marketManager/coupon/writeOffCoupList" |
        "/pages-sub/marketManager/integral/index" |
        "/pages-sub/marketManager/integral/interList";
 }

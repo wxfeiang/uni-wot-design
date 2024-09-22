@@ -376,6 +376,15 @@
           }
         },
         {
+          "path": "coupon/writeOffCoupList",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "integral/index",
           "type": "page",
           "layout": "default",
