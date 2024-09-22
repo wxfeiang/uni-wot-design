@@ -32,6 +32,7 @@ interface NavigateToOptions {
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
        "/pages-sub/userManager/cardManager/index" |
+       "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
        "/pages-sub/marketManager/coupon/writeOffCoup" |

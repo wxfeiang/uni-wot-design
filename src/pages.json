@@ -350,6 +350,14 @@
       "root": "pages-sub/marketManager",
       "pages": [
         {
+          "path": "coupon/coupDeil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "coupon/index",
           "type": "page",
           "layout": "default",
