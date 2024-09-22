@@ -38,7 +38,11 @@ interface NavigateToOptions {
        "/pages-sub/marketManager/coupon/writeOffCoup" |
        "/pages-sub/marketManager/coupon/writeOffCoupList" |
        "/pages-sub/marketManager/integral/index" |
-       "/pages-sub/marketManager/integral/interList";
+       "/pages-sub/marketManager/integral/interList" |
+       "/pages-sub/shopManager/index" |
+       "/pages-sub/shopManager/shopCode" |
+       "/pages-sub/shopManager/shopPayList" |
+       "/pages-sub/shopManager/shopPayMingxi";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

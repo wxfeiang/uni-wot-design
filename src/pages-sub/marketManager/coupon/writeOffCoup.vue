@@ -19,7 +19,7 @@ const message = useMessage()
 const title = ref('核销优惠券')
 const serchValue = ref('')
 const show = ref(false)
-const sucessShow = ref(true)
+const sucessShow = ref(false)
 const footbtn = ref([
   {
     title: '支付',

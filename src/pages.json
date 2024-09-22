@@ -409,6 +409,43 @@
           }
         }
       ]
+    },
+    {
+      "root": "pages-sub/shopManager",
+      "pages": [
+        {
+          "path": "index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "shopCode",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "shopPayList",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "shopPayMingxi",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
     }
   ]
 }
