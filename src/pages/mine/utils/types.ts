@@ -8,5 +8,11 @@ interface serveProps {
   id?: string
   data?: any
 }
+interface serveListProps {
+  label: string
+  value: number
+  icon: string
+  path: string
+}
 
-export type { serveProps }
+export type { serveListProps, serveProps }

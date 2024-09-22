@@ -11,13 +11,17 @@
 </route>
 
 <script lang="ts" setup>
+import { logout } from '@/service/api/auth'
+import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
+import { useRequest } from 'alova/client'
+import { useMessage } from 'wot-design-uni'
 import gywm from '../static/images/gywm.png'
 import mmdl from '../static/images/mmdl.png'
 import yhxy from '../static/images/yhxy.png'
 import yszc from '../static/images/yszc.png'
 import { serveProps } from './utils/types'
-
+const message = useMessage()
 const serveList = ref<serveProps[]>([
   {
     icon: mmdl,
@@ -50,6 +54,14 @@ const serveList = ref<serveProps[]>([
     islink: false,
     value: 'V1.2.0',
   },
+  {
+    icon: gywm,
+    title: '退出登录',
+    path: '',
+    islink: false,
+    value: '',
+    click: true,
+  },
 ])
 const serveClick = (item: serveProps) => {
   if (item.islink) {
@@ -58,13 +70,42 @@ const serveClick = (item: serveProps) => {
       data: { type: item.data?.articleId, showTop: true, title: item.title },
     })
   } else {
+    if (item.click) {
+      logoutCimfirm()
+      return
+    }
     if (item.path) return
-
     uni.showToast({
       title: '功能开发中...',
       icon: 'none',
     })
   }
+}
+// 退出操作
+const { loading, send: sendLogOut } = useRequest(logout, {
+  immediate: false,
+  loading: false,
+})
+const { clearUserInfo, userInfo } = useUserStore()
+const LogOut = async () => {
+  try {
+    // await sendLogOut()
+    clearUserInfo()
+  } catch (error) {}
+  // TODO: 清除用户信息
+  clearUserInfo()
+  uni.navigateBack()
+}
+
+function logoutCimfirm() {
+  message
+    .confirm({
+      msg: '确定退出系统吗？',
+      title: '提示',
+    })
+    .then(() => {
+      LogOut()
+    })
 }
 </script>
 

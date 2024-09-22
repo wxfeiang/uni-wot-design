@@ -13,6 +13,8 @@ import anvter1 from '@/static/images/mine/anvter1.png'
 import imgUrl from '@/static/images/mine/bg.png'
 import h0 from '@/static/images/mine/h0.png'
 import h1 from '@/static/images/mine/h1.png'
+import sjfw from '@/static/images/mine/sjfw.png'
+import tygj from '@/static/images/mine/tygj.png'
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
@@ -26,24 +28,21 @@ const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
 
-const { LogOut, loading, serveList, serveClick, topList, sendUserCouponList, sendInterInfo } =
-  useInfo()
+const {
+  toContent,
+  serveList,
+  serveClick,
+  topList,
+  sendUserCouponList,
+  sendInterInfo,
+  serveOrderList,
+} = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 function login() {
   routeTo({ url: '/pages/login/index' })
 }
 const toast = useToast()
-function logoutCimfirm() {
-  message
-    .confirm({
-      msg: '确定退出系统吗？',
-      title: '提示',
-    })
-    .then(() => {
-      LogOut()
-    })
-}
 
 const bgUrlBase64 = ref()
 
@@ -56,6 +55,9 @@ const acton = (item) => {
 }
 const qiandao = () => {
   routeTo({ url: '/pages-sub/marketManager/integral/index' })
+}
+const toShopService = () => {
+  routeTo({ url: '/pages-sub/shopManager/index' })
 }
 onLoad(async () => {
   // 设置背景图片
@@ -80,8 +82,8 @@ onShow(async () => {
 
 <template>
   <view
-    class="box-border w-100vw dy-tab-full-hight flex flex-col bg-no-repeat"
-    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px;  `"
+    class="box-border w-100vw flex flex-col bg-no-repeat bg-#f5f5f5 min-ht-100vh"
+    :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px`"
   >
     <view class="px-15px mt-10%">
       <view class="flex justify-between items-center">
@@ -158,42 +160,83 @@ onShow(async () => {
         </view>
       </view>
     </view>
-    <view class="bg-#fff overflow-hidden bg-cell mt-2% py-10px">
-      <view class="px-5px">
-        <wd-cell-group border>
-          <wd-cell
-            :is-link="item.islink"
-            custom-class="custom-class-mine-cell"
-            v-for="(item, index) in serveList"
-            :key="index"
-            clickable
-            @click="serveClick(item)"
-          >
-            <template #icon>
-              <wd-img :src="item.icon" width="28" height="28px"></wd-img>
-            </template>
-            <template #title>
-              <view class="ml-10px">{{ item.title }}</view>
-            </template>
-            <view v-if="item.value" class="color-#999">{{ item.value }}</view>
-          </wd-cell>
-        </wd-cell-group>
+    <view class="p-15px">
+      <view class="p-10px bg-#fff rounded-7px flex justify-between items-center gap-10px">
+        <view
+          class="w-1/5 flex flex-col items-center py-10px"
+          v-for="(item, index) in serveOrderList"
+          :key="index"
+          @click="toContent(item)"
+        >
+          <wd-badge :modelValue="item.value">
+            <view>
+              <wd-img :src="item.icon" width="26" height="26"></wd-img>
+            </view>
+          </wd-badge>
+
+          <view class="text-14px mt-10px">
+            {{ item.label }}
+          </view>
+        </view>
       </view>
     </view>
-  </view>
-  <view class="fixed dy-bottom-tabbar left-0 right-0" v-if="isLogined">
-    <view class="px-10">
-      <wd-button block @click="logoutCimfirm" custom-class="custom-class-mine-login">
-        退出登录
-      </wd-button>
+    <view class="p-15px pt-0px">
+      <view class="p-10px bg-#fff rounded-7px">
+        <view class="flex justify-between items-center gap-10px" @click="toShopService">
+          <view class="flex items-center gap-5px">
+            <view class="mt-3px">
+              <wd-img :src="sjfw" width="18" height="18"></wd-img>
+            </view>
+            <view class="text-16px font-600">商家服务</view>
+          </view>
+          <view><wd-icon name="chevron-right" size="14px"></wd-icon></view>
+        </view>
+        <view class="flex justify-around items-center gap-10px before-shu">
+          <view class="text-center">
+            <view class="text-14px color-#999 py-10px">今日收款 (元)</view>
+            <view>0.00</view>
+          </view>
+          <view class="text-center">
+            <view class="text-14px color-#999 py-10px">今日订单</view>
+            <view>0.00</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="p-15px pt-0px">
+      <view class="p-10px bg-#fff rounded-7px">
+        <view class="flex justify-between items-center gap-10px" @click="toShopService">
+          <view class="flex items-center gap-5px">
+            <view class="mt-3px">
+              <wd-img :src="tygj" width="18" height="18"></wd-img>
+            </view>
+            <view class="text-16px font-600">通用工具</view>
+          </view>
+        </view>
+        <view class="flex items-center gap-10px flex-wrap mt-10px">
+          <view
+            class="w-22% flex flex-col items-center py-10px"
+            v-for="(item, index) in serveList"
+            :key="index"
+            @click="serveClick(item)"
+          >
+            <wd-badge :modelValue="item.value">
+              <view>
+                <wd-img :src="item.icon" width="38" height="38"></wd-img>
+              </view>
+            </wd-badge>
+
+            <view class="text-13px mt-10px text-center">
+              {{ item.title }}
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <style lang="scss" scoped>
-.dy-bg {
-  background: rgb(204 204 204 / 0.5);
-}
 .qiandao {
   width: 82px;
   height: 32px;
@@ -201,10 +244,6 @@ onShow(async () => {
   border-radius: 19px;
 }
 
-.bg {
-  background-repeat: no-repeat;
-  background-size: contain;
-}
 .h-bg {
   background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
 }
@@ -214,16 +253,15 @@ onShow(async () => {
   border: none !important;
   border-radius: 6px !important;
 }
-.bg-cell {
-  border-radius: 25px 25px 0 0;
-  box-shadow: 0px -5px 10px 1px rgba(56, 113, 241, 0.11);
-}
-:deep(.custom-class-mine-cell) {
-  .wd-cell__left {
-    @apply items-center!;
-  }
-  .wd-cell__wrapper {
-    @apply pr-5px!;
+
+.before-shu {
+  &::before {
+    position: absolute;
+    right: 48%;
+    width: 1px;
+    height: 40px;
+    content: '';
+    background: #e5e5e5;
   }
 }
 </style>
