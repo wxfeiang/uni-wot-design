@@ -144,10 +144,7 @@
       "needLogin": true,
       "layout": "default",
       "style": {
-        "navigationBarTitleText": "服务中心",
-        "backgroundColor": "#fff",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTextStyle": "black"
+        "navigationStyle": "custom"
       }
     },
     {

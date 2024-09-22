@@ -3,10 +3,7 @@
   needLogin: true,
   layout: 'default',
   style: {
-    navigationBarTitleText: '服务中心',
-    backgroundColor: '#fff',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTextStyle: 'black',
+    navigationStyle: 'custom',
   },
 }
 </route>
@@ -33,6 +30,10 @@ import { useBaseStore } from '@/store/modules/base'
 import { openWxChart } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
+
+const bg = ref(
+  'http://47.99.93.97/v1/public/uploads/image/1727005856060-9b4b39f5-3ead-4276-9894-4c921b0994e3.png',
+)
 
 const toast = useToast()
 const basestore = useBaseStore()
@@ -195,7 +196,8 @@ function handleChange({ value }) {
 
 function onScroll(e) {
   const { scrollTop } = e.detail
-  const threshold = 50 // 下一个标题与顶部的距离
+  console.log('🍛[scrollTop]:', scrollTop)
+  const threshold = 10 // 下一个标题与顶部的距离
   if (scrollTop < threshold) {
     active.value = 0
     return
@@ -213,16 +215,20 @@ onLoad((options: any) => {
 })
 onMounted(() => {
   getRect('.category', true).then((rects) => {
+    console.log('🍾[rects]:', rects)
     if (isArray(rects)) {
-      itemScrollTop.value = rects.map((item) => item.top || 0)
-      scrollTop.value = rects[active.value].top || 0
+      itemScrollTop.value = rects.map((item) => item.top - 190 || 0)
+      scrollTop.value = rects[active.value].top - 190 || 0
     }
   })
 })
 </script>
 
 <template>
-  <view class="wraper">
+  <view
+    class="wraper bg-#F2F3F7 pt-180px box-border pb-20px h-100vh! overflow-hidden bg-no-repeat"
+    :style="`background-image: url(${bg}) ;background-size: 100% 250px`"
+  >
     <wd-sidebar v-model="active" @change="handleChange">
       <wd-sidebar-item
         v-for="(item, index) in categories"
@@ -241,7 +247,7 @@ onMounted(() => {
       @scroll="onScroll"
     >
       <view v-for="(item, index) in categories" :key="index" class="category">
-        <dy-title :title="item.label" class="py-4px pl-10px"></dy-title>
+        <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
         <wd-grid :column="3" clickable>
           <wd-grid-item
             use-icon-slot
@@ -255,11 +261,10 @@ onMounted(() => {
               <image class="wh-42px rounded-10px" :src="cell.url" />
             </template>
             <template #text>
-              <view class="text-center mt-5px">{{ cell.title }}</view>
+              <view class="text-center py-15px">{{ cell.title }}</view>
             </template>
           </wd-grid-item>
         </wd-grid>
-        <wd-gap height="6" bg-color="#f5f5f5"></wd-gap>
       </view>
     </scroll-view>
   </view>
@@ -271,9 +276,19 @@ onMounted(() => {
 }
 
 :deep(.wd-grid-item) {
-  @apply justify-start!;
+  @apply justify-start! py-1px!;
 }
-
+:deep(.wd-grid-item__content) {
+  @apply py-1px!;
+}
+:deep(.wd-sidebar) {
+  @apply bg-#F2F3F7!;
+}
+:deep(.wd-sidebar-item--active) {
+  @apply color-#2D69EF;
+  background: linear-gradient(270deg, #f2f3f7 0%, #d1e8ff 100%);
+  border-radius: 0px 10px 0px 0px;
+}
 .wraper {
   display: flex;
   height: calc(100vh - var(--window-top));
@@ -282,8 +297,14 @@ onMounted(() => {
 }
 
 .content {
+  box-sizing: border-box;
   flex: 1;
+  height: 100%;
+  padding-top: 10px;
+  margin-bottom: 30px;
   background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
 }
 
 :deep(.customClass) {
