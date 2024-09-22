@@ -301,9 +301,10 @@ onMounted(() => {
   flex: 1;
   height: 100%;
   padding-top: 10px;
+  margin-right: 10px;
   margin-bottom: 30px;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
   box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
 }
 
