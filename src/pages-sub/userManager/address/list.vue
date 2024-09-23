@@ -1,9 +1,8 @@
-<!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
 <route lang="json5">
 {
   layout: 'default',
   style: {
-    navigationBarTitleText: '收获地址',
+    navigationBarTitleText: '收货地址',
     backgroundColor: '#ffffff',
     navigationBarBackgroundColor: '#ffffff',
     navigationBarTextStyle: 'black',
@@ -13,9 +12,7 @@
 <script lang="ts" setup>
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
-defineOptions({
-  name: 'Index',
-})
+
 const value = ref(true)
 const topbgBase64 = ref('')
 const { navTop } = useNav()
@@ -42,7 +39,6 @@ onLoad(async () => {
         </view>
       </view>
     </view>
-
     <view class="submit">新增收货地址</view>
   </view>
 </template>
