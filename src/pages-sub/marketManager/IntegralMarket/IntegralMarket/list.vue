@@ -10,10 +10,30 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-
-const state = ref<string>('loading')
+import { ExchangeGoodsListProps } from './utils/types'
+import useInter from './utils/useInter'
 const title = ref('积分兑换')
-const tabsVal = ref(0)
+const paging = ref(null)
+const { sendInterProductList, sendInterInfo } = useInter()
+
+async function queryList(pageNo: number, pageSize: number) {
+  const params = {
+    page: pageNo,
+    size: pageSize,
+    minVal: Number(tabslist.value[active.value].name.split('-')[0] || 0),
+    maxVal: Number(tabslist.value[active.value].name.split('-')[1] || 0),
+  }
+  // 调用接口获取数据
+  try {
+    const data: any = await sendInterProductList(params)
+    list.value = data.content as ExchangeGoodsListProps[]
+    paging.value.complete(list.value)
+  } catch (error) {
+    paging.value.complete(false)
+  }
+}
+
+const active = ref(0)
 
 const tabslist = ref([
   { name: '0-1000', value: 1 },
@@ -25,115 +45,94 @@ const tabslist = ref([
 ])
 const list = ref([])
 
-const pageNum = ref<number>(1)
-const pageSize = ref<number>(1)
-const over = ref<number>(false)
-
-async function getList(item: any) {
-  uni.showLoading({ title: '' })
-  // 这里是请求数据
-  list.value = 10
-  state.value = 'loading'
-  await uni.hideLoading()
-}
-
 function changeTab(e) {
-  tabsVal.value = e.index
-  console.log(e)
+  active.value = e.index
+  paging.value.reload()
 }
 
-const gopath = function (url, e) {
+const gopath = (e) => {
   routeTo({
-    url,
+    url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/info',
     data: e,
   })
 }
-
-onReachBottom(async () => {
-  if (!over.value) {
-    await getList()
-    pageNum.value = pageNum.value + 1
-  } else if (over.value) {
-    state.value = 'finished'
-  }
-})
-
+const totalIntegral = ref(0)
 onLoad(async () => {
-  await getList()
+  const data: any = await sendInterInfo()
+  totalIntegral.value = data.totalIntegral ?? 0
 })
 </script>
 
 <template>
-  <view class="pageBoxBg w-screen h-screen">
-    <dy-navbar :leftTitle="title" left></dy-navbar>
-    <view class="fixed tabTool">
+  <z-paging
+    ref="paging"
+    v-model="list"
+    @query="queryList"
+    :auto-show-system-loading="true"
+    class="pageBoxBg"
+  >
+    <template #top>
+      <dy-navbar :leftTitle="title" left></dy-navbar>
       <view class="flex justify-between items-center navbg w-screen h-80px">
         <view class="flex justify-left items-start flex-col">
           <view class="text-base text-white mb-1">我的积分</view>
           <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>
         </view>
-        <view class="text-2xl text-white">32857</view>
+        <view class="text-2xl text-white">{{ totalIntegral }}</view>
       </view>
-
       <wd-tabs
-        v-model="tabsVal"
+        v-model="active"
         swipeable
         custom-class="tabsBox"
         :slidable-num="4"
         @change="changeTab"
       >
         <block>
-          <wd-tab :title="tabsVal > 0 ? '显示全部' : '分值浏览'"></wd-tab>
+          <wd-tab :title="active > 0 ? '显示全部' : '分值浏览'"></wd-tab>
         </block>
 
         <block v-for="item in tabslist" :key="item.value">
           <wd-tab :title="item.name"></wd-tab>
         </block>
       </wd-tabs>
-    </view>
-    <view class="p2 overflow-hidden ListBox">
+    </template>
+    <view class="p2">
       <view v-for="(item, index) in list" class="p2 float-left w-1/2 box-border" :key="index">
-        <view class="bg-white rounded-md p2">
-          <wd-img :width="100" :height="100" :src="item.image" />
-          <wd-text :text="text" :lines="2" size="16px"></wd-text>
+        <view class="bg-white rounded-md p-8px">
+          <view class="flex items-center justify-center">
+            <wd-img :width="100" :height="100" :src="item.goodImg" />
+          </view>
+          <view class="min-h-44px truncate-2 color-#999">
+            {{ item.goodName }}
+          </view>
+
           <view class="flex justify-between items-center">
             <view class="flex justify-left items-start flex-col">
               <view class="flex justify-left items-center">
                 <wd-text
-                  :text="item.jifen"
+                  :text="item.coinPrice.toString()"
                   :lines="2"
                   size="18px"
                   color="#F44D24"
                   class="font-bold"
-                >
-                  12312
-                </wd-text>
-                <wd-text text="积分" :lines="2" size="12px" color="#F44D24" class="ml-1">
-                  积分
-                </wd-text>
+                ></wd-text>
+                <wd-text text="积分" :lines="2" size="12px" color="#F44D24" class="ml-1"></wd-text>
               </view>
               <wd-text
-                :text="'已兑' + item.yidui + '件'"
+                :text="'已兑' + item.sellOut + '件'"
                 :lines="1"
                 size="12px"
                 color="#999999"
               ></wd-text>
             </view>
-            <wd-button
-              size="small"
-              class="m0"
-              custom-class="duihuanBtn"
-              @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/info', item)"
-            >
+            <wd-button size="small" custom-class="duihuanBtn" @click="gopath(item)">
               去兑换
             </wd-button>
           </view>
         </view>
       </view>
-      <wd-loadmore custom-class="loadmore" state="loading" />
     </view>
-  </view>
-  <!-- </view> -->
+  </z-paging>
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {

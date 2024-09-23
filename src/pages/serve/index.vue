@@ -30,8 +30,9 @@ import { useBaseStore } from '@/store/modules/base'
 import { openWxChart } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
+
 const bg = ref(
-  'http://47.99.93.97/v1/public/uploads/image/1727005856060-9b4b39f5-3ead-4276-9894-4c921b0994e3.png',
+  'https://oss.xay.xacloudy.cn/images/2024-09/21c5af79-c081-48d8-8e4b-18f406d52b25serbg.png',
 )
 const toast = useToast()
 const basestore = useBaseStore()
@@ -165,6 +166,7 @@ function gridClick(item: any) {
 const active = ref<number>(0)
 const scrollTop = ref<number>(0)
 const itemScrollTop = ref<number[]>([])
+const scrollIntoViewId = ref('id1')
 
 const categories = ref([
   {
@@ -190,21 +192,24 @@ const categories = ref([
 function handleChange({ value }) {
   active.value = value
   scrollTop.value = itemScrollTop.value[value]
+  scrollIntoViewId.value = 'id3'
+  console.log('🥒[scrollIntoViewId.value ]:', scrollIntoViewId.value)
+  console.log('🥃')
 }
 
 function onScroll(e) {
-  const { scrollTop } = e.detail
-  const threshold = 50 // 下一个标题与顶部的距离
-  if (scrollTop < threshold) {
-    active.value = 0
-    return
-  }
-  const index = itemScrollTop.value.findIndex(
-    (top) => top > scrollTop && top - scrollTop <= threshold,
-  )
-  if (index > -1) {
-    active.value = index
-  }
+  // const { scrollTop } = e.detail
+  // const threshold = 50 // 下一个标题与顶部的距离
+  // if (scrollTop < threshold) {
+  //   active.value = 0
+  //   return
+  // }
+  // const index = itemScrollTop.value.findIndex(
+  //   (top) => top > scrollTop && top - scrollTop <= threshold,
+  // )
+  // if (index > -1) {
+  //   active.value = index
+  // }
 }
 
 onShow((options: any) => {
@@ -215,8 +220,8 @@ onMounted(() => {
   getRect('.category', true).then((rects) => {
     console.log('🍾[rects]:', rects)
     if (isArray(rects)) {
-      itemScrollTop.value = rects.map((item) => item.top - 190 || 0)
-      scrollTop.value = rects[active.value].top - 190 || 0
+      // itemScrollTop.value = rects.map((item) => item.top - 190 || 0)
+      // scrollTop.value = rects[active.value].top - 190 || 0
     }
   })
 })
@@ -240,11 +245,9 @@ onMounted(() => {
       class="content"
       scroll-y
       scroll-with-animation
-      :scroll-top="scrollTop"
-      :throttle="false"
-      @scroll="onScroll"
+      :scroll-into-view="scrollIntoViewId"
     >
-      <view v-for="(item, index) in categories" :key="index" class="category">
+      <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
         <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
         <wd-grid :column="3" clickable>
           <wd-grid-item

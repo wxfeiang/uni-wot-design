@@ -62,6 +62,7 @@ export default ({ command, mode }) => {
           'src/pages-sub/userManager',
           'src/pages-sub/marketManager',
           'src/pages-sub/shopManager',
+          'src/pages-sub/order',
         ], // 是个数组，可以配置多个，但是不能为pages里面的目录
         dts: 'src/types/uni-pages.d.ts',
       }),

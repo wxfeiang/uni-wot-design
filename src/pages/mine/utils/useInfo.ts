@@ -70,31 +70,36 @@ const serveOrderList = ref<serveListProps[]>([
   {
     label: '待付款',
     icon: dafukuan,
-    value: 12,
+    value: 1,
+    status: 1,
     path: '/pages-sub/shopManager/orderList/index?status=0',
   },
   {
     label: '待发货',
     icon: daifahuo,
-    value: 0,
+    value: 2,
+    status: 2,
     path: '/pages-sub/shopManager/orderList/index?status=0',
   },
   {
     label: '待收货',
     icon: daishouhuo,
     value: 0,
+    status: 3,
     path: '/pages-sub/shopManager/orderList/index?status=0',
   },
   {
     label: '已完成',
     icon: yiwancheng,
     value: 0,
+    status: 4,
     path: '/pages-sub/shopManager/orderList/index?status=0',
   },
   {
     label: '售后订单',
     icon: shouhou,
     value: 0,
+    status: 5,
     path: '/pages-sub/shopManager/orderList/index?status=0',
   },
 ])
@@ -128,14 +133,14 @@ const serveList = ref<serveProps[]>([
   {
     icon: spsc,
     title: '商品收藏',
-    path: '/pages-sub/marketManager/coupon/index',
-    islink: false,
+    path: '/pages-sub/userManager/collection/collection',
+    islink: true,
   },
   {
     icon: shdz,
     title: '收货地址',
-    path: '/pages-sub/marketManager/coupon/index',
-    islink: false,
+    path: '/pages-sub/userManager/address/editor',
+    islink: true,
   },
 
   {

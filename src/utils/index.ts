@@ -174,7 +174,7 @@ export const baseUrl = () => {
  */
 export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
   let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
-  console.log('挑战携带参数:', data)
+  console.log('跳转携带参数:', data)
 
   if (data) {
     const queryStr = qs.stringify(data)

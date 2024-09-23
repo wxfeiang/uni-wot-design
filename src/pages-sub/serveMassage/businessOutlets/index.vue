@@ -168,7 +168,9 @@ const changeDe = (data) => {
               <view class="truncate-2 color-#000">{{ item.name }}</view>
             </template>
             <template #label>
-              <view class="color-#999 truncate-2">地址: {{ item.address }}</view>
+              <view class="color-#999 truncate-2" @click="toLocation(item)">
+                地址: {{ item.address }}
+              </view>
             </template>
 
             <view class="pt-10px">

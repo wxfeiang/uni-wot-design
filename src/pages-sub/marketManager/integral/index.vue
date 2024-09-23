@@ -127,7 +127,7 @@ onLoad(async () => {
             :class="infoData.today ? 'color-#B0B0B0 bg-#ECECEC ' : 'color-#fff bg-#FF7433'"
             @click="qiandao"
           >
-            签到
+            {{ infoData.today ? '已签到' : '签到' }}
           </view>
         </view>
 

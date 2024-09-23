@@ -19,6 +19,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  color: {
+    type: String,
+    default: '#fff',
+  },
 })
 function handleClickLeft() {
   uni.navigateBack()
@@ -40,7 +44,7 @@ function handleClickLeft() {
           @click="handleClickLeft"
           name="arrow-left"
           size="22px"
-          :color="props.isNavShow ? '#fff' : ''"
+          :color="props.isNavShow ? props.color : ''"
         ></wd-icon>
       </template>
       <template #title>
@@ -48,6 +52,7 @@ function handleClickLeft() {
           <view
             class="ml-5px truncate-1 text-left font-400"
             :class="props.isNavShow ? 'color-#fff' : ''"
+            :style="`{color:${props.isNavShow ? props.color : ''}`"
           >
             {{ props.leftTitle }}
           </view>
@@ -69,11 +74,15 @@ function handleClickLeft() {
           @click="handleClickLeft"
           name="arrow-left"
           size="22px"
-          :color="props.isNavShow ? '#fff' : ''"
+          :color="props.isNavShow ? props.color : ''"
         ></wd-icon>
       </template>
       <template #title>
-        <view class="truncate-1 font-400 text-center" :class="props.isNavShow ? 'color-#fff' : ''">
+        <view
+          class="truncate-1 font-400 text-center"
+          :class="props.isNavShow ? 'color-#fff' : ''"
+          :style="`{color:${props.isNavShow ? props.color : ''}`"
+        >
           {{ props.leftTitle }}
         </view>
       </template>

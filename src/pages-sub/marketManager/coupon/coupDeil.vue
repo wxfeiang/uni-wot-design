@@ -14,6 +14,9 @@ import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import { getSignValid } from '@/service/api/cardServe'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 const { sendPhoneCode, countdown, sending } = usePhoneCode()
+const bg = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-09/a729f7e3-985b-451e-9a22-6f0a50e2fc16yhqmbg.png',
+)
 const opts = ref({
   lineColor: '#000000',
   fontSize: 20,
@@ -81,7 +84,10 @@ onUnmounted(async () => {
 </script>
 
 <template>
-  <view class="bg-#FCC388 w-100vw h-100vh flex flex-col">
+  <view
+    class="bg-#FCC388 w-100vw h-100vh flex flex-col"
+    :style="`background-image: url(${bg}); background-size: 100%`"
+  >
     <dy-navbar leftTitle="优惠券" left isNavShow></dy-navbar>
     <view class="text-center mt-15px px-20px">
       <view class="color-#F2110D font-600 text-30px">20元无门槛红包</view>
