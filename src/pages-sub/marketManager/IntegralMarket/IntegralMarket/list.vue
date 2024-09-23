@@ -42,9 +42,9 @@ function changeTab(e) {
   console.log(e)
 }
 
-const duihuan = function (e) {
+const gopath = function (url, e) {
   routeTo({
-    url: '/pages-sub/marketManager/IntegralMarket/info',
+    url,
     data: e,
   })
 }
@@ -119,7 +119,12 @@ onLoad(async () => {
                 color="#999999"
               ></wd-text>
             </view>
-            <wd-button size="small" class="m0" custom-class="duihuanBtn" @click="duihuan(item)">
+            <wd-button
+              size="small"
+              class="m0"
+              custom-class="duihuanBtn"
+              @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/info', item)"
+            >
               去兑换
             </wd-button>
           </view>

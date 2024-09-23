@@ -11,7 +11,11 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 
-const title = ref('积分兑换')
+const title = ref('商品详情')
+const showSkuChoose = ref(false)
+const skuList = ref([])
+const skuInfo = ref({})
+const SkuIndex = ref(0)
 
 async function getList(item: any) {
   uni.showLoading({ title: '' })
@@ -21,9 +25,19 @@ async function getList(item: any) {
   await uni.hideLoading()
 }
 
-function changeTab(e) {
-  tabsVal.value = e.index
-  console.log(e)
+function openSkuChoose(e) {
+  showSkuChoose.value = true
+}
+
+function skuChoose(index) {
+  SkuIndex.value = index
+  console.log('SkuIndex', index)
+  // skuInfo.value = skuList.value[index]
+  closeSkuChoose()
+}
+
+function closeSkuChoose(e) {
+  showSkuChoose.value = false
 }
 
 const gopath = function (url, e) {
@@ -43,20 +57,20 @@ onLoad(async () => {
     <view class="bannerBg">
       <dy-navbar :leftTitle="title" left></dy-navbar>
     </view>
-    <view class="flex justify-between items-center navbg w-screen h-90px">
-      <view class="flex justify-left items-start flex-col">
-        <view class="text-base text-white mb-1">我的积分</view>
-        <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>
-      </view>
-      <view class="text-2xl text-white">32857</view>
-    </view>
+    <!--    <view class="flex justify-between items-center navbg w-screen h-90px">-->
+    <!--      <view class="flex justify-left items-start flex-col">-->
+    <!--        <view class="text-base text-white mb-1">我的积分</view>-->
+    <!--        <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>-->
+    <!--      </view>-->
+    <!--      <view class="text-2xl text-white">32857</view>-->
+    <!--    </view>-->
 
     <view class="cardtop"></view>
     <view class="bg-white w-screen p4 box-border pt-0 absolute contentBox">
       <view class="flex justify-between items-center w-full mb-2">
         <view class="flex justify-left items-center">
           <wd-text text="3323" :lines="1" size="24px" color="#FB2549" class="font-bold"></wd-text>
-          <wd-text text="积分" :lines="1" size="12px" color="#FB2549" class="ml-1"></wd-text>
+          <wd-text text="￥" :lines="1" size="12px" color="#FB2549" class="ml-1"></wd-text>
         </view>
 
         <wd-text text="已兑1153件" :lines="1" size="12px" color="#999999" class="ml-1"></wd-text>
@@ -70,8 +84,9 @@ onLoad(async () => {
       ></wd-text>
 
       <view class="flex justify-left items-center borders pt-2 pb-2 mt-2 mb-2">
-        <wd-text text="兑换规则" :lines="1" size="14px" color="#000000"></wd-text>
+        <wd-text text="商品规格" :lines="1" size="14px" color="#000000"></wd-text>
         <wd-text
+          @click="openSkuChoose"
           text="兑换后7天有效，每天可兑换一次"
           :lines="1"
           size="14px"
@@ -86,17 +101,47 @@ onLoad(async () => {
       </view>
     </view>
 
-    <view class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border" style="bottom: 0px">
-      <wd-button
-        block
-        custom-class="duihuanBtn"
-        :round="false"
-        @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder')"
-      >
-        立即兑换
-      </wd-button>
+    <view
+      class="z-10 px-4 py-4 shadow bg-white fixed b0 w-full box-border flex justify-between items-center"
+      style="bottom: 0px"
+    >
+      <wd-icon name="goods" size="22px" color="#f44d24"></wd-icon>
+      <view flex justify-right items-center>
+        <wd-button
+          block
+          custom-class="duihuanBtn"
+          :round="false"
+          @click="gopath('/pages/shop/shopCar')"
+        >
+          加入购物车
+        </wd-button>
+        <wd-button
+          block
+          custom-class="duihuanBtn"
+          :round="false"
+          @click="gopath('/pages/shop/order')"
+          class="ml-3"
+        >
+          立即购买
+        </wd-button>
+      </view>
     </view>
   </view>
+
+  <wd-action-sheet v-model="showSkuChoose" title="规格选择" @close="closeSkuChoose">
+    <view class="bg-white p4 w-full box-border overflow-hidden">
+      <wd-button
+        size="small"
+        :plain="index == SkuIndex ? false : true"
+        class="float mr-2 mb-3"
+        v-for="(item, index) in 10"
+        :key="index"
+        @click="skuChoose(index)"
+      >
+        小号按钮
+      </wd-button>
+    </view>
+  </wd-action-sheet>
   <!-- </view> -->
 </template>
 <style lang="scss" scoped>
@@ -153,7 +198,7 @@ onLoad(async () => {
 
 .contentBox {
   box-sizing: border-box;
-  min-height: calc(100vh - 390px);
+  min-height: calc(100vh - 340px);
   padding-bottom: 80px;
 }
 </style>

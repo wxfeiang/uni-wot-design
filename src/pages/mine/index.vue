@@ -4,6 +4,7 @@
   needLogin: true,
   style: {
     navigationStyle: 'custom',
+    backgroundColor: '#F3F4F6',
   },
 }
 </route>
@@ -233,9 +234,15 @@ onShow(async () => {
   border-radius: 19px;
 }
 
+.money {
+  box-sizing: border-box;
+  border-right: 1px solid #d4d4d4;
+}
+
 .h-bg {
   background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
 }
+
 :deep(.custom-class-mine-login) {
   color: #fff !important;
   background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;

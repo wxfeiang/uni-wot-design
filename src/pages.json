@@ -117,7 +117,8 @@
       "layout": "default",
       "needLogin": true,
       "style": {
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "backgroundColor": "#F3F4F6"
       }
     },
     {
@@ -150,6 +151,7 @@
       "path": "pages/shop/goodsSearch",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
@@ -159,6 +161,7 @@
       "path": "pages/shop/index",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
@@ -168,6 +171,7 @@
       "path": "pages/shop/order",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationBarTitleText": "确认订单",
         "backgroundColor": "#F3F4F6",
@@ -179,6 +183,7 @@
       "path": "pages/shop/shopCar",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationBarTitleText": "购物车",
         "backgroundColor": "#fff",
@@ -188,6 +193,15 @@
     },
     {
       "path": "pages/shop/shopInfo",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/shop/shopInfoCopy",
       "type": "page",
       "layout": "default",
       "needLogin": true,
@@ -368,6 +382,17 @@
           }
         },
         {
+          "path": "address/editor",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "收获地址",
+            "backgroundColor": "#ffffff",
+            "navigationBarBackgroundColor": "#ffffff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
           "path": "address/list",
           "type": "page",
           "layout": "default",
@@ -385,6 +410,18 @@
           "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "collection/collection",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationBarTitleText": "我的收藏",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
           }
         }
       ]

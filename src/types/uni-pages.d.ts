@@ -18,6 +18,7 @@ interface NavigateToOptions {
        "/pages/shop/order" |
        "/pages/shop/shopCar" |
        "/pages/shop/shopInfo" |
+       "/pages/shop/shopInfoCopy" |
        "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
@@ -34,8 +35,10 @@ interface NavigateToOptions {
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
+       "/pages-sub/userManager/address/editor" |
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
+       "/pages-sub/userManager/collection/collection" |
        "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |

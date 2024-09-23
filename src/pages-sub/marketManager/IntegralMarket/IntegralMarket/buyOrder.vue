@@ -125,7 +125,7 @@ onLoad(async () => {
         </template>
       </wd-card>
     </view>
-    <view class="p4 fixed b0 w-full box-border" style="bottom: 50px">
+    <view class="p4 fixed b0 w-full box-border" style="bottom: 0px">
       <wd-button block custom-class="duihuanBtn" :round="false">提交兑换</wd-button>
     </view>
   </view>

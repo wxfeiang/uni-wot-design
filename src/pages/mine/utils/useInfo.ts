@@ -12,14 +12,13 @@ import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
 import spsc from '@/static/images/mine/spsc.png'
 import wdjf from '@/static/images/mine/wdjf.png'
+import { routeTo } from '@/utils'
 
 import daifahuo from '@/static/images/mine//daifahuo.png'
 import dafukuan from '@/static/images/mine//daifukuan.png'
 import daishouhuo from '@/static/images/mine//daishouhuo.png'
 import shouhou from '@/static/images/mine//shouhoudd.png'
 import yiwancheng from '@/static/images/mine/yiwancheng.png'
-
-import { routeTo } from '@/utils'
 
 // 查询user列表
 const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
