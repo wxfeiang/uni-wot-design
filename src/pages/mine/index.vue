@@ -45,7 +45,7 @@ const toast = useToast()
 const bgUrlBase64 = ref()
 
 const dingdan = (e) => {
-  routeTo({ url: '/pages-sub/order/orderList?tabsVal=' + e })
+  routeTo({ url: e })
 }
 const qiandao = () => {
   routeTo({ url: '/pages-sub/marketManager/integral/index' })
@@ -161,7 +161,7 @@ onShow(async () => {
           class="w-1/5 flex flex-col items-center py-10px"
           v-for="(item, index) in serveOrderList"
           :key="index"
-          @click="dingdan(item.status)"
+          @click="dingdan(item.path)"
         >
           <wd-badge :modelValue="item.value">
             <view>
