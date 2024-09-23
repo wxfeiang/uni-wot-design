@@ -73,7 +73,6 @@ export function sign(obj: any) {
 export function beforeQuest(method: any) {
   const { config, data, params } = method
   const ignoreSign = method?.meta?.ignoreSign
-
   // 数据合并转换
   const initParams = {
     ...constast(),
@@ -95,6 +94,7 @@ export function beforeQuest(method: any) {
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
   console.log('系统默认携带参数==>', initParams)
+  console.log('请求从参数', data)
 
   createFilter(method)
 }

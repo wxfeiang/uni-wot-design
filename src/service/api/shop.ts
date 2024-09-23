@@ -5,6 +5,24 @@ const WX_PAY = baseUrlApi('/trade/wxPay/wxPay')
 // const GET_SHOP_DETAIL = baseUrlApi('/product/app/shop/getDetail')
 
 const GET_SHOP_DETAIL = baseUrlApi('/product/app/shop/getShopDetail')
+const GET_GOOD_LIST = baseUrlApi('/product/app/productSpu/listPage')
+
+/**
+ *   获取商品列表
+ * @param params 初始参数()
+ * */
+export function getGoodList(data) {
+  const meta: METHOD_INSTANCE = {
+    Tips: true,
+  }
+  return request.Post(
+    GET_GOOD_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *   获取店铺基本信息
