@@ -34,6 +34,7 @@ import { getRect, isArray } from 'wot-design-uni/components/common/util'
 const bg = ref(
   'https://oss.xay.xacloudy.cn/images/2024-09/21c5af79-c081-48d8-8e4b-18f406d52b25serbg.png',
 )
+const dyheight = ref('100%')
 const toast = useToast()
 const basestore = useBaseStore()
 const mainData1 = ref([
@@ -191,9 +192,17 @@ const categories = ref([
 
 function handleChange({ value }) {
   console.log('🍬[value]:', value)
-  active.value = value
-  scrollTop.value = itemScrollTop.value[value]
-  scrollIntoViewId.value = 'id3'
+  if (value === 1 || value === 2) {
+    dyheight.value = '38%'
+  }
+  if (value === 0) {
+    dyheight.value = '100%'
+  }
+  setTimeout(() => {
+    active.value = value
+    scrollTop.value = itemScrollTop.value[value]
+    scrollIntoViewId.value = 'id3'
+  }, 100)
 }
 
 function onScroll(e) {
@@ -240,38 +249,40 @@ onMounted(() => {
         customClass="customClass"
       />
     </wd-sidebar>
-    <scroll-view
-      class="content"
-      scroll-y
-      scroll-with-animation
-      :scroll-top="scrollTop"
-      :throttle="false"
-      @scroll="onScroll"
-    >
-      <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
-        <view class="pl-10px">
-          <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
-        </view>
+    <view class="flex-1 h-60% bg-#fff mt-190px mr-10px rounded-10px mb-20px">
+      <scroll-view
+        class="content"
+        scroll-y
+        scroll-with-animation
+        :scroll-top="scrollTop"
+        :throttle="false"
+        @scroll="onScroll"
+      >
+        <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
+          <view class="pl-10px">
+            <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
+          </view>
 
-        <wd-grid :column="3" clickable>
-          <wd-grid-item
-            use-icon-slot
-            use-text-slot
-            v-for="(cell, index) in item.items"
-            :key="index"
-            custom-class="grid-item"
-            @itemclick="gridClick(cell)"
-          >
-            <template #icon>
-              <image class="wh-42px rounded-10px" :src="cell.url" />
-            </template>
-            <template #text>
-              <view class="text-center py-15px">{{ cell.title }}</view>
-            </template>
-          </wd-grid-item>
-        </wd-grid>
-      </view>
-    </scroll-view>
+          <wd-grid :column="3" clickable>
+            <wd-grid-item
+              use-icon-slot
+              use-text-slot
+              v-for="(cell, index) in item.items"
+              :key="index"
+              custom-class="grid-item"
+              @itemclick="gridClick(cell)"
+            >
+              <template #icon>
+                <image class="wh-42px rounded-10px" :src="cell.url" />
+              </template>
+              <template #text>
+                <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
+              </template>
+            </wd-grid-item>
+          </wd-grid>
+        </view>
+      </scroll-view>
+    </view>
   </view>
 </template>
 
@@ -300,22 +311,19 @@ onMounted(() => {
   height: calc(100vh - var(--window-top) - constant(safe-area-inset-bottom));
   height: calc(100vh - var(--window-top) - env(safe-area-inset-bottom));
 }
-
 .content {
   box-sizing: border-box;
   flex: 1;
-  height: 170px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-top: 190px;
-
-  margin-right: 10px;
-  margin-bottom: 30px;
-
-  background: #fff;
-  border-radius: 0 10px 10px 0;
-  box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
+  height: v-bind(dyheight);
+  // padding-top: 10px;
+  // // margin-top: 190px;
+  // margin-right: 10px;
+  // margin-bottom: 30px;
+  // background: #fff;
+  // border-radius: 0 10px 10px 0;
+  // box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
 }
+
 :deep(.customClass-warp) {
   @apply mt-190px;
 }
