@@ -1,15 +1,24 @@
 import { logout } from '@/service/api/auth'
 import { useUserStore } from '@/store/user'
 import { useRequest } from 'alova/client'
-import type { serveProps } from '../utils/types'
+import type { serveListProps, serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import { findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
-import sfkb from '@/static/images/mine/sfkb.jpg'
+import sfkb from '@/static/images/mine/sfkb.png'
+import shdz from '@/static/images/mine/shdz.png'
 import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
+import spsc from '@/static/images/mine/spsc.png'
 import wdjf from '@/static/images/mine/wdjf.png'
+
+import daifahuo from '@/static/images/mine//daifahuo.png'
+import dafukuan from '@/static/images/mine//daifukuan.png'
+import daishouhuo from '@/static/images/mine//daishouhuo.png'
+import shouhou from '@/static/images/mine//shouhoudd.png'
+import yiwancheng from '@/static/images/mine/yiwancheng.png'
+
 import { routeTo } from '@/utils'
 
 // 查询user列表
@@ -51,10 +60,43 @@ const topList = ref<serveProps[]>([
     islink: true,
   },
   {
-    title: '商品收藏',
+    title: '银行卡',
     value: 0,
     path: '',
     islink: false,
+  },
+])
+
+const serveOrderList = ref<serveListProps[]>([
+  {
+    label: '待付款',
+    icon: dafukuan,
+    value: 12,
+    path: '/pages-sub/shopManager/orderList/index?status=0',
+  },
+  {
+    label: '待发货',
+    icon: daifahuo,
+    value: 0,
+    path: '/pages-sub/shopManager/orderList/index?status=0',
+  },
+  {
+    label: '待收货',
+    icon: daishouhuo,
+    value: 0,
+    path: '/pages-sub/shopManager/orderList/index?status=0',
+  },
+  {
+    label: '已完成',
+    icon: yiwancheng,
+    value: 0,
+    path: '/pages-sub/shopManager/orderList/index?status=0',
+  },
+  {
+    label: '售后订单',
+    icon: shouhou,
+    value: 0,
+    path: '/pages-sub/shopManager/orderList/index?status=0',
   },
 ])
 
@@ -85,6 +127,19 @@ const serveList = ref<serveProps[]>([
     islink: true,
   },
   {
+    icon: spsc,
+    title: '商品收藏',
+    path: '/pages-sub/marketManager/coupon/index',
+    islink: false,
+  },
+  {
+    icon: shdz,
+    title: '收货地址',
+    path: '/pages-sub/marketManager/coupon/index',
+    islink: false,
+  },
+
+  {
     icon: shezhi,
     title: '设置',
     path: '/pages-sub/system/sysconfig/index',
@@ -93,14 +148,6 @@ const serveList = ref<serveProps[]>([
 ])
 const serveClick = (item: serveProps) => {
   if (item.islink) {
-    // const { userInfo } = useUserStore()
-    // if (item.isSign && !userInfo.idCardNumber) {
-    //   uni.showToast({
-    //     title: '请先实名认证!',
-    //     icon: 'none',
-    //   })
-    //   return
-    // }
     routeTo({
       url: item.path,
       data: { type: item.data?.articleId, showTop: true, title: item.title },
@@ -111,6 +158,11 @@ const serveClick = (item: serveProps) => {
       icon: 'none',
     })
   }
+}
+const toContent = (item: serveListProps) => {
+  routeTo({
+    url: item.path,
+  })
 }
 
 const {
@@ -137,5 +189,7 @@ export default () => {
     topList,
     sendUserCouponList,
     sendInterInfo,
+    serveOrderList,
+    toContent,
   }
 }
