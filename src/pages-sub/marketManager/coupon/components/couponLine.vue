@@ -51,13 +51,13 @@ onLoad(async () => {
   topbgBase64.value = await pathToBase64(bg)
 })
 const url = ref(
-  'https://oss.xay.xacloudy.cn/images/2024-09/ffa60c37-8ecc-496d-8880-2ce60cbe1977items.png',
+  'https://oss.xay.xacloudy.cn/images/2024-09/0791669c-1691-416f-bc2f-1523986a55e9WechatIMG248.jpg',
 )
 </script>
 
 <template>
   <view
-    :style="`background-image: url();background-size: 100% ${sourceStu ? '135px' : '120px'}`"
+    :style="`background-image: url(${url});background-size: 100% ${sourceStu ? '135px' : '120px'}`"
     class="bg-no-repeat bg-#ccc h-96px relative px-10px pr-10px py-10px box-border rounded-10px"
     :class="statusBg ? '' : 'grayscale opacity-50'"
   >

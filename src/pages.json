@@ -568,7 +568,12 @@
         },
         {
           "path": "orderList",
-          "type": "page"
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     }
