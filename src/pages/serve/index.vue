@@ -190,26 +190,25 @@ const categories = ref([
 ])
 
 function handleChange({ value }) {
+  console.log('🍬[value]:', value)
   active.value = value
   scrollTop.value = itemScrollTop.value[value]
   scrollIntoViewId.value = 'id3'
-  console.log('🥒[scrollIntoViewId.value ]:', scrollIntoViewId.value)
-  console.log('🥃')
 }
 
 function onScroll(e) {
-  // const { scrollTop } = e.detail
-  // const threshold = 50 // 下一个标题与顶部的距离
-  // if (scrollTop < threshold) {
-  //   active.value = 0
-  //   return
-  // }
-  // const index = itemScrollTop.value.findIndex(
-  //   (top) => top > scrollTop && top - scrollTop <= threshold,
-  // )
-  // if (index > -1) {
-  //   active.value = index
-  // }
+  const { scrollTop } = e.detail
+  const threshold = 50 // 下一个标题与顶部的距离
+  if (scrollTop < threshold) {
+    active.value = 0
+    return
+  }
+  const index = itemScrollTop.value.findIndex(
+    (top) => top > scrollTop && top - scrollTop <= threshold,
+  )
+  if (index > -1) {
+    active.value = index
+  }
 }
 
 onShow((options: any) => {
@@ -220,8 +219,8 @@ onMounted(() => {
   getRect('.category', true).then((rects) => {
     console.log('🍾[rects]:', rects)
     if (isArray(rects)) {
-      // itemScrollTop.value = rects.map((item) => item.top - 190 || 0)
-      // scrollTop.value = rects[active.value].top - 190 || 0
+      itemScrollTop.value = rects.map((item) => item.top - 210 || 0)
+      scrollTop.value = rects[active.value].top - 210 || 0
     }
   })
 })
@@ -229,10 +228,10 @@ onMounted(() => {
 
 <template>
   <view
-    class="wraper bg-#F2F3F7 pt-180px box-border pb-20px h-100vh! overflow-hidden bg-no-repeat"
+    class="wraper bg-#F2F3F7 box-border overflow-hidden! bg-no-repeat"
     :style="`background-image: url(${bg}) ;background-size: 100% 250px`"
   >
-    <wd-sidebar v-model="active" @change="handleChange">
+    <wd-sidebar v-model="active" @change="handleChange" customClass="customClass-warp">
       <wd-sidebar-item
         v-for="(item, index) in categories"
         :key="index"
@@ -245,10 +244,15 @@ onMounted(() => {
       class="content"
       scroll-y
       scroll-with-animation
-      :scroll-into-view="scrollIntoViewId"
+      :scroll-top="scrollTop"
+      :throttle="false"
+      @scroll="onScroll"
     >
       <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
-        <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
+        <view class="pl-10px">
+          <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
+        </view>
+
         <wd-grid :column="3" clickable>
           <wd-grid-item
             use-icon-slot
@@ -287,8 +291,8 @@ onMounted(() => {
 }
 :deep(.wd-sidebar-item--active) {
   @apply color-#2D69EF;
-  background: linear-gradient(270deg, #f2f3f7 0%, #d1e8ff 100%);
-  border-radius: 0px 10px 0px 0px;
+  background: linear-gradient(270deg, #f2f3f7 0%, #d1e8ff 100%) !important;
+  border-radius: 0px 10px 0px 0px !important;
 }
 .wraper {
   display: flex;
@@ -300,15 +304,21 @@ onMounted(() => {
 .content {
   box-sizing: border-box;
   flex: 1;
-  height: 100%;
-  padding-top: 10px;
+  height: 170px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 190px;
+
   margin-right: 10px;
   margin-bottom: 30px;
+
   background: #fff;
   border-radius: 0 10px 10px 0;
   box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
 }
-
+:deep(.customClass-warp) {
+  @apply mt-190px;
+}
 :deep(.customClass) {
   @apply text-12px!;
 }
