@@ -44,10 +44,10 @@ onLoad((options) => {
 </script>
 
 <template>
-  <view class="pageBoxBg w-screen h-screen">
+  <view class="pageBoxBg w-screen h-screen pt-4 pb-4">
     <view class="tabTool w-screen">
       <dy-navbar :leftTitle="title" left></dy-navbar>
-      <view class="flex justify-center items-center flex-col mt-3">
+      <view class="flex justify-center items-center flex-col">
         <wd-text
           text="等待付款"
           size="20px"
@@ -170,90 +170,6 @@ onLoad((options) => {
           </view>
         </view>
       </wd-card>
-    </view>
-
-    <view class="pt-2 overflow-hidden ListBox">
-      <view v-for="(item, index) in 5" class="float-left w-full box-border" :key="index">
-        <wd-card>
-          <template #title>
-            <view class="flex justify-between items-center">
-              <view class="flex justify-left items-center">
-                <wd-img
-                  :width="30"
-                  :height="30"
-                  round
-                  src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-                />
-                <wd-text text="无备注" size="16px" color="#777777" class="ml-1"></wd-text>
-                <wd-icon name="arrow-right" size="16px" class="ml-1" color="#777777"></wd-icon>
-              </view>
-              <wd-text text="代发货" size="14px" color="#777777" class=""></wd-text>
-            </view>
-          </template>
-          <view v-for="(it, ind) in 2" :key="ind">
-            <view class="flex justify-between items-center mt-2 mb-4">
-              <wd-img
-                :width="100"
-                :height="100"
-                radius="7"
-                src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-              />
-              <view class="ml-2 flex-1">
-                <wd-text
-                  text="知味观糕点礼盒杭州特产中式送礼送长辈中式糕点心中秋月节饼"
-                  :lines="2"
-                  size="16px"
-                  color="#000000"
-                  class="font-bold"
-                ></wd-text>
-                <wd-text
-                  text="圆形铁盒/盒"
-                  :lines="1"
-                  size="14px"
-                  color="#757575"
-                  class="mt-1"
-                ></wd-text>
-                <view class="flex justify-between items-center mt-4">
-                  <wd-text text="￥32111" size="16px" color="#000000"></wd-text>
-                  <wd-text text="x1" size="14px" color="#777777" class="ml-1"></wd-text>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="flex justify-right items-center my-3">
-            <wd-text text="共6件 金额：" size="14px" color="#000000"></wd-text>
-            <wd-text text="￥" size="14px" font-bold color="#d04b55" class="ml-1"></wd-text>
-            <wd-text text="2339" size="18px" font-bold color="#d04b55" class=""></wd-text>
-          </view>
-          <template #footer>
-            <view class="flex justify-between items-center">
-              <wd-text text="代发货" size="14px" color="#f0883a" class=""></wd-text>
-              <view class="flex justify-right items-center">
-                <wd-button
-                  size="small"
-                  plain
-                  type="warning"
-                  class="inline-block ml-2"
-                  style="width: 5rem"
-                  @click="goInfo()"
-                >
-                  评价
-                </wd-button>
-                <wd-button
-                  size="small"
-                  plain
-                  type="info "
-                  class="inline-block ml-2"
-                  style="width: 5rem"
-                >
-                  立即使用
-                </wd-button>
-              </view>
-            </view>
-          </template>
-        </wd-card>
-      </view>
-      <!--      <wd-loadmore custom-class="loadmore" state="loading"/>-->
     </view>
   </view>
   <!-- </view> -->
