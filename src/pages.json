@@ -550,6 +550,27 @@
           }
         }
       ]
+    },
+    {
+      "root": "pages-sub/order",
+      "pages": [
+        {
+          "path": "logistics",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "orderInfo",
+          "type": "page"
+        },
+        {
+          "path": "orderList",
+          "type": "page"
+        }
+      ]
     }
   ]
 }
