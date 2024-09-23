@@ -11,6 +11,24 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 
+const paging = ref(null)
+
+async function queryList(pageNo: number, pageSize: number) {
+  const params = {
+    page: pageNo,
+    size: pageSize,
+  }
+  // 调用接口获取数据
+  try {
+    const data: any = await sendCouponList(params)
+    list.value = data.content
+
+    paging.value.complete(list.value)
+  } catch (error) {
+    paging.value.complete(false)
+  }
+}
+
 const state = ref<string>('loading')
 const title = ref('积分兑换')
 const tabsVal = ref(0)
@@ -64,33 +82,44 @@ onLoad(async () => {
 </script>
 
 <template>
-  <view class="pageBoxBg w-screen h-screen">
-    <dy-navbar :leftTitle="title" left></dy-navbar>
-    <view class="fixed tabTool">
-      <view class="flex justify-between items-center navbg w-screen h-80px">
-        <view class="flex justify-left items-start flex-col">
-          <view class="text-base text-white mb-1">我的积分</view>
-          <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>
+  <!--  <view class="pageBoxBg w-screen h-screen">-->
+  <z-paging
+    ref="paging"
+    v-model="list"
+    @query="queryList"
+    :auto-show-system-loading="true"
+    class="pageBoxBg w-screen h-screen"
+  >
+    <template #top>
+      <view class="fixed tabTool">
+        <dy-navbar :leftTitle="title" left></dy-navbar>
+        <view class="flex justify-between items-center navbg w-screen h-80px">
+          <view class="flex justify-left items-start flex-col">
+            <view class="text-base text-white mb-1">我的积分</view>
+            <view class="text-xs text-slate-100 opacity-60">
+              积分可兑换商品，避免失效请尽快使用
+            </view>
+          </view>
+          <view class="text-2xl text-white">32857</view>
         </view>
-        <view class="text-2xl text-white">32857</view>
+
+        <wd-tabs
+          v-model="tabsVal"
+          swipeable
+          custom-class="tabsBox"
+          :slidable-num="4"
+          @change="changeTab"
+        >
+          <block>
+            <wd-tab :title="tabsVal > 0 ? '显示全部' : '分值浏览'"></wd-tab>
+          </block>
+
+          <block v-for="item in tabslist" :key="item.value">
+            <wd-tab :title="item.name"></wd-tab>
+          </block>
+        </wd-tabs>
       </view>
-
-      <wd-tabs
-        v-model="tabsVal"
-        swipeable
-        custom-class="tabsBox"
-        :slidable-num="4"
-        @change="changeTab"
-      >
-        <block>
-          <wd-tab :title="tabsVal > 0 ? '显示全部' : '分值浏览'"></wd-tab>
-        </block>
-
-        <block v-for="item in tabslist" :key="item.value">
-          <wd-tab :title="item.name"></wd-tab>
-        </block>
-      </wd-tabs>
-    </view>
+    </template>
     <view class="p2 overflow-hidden ListBox">
       <view v-for="(item, index) in list" class="p2 float-left w-1/2 box-border" :key="index">
         <view class="bg-white rounded-md p2">
@@ -130,9 +159,10 @@ onLoad(async () => {
           </view>
         </view>
       </view>
-      <wd-loadmore custom-class="loadmore" state="loading" />
+      <!--      <wd-loadmore custom-class="loadmore" state="loading"/>-->
     </view>
-  </view>
+  </z-paging>
+  <!--    </view>-->
   <!-- </view> -->
 </template>
 <style lang="scss" scoped>
