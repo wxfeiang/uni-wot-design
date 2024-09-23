@@ -128,14 +128,14 @@ const serveList = ref<serveProps[]>([
   {
     icon: spsc,
     title: '商品收藏',
-    path: '/pages-sub/marketManager/coupon/index',
-    islink: false,
+    path: '/pages-sub/userManager/collection/collection',
+    islink: true,
   },
   {
     icon: shdz,
     title: '收货地址',
-    path: '/pages-sub/marketManager/coupon/index',
-    islink: false,
+    path: '/pages-sub/userManager/address/editor',
+    islink: true,
   },
 
   {

@@ -449,7 +449,6 @@
           "path": "coupon/mycoupon",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -458,7 +457,6 @@
           "path": "coupon/writeOffCoup",
           "type": "page",
           "layout": "default",
-          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -467,7 +465,6 @@
           "path": "coupon/writeOffCoupList",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

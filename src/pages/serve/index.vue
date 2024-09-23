@@ -31,7 +31,7 @@ import { openWxChart } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
 const bg = ref(
-  'http://47.99.93.97/v1/public/uploads/image/1727005856060-9b4b39f5-3ead-4276-9894-4c921b0994e3.png',
+  'https://oss.xay.xacloudy.cn/images/2024-09/dd3e1083-c012-48c5-82e0-4c40dd193922%E7%BB%84%2046028@2x.png',
 )
 const toast = useToast()
 const basestore = useBaseStore()
