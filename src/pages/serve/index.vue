@@ -265,7 +265,11 @@ onMounted(() => {
       >
         <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
           <view class="pl-10px">
-            <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
+            <dy-title
+              :title="item.label"
+              class="pl-10px mb-0! py-10px"
+              customClass="customClass-title"
+            ></dy-title>
           </view>
 
           <wd-grid :column="3" clickable>
@@ -334,5 +338,10 @@ onMounted(() => {
 }
 :deep(.customClass) {
   @apply text-12px!;
+}
+:deep(.customClass-title) {
+  text {
+    @apply font-400! text-14px!;
+  }
 }
 </style>
