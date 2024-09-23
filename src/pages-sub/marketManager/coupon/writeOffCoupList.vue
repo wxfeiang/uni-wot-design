@@ -127,7 +127,7 @@ onLoad(async () => {
     <view class="">
       <view class="px-10px">
         <view
-          class="rounded-4px overflow-hidden my-10px"
+          class="rounded-4px overflow-hidden my-10px bg"
           v-for="(item, index) in conponList"
           :key="index"
         >
@@ -147,5 +147,8 @@ onLoad(async () => {
 }
 :deep(.custom-view-picker) {
   @apply flex justify-between items-center;
+}
+.bg {
+  box-shadow: 4px 0px 10px 1px rgba(0, 0, 0, 0.1);
 }
 </style>

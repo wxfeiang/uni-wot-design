@@ -57,19 +57,21 @@ const url = ref(
 
 <template>
   <view
-    :style="`background-image: url(${url});background-size: 100% ${sourceStu ? '135px' : '120px'}`"
-    class="bg-no-repeat bg-#ccc h-96px relative px-10px pr-10px py-10px box-border rounded-10px"
-    :class="statusBg ? '' : 'grayscale opacity-50'"
+    class="bg-no-repeat h-96px relative pr-10px box-border rounded-10px bg-#fff/20"
+    :class="statusBg ? '' : 'grayscale opacity-80'"
   >
     <view class="flex justify-between items-center">
-      <view class="text-center w-100px">
-        <view class="mb-5px">立减</view>
+      <view
+        class="text-center w-100px h-96px py-10px box-border bg-#fff"
+        :style="`background-image: url(${url});background-size: 100px 100% `"
+      >
+        <view class="py-10px">立减</view>
         <view class="color-#FF4345 font-bold text-32px">
           <text class="text-14px mr-5px">¥</text>
           <text>20</text>
         </view>
       </view>
-      <view class="flex-1 pl-10px text-12px">
+      <view class="flex-1 pl-10px text-12px py-10px">
         <view class="text-16px">20元无门槛优惠券红包</view>
         <view>
           <view>核销人:张三</view>
