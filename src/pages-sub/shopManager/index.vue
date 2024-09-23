@@ -28,10 +28,10 @@ const toContent = (item: serveListProps) => {
 <template>
   <view
     class="bg-#f5f5f5 min-h-100vh bg-no-repeat"
-    :style="`background-image: url(${bg});background-size: 100% 170px`"
+    :style="`background-image: url(${bg});background-size: 100% 160px`"
   >
     <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-    <view class="p-15px">
+    <view class="px-15px py-5px">
       <view class="p-10px bg-#fff rounded-4px flex justify-between items-center gap-10px">
         <view
           class="w-1/4 flex flex-col items-center py-10px"
@@ -51,7 +51,7 @@ const toContent = (item: serveListProps) => {
         </view>
       </view>
     </view>
-    <view class="p-15px">
+    <view class="px-15px py-5px">
       <view class="p-10px bg-#fff rounded-4px">
         <view class="py-10px font-600 text-16px">数据概览</view>
         <view class="flex justify-between flex-wrap items-center">
@@ -66,7 +66,7 @@ const toContent = (item: serveListProps) => {
         </view>
       </view>
     </view>
-    <view class="p-15px">
+    <view class="px-15px py-5px">
       <view class="p-10px bg-#fff rounded-4px flex justify-between items-center gap-10px">
         <view
           class="w-1/4 flex flex-col items-center py-10px min-h-80px"
