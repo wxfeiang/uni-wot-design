@@ -14,7 +14,7 @@ import useShopServe from './utils/useShopServe'
 const title = ref('商家服务')
 // TODO: 背景图片
 const bg = ref(
-  'http://47.99.93.97/v1/public/uploads/image/1727008279374-c8d0509e-ea9a-4984-9356-9fd09a10320b.png',
+  'https://oss.xay.xacloudy.cn/images/2024-09/5e5f50c4-1a63-4d6d-a59a-f1107adde334shopbg.png',
 )
 
 const { serveOrderList, dataList, serveList } = useShopServe()
@@ -28,9 +28,9 @@ const toContent = (item: serveListProps) => {
 <template>
   <view
     class="bg-#f5f5f5 min-h-100vh bg-no-repeat"
-    :style="`background-image: url(${bg}) ;background-size: 100% 180px`"
+    :style="`background-image: url(${bg});background-size: 100% 170px`"
   >
-    <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
+    <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
     <view class="p-15px">
       <view class="p-10px bg-#fff rounded-4px flex justify-between items-center gap-10px">
         <view

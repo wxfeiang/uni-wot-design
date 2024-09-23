@@ -83,11 +83,11 @@ const data = ref<dataType[]>([
     type: 'dict',
     options: occupationList,
   },
-  {
-    title: '区域代码',
-    value: '',
-    prop: 'areaCode',
-  },
+  // {
+  //   title: '区域代码',
+  //   value: '',
+  //   prop: 'areaCode',
+  // },
   {
     title: '常住所在地地址',
     value: '',
