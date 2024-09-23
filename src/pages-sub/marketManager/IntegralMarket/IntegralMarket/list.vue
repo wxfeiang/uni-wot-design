@@ -20,8 +20,8 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    minVal: tabslist.value[active.value].name.split('-')[0] || 0,
-    maxVal: tabslist.value[active.value].name.split('-')[1] || 0,
+    minVal: Number(tabslist.value[active.value].name.split('-')[0] || 0),
+    maxVal: Number(tabslist.value[active.value].name.split('-')[1] || 0),
   }
   // 调用接口获取数据
   try {
