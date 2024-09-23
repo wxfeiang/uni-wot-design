@@ -207,9 +207,14 @@ function handleChange({ value }) {
 
 function onScroll(e) {
   const { scrollTop } = e.detail
+  console.log('🥚[scrollTop]:', scrollTop)
+  if (scrollTop < itemScrollTop.value[active.value]) {
+    dyheight.value = '100%'
+  }
   const threshold = 50 // 下一个标题与顶部的距离
   if (scrollTop < threshold) {
     active.value = 0
+    dyheight.value = '100%'
     return
   }
   const index = itemScrollTop.value.findIndex(
