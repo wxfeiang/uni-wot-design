@@ -191,7 +191,7 @@ const categories = ref([
 ])
 
 function handleChange({ value }) {
-  console.log('🍬[value]:', value)
+  // console.log('🍬[value]:', value)
   if (value === 1 || value === 2) {
     dyheight.value = '38%'
   }
@@ -207,7 +207,7 @@ function handleChange({ value }) {
 
 function onScroll(e) {
   const { scrollTop } = e.detail
-  console.log('🥚[scrollTop]:', scrollTop)
+  // console.log('🥚[scrollTop]:', scrollTop)
   if (scrollTop < itemScrollTop.value[active.value]) {
     dyheight.value = '100%'
   }
