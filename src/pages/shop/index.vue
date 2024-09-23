@@ -21,12 +21,12 @@ import led from '@/static/images/shop/led.png'
 import tuijian from '@/static/images/shop/tuijian.png'
 import { pathToBase64 } from 'image-tools'
 
+import { getGoodList } from '@/service/api/shop'
+
 import { routeTo } from '@/utils'
 
-defineOptions({
-  name: 'Index',
-})
-
+const paging = ref(null)
+let goodList = ref([])
 const { navTop } = useNav()
 const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
@@ -46,6 +46,22 @@ const goCar = () => {
   })
 }
 
+const getLsit = async (pageNo: number, pageSize: number) => {
+  try {
+    let res: any = await getGoodList({
+      page: pageNo,
+      size: pageSize,
+    })
+    paging.value.complete(res.content)
+    console.log('商城列表', res)
+  } catch {
+    console.log('????')
+    paging.value.complete(false)
+  }
+}
+onShow(() => {
+  // getLsit()
+})
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(indexbg)
@@ -56,10 +72,8 @@ onLoad(async () => {
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
-  <view
-    class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
-    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
-  >
+  <view class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
+    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`">
     <wd-navbar safeAreaInsetTop placeholder custom-class="nav_custom" :bordered="false">
       <template #left>
         <view class="flex gap-10px items-center">
@@ -72,11 +86,7 @@ onLoad(async () => {
     <view class="w-100vw flex items-center justify-center gap-2px box-border m-t-10px">
       <view class="pl-10px pr-2px flex items-center search pos-relative">
         <wd-img :width="17" :height="18" :src="searchIcon" />
-        <input
-          class="uni-input m-l-10px flex-1"
-          confirm-type="search"
-          placeholder="请输入搜索关键词"
-        />
+        <input class="uni-input m-l-10px flex-1" confirm-type="search" placeholder="请输入搜索关键词" />
         <view class="searchbtn">搜索</view>
       </view>
       <view class="caricon" @click="goCar">
@@ -85,56 +95,53 @@ onLoad(async () => {
     </view>
     <!-- </wd-sticky> -->
   </view>
-  <view class="w-full p-10px pt-153px box-border banner">
-    <wd-img
-      width="100%"
-      :height="150"
-      src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
-    />
-    <div class="w-full mt-10px flex justify-between">
-      <div
-        class="pos-relative"
-        @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')"
-      >
-        <wd-img :width="174" :height="76" :src="bgjifen" />
-        <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
-        <view class="pos-absolute left-87px top-18px">
-          <view class="font-size-16px" style="color: #e22525">积分商城</view>
-          <view class="font-size-12px" style="color: #6e6e6e">福利来袭</view>
-        </view>
+
+  <z-paging ref="paging" v-model="goodList" @query="getLsit">
+    <!-- z-paging默认铺满全屏，此时页面所有view都应放在z-paging标签内，否则会被盖住 -->
+    <!-- 需要固定在页面顶部的view请通过slot="top"插入，包括自定义的导航栏 -->
+    <view class="w-full p-10px pt-153px box-border banner">
+      <wd-img width="100%" :height="150"
+        src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png" />
+      <div class="w-full mt-10px flex justify-between">
+        <div class="pos-relative" @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')">
+          <wd-img :width="174" :height="76" :src="bgjifen" />
+          <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
+          <view class="pos-absolute left-87px top-18px">
+            <view class="font-size-16px" style="color: #e22525">积分商城</view>
+            <view class="font-size-12px" style="color: #6e6e6e">福利来袭</view>
+          </view>
+        </div>
+        <div class="pos-relative" @click="gopath('/pages-sub/marketManager/coupon/index')">
+          <wd-img :width="174" :height="76" :src="quanbg" />
+          <wd-img :width="80" :height="80" :src="quan" custom-class="img" />
+          <view class="pos-absolute left-87px top-18px">
+            <view class="font-size-16px" style="color: #8839b6">领券中心</view>
+            <view class="font-size-12px" style="color: #6e6e6e">优惠多多</view>
+          </view>
+        </div>
       </div>
-      <div class="pos-relative" @click="gopath('/pages-sub/marketManager/coupon/index')">
-        <wd-img :width="174" :height="76" :src="quanbg" />
-        <wd-img :width="80" :height="80" :src="quan" custom-class="img" />
-        <view class="pos-absolute left-87px top-18px">
-          <view class="font-size-16px" style="color: #8839b6">领券中心</view>
-          <view class="font-size-12px" style="color: #6e6e6e">优惠多多</view>
-        </view>
-      </div>
-    </div>
-  </view>
-  <view class="list py-10px">
-    <view class="flex px-18px box-border mb-16px">
-      <wd-img :width="28" :height="28" :src="led" />
-      <wd-img :width="80" :height="30" :src="tuijian" custom-class="ml-2px" />
     </view>
-    <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
-      <view
-        class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
-        @click="gopath('/pages/shop/shopInfo')"
-      >
-        <wd-img :width="175" :height="160" :src="topbgBase64" />
-        <view class="w-155px name my-10px m-auto">
-          赵州雪梨干泡水赵雪雪梨干无硫赵州雪梨干泡水赵雪雪梨干无硫河北石家庄...河北石家庄...
-        </view>
-        <view>
-          <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
-          <text style="font-size: 18px; font-weight: 600; color: #f44d24">58.8</text>
-          <text style="margin-left: 8px; font-size: 12px; color: #999999">已售2353件</text>
+    <view class="list py-10px">
+      <view class="flex px-18px box-border mb-16px">
+        <wd-img :width="28" :height="28" :src="led" />
+        <wd-img :width="80" :height="30" :src="tuijian" custom-class="ml-2px" />
+      </view>
+      <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
+        <view class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px" v-for="item in goodList"
+          :key="item.spuId" @click="gopath('/pages/shop/shopInfo', item.spuId)">
+          <wd-img :width="175" :height="160" :src="topbgBase64" />
+          <view class="w-155px name my-10px m-auto">
+            {{ item.spuName }}
+          </view>
+          <view>
+            <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
+            <text style="font-size: 18px; font-weight: 600; color: #f44d24">{{ item.sellPrice }}</text>
+            <text style="margin-left: 8px; font-size: 12px; color: #999999">已售{{ item.salesVolume }}件</text>
+          </view>
         </view>
       </view>
     </view>
-  </view>
+  </z-paging>
 </template>
 
 <style>
