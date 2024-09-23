@@ -17,6 +17,7 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
+    status: tabsVal.value,
   }
   // 调用接口获取数据
   try {
@@ -30,14 +31,14 @@ async function queryList(pageNo: number, pageSize: number) {
 }
 
 const title = ref('订单列表')
-const tabsVal = ref(0)
+const tabsVal = ref('0')
 const tabslist = ref([
-  { name: '全部', value: 1 },
-  { name: '待付款', value: 2 },
-  { name: '待发货', value: 3 },
-  { name: '待收货', value: 4 },
-  { name: '已完成', value: 5 },
-  { name: '退换/取消', value: 6 },
+  { name: '全部', value: '0' },
+  { name: '待付款', value: '1' },
+  { name: '待发货', value: '2' },
+  { name: '待收货', value: '3' },
+  { name: '已完成', value: '4' },
+  { name: '退换/取消', value: '5' },
 ])
 const list = ref([])
 const list2 = ref([])
@@ -62,8 +63,8 @@ const gopath = function (url, e) {
   })
 }
 
-onLoad(async () => {
-  // await getList()
+onLoad((options) => {
+  tabsVal.value = options.tabsVal ? options.tabsVal : '1'
 })
 </script>
 
@@ -100,13 +101,13 @@ onLoad(async () => {
           @change="changeTab"
         >
           <block v-for="item in tabslist" :key="item.value">
-            <wd-tab :title="item.name"></wd-tab>
+            <wd-tab :title="item.name" :name="item.value"></wd-tab>
           </block>
         </wd-tabs>
       </view>
     </template>
     <view class="pt-2 overflow-hidden ListBox">
-      <view v-for="(item, index) in list" class="float-left w-full box-border" :key="index">
+      <view v-for="(item, index) in 5" class="float-left w-full box-border" :key="index">
         <wd-card>
           <template #title>
             <view class="flex justify-between items-center">
@@ -123,7 +124,7 @@ onLoad(async () => {
               <wd-text text="代发货" size="14px" color="#777777" class=""></wd-text>
             </view>
           </template>
-          <view v-for="(it, ind) in list2" :key="ind">
+          <view v-for="(it, ind) in 2" :key="ind">
             <view class="flex justify-between items-center mt-2 mb-4">
               <wd-img
                 :width="100"

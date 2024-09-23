@@ -36,12 +36,17 @@ const {
 } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
+
 function login() {
   routeTo({ url: '/pages/login/index' })
 }
+
 const toast = useToast()
 const bgUrlBase64 = ref()
 
+const dingdan = (e) => {
+  routeTo({ url: '/pages-sub/order/orderList?tabsVal=' + e })
+}
 const qiandao = () => {
   routeTo({ url: '/pages-sub/marketManager/integral/index' })
 }
@@ -156,7 +161,7 @@ onShow(async () => {
           class="w-1/5 flex flex-col items-center py-10px"
           v-for="(item, index) in serveOrderList"
           :key="index"
-          @click="toContent(item)"
+          @click="dingdan(item.status)"
         >
           <wd-badge :modelValue="item.value">
             <view>
@@ -179,7 +184,9 @@ onShow(async () => {
             </view>
             <view class="text-16px font-600">商家服务</view>
           </view>
-          <view><wd-icon name="chevron-right" size="14px"></wd-icon></view>
+          <view>
+            <wd-icon name="chevron-right" size="14px"></wd-icon>
+          </view>
         </view>
         <view class="flex justify-around items-center gap-10px before-shu">
           <view class="text-center">
@@ -272,6 +279,7 @@ onShow(async () => {
 .h-bg {
   background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
 }
+
 :deep(.custom-class-mine-login) {
   color: #fff !important;
   background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
