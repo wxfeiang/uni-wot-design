@@ -36,13 +36,20 @@ interface NavigateToOptions {
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
+       "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
+       "/pages-sub/marketManager/coupon/writeOffCoup" |
+       "/pages-sub/marketManager/coupon/writeOffCoupList" |
        "/pages-sub/marketManager/integral/index" |
        "/pages-sub/marketManager/integral/interList" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/info" |
-       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/list";
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/list" |
+       "/pages-sub/shopManager/index" |
+       "/pages-sub/shopManager/shopCode" |
+       "/pages-sub/shopManager/shopPayList" |
+       "/pages-sub/shopManager/shopPayMingxi";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

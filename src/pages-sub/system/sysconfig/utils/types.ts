@@ -6,6 +6,7 @@ interface serveProps {
   value?: string
   id?: string
   data?: any
+  click?: boolean
 }
 
 export type { serveProps }
