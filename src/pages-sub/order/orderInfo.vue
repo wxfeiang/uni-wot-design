@@ -10,8 +10,12 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import orderInter from './utils/orderInter'
+
+const { sendOrderInfo, sendOrderList } = orderInter()
 
 const paging = ref(null)
+const chooseIndex = ref(-1)
 
 const title = ref('订单详情')
 
@@ -19,12 +23,26 @@ const orderInfo = ref({})
 
 const showPop = ref(false)
 
-async function getList(item: any) {
+function openPop(e) {
+  showPop.value = true
+}
+
+function closePop(e) {
+  showPop.value = false
+}
+
+function Choose(index) {
+  // chooseIndex.value = index
+  // console.log('chooseIndex', index)
+  // skuInfo.value = skuList.value[index]
+  // closePop()
+}
+
+async function getInfo(id: any) {
   uni.showLoading({ title: '' })
   // 这里是请求数据
-  list.value = 10
-  state.value = 'loading'
-  await uni.hideLoading()
+  const data: any = await sendOrderInfo(id)
+  uni.hideLoading()
 }
 
 const gopath = function (url, e) {
@@ -39,7 +57,8 @@ const goback = function (url, e) {
 }
 
 onLoad((options) => {
-  showPop.value = options.showPop?.showPop || false
+  showPop.value = options.showPop?.showPop || true
+  // getInfo(options.id)
 })
 </script>
 
@@ -186,11 +205,35 @@ onLoad((options) => {
         </view>
       </wd-card>
     </view>
+    <!--    <wd-overlay :show="showPop" @click="showPop = false"/>-->
+    <wd-action-sheet v-model="showPop" @close="closePop" title="取消订单">
+      <!--  <wd-popup v-model="showPop" position="bottom" closable @close="closePop">-->
+      <view class="px-4">
+        <view class="pb-4">
+          <wd-text text="请选择取消原因" size="14px" color="#777777"></wd-text>
+        </view>
+
+        <wd-radio-group v-model="chooseIndex" shape="dot" @change="Choose" checked-color="#f44d24">
+          <wd-radio :value="1">不想要了</wd-radio>
+          <wd-radio :value="2">信息填错，重新下单</wd-radio>
+          <wd-radio :value="3">卖家缺货</wd-radio>
+          <wd-radio :value="4">物流原因</wd-radio>
+          <wd-radio :value="5">其他原因</wd-radio>
+        </wd-radio-group>
+
+        <wd-button type="warning" custom-class="duihuanBtn   mt-4 " @click="closePop">
+          确定
+        </wd-button>
+      </view>
+
+      <!--  </wd-popup>-->
+    </wd-action-sheet>
   </view>
   <!-- </view> -->
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {
+  position: relative;
   background: #f3f4f6;
 }
 
@@ -208,5 +251,16 @@ onLoad((options) => {
 
 :deep(.wd-card__title-content) {
   padding: 5px 0 !important;
+}
+
+:deep(.duihuanBtn) {
+  width: 100% !important;
+  color: #ffffff;
+  background: #f44d24 !important;
+}
+
+:deep(.is-checked .wd-radio__shape) {
+  background-color: #f44d24 !important;
+  border-color: #f44d24 !important;
 }
 </style>
