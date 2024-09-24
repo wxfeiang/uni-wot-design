@@ -52,10 +52,7 @@ interface NavigateToOptions {
        "/pages-sub/shopManager/index" |
        "/pages-sub/shopManager/shopCode" |
        "/pages-sub/shopManager/shopPayList" |
-       "/pages-sub/shopManager/shopPayMingxi" |
-       "/pages-sub/order/logistics" |
-       "/pages-sub/order/orderInfo" |
-       "/pages-sub/order/orderList";
+       "/pages-sub/shopManager/shopPayMingxi";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

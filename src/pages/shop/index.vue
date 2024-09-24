@@ -52,8 +52,12 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       page: pageNo,
       size: pageSize,
     })
+    res.content.forEach(el => {
+      el.rotationUrl = JSON.parse(el.rotationUrl).map(item => item.data)
+    });
+    console.log('商城列表', res.content)
+
     paging.value.complete(res.content)
-    console.log('商城列表', res)
   } catch {
     console.log('????')
     paging.value.complete(false)
@@ -128,8 +132,8 @@ onLoad(async () => {
       </view>
       <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
         <view class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px" v-for="item in goodList"
-          :key="item.spuId" @click="gopath('/pages/shop/shopInfo', item.spuId)">
-          <wd-img :width="175" :height="160" :src="topbgBase64" />
+          :key="item.spuId" @click="gopath('/pages/shop/shopInfo', { id: item.spuId })">
+          <wd-img :width="175" :height="160" :src="item.rotationUrl[0]" />
           <view class="w-155px name my-10px m-auto">
             {{ item.spuName }}
           </view>
