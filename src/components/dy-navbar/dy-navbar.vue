@@ -23,6 +23,10 @@ const props = defineProps({
     type: String,
     default: '#fff',
   },
+  placeholder: {
+    type: Boolean,
+    default: true,
+  },
 })
 function handleClickLeft() {
   uni.navigateBack()
@@ -33,7 +37,7 @@ function handleClickLeft() {
     <!-- dy 完全居左 -->
     <wd-navbar
       safeAreaInsetTop
-      placeholder
+      :placeholder="props.placeholder"
       fixed
       :bordered="props.border"
       :custom-class="`custom-class-nav-left ${props.isNavShow ? 'nav_show' : ''}`"
@@ -63,7 +67,7 @@ function handleClickLeft() {
     <wd-navbar
       v-if="props.center"
       fixed
-      placeholder
+      :placeholder="props.placeholder"
       left-arrow
       :bordered="props.border"
       :custom-class="`${props.isNavShow ? 'nav_show' : ''}`"
