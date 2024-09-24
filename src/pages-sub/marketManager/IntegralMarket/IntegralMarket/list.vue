@@ -58,8 +58,12 @@ const gopath = (e) => {
 }
 const surplusIntegral = ref(0)
 onLoad(async () => {
-  const data: any = await sendInterInfo()
-  surplusIntegral.value = data.surplusIntegral ?? 0
+  try {
+    const data: any = await sendInterInfo()
+    surplusIntegral.value = data.surplusIntegral ?? 0
+  } catch (error) {
+    surplusIntegral.value = 0
+  }
 })
 </script>
 

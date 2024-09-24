@@ -34,6 +34,8 @@ async function scancode(e) {
     show.value = true
     scancodeData.value = qs.parse(decodeURIComponent(url) || url)
     console.log('🍗[scancodeData.value]:', scancodeData.value)
+  } else {
+    message.alert({ title: '核销失败', msg: '仅雄安一卡通平台优惠券可核销!' })
   }
 }
 
