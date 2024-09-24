@@ -219,6 +219,23 @@ export const useSetKeepScreenOn = (flog = false) => {
     keepScreenOn: flog,
   })
 }
+/**
+ * @description: 保存图片到相册
+ * @return {}
+ */
+export const useSaveImageToPhotosAlbum = (path: string) => {
+  return new Promise((resolve, reject) => {
+    uni.saveImageToPhotosAlbum({
+      filePath: path,
+      success: function (res) {
+        resolve(res)
+      },
+      fail: function (err) {
+        reject(err)
+      },
+    })
+  })
+}
 
 /**
  * @description: 小程序调用支付

@@ -68,6 +68,9 @@ dependencies:
   '@uni-ui/code-ui':
     specifier: ^1.5.3
     version: 1.5.3
+  '@vant/area-data':
+    specifier: ^1.5.2
+    version: 1.5.2
   alova:
     specifier: ^3.0.16
     version: 3.0.16
@@ -4299,6 +4302,10 @@ packages:
     transitivePeerDependencies:
       - rollup
     dev: true
+
+  /@vant/area-data@1.5.2:
+    resolution: {integrity: sha512-Gtxgt6Rjgopt6234ANpO0bBsSwtjZ23lBlVDHIy8Mi2NJqyoj1vgVWY0dri8/2LCZAWzQ6EnwRrUVViUZ0cvMA==}
+    dev: false
 
   /@vitejs/plugin-legacy@5.4.2(terser@5.33.0)(vite@5.2.8):
     resolution: {integrity: sha512-hlyyQL+wEIyOWdwsUKX+0g3kBU4AbHmVzHarLvVKiGGGqLIYjttMvvjk6zGY8RD9dab6QuFNhDoxg0YFhQ26xA==}

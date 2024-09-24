@@ -94,6 +94,7 @@
     "@types/sm-crypto": "^0.3.4",
     "@types/uuid": "^10.0.0",
     "@uni-ui/code-ui": "^1.5.3",
+    "@vant/area-data": "^1.5.2",
     "alova": "^3.0.16",
     "crypto-js": "^4.2.0",
     "czg": "^1.9.4",
