@@ -10,20 +10,21 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import orderInter from './utils/orderInter'
 
+const { sendOrderInfo, sendOrderList } = orderInter()
 const paging = ref(null)
 
 async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    status: tabsVal.value,
+    // status: tabsVal.value,
   }
   // 调用接口获取数据
   try {
-    const data: any = await sendCouponList(params)
-    list.value = data.content
-
+    const data: any = await sendOrderList(params)
+    list.value = data.content as any
     paging.value.complete(list.value)
   } catch (error) {
     paging.value.complete(false)
@@ -43,16 +44,10 @@ const tabslist = ref([
 const list = ref([])
 const list2 = ref([])
 
-async function getList(item: any) {
-  uni.showLoading({ title: '' })
-  // 这里是请求数据
-  list.value = 10
-  state.value = 'loading'
-  await uni.hideLoading()
-}
 const goback = function (url, e) {
   uni.navigateBack()
 }
+
 function changeTab(e) {
   tabsVal.value = e.index
   console.log(e)
@@ -84,20 +79,21 @@ onLoad((options) => {
     v-model="list"
     @query="queryList"
     :auto-show-system-loading="false"
-    class="pageBoxBg w-screen h-screen"
+    class="w-screen h-screen"
   >
     <template #top>
       <view class="tabTool w-screen">
         <wd-navbar safeAreaInsetTop placeholder :bordered="false">
           <template #left>
             <view class="flex justify-left items-center">
-              <wd-icon name="thin-arrow-left" size="22px" @click="goback"></wd-icon>
-
-              <wd-input
-                class="line-height-20px text-16px rounded-3xl px-4 py-1 text-left ml-2 overflow-hidden"
-                style="background: #f6f6f6"
-                prefix-icon="search"
-              ></wd-input>
+              <wd-icon name="thin-arrow-left" size="18px" @click="goback"></wd-icon>
+              <view
+                style="height: 22px; padding: 5px 15px; background: #f6f6f6"
+                class="rounded-3xl px-4 text-left ml-2 overflow-hidden flex justify-left items-center"
+              >
+                <wd-icon name="search" size="16px" custom-class="mr-2 " color="#777777"></wd-icon>
+                <input class="text-16px" />
+              </view>
             </view>
           </template>
         </wd-navbar>
@@ -115,7 +111,7 @@ onLoad((options) => {
         </wd-tabs>
       </view>
     </template>
-    <view class="pt-2 overflow-hidden ListBox">
+    <view class="pt-2 overflow-hidden ListBox pageBoxBg">
       <view v-for="(item, index) in 5" class="float-left w-full box-border" :key="index">
         <wd-card>
           <template #title>
@@ -127,7 +123,7 @@ onLoad((options) => {
                   round
                   src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
                 />
-                <wd-text text="无备注" size="16px" color="#777777" class="ml-1"></wd-text>
+                <wd-text text="无备注" size="16px" color="#777777" custom-class="ml-1"></wd-text>
                 <wd-icon name="arrow-right" size="16px" class="ml-1" color="#777777"></wd-icon>
               </view>
               <wd-text text="代发货" size="14px" color="#777777" class=""></wd-text>
@@ -147,25 +143,25 @@ onLoad((options) => {
                   :lines="2"
                   size="16px"
                   color="#000000"
-                  class="font-bold"
+                  custom-class="font-bold"
                 ></wd-text>
                 <wd-text
                   text="圆形铁盒/盒"
                   :lines="1"
                   size="14px"
                   color="#757575"
-                  class="mt-1"
+                  custom-class="mt-1"
                 ></wd-text>
                 <view class="flex justify-between items-center mt-4">
                   <wd-text text="￥32111" size="16px" color="#000000"></wd-text>
-                  <wd-text text="x1" size="14px" color="#777777" class="ml-1"></wd-text>
+                  <wd-text text="x1" size="14px" color="#777777" custom-class="ml-1"></wd-text>
                 </view>
               </view>
             </view>
           </view>
-          <view class="flex justify-right items-center my-3">
+          <view class="flex justify-end items-center my-3">
             <wd-text text="共6件 金额：" size="14px" color="#000000"></wd-text>
-            <wd-text text="￥" size="14px" font-bold color="#d04b55" class="ml-1"></wd-text>
+            <wd-text text="￥" size="14px" font-bold color="#d04b55" custom-class="ml-1"></wd-text>
             <wd-text text="2339" size="18px" font-bold color="#d04b55" class=""></wd-text>
           </view>
           <template #footer>
@@ -176,7 +172,7 @@ onLoad((options) => {
                   size="small"
                   plain
                   type="warning"
-                  class="inline-block ml-2"
+                  custom-class="inline-block ml-2"
                   style="width: 5rem"
                   @click="goInfo()"
                 >
@@ -186,7 +182,7 @@ onLoad((options) => {
                   size="small"
                   plain
                   type="info "
-                  class="inline-block ml-2"
+                  custom-class="inline-block ml-2"
                   style="width: 5rem"
                 >
                   立即使用
@@ -213,5 +209,9 @@ onLoad((options) => {
 
 :deep(.wd-card__title-content) {
   padding-bottom: 6px;
+}
+
+:deep(.wd-input) {
+  background: #f6f6f6;
 }
 </style>

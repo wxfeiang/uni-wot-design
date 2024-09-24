@@ -52,11 +52,16 @@ onLoad((options) => {
           text="等待付款"
           size="20px"
           color="#333333"
-          class="my-1 text-center font-bold"
+          custom-class="my-1 text-center font-bold"
         ></wd-text>
         <view class="flex justify-center items-center mt-1 mb-2">
-          <wd-text text="23:00:06" size="14px" color="#e3832a" class="ml-1"></wd-text>
-          <wd-text text="后订单将自动取消" size="14px" color="#777777" class="ml-1"></wd-text>
+          <wd-text text="23:00:06" size="14px" color="#e3832a" custom-class="ml-1"></wd-text>
+          <wd-text
+            text="后订单将自动取消"
+            size="14px"
+            color="#777777"
+            custom-class="ml-1"
+          ></wd-text>
         </view>
       </view>
       <wd-card class="cardno">
@@ -68,13 +73,13 @@ onLoad((options) => {
                 text="姓名 1300000000"
                 size="16px"
                 color="#333333"
-                class="font-bold"
+                custom-class="font-bold"
               ></wd-text>
               <wd-text
                 text="甘肃省兰州市城关区xxxxxxxxxx号"
                 size="16px"
                 color="#777777"
-                class="mt-1"
+                custom-class="mt-1"
               ></wd-text>
             </view>
           </view>
@@ -91,8 +96,8 @@ onLoad((options) => {
                 round
                 src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
               />
-              <wd-text text="无备注" size="16px" color="#777777" class="ml-2"></wd-text>
-              <wd-icon name="arrow-right" size="16px" class="ml-1" color="#777777"></wd-icon>
+              <wd-text text="无备注" size="16px" color="#777777" custom-class="ml-2"></wd-text>
+              <wd-icon name="arrow-right" size="16px" custom-class="ml-1" color="#777777"></wd-icon>
             </view>
             <wd-text text="代发货" size="14px" color="#e3832a" class=""></wd-text>
           </view>
@@ -111,7 +116,7 @@ onLoad((options) => {
                 :lines="2"
                 size="16px"
                 color="#000000"
-                class="font-bold"
+                custom-class="font-bold"
               ></wd-text>
               <wd-text
                 text="圆形铁盒/盒"
@@ -122,7 +127,7 @@ onLoad((options) => {
               ></wd-text>
               <view class="flex justify-between items-center mt-4">
                 <wd-text text="￥32111" size="16px" color="#000000"></wd-text>
-                <wd-text text="x1" size="14px" color="#777777" class="ml-1"></wd-text>
+                <wd-text text="x1" size="14px" color="#777777" custom-class="ml-1"></wd-text>
               </view>
             </view>
           </view>
@@ -134,17 +139,27 @@ onLoad((options) => {
           <view class="flex justify-between items-center mb-1">
             <view class="flex justify-left items-center">
               <wd-text text="订单编号" size="14px" color="#777777" class=""></wd-text>
-              <wd-text text="136465514654654" size="14px" color="#333333" class="ml-2"></wd-text>
+              <wd-text
+                text="136465514654654"
+                size="14px"
+                color="#333333"
+                custom-class="ml-2"
+              ></wd-text>
             </view>
             <wd-text text="复制" size="14px" color="#777777" class=""></wd-text>
           </view>
           <view class="flex justify-left items-center mb-1">
             <wd-text text="下单时间" size="14px" color="#777777" class=""></wd-text>
-            <wd-text text="2024-09-11 15:00:02" size="14px" color="#333333" class="ml-2"></wd-text>
+            <wd-text
+              text="2024-09-11 15:00:02"
+              size="14px"
+              color="#333333"
+              custom-class="ml-2"
+            ></wd-text>
           </view>
           <view class="flex justify-left items-center mb-1">
             <wd-text text="配送方式" size="14px" color="#777777" class=""></wd-text>
-            <wd-text text="快递配送" size="14px" color="#333333" class="ml-2"></wd-text>
+            <wd-text text="快递配送" size="14px" color="#333333" custom-class="ml-2"></wd-text>
           </view>
         </view>
       </wd-card>
@@ -163,9 +178,9 @@ onLoad((options) => {
             <wd-text text="优惠券" size="14px" color="#777777" class=""></wd-text>
             <wd-text text="0" size="14px" color="#333333" class=""></wd-text>
           </view>
-          <view class="flex justify-right items-center my-3">
+          <view class="flex justify-end items-center my-3">
             <wd-text text="总计：" size="14px" color="#000000"></wd-text>
-            <wd-text text="￥" size="14px" font-bold color="#d04b55" class="ml-1"></wd-text>
+            <wd-text text="￥" size="14px" font-bold color="#d04b55" custom-class="ml-1"></wd-text>
             <wd-text text="2339" size="18px" font-bold color="#d04b55" class=""></wd-text>
           </view>
         </view>
@@ -187,11 +202,11 @@ onLoad((options) => {
   padding-bottom: 6px;
 }
 
-:deep(.cardno .wd-card__footer) {
-  padding: 5px 0;
+:deep(.wd-card__footer) {
+  padding: 5px 0 !important;
 }
 
-:deep(.cardno .wd-card__title-content) {
-  padding: 5px 0;
+:deep(.wd-card__title-content) {
+  padding: 5px 0 !important;
 }
 </style>
