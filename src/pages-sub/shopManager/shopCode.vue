@@ -14,7 +14,7 @@ import tobg from './static/tobg.png'
 // TODO: 背景图片
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import { routeTo } from '@/utils'
-import { useSaveImageToPhotosAlbum } from '@/utils/uniapi'
+import { downSaveImage } from '@/utils/uniapi'
 const topbgBase64 = ref('')
 const show = ref(false)
 const qrCodeImg = ref('')
@@ -36,7 +36,7 @@ const downQrcode = () => {
     qrCodeImg.value = img
 
     // 开始下载
-    useSaveImageToPhotosAlbum(qrCodeImg.value)
+    downSaveImage(qrCodeImg.value)
   })
 }
 
