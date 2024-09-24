@@ -114,6 +114,7 @@
     "useId": true,
     "useModel": true,
     "useTemplateRef": true,
-    "useNav": true
+    "useNav": true,
+    "useColPickerData": true
   }
 }

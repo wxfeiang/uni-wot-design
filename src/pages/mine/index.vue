@@ -77,7 +77,7 @@ onShow(async () => {
 
 <template>
   <view
-    class="box-border w-100vw flex flex-col bg-no-repeat bg-#f5f5f5 min-ht-100vh"
+    class="box-border w-100vw flex flex-col bg-no-repeat bg-#f5f5f5 min-h-100vh"
     :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px`"
   >
     <view class="px-15px mt-10%">
@@ -289,12 +289,7 @@ onShow(async () => {
 
 .before-shu {
   &::before {
-    position: absolute;
-    right: 48%;
-    width: 1px;
-    height: 40px;
-    content: '';
-    background: #e5e5e5;
+    @apply absolute right-48% h-40px w-1px content-'' bg-#e5e5e5;
   }
 }
 </style>
