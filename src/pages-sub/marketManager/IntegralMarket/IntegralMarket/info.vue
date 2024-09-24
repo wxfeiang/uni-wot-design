@@ -41,11 +41,13 @@ const goodsInfoData = ref<goodsInfoProps>({
 })
 onLoad(async (option) => {
   opData.value = option
+
   const params = {
     goodId: option.goodId,
   }
   const data = await sendInterProductInfo(params)
-  goodsInfoData.value = data
+  goodsInfoData.value = { ...data, sellOut: opData.value.sellOut }
+  console.log('🥕[ goodsInfoData.value]:', goodsInfoData.value)
 })
 </script>
 
@@ -106,7 +108,9 @@ onLoad(async (option) => {
 
       <view class="mt-2 mb-1">
         <wd-text text="商品详情" :lines="1" size="18px" color="#000000" class="font-bold"></wd-text>
-        <view></view>
+        <view>
+          <wd-img :src="goodsInfoData.goodImg" width="100%" height="150"></wd-img>
+        </view>
       </view>
     </view>
 

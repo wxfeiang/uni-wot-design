@@ -53,7 +53,7 @@ function changeTab(e) {
 const gopath = (e) => {
   routeTo({
     url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/info',
-    data: { goodId: e.goodId, surplusIntegral: surplusIntegral.value },
+    data: { goodId: e.goodId, surplusIntegral: surplusIntegral.value, sellOut: e.sellOut },
   })
 }
 const surplusIntegral = ref(0)
