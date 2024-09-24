@@ -1,4 +1,9 @@
-import { getExchangeGoodsInfo, getExchangeGoodsList, getIntegralInfo } from '@/service/api/integral'
+import {
+  exchangeGoods,
+  getExchangeGoodsInfo,
+  getExchangeGoodsList,
+  getIntegralInfo,
+} from '@/service/api/integral'
 import { useRequest } from 'alova/client'
 import { goodsInfoProps } from './types'
 
@@ -23,6 +28,12 @@ const { send: sendInterProductInfo, data: goodsInfoData } = useRequest(
   },
 )
 
+// 提交积分兑换
+const { send: sendExchangeGoods } = useRequest((data) => exchangeGoods(data), {
+  immediate: false,
+  loading: false,
+})
+
 export default () => {
-  return { sendInterProductList, sendInterInfo, sendInterProductInfo }
+  return { sendInterProductList, sendInterInfo, sendInterProductInfo, sendExchangeGoods }
 }

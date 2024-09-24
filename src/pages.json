@@ -489,7 +489,6 @@
           "path": "IntegralMarket/IntegralMarket/buyOrder",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

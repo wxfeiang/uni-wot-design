@@ -7,6 +7,8 @@ const GET_INTEGRAL_INFO = baseUrlApi('/member/app/integral/getIntegralInfo')
 
 const GET_EXCHANGE_GOODS_INFO = baseUrlApi('/promotion/app/h5/exchangeGoods/getExchangeGoodsInfo')
 
+const EXCHANGE_GOODS = baseUrlApi('/promotion/app/h5/exchangeGoods/exchangeGoods')
+
 /**
  *   获取我的可用积分
  * @param params 初始参数()
@@ -47,6 +49,22 @@ export function getExchangeGoodsInfo<T>(data) {
   }
   return request.Post<T>(
     GET_EXCHANGE_GOODS_INFO, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+/**
+ *   提交积分兑换
+ * @param params 初始参数()
+ * */
+export function exchangeGoods<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post<T>(
+    EXCHANGE_GOODS, // 请求地址
     data,
     {
       meta,

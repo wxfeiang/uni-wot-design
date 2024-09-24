@@ -1,7 +1,6 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -13,19 +12,6 @@ import { routeTo } from '@/utils'
 
 const title = ref('确认订单')
 
-async function getList(item: any) {
-  uni.showLoading({ title: '' })
-  // 这里是请求数据
-  list.value = 10
-  state.value = 'loading'
-  await uni.hideLoading()
-}
-
-function changeTab(e) {
-  tabsVal.value = e.index
-  console.log(e)
-}
-
 const gopath = function (e) {
   routeTo({
     url: '/pages-sub/marketManager/IntegralMarket/info',
@@ -33,13 +19,13 @@ const gopath = function (e) {
   })
 }
 
-onLoad(async () => {
-  // await getList()
+onLoad(async (options) => {
+  console.log('🥖[options]:', options)
 })
 </script>
 
 <template>
-  <view class="pageBoxBg w-screen">
+  <view class="bg-#f3f4f6">
     <dy-navbar :leftTitle="title" left></dy-navbar>
     <view class="pt-4">
       <wd-card>
@@ -132,19 +118,12 @@ onLoad(async () => {
   <!-- </view> -->
 </template>
 <style lang="scss" scoped>
-.pageBoxBg {
-  min-height: calc(100vh - 50px);
-  background: #f3f4f6;
-}
-
 :deep(.duihuanBtn) {
   background: #f44d24 !important;
 }
-
 :deep(.wd-card__footer) {
   padding-top: 6px;
 }
-
 :deep(.wd-card__title-content) {
   padding-bottom: 6px;
 }
