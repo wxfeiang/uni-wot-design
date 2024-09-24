@@ -35,7 +35,7 @@ const active = ref(0)
   <view v-if="!logisticsData?.expressTracesRespVOS">
     <wd-status-tip image="search" tip="暂无物流信息!" />
   </view>
-  <view class="p-10px min-h-100vh bg-#f5f5f5" v-esle>
+  <view class="p-10px min-h-100vh bg-#f5f5f5" v-else>
     <view class="p-10px bg-white">
       <view class="flex justify-between items-center mb-10px">
         <view>
@@ -65,6 +65,4 @@ const active = ref(0)
   </view>
 </template>
 
-<style lang="scss" scoped>
-//
-</style>
+<style lang="scss" scoped></style>

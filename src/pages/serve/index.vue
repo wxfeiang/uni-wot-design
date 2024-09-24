@@ -34,6 +34,7 @@ import { getRect, isArray } from 'wot-design-uni/components/common/util'
 const bg = ref(
   'https://oss.xay.xacloudy.cn/images/2024-09/21c5af79-c081-48d8-8e4b-18f406d52b25serbg.png',
 )
+const dyheight = ref('100%')
 const toast = useToast()
 const basestore = useBaseStore()
 const mainData1 = ref([
@@ -190,26 +191,38 @@ const categories = ref([
 ])
 
 function handleChange({ value }) {
-  active.value = value
-  scrollTop.value = itemScrollTop.value[value]
-  scrollIntoViewId.value = 'id3'
-  console.log('🥒[scrollIntoViewId.value ]:', scrollIntoViewId.value)
-  console.log('🥃')
+  // console.log('🍬[value]:', value)
+  if (value === 1 || value === 2) {
+    dyheight.value = '38%'
+  }
+  if (value === 0) {
+    dyheight.value = '100%'
+  }
+  setTimeout(() => {
+    active.value = value
+    scrollTop.value = itemScrollTop.value[value]
+    scrollIntoViewId.value = 'id3'
+  }, 100)
 }
 
 function onScroll(e) {
-  // const { scrollTop } = e.detail
-  // const threshold = 50 // 下一个标题与顶部的距离
-  // if (scrollTop < threshold) {
-  //   active.value = 0
-  //   return
-  // }
-  // const index = itemScrollTop.value.findIndex(
-  //   (top) => top > scrollTop && top - scrollTop <= threshold,
-  // )
-  // if (index > -1) {
-  //   active.value = index
-  // }
+  const { scrollTop } = e.detail
+  // console.log('🥚[scrollTop]:', scrollTop)
+  if (scrollTop < itemScrollTop.value[active.value]) {
+    dyheight.value = '100%'
+  }
+  const threshold = 50 // 下一个标题与顶部的距离
+  if (scrollTop < threshold) {
+    active.value = 0
+    dyheight.value = '100%'
+    return
+  }
+  const index = itemScrollTop.value.findIndex(
+    (top) => top > scrollTop && top - scrollTop <= threshold,
+  )
+  if (index > -1) {
+    active.value = index
+  }
 }
 
 onShow((options: any) => {
@@ -220,8 +233,8 @@ onMounted(() => {
   getRect('.category', true).then((rects) => {
     console.log('🍾[rects]:', rects)
     if (isArray(rects)) {
-      // itemScrollTop.value = rects.map((item) => item.top - 190 || 0)
-      // scrollTop.value = rects[active.value].top - 190 || 0
+      itemScrollTop.value = rects.map((item) => item.top - 210 || 0)
+      scrollTop.value = rects[active.value].top - 210 || 0
     }
   })
 })
@@ -229,10 +242,10 @@ onMounted(() => {
 
 <template>
   <view
-    class="wraper bg-#F2F3F7 pt-180px box-border pb-20px h-100vh! overflow-hidden bg-no-repeat"
+    class="wraper bg-#F2F3F7 box-border overflow-hidden! bg-no-repeat"
     :style="`background-image: url(${bg}) ;background-size: 100% 250px`"
   >
-    <wd-sidebar v-model="active" @change="handleChange">
+    <wd-sidebar v-model="active" @change="handleChange" customClass="customClass-warp">
       <wd-sidebar-item
         v-for="(item, index) in categories"
         :key="index"
@@ -241,33 +254,44 @@ onMounted(() => {
         customClass="customClass"
       />
     </wd-sidebar>
-    <scroll-view
-      class="content"
-      scroll-y
-      scroll-with-animation
-      :scroll-into-view="scrollIntoViewId"
-    >
-      <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
-        <dy-title :title="item.label" class="pl-10px mb-0! py-10px"></dy-title>
-        <wd-grid :column="3" clickable>
-          <wd-grid-item
-            use-icon-slot
-            use-text-slot
-            v-for="(cell, index) in item.items"
-            :key="index"
-            custom-class="grid-item"
-            @itemclick="gridClick(cell)"
-          >
-            <template #icon>
-              <image class="wh-42px rounded-10px" :src="cell.url" />
-            </template>
-            <template #text>
-              <view class="text-center py-15px">{{ cell.title }}</view>
-            </template>
-          </wd-grid-item>
-        </wd-grid>
-      </view>
-    </scroll-view>
+    <view class="flex-1 h-60% bg-#fff mt-190px mr-10px rounded-10px mb-20px">
+      <scroll-view
+        class="content"
+        scroll-y
+        scroll-with-animation
+        :scroll-top="scrollTop"
+        :throttle="false"
+        @scroll="onScroll"
+      >
+        <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
+          <view class="pl-10px">
+            <dy-title
+              :title="item.label"
+              class="pl-10px mb-0! py-10px"
+              customClass="customClass-title"
+            ></dy-title>
+          </view>
+
+          <wd-grid :column="3" clickable>
+            <wd-grid-item
+              use-icon-slot
+              use-text-slot
+              v-for="(cell, index) in item.items"
+              :key="index"
+              custom-class="grid-item"
+              @itemclick="gridClick(cell)"
+            >
+              <template #icon>
+                <image class="wh-42px rounded-10px" :src="cell.url" />
+              </template>
+              <template #text>
+                <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
+              </template>
+            </wd-grid-item>
+          </wd-grid>
+        </view>
+      </scroll-view>
+    </view>
   </view>
 </template>
 
@@ -287,8 +311,8 @@ onMounted(() => {
 }
 :deep(.wd-sidebar-item--active) {
   @apply color-#2D69EF;
-  background: linear-gradient(270deg, #f2f3f7 0%, #d1e8ff 100%);
-  border-radius: 0px 10px 0px 0px;
+  background: linear-gradient(270deg, #f2f3f7 0%, #d1e8ff 100%) !important;
+  border-radius: 0px 10px 0px 0px !important;
 }
 .wraper {
   display: flex;
@@ -296,20 +320,28 @@ onMounted(() => {
   height: calc(100vh - var(--window-top) - constant(safe-area-inset-bottom));
   height: calc(100vh - var(--window-top) - env(safe-area-inset-bottom));
 }
-
 .content {
   box-sizing: border-box;
   flex: 1;
-  height: 100%;
-  padding-top: 10px;
-  margin-right: 10px;
-  margin-bottom: 30px;
-  background: #fff;
-  border-radius: 0 10px 10px 0;
-  box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
+  height: v-bind(dyheight);
+  // padding-top: 10px;
+  // // margin-top: 190px;
+  // margin-right: 10px;
+  // margin-bottom: 30px;
+  // background: #fff;
+  // border-radius: 0 10px 10px 0;
+  // box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
 }
 
+:deep(.customClass-warp) {
+  @apply mt-190px;
+}
 :deep(.customClass) {
   @apply text-12px!;
+}
+:deep(.customClass-title) {
+  text {
+    @apply font-400! text-14px!;
+  }
 }
 </style>

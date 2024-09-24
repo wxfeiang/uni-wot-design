@@ -50,7 +50,9 @@ async function getList(item: any) {
   state.value = 'loading'
   await uni.hideLoading()
 }
-
+const goback = function (url, e) {
+  uni.navigateBack()
+}
 function changeTab(e) {
   tabsVal.value = e.index
   console.log(e)
@@ -59,6 +61,13 @@ function changeTab(e) {
 const gopath = function (url, e) {
   routeTo({
     url,
+    data: e,
+  })
+}
+
+const goInfo = function (e) {
+  routeTo({
+    url: '/pages-sub/order/orderInfo',
     data: e,
   })
 }
@@ -82,7 +91,7 @@ onLoad((options) => {
         <wd-navbar safeAreaInsetTop placeholder :bordered="false">
           <template #left>
             <view class="flex justify-left items-center">
-              <wd-icon name="thin-arrow-left" size="22px"></wd-icon>
+              <wd-icon name="thin-arrow-left" size="22px" @click="goback"></wd-icon>
 
               <wd-input
                 class="line-height-20px text-16px rounded-3xl px-4 py-1 text-left ml-2 overflow-hidden"
@@ -169,6 +178,7 @@ onLoad((options) => {
                   type="warning"
                   class="inline-block ml-2"
                   style="width: 5rem"
+                  @click="goInfo()"
                 >
                   评价
                 </wd-button>
