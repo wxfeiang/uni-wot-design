@@ -62,10 +62,15 @@ export function getCardScheduleInfo(data) {
  * @param params 初始参数()
  * */
 export function getCardcheckInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
   return request.Post(
     CARDCHECK_INFO, // 请求地址
     data,
-    {},
+    {
+      meta,
+    },
   )
 }
 

@@ -81,6 +81,7 @@ const onClose = async () => {
     if (!parts[1]?.length) {
       inValue.value = `${inValue.value * 1}.00`
     }
+    console.log('🌽', inValue.value)
     show.value = true
     // TODO:  查询后台当前金额可以用的优惠券
     const params = {
@@ -130,8 +131,8 @@ function itmeClick(item: couponProps, index) {
     // cyhqje.value = yhList.value[activeIndex.value].value
     cyhqje.value = item.couponName
     if (item.couponType === 1) {
-      sjyhje.value = item.couponFillPrice * 1
-      const value = inValue.value * 1 - item.couponFillPrice * 1
+      sjyhje.value = item.couponPrice * 1
+      const value = inValue.value * 1 - item.couponPrice * 1
       actualPrice.value = value < 0 ? 0 : value
     }
     if (item.couponType === 3) {
@@ -173,6 +174,15 @@ const { send: sendShopDetail, data: shopMessage } = useRequest(
   },
 )
 async function goPay() {
+  if (inValue.value <= 0) {
+    message.alert({
+      msg: '金额不能小于或等于0',
+      title: '提示',
+      closeOnClickModal: false,
+    })
+    return
+  }
+
   const params = {
     userDid: '',
     invoice: inValue.value, // 订单金额
@@ -319,7 +329,7 @@ onShow(async () => {
                 <text>{{ item.couponName }}</text>
               </view>
               <view class="color-#2D69EF text-14px" v-if="item.couponType === 1">
-                ¥ {{ item.couponFillPrice }}
+                ¥ {{ item.couponPrice }}
               </view>
               <view class="color-#2D69EF text-14px" v-if="item.couponType === 3">
                 {{ item.couponPrice * 10 }} 折

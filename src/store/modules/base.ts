@@ -11,6 +11,10 @@ export const useBaseStore = defineStore(
   () => {
     // 进入服务页面激活标志
     const active = ref(0)
+
+    function setActive(val) {
+      active.value = val
+    }
     // 当前用户坐标
     const userLocation = ref({} as any)
 
@@ -39,6 +43,7 @@ export const useBaseStore = defineStore(
       historySearch,
       setHistorySearch,
       clearHistorySearch,
+      setActive,
     }
   },
   {

@@ -1,3 +1,4 @@
+import { logout } from '@/service/api/auth'
 import { useUserStore } from '@/store/user'
 import { useRequest } from 'alova/client'
 import type { serveListProps, serveProps } from '../utils/types'
@@ -28,7 +29,21 @@ const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
   },
 )
 
+// 退出操作
+const { loading, send: sendLogOut } = useRequest(logout, {
+  immediate: false,
+  loading: false,
+})
+
 const { clearUserInfo, userInfo } = useUserStore()
+const LogOut = async () => {
+  try {
+    // await sendLogOut()
+    clearUserInfo()
+  } catch (error) {}
+  // TODO: 清除用户信息
+  clearUserInfo()
+}
 
 const topList = ref<serveProps[]>([
   {
@@ -55,32 +70,32 @@ const serveOrderList = ref<serveListProps[]>([
   {
     label: '待付款',
     icon: dafukuan,
-    value: 12,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    value: 1,
+    path: '/pages-sub/order/orderList?tabsVal=1',
   },
   {
     label: '待发货',
     icon: daifahuo,
-    value: 0,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    value: 2,
+    path: '/pages-sub/order/orderList?tabsVal=2',
   },
   {
     label: '待收货',
     icon: daishouhuo,
     value: 0,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    path: '/pages-sub/order/orderList?tabsVal=3',
   },
   {
     label: '已完成',
     icon: yiwancheng,
     value: 0,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    path: '/pages-sub/order/orderList?tabsVal=4',
   },
   {
     label: '售后订单',
     icon: shouhou,
     value: 0,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    path: '/pages-sub/order/orderList?tabsVal=5',
   },
 ])
 
@@ -113,14 +128,14 @@ const serveList = ref<serveProps[]>([
   {
     icon: spsc,
     title: '商品收藏',
-    path: '/pages-sub/marketManager/coupon/index',
-    islink: false,
+    path: '/pages-sub/userManager/collection/collection',
+    islink: true,
   },
   {
     icon: shdz,
     title: '收货地址',
-    path: '/pages-sub/marketManager/coupon/index',
-    islink: false,
+    path: '/pages-sub/userManager/address/editor',
+    islink: true,
   },
 
   {
@@ -165,6 +180,8 @@ const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true
 
 export default () => {
   return {
+    LogOut,
+    loading,
     serveList,
     serveClick,
     sendIsReceiveCardInfo,

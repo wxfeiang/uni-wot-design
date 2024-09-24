@@ -101,7 +101,7 @@ export const getAllPages = (key = 'needLogin') => {
         })
       })
   })
-  console.log('🍟', subPages)
+
   const result = [...mainPages, ...subPages]
   console.log(`getAllPages by ${key} result: `, result)
   return result
@@ -174,7 +174,7 @@ export const baseUrl = () => {
  */
 export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
   let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
-  console.log('🍑[data]:', data)
+  console.log('跳转携带参数:', data)
 
   if (data) {
     const queryStr = qs.stringify(data)
@@ -262,6 +262,7 @@ export function removeT(date: string) {
  * @return {}  obg 返回拼接后的url /  不符合的提示
  */
 export function sceneResult(resData: any) {
+  console.log('扫码内容=====:', resData)
   // 如果不是小程序码的标志 直接返回
   let status = false
   let url = null
@@ -272,9 +273,10 @@ export function sceneResult(resData: any) {
     url[1] = url[1].split(',')
     status = url[1][2] === 'xaCard'
     path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
-    console.log('🍝[path]:', path, status)
-  } else if (resData.scanType === 'QR_CODE') {
+  } else if (resData.scanType === 'QR_CODE' || resData.type === 'qrcode') {
     url = decodeURIComponent(resData.result).split('?')
+    status = url[1].indexOf('xaCard') !== -1
+    path = url[1]
   }
   return {
     status,

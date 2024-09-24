@@ -13,25 +13,32 @@ interface NavigateToOptions {
        "/pages/pay/index" |
        "/pages/pay/sacnResult" |
        "/pages/serve/index" |
+       "/pages/shop/goodsSearch" |
        "/pages/shop/index" |
-       "/pages/login/compoents/loginOuther" |
+       "/pages/shop/order" |
+       "/pages/shop/shopCar" |
+       "/pages/shop/shopInfo" |
+       "/pages/shop/shopInfoCopy" |
        "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
-       "/pages-sub/system/sysconfig/index" |
-       "/pages-sub/system/sysconfig/setting" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/newsManager/index" |
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
+       "/pages-sub/system/sysconfig/index" |
+       "/pages-sub/system/sysconfig/setting" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
+       "/pages-sub/userManager/address/editor" |
+       "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
+       "/pages-sub/userManager/collection/collection" |
        "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
@@ -39,10 +46,16 @@ interface NavigateToOptions {
        "/pages-sub/marketManager/coupon/writeOffCoupList" |
        "/pages-sub/marketManager/integral/index" |
        "/pages-sub/marketManager/integral/interList" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/info" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/list" |
        "/pages-sub/shopManager/index" |
        "/pages-sub/shopManager/shopCode" |
        "/pages-sub/shopManager/shopPayList" |
-       "/pages-sub/shopManager/shopPayMingxi";
+       "/pages-sub/shopManager/shopPayMingxi" |
+       "/pages-sub/order/logistics" |
+       "/pages-sub/order/orderInfo" |
+       "/pages-sub/order/orderList";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

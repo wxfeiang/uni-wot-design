@@ -4,6 +4,7 @@
   needLogin: true,
   style: {
     navigationStyle: 'custom',
+    backgroundColor: '#F3F4F6',
   },
 }
 </route>
@@ -20,11 +21,7 @@ import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
 import { storeToRefs } from 'pinia'
 import { useMessage, useToast } from 'wot-design-uni'
-
-import useLogin from '../login/utils/useLogin'
-
 import useInfo from './utils/useInfo'
-const { sendIsReceiveCardInfo } = useLogin()
 
 const { navTop } = useNav()
 
@@ -39,19 +36,16 @@ const {
 } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
+
 function login() {
   routeTo({ url: '/pages/login/index' })
 }
-const toast = useToast()
 
+const toast = useToast()
 const bgUrlBase64 = ref()
 
-const acton = (item) => {
-  if (item.url) {
-    routeTo({ url: '/pages-sub/system/sysconfig/index' })
-  } else {
-    toast.show('功能开发中，敬请期待!...')
-  }
+const dingdan = (e) => {
+  routeTo({ url: e })
 }
 const qiandao = () => {
   routeTo({ url: '/pages-sub/marketManager/integral/index' })
@@ -70,10 +64,11 @@ onShow(async () => {
         status: 0,
       }
       const data2: any = await sendInterInfo()
-      topList.value[0].value = data2.curScore ?? 0
+      topList.value[0].value = data2.totalIntegral ?? 0
       const data: any = await sendUserCouponList(params)
       topList.value[1].value = data.unUsedCouponNum
     } catch {
+      topList.value[0].value = 0
       topList.value[1].value = 0
     }
   }
@@ -166,7 +161,7 @@ onShow(async () => {
           class="w-1/5 flex flex-col items-center py-10px"
           v-for="(item, index) in serveOrderList"
           :key="index"
-          @click="toContent(item)"
+          @click="dingdan(item.path)"
         >
           <wd-badge :modelValue="item.value">
             <view>
@@ -189,7 +184,9 @@ onShow(async () => {
             </view>
             <view class="text-16px font-600">商家服务</view>
           </view>
-          <view><wd-icon name="chevron-right" size="14px"></wd-icon></view>
+          <view>
+            <wd-icon name="chevron-right" size="14px"></wd-icon>
+          </view>
         </view>
         <view class="flex justify-around items-center gap-10px before-shu">
           <view class="text-center">
@@ -244,9 +241,45 @@ onShow(async () => {
   border-radius: 19px;
 }
 
+.money {
+  box-sizing: border-box;
+  border-right: 1px solid #d4d4d4;
+}
+
 .h-bg {
   background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
 }
+
+:deep(.custom-class-mine-login) {
+  color: #fff !important;
+  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
+  border: none !important;
+  border-radius: 6px !important;
+}
+
+.before-shu {
+  &::before {
+    position: absolute;
+    right: 48%;
+    width: 1px;
+    height: 40px;
+    content: '';
+    background: #e5e5e5;
+  }
+}
+</style>
+<style lang="scss" scoped>
+.qiandao {
+  width: 82px;
+  height: 32px;
+  background: linear-gradient(270deg, #99c7f2 0%, #71a2fb 100%);
+  border-radius: 19px;
+}
+
+.h-bg {
+  background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
+}
+
 :deep(.custom-class-mine-login) {
   color: #fff !important;
   background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;

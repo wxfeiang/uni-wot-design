@@ -30,6 +30,12 @@ page {
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
+.custom-class-mine-error {
+  color: #fff !important;
+  background: #f44d24 !important;
+  border: none !important;
+  border-radius: var(--btn-round) !important;
+}
 .dy-tab-full-hight {
   height: calc(100vh - var(--window-bottom));
 }

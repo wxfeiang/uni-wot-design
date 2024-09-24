@@ -4,9 +4,9 @@ interface serveProps {
   title: string
   islink: boolean
   value?: string
-  click?: boolean
   id?: string
   data?: any
+  click?: boolean
 }
 
 export type { serveProps }

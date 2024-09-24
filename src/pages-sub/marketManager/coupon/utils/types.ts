@@ -18,6 +18,21 @@ interface conponListProps {
   couponFillPrice: number // 满金额
   couponReceiveBeginDate: string // 领取开始时间
   couponReceiveEndDate: string // 领取结束时间
+  shopId?: number
+  shopName?: string
 }
 
-export type { conponListProps }
+interface qrCodeProps {
+  type: 'xaCard'
+  couponId: number | string
+  couponName: string
+  couponPrice: number
+  shopId: number | string
+  shopName: string
+  couponEndDate: string
+  couponRemark: string
+  couponStatus: number | string
+  showDetil: number
+}
+
+export type { conponListProps, qrCodeProps }

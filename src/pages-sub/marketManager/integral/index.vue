@@ -10,10 +10,13 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
+import { useMessage } from 'wot-design-uni'
 import jinbi from '../static/images/integral/jinbi.png'
 import jinb2 from '../static/images/integral/jinbi2.png'
 import bg from '../static/images/integral/topbg.png'
+import { signInFoProps, signMess } from './utils/types'
 import useInter from './utils/useInter'
+const message = useMessage()
 
 const { sendInterInfo, sendSign } = useInter()
 const topbgBase64 = ref('')
@@ -28,26 +31,33 @@ const toAgreement = () => {
   })
 }
 const tips = ref(false)
-const qiandaoMsg = ref({
-  maxDay: '',
-  signIntegral: '',
+const qiandaoMsg = ref<signMess>({
+  signIn: null,
+  msg: '',
 })
 const qiandao = async () => {
+  if (infoData.value.today) return
   try {
     const data: any = await sendSign()
-    qiandaoMsg.value = { ...qiandaoMsg.value, ...data }
-    tips.value = true
-    getInterInfo()
+    qiandaoMsg.value = data
+    if (qiandaoMsg.value.msg === '签到成功') {
+      tips.value = true
+      getInterInfo()
+    } else {
+      message.alert({ msg: qiandaoMsg.value.msg, title: '提示' })
+    }
   } catch (error) {
     console.log('error', error)
   }
 }
-const infoData = ref({
-  curScore: null,
-  maxDay: null,
-  totalScore: null,
-  income: null,
-  resultList: [],
+const infoData = ref<signInFoProps>({
+  totalSignInDay: '',
+  todayIntegral: '',
+  totalIntegral: '',
+  surplusIntegral: '',
+  lxSignInDay: '',
+  stageList: [],
+  today: false,
 })
 const getInterInfo = async () => {
   try {
@@ -57,6 +67,9 @@ const getInterInfo = async () => {
     console.log('🍪[error]:', error)
   }
 }
+// const isToDay = computed(() => {
+//   return infoData.value.stageList.find((item) => item.isToday).isToday ?? false
+// })
 
 onLoad(async () => {
   // 设置背景图片
@@ -81,13 +94,13 @@ onLoad(async () => {
             :fontSize="36"
             color="#fff"
           ></wd-count-to> -->
-          {{ infoData.curScore }}
+          {{ infoData.surplusIntegral }}
         </view>
         <view class="text-13px font-500 color-#fff">
           累计获得积分
-          <text>{{ infoData.totalScore }}</text>
+          <text>{{ infoData.totalIntegral }}</text>
           ,已使用积分
-          <text>{{ infoData.income }}</text>
+          <text>{{ Number(infoData.totalIntegral) - Number(infoData.surplusIntegral) }}</text>
         </view>
       </view>
       <view class="flex justify-between flex-col items-end">
@@ -106,28 +119,32 @@ onLoad(async () => {
         <view class="flex justify-between">
           <view class="text-14px">
             您已连续签到
-            <text class="color-#ff4920 text-16px">{{ infoData.maxDay }}</text>
+            <text class="color-#ff4920 text-16px">{{ infoData.lxSignInDay }}</text>
             天
           </view>
           <view
-            class="px-15px text-14px color-#fff bg-#FF7433 line-height-22px rounded-full"
+            class="px-15px text-12px line-height-22px rounded-full"
+            :class="infoData.today ? 'color-#B0B0B0 bg-#ECECEC ' : 'color-#fff bg-#FF7433'"
             @click="qiandao"
           >
-            签到
+            {{ infoData.today ? '已签到' : '签到' }}
           </view>
         </view>
 
         <view class="mt-10px">
           <view class="flex items-center gap-10px flex-wrap">
             <view
-              class="bg-#fff3e9 text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
-              :class="index === 6 ? 'ml-auto w-2.55/6! text-left' : ''"
-              v-for="(item, index) in infoData.resultList ?? []"
+              class="text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
+              :class="[
+                index === 6 ? 'ml-auto w-2.55/6! text-left' : '',
+                item.highlight == 1 ? 'bg-#FFE3CB' : 'bg-#FFF6EA ',
+              ]"
+              v-for="(item, index) in infoData.stageList ?? []"
               :key="index"
             >
               <view class="text-14px">
                 第
-                <text>{{ item.signDay }}</text>
+                <text>{{ item.signInDay }}</text>
                 天
               </view>
               <view class="my-5px relative">
@@ -157,10 +174,9 @@ onLoad(async () => {
       <view class="flex flex-col justify-center items-center py-20px">
         <view class="color-#000 text-18px font-semibold mb-10px">签到成功，再接再厉</view>
         <view class="color-#666 text-14px">
-          当前已连续签到
-          <text class="color-#E95433">{{ qiandaoMsg.maxDay }}</text>
-          天，积分
-          <text class="color-#E95433">+ {{ qiandaoMsg.signIntegral }}</text>
+          获得
+          <text class="color-#E95433">{{ qiandaoMsg.signIn }}</text>
+          积分
         </view>
       </view>
     </view>
