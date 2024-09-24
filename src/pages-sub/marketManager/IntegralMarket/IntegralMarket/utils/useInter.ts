@@ -1,9 +1,8 @@
-import { getExchangeGoodsList } from '@/service/api/integral'
-import { findXcxScoreUser } from '@/service/api/userMessage'
+import { getExchangeGoodsList, getIntegralInfo } from '@/service/api/integral'
 import { useRequest } from 'alova/client'
 
 // 查询我的积分
-const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true), {
+const { send: sendInterInfo } = useRequest((data) => getIntegralInfo(data), {
   immediate: false,
   loading: false,
 })

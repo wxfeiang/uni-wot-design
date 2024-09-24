@@ -56,10 +56,11 @@ const gopath = (e) => {
     data: e,
   })
 }
-const totalIntegral = ref(0)
+const surplusIntegral = ref(0)
 onLoad(async () => {
   const data: any = await sendInterInfo()
-  totalIntegral.value = data.totalIntegral ?? 0
+  console.log('🍞[data]:', data)
+  surplusIntegral.value = data.surplusIntegral ?? 0
 })
 </script>
 
@@ -78,7 +79,7 @@ onLoad(async () => {
           <view class="text-base text-white mb-1">我的积分</view>
           <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>
         </view>
-        <view class="text-2xl text-white">{{ totalIntegral }}</view>
+        <view class="text-2xl text-white">{{ surplusIntegral }}</view>
       </view>
       <wd-tabs
         v-model="active"
