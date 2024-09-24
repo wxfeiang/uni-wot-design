@@ -498,7 +498,6 @@
           "path": "IntegralMarket/IntegralMarket/info",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

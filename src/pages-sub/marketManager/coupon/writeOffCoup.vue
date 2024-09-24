@@ -7,52 +7,44 @@
 }
 </route>
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
+import { routeTo, sceneResult } from '@/utils'
 import { Toast } from '@/utils/uniapi/prompt'
+import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
 import sucessImg from '../static/images/coupon/success.png'
 import CouponLine from './components/couponLine.vue'
 const message = useMessage()
-
 // import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
 const title = ref('核销优惠券')
 const serchValue = ref('')
 const show = ref(false)
 const sucessShow = ref(false)
-const footbtn = ref([
-  {
-    title: '支付',
-  },
-  {
-    title: '核销',
-  },
-])
-const tab = ref(1)
-const instance = getCurrentInstance().proxy
 const cameraContext = ref(null)
-// const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
-
-onLoad((options: any) => {})
 
 function cameraError(e) {
   console.log(e.detail)
 }
-function scancode(e) {
-  console.log('🍝[e]:', e)
-  if (e) {
-    message.alert({
-      title: '扫码成功',
-      msg: e.detail.result,
-    })
+const scancodeData = ref()
+
+async function scancode(e) {
+  const { status, url } = sceneResult(e.detail)
+  console.log('🎂', status, url)
+  if (status) {
+    cameraShowfun(false)
+    show.value = true
+    scancodeData.value = qs.parse(decodeURIComponent(url) || url)
+    console.log('🍗[scancodeData.value]:', scancodeData.value)
   }
 }
-// 关闭相机
-const close = () => {
-  console.log('🌭======关闭相机-----')
-  uni.navigateBack()
-}
+
 function handleClose() {
-  console.log('🌮')
+  show.value = false
+  scancodeData.value = null
+  cameraShowfun()
+  sucessShow.value = false
+}
+function handleConfirm() {
+  console.log('🌭======确认核销-----', scancodeData.value)
 }
 function toMingxi() {
   sucessShow.value = false
@@ -61,8 +53,15 @@ function toMingxi() {
   })
 }
 
-function continueOff() {
-  sucessShow.value = false
+const cameraShow = ref(true)
+const cameraShowfun = (flog = true) => {
+  if (!flog) {
+    cameraContext.value = null
+    cameraShow.value = false
+  } else {
+    cameraContext.value = uni.createCameraContext()
+    cameraShow.value = true
+  }
 }
 
 onMounted(() => {
@@ -86,6 +85,7 @@ onMounted(() => {
         id="camera"
         @error="cameraError"
         @scancode="scancode"
+        v-if="cameraShow"
       ></camera>
       <view class="absolute z-20 w-100% h-100% bg-#000/30">
         <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
@@ -108,11 +108,11 @@ onMounted(() => {
             </wd-input>
           </view>
           <!-- 扫码框 -->
-          <view>
+          <view v-if="cameraShow">
             <view class="w-250px h-250px bd-1px_#888 relative bg-transparent">
               <view class="absolute w-90% h-3px bg-green left-5% right-0 animation-to"></view>
             </view>
-            <view class="text-center color-#fff mt-10px">将二维码放入框内,即可核销</view>
+            <view class="text-center color-#000 mt-10px">将二维码放入框内,即可核销</view>
           </view>
           <!-- 底部 -->
           <view class="w-80%">
@@ -123,34 +123,36 @@ onMounted(() => {
             v-model="show"
             position="center"
             custom-class="custom-class-popup"
-            @close="handleClose"
+            :close-on-click-modal="false"
           >
             <view class="text-center font-600 text-18px py-5px">优惠券核销</view>
             <view class="my-10px">
-              <CouponLine></CouponLine>
+              <CouponLine :data="scancodeData"></CouponLine>
             </view>
 
-            <view class="bb-1px_#888_dashed my-30px"></view>
+            <view class="bb-1px_#7594AC_dashed my-30px"></view>
 
             <view class="flex justify-between items-center py-10px gap-10px mb-15px">
               <view class="flex-1">
-                <wd-button block :round="false" type="info">取 消</wd-button>
+                <wd-button block :round="false" type="info" @click="handleClose">取 消</wd-button>
               </view>
               <view class="flex-1">
-                <wd-button block :round="false">确认核销</wd-button>
+                <wd-button block :round="false" @click="handleConfirm">确认核销</wd-button>
               </view>
             </view>
           </wd-popup>
           <!-- 核销成功 -->
           <wd-overlay :show="sucessShow">
             <view class="size-full flex flex-col justify-start pt-100px items-center bg-#fff">
-              <wd-status-tip
-                :image="sucessImg"
-                :image-size="{
-                  height: 81,
-                  width: 81,
-                }"
-              />
+              <wd-transition :show="sucessShow" name="zoom-in">
+                <wd-status-tip
+                  :image="sucessImg"
+                  :image-size="{
+                    height: 81,
+                    width: 81,
+                  }"
+                />
+              </wd-transition>
 
               <view class="mt-40px w-100% px-40px box-border">
                 <view class="mb-20px">
@@ -160,7 +162,7 @@ onMounted(() => {
                     plain
                     hairline
                     block
-                    @click="continueOff"
+                    @click="handleClose"
                   >
                     继续核销
                   </wd-button>
