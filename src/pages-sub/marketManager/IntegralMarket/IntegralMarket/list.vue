@@ -53,13 +53,12 @@ function changeTab(e) {
 const gopath = (e) => {
   routeTo({
     url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/info',
-    data: e,
+    data: { goodId: e.goodId, surplusIntegral: surplusIntegral.value },
   })
 }
 const surplusIntegral = ref(0)
 onLoad(async () => {
   const data: any = await sendInterInfo()
-  console.log('🍞[data]:', data)
   surplusIntegral.value = data.surplusIntegral ?? 0
 })
 </script>
