@@ -5,7 +5,7 @@
 {
   layout: 'default',
   style: {
-    navigationBarTitleText: '收获地址',
+    navigationBarTitleText: '收货地址',
     backgroundColor: '#ffffff',
     navigationBarBackgroundColor: '#ffffff',
     navigationBarTextStyle: 'black',

@@ -45,9 +45,13 @@ onLoad(async (option) => {
   const params = {
     goodId: option.goodId,
   }
-  const data = await sendInterProductInfo(params)
-  goodsInfoData.value = { ...data, sellOut: opData.value.sellOut }
-  console.log('🥕[ goodsInfoData.value]:', goodsInfoData.value)
+  try {
+    const data = await sendInterProductInfo(params)
+    goodsInfoData.value = { ...data, sellOut: opData.value.sellOut }
+    console.log('🥕[ goodsInfoData.value]:', goodsInfoData.value)
+  } catch (error) {
+    console.log('🥠[error]:', error)
+  }
 })
 </script>
 
