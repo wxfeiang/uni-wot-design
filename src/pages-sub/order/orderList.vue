@@ -19,7 +19,6 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    // status: tabsVal.value,
   }
   // 调用接口获取数据
   try {
