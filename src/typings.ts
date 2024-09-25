@@ -34,6 +34,7 @@ type IUserInfo = {
   isAuth?: boolean // 是否认证
   isBind?: boolean // 是否绑定手机号
   address?: string
+  merchantId?: string // 商户id
 }
 
 enum TestEnum {
