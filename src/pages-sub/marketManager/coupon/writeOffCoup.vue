@@ -57,15 +57,14 @@ async function getCoupDetil() {
 
 function handleClose() {
   show.value = false
-  scancodeData.value = { price: null, receiveId: null }
+  scancodeData.value = { price: null, couponCode: null }
   cameraShowfun()
   sucessShow.value = false
   serchValue.value = ''
 }
 async function handleConfirm() {
   const params = {
-    receiveId: couponInfoData.value.receiveId,
-    couponCode: couponInfoData.value.couponId,
+    couponCode: couponInfoData.value.couponCode,
   }
   try {
     await sendUseOffline(params)

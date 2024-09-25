@@ -175,7 +175,7 @@ onShow(async () => {
         </view>
       </view>
     </view>
-    <view class="p-15px pt-0px">
+    <view class="p-15px pt-0px" v-if="isLogined && userInfo.merchantId">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px" @click="toShopService">
           <view class="flex items-center gap-5px">
