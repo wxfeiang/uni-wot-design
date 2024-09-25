@@ -16,13 +16,12 @@ import caricon from '@/static/images/shop/shopcar.png'
 import matrix from '@/static/images/shop/matrix.png'
 import screen from '@/static/images/shop/screen.png'
 import { pathToBase64 } from 'image-tools'
-import { goodsSearch } from '@/service/api/shop'
+import { goodsSearch, getFilterCondition } from '@/service/api/shop'
 
 defineOptions({
   name: 'Index',
 })
 
-const { navTop } = useNav()
 const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
 const searchIcon = ref('')
@@ -52,6 +51,11 @@ function changeGrid() {
   isGrid.value = !isGrid.value
 }
 
+const getFilterData = (shopId) => {
+  getFilterCondition({ shopId }).then((res) => {
+    console.log('筛选条件', res)
+  })
+}
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
     const res: any = await goodsSearch({
@@ -83,6 +87,7 @@ function handleChange1({ value }) {
 function handleChange2({ value }) {
   console.log(value)
 }
+onShow(() => {})
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
@@ -93,7 +98,7 @@ function handleChange2({ value }) {
     <wd-navbar safeAreaInsetTop placeholder custom-class="nav_custom" :bordered="false">
       <template #left>
         <view class="flex gap-10px items-center">
-          <text class="line-height-44px text-18px color-#fff mt-5px">{{ VITE_APP_LOGOTITLE }}</text>
+          <text class="line-height-44px text-18px color-#fff mt-5px">商品搜索</text>
         </view>
       </template>
     </wd-navbar>
@@ -317,7 +322,6 @@ function handleChange2({ value }) {
 
 .list {
   min-height: calc(100vh - 201px);
-  margin-top: 201px;
   background: #f7f7f7;
 }
 
