@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { removeT } from '@/utils'
-import { messProps } from './hooks/types'
+
 import useNews from './hooks/useNews'
 
 const { sendMessageList, messageClick } = useNews()
@@ -37,7 +37,7 @@ const tablist = ref([
 ])
 const paging = ref(null)
 
-const dataList = ref<messProps[]>()
+const dataList = ref()
 const queryList = async (pageNo, pageSize) => {
   const data = {
     page: pageNo,

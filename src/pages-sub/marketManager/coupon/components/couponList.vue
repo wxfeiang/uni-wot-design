@@ -5,7 +5,7 @@ import { pathToBase64 } from 'image-tools'
 import bg from '../../static/images/coupon/items.png'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
-import { conponListProps, qrCodeProps } from '../utils/types'
+import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
 const { sendReceiveCoupon } = userCoupon()
 
@@ -70,17 +70,8 @@ const handleReceive = async (item) => {
     // coupon_scop：4全部商品，5指定商品
     if (props.data.type === 3) {
       // 展示优惠券码
-      const data: qrCodeProps = {
-        type: 'xaCard',
-        couponId: props.data.couponId,
-        couponName: props.data.couponName,
-        couponPrice: props.data.couponPrice,
-        shopId: props.data.shopId,
-        shopName: props.data.shopName,
-        couponEndDate: props.data.couponEndDate,
-        couponRemark: props.data.couponRemark,
-        couponStatus: props.data.couponStatus,
-        showDetil: 0,
+      const data = {
+        receiveId: props.data.receiveId,
       }
       routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
     } else {

@@ -1,6 +1,7 @@
 import { getCouponInfo, getUseOffline, getUseRecord } from '@/service/api/shop'
 import { getCouponList, getUserCouponList, receiveCoupon } from '@/service/api/userMessage'
 import { useRequest } from 'alova/client'
+import { conponListProps } from './types'
 // 查询列表
 const { send: sendCouponList, loading: listLoading } = useRequest((data) => getCouponList(data), {
   immediate: false,
@@ -27,10 +28,14 @@ const { send: sendReceiveCoupon, loading: listLoading3 } = useRequest(
 )
 // 券码详情
 
-const { send: sendCouponInfo } = useRequest((data) => getCouponInfo(data), {
-  immediate: false,
-  loading: false,
-})
+const { send: sendCouponInfo, data: couponInfoData } = useRequest(
+  (data) => getCouponInfo<conponListProps>(data),
+  {
+    immediate: false,
+    loading: false,
+    initialData: {} as conponListProps,
+  },
+)
 // 线下核销
 const { send: sendUseOffline } = useRequest((data) => getUseOffline(data), {
   immediate: false,
@@ -49,6 +54,7 @@ export default () => {
     sendUserCouponList,
     sendReceiveCoupon,
     sendCouponInfo,
+    couponInfoData,
     sendUseRecord,
     sendUseOffline,
   }

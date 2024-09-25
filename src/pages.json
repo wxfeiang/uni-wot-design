@@ -242,7 +242,16 @@
           }
         },
         {
-          "path": "OcrCamera",
+          "path": "cardFromType",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "cardMessType",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -252,14 +261,6 @@
         },
         {
           "path": "jinrongType",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "OcrCamera",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -374,23 +375,11 @@
           }
         },
         {
-          "path": "SocialSecurityCard/barcode",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "SocialSecurityCard/index",
           "type": "page",
           "layout": "default",
           "style": {
-            "navigationBarTitleText": "我的收藏",
-            "backgroundColor": "#fff",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTextStyle": "black"
+            "navigationStyle": "custom"
           }
         },
         {
@@ -402,16 +391,23 @@
           }
         },
         {
-          "path": "address/list",
+          "path": "address/editor",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
         },
         {
           "path": "address/list",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "cardManager/index",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -420,8 +416,29 @@
           }
         },
         {
-          "path": "cardManager/index",
+          "path": "collection/collection",
           "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationBarTitleText": "我的收藏",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "collection/follow",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/massage",
+          "type": "home",
           "layout": "default",
           "needLogin": true,
           "style": {
@@ -432,6 +449,7 @@
           "path": "userCenter/suggest",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

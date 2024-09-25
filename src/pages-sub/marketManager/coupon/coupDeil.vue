@@ -11,15 +11,15 @@
 // import { useRequest } from 'alova/client'
 // TODO: 背景图片
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
-import cloneDeep from 'lodash-es/cloneDeep'
 import qs from 'qs'
 import { removeT } from '../../../utils/index'
-import { qrCodeProps } from './utils/types'
+import userCoupon from './utils/userCoupon'
 const { VITE_SERVER_BASEURL } = import.meta.env
 const bg = ref(
   'https://oss.xay.xacloudy.cn/images/2024-09/a729f7e3-985b-451e-9a22-6f0a50e2fc16yhqmbg.png',
 )
 
+const { sendCouponInfo, couponInfoData } = userCoupon()
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 
 const cfig = ref({
@@ -27,14 +27,16 @@ const cfig = ref({
   size: 400,
 })
 
-const qrData = ref<qrCodeProps>()
-
-onLoad((options) => {
-  console.log('🥧', options)
-  qrData.value = options as qrCodeProps
-  const params = cloneDeep(qrData.value)
-  delete params.couponRemark
-  cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(params)}`
+onLoad(async (options) => {
+  console.log('🥧======', options)
+  try {
+    await sendCouponInfo({ receiveId: options.receiveId })
+    const qrcodeData = {
+      couponCode: options.couponCode,
+      type: 'xaCard',
+    }
+    cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
+  } catch (error) {}
 })
 </script>
 
@@ -45,9 +47,11 @@ onLoad((options) => {
   >
     <dy-navbar leftTitle="优惠券" left isNavShow></dy-navbar>
     <view class="text-center mt-15px px-20px">
-      <view class="color-#F2110D font-600 text-30px">{{ qrData.couponPrice }}元无门槛红包</view>
+      <view class="color-#F2110D font-600 text-30px">
+        {{ couponInfoData.couponPrice }}元无门槛红包
+      </view>
       <view class="color-#fff bg-sm rounded-5px text-center text-16px py-5px my-10px">
-        有效期截至：{{ removeT(qrData?.couponEndDate) }}
+        有效期截至：{{ removeT(couponInfoData?.couponEndDate) }}
       </view>
     </view>
 
@@ -55,7 +59,7 @@ onLoad((options) => {
       <view class="bg-#FF7206 py-10px rounded-10px">
         <view class="bg-#fff pt-20px rounded-10px overflow-hidden">
           <view class="py-20px color-#FF7206 text-16px text-center">
-            券码：{{ qrData.couponId }}
+            券码：{{ couponInfoData.receiveId }}
           </view>
           <view class="flex justify-center mt-10px flex-col items-center">
             <view class="p-10px rounded-10px bg-#FFE9D8">
@@ -69,7 +73,7 @@ onLoad((options) => {
 
           <view class="text-14px p-15px mt-20px bg-#FFF6EF">
             <view class="color-#000 text-16px">使用说明</view>
-            <view class="color-#333 mt-5px">{{ qrData?.couponRemark }}</view>
+            <view class="color-#333 mt-5px">{{ couponInfoData.couponRemark }}</view>
           </view>
         </view>
       </view>
