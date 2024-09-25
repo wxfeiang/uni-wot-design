@@ -14,6 +14,10 @@
     @touchmove.stop.prevent="moveHandle"
     @click.stop="stop"
   >
+    <!--    &lt;!&ndash; #ifdef MP-TOUTIAO &ndash;&gt;-->
+    <!--    <view class="vk-data-goods-sku-popup" :style="{ zIndex: zIndex }" :class="valueCom && complete ? 'show' : 'none'"-->
+    <!--      @touchmove.stop.prevent="moveHandle" @click.stop="stop">-->
+    <!--      &lt;!&ndash; #endif &ndash;&gt;-->
     <!-- 页面内容开始 -->
     <view class="mask" @click="close('mask')"></view>
     <view
@@ -219,10 +223,10 @@ export default {
       type: String,
       default: 'sku_list',
     },
-    // spec_list的字段名
+
     specListName: {
       type: String,
-      default: 'spec_list',
+      default: 'specList',
     },
     // 库存的字段名 默认 stock
     stockName: {
@@ -241,7 +245,7 @@ export default {
     },
     // 模式 1:都显示  2:只显示购物车 3:只显示立即购买 4:显示缺货按钮 默认 1
     mode: {
-      type: Number,
+      type: [Number, null],
       default: 1,
     },
     // 点击遮罩是否关闭组件 true 关闭 false 不关闭 默认true
@@ -1043,7 +1047,7 @@ export default {
   // 计算属性
   computed: {
     valueCom() {
-      // #ifndef VUE3
+      // #ifdef VUE2
       return this.value
       // #endif
 
@@ -1306,7 +1310,7 @@ export default {
 
             .item-wrapper {
               display: flex;
-              //flex-direction: row;
+              flex-direction: row;
               flex-flow: wrap;
 
               .item-content {

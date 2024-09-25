@@ -13,6 +13,24 @@ const UNUSER_FAVORITES = baseUrlApi('/product/manage/favorites/unUserFavorites')
 const FAVORITES_LIST = baseUrlApi('/product/app/item/favoritesPage')
 const GOODS_SEARCH = baseUrlApi('/product/app/item/xcxListPage')
 const SHOP_CAR_LIST = baseUrlApi('/product/manager/shop/cart/getCareList')
+const FILTER_CONDITION = baseUrlApi('/product/app/item/getFilterCondition')
+
+/**
+ *   商品搜索筛选条件
+ * @param params 初始参数()
+ * */
+export function getFilterCondition(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    FILTER_CONDITION, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *   商品搜索

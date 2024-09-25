@@ -32,58 +32,7 @@ const skuKey = ref(false)
 // SKU弹窗模式
 const skuMode = ref(1)
 // 后端返回的商品信息
-let goodsInfo = reactive<any>({
-  _id: '001',
-  name: 'iphone11',
-  goods_thumb:
-    'https://img14.360buyimg.com/n0/jfs/t1/59022/28/10293/141808/5d78088fEf6e7862d/68836f52ffaaad96.jpg',
-  sku_list: [
-    {
-      _id: '001',
-      goods_id: '001',
-      goods_name: 'iphone11',
-      image:
-        'https://img14.360buyimg.com/n0/jfs/t1/79668/22/9987/159271/5d780915Ebf9bf3f4/6a1b2703a9ed8737.jpg',
-      price: 19800,
-      sku_name_arr: ['红色', '128G', '公开版'],
-      stock: 1000,
-    },
-    {
-      _id: '002',
-      goods_id: '001',
-      goods_name: 'iphone11',
-      image:
-        'https://img14.360buyimg.com/n0/jfs/t1/52252/35/10516/124064/5d7808e0E46202391/7100f3733a1c1f00.jpg',
-      price: 9800,
-      sku_name_arr: ['白色', '256G', '公开版'],
-      stock: 100,
-    },
-    {
-      _id: '003',
-      goods_id: '001',
-      goods_name: 'iphone11',
-      image:
-        'https://img14.360buyimg.com/n0/jfs/t1/79668/22/9987/159271/5d780915Ebf9bf3f4/6a1b2703a9ed8737.jpg',
-      price: 19800,
-      sku_name_arr: ['红色', '256G', '公开版'],
-      stock: 1,
-    },
-  ],
-  specList: [
-    {
-      name: '颜色',
-      list: [{ name: '红色' }, { name: '黑色' }, { name: '白色' }],
-    },
-    {
-      name: '内存',
-      list: [{ name: '128G' }, { name: '256G' }],
-    },
-    {
-      name: '版本',
-      list: [{ name: '公开版' }, { name: '非公开版' }],
-    },
-  ],
-})
+let goodsInfo = reactive<any>({})
 const formatGoodsInfo = (arr: Array<any>) => {
   let specList = []
   const obj = JSON.parse(arr[0].skuName)
@@ -117,9 +66,11 @@ const formatGoodsInfo = (arr: Array<any>) => {
   }
   console.log('goodsInfo', goodsInfo)
 }
+
 function handleClick(e) {
   console.log(e)
 }
+
 function onChange(e) {
   console.log(e)
 }
@@ -197,7 +148,15 @@ onLoad(async (options) => {
       <view class="w-full flex justify-between items-center">
         <view class="flex items-center">
           <wd-text text="￥" color="#F44D24" size="16px"></wd-text>
-          <wd-text :text="details?.skuList[0].sellPrice" color="#F44D24" size="25px"></wd-text>
+          <wd-text
+            :text="
+              details && details.skuList && details.skuList[0].sellPrice
+                ? details.skuList[0].sellPrice
+                : ''
+            "
+            color="#F44D24"
+            size="25px"
+          ></wd-text>
           <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
             <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
             <wd-text text="￥" color="#fff" size="10px"></wd-text>
@@ -274,13 +233,15 @@ onLoad(async (options) => {
 
       <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px">
         <view class="font-600 mb-10px">商品详情</view>
-        <wd-img
-          width="100%"
-          mode="widthFix"
-          v-for="i in details.remarkUrl"
-          :src="i"
-          :key="i"
-        ></wd-img>
+        <template v-if="details && details.remarkUrl">
+          <wd-img
+            width="100%"
+            mode="widthFix"
+            v-for="i in details.remarkUrl"
+            :src="i"
+            :key="i"
+          ></wd-img>
+        </template>
       </view>
     </view>
 
