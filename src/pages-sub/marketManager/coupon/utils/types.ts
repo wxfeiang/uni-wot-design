@@ -35,4 +35,11 @@ interface qrCodeProps {
   showDetil: number
 }
 
-export type { conponListProps, qrCodeProps }
+interface couponDetailProps {
+  aUserName: string
+  bUserName: string
+  price: number
+  createTime: string
+}
+
+export type { conponListProps, couponDetailProps, qrCodeProps }
