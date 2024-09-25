@@ -1,4 +1,4 @@
-import { Toast } from './prompt'
+import { HideLoading, Loading, Modal, Toast } from './prompt'
 const { VITE_HALF_APPID } = import.meta.env
 /**
  * @description: 打开第三方小程序
@@ -219,7 +219,81 @@ export const useSetKeepScreenOn = (flog = false) => {
     keepScreenOn: flog,
   })
 }
+/**
+ * @description: 保存图片到相册
+ * @return {}
+ */
+export const useSaveImageToPhotosAlbum = (path: string) => {
+  uni.downloadFile({
+    url: path,
+    success: (res) => {
+      if (res.statusCode === 200) {
+        uni.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: function () {
+            Toast('保存成功', { icon: 'success' })
+          },
+          fail: function () {
+            Toast('保存失败，请稍后重试')
+          },
+          complete: function () {
+            HideLoading()
+          },
+        })
+      }
+    },
+  })
+}
+/**
+ * @description: 文件下载
+ * @return {}
+ */
 
+export const downSaveImage = (imgurl: string) => {
+  Loading('下载中')
+  uni.getSetting({
+    success(res) {
+      if (res.authSetting['scope.writePhotosAlbum']) {
+        // 已授权，直接保存图片
+        useSaveImageToPhotosAlbum(imgurl)
+      } else if (res.authSetting['scope.writePhotosAlbum'] === false) {
+        // 用户已拒绝授权，提示用户授权
+        Modal({
+          title: '提示',
+          content: '您未授权保存图片到相册，是否前往设置页面进行授权？',
+          success: function (res) {
+            if (res.confirm) {
+              uni.openSetting({
+                success: function (res) {
+                  if (res.authSetting['scope.writePhotosAlbum']) {
+                    useSaveImageToPhotosAlbum(imgurl)
+                  }
+                },
+              })
+            } else if (res.cancel) {
+              Modal({
+                title: '您取消了授权',
+              })
+            }
+          },
+        })
+      } else {
+        // 用户第一次调用，调用授权接口
+        uni.authorize({
+          scope: 'scope.writePhotosAlbum',
+          success() {
+            useSaveImageToPhotosAlbum(imgurl)
+          },
+          fail() {
+            Modal({
+              title: '授权失败，请稍后重试',
+            })
+          },
+        })
+      }
+    },
+  })
+}
 /**
  * @description: 小程序调用支付
  * @return {}
