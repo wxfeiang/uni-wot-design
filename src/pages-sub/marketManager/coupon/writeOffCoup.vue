@@ -13,8 +13,9 @@ import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
 import sucessImg from '../static/images/coupon/success.png'
 import CouponLine from './components/couponLine.vue'
+import userCoupon from './utils/userCoupon'
 const message = useMessage()
-// import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
+const { sendCouponInfo, couponInfoData, sendUseOffline } = userCoupon()
 const title = ref('核销优惠券')
 const serchValue = ref('')
 const show = ref(false)
@@ -27,26 +28,55 @@ function cameraError(e) {
 const scancodeData = ref()
 
 async function scancode(e) {
+  cameraShowfun(false)
   const { status, url } = sceneResult(e.detail)
   console.log('🎂', status, url)
   if (status) {
-    cameraShowfun(false)
-    show.value = true
     scancodeData.value = qs.parse(decodeURIComponent(url) || url)
-    console.log('🍗[scancodeData.value]:', scancodeData.value)
+    console.log('🍹[scancodeData.value]:', scancodeData.value)
+    getCoupDetil()
   } else {
-    message.alert({ title: '核销失败', msg: '仅雄安一卡通平台优惠券可核销!' })
+    message.alert({ title: '提示', msg: '仅雄安一卡通平台优惠券可核销!' })
+  }
+}
+async function getCoupDetil() {
+  cameraShowfun(false)
+  try {
+    const params = {
+      receiveId: serchValue.value || scancodeData.value.receiveId,
+    }
+    await sendCouponInfo(params)
+    scancodeData.value = { price: couponInfoData.value.couponPrice }
+    show.value = true
+  } catch (error) {
+    message.alert({ title: '提示', msg: error.data.msg, closeOnClickModal: false }).then((res) => {
+      handleClose()
+    })
   }
 }
 
 function handleClose() {
   show.value = false
-  scancodeData.value = null
+  scancodeData.value = { price: null, receiveId: null }
   cameraShowfun()
   sucessShow.value = false
+  serchValue.value = ''
 }
-function handleConfirm() {
-  console.log('🌭======确认核销-----', scancodeData.value)
+async function handleConfirm() {
+  const params = {
+    receiveId: couponInfoData.value.receiveId,
+    couponCode: '4599383023582816', // couponInfoData.value.couponId,
+  }
+  try {
+    await sendUseOffline(params)
+    sucessShow.value = true
+  } catch (error) {
+    message.alert({ title: '提示', msg: error.data.msg, closeOnClickModal: false }).then((res) => {
+      handleClose()
+    })
+  } finally {
+    show.value = false
+  }
 }
 function toMingxi() {
   sucessShow.value = false
@@ -105,7 +135,9 @@ onMounted(() => {
               custom-class="custom-class-input"
             >
               <template #suffix>
-                <wd-button :round="false">核销</wd-button>
+                <wd-button :round="false" @click="getCoupDetil" :disabled="!serchValue">
+                  核销
+                </wd-button>
               </template>
             </wd-input>
           </view>
@@ -114,7 +146,7 @@ onMounted(() => {
             <view class="w-250px h-250px bd-1px_#888 relative bg-transparent">
               <view class="absolute w-90% h-3px bg-green left-5% right-0 animation-to"></view>
             </view>
-            <view class="text-center color-#000 mt-10px">将二维码放入框内,即可核销</view>
+            <view class="text-center color-#fff mt-10px">将二维码放入框内,即可核销</view>
           </view>
           <!-- 底部 -->
           <view class="w-80%">
@@ -195,7 +227,7 @@ onMounted(() => {
     top: 0px;
   }
   to {
-    top: 250px;
+    top: 245px;
   }
 }
 :deep(.custom-class-popup) {

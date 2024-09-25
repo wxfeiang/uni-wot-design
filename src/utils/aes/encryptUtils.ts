@@ -94,8 +94,7 @@ export function beforeQuest(method: any) {
 
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
-  console.log('系统默认携带参数==>', initParams)
-  console.log('请求从参数', data)
+  console.log('请求入参==>', method.data)
 
   createFilter(method)
 }

@@ -1,5 +1,6 @@
 interface conponListProps {
   couponId: string
+  receiveId: string | number
   type: number // 1支付卷2商品卷
   couponType: number // 优惠券类型
   couponSource: number // 1平台卷2商家卷
@@ -33,6 +34,7 @@ interface qrCodeProps {
   couponRemark: string
   couponStatus: number | string
   showDetil: number
+  receiveId: number | string
 }
 
 interface couponDetailProps {
