@@ -110,11 +110,19 @@ export default {
     // true 组件显示 false 组件隐藏
     value: {
       type: Boolean,
+<<<<<<< HEAD
       default: false
     },
     modelValue: {
       type: Boolean,
       default: false
+=======
+      default: false,
+    },
+    modelValue: {
+      type: Boolean,
+      default: false,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // vk云函数路由模式参数开始-----------------------------------------------------------
     // 商品id
@@ -171,56 +179,93 @@ export default {
     // 默认单规格时的规格组名称
     defaultSingleSkuName: {
       type: String,
+<<<<<<< HEAD
       default: '默认'
+=======
+      default: '默认',
     },
-    // 模式 1:都显示  2:只显示购物车 3:只显示立即购买 4:显示缺货按钮 默认 1
-    mode: {
-      type: Number,
+<<<<<<< HEAD
       default: 1
+=======
+      default: 1,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 点击遮罩是否关闭组件 true 关闭 false 不关闭 默认true
     maskCloseAble: {
       type: Boolean,
+<<<<<<< HEAD
       default: true
+=======
+      default: true,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 顶部圆角值
     borderRadius: {
       type: [String, Number],
+<<<<<<< HEAD
       default: 0
+=======
+      default: 0,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 商品缩略图字段名(未选择sku时)
     goodsThumbName: {
       type: [String],
+<<<<<<< HEAD
       default: 'goods_thumb'
+=======
+      default: 'goods_thumb',
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 商品缩略图背景颜色，如#999999
     goodsThumbBackgroundColor: {
       type: String,
+<<<<<<< HEAD
       default: 'transparent'
+=======
+      default: 'transparent',
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 最小购买数量 默认 1
     minBuyNum: {
       type: [Number, String],
+<<<<<<< HEAD
       default: 1
+=======
+      default: 1,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 最大购买数量 默认 100000
     maxBuyNum: {
       type: [Number, String],
+<<<<<<< HEAD
       default: 100000
+=======
+      default: 100000,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 步进器步长 默认 1
     stepBuyNum: {
       type: [Number, String],
+<<<<<<< HEAD
       default: 1
+=======
+      default: 1,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 是否只能输入 step 的倍数
     stepStrictly: {
       type: Boolean,
+<<<<<<< HEAD
       default: false
+=======
+      default: false,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 自定义获取商品信息的函数,支付宝小程序不支持该属性,请使用localdata属性
     customAction: {
       type: [Function],
+<<<<<<< HEAD
       default: null
     },
     // 本地数据源
@@ -230,10 +275,22 @@ export default {
     // 价格的字体颜色
     priceColor: {
       type: String
+=======
+      default: null,
+    },
+    // 本地数据源
+    localdata: {
+      type: Object,
+    },
+    // 价格的字体颜色
+    priceColor: {
+      type: String,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 立即购买按钮的文字
     buyNowText: {
       type: String,
+<<<<<<< HEAD
       default: '立即购买'
     },
     // 立即购买按钮的字体颜色
@@ -243,10 +300,22 @@ export default {
     // 立即购买按钮的背景颜色
     buyNowBackgroundColor: {
       type: String
+=======
+      default: '立即购买',
+    },
+    // 立即购买按钮的字体颜色
+    buyNowColor: {
+      type: String,
+    },
+    // 立即购买按钮的背景颜色
+    buyNowBackgroundColor: {
+      type: String,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 加入购物车按钮的文字
     addCartText: {
       type: String,
+<<<<<<< HEAD
       default: '加入购物车'
     },
     // 加入购物车按钮的字体颜色
@@ -256,63 +325,118 @@ export default {
     // 加入购物车按钮的背景颜色
     addCartBackgroundColor: {
       type: String
+=======
+      default: '加入购物车',
+    },
+    // 加入购物车按钮的字体颜色
+    addCartColor: {
+      type: String,
+    },
+    // 加入购物车按钮的背景颜色
+    addCartBackgroundColor: {
+      type: String,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 不可点击时,按钮的样式
     disableStyle: {
       type: Object,
+<<<<<<< HEAD
       default: null
+=======
+      default: null,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 按钮点击时的样式
     activedStyle: {
       type: Object,
+<<<<<<< HEAD
       default: null
+=======
+      default: null,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 按钮常态的样式
     btnStyle: {
       type: Object,
+<<<<<<< HEAD
       default: null
+=======
+      default: null,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 是否显示右上角关闭按钮
     showClose: {
       type: Boolean,
+<<<<<<< HEAD
       default: true
+=======
+      default: true,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 关闭按钮的图片地址 https://img.alicdn.com/imgextra/i1/121022687/O1CN01ImN0O11VigqwzpLiK_!!121022687.png
     closeImage: {
       type: String,
       default:
+<<<<<<< HEAD
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAEyUlEQVR42sSZeWwNURTGp4OqtBo7sSXELragdkpQsRRJ1Zr4hyJiJ9YgxNIg1qANiT+E1i5IY0kVVWtQEbuEKLFGUSH27/ANN5PXmTvzupzkl/tm8t6b7517lnvvC0lKSjJ8WmnQAUSDFqABqALKgl8gD7wE90E2SAeXwFf1SxISErQeVtKHwCgwFsSDSIf3hYFKoCkYDBaDdyAViHdueHmoF6FtwDLQ23b/E7gM7oIcejIERIDaoBFoC8qA8mA8SQNz6W1XC9GY+nCQCCYAk/c+gF0gBZwH312+IxR0BCPBUIaH2A+wHsxHCHxx+gLT5QGN6a2JfG8uvVCDws9oiDQYlxkMGfHyQvARlADTwcXk5OT6foV2kS8ATXidymlcyen1a/Jjl9IJh3hPkjELYqO8Cu0KjjNZvtETw5jFBWXPmGSTGQKSeOn5iQ0kVLL0CINfPNcPbDMKyRCbGzEMBJ+ZD8cChYFdqGTqfsWT8otPGoVsEHsMwxDFs3shNsxJ6BrQ0Po8OGUUkVHsNCVml+cntB1jUWwn2GEUsTEMrASbDK+2CCQ0kYX6nfLLisMmKqUr0S60M+jG10vAm+JSCa8+x7CKlzHwaktV6DiObzUzPJIxFO1BQ12wGtTReO9GetVgY/kjNJzZbcWmTjHfxw51AsRqvL8eOAtmsJuFu3g1l+1ZLB5eDTVZ3K0P7tL0TkWOpSg61kVkBtuuNRthGs+wtJST5aQI7cEbkkRXNYVKgX6kIdYuUhYzMQwxN8tiExCLFqHNeSF9/aem0BzGp5PYQCJ7c/Gsk1RfuSD6U1dNpcDf9ZigTmKbMRZ9iVTsHscGJluW2FMf1SSQWGnBmaB6kCJVTVVNJZE++Cx9drEllS1KMCINpURFmEbBWA63Fz9s95cGIdJgp/zXmT4pZcOvSUzuZttTbblmnc3PIjjmidDXvKgdhMh0JdbzuCjWrbNOVovjS5P7bkPJ/mBESkz2BO0166ybNeJ431S2q+01NntuIq3E0amzjiZtk9tssWyTDzO4525bACK9NAUn68TtkNhpEXpOSagRml+S6iLSSeweHv242Qhl13rRyvoDvDlKyTQny/ZQJ+1iH7vVbEx7OR5UiKVIO7VicgvHCtwrudloMIV7/0uadVYW57O4Wvvi8v4pymlKkrpwvsDeLLZAY2pkwbAB3PSQfC+4cH7l4k1ZH8zkZRq8ecO+Z5rN40JJqnXFuGfaxPCTLjcn0OZOpnArXw8HY4paIbw5CcMgXq6HN2/mt6+XGLrN15tBryIUGavMpCTrfKcDCKkAceA9S8nhAOehhSUyhXpkBxxnP4YM1InugP7cBkjBPcqVUWFYCEROxXiQz5JlXV+IfKh7mpfJac+lZ6V87QXVClBkTc7YWsWTPSDyitfzUTlJlj8TbvE6jluDOdwZ+jX57GLO3ADeuyZrDYi86vV81FD2UVGsmT+5Zl0BnkhoseOEaogL46pqO4v/IqUEyalIR4h85BgjHv6+aUWRMbb7EstX6O0cpT1Gco0ry8fWygLDMjmDnQeBt3Qe7uVfkeugDwVLcsVzGsuwLXbV+I63XNAkG5r/hvgRqgqWs6pJPKrsbvz/Q6yyun0w/h6lP+BnzrCpfPMT2L8FGAA7k1GZ/vnaqAAAAABJRU5ErkJggg=='
+=======
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAEyUlEQVR42sSZeWwNURTGp4OqtBo7sSXELragdkpQsRRJ1Zr4hyJiJ9YgxNIg1qANiT+E1i5IY0kVVWtQEbuEKLFGUSH27/ANN5PXmTvzupzkl/tm8t6b7517lnvvC0lKSjJ8WmnQAUSDFqABqALKgl8gD7wE90E2SAeXwFf1SxISErQeVtKHwCgwFsSDSIf3hYFKoCkYDBaDdyAViHdueHmoF6FtwDLQ23b/E7gM7oIcejIERIDaoBFoC8qA8mA8SQNz6W1XC9GY+nCQCCYAk/c+gF0gBZwH312+IxR0BCPBUIaH2A+wHsxHCHxx+gLT5QGN6a2JfG8uvVCDws9oiDQYlxkMGfHyQvARlADTwcXk5OT6foV2kS8ATXidymlcyen1a/Jjl9IJh3hPkjELYqO8Cu0KjjNZvtETw5jFBWXPmGSTGQKSeOn5iQ0kVLL0CINfPNcPbDMKyRCbGzEMBJ+ZD8cChYFdqGTqfsWT8otPGoVsEHsMwxDFs3shNsxJ6BrQ0Po8OGUUkVHsNCVml+cntB1jUWwn2GEUsTEMrASbDK+2CCQ0kYX6nfLLisMmKqUr0S60M+jG10vAm+JSCa8+x7CKlzHwaktV6DiObzUzPJIxFO1BQ12wGtTReO9GetVgY/kjNJzZbcWmTjHfxw51AsRqvL8eOAtmsJuFu3g1l+1ZLB5eDTVZ3K0P7tL0TkWOpSg61kVkBtuuNRthGs+wtJST5aQI7cEbkkRXNYVKgX6kIdYuUhYzMQwxN8tiExCLFqHNeSF9/aem0BzGp5PYQCJ7c/Gsk1RfuSD6U1dNpcDf9ZigTmKbMRZ9iVTsHscGJluW2FMf1SSQWGnBmaB6kCJVTVVNJZE++Cx9drEllS1KMCINpURFmEbBWA63Fz9s95cGIdJgp/zXmT4pZcOvSUzuZttTbblmnc3PIjjmidDXvKgdhMh0JdbzuCjWrbNOVovjS5P7bkPJ/mBESkz2BO0166ybNeJ431S2q+01NntuIq3E0amzjiZtk9tssWyTDzO4525bACK9NAUn68TtkNhpEXpOSagRml+S6iLSSeweHv242Qhl13rRyvoDvDlKyTQny/ZQJ+1iH7vVbEx7OR5UiKVIO7VicgvHCtwrudloMIV7/0uadVYW57O4Wvvi8v4pymlKkrpwvsDeLLZAY2pkwbAB3PSQfC+4cH7l4k1ZH8zkZRq8ecO+Z5rN40JJqnXFuGfaxPCTLjcn0OZOpnArXw8HY4paIbw5CcMgXq6HN2/mt6+XGLrN15tBryIUGavMpCTrfKcDCKkAceA9S8nhAOehhSUyhXpkBxxnP4YM1InugP7cBkjBPcqVUWFYCEROxXiQz5JlXV+IfKh7mpfJac+lZ6V87QXVClBkTc7YWsWTPSDyitfzUTlJlj8TbvE6jluDOdwZ+jX57GLO3ADeuyZrDYi86vV81FD2UVGsmT+5Zl0BnkhoseOEaogL46pqO4v/IqUEyalIR4h85BgjHv6+aUWRMbb7EstX6O0cpT1Gco0ry8fWygLDMjmDnQeBt3Qe7uVfkeugDwVLcsVzGsuwLXbV+I63XNAkG5r/hvgRqgqWs6pJPKrsbvz/Q6yyun0w/h6lP+BnzrCpfPMT2L8FGAA7k1GZ/vnaqAAAAABJRU5ErkJggg==',
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 是否隐藏库存显示
     hideStock: {
       type: Boolean,
+<<<<<<< HEAD
       default: false
+=======
+      default: false,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 颜色主题
     theme: {
       type: String,
+<<<<<<< HEAD
       default: 'default'
+=======
+      default: 'default',
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 请求中的提示
     actionTips: {
       type: String,
+<<<<<<< HEAD
       default: '请求中...'
     },
     // 默认选中的SKU
     defaultSelect: {
       type: Object
+=======
+      default: '请求中...',
+    },
+    // 默认选中的SKU
+    defaultSelect: {
+      type: Object,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 是否使用缓存
     useCache: {
       type: Boolean,
+<<<<<<< HEAD
       default: true
+=======
+      default: true,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     /**
      * 默认商品,设置该值可快速展示商品
      * 逻辑: 先展示 defaultGoods 信息,再取数据库,再更新页面(通常为更新库存)
      */
     defaultGoods: {
+<<<<<<< HEAD
       type: Object
+=======
+      type: Object,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     /**
      * 金额是否需要除以100
@@ -321,22 +445,39 @@ export default {
      */
     amountType: {
       type: Number,
+<<<<<<< HEAD
       default: 1
+=======
+      default: 1,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 每次选择完SKU后，购买数量归1，如果有最小购买数量，则设置为最小购买数量
     selectedInit: {
       type: Boolean,
+<<<<<<< HEAD
       default: false
+=======
+      default: false,
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 是否开启底部安全区适配，默认true
     safeAreaInsetBottom: {
       type: Boolean,
+<<<<<<< HEAD
       default: true
     },
     zIndex: {
       type: [Number, String],
       default: 990
     }
+=======
+      default: true,
+    },
+    zIndex: {
+      type: [Number, String],
+      default: 990,
+    },
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
   },
   data() {
     return {
@@ -364,18 +505,31 @@ export default {
           btnStyle: {
             color: '#333333',
             borderColor: '#f4f4f4',
+<<<<<<< HEAD
             backgroundColor: '#ffffff'
+=======
+            backgroundColor: '#ffffff',
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
           },
           activedStyle: {
             color: 'rgb(254, 86, 10)',
             borderColor: 'rgb(254, 86, 10)',
+<<<<<<< HEAD
             backgroundColor: 'rgba(254,86,10,0.1)'
+=======
+            backgroundColor: 'rgba(254,86,10,0.1)',
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
           },
           disableStyle: {
             color: '#c3c3c3',
             borderColor: '#f6f6f6',
+<<<<<<< HEAD
             backgroundColor: '#f6f6f6'
           }
+=======
+            backgroundColor: '#f6f6f6',
+          },
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
         },
         // 红黑主题
         'red-black': {
@@ -387,8 +541,13 @@ export default {
           activedStyle: {
             color: 'rgb(255, 68, 68)',
             borderColor: 'rgb(255, 68, 68)',
+<<<<<<< HEAD
             backgroundColor: 'rgba(255,68,68,0.1)'
           }
+=======
+            backgroundColor: 'rgba(255,68,68,0.1)',
+          },
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
         },
         // 黑白主题
         'black-white': {
@@ -405,8 +564,13 @@ export default {
           activedStyle: {
             color: 'rgb(47, 47, 52)',
             borderColor: 'rgba(47,47,52,0.12)',
+<<<<<<< HEAD
             backgroundColor: 'rgba(47,47,52,0.12)'
           }
+=======
+            backgroundColor: 'rgba(47,47,52,0.12)',
+          },
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
         },
         // 咖啡色主题
         coffee: {
@@ -418,8 +582,13 @@ export default {
           activedStyle: {
             color: 'rgb(195, 167, 105)',
             borderColor: 'rgb(195, 167, 105)',
+<<<<<<< HEAD
             backgroundColor: 'rgba(195, 167, 105,0.1)'
           }
+=======
+            backgroundColor: 'rgba(195, 167, 105,0.1)',
+          },
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
         },
         // 浅绿色主题
         green: {
@@ -431,6 +600,7 @@ export default {
           activedStyle: {
             color: 'rgb(99, 190, 114)',
             borderColor: 'rgb(99, 190, 114)',
+<<<<<<< HEAD
             backgroundColor: 'rgba(99, 190, 114,0.1)'
           }
         }
@@ -480,12 +650,64 @@ export default {
         actionTitle = useCache ? '' : '请求中...';
       } else {
         actionAoading = useCache ? false : true;
+=======
+            backgroundColor: 'rgba(99, 190, 114,0.1)',
+          },
+        },
+      },
+    }
+  },
+  created() {
+    let that = this
+    vk = that.vk
+    if (that.valueCom) {
+      that.open()
+    }
+  },
+  mounted() {},
+  methods: {
+    // 初始化
+    init(notAutoClick) {
+      let that = this
+      // 清空之前的数据
+      that.selectArr = []
+      that.subIndex = []
+      that.selectShop = {}
+      that.selectNum = that.minBuyNum || 1
+      that.outFoStock = false
+      that.shopItemInfo = {}
+      let specListName = that.specListName
+      that.goodsInfo[specListName].map((item) => {
+        that.selectArr.push('')
+        that.subIndex.push(-1)
+      })
+      that.checkItem() // 计算sku里面规格形成路径
+      that.checkInpath(-1) // 传-1是为了不跳过循环
+      if (!notAutoClick) that.autoClickSku() // 自动选择sku策略
+    },
+    // 使用vk路由模式框架获取商品信息
+    findGoodsInfo(obj = {}) {
+      let that = this
+      let { useCache } = obj
+      if (typeof vk == 'undefined') {
+        that.toast('custom-action必须是function', 'none')
+        return false
+      }
+      let { actionTips } = that
+      let actionTitle = ''
+      let actionAoading = false
+      if (actionTips !== 'custom') {
+        actionTitle = useCache ? '' : '请求中...'
+      } else {
+        actionAoading = useCache ? false : true
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
       vk.callFunction({
         url: that.action,
         title: actionTitle,
         loading: actionAoading,
         data: {
+<<<<<<< HEAD
           goods_id: that.goodsId
         },
         success(data) {
@@ -509,10 +731,36 @@ export default {
         that.$emit('input', false);
         that.$emit('close', 'close');
         that.$emit('update:modelValue', false);
+=======
+          goods_id: that.goodsId,
+        },
+        success(data) {
+          that.updateGoodsInfo(data.goodsInfo)
+          // 更新缓存
+          goodsCache[that.goodsId] = data.goodsInfo
+          that.$emit('update-goods', data.goodsInfo)
+        },
+        fail() {
+          that.updateValue(false)
+        },
+      })
+    },
+    updateValue(value) {
+      let that = this
+      if (value) {
+        that.$emit('open', true)
+        that.$emit('input', true)
+        that.$emit('update:modelValue', true)
+      } else {
+        that.$emit('input', false)
+        that.$emit('close', 'close')
+        that.$emit('update:modelValue', false)
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
     },
     // 更新商品信息(库存、名称、图片)
     updateGoodsInfo(goodsInfo) {
+<<<<<<< HEAD
       let that = this;
       // goodsInfo.sku_list.map((item, index) => {
       // 	item.sku_name_arr = ["20ml/瓶"];
@@ -547,6 +795,49 @@ export default {
         that.updateGoodsInfo(goodsInfo);
       } else {
         that.complete = false;
+=======
+      let that = this
+      // goodsInfo.sku_list.map((item, index) => {
+      // 	item.sku_name_arr = ["20ml/瓶"];
+      // });
+      let { skuListName } = that
+      if (
+        JSON.stringify(that.goodsInfo) === '{}' ||
+        that.goodsInfo[that.goodsIdName] !== goodsInfo[that.goodsIdName]
+      ) {
+        that.goodsInfo = goodsInfo
+        that.initKey = true
+      } else {
+        that.goodsInfo[skuListName] = goodsInfo[skuListName]
+      }
+      if (that.initKey) {
+        that.initKey = false
+        that.init()
+      }
+      // 更新选中sku的库存信息
+      let select_sku_info = that.getListItem(
+        that.goodsInfo[skuListName],
+        that.skuIdName,
+        that.selectShop[that.skuIdName],
+      )
+      Object.assign(that.selectShop, select_sku_info)
+      that.defaultSelectSku()
+      that.complete = true
+    },
+    async open() {
+      let that = this
+      that.openTime = new Date().getTime()
+      let findGoodsInfoRun = true
+      let skuListName = that.skuListName
+      // 先获取缓存中的商品信息
+      let useCache = false
+      let goodsInfo = goodsCache[that.goodsId]
+      if (goodsInfo && that.useCache) {
+        useCache = true
+        that.updateGoodsInfo(goodsInfo)
+      } else {
+        that.complete = false
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
       if (that.customAction && typeof that.customAction === 'function') {
         try {
@@ -557,6 +848,7 @@ export default {
               goodsInfo,
               close: function () {
                 setTimeout(function () {
+<<<<<<< HEAD
                   that.close();
                 }, 500);
               }
@@ -600,10 +892,56 @@ export default {
         }
       } else {
         if (findGoodsInfoRun) that.findGoodsInfo({ useCache });
+=======
+                  that.close()
+                }, 500)
+              },
+            })
+            .catch((err) => {
+              setTimeout(function () {
+                that.close()
+              }, 500)
+            })
+        } catch (err) {
+          let { message = '' } = err
+          if (message.indexOf('.catch is not a function') > -1) {
+            that.toast('custom-action必须返回一个Promise', 'none')
+            setTimeout(function () {
+              that.close()
+            }, 500)
+            return false
+          }
+        }
+        // 更新缓存
+        goodsCache[that.goodsId] = goodsInfo
+        if (goodsInfo && typeof goodsInfo == 'object' && JSON.stringify(goodsInfo) != '{}') {
+          findGoodsInfoRun = false
+          that.updateGoodsInfo(goodsInfo)
+          that.updateValue(true)
+        } else {
+          that.toast('未获取到商品信息', 'none')
+          that.$emit('input', false)
+          return false
+        }
+      } else if (typeof that.localdata !== 'undefined' && that.localdata !== null) {
+        goodsInfo = that.localdata
+        if (goodsInfo && typeof goodsInfo == 'object' && JSON.stringify(goodsInfo) != '{}') {
+          findGoodsInfoRun = false
+          that.updateGoodsInfo(goodsInfo)
+          that.updateValue(true)
+        } else {
+          that.toast('未获取到商品信息', 'none')
+          that.$emit('input', false)
+          return false
+        }
+      } else {
+        if (findGoodsInfoRun) that.findGoodsInfo({ useCache })
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
     },
     // 监听 - 弹出层收起
     close(s) {
+<<<<<<< HEAD
       let that = this;
       if (new Date().getTime() - that.openTime < 400) {
         return false;
@@ -618,6 +956,22 @@ export default {
         that.$emit('input', false);
         that.$emit('close', 'close');
         that.$emit('update:modelValue', false);
+=======
+      let that = this
+      if (new Date().getTime() - that.openTime < 400) {
+        return false
+      }
+      if (s == 'mask') {
+        if (that.maskCloseAble !== false) {
+          that.$emit('input', false)
+          that.$emit('close', 'mask')
+          that.$emit('update:modelValue', false)
+        }
+      } else {
+        that.$emit('input', false)
+        that.$emit('close', 'close')
+        that.$emit('update:modelValue', false)
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
     },
     moveHandle() {
@@ -625,6 +979,7 @@ export default {
     },
     // sku按钮的点击事件
     skuClick(value, index1, index2) {
+<<<<<<< HEAD
       let that = this;
       if (value.ishow) {
         if (that.selectArr[index1] != value.name) {
@@ -637,10 +992,25 @@ export default {
         that.checkInpath(index1);
         // 如果全部选完
         that.checkSelectShop();
+=======
+      let that = this
+      if (value.ishow) {
+        if (that.selectArr[index1] != value.name) {
+          that.$set(that.selectArr, index1, value.name)
+          that.$set(that.subIndex, index1, index2)
+        } else {
+          that.$set(that.selectArr, index1, '')
+          that.$set(that.subIndex, index1, -1)
+        }
+        that.checkInpath(index1)
+        // 如果全部选完
+        that.checkSelectShop()
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
     },
     // 检测是否已经选完sku
     checkSelectShop() {
+<<<<<<< HEAD
       let that = this;
       // 如果全部选完
       if (that.selectArr.every(item => item != '')) {
@@ -660,10 +1030,32 @@ export default {
         }
       } else {
         that.selectShop = {};
+=======
+      let that = this
+      // 如果全部选完
+      if (that.selectArr.every((item) => item != '')) {
+        that.selectShop = that.shopItemInfo[that.getArrayToSting(that.selectArr)]
+        let stock = that.selectShop[that.stockName]
+        if (typeof stock !== 'undefined' && that.selectNum > stock) {
+          that.selectNum = stock
+        }
+        if (that.selectNum > that.maxBuyNum) {
+          that.selectNum = that.maxBuyNum
+        }
+        if (that.selectNum < that.minBuyNum) {
+          that.selectNum = that.minBuyNum
+        }
+        if (that.selectedInit) {
+          that.selectNum = that.minBuyNum || 1
+        }
+      } else {
+        that.selectShop = {}
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
     },
     // 检查路径
     checkInpath(clickIndex) {
+<<<<<<< HEAD
       let that = this;
       let specListName = that.specListName;
       //console.time('筛选可选路径需要的时间是');
@@ -690,10 +1082,46 @@ export default {
         }
       }
       that.$set(that.goodsInfo, specListName, specList);
+=======
+      let that = this
+      let specListName = that.specListName
+      //console.time('筛选可选路径需要的时间是');
+      //循环所有属性判断哪些属性可选
+      //当前选中的兄弟节点和已选中属性不需要循环
+      let specList = that.goodsInfo[specListName]
+      for (let i = 0, len = specList.length; i < len; i++) {
+        if (i == clickIndex) {
+          continue
+        }
+        let len2 = specList[i].list.length
+        for (let j = 0; j < len2; j++) {
+          if (that.subIndex[i] != -1 && j == that.subIndex[i]) {
+            continue
+          }
+          let choosed_copy = [...that.selectArr]
+          that.$set(choosed_copy, i, specList[i].list[j].name)
+          let choosed_copy2 = choosed_copy.filter(
+            (item) => item !== '' && typeof item !== 'undefined',
+          )
+          if (
+            Object.prototype.hasOwnProperty.call(
+              that.shopItemInfo,
+              that.getArrayToSting(choosed_copy2),
+            )
+          ) {
+            specList[i].list[j].ishow = true
+          } else {
+            specList[i].list[j].ishow = false
+          }
+        }
+      }
+      that.$set(that.goodsInfo, specListName, specList)
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       // console.timeEnd('筛选可选路径需要的时间是');
     },
     // 计算sku里面规格形成路径
     checkItem() {
+<<<<<<< HEAD
       let that = this;
       // console.time('计算有多小种可选路径需要的时间是');
       let { stockName } = that;
@@ -710,6 +1138,24 @@ export default {
       });
       if (stockNum <= 0) {
         that.outFoStock = true;
+=======
+      let that = this
+      // console.time('计算有多小种可选路径需要的时间是');
+      let { stockName } = that
+      let skuListName = that.skuListName
+      // 去除库存小于等于0的商品sku
+      let originalSkuList = that.goodsInfo[skuListName]
+      let skuList = []
+      let stockNum = 0
+      originalSkuList.map((skuItem, index) => {
+        if (skuItem[stockName] > 0) {
+          skuList.push(skuItem)
+          stockNum += skuItem[stockName]
+        }
+      })
+      if (stockNum <= 0) {
+        that.outFoStock = true
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
       // 计算有多小种可选路径
       let result = skuList.reduce(
@@ -718,6 +1164,7 @@ export default {
             items[that.skuArrName].reduce(
               (arr, item) => {
                 return arr.concat(
+<<<<<<< HEAD
                   arr.map(item2 => {
                     // 利用对象属性的唯一性实现二维数组去重
                     if (!Object.prototype.hasOwnProperty.call(that.shopItemInfo, that.getArrayToSting([...item2, item]))) {
@@ -795,11 +1242,96 @@ export default {
           that.$emit('buy', selectShop);
         }
       });
+=======
+                  arr.map((item2) => {
+                    // 利用对象属性的唯一性实现二维数组去重
+                    if (
+                      !Object.prototype.hasOwnProperty.call(
+                        that.shopItemInfo,
+                        that.getArrayToSting([...item2, item]),
+                      )
+                    ) {
+                      that.shopItemInfo[that.getArrayToSting([...item2, item])] = items
+                    }
+                    return [...item2, item]
+                  }),
+                )
+              },
+              [[]],
+            ),
+          )
+        },
+        [[]],
+      )
+      // console.timeEnd('计算有多小种可选路径需要的时间是');
+    },
+    getArrayToSting(arr) {
+      let str = ''
+      arr.map((item, index) => {
+        item = item.replace(/\./g, '。')
+        if (index == 0) {
+          str += item
+        } else {
+          str += ',' + item
+        }
+      })
+      return str
+    },
+    // 检测sku选项是否已全部选完,且有库存
+    checkSelectComplete(obj = {}) {
+      let that = this
+      let clickTime = new Date().getTime()
+      if (that.clickTime && clickTime - that.clickTime < 400) {
+        return false
+      }
+      that.clickTime = clickTime
+      let { selectShop, selectNum, stockText, stockName } = that
+      if (!selectShop || !selectShop[that.skuIdName]) {
+        that.toast('请先选择对应规格', 'none')
+        return false
+      }
+      if (selectNum <= 0) {
+        that.toast('购买数量必须>0', 'none')
+        return false
+      }
+      // 判断库存
+      if (selectNum > selectShop[stockName]) {
+        that.toast(stockText + '不足', 'none')
+        return false
+      }
+      if (typeof obj.success == 'function') obj.success(selectShop)
+    },
+    // 加入购物车
+    addCart() {
+      let that = this
+      that.checkSelectComplete({
+        success: function (selectShop) {
+          selectShop.buy_num = that.selectNum
+          that.$emit('add-cart', selectShop)
+          that.$emit('cart', selectShop)
+          // setTimeout(function() {
+          // 	that.init();
+          // }, 300);
+        },
+      })
+    },
+    // 立即购买
+    buyNow() {
+      let that = this
+      that.checkSelectComplete({
+        success: function (selectShop) {
+          selectShop.buy_num = that.selectNum
+          that.$emit('buy-now', selectShop)
+          that.$emit('buy', selectShop)
+        },
+      })
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
     },
     // 弹窗
     toast(title, icon) {
       uni.showToast({
         title: title,
+<<<<<<< HEAD
         icon: icon
       });
     },
@@ -846,12 +1378,61 @@ export default {
           if (sku && sku[stockName] > 0) {
             that.skuClick(specList[i], 0, i);
             break;
+=======
+        icon: icon,
+      })
+    },
+    // 获取对象数组中的某一个item,根据指定的键值
+    getListItem(list, key, value) {
+      let that = this
+      let item
+      for (let i in list) {
+        if (typeof value == 'object') {
+          if (JSON.stringify(list[i][key]) === JSON.stringify(value)) {
+            item = list[i]
+            break
+          }
+        } else {
+          if (list[i][key] === value) {
+            item = list[i]
+            break
+          }
+        }
+      }
+      return item
+    },
+    getListIndex(list, key, value) {
+      let that = this
+      let index = -1
+      for (let i = 0; i < list.length; i++) {
+        if (list[i][key] === value) {
+          index = i
+          break
+        }
+      }
+      return index
+    },
+    // 自动选择sku前提是只有一组sku,默认自动选择最前面的有库存的sku
+    autoClickSku() {
+      let that = this
+      let { stockName } = that
+      let skuList = that.goodsInfo[that.skuListName]
+      let specListArr = that.goodsInfo[that.specListName]
+      if (specListArr.length == 1) {
+        let specList = specListArr[0].list
+        for (let i = 0; i < specList.length; i++) {
+          let sku = that.getListItem(skuList, that.skuArrName, [specList[i].name])
+          if (sku && sku[stockName] > 0) {
+            that.skuClick(specList[i], 0, i)
+            break
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
           }
         }
       }
     },
     // 主题颜色
     themeColorFn(name) {
+<<<<<<< HEAD
       let that = this;
       let { theme, themeColor } = that;
       let color = that[name] ? that[name] : themeColor[theme][name];
@@ -862,6 +1443,18 @@ export default {
       let { defaultSelect } = that;
       if (defaultSelect && defaultSelect.sku && defaultSelect.sku.length > 0) {
         that.selectSku(defaultSelect);
+=======
+      let that = this
+      let { theme, themeColor } = that
+      let color = that[name] ? that[name] : themeColor[theme][name]
+      return color
+    },
+    defaultSelectSku() {
+      let that = this
+      let { defaultSelect } = that
+      if (defaultSelect && defaultSelect.sku && defaultSelect.sku.length > 0) {
+        that.selectSku(defaultSelect)
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
     },
     /**
@@ -872,6 +1465,7 @@ export default {
       });
        */
     selectSku(obj = {}) {
+<<<<<<< HEAD
       let that = this;
       let { sku: skuArr, num: selectNum } = obj;
       let specListArr = that.goodsInfo[that.specListName];
@@ -887,10 +1481,28 @@ export default {
           if (index2 == -1) {
             clickKey = false;
             break;
+=======
+      let that = this
+      let { sku: skuArr, num: selectNum } = obj
+      let specListArr = that.goodsInfo[that.specListName]
+      if (skuArr && specListArr.length === skuArr.length) {
+        // 先清空
+        let skuClickArr = []
+        let clickKey = true
+        for (let index = 0; index < skuArr.length; index++) {
+          let skuName = skuArr[index]
+          let specList = specListArr[index].list
+          let index1 = index
+          let index2 = that.getListIndex(specList, 'name', skuName)
+          if (index2 == -1) {
+            clickKey = false
+            break
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
           }
           skuClickArr.push({
             spec: specList[index2],
             index1: index1,
+<<<<<<< HEAD
             index2: index2
           });
         }
@@ -954,20 +1566,94 @@ export default {
     numChange(e) {
       this.$emit("num-change", e.value);
     }
+=======
+            index2: index2,
+          })
+        }
+        if (clickKey) {
+          that.init(true)
+          skuClickArr.map((item) => {
+            that.skuClick(item.spec, item.index1, item.index2)
+          })
+        }
+      }
+      if (selectNum > 0) that.selectNum = selectNum
+    },
+    priceFilter(n = 0) {
+      let that = this
+      if (typeof n == 'string') {
+        n = parseFloat(n)
+      }
+      if (that.amountType === 0) {
+        return n.toFixed(2)
+      } else {
+        return (n / 100).toFixed(2)
+      }
+    },
+    pushGoodsCache(goodsInfo) {
+      let that = this
+      let { goodsIdName } = that
+      goodsCache[goodsInfo[goodsIdName]] = goodsInfo
+    },
+    // 用于阻止冒泡
+    stop() {},
+    // 图片预览
+    previewImage() {
+      let that = this
+      let { selectShop, goodsInfo, goodsThumbName } = that
+      let src = selectShop.image ? selectShop.image : goodsInfo[goodsThumbName]
+      if (src) {
+        uni.previewImage({
+          urls: [src],
+        })
+      }
+    },
+    getMaxStock() {
+      let maxStock = 0
+      let that = this
+      let { selectShop = {}, goodsInfo = {}, skuListName, stockName } = that
+      if (selectShop[stockName]) {
+        maxStock = selectShop[stockName]
+      } else {
+        let skuList = goodsInfo[skuListName]
+        if (skuList && skuList.length > 0) {
+          let valueArr = []
+          skuList.map((skuItem, index) => {
+            valueArr.push(skuItem[stockName])
+          })
+          let max = Math.max(...valueArr)
+          maxStock = max
+        }
+      }
+      return maxStock
+    },
+    numChange(e) {
+      this.$emit('num-change', e.value)
+    },
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
   },
   // 计算属性
   computed: {
     valueCom() {
       // #ifndef VUE3
+<<<<<<< HEAD
       return this.value;
       // #endif
 
       // #ifdef VUE3
       return this.modelValue;
+=======
+      return this.value
+      // #endif
+
+      // #ifdef VUE3
+      return this.modelValue
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       // #endif
     },
     // 最大购买数量
     maxBuyNumCom() {
+<<<<<<< HEAD
       let that = this;
       let maxStock = that.getMaxStock();
       let max = that.maxBuyNum || 100000;
@@ -982,12 +1668,29 @@ export default {
       let that = this;
       let { goodsInfo, defaultSingleSkuName, specListName } = that;
       let isMany = true;
+=======
+      let that = this
+      let maxStock = that.getMaxStock()
+      let max = that.maxBuyNum || 100000
+      // 最大购买量不能超过当前商品的库存
+      if (max > maxStock) {
+        max = maxStock
+      }
+      return max
+    },
+    // 是否是多规格
+    isManyCom() {
+      let that = this
+      let { goodsInfo, defaultSingleSkuName, specListName } = that
+      let isMany = true
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       if (
         goodsInfo[specListName] &&
         goodsInfo[specListName].length === 1 &&
         goodsInfo[specListName][0].list.length === 1 &&
         goodsInfo[specListName][0].name === defaultSingleSkuName
       ) {
+<<<<<<< HEAD
         isMany = false;
       }
       return isMany;
@@ -1048,11 +1751,74 @@ export default {
       let that = this;
       if (newVal) {
         that.open();
+=======
+        isMany = false
+      }
+      return isMany
+    },
+    // 默认价格区间计算
+    priceCom() {
+      let str = ''
+      let that = this
+      let { selectShop = {}, goodsInfo = {}, skuListName, skuIdName } = that
+      if (selectShop[skuIdName]) {
+        str = that.priceFilter(selectShop.price)
+      } else {
+        let skuList = goodsInfo[skuListName]
+        if (skuList && skuList.length > 0) {
+          let valueArr = []
+          skuList.map((skuItem, index) => {
+            valueArr.push(skuItem.price)
+          })
+          let min = that.priceFilter(Math.min(...valueArr))
+          let max = that.priceFilter(Math.max(...valueArr))
+          if (min === max) {
+            str = min + ''
+          } else {
+            str = `${min} - ${max}`
+          }
+        }
+      }
+      return str
+    },
+    // 库存显示
+    stockCom() {
+      let str = ''
+      let that = this
+      let { selectShop = {}, goodsInfo = {}, skuListName, stockName } = that
+      if (selectShop[stockName]) {
+        str = selectShop[stockName]
+      } else {
+        let skuList = goodsInfo[skuListName]
+        if (skuList && skuList.length > 0) {
+          let valueArr = []
+          skuList.map((skuItem, index) => {
+            valueArr.push(skuItem[stockName])
+          })
+          let min = Math.min(...valueArr)
+          let max = Math.max(...valueArr)
+          if (min === max) {
+            str = min
+          } else {
+            str = `${min} - ${max}`
+          }
+        }
+      }
+      return str
+    },
+  },
+  watch: {
+    valueCom(newVal, oldValue) {
+      let that = this
+      if (newVal) {
+        that.open()
+>>>>>>> 18cd983e69122d42b024bc848c56ab93e1fef8f0
       }
     },
     defaultGoods: {
       immediate: true,
       handler: function (newVal, oldValue) {
+<<<<<<< HEAD
         let that = this;
         let { goodsIdName } = that;
         if (typeof newVal === 'object' && newVal && newVal[goodsIdName] && !goodsCache[newVal[goodsIdName]]) {
@@ -1065,6 +1831,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+=======let that=this let {
+  goodsIdName
+}
+
+=that if (typeof newVal==='object' && newVal && newVal[goodsIdName] && !goodsCache[newVal[goodsIdName]]) {
+  that.pushGoodsCache(newVal)
+}
+}
+
+,
+}
+
+,
+}
+
+,
+}
+
+</script><style lang="less" scoped>>>>>>>>18cd983e69122d42b024bc848c56ab93e1fef8f0
+
 /*  sku弹出层 */
 .vk-data-goods-sku-popup {
   position: fixed;
@@ -1216,8 +2002,9 @@ export default {
 
             .item-wrapper {
               display: flex;
-              flex-direction: row;
-              flex-flow: wrap;
+              <<<<<<< HEAD flex-direction: row;
+              ======= //flex-direction: row;
+              >>>>>>>18cd983e69122d42b024bc848c56ab93e1fef8f0 flex-flow: wrap;
 
               .item-content {
                 box-sizing: border-box;
