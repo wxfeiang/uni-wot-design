@@ -12,6 +12,12 @@ import shezhi from '@/static/images/mine/shezhi.png'
 import smrz from '@/static/images/mine/smrz.png'
 import spsc from '@/static/images/mine/spsc.png'
 import wdjf from '@/static/images/mine/wdjf.png'
+
+import dpgz from '@/static/images/mine/dpgz.png'
+import tsjy from '@/static/images/mine/tsjy.png'
+import xxtz from '@/static/images/mine/xxtz.png'
+import yhzx from '@/static/images/mine/yhzx.png'
+
 import { routeTo } from '@/utils'
 
 import daifahuo from '@/static/images/mine//daifahuo.png'
@@ -59,7 +65,7 @@ const topList = ref<serveProps[]>([
     islink: true,
   },
   {
-    title: '银行卡',
+    title: '钱包',
     value: 0,
     path: '',
     islink: false,
@@ -132,9 +138,33 @@ const serveList = ref<serveProps[]>([
     islink: true,
   },
   {
+    icon: dpgz,
+    title: '店铺关注',
+    path: '/pages-sub/userManager/collection/follow',
+    islink: true,
+  },
+  {
     icon: shdz,
     title: '收货地址',
     path: '/pages-sub/userManager/address/list',
+    islink: true,
+  },
+  {
+    icon: xxtz,
+    title: '消息通知',
+    path: '/pages-sub/userManager/userCenter/massage',
+    islink: true,
+  },
+  {
+    icon: tsjy,
+    title: '投诉建议',
+    path: '/pages-sub/userManager/userCenter/suggest',
+    islink: true,
+  },
+  {
+    icon: yhzx,
+    title: '用户中心',
+    path: '/pages-sub/userManager/userCenter/user',
     islink: true,
   },
 

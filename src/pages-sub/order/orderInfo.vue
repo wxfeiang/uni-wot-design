@@ -41,7 +41,8 @@ function Choose(index) {
 async function getInfo(id: any) {
   uni.showLoading({ title: '' })
   // 这里是请求数据
-  const data: any = await sendOrderInfo(id)
+  const da = { shopId: 30561 }
+  const data: any = await sendOrderInfo(da)
   uni.hideLoading()
 }
 

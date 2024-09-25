@@ -20,6 +20,7 @@ import kajiegua from '@/static/images/serve/kajiegua.png'
 import kajindu from '@/static/images/serve/kajindu.png'
 
 import kabase from '@/static/images/serve/kabase.png'
+import jrcs from '@/static/images/serve/jrcs.png'
 
 import jiaofeitong from '@/static/images/serve/jiaofeitong.png'
 import kabiangeng from '@/static/images/serve/kabiangeng.png'
@@ -145,9 +146,18 @@ const mainData3 = ref([
   },
 ])
 
+const mainData4 = ref([
+  {
+    title: '金融超市',
+    icon: 'jrcs',
+    url: jrcs,
+    type: '5',
+    base: 'JRchaoshi',
+  },
+])
+
 function gridClick(item: any) {
   const { base, title } = item
-
   if (item.type === '1') {
     routeTo({
       url: '/pages-sub/serveMain/cardMessType',
@@ -157,6 +167,8 @@ function gridClick(item: any) {
     routeTo({ url: '/pages-sub/serveMain/cardApplyType', data: { base, title } })
   } else if (item.type === '3') {
     routeTo({ url: '/pages-sub/serveMain/cardFromType', data: { base, title } })
+  } else if (item.type === '5') {
+    routeTo({ url: '/pages-sub/serveMain/jinrongType', data: { base, title } })
   } else if (item.type === '4') {
     openWxChart(item.appId, item.path)
   } else {
@@ -187,6 +199,12 @@ const categories = ref([
     title: '标题三',
     icon: 'location',
     items: mainData3.value,
+  },
+  {
+    label: '金融服务',
+    title: '标题四',
+    icon: 'location',
+    items: mainData4.value,
   },
 ])
 
