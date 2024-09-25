@@ -16,6 +16,9 @@
 import { useColPickerData } from '@/hooks/useColPickerData'
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
+import { addressListAddOrEdit } from '@/service/api/address'
+import { Toast } from '@/utils/uniapi/prompt'
+import { routeTo } from '@/utils'
 
 const { colPickerData, findChildrenByCode } = useColPickerData()
 
@@ -32,19 +35,39 @@ const area = ref<any[]>([
   }),
 ])
 const model = reactive({
-  name: '',
-  phone: '',
+  userName: '',
+  userPhone: '',
   area: [],
-  detail: '',
+  userAddress: '',
   isDefault: false,
 })
 const form = ref()
+
+
+const addAddress = () => {
+  let { userName, userPhone, area, userAddress, isDefault } = model
+  let data = {
+    userName,
+    userPhone,
+    province: area[0],
+    city: area[1],
+    area: area[2],
+    userAddress,
+    isDefault
+  }
+  addressListAddOrEdit(data).then(res => {
+    console.log('新增地址', res)
+    Toast('新增成功')
+    routeTo({ url: '/pages-sub/userManager/address/list' })
+  })
+}
 const handleSubmit = () => {
   form.value
     .validate()
     .then(({ valid, errors }) => {
       if (valid) {
-        console.log('🥔')
+        console.log('🥔', model)
+        addAddress()
       }
     })
     .catch((error) => {
@@ -68,10 +91,10 @@ const columnChange = ({ selectedItem, resolve, finish }) => {
 }
 // 表单校验
 const validatorName = (val) => {
-  return model.name.length > 0
+  return model.userName.length > 0
 }
 const validatorDetail = (val) => {
-  return model.detail.length > 0
+  return model.userAddress.length > 0
 }
 const validatorArea = (val: Array<any>) => {
   return val.length > 0
@@ -90,8 +113,8 @@ const validatorPhone = (val) => {
   }
 }
 
-function handleConfirm({ value }) {
-  console.log(value)
+function handleConfirm(e) {
+  console.log('eeee', e)
 }
 onLoad(async () => {
   topbgBase64.value = await pathToBase64(indexbg)
@@ -103,46 +126,21 @@ onLoad(async () => {
   <view class="w-100vw h-100vh bg-#F7F7F7 box-border overflow-y-auto pb-100px">
     <wd-form ref="form" :model="model">
       <wd-cell-group border>
-        <wd-input
-          label="收货人"
-          label-width="100px"
-          prop="name"
-          clearable
-          v-model="model.name"
-          placeholder="请输入用户名"
-          :rules="[{ required: false, validator: validatorName, message: '请填写收货人姓名' }]"
-        />
-        <wd-input
-          label="联系电话"
-          type="number"
-          :maxlength="11"
-          label-width="100px"
-          prop="phone"
-          clearable
-          v-model="model.phone"
-          placeholder="请输入联系电话"
-          :rules="[{ required: false, validator: validatorPhone, message: '请填写联系电话' }]"
-        />
-        <wd-col-picker
-          label="选择地址"
-          v-model="model.area"
-          :columns="area"
-          :column-change="columnChange"
-          prop="area"
-          @confirm="handleConfirm"
-          :rules="[{ required: false, validator: validatorArea, message: '请选择省市区' }]"
-        ></wd-col-picker>
-        <wd-textarea
-          v-model="model.detail"
-          placeholder="请填写详细地址（街道，楼牌号等）"
-          prop="detail"
-          :rules="[{ required: false, validator: validatorDetail, message: '请填写详细地址' }]"
-        />
+        <wd-input label="收货人" label-width="100px" prop="userName" clearable v-model="model.userName"
+          placeholder="请输入用户名" :rules="[{ required: false, validator: validatorName, message: '请填写收货人姓名' }]" />
+        <wd-input label="联系电话" type="number" :maxlength="11" label-width="100px" prop="userPhone" clearable
+          v-model="model.userPhone" placeholder="请输入联系电话"
+          :rules="[{ required: false, validator: validatorPhone, message: '请填写联系电话' }]" />
+        <wd-col-picker label="选择地址" v-model="model.area" :columns="area" :column-change="columnChange" prop="area"
+          value-key='label' @confirm="handleConfirm"
+          :rules="[{ required: false, validator: validatorArea, message: '请选择省市区' }]"></wd-col-picker>
+        <wd-textarea v-model="model.userAddress" placeholder="请填写详细地址（街道，楼牌号等）" prop="userAddress"
+          :rules="[{ required: false, validator: validatorDetail, message: '请填写详细地址' }]" />
       </wd-cell-group>
       <wd-cell-group>
         <wd-cell title="设为默认地址" center>
           <view class="custom-value">
-            <wd-switch v-model="model.isDefault" change="handleSwitchChange" />
+            <wd-switch v-model="model.isDefault" :active-value="1" :inactive-value="0" />
           </view>
         </wd-cell>
       </wd-cell-group>

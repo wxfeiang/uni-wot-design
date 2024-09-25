@@ -10,6 +10,7 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import { useUserStore } from '@/store'
 import shangdian from '@/static/images/shop/shangdian.png'
 import kefu from '@/static/images/shop/kefu.png'
 import gouwuche from '@/static/images/shop/gouwuche.png'
@@ -17,12 +18,112 @@ import fenxiang from '@/static/images/shop/fenxiang.png'
 import shoucang from '@/static/images/shop/shoucang.png'
 import duihao from '@/static/images/shop/duihao.png'
 import shoucang1 from '@/static/images/shop/shoucang1.png'
-import { getGoodDetails } from '@/service/api/shop'
+import { getGoodDetails, favoritesList, userFavorites, unUserFavorites } from '@/service/api/shop'
+import vkDataGoodsSkuPopup from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup.vue'
 
+const userStore = useUserStore()
 const current = ref<number>(0)
 const title = ref('商品详情')
+let isFavor = ref(false)
 let details = reactive({})
+let favorList = ref([])
+// 是否打开SKU弹窗
+let skuKey = ref(false)
+// SKU弹窗模式
+let skuMode = ref(1)
+// 后端返回的商品信息
+let goodsInfo = reactive<any>({
+  "_id": "001",
+  "name": "iphone11",
+  "goods_thumb": "https://img14.360buyimg.com/n0/jfs/t1/59022/28/10293/141808/5d78088fEf6e7862d/68836f52ffaaad96.jpg",
+  "sku_list": [
+    {
+      "_id": "001",
+      "goods_id": "001",
+      "goods_name": "iphone11",
+      "image": "https://img14.360buyimg.com/n0/jfs/t1/79668/22/9987/159271/5d780915Ebf9bf3f4/6a1b2703a9ed8737.jpg",
+      "price": 19800,
+      "sku_name_arr": ["红色", "128G", "公开版"],
+      "stock": 1000
+    },
+    {
+      "_id": "002",
+      "goods_id": "001",
+      "goods_name": "iphone11",
+      "image": "https://img14.360buyimg.com/n0/jfs/t1/52252/35/10516/124064/5d7808e0E46202391/7100f3733a1c1f00.jpg",
+      "price": 9800,
+      "sku_name_arr": ["白色", "256G", "公开版"],
+      "stock": 100
+    },
+    {
+      "_id": "003",
+      "goods_id": "001",
+      "goods_name": "iphone11",
+      "image": "https://img14.360buyimg.com/n0/jfs/t1/79668/22/9987/159271/5d780915Ebf9bf3f4/6a1b2703a9ed8737.jpg",
+      "price": 19800,
+      "sku_name_arr": ["红色", "256G", "公开版"],
+      "stock": 1
+    }
+  ],
+  "spec_list": [
+    {
+      "name": "颜色",
+      "list": [
+        { "name": "红色" },
+        { "name": "黑色" },
+        { "name": "白色" }
+      ]
+    },
+    {
+      "name": "内存",
+      "list": [
+        { "name": "128G" },
+        { "name": "256G" }
+      ],
+    },
+    {
+      "name": "版本",
+      "list": [
+        { "name": "公开版" },
+        { "name": "非公开版" }
+      ]
+    }
+  ]
+})
+const formatGoodsInfo = (arr: Array<any>) => {
+  let spec_list = [], obj = JSON.parse(arr[0].skuName);
+  spec_list = Object.keys(obj)
+  goodsInfo = {
+    "_id": details.spuId,
+    "name": details.spuName,
+    "goods_thumb": JSON.parse(details.saleUrl)[0],
+    "sku_list": arr.map((item, index) => {
+      return {
+        "_id": item.id, // SKU ID
+        "goods_id": details.spuId, // 商品ID
+        "goods_name": details.spuName, // 商品名称
+        // SKU头像
+        "image": JSON.parse(details.skuUrl)[index],
+        "price": 999, // SKU 价格
+        "sku_name_arr": Object.values(JSON.parse(item.skuName)), // 该SKU由哪些规格组成（规格是有顺序的，需要与spec_list的数组顺序对应）
+        "stock": item.stock
 
+      }
+    }),
+    "spec_list": spec_list.map((it, idx) => {
+      return {
+        "name": it, // 规格名称
+        "list": arr.map(item => {
+          return {
+            "name": JSON.parse(item.skuName)[it]
+          }
+        })
+      }
+    })
+
+  }
+  console.log('goodsInfo', goodsInfo)
+}
 function handleClick(e) {
   console.log(e)
 }
@@ -30,20 +131,68 @@ function onChange(e) {
   console.log(e)
 }
 
-const getDetails = (spuId) => {
+const getDetails = (spuId: number) => {
   getGoodDetails({
-    spuId
-  }).then(res => {
+    spuId: 14943
+  }).then((res: any) => {
     res.rotationUrl = JSON.parse(res.rotationUrl).map(item => item.data)
     res.remarkUrl = JSON.parse(res.remarkUrl).map(item => item.data)
     details = res
     console.log('res', details)
+    formatGoodsInfo(res.skuList)
+
   })
 }
+const foverGoods = async (spuId: number) => {
+  if (!userStore.isLogined) {
+    routeTo({ url: '/pages/login/index' })
+    return
+  } else {
+    if (isFavor.value) {
+      const res = await unUserFavorites({
+        productSpuIds: [14943]
+      })
+      console.log('收藏', res)
+    } else {
+      const res = await userFavorites({
+        productSpuId: 14943
+      })
+      console.log('取消收藏', res)
+    }
 
+  }
+
+}
+const getFavoritesList = async () => {
+  const res = await favoritesList({
+    current: 1,
+    size: 9999,
+  })
+  favorList.value = res.content.map(i => i.spuId)
+  isFavor.value = favorList.value.includes(details.spuId)
+  console.log('收藏列表', res, favorList.value)
+}
+const openSkuPopup = () => {
+  goodsInfo = {
+
+  };
+}
+const onCloseSkuPopup = () => {
+
+}
+const addCart = () => {
+
+}
+onShow(() => {
+
+  if (userStore.isLogined) {
+    getFavoritesList()
+  }
+
+})
 onLoad(async (options) => {
   // await getList()
-  console.log('options', options)
+  console.log('options', options, userStore.isLogined)
   getDetails(options.id)
 })
 </script>
@@ -75,7 +224,7 @@ onLoad(async (options) => {
       </view>
 
       <view class="mt-10px flex items-center color-#999999">
-        <view class="mr-20px">
+        <view class="mr-20px" @click="foverGoods">
           <wd-img :width="16" :height="16" :src="shoucang"></wd-img>
           <!-- <wd-img :width="16" :height="16" :src="shoucang1"></wd-img> -->
           <text class="ml-5px">收藏</text>
@@ -147,11 +296,18 @@ onLoad(async (options) => {
       </view>
       <view class=" flex-1 flex items-center  ml-20px line-height-40px border-rd-50px overflow-hidden">
         <view class="w-3/7 text-center bg-#FEF2F2 color-#F44D24 font-size-15px">加入购物车</view>
-        <view class="w-4/7 text-center bg-#F44D24 color-#FFFFFF font-size-15px">立即购买</view>
+        <view class="w-4/7 text-center bg-#F44D24 color-#FFFFFF font-size-15px" @click="skuKey = true">立即购买</view>
         <!-- <view class="w-4/7 text-center bg-#F44D24 color-#FFFFFF font-size-14px">券后价格￥5000.9</view> -->
       </view>
     </view>
+
+
+
+    <vk-data-goods-sku-popup ref="skuPopup" v-model="skuKey" border-radius="20" :z-index="990" :localdata="goodsInfo"
+      :mode="skuMode" @open="onOpenSkuPopup" @close="onCloseSkuPopup" @add-cart="addCart"
+      @buy-now="buyNow"></vk-data-goods-sku-popup>
   </view>
+
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {

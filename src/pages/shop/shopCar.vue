@@ -14,9 +14,8 @@
 <script lang="ts" setup>
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
-defineOptions({
-  name: 'Index',
-})
+
+import { shopCarList } from '@/service/api/shop'
 
 const isManage = ref(false)
 const topbgBase64 = ref('')
@@ -76,10 +75,8 @@ onLoad(async () => {
     <view class='mt-32px'>暂无数据！</view>
   </view> -->
 
-  <view
-    v-if="!isManage"
-    class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center"
-  >
+  <view v-if="!isManage"
+    class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center">
     <wd-checkbox v-model="value" @change="handleChange">全选</wd-checkbox>
     <view class="flex items-center">
       <view class="flex items-center">

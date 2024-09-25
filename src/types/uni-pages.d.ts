@@ -19,11 +19,11 @@ interface NavigateToOptions {
        "/pages/shop/shopCar" |
        "/pages/shop/shopInfo" |
        "/pages/shop/shopInfoCopy" |
-       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
+       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/newsManager/index" |
@@ -32,13 +32,13 @@ interface NavigateToOptions {
        "/pages-sub/webView/index" |
        "/pages-sub/system/sysconfig/index" |
        "/pages-sub/system/sysconfig/setting" |
-       "/pages-sub/userManager/SocialSecurityCard/barcode" |
-       "/pages-sub/userManager/SocialSecurityCard/index" |
-       "/pages-sub/userManager/SocialSecurityCard/indexback" |
        "/pages-sub/userManager/address/editor" |
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/userManager/collection/collection" |
+       "/pages-sub/userManager/SocialSecurityCard/barcode" |
+       "/pages-sub/userManager/SocialSecurityCard/index" |
+       "/pages-sub/userManager/SocialSecurityCard/indexback" |
        "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
@@ -52,7 +52,10 @@ interface NavigateToOptions {
        "/pages-sub/shopManager/index" |
        "/pages-sub/shopManager/shopCode" |
        "/pages-sub/shopManager/shopPayList" |
-       "/pages-sub/shopManager/shopPayMingxi";
+       "/pages-sub/shopManager/shopPayMingxi" |
+       "/pages-sub/order/logistics" |
+       "/pages-sub/order/orderInfo" |
+       "/pages-sub/order/orderList";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 

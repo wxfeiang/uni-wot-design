@@ -90,7 +90,8 @@ onLoad(async () => {
     <view class="w-100vw flex items-center justify-center gap-2px box-border m-t-10px">
       <view class="pl-10px pr-2px flex items-center search pos-relative">
         <wd-img :width="17" :height="18" :src="searchIcon" />
-        <input class="uni-input m-l-10px flex-1" confirm-type="search" placeholder="请输入搜索关键词" />
+        <input class="uni-input m-l-10px flex-1" confirm-type="search" placeholder="请输入搜索关键词"
+          @focus='routeTo({ url: "/pages/shop/goodsSearch", })' />
         <view class="searchbtn">搜索</view>
       </view>
       <view class="caricon" @click="goCar">

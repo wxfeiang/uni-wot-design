@@ -21,7 +21,7 @@
     "target": 3,
     "nativeTags": ["block", "template", "component", "slot"]
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "**/*.spec.ts"],
   "include": [
     "src/**/*.ts",
     "src/**/*.js",
