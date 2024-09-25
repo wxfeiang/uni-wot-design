@@ -1,6 +1,7 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
 import { METHOD_INSTANCE } from '../model/baseModel'
+
 const WX_PAY = baseUrlApi('/trade/wxPay/wxPay')
 // const GET_SHOP_DETAIL = baseUrlApi('/product/app/shop/getDetail')
 
@@ -97,6 +98,48 @@ export function unUserFavorites(data) {
   )
 }
 
+const GET_ORDER_LIST = baseUrlApi('/order/app/getXcxOrderList')
+const GET_ORDER_INFO = baseUrlApi('/order/app/getXcxOrderDetailByOrderId')
+
+const USE_RECORD = baseUrlApi('/promotion/app/coupon/useRecord')
+
+const USE_OFFLINE = baseUrlApi('/promotion/app/coupon/useOffline')
+
+const COUPON_INFO = baseUrlApi('/promotion/app/coupon/info')
+/**
+ *   获取订单列表
+ * @param params 初始参数()
+ * */
+export function getOrderList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_ORDER_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   获取订单详情
+ * @param params 初始参数()
+ * */
+export function getOrderInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_ORDER_INFO, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
 /**
  *   获取商品列表
  * @param params 初始参数()
@@ -130,6 +173,7 @@ export function getGoodDetails(data) {
     },
   )
 }
+
 /**
  *   获取店铺基本信息
  * @param params 初始参数()
@@ -154,6 +198,37 @@ export function getShopDetail<T>(data) {
 export function getWxPay<T>(data) {
   return request.Post<T>(
     WX_PAY, // 请求地址
+    data,
+  )
+}
+
+/**
+ * 券码详情
+ * @param params 初始参数()
+ * */
+export function getCouponInfo<T>(data) {
+  return request.Post<T>(
+    COUPON_INFO, // 请求地址
+    data,
+  )
+}
+/**
+ *   商户优惠券核销记录
+ * @param params 初始参数()
+ * */
+export function getUseRecord<T>(data) {
+  return request.Post<T>(
+    USE_RECORD, // 请求地址
+    data,
+  )
+}
+/**
+ *   商户优惠券核销记录
+ * @param params 初始参数()
+ * */
+export function getUseOffline<T>(data) {
+  return request.Post<T>(
+    USE_OFFLINE, // 请求地址
     data,
   )
 }

@@ -362,10 +362,7 @@
           "type": "page",
           "layout": "default",
           "style": {
-            "navigationBarTitleText": "收获地址",
-            "backgroundColor": "#ffffff",
-            "navigationBarBackgroundColor": "#ffffff",
-            "navigationBarTextStyle": "black"
+            "navigationStyle": "custom"
           }
         },
         {
@@ -373,10 +370,7 @@
           "type": "page",
           "layout": "default",
           "style": {
-            "navigationBarTitleText": "收货地址",
-            "backgroundColor": "#ffffff",
-            "navigationBarBackgroundColor": "#ffffff",
-            "navigationBarTextStyle": "black"
+            "navigationStyle": "custom"
           }
         },
         {
@@ -489,7 +483,6 @@
           "path": "IntegralMarket/IntegralMarket/buyOrder",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -498,7 +491,6 @@
           "path": "IntegralMarket/IntegralMarket/info",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

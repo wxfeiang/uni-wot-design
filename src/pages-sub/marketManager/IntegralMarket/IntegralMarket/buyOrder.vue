@@ -1,7 +1,6 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -10,21 +9,10 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-
+import useInter from './utils/useInter'
 const title = ref('确认订单')
 
-async function getList(item: any) {
-  uni.showLoading({ title: '' })
-  // 这里是请求数据
-  list.value = 10
-  state.value = 'loading'
-  await uni.hideLoading()
-}
-
-function changeTab(e) {
-  tabsVal.value = e.index
-  console.log(e)
-}
+const { sendExchangeGoods } = useInter()
 
 const gopath = function (e) {
   routeTo({
@@ -32,17 +20,43 @@ const gopath = function (e) {
     data: e,
   })
 }
+const chooesAdsress = function () {
+  routeTo({
+    url: '/pages-sub/userManager/address/list',
+  })
+}
+const submitExchangeGoods = async () => {
+  const params = {
+    goodId: '',
+    receiver: '',
+    telephone: '',
+    address: '',
+    notes: '',
+  }
+  try {
+    const data = await sendExchangeGoods(params)
+    // 成功跳转订单页面
+  } catch (error) {
+    console.log('🍍[error]:', error)
+  }
 
-onLoad(async () => {
-  // await getList()
+  //
+}
+
+onLoad(async (options) => {
+  console.log('🥖[options]:', options)
+})
+
+onShow(() => {
+  // TODO: 缓存中获取地址数据
 })
 </script>
 
 <template>
-  <view class="pageBoxBg w-screen">
+  <view class="bg-#f3f4f6 min-h-100vh">
     <dy-navbar :leftTitle="title" left></dy-navbar>
     <view class="pt-4">
-      <wd-card>
+      <wd-card @click="chooesAdsress">
         <template #title>
           <wd-text
             text="甘肃省兰州市城关区雁南街道"
@@ -126,25 +140,22 @@ onLoad(async () => {
       </wd-card>
     </view>
     <view class="p4 fixed b0 w-full box-border" style="bottom: 0px">
-      <wd-button block custom-class="duihuanBtn" :round="false">提交兑换</wd-button>
+      <wd-button
+        block
+        custom-class="custom-class-mine-error"
+        :round="false"
+        @click="submitExchangeGoods"
+      >
+        提交兑换
+      </wd-button>
     </view>
   </view>
   <!-- </view> -->
 </template>
 <style lang="scss" scoped>
-.pageBoxBg {
-  min-height: calc(100vh - 50px);
-  background: #f3f4f6;
-}
-
-:deep(.duihuanBtn) {
-  background: #f44d24 !important;
-}
-
 :deep(.wd-card__footer) {
   padding-top: 6px;
 }
-
 :deep(.wd-card__title-content) {
   padding-bottom: 6px;
 }

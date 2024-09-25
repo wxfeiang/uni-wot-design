@@ -8,86 +8,49 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
 import dayjs from 'dayjs'
-import { pathToBase64 } from 'image-tools'
-import bg from '../static/images/coupon/myuhbg.png'
+
 import CouponLine from './components/couponLine.vue'
-import { conponListProps } from './utils/types'
+import { couponDetailProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
-const { sendUserCouponList } = userCoupon()
-const topbgBase64 = ref('')
+const { sendUseRecord } = userCoupon()
+
 const title = ref('优惠券核销记录')
 const paging = ref(null)
-const tab = ref(0)
-const tablist = ref([
-  {
-    index: 0,
-    title: '未使用',
-    count: 0,
-  },
-  {
-    index: 1,
-    title: '已使用',
-    count: 0,
-  },
-  {
-    index: 2,
-    title: '已过期',
-    count: 0,
-  },
+const maxDate = dayjs(Date.now()).valueOf()
+
+const timer = ref<number[]>([Date.now(), Date.now()])
+const timerShow = ref([
+  dayjs(timer.value[0]).format('YYYY-MM-DD'),
+  dayjs(timer.value[1]).format('YYYY-MM-DD'),
 ])
-const matchTab = ref(['unUsedCouponNum', 'usedCouponNum', 'overdueCouponNum'])
-const changeTab = (e) => {
-  tab.value = e.index
-  paging.value.reload()
+
+function handleConfirm({ value }) {
+  timerShow.value[0] = dayjs(value[0]).format('YYYY-MM-DD')
+  timerShow.value[1] = dayjs(value[1]).format('YYYY-MM-DD')
+  timer.value = value
 }
 
-const conponList = ref<conponListProps[]>([])
+const conponList = ref<couponDetailProps[]>([])
 
 async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    status: tab.value,
+    createStartTime: timerShow.value[0],
+    createEndTime: timerShow.value[1],
+    merchantId: '121212',
   }
-
   // 调用接口获取数据
   try {
-    const data: any = await sendUserCouponList(params)
-    conponList.value = data.coupons.content
-    tablist.value.forEach((e, i) => {
-      e.count = data[matchTab.value[i]]
-    })
+    const data: any = await sendUseRecord(params)
+    console.log('🥜[data]:', data)
+    conponList.value = data.coupons.content as couponDetailProps[]
     paging.value.complete(conponList.value)
   } catch (error) {
-    paging.value.complete([
-      {
-        title: '优惠券名称',
-      },
-    ])
     paging.value.complete(false)
   }
 }
-function toYouhuiquan() {
-  routeTo({ url: '/pages-sub/marketManager/coupon/index' })
-}
-const timer = ref<any[]>(['', ''])
-const timerShow = ref([])
-
-function handleConfirm({ value }) {
-  console.log('🍖[value]:', value)
-
-  timerShow.value[0] = dayjs(value[0]).format('YYYY-MM-DD')
-  timerShow.value[1] = dayjs(value[1]).format('YYYY-MM-DD')
-
-  console.log(new Date(value))
-}
-
-onLoad(async () => {
-  // 设置背景图片
-  topbgBase64.value = await pathToBase64(bg)
-})
 </script>
 
 <template>
@@ -107,6 +70,7 @@ onLoad(async () => {
         custom-value-class="custom-view-picker"
         custom-cell-class="custom-cell-picker"
         use-default-slot
+        :maxDate="maxDate"
       >
         <view
           class="flex justify-between items-center p-10px px-20px color-#666 bg-#F3F4F6 text-14px"
@@ -127,11 +91,11 @@ onLoad(async () => {
     <view class="">
       <view class="px-10px">
         <view
-          class="rounded-4px overflow-hidden my-10px bg"
+          class="rounded-4px overflow-hidden my-10px"
           v-for="(item, index) in conponList"
           :key="index"
         >
-          <Coupon-Line :data="item"></Coupon-Line>
+          <Coupon-Line :data="item" :status="true" :statusBg="false"></Coupon-Line>
         </view>
       </view>
     </view>
@@ -147,8 +111,5 @@ onLoad(async () => {
 }
 :deep(.custom-view-picker) {
   @apply flex justify-between items-center;
-}
-.bg {
-  box-shadow: 4px 0px 10px 1px rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -1,129 +1,120 @@
 <route lang="json5">
 {
   layout: 'default',
+
   style: {
-    navigationBarTitleText: '收货地址',
-    backgroundColor: '#ffffff',
-    navigationBarBackgroundColor: '#ffffff',
-    navigationBarTextStyle: 'black',
+    navigationStyle: 'custom',
   },
 }
 </route>
 <script lang="ts" setup>
-import indexbg from '@/static/images/shop/navbg.png'
-import { pathToBase64 } from 'image-tools'
-import { addressList, addressListDel } from '@/service/api/address'
 import { routeTo } from '@/utils'
-import { useMessage } from 'wot-design-uni'
-import { Toast } from '@/utils/uniapi/prompt'
+import useAddress from './utils/useAddress'
+const { sendList } = useAddress()
 
-const message = useMessage()
-const topbgBase64 = ref('')
+const title = ref('收货地址')
 
 const paging = ref(null)
-let adsList = ref([])
-
-const editAddress = (item) => {
-
-}
-const delAddress = (id: String) => {
-  console.log('shanchu', id)
-  message.confirm({
-    msg: '是否删除这条收货地址',
-    title: '提示'
-  })
-    .then(() => {
-      addressListDel({ id }).then(res => {
-        Toast('删除成功')
-        paging.value.reload()
-      })
-    })
-    .catch(() => {
-      console.log('点击了取消按钮')
-    })
-}
-const getLsit = async (pageNo: number, pageSize: number) => {
+const dataList = ref([
+  {
+    name: '张三',
+    phone: '18794578345',
+    address: '雁园街道雁兴路3100号附近基业豪庭',
+    isDefault: true,
+  },
+  {
+    name: '张三',
+    phone: '18794578345',
+    address: '雁园街道雁兴路3100号附近基业豪庭',
+    isDefault: false,
+  },
+])
+const queryList = async (pageNo, pageSize) => {
+  const params = {
+    page: pageNo,
+    size: pageSize,
+  }
+  // 调用接口获取数据
   try {
-    let res: any = await addressList({
-      current: pageNo,
-      size: pageSize,
-    })
-
-    console.log('地址列表', res)
-
-    paging.value.complete(res)
-  } catch {
-    console.log("出错了")
+    const data: any = await sendList(params)
+    console.log('🍛[data]:', data)
+    // dataList.value = data.content
+    paging.value.complete(dataList.value)
+  } catch (error) {
     paging.value.complete(false)
   }
 }
-onLoad(async () => {
-  topbgBase64.value = await pathToBase64(indexbg)
-  // 设置背景图片
-})
+function addAddress() {
+  routeTo({
+    url: '/pages-sub/userManager/address/editor',
+    data: '',
+  })
+}
+// 返回携带的参数
+function selectAddress(item) {
+  // TODO:本地存储
+  // routeTo({
+  //   url: '/pages-sub/userManager/address/editor',
+  //   data: item,
+  // })
+}
+function actioAddress(item, type) {
+  routeTo({
+    url: '/pages-sub/userManager/address/editor',
+    data: {
+      item,
+      type,
+    },
+  })
+}
 </script>
 <template>
-  <z-paging ref="paging" v-model="adsList" @query="getLsit" :paging-style="{
-    'background-color': '#F7F7F7', 'box-sizing': 'border-box',
-    'width': '100vw',
-    'padding': '20px',
-    'padding-bottom': '100px'
-  }">
-
-    <view class="border-rd-7px bg-white p-15px box-border mb-15px" v-for="item in adsList" :key="item.id">
-      <view>{{ item.userName }} {{ item.userPhone }}</view>
-      <view class="w-full my-10px add-detail">
-        {{ item.province }} {{ item.city }} {{ item.area }} {{ item.userAddress }}
-      </view>
-      <view class="w-full flex justify-between items-center">
-        <wd-checkbox v-model="item.isDefault" size="large" checked-color="#f44d24" :true-value="1"
-          false-value="0">设为默认</wd-checkbox>
-        <view style="color: #666666" class='flex items-center'>
-          <view class="mr-10px" @click="editAddress(item)">
-            <wd-icon name="edit-1" size="20px" style="margin-right: 3px"></wd-icon>
-            <text>编辑</text>
+  <z-paging ref="paging" v-model="dataList" @query="queryList" class="bg-#f5f5f5" :refresher-enabled="false"
+    :loading-more-enabled="false">
+    <template #top>
+      <dy-navbar :leftTitle="title" left></dy-navbar>
+    </template>
+    <view class="px-10px mt-10px">
+      <view class="mb-10px rounded-8px overflow-hidden" v-for="(item, index) in dataList" :key="index">
+        <wd-cell title-width="75%" center clickable @click="selectAddress(item)">
+          <template #title>
+            <view class="truncate-2 color-#000 flex! items-center gap-10px justify-start!">
+              <view mark v-if="item.isDefault">
+                <wd-tag type="danger">默认</wd-tag>
+              </view>
+              <text>
+                {{ item.name }}
+              </text>
+              <text class="#999">
+                {{ item.phone }}
+              </text>
+            </view>
+          </template>
+          <template #label>
+            <view class="color-#999 truncate-2">地址: {{ item.address }}</view>
+          </template>
+          <view class="flex justify-between items-center gap-10px">
+            <view class="rounded-full size-30px bg-#f5f5f5 text-center flex justify-center items-center"
+              @click.stop="actioAddress(item, '1')">
+              <wd-icon name="edit-1" size="14px"></wd-icon>
+            </view>
+            <view class="rounded-full size-30px bg-#f5f5f5 text-center flex justify-center items-center"
+              @click.stop="actioAddress(item, '2')">
+              <wd-icon name="delete" size="14px"></wd-icon>
+            </view>
           </view>
-          <view @click="delAddress(item.id)">
-            <wd-icon name="delete" size="20px" style="margin-right: 3px; margin-left: 10px"></wd-icon>
-            <text>删除</text>
-          </view>
-        </view>
+        </wd-cell>
       </view>
     </view>
 
-    <view class="submit" @click="routeTo({ url: '/pages-sub/userManager/address/editor' })">新增收货地址</view>
-
+    <template #bottom>
+      <view class="px-10 py-40px">
+        <wd-button block custom-class="custom-class-mine-error" @click="addAddress">
+          新增收货地址
+        </wd-button>
+      </view>
+    </template>
   </z-paging>
-
 </template>
 
-<style>
-.add-detail {
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.list {
-  box-sizing: border-box;
-  width: 100vw;
-  padding: 20px;
-  padding-bottom: 100px;
-  background: #F7F7F7;
-}
-
-.submit {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  width: 70vw;
-  line-height: 50px;
-  color: #fff;
-  text-align: center;
-  background-color: #f44d24;
-  border-radius: 50px;
-  transform: translate(-50%);
-}
-</style>
+<style></style>

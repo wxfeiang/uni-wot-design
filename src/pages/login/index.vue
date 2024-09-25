@@ -136,7 +136,6 @@ const readChange = (type: number) => {
         《用户协议》
       </text>
     </view>
-
     <view class="flex justify-around items-center py-20px">
       <view class="flex-1">
         <wd-button type="info" @click="cancel">取消</wd-button>

@@ -17,6 +17,9 @@ const COUPON_RECEIVE = baseUrlApi('/promotion/app/coupon/receiveCenter')
 const USER_COUPON_LIST = baseUrlApi('/promotion/app/coupon/userCouponList')
 
 const RECEIVE_COUPON = baseUrlApi('/promotion/app/coupon/userReceive')
+
+const GET_USER_GOODS_ADDRESS_LIST = baseUrlApi('/member/app/goodsAddress/getUserGoodsAddressList')
+
 /**
  *  查询雄才卡信息
  * @param params
@@ -141,5 +144,16 @@ export function receiveCoupon(data) {
     {
       meta,
     },
+  )
+}
+
+/**
+ * 用户 收货地址维护
+ * @param params 初始参数()
+ * */
+export function getUserGoodsAddressList(data) {
+  return request.Post(
+    GET_USER_GOODS_ADDRESS_LIST, // 地址
+    data,
   )
 }

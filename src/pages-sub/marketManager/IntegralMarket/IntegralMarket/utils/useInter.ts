@@ -1,9 +1,14 @@
-import { getExchangeGoodsList } from '@/service/api/integral'
-import { findXcxScoreUser } from '@/service/api/userMessage'
+import {
+  exchangeGoods,
+  getExchangeGoodsInfo,
+  getExchangeGoodsList,
+  getIntegralInfo,
+} from '@/service/api/integral'
 import { useRequest } from 'alova/client'
+import { goodsInfoProps } from './types'
 
 // 查询我的积分
-const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true), {
+const { send: sendInterInfo } = useRequest((data) => getIntegralInfo(data), {
   immediate: false,
   loading: false,
 })
@@ -14,6 +19,21 @@ const { send: sendInterProductList, loading } = useRequest((data) => getExchange
   loading: false,
 })
 
+// 查询积分商品详情
+const { send: sendInterProductInfo, data: goodsInfoData } = useRequest(
+  (data) => getExchangeGoodsInfo<goodsInfoProps>(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
+
+// 提交积分兑换
+const { send: sendExchangeGoods } = useRequest((data) => exchangeGoods(data), {
+  immediate: false,
+  loading: false,
+})
+
 export default () => {
-  return { sendInterProductList, sendInterInfo }
+  return { sendInterProductList, sendInterInfo, sendInterProductInfo, sendExchangeGoods }
 }

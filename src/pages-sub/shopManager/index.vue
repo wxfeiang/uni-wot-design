@@ -31,7 +31,7 @@ const toContent = (item: serveListProps) => {
     :style="`background-image: url(${bg});background-size: 100% 160px`"
   >
     <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-    <view class="px-15px py-5px">
+    <view class="px-15px py-5px mt-15px">
       <view class="p-10px bg-#fff rounded-4px flex justify-between items-center gap-10px">
         <view
           class="w-1/4 flex flex-col items-center py-10px"

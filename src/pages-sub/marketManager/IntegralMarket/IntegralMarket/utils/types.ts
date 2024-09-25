@@ -12,6 +12,23 @@ interface ExchangeGoodsListProps {
   isSale: number
   goodImg: string
   exchangeName?: any
+  sellOut?: any
 }
 
-export type { ExchangeGoodsListProps }
+interface goodsInfoProps {
+  goodImg: string
+  coinPrice: number
+  goodName: string
+  goodSort: number
+  createTime: string
+  exchangeLevel: number
+  exchangeNotes: string
+  isSale: number
+  updateTime: string
+  goodId: number
+  stock: number
+  purchaseLimit: number
+  sellOut?: any
+}
+
+export type { ExchangeGoodsListProps, goodsInfoProps }

@@ -5,27 +5,17 @@
 {
   layout: 'default',
   style: {
-    navigationBarTitleText: '收获地址',
-    backgroundColor: '#ffffff',
-    navigationBarBackgroundColor: '#ffffff',
-    navigationBarTextStyle: 'black',
+    navigationStyle: 'custom',
   },
 }
 </route>
 <script lang="ts" setup>
 import { useColPickerData } from '@/hooks/useColPickerData'
-import indexbg from '@/static/images/shop/navbg.png'
-import { pathToBase64 } from 'image-tools'
-import { addressListAddOrEdit } from '@/service/api/address'
-import { Toast } from '@/utils/uniapi/prompt'
-import { routeTo } from '@/utils'
-
+import useAddress from './utils/useAddress'
+const { model, rules } = useAddress()
 const { colPickerData, findChildrenByCode } = useColPickerData()
 
-const topbgBase64 = ref('')
-const { navTop } = useNav()
-const { VITE_APP_LOGOTITLE } = import.meta.env
-
+const title = ref('收货地址')
 const area = ref<any[]>([
   colPickerData.map((item) => {
     return {
@@ -34,13 +24,6 @@ const area = ref<any[]>([
     }
   }),
 ])
-const model = reactive({
-  userName: '',
-  userPhone: '',
-  area: [],
-  userAddress: '',
-  isDefault: false,
-})
 const form = ref()
 
 
@@ -89,77 +72,46 @@ const columnChange = ({ selectedItem, resolve, finish }) => {
     finish()
   }
 }
-// 表单校验
-const validatorName = (val) => {
-  return model.userName.length > 0
-}
-const validatorDetail = (val) => {
-  return model.userAddress.length > 0
-}
-const validatorArea = (val: Array<any>) => {
-  return val.length > 0
-}
-const validatorPhone = (val) => {
-  if (String(val).length > 0) {
-    const reg = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-    if (reg.test(val)) {
-      return true
-    } else {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      return Promise.reject('请输入正确手机号')
-    }
-  } else {
-    return false
-  }
-}
 
-function handleConfirm(e) {
-  console.log('eeee', e)
+function handleConfirm({ value, selectedItems }) {
+  console.log(value, selectedItems)
 }
+function addAddress() { }
+
 onLoad(async () => {
-  topbgBase64.value = await pathToBase64(indexbg)
   // 设置背景图片
   console.log('area', area.value)
 })
 </script>
 <template>
   <view class="w-100vw h-100vh bg-#F7F7F7 box-border overflow-y-auto pb-100px">
-    <wd-form ref="form" :model="model">
-      <wd-cell-group border>
-        <wd-input label="收货人" label-width="100px" prop="userName" clearable v-model="model.userName"
-          placeholder="请输入用户名" :rules="[{ required: false, validator: validatorName, message: '请填写收货人姓名' }]" />
-        <wd-input label="联系电话" type="number" :maxlength="11" label-width="100px" prop="userPhone" clearable
-          v-model="model.userPhone" placeholder="请输入联系电话"
-          :rules="[{ required: false, validator: validatorPhone, message: '请填写联系电话' }]" />
-        <wd-col-picker label="选择地址" v-model="model.area" :columns="area" :column-change="columnChange" prop="area"
-          value-key='label' @confirm="handleConfirm"
-          :rules="[{ required: false, validator: validatorArea, message: '请选择省市区' }]"></wd-col-picker>
-        <wd-textarea v-model="model.userAddress" placeholder="请填写详细地址（街道，楼牌号等）" prop="userAddress"
-          :rules="[{ required: false, validator: validatorDetail, message: '请填写详细地址' }]" />
-      </wd-cell-group>
-      <wd-cell-group>
-        <wd-cell title="设为默认地址" center>
-          <view class="custom-value">
-            <wd-switch v-model="model.isDefault" :active-value="1" :inactive-value="0" />
-          </view>
-        </wd-cell>
-      </wd-cell-group>
-    </wd-form>
-    <view class="submit" @click="handleSubmit">保存地址</view>
+    <dy-navbar :leftTitle="title" left></dy-navbar>
+    <view class="p-15px rounded-8px">
+      <wd-form ref="form" :model="model">
+        <wd-cell-group border>
+          <wd-input label="收货人" prop="name" clearable v-model="model.name" placeholder="请输入收货人姓名" :rules="rules.name" />
+          <wd-input label="联系电话" :maxlength="11" label-width="100px" prop="phone" clearable v-model="model.phone"
+            placeholder="请输入联系电话" :rules="rules.phone" />
+          <wd-col-picker label="选择地址" v-model="model.area" :columns="area" :column-change="columnChange" prop="area"
+            @confirm="handleConfirm" :rules="rules.area"></wd-col-picker>
+          <wd-textarea v-model="model.detail" placeholder="请填写详细地址（街道，楼牌号等）" prop="detail" :rules="rules.detail" />
+        </wd-cell-group>
+        <wd-cell-group>
+          <wd-cell title="设为默认地址" center>
+            <view class="mt-10px">
+              <wd-switch v-model="model.isDefault" size="16" change="handleSwitchChange" />
+            </view>
+          </wd-cell>
+        </wd-cell-group>
+      </wd-form>
+    </view>
+
+    <view class="px-10 py-20px fixed bottom-20px left-0 right-0">
+      <wd-button block custom-class="custom-class-mine-error" @click="addAddress">
+        保存地址
+      </wd-button>
+    </view>
   </view>
 </template>
 
-<style>
-.submit {
-  position: fixed;
-  bottom: 40px;
-  left: 50%;
-  width: 70vw;
-  line-height: 50px;
-  color: #fff;
-  text-align: center;
-  background-color: #f44d24;
-  border-radius: 50px;
-  transform: translate(-50%);
-}
-</style>
+<style></style>
