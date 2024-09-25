@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { removeT } from '@/utils'
-
+import { messProps } from './hooks/types'
 import useNews from './hooks/useNews'
 
 const { sendMessageList, messageClick } = useNews()
@@ -37,7 +37,7 @@ const tablist = ref([
 ])
 const paging = ref(null)
 
-const dataList = ref()
+const dataList = ref<messProps[]>()
 const queryList = async (pageNo, pageSize) => {
   const data = {
     page: pageNo,
@@ -126,11 +126,14 @@ page {
 .t_bg {
   background: rgba($color: #ccc, $alpha: 0.2);
 }
+
 :deep(.nav_bg) {
   background-color: var(--color-nav-bg);
+
   .wd-navbar__title {
     color: var(--color-nav-text);
   }
+
   .wd-navbar__left {
     color: var(--color-nav-text);
   }

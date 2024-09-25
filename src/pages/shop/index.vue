@@ -26,7 +26,7 @@ import { getGoodList } from '@/service/api/shop'
 import { routeTo } from '@/utils'
 
 const paging = ref(null)
-let goodList = ref([])
+const goodList = ref([])
 const { navTop } = useNav()
 const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
@@ -48,13 +48,13 @@ const goCar = () => {
 
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
-    let res: any = await getGoodList({
+    const res: any = await getGoodList({
       page: pageNo,
       size: pageSize,
     })
-    res.content.forEach(el => {
-      el.rotationUrl = JSON.parse(el.rotationUrl).map(item => item.data)
-    });
+    res.content.forEach((el) => {
+      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+    })
     console.log('商城列表', res.content)
 
     paging.value.complete(res.content)
@@ -76,8 +76,10 @@ onLoad(async () => {
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
-  <view class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
-    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`">
+  <view
+    class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
+    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
+  >
     <wd-navbar safeAreaInsetTop placeholder custom-class="nav_custom" :bordered="false">
       <template #left>
         <view class="flex gap-10px items-center">
@@ -90,7 +92,12 @@ onLoad(async () => {
     <view class="w-100vw flex items-center justify-center gap-2px box-border m-t-10px">
       <view class="pl-10px pr-2px flex items-center search pos-relative">
         <wd-img :width="17" :height="18" :src="searchIcon" />
-        <input class="uni-input m-l-10px flex-1" confirm-type="search" placeholder="请输入搜索关键词" />
+        <input
+          class="uni-input m-l-10px flex-1"
+          confirm-type="search"
+          placeholder="请输入搜索关键词"
+          @focus="routeTo({ url: '/pages/shop/goodsSearch' })"
+        />
         <view class="searchbtn">搜索</view>
       </view>
       <view class="caricon" @click="goCar">
@@ -104,10 +111,16 @@ onLoad(async () => {
     <!-- z-paging默认铺满全屏，此时页面所有view都应放在z-paging标签内，否则会被盖住 -->
     <!-- 需要固定在页面顶部的view请通过slot="top"插入，包括自定义的导航栏 -->
     <view class="w-full p-10px pt-153px box-border banner">
-      <wd-img width="100%" :height="150"
-        src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png" />
+      <wd-img
+        width="100%"
+        :height="150"
+        src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
+      />
       <div class="w-full mt-10px flex justify-between">
-        <div class="pos-relative" @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')">
+        <div
+          class="pos-relative"
+          @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')"
+        >
           <wd-img :width="174" :height="76" :src="bgjifen" />
           <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
           <view class="pos-absolute left-87px top-18px">
@@ -131,16 +144,24 @@ onLoad(async () => {
         <wd-img :width="80" :height="30" :src="tuijian" custom-class="ml-2px" />
       </view>
       <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
-        <view class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px" v-for="item in goodList"
-          :key="item.spuId" @click="gopath('/pages/shop/shopInfo', { id: item.spuId })">
+        <view
+          class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
+          v-for="item in goodList"
+          :key="item.spuId"
+          @click="gopath('/pages/shop/shopInfo', { id: item.spuId })"
+        >
           <wd-img :width="175" :height="160" :src="item.rotationUrl[0]" />
           <view class="w-155px name my-10px m-auto">
             {{ item.spuName }}
           </view>
           <view>
             <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
-            <text style="font-size: 18px; font-weight: 600; color: #f44d24">{{ item.sellPrice }}</text>
-            <text style="margin-left: 8px; font-size: 12px; color: #999999">已售{{ item.salesVolume }}件</text>
+            <text style="font-size: 18px; font-weight: 600; color: #f44d24">
+              {{ item.sellPrice }}
+            </text>
+            <text style="margin-left: 8px; font-size: 12px; color: #999999">
+              已售{{ item.salesVolume }}件
+            </text>
           </view>
         </view>
       </view>
