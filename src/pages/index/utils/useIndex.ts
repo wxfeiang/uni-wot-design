@@ -14,6 +14,9 @@ import jinxonghutong from '@/static/images/index/8.png'
 
 import kfw from '@/static/images/index/kfw.png'
 import saoyisao from '@/static/images/index/saoyisao.png'
+import mfw from '@/static/images/index/mfw.png'
+import jtcx from '@/static/images/index/jtcx.png'
+
 import xabc from '@/static/images/index/xabc.png'
 import xajft from '@/static/images/index/xajft.png'
 const topAction = ref([
@@ -29,13 +32,13 @@ const topAction = ref([
     type: 'sacn',
   },
   {
-    icon: xajft,
+    icon: mfw,
     text: '码服务',
     type: 'switchTab',
     path: 'pages-sub/homeManager/mafuwu',
   },
   {
-    icon: xabc,
+    icon: jtcx,
     text: '公交出行',
     type: 'switchTab',
     path: 'pages-sub/homeManager/gongjiaochuxing', // 打开的页面路径，如果为空则打开首页
