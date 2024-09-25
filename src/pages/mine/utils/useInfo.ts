@@ -134,7 +134,7 @@ const serveList = ref<serveProps[]>([
   {
     icon: shdz,
     title: '收货地址',
-    path: '/pages-sub/userManager/address/editor',
+    path: '/pages-sub/userManager/address/list',
     islink: true,
   },
 
