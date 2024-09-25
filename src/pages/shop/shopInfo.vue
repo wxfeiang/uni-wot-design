@@ -117,9 +117,11 @@ const formatGoodsInfo = (arr: Array<any>) => {
   }
   console.log('goodsInfo', goodsInfo)
 }
+
 function handleClick(e) {
   console.log(e)
 }
+
 function onChange(e) {
   console.log(e)
 }
@@ -197,7 +199,15 @@ onLoad(async (options) => {
       <view class="w-full flex justify-between items-center">
         <view class="flex items-center">
           <wd-text text="￥" color="#F44D24" size="16px"></wd-text>
-          <wd-text :text="details?.skuList[0].sellPrice" color="#F44D24" size="25px"></wd-text>
+          <wd-text
+            :text="
+              details && details.skuList && details.skuList[0].sellPrice
+                ? details.skuList[0].sellPrice
+                : ''
+            "
+            color="#F44D24"
+            size="25px"
+          ></wd-text>
           <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
             <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
             <wd-text text="￥" color="#fff" size="10px"></wd-text>
@@ -274,13 +284,15 @@ onLoad(async (options) => {
 
       <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px">
         <view class="font-600 mb-10px">商品详情</view>
-        <wd-img
-          width="100%"
-          mode="widthFix"
-          v-for="i in details.remarkUrl"
-          :src="i"
-          :key="i"
-        ></wd-img>
+        <template v-if="details && details.remarkUrl">
+          <wd-img
+            width="100%"
+            mode="widthFix"
+            v-for="i in details.remarkUrl"
+            :src="i"
+            :key="i"
+          ></wd-img>
+        </template>
       </view>
     </view>
 

@@ -52,6 +52,7 @@
     </view>
   </view>
 </template>
+
 <script>
 /* eslint-disable */
 /**
@@ -101,22 +102,22 @@ export default {
     },
     // 最小值
     min: {
-      type: Number,
+      type: [Number, null],
       default: 0,
     },
     // 最大值
     max: {
-      type: Number,
+      type: [Number, null],
       default: 99999,
     },
     // 步进值，每次加或减的值
     step: {
-      type: Number,
+      type: [Number, null],
       default: 1,
     },
     // 步进值，首次增加或最后减的值
     stepFirst: {
-      type: Number,
+      type: [Number, null],
       default: 0,
     },
     // 是否只能输入 step 的倍数
@@ -131,7 +132,7 @@ export default {
     },
     // input的字体大小，单位rpx
     size: {
-      type: [Number, String],
+      type: [Number, String, null],
       default: 26,
     },
     // 加减图标的颜色
@@ -141,12 +142,12 @@ export default {
     },
     // input宽度，单位rpx
     inputWidth: {
-      type: [Number, String],
+      type: [Number, String, null],
       default: 80,
     },
     // input高度，单位rpx
     inputHeight: {
-      type: [Number, String],
+      type: [Number, String, null],
       default: 50,
     },
     // index索引，用于列表中使用，让用户知道是哪个numberbox发生了变化，一般使用for循环出来的index值即可
@@ -162,7 +163,7 @@ export default {
     },
     // 输入框于键盘之间的距离
     cursorSpacing: {
-      type: [Number, String],
+      type: [Number, String, null],
       default: 100,
     },
     // 是否开启长按连续递增或递减
@@ -172,7 +173,7 @@ export default {
     },
     // 开启长按触发后，每触发一次需要多久
     pressTime: {
-      type: [Number, String],
+      type: [Number, String, null],
       default: 250,
     },
     // 是否只能输入大于或等于0的整数(正整数)
@@ -243,7 +244,7 @@ export default {
   },
   computed: {
     valueCom() {
-      // #ifndef VUE3
+      // #ifdef VUE2
       return this.value
       // #endif
 
@@ -465,6 +466,7 @@ export default {
   color: #c8c9cc !important;
   background-color: #f2f3f5 !important;
 }
+
 .num-btn {
   font-weight: 550;
   line-height: 50rpx;
