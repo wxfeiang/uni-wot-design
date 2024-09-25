@@ -34,7 +34,6 @@ interface qrCodeProps {
   couponRemark: string
   couponStatus: number | string
   showDetil: number
-  receiveId: number | string
 }
 
 interface couponDetailProps {

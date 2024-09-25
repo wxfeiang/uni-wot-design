@@ -43,7 +43,7 @@ async function getCoupDetil() {
   cameraShowfun(false)
   try {
     const params = {
-      receiveId: serchValue.value || scancodeData.value.receiveId,
+      couponCode: serchValue.value || scancodeData.value.couponCode,
     }
     await sendCouponInfo(params)
     scancodeData.value = { price: couponInfoData.value.couponPrice }
@@ -65,7 +65,7 @@ function handleClose() {
 async function handleConfirm() {
   const params = {
     receiveId: couponInfoData.value.receiveId,
-    couponCode: '4599383023582816', // couponInfoData.value.couponId,
+    couponCode: couponInfoData.value.couponId,
   }
   try {
     await sendUseOffline(params)

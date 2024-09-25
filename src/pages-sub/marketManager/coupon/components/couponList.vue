@@ -71,7 +71,7 @@ const handleReceive = async (item) => {
     if (props.data.type === 3) {
       // 展示优惠券码
       const data = {
-        receiveId: props.data.receiveId,
+        couponCode: props.data.couponId,
       }
       routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
     } else {
