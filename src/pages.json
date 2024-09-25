@@ -251,6 +251,15 @@
           }
         },
         {
+          "path": "jinrongType",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "OcrCamera",
           "type": "page",
           "layout": "default",
@@ -395,6 +404,15 @@
           }
         },
         {
+          "path": "collection/follow",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "SocialSecurityCard/barcode",
           "type": "page",
           "layout": "default",
@@ -414,6 +432,33 @@
           "path": "SocialSecurityCard/indexback",
           "type": "page",
           "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/massage",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/suggest",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/user",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

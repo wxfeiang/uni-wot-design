@@ -23,6 +23,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
+       "/pages-sub/serveMain/jinrongType" |
        "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
@@ -36,9 +37,13 @@ interface NavigateToOptions {
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/userManager/collection/collection" |
+       "/pages-sub/userManager/collection/follow" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/index" |
        "/pages-sub/userManager/SocialSecurityCard/indexback" |
+       "/pages-sub/userManager/userCenter/massage" |
+       "/pages-sub/userManager/userCenter/suggest" |
+       "/pages-sub/userManager/userCenter/user" |
        "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |

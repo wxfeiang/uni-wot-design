@@ -19,6 +19,9 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
+    shopId: 30561,
+    // merchantId: '',
+    // orderStatus: ''
   }
   // 调用接口获取数据
   try {

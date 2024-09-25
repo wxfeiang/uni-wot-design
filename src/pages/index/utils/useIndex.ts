@@ -30,18 +30,30 @@ const topAction = ref([
   },
   {
     icon: xajft,
-    text: '雄安缴费通',
-    type: 'wxChart',
-    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
-    path: 'pages/index/index',
+    text: '码服务',
+    type: 'switchTab',
+    path: 'pages-sub/homeManager/mafuwu',
   },
   {
     icon: xabc,
-    text: '雄安乐泊',
-    type: 'wxChart',
-    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
-    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
+    text: '公交出行',
+    type: 'switchTab',
+    path: 'pages-sub/homeManager/gongjiaochuxing', // 打开的页面路径，如果为空则打开首页
   },
+  // {
+  //   icon: xajft,
+  //   text: '雄安缴费通',
+  //   type: 'wxChart',
+  //   appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+  //   path: 'pages/index/index',
+  // },
+  // {
+  //   icon: xabc,
+  //   text: '雄安乐泊',
+  //   type: 'wxChart',
+  //   appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+  //   path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
+  // },
   {
     icon: kfw,
     text: '卡服务',
