@@ -126,11 +126,14 @@ page {
 .t_bg {
   background: rgba($color: #ccc, $alpha: 0.2);
 }
+
 :deep(.nav_bg) {
   background-color: var(--color-nav-bg);
+
   .wd-navbar__title {
     color: var(--color-nav-text);
   }
+
   .wd-navbar__left {
     color: var(--color-nav-text);
   }

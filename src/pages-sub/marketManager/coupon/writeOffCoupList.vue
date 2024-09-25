@@ -17,9 +17,9 @@ const { sendUseRecord } = userCoupon()
 
 const title = ref('优惠券核销记录')
 const paging = ref(null)
-const maxDate = dayjs(Date.now()).valueOf()
+const maxDate = dayjs().add(1, 'day').valueOf()
 
-const timer = ref<number[]>([Date.now(), Date.now()])
+const timer = ref<number[]>([Date.now(), dayjs().add(1, 'day').valueOf()])
 const timerShow = ref([
   dayjs(timer.value[0]).format('YYYY-MM-DD'),
   dayjs(timer.value[1]).format('YYYY-MM-DD'),
@@ -29,6 +29,7 @@ function handleConfirm({ value }) {
   timerShow.value[0] = dayjs(value[0]).format('YYYY-MM-DD')
   timerShow.value[1] = dayjs(value[1]).format('YYYY-MM-DD')
   timer.value = value
+  paging.value.reload()
 }
 
 const conponList = ref<couponDetailProps[]>([])
@@ -39,7 +40,6 @@ async function queryList(pageNo: number, pageSize: number) {
     size: pageSize,
     createStartTime: timerShow.value[0],
     createEndTime: timerShow.value[1],
-    merchantId: '121212',
   }
   // 调用接口获取数据
   try {
@@ -48,6 +48,7 @@ async function queryList(pageNo: number, pageSize: number) {
     conponList.value = data.coupons.content as couponDetailProps[]
     paging.value.complete(conponList.value)
   } catch (error) {
+    conponList.value = []
     paging.value.complete(false)
   }
 }
@@ -71,6 +72,7 @@ async function queryList(pageNo: number, pageSize: number) {
         custom-cell-class="custom-cell-picker"
         use-default-slot
         :maxDate="maxDate"
+        type="date"
       >
         <view
           class="flex justify-between items-center p-10px px-20px color-#666 bg-#F3F4F6 text-14px"
