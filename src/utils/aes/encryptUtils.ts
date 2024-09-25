@@ -16,10 +16,10 @@ export const constast = () => {
     appKey: Constant.APP_KEY,
     timestamp: getTimeStamp(),
     replay: uuid(),
+    sign: userStore.userInfo.appSign,
     userId: userStore.userInfo.userDId,
     userDId: userStore.userInfo.userDId,
     phone: userStore.userInfo.userPhone,
-    merchantId: userStore.userInfo.merchantId,
   }
 }
 
@@ -94,7 +94,7 @@ export function beforeQuest(method: any) {
 
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
-  console.log('请求入参==>', method.data)
+  console.log(method.url + '==>请求参数', method.data)
 
   createFilter(method)
 }

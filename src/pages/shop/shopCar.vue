@@ -14,9 +14,8 @@
 <script lang="ts" setup>
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
-defineOptions({
-  name: 'Index',
-})
+
+import { shopCarList } from '@/service/api/shop'
 
 const isManage = ref(false)
 const topbgBase64 = ref('')

@@ -44,7 +44,7 @@ const queryList = async (pageNo, pageSize) => {
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
-      <dy-navbar leftTitle="金融超市" left></dy-navbar>
+      <dy-navbar leftTitle="办事指南" left></dy-navbar>
     </template>
     <view class="px-10px">
       <!-- leibiao  -->

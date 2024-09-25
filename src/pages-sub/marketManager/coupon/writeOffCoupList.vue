@@ -107,10 +107,12 @@ async function queryList(pageNo: number, pageSize: number) {
 <style lang="scss" scoped>
 :deep(.custom-cell-picker) {
   @apply bg-#F3F4F6;
+
   .wd-picker__arrow {
-    @apply hidden!;
+    @apply hidden !;
   }
 }
+
 :deep(.custom-view-picker) {
   @apply flex justify-between items-center;
 }

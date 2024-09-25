@@ -8,6 +8,95 @@ const WX_PAY = baseUrlApi('/trade/wxPay/wxPay')
 const GET_SHOP_DETAIL = baseUrlApi('/product/app/shop/getShopDetail')
 const GET_GOOD_LIST = baseUrlApi('/product/app/productSpu/listPage')
 const GET_GOOD_DETAILS = baseUrlApi('/product/app/productSpu/getProductSpuByIdSkuList')
+const USER_FAVORITES = baseUrlApi('/product/manage/favorites/userFavorites')
+const UNUSER_FAVORITES = baseUrlApi('/product/manage/favorites/unUserFavorites')
+const FAVORITES_LIST = baseUrlApi('/product/app/item/favoritesPage')
+const GOODS_SEARCH = baseUrlApi('/product/app/item/xcxListPage')
+const SHOP_CAR_LIST = baseUrlApi('/product/manager/shop/cart/getCareList')
+
+/**
+ *   商品搜索
+ * @param params 初始参数()
+ * */
+export function goodsSearch(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GOODS_SEARCH, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   购物车列表
+ * @param params 初始参数()
+ * */
+export function shopCarList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    SHOP_CAR_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   商品收藏列表
+ * @param params 初始参数()
+ * */
+export function favoritesList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    FAVORITES_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+/**
+ *   商品收藏
+ * @param params 初始参数()
+ * */
+export function userFavorites(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    USER_FAVORITES, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   商品取消收藏
+ * @param params 初始参数()
+ * */
+export function unUserFavorites(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    UNUSER_FAVORITES, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 const GET_ORDER_LIST = baseUrlApi('/order/app/getXcxOrderList')
 const GET_ORDER_INFO = baseUrlApi('/order/app/getXcxOrderDetailByOrderId')
@@ -118,16 +207,9 @@ export function getWxPay<T>(data) {
  * @param params 初始参数()
  * */
 export function getCouponInfo<T>(data) {
-  const meta: METHOD_INSTANCE = {
-    loading: true,
-    Tips: true,
-  }
   return request.Post<T>(
     COUPON_INFO, // 请求地址
     data,
-    {
-      meta,
-    },
   )
 }
 /**
@@ -141,19 +223,12 @@ export function getUseRecord<T>(data) {
   )
 }
 /**
- *   商户优惠券核销
+ *   商户优惠券核销记录
  * @param params 初始参数()
  * */
 export function getUseOffline<T>(data) {
-  const meta: METHOD_INSTANCE = {
-    loading: true,
-    Tips: true,
-  }
   return request.Post<T>(
     USE_OFFLINE, // 请求地址
     data,
-    {
-      meta,
-    },
   )
 }

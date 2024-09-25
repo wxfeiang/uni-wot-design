@@ -14,14 +14,34 @@
 <script lang="ts" setup>
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
-defineOptions({
-  name: 'Index',
-})
+import { favoritesList, unUserFavorites } from '@/service/api/shop'
 
 const isManage = ref(false)
 const topbgBase64 = ref('')
 const { navTop } = useNav()
 const { VITE_APP_LOGOTITLE } = import.meta.env
+
+const paging = ref(null)
+const goodList = ref([])
+const getLsit = async (pageNo: number, pageSize: number) => {
+  try {
+    const res: any = await favoritesList({
+      current: pageNo,
+      size: pageSize,
+    })
+    res.content.forEach((el) => {
+      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+    })
+    console.log('收藏列表', res.content)
+
+    paging.value.complete(res.content)
+  } catch {
+    paging.value.complete(false)
+  }
+}
+const toString = (val: string) => {
+  return JSON.parse(val)
+}
 onLoad(async () => {
   topbgBase64.value = await pathToBase64(indexbg)
   // 设置背景图片
@@ -29,38 +49,47 @@ onLoad(async () => {
 </script>
 <template>
   <view class="w-full font-600 flex items-center justify-between px-20px box-border">
-    <view class="line-height-50px">商品数量（20）</view>
+    <view class="line-height-50px">商品数量（{{ goodList.length }}）</view>
     <view @click="isManage = !isManage">管理</view>
   </view>
-
-  <view class="list">
-    <view class="bg-white border-rd-10px p-15px box-border w-full">
+  <z-paging
+    ref="paging"
+    v-model="goodList"
+    @query="getLsit"
+    class="list"
+    :class="isManage ? 'p-15px pb-80px' : 'p-15px'"
+  >
+    <view
+      class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
+      v-for="item in goodList"
+      :key="item.spuId"
+    >
       <view class="w-full flex">
         <view class="flex items-center">
           <wd-checkbox v-if="isManage" v-model="value" @change="handleChange"></wd-checkbox>
         </view>
-        <wd-img :width="105" :height="105" :src="topbgBase64" custom-class="img" />
+        <wd-img :width="105" :height="105" :src="toString(item.saleUrl)[0]" custom-class="img" />
         <view class="ml-15px flex-1 flex flex-col justify-between">
           <view class="w-190px">
-            <view class="name mb-10px">hiddenhiddenhiddenhiddenhiddenhidden</view>
-            <view style="font-size: 14px; color: #757575">灰色</view>
+            <view class="name mb-10px">{{ item.spuName }}</view>
+            <!-- <view style="font-size: 14px; color: #757575">灰色</view> -->
           </view>
 
           <view class="w-full flex">
             <view class="flex items-center" style="font-weight: 600; color: #f44d24">
               <text style="font-size: 14px">￥</text>
-              <text style="font-size: 18px">0</text>
+              <text style="font-size: 18px">{{ item.sellPrice }}</text>
             </view>
-            <view class="mingxi flex items-baseline">
+            <!-- <view class="mingxi flex items-baseline">
               <text>券后价</text>
               <text class="font-size-8px font-600 ml-5px">￥</text>
-              <text class="font-size-14px font-600">20.0</text>
-            </view>
+              <text class="font-size-14px font-600">{{item.sellPrice}}</text>
+            </view> -->
           </view>
         </view>
       </view>
     </view>
-  </view>
+  </z-paging>
 
   <!-- <view class="flex flex-col items-center justify-center mt-140px">
       <wd-img :width="246" :height="168"
@@ -95,9 +124,7 @@ onLoad(async () => {
   box-sizing: border-box;
   width: 100%;
   height: calc(100vh - 50px);
-  padding: 15px;
-  padding-bottom: 80px;
-  overflow-y: auto;
+  margin-top: 50px;
   background-color: #f5f6f8;
 }
 

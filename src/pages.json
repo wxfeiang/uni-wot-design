@@ -438,7 +438,7 @@
         },
         {
           "path": "userCenter/massage",
-          "type": "page",
+          "type": "home",
           "layout": "default",
           "needLogin": true,
           "style": {

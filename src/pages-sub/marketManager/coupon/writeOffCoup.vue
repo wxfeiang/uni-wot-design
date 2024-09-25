@@ -217,29 +217,33 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 :deep(.custom-class-input) {
-  @apply bg-transparent!;
+  @apply bg-transparent !;
 }
+
 .animation-to {
   animation: mymove 3s infinite;
 }
+
 @keyframes mymove {
   from {
     top: 0px;
   }
+
   to {
     top: 245px;
   }
 }
+
 :deep(.custom-class-popup) {
-  @apply w-90%  rounded-10px bg-#fff p-20px box-border  overflow-hidden;
+  @apply w-90% rounded-10px bg-#fff p-20px box-border overflow-hidden;
+
   &:before {
-    @apply absolute w-27px h-27px  rounded-full top-60% left-[-14px]
-    content-[''];
+    @apply absolute w-27px h-27px rounded-full top-60% left-[-14px] content-[''];
     background-color: rgba(0, 0, 0, 0.65);
   }
+
   &:after {
-    @apply absolute w-27px h-27px  rounded-full top-60% right-[-14px]
-    content-[''];
+    @apply absolute w-27px h-27px rounded-full top-60% right-[-14px] content-[''];
     background-color: rgba(0, 0, 0, 0.65);
   }
 }

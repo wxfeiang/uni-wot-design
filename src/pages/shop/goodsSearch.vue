@@ -16,6 +16,7 @@ import caricon from '@/static/images/shop/shopcar.png'
 import matrix from '@/static/images/shop/matrix.png'
 import screen from '@/static/images/shop/screen.png'
 import { pathToBase64 } from 'image-tools'
+import { goodsSearch } from '@/service/api/shop'
 
 defineOptions({
   name: 'Index',
@@ -26,6 +27,8 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
 const searchIcon = ref('')
 const carIcon = ref('')
+const paging = ref(null)
+const goodList = ref([])
 
 const isGrid = ref(true)
 const showSearch = ref(true)
@@ -49,6 +52,28 @@ function changeGrid() {
   isGrid.value = !isGrid.value
 }
 
+const getLsit = async (pageNo: number, pageSize: number) => {
+  try {
+    const res: any = await goodsSearch({
+      current: pageNo,
+      size: pageSize,
+      spuName: '',
+      brandId: '',
+      shopId: '',
+      sellPriceMin: '',
+      sellPriceMax: '',
+    })
+    res.content.forEach((el) => {
+      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+    })
+    console.log('商城列表', res.content)
+
+    paging.value.complete(res.content)
+  } catch {
+    console.log('????')
+    paging.value.complete(false)
+  }
+}
 function changeSearch() {
   showSearch.value = true
 }
@@ -122,9 +147,7 @@ function handleChange2({ value }) {
     </view>
   </view>
   <!-- 商品列表 -->
-  <view class="list">
-    <!-- <wd-status-tip image="search" tip="当前搜索无结果" /> -->
-
+  <z-paging ref="paging" v-model="goodList" @query="getLsit" class="list">
     <view
       v-if="isGrid"
       class="pt-15px grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border"
@@ -159,7 +182,7 @@ function handleChange2({ value }) {
         </div>
       </view>
     </view>
-  </view>
+  </z-paging>
 
   <!-- 筛选弹窗 -->
   <wd-popup
