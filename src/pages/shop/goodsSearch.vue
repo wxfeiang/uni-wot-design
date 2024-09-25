@@ -28,7 +28,7 @@ const topbgBase64 = ref('')
 const searchIcon = ref('')
 const carIcon = ref('')
 const paging = ref(null)
-let goodList = ref([])
+const goodList = ref([])
 
 const isGrid = ref(true)
 const showSearch = ref(true)
@@ -54,18 +54,18 @@ function changeGrid() {
 
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
-    let res: any = await goodsSearch({
+    const res: any = await goodsSearch({
       current: pageNo,
       size: pageSize,
       spuName: '',
       brandId: '',
       shopId: '',
       sellPriceMin: '',
-      sellPriceMax: ''
+      sellPriceMax: '',
     })
-    res.content.forEach(el => {
-      el.rotationUrl = JSON.parse(el.rotationUrl).map(item => item.data)
-    });
+    res.content.forEach((el) => {
+      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+    })
     console.log('商城列表', res.content)
 
     paging.value.complete(res.content)
@@ -86,8 +86,10 @@ function handleChange2({ value }) {
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
-  <view class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
-    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`">
+  <view
+    class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
+    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
+  >
     <wd-navbar safeAreaInsetTop placeholder custom-class="nav_custom" :bordered="false">
       <template #left>
         <view class="flex gap-10px items-center">
@@ -100,7 +102,11 @@ function handleChange2({ value }) {
     <view class="w-100vw flex items-center justify-center gap-2px box-border m-t-10px">
       <view class="pl-10px pr-2px flex items-center search pos-relative">
         <wd-img :width="17" :height="18" :src="searchIcon" />
-        <input class="uni-input m-l-10px flex-1" confirm-type="search" placeholder="请输入搜索关键词" />
+        <input
+          class="uni-input m-l-10px flex-1"
+          confirm-type="search"
+          placeholder="请输入搜索关键词"
+        />
         <view class="searchbtn">搜索</view>
       </view>
       <view class="caricon">
@@ -113,10 +119,22 @@ function handleChange2({ value }) {
   <view class="w-full box-border flex pos-fixed z-999 pos-top-151px">
     <view style="display: flex; flex: 1; text-align: center; background: #fff">
       <wd-drop-menu style="flex: 1; min-width: 0">
-        <wd-drop-menu-item v-model="value1" title="销量" :options="option" @change="handleChange1" icon-size="0" />
+        <wd-drop-menu-item
+          v-model="value1"
+          title="销量"
+          :options="option"
+          @change="handleChange1"
+          icon-size="0"
+        />
       </wd-drop-menu>
       <wd-drop-menu style="flex: 1; min-width: 0">
-        <wd-drop-menu-item v-model="value1" title="上架时间" :options="option" @change="handleChange1" icon-size="0" />
+        <wd-drop-menu-item
+          v-model="value1"
+          title="上架时间"
+          :options="option"
+          @change="handleChange1"
+          icon-size="0"
+        />
       </wd-drop-menu>
       <view style="flex: 1">
         <wd-sort-button v-model="value2" title="价格" @change="handleChange2" />
@@ -130,7 +148,10 @@ function handleChange2({ value }) {
   </view>
   <!-- 商品列表 -->
   <z-paging ref="paging" v-model="goodList" @query="getLsit" class="list">
-    <view v-if="isGrid" class="pt-15px grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
+    <view
+      v-if="isGrid"
+      class="pt-15px grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border"
+    >
       <view class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px">
         <wd-img :width="175" :height="160" :src="topbgBase64" />
         <view class="w-155px name my-10px m-auto">
@@ -163,18 +184,36 @@ function handleChange2({ value }) {
     </view>
   </z-paging>
 
-
   <!-- 筛选弹窗 -->
-  <wd-popup v-model="showSearch" lock-scroll position="right"
-    custom-style="width:307px;padding:215px 15px 15px;box-sizing:border-box;" @close="handleClose">
+  <wd-popup
+    v-model="showSearch"
+    lock-scroll
+    position="right"
+    custom-style="width:307px;padding:215px 15px 15px;box-sizing:border-box;"
+    @close="handleClose"
+  >
     <view class="price">
       <div class="title">价格区间</div>
       <view class="flex items-center mt-20px">
-        <wd-input type="number" size="large" v-model="value" placeholder="最低价" no-border custom-class="input-style"
-          custom-input-class="min-input" />
+        <wd-input
+          type="number"
+          size="large"
+          v-model="value"
+          placeholder="最低价"
+          no-border
+          custom-class="input-style"
+          custom-input-class="min-input"
+        />
         <view class="h-full mx-10px">—</view>
-        <wd-input type="number" size="large" v-model="value" placeholder="最高价" no-border custom-class="input-style"
-          custom-input-class="min-input" />
+        <wd-input
+          type="number"
+          size="large"
+          v-model="value"
+          placeholder="最高价"
+          no-border
+          custom-class="input-style"
+          custom-input-class="min-input"
+        />
       </view>
     </view>
     <view class="mt-30px">

@@ -16,23 +16,22 @@ import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
 import { favoritesList, unUserFavorites } from '@/service/api/shop'
 
-
 const isManage = ref(false)
 const topbgBase64 = ref('')
 const { navTop } = useNav()
 const { VITE_APP_LOGOTITLE } = import.meta.env
 
 const paging = ref(null)
-let goodList = ref([])
+const goodList = ref([])
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
-    let res: any = await favoritesList({
+    const res: any = await favoritesList({
       current: pageNo,
       size: pageSize,
     })
-    res.content.forEach(el => {
-      el.rotationUrl = JSON.parse(el.rotationUrl).map(item => item.data)
-    });
+    res.content.forEach((el) => {
+      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+    })
     console.log('收藏列表', res.content)
 
     paging.value.complete(res.content)
@@ -53,9 +52,18 @@ onLoad(async () => {
     <view class="line-height-50px">商品数量（{{ goodList.length }}）</view>
     <view @click="isManage = !isManage">管理</view>
   </view>
-  <z-paging ref="paging" v-model="goodList" @query="getLsit" class="list"
-    :class="isManage ? 'p-15px pb-80px' : 'p-15px'">
-    <view class="bg-white border-rd-10px p-15px box-border w-full mb-10px" v-for="item in goodList" :key='item.spuId'>
+  <z-paging
+    ref="paging"
+    v-model="goodList"
+    @query="getLsit"
+    class="list"
+    :class="isManage ? 'p-15px pb-80px' : 'p-15px'"
+  >
+    <view
+      class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
+      v-for="item in goodList"
+      :key="item.spuId"
+    >
       <view class="w-full flex">
         <view class="flex items-center">
           <wd-checkbox v-if="isManage" v-model="value" @change="handleChange"></wd-checkbox>
@@ -81,10 +89,7 @@ onLoad(async () => {
         </view>
       </view>
     </view>
-
-
   </z-paging>
-
 
   <!-- <view class="flex flex-col items-center justify-center mt-140px">
       <wd-img :width="246" :height="168"
@@ -92,8 +97,10 @@ onLoad(async () => {
       <view class='mt-32px'>暂无数据！</view>
     </view> -->
 
-  <view v-if="isManage"
-    class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center">
+  <view
+    v-if="isManage"
+    class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center"
+  >
     <wd-checkbox v-model="value" @change="handleChange">全选</wd-checkbox>
     <view class="flex items-center">
       <view class="flex items-center">共计2件</view>
