@@ -28,7 +28,7 @@ const queryList = async (pageNo, pageSize) => {
   const data = {
     number: pageNo,
     size: pageSize,
-    articleType: '1',
+    articleType: '6',
   }
   // 调用接口获取数据
   try {
@@ -43,8 +43,22 @@ const queryList = async (pageNo, pageSize) => {
 <template>
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
-      <!-- 顶部 -->
-      <dy-navbar leftTitle="金融超市" left></dy-navbar>
+      <wd-navbar
+        safeAreaInsetTop
+        rightDisabled
+        placeholder
+        leftArrow
+        fixed
+        :bordered="false"
+        :title="navTitle"
+        custom-class="nav_bg"
+      >
+        <template #left>
+          <wd-icon @click="handleClickLeft" name="arrow-left" size="22px" color="#fff"></wd-icon>
+        </template>
+      </wd-navbar>
+
+      <!--      <dy-title :title="navTitle" customClass="custom-title"></dy-title>-->
     </template>
     <view class="px-10px">
       <!-- leibiao  -->
