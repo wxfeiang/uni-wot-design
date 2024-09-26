@@ -49,7 +49,7 @@ const url = ref(
 </script>
 
 <template>
-  <view class="bg">
+  <view class="bg overflow-hidden rounded-4px">
     <view
       class="bg-no-repeat h-96px relative pr-10px box-border rounded-10px bg-#fff/20"
       :class="statusBg ? '' : 'grayscale opacity-80'"
@@ -70,7 +70,7 @@ const url = ref(
           <view v-if="props.status">
             <view>核销人: {{ props.data.bUserName }}</view>
             <view>核销时间: {{ props.data.createTime }}</view>
-            <view>使用人员: 张三 {{ props.data.aUserName }}</view>
+            <view>使用人员: {{ props.data.aUserName }}</view>
           </view>
         </view>
         <view class="absolute top-30px right-2% z-99" v-if="props.status">
@@ -83,6 +83,6 @@ const url = ref(
 
 <style lang="scss" scoped>
 .bg {
-  box-shadow: 4px 0px 10px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 0px 10px 1px rgba(0, 0, 0, 0.11);
 }
 </style>

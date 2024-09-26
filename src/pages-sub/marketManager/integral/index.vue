@@ -132,9 +132,9 @@ onLoad(async () => {
         </view>
 
         <view class="mt-10px">
-          <view class="flex items-center gap-10px flex-wrap">
+          <view class="flex items-center gap-10px flex-wrap justify-between">
             <view
-              class="text-center rounded-md p-10px w-1/6 flex flex-col justify-between h-140rpx"
+              class="text-center rounded-md p-10px w-1/6 flex flex-col h-140rpx"
               :class="[
                 index === 6 ? 'ml-auto w-2.55/6! text-left' : '',
                 item.highlight == 1 ? 'bg-#FFE3CB' : 'bg-#FFF6EA ',

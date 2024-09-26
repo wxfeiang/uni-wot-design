@@ -10,7 +10,7 @@ const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
 const GETDOT = baseUrlApi('/captcha/getDot')
 const PHNECODE = baseUrlApi('/member/app/sendVerificationCode')
 
-export const PRIVACY_UPLOAD = baseUrlApi('/system/file/minio/privacyUpload')
+export const PRIVACY_UPLOAD = baseUrlApi('/api/zos/file/put')
 export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
 
 export const PRIVACY_FILE_STREAM = baseUrlApi('/system/file/minio/getPrivacyFileStream')

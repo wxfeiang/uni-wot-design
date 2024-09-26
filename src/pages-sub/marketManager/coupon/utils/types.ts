@@ -21,6 +21,7 @@ interface conponListProps {
   couponReceiveEndDate: string // 领取结束时间
   shopId?: number
   shopName?: string
+  couponCode: string // 优惠券码
 }
 
 interface qrCodeProps {

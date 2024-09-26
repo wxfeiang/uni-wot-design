@@ -12,9 +12,11 @@
 import CardJRchaoshi from '@/pages-sub/serveMain/components/CardJRchaoshi.vue'
 
 const navTitle = ref('')
+
 function handleClickLeft() {
   uni.navigateBack()
 }
+
 const baseCon = ref('')
 
 onLoad((options: any) => {
@@ -41,7 +43,7 @@ onLoad((options: any) => {
       </template>
     </wd-navbar>
 
-    <dy-title :title="navTitle" customClass="custom-title"></dy-title>
+    <!--    <dy-title :title="navTitle" customClass="custom-title"></dy-title>-->
 
     <!-- 动态加载类型对应的组件 -->
     <!--  金融超市-->
@@ -52,13 +54,16 @@ onLoad((options: any) => {
 <style lang="scss" scoped>
 :deep(.nav_bg) {
   background-color: var(--color-nav-bg);
+
   .wd-navbar__title {
     color: var(--color-nav-text);
   }
+
   .wd-navbar__left {
     color: var(--color-nav-text);
   }
 }
+
 :deep(.custom-title) {
   @apply px-20px! pt-20px!;
 }

@@ -28,7 +28,6 @@ function cameraError(e) {
 const scancodeData = ref()
 
 async function scancode(e) {
-  cameraShowfun(false)
   const { status, url } = sceneResult(e.detail)
   console.log('🎂', status, url)
   if (status) {
@@ -57,15 +56,14 @@ async function getCoupDetil() {
 
 function handleClose() {
   show.value = false
-  scancodeData.value = { price: null, receiveId: null }
+  scancodeData.value = { price: null, couponCode: null }
   cameraShowfun()
   sucessShow.value = false
   serchValue.value = ''
 }
 async function handleConfirm() {
   const params = {
-    receiveId: couponInfoData.value.receiveId,
-    couponCode: couponInfoData.value.couponId,
+    couponCode: couponInfoData.value.couponCode,
   }
   try {
     await sendUseOffline(params)
@@ -102,6 +100,9 @@ onMounted(() => {
   } else {
     Toast('当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。')
   }
+})
+onShow(() => {
+  handleClose()
 })
 </script>
 <template>

@@ -56,7 +56,7 @@ function handleClickLeft() {
           <view
             class="ml-5px truncate-1 text-left font-400"
             :class="props.isNavShow ? 'color-#fff' : ''"
-            :style="`{color:${props.isNavShow ? props.color : ''}`"
+            :style="`color:${props.isNavShow ? props.color : ''}`"
           >
             {{ props.leftTitle }}
           </view>
@@ -85,7 +85,7 @@ function handleClickLeft() {
         <view
           class="truncate-1 font-400 text-center"
           :class="props.isNavShow ? 'color-#fff' : ''"
-          :style="`{color:${props.isNavShow ? props.color : ''}`"
+          :style="`color:${props.isNavShow ? props.color : ''}`"
         >
           {{ props.leftTitle }}
         </view>

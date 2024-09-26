@@ -12,9 +12,9 @@
 <script lang="ts" setup>
 import { removeT } from '@/utils'
 
-import useNews from './hooks/useNews'
+import useCenter from './utils/useCenter'
 
-const { sendMessageList, messageClick } = useNews()
+const { sendMessageList, messageClick } = useCenter()
 
 defineOptions({
   name: 'messageList',

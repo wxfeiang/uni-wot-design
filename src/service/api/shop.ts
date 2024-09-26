@@ -255,15 +255,21 @@ export function getWxPay<T>(data) {
     data,
   )
 }
-
 /**
  * 券码详情
  * @param params 初始参数()
  * */
 export function getCouponInfo<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    Tips: true,
+  }
   return request.Post<T>(
     COUPON_INFO, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 /**
@@ -277,12 +283,19 @@ export function getUseRecord<T>(data) {
   )
 }
 /**
- *   商户优惠券核销记录
+ *   商户优惠券核销
  * @param params 初始参数()
  * */
 export function getUseOffline<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    Tips: true,
+  }
   return request.Post<T>(
     USE_OFFLINE, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
