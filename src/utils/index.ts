@@ -1,6 +1,7 @@
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { pages, subPackages, tabBar } from '@/pages.json'
 import PLATFORM from '@/utils/platform'
+import { isArray } from 'lodash-es'
 import qs from 'qs'
 /** 判断当前页面是否是tabbar页  */
 export const getIsTabbar = () => {
@@ -270,13 +271,19 @@ export function sceneResult(resData: any) {
   // 扫描到小程序码
   if (resData.scanType === 'WX_CODE') {
     url = decodeURIComponent(resData.path).split('?')
-    url[1] = url[1].split(',')
-    status = url[1][2] === 'xaCard'
-    path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
+    if (isArray(url) && url[1]) {
+      url[1] = url[1].split(',')
+      status = url[1].indexOf('xaCard') > -1
+      path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
+    }
   } else if (resData.scanType === 'QR_CODE' || resData.type === 'qrcode') {
     url = decodeURIComponent(resData.result).split('?')
-    status = url[1].indexOf('xaCard') !== -1
-    path = url[1]
+    if (isArray(url) && url[1]) {
+      console.log('🥫[url]:', url)
+      status = url[1].indexOf('xaCard') > -1
+      path = url[1]
+      console.log('🍷,', status)
+    }
   }
   return {
     status,
