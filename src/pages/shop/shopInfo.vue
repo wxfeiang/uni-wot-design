@@ -138,6 +138,22 @@ onLoad(async (options) => {
   console.log('options', options, userStore.isLogined)
   getDetails(options.id)
 })
+onShareAppMessage((options) => {
+  const pageList = getCurrentPages()
+  return {
+    title: details.spuName ? details.spuName : '商品',
+    path: pageList[pageList.length - 1].$page.fullPath,
+    imageUrl: details.rotationUrl[0],
+  }
+})
+onShareTimeline((options) => {
+  const pageList = getCurrentPages()
+  return {
+    title: details.spuName ? details.spuName : '商品',
+    path: pageList[pageList.length - 1].$page.fullPath,
+    imageUrl: details.rotationUrl[0],
+  }
+})
 </script>
 
 <template>
