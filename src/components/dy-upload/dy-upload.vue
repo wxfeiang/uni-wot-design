@@ -101,10 +101,26 @@ const buildFormData = ({ file, formData, resolve }) => {
     :header="props.header"
     @change="handleChange"
     :build-form-data="buildFormData"
+    v-if="props.showFileDy"
   >
-    <template #default v-if="props.showFileDy">
+    <template #default>
       <slot></slot>
     </template>
   </wd-upload>
+  <wd-upload
+    v-bind="props.defaultAttrs"
+    :file-list="fileList"
+    :image-mode="props.imageMode"
+    :limit="props.limit"
+    :multiple="props.multiple"
+    :disabled="props.disabled"
+    :name="props.name"
+    :show-limit-num="props.showFileList"
+    :action="props.action"
+    :header="props.header"
+    @change="handleChange"
+    :build-form-data="buildFormData"
+    v-else
+  ></wd-upload>
 </template>
 <style lang="scss" scoped></style>
