@@ -8,32 +8,25 @@
 </route>
 
 <script lang="ts" setup>
-import { useRequest } from 'alova/client'
 import { pathToBase64 } from 'image-tools'
 import icons from './static/editlog.png'
 import tobg from './static/tobg.png'
 // TODO: 背景图片
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
-import { getSignValid } from '@/service/api/cardServe'
 import { routeTo } from '@/utils'
-import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
-const { sendPhoneCode, countdown, sending } = usePhoneCode()
-const topbgBase64 = ref('')
-const opts = ref({
-  lineColor: '#000000',
-  fontSize: 20,
-  width: 2,
-  textMargin: 0,
-  text: '1234567890657890',
-  value: '1234567890657890',
-  displayValue: false,
-})
-const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
-const str = ref<any>('')
+import qs from 'qs'
 
+import { useMessage } from 'wot-design-uni'
+import { shopDetilProps } from './utils/types'
+import useShopServe from './utils/useShopServe'
+const { shopMessage, sendShopDetail } = useShopServe()
+const topbgBase64 = ref('')
+const { VITE_SERVER_BASEURL } = import.meta.env
+const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
+const message = useMessage()
 const cfig = ref()
 cfig.value = {
-  str: str.value,
+  str: '',
   size: 400,
 }
 
@@ -41,55 +34,21 @@ function toMingxi() {
   routeTo({ url: '/pages-sub/shopManager/shopPayList' })
 }
 
-const lingdu = ref(0)
-
-const sendTiem = ref(60)
-let timer = null
-const incrementCount = () => {
-  timer = setInterval(() => {
-    if (sendTiem.value > 0) {
-      sendTiem.value--
-    } else {
-      // 刷新二维码请求
-      sendTiem.value = 60
-    }
-  }, 1000)
-}
-
-const { send: sendSignValid, loading: LoadingValid } = useRequest((data) => getSignValid(data), {
-  immediate: false,
-  loading: false,
-})
-
-watch(
-  () => countdown.value,
-  () => {
-    if (countdown.value === 0) {
-      sendPhoneCode()
-    }
-  },
-  { deep: true },
-)
-
-onLoad(async () => {
-  // 设置背景图片
+onLoad(async (options) => {
   topbgBase64.value = await pathToBase64(tobg)
-})
-onMounted(async () => {
-  incrementCount()
-  sendPhoneCode()
-  lingdu.value = (await usegetScreenBrightness()) as number
-
-  setTimeout(async () => {
-    await useSetScreenBrightness(1)
-    await useSetKeepScreenOn(true)
-  }, 3000)
-})
-onUnmounted(async () => {
-  timer && clearInterval(timer)
-
-  await useSetKeepScreenOn(false)
-  await useSetScreenBrightness(lingdu.value + 0.05)
+  try {
+    await sendShopDetail()
+    const qrcodeData = {
+      merchantId: shopMessage.value.merchantId,
+      type: 'xaCard',
+    }
+    cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
+  } catch (error) {
+    shopMessage.value = {} as shopDetilProps
+    message.alert({ title: '提示', msg: error.data.msg, closeOnClickModal: false }).then((res) => {
+      // uni.navigateBack()
+    })
+  }
 })
 </script>
 
@@ -99,13 +58,12 @@ onUnmounted(async () => {
     :style="`background-image: url(${topbgBase64}); background-size: 100% 300px`"
   >
     <dy-navbar leftTitle="收款码" left isNavShow></dy-navbar>
-    <view class="mt-30px px-20px">
+    <view class="mt-40px px-20px">
       <view class="bg-#fff p-20px py-0 rounded-10px overflow-hidden">
         <view class="text-18px py-10px">商户收款码</view>
         <view class="flex justify-center mt-10px flex-col items-center">
-          <view class="py-10px">雄安乐享便利店（**莹）</view>
+          <view class="py-10px">{{ shopMessage.merchantName }}</view>
           <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
-
           <view class="py-10px">
             <wd-text text="下载二维码" color="#2D69EF" size="14px"></wd-text>
           </view>
@@ -125,8 +83,4 @@ onUnmounted(async () => {
   </view>
 </template>
 
-<style lang="scss" scoped>
-.bg-sm {
-  background: linear-gradient(122deg, #ff9c06 0%, #ff181b 100%);
-}
-</style>
+<style lang="scss" scoped></style>

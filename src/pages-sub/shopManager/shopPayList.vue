@@ -10,7 +10,6 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import dayjs from 'dayjs'
-import iconyhq from './static/iconyhq.png'
 import todayImg from './static/payLog.png'
 const title = ref('支付记录')
 const payList = ref([
@@ -73,7 +72,7 @@ function toMingxi(item) {
       <view class="flex justify-between items-center">
         <view>
           <view class="py-10px">总收入</view>
-          <view class="color-#2D69EF text-20px font-600 py-10px">+ {{ number }}</view>
+          <view class="color-#2D69EF text-20px font-600 py-10px">{{ number }}</view>
         </view>
         <view>
           <wd-datetime-picker
@@ -91,11 +90,9 @@ function toMingxi(item) {
             </view>
           </wd-datetime-picker>
           <view
-            class="bg-#2D69EF color-#fff text-14px py-5px px-10px rounded-full justify-center items-center flex gap-10px"
+            class="bg-#2D69EF color-#fff text-14px py-5px px-3px rounded-full text-center mx-auto"
           >
-            <view>+ {{ 3000 }}</view>
-            <view>|</view>
-            <view>{{ 1 }} 笔</view>
+            <view>共计: {{ 1 }} 笔</view>
           </view>
         </view>
       </view>
@@ -105,14 +102,14 @@ function toMingxi(item) {
         :key="index"
         @click="toMingxi(item)"
       >
-        <view class="px-20px flex justify-between relative">
+        <view class="px-20px flex justify-between relative items-center">
           <view>
             <view class="text-16px py-10px">{{ item.name }}</view>
             <view class="text-12px color-#999 py-3px">{{ item.time }}</view>
           </view>
 
           <view class="color-#FF6600 text-18px py-10px">+ {{ item.jine }}</view>
-
+          <!--
           <view
             v-if="item.isYouhui"
             class="absolute right-0 bottom-[-6px] py-5px px-20px bg-#FFF6F0 rounded-tl-30px"
@@ -121,7 +118,7 @@ function toMingxi(item) {
               <wd-img :src="iconyhq" width="13" height="13"></wd-img>
               <view class="color-#FF9047 text-12px">优惠: {{ item.yhje }}</view>
             </view>
-          </view>
+          </view> -->
         </view>
       </view>
     </view>

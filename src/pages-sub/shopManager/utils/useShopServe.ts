@@ -1,5 +1,7 @@
-import { serveListProps } from './types'
+import { serveListProps, shopDetilProps } from './types'
 
+import { getShopDetail } from '@/service/api/shop'
+import { useRequest } from 'alova/client'
 import daifahuo from '../static/daifahuo.png'
 import dafukuan from '../static/daifukuan.png'
 import daishouhuo from '../static/daishouhuo.png'
@@ -102,10 +104,22 @@ const serveList = ref<serveListProps[]>([
   },
 ])
 
+//  查询商户信息
+const { send: sendShopDetail, data: shopMessage } = useRequest(
+  (data) => getShopDetail<shopDetilProps>(data),
+  {
+    immediate: false,
+    loading: false,
+    initialData: {},
+  },
+)
+
 export default () => {
   return {
     serveOrderList,
     dataList,
     serveList,
+    shopMessage,
+    sendShopDetail,
   }
 }

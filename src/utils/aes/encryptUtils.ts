@@ -20,6 +20,7 @@ export const constast = () => {
     userDId: userStore.userInfo.userDId,
     phone: userStore.userInfo.userPhone,
     merchantId: userStore.userInfo.merchantId,
+    shopId: userStore.userInfo.merchantId,
   }
 }
 

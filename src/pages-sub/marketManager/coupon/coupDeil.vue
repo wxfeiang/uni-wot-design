@@ -38,6 +38,7 @@ onLoad(async (options) => {
     const qrcodeData = {
       couponCode: options.couponCode,
       type: 'xaCard',
+      atticon: 'writeOff',
     }
     cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
   } catch (error) {
