@@ -13,6 +13,8 @@ const UNUSER_FAVORITES = baseUrlApi('/product/manage/favorites/unUserFavorites')
 const FAVORITES_LIST = baseUrlApi('/product/app/item/favoritesPage')
 const GOODS_SEARCH = baseUrlApi('/product/app/item/xcxListPage')
 const SHOP_CAR_LIST = baseUrlApi('/product/manager/shop/cart/getCareList')
+const ADD_CART = baseUrlApi('/product/manager/shop/cart/addCart')
+const DEL_CART = baseUrlApi('/product/manager/shop/cart/deleteByIdBatch')
 const FILTER_CONDITION = baseUrlApi('/product/app/item/getFilterCondition')
 
 /**
@@ -59,6 +61,40 @@ export function shopCarList(data) {
   }
   return request.Post(
     SHOP_CAR_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   购物车添加
+ * @param params 初始参数()
+ * */
+export function addCart(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    ADD_CART, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   购物车删除
+ * @param params 初始参数()
+ * */
+export function delCart(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    DEL_CART, // 请求地址
     data,
     {
       meta,
