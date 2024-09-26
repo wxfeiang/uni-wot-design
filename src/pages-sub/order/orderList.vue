@@ -113,7 +113,7 @@ onLoad((options) => {
         </wd-tabs>
       </view>
     </template>
-    <view class="pt-2 overflow-hidden ListBox pageBoxBg">
+    <view class="pt-2 overflow-hidden ListBox pageBoxBg overflow-hidden">
       <view v-for="(item, index) in 5" class="float-left w-full box-border" :key="index">
         <wd-card>
           <template #title>
@@ -202,6 +202,7 @@ onLoad((options) => {
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {
+  overflow: hidden;
   background: #f3f4f6;
 }
 
@@ -215,5 +216,8 @@ onLoad((options) => {
 
 :deep(.wd-input) {
   background: #f6f6f6;
+}
+:deep(.z-paging-content) {
+  background: #f3f4f6;
 }
 </style>
