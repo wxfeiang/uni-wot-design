@@ -44,8 +44,7 @@ async function queryList(pageNo: number, pageSize: number) {
   // 调用接口获取数据
   try {
     const data: any = await sendUseRecord(params)
-    console.log('🥜[data]:', data)
-    conponList.value = data.coupons.content as couponDetailProps[]
+    conponList.value = data.content as couponDetailProps[]
     paging.value.complete(conponList.value)
   } catch (error) {
     conponList.value = []
@@ -92,11 +91,7 @@ async function queryList(pageNo: number, pageSize: number) {
     </template>
     <view class="">
       <view class="px-10px">
-        <view
-          class="rounded-4px overflow-hidden my-10px"
-          v-for="(item, index) in conponList"
-          :key="index"
-        >
+        <view class="my-10px" v-for="(item, index) in conponList" :key="index">
           <Coupon-Line :data="item" :status="true" :statusBg="false"></Coupon-Line>
         </view>
       </view>
