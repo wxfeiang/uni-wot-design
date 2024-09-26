@@ -51,6 +51,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
     const res: any = await getGoodList({
       page: pageNo,
       size: pageSize,
+      status: 1,
     })
     res.content.forEach((el) => {
       el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
