@@ -20,6 +20,7 @@ const RECEIVE_COUPON = baseUrlApi('/promotion/app/coupon/userReceive')
 
 const GET_USER_GOODS_ADDRESS_LIST = baseUrlApi('/member/app/goodsAddress/getUserGoodsAddressList')
 
+const ADD_BUSINESS_ADVICE = baseUrlApi('/system/api/business/advice/addBusinessAdvice')
 /**
  *  查询雄才卡信息
  * @param params
@@ -154,6 +155,16 @@ export function receiveCoupon(data) {
 export function getUserGoodsAddressList(data) {
   return request.Post(
     GET_USER_GOODS_ADDRESS_LIST, // 地址
+    data,
+  )
+}
+/**
+ * 用户反馈建议提交
+ * @param params 初始参数()
+ * */
+export function addBusinessAdvice(data) {
+  return request.Post(
+    ADD_BUSINESS_ADVICE, // 地址
     data,
   )
 }

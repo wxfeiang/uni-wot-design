@@ -2,8 +2,8 @@
  * @Description: 自定义上传组件
  * @Date: 2024-08-06 14:55:48
  * @LastEditors: wxfeiang wxfeiang@qq.com
- * @LastEditTime: 2024-08-09 12:25:55
- * @FilePath: /uni-wot-design/src/components/dy-upload/types.ts
+ * @LastEditTime: 2024-09-26 11:03:03
+ * @FilePath: /xa_card_mini/src/components/dy-upload/types.ts
  * Copyright (c) 2024 by ${git_name} email: ${git_email}, All Rights Reserved.
  */
 
@@ -22,7 +22,10 @@ const fliePrefix = import.meta.env.VITE_UPLOAD_BASEURL
 // const actionUrl = 'http://47.99.93.97/v1/base/uploadLocal'
 const actionUrl = PRIVACY_UPLOAD
 const userStore = useUserStore()
-const header = { sign: sign({ appkey: 'app' }), ...userStore.getAuthorization() }
+const header = {
+  sign: sign({ appkey: 'app' }),
+  Authorization: userStore.getAuthorization().appSign,
+}
 
 // export type ButtonSize = 'small' | 'medium' | 'large'
 

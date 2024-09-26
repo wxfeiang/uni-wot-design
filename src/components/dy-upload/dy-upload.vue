@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { changeUploadUrl, rightFileUrl } from '@/utils/file'
-import { pathToBase64 } from 'image-tools'
 import { FilesList, uploadProps } from './types'
 defineOptions({
   name: 'dy-upload',
@@ -78,20 +77,9 @@ const buildFormData = ({ file, formData, resolve }) => {
   // h5端url中不包含扩展名，可以拼接一下name
   imageName = imageName + file.name
   // #endif
-  // const signature = 'your <signatureString>' // 签名信息
-  // const ossAccessKeyId = 'your <accessKey>' // 你的AccessKey ID
-  // const policy = 'your <policyBase64Str>' // policy信息
-  // const key = `20231120/${imageName}` // 图片上传到oss的路径(拼接你的文件夹和文件名)
-  // const success_action_status = '200' // 将上传成功状态码设置为200，默认状态码为204
 
   formData = {
     ...formData,
-    photoBase64: pathToBase64(file.thumb),
-    // key,
-    // OSSAccessKeyId: ossAccessKeyId,
-    // policy,
-    // signature,
-    // success_action_status,
   }
   console.log('🥠=====formdata', formData)
 
