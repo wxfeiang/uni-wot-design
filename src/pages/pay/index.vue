@@ -184,7 +184,6 @@ async function goPay() {
   }
 
   const params = {
-    userDid: '',
     invoice: inValue.value, // 订单金额
     actualPrice: actualPrice.value, // 实际支付金额
     merchantId: shopMessage.value.merchantId,

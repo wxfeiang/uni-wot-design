@@ -19,8 +19,8 @@ import kaguas from '@/static/images/serve/kaguas.png'
 import kajiegua from '@/static/images/serve/kajiegua.png'
 import kajindu from '@/static/images/serve/kajindu.png'
 
-import kabase from '@/static/images/serve/kabase.png'
 import jrcs from '@/static/images/serve/jrcs.png'
+import kabase from '@/static/images/serve/kabase.png'
 
 import jiaofeitong from '@/static/images/serve/jiaofeitong.png'
 import kabiangeng from '@/static/images/serve/kabiangeng.png'
@@ -210,7 +210,7 @@ const categories = ref([
 
 function handleChange({ value }) {
   // console.log('🍬[value]:', value)
-  if (value === 1 || value === 2) {
+  if (value === 1 || value === 2 || value === 3) {
     dyheight.value = '38%'
   }
   if (value === 0) {
