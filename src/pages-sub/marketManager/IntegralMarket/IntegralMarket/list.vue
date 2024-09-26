@@ -73,7 +73,7 @@ onLoad(async () => {
     v-model="list"
     @query="queryList"
     :auto-show-system-loading="true"
-    class="pageBoxBg"
+    style="background: #f3f4f6"
   >
     <template #top>
       <dy-navbar :leftTitle="title" left></dy-navbar>
@@ -100,7 +100,7 @@ onLoad(async () => {
         </block>
       </wd-tabs>
     </template>
-    <view class="p2">
+    <view class="p2 pageBoxBg">
       <view v-for="(item, index) in list" class="p2 float-left w-1/2 box-border" :key="index">
         <view class="bg-white rounded-md p-8px">
           <view class="flex items-center justify-center">
@@ -140,6 +140,7 @@ onLoad(async () => {
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {
+  overflow: hidden;
   background: #f3f4f6;
 }
 
@@ -153,6 +154,9 @@ onLoad(async () => {
 
 :deep(.tabsBox .wd-tabs__line) {
   display: none;
+}
+:deep(.tabsBox) {
+  background: #f3f4f6 !important;
 }
 
 :deep(.tabsBox .wd-tabs__nav-item) {
@@ -173,6 +177,10 @@ onLoad(async () => {
   color: rgba(244, 77, 36, 0.79);
   background: transparent !important;
   border-radius: 3px 3px 3px 3px;
+}
+
+:deep(.z-paging-content) {
+  background: #f3f4f6;
 }
 
 :deep(.tabsBox .wd-tabs__nav-item.is-active) {
