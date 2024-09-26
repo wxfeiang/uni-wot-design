@@ -176,7 +176,8 @@ const url = ref(
             props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
           }}
         </view>
-        <view>优惠内容: {{ '满' + props.data.couponFillPrice + '元可用' }}</view>
+        <view>优惠内容: {{ '满 ' + props.data.couponFillPrice + ' 元可用' }}</view>
+        <view v-if="props.data.type === 3">线下进店展码核销</view>
       </view>
     </view>
   </view>

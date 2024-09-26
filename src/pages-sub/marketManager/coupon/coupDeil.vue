@@ -66,8 +66,8 @@ onLoad(async (options) => {
 
     <view class="mt-20px px-20px">
       <view class="bg-#FF7206 py-10px rounded-10px">
-        <view class="bg-#fff pt-20px rounded-10px overflow-hidden">
-          <view class="py-20px color-#FF7206 text-16px text-center">
+        <view class="bg-#fff pt-15px rounded-10px overflow-hidden">
+          <view class="py-10px color-#FF7206 text-16px text-center">
             券码：{{ couponInfoData.couponCode }}
           </view>
           <view class="flex justify-center mt-10px flex-col items-center">
@@ -83,6 +83,7 @@ onLoad(async (options) => {
           <view class="text-14px p-15px mt-20px bg-#FFF6EF">
             <view class="color-#000 text-16px">使用说明</view>
             <view class="color-#333 mt-5px">{{ couponInfoData.couponRemark }}</view>
+            <view class="color-#333 mt-5px">线下进店展码核销!</view>
           </view>
         </view>
       </view>
