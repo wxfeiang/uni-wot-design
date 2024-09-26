@@ -11,7 +11,10 @@
 import { routeTo } from '@/utils'
 import dayjs from 'dayjs'
 import todayImg from './static/payLog.png'
+import useShopServe from './utils/useShopServe'
 const title = ref('支付记录')
+const { sendOrderIdByShop, shopPayList } = useShopServe()
+
 const payList = ref([
   {
     name: '张三',
@@ -51,23 +54,16 @@ function toMingxi(item) {
     url: '/pages-sub/shopManager/shopPayMingxi',
   })
 }
+onLoad(async () => {
+  const data = await sendOrderIdByShop({ payMentTime: timerShow.value })
+  console.log('🥚[data]:', data)
+})
 </script>
 
 <template>
   <dy-navbar :leftTitle="title" left></dy-navbar>
-  <view class="mt-20px p-10px">
-    <wd-status-tip
-      :image="todayImg"
-      :image-size="{
-        height: 95,
-        width: 165,
-      }"
-    />
-    <view class="font-bold text-20px py-10px text-center">今天暂无收款记录</view>
-    <view class="text-#999999 text-14px text-center">快去开启你的收款吧！</view>
-  </view>
 
-  <view class="mt-10px px-10px">
+  <view class="mt-10px px-10px" v-if="shopPayList && shopPayList?.length > 0">
     <view class="p-15px px-10px bg-list rounded-10px">
       <view class="flex justify-between items-center">
         <view>
@@ -122,6 +118,17 @@ function toMingxi(item) {
         </view>
       </view>
     </view>
+  </view>
+  <view class="mt-20px p-10px" v-else>
+    <wd-status-tip
+      :image="todayImg"
+      :image-size="{
+        height: 95,
+        width: 165,
+      }"
+    />
+    <view class="font-bold text-20px py-10px text-center">今天暂无收款记录</view>
+    <view class="text-#999999 text-14px text-center">快去开启你的收款吧！</view>
   </view>
 </template>
 

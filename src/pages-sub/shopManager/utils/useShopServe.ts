@@ -1,6 +1,6 @@
 import { serveListProps, shopDetilProps } from './types'
 
-import { getShopDetail } from '@/service/api/shop'
+import { getAppTargetOrderIdByShop, getShopDetail } from '@/service/api/shop'
 import { useRequest } from 'alova/client'
 import daifahuo from '../static/daifahuo.png'
 import dafukuan from '../static/daifukuan.png'
@@ -114,6 +114,16 @@ const { send: sendShopDetail, data: shopMessage } = useRequest(
   },
 )
 
+//  查询商户收款记录
+const { send: sendOrderIdByShop, data: shopPayList } = useRequest(
+  (data) => getAppTargetOrderIdByShop(data),
+  {
+    immediate: false,
+    loading: false,
+    initialData: [],
+  },
+)
+
 export default () => {
   return {
     serveOrderList,
@@ -121,5 +131,7 @@ export default () => {
     serveList,
     shopMessage,
     sendShopDetail,
+    sendOrderIdByShop,
+    shopPayList,
   }
 }

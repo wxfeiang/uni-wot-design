@@ -25,4 +25,13 @@ interface shopDetilProps {
   merchantType: number
 }
 
-export type { serveListProps, shopDetilProps }
+interface respVoList {
+  orderPaymentCount: number
+  orderPaymentAmount: number
+}
+interface shopPayList {
+  orderPaymentCount: number
+  respVoList: respVoList[]
+}
+
+export type { serveListProps, shopDetilProps, shopPayList }
