@@ -18,54 +18,79 @@ import screen from '@/static/images/shop/screen.png'
 import { pathToBase64 } from 'image-tools'
 import { goodsSearch, getFilterCondition } from '@/service/api/shop'
 
-defineOptions({
-  name: 'Index',
-})
-
-const { VITE_APP_LOGOTITLE } = import.meta.env
 const topbgBase64 = ref('')
 const searchIcon = ref('')
 const carIcon = ref('')
 const paging = ref(null)
+const filterList = reactive<any>({})
 const goodList = ref([])
-
 const isGrid = ref(true)
-const showSearch = ref(true)
+const showSearch = ref(false)
+const sort = reactive({
+  pullTimeOrder: 1, // 上架时间排序
+  salesVolumeOrder: 1, // 销量排序
+  priceOrder: 1, // 价格排序
+})
+let model = reactive({
+  pullTimeOrder: 1, // 上架时间排序
+  salesVolumeOrder: 1, // 销量排序
+  priceOrder: 1, // 价格排序
+  brandId: '', // 品牌id
+  shopId: '', // 店铺id
+  spuName: '', // 商品名称
+  sellPriceMin: '', // 价格1
+  sellPriceMax: '', // 价格2
+  secondCategoryId: '', // 二级分类id
+})
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(indexbg)
   searchIcon.value = await pathToBase64(searchicon)
   carIcon.value = await pathToBase64(caricon)
 })
-const option1 = ref<Record<string, any>>([
-  { label: '全部商品', value: 0 },
-  { label: '新款商品', value: 1 },
-  { label: '活动商品', value: 2 },
-])
-const option2 = ref<Record<string, any>>([
-  { label: '综合', value: 0 },
-  { label: '销量', value: 1 },
-  { label: '上架时间', value: 2 },
-])
+onShow(() => {
+  getFilterData()
+})
 function changeGrid() {
   isGrid.value = !isGrid.value
 }
-
-const getFilterData = (shopId) => {
-  getFilterCondition({ shopId }).then((res) => {
-    console.log('筛选条件', res)
+const reset = () => {
+  model = reactive({
+    pullTimeOrder: 1, // 上架时间排序
+    salesVolumeOrder: 1, // 销量排序
+    priceOrder: 1, // 价格排序
+    brandId: '', // 品牌id
+    shopId: '', // 店铺id
+    spuName: '', // 商品名称
+    sellPriceMin: '', // 价格1
+    sellPriceMax: '', // 价格2
+    secondCategoryId: '', // 二级分类id
   })
+  showSearch.value = false
+  paging.value.reload()
+}
+const changeType = (type, id) => {
+  model[type] = id
+}
+const getFilterData = () => {
+  getFilterCondition({}).then((res: any) => {
+    res.categoryList = res.categoryList.reduce((a, b) => {
+      return a.concat(b.pCodeList)
+    }, [])
+    Object.assign(filterList, res)
+    console.log('filterList', filterList)
+  })
+}
+const searchSubmit = () => {
+  showSearch.value = false
+  paging.value.reload()
 }
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
     const res: any = await goodsSearch({
       current: pageNo,
       size: pageSize,
-      spuName: '',
-      brandId: '',
-      shopId: '',
-      sellPriceMin: '',
-      sellPriceMax: '',
+      ...model,
     })
     res.content.forEach((el) => {
       el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
@@ -78,17 +103,17 @@ const getLsit = async (pageNo: number, pageSize: number) => {
     paging.value.complete(false)
   }
 }
+const getUrl = (str) => {
+  return JSON.parse(str)[0].data
+}
 function changeSearch() {
   showSearch.value = true
 }
-function handleChange1({ value }) {
-  console.log(value)
+
+function handleChange(val, type) {
+  model[type] = val === 1 ? 1 : 2
+  paging.value.reload()
 }
-function handleChange2({ value }) {
-  console.log(value)
-}
-onShow(() => {})
-// 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
   <view
@@ -111,8 +136,9 @@ onShow(() => {})
           class="uni-input m-l-10px flex-1"
           confirm-type="search"
           placeholder="请输入搜索关键词"
+          v-model="model.spuName"
         />
-        <view class="searchbtn">搜索</view>
+        <view class="searchbtn" @click="paging.reload">搜索</view>
       </view>
       <view class="caricon">
         <wd-img :width="30" :height="28" :src="carIcon" />
@@ -123,66 +149,93 @@ onShow(() => {})
 
   <view class="w-full box-border flex pos-fixed z-999 pos-top-151px">
     <view style="display: flex; flex: 1; text-align: center; background: #fff">
-      <wd-drop-menu style="flex: 1; min-width: 0">
-        <wd-drop-menu-item
-          v-model="value1"
-          title="销量"
-          :options="option"
-          @change="handleChange1"
-          icon-size="0"
-        />
-      </wd-drop-menu>
-      <wd-drop-menu style="flex: 1; min-width: 0">
-        <wd-drop-menu-item
-          v-model="value1"
-          title="上架时间"
-          :options="option"
-          @change="handleChange1"
-          icon-size="0"
-        />
-      </wd-drop-menu>
       <view style="flex: 1">
-        <wd-sort-button v-model="value2" title="价格" @change="handleChange2" />
+        <wd-sort-button
+          v-model="sort.salesVolumeOrder"
+          title="销量"
+          @change="handleChange($event, 'salesVolumeOrder')"
+        />
+      </view>
+      <view style="flex: 1">
+        <wd-sort-button
+          v-model="sort.pullTimeOrder"
+          title="上架时间"
+          @change="handleChange($event, 'pullTimeOrder')"
+        />
+      </view>
+      <view style="flex: 1">
+        <wd-sort-button
+          v-model="sort.priceOrder"
+          title="价格"
+          @change="handleChange($event, 'priceOrder')"
+        />
       </view>
     </view>
     <view class="right flex items-center px-10px bg-white z-999">
       <wd-img :width="23" :height="23" :src="matrix" @click="changeGrid" />
-      <view class="px-5px">| 筛选</view>
-      <wd-img :width="23" :height="23" :src="screen" @click="changeSearch" />
+      <view class="inline-block flex" @click="changeSearch">
+        <view class="px-5px">| 筛选</view>
+        <wd-img :width="23" :height="23" :src="screen" />
+      </view>
     </view>
   </view>
   <!-- 商品列表 -->
-  <z-paging ref="paging" v-model="goodList" @query="getLsit" class="list">
+  <z-paging
+    ref="paging"
+    v-model="goodList"
+    @query="getLsit"
+    :paging-style="{
+      'min-height': 'calc(100vh - 201px)',
+      background: '#f7f7f7',
+      'margin-top': '201px',
+    }"
+  >
     <view
       v-if="isGrid"
       class="pt-15px grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border"
     >
-      <view class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px">
-        <wd-img :width="175" :height="160" :src="topbgBase64" />
+      <view
+        class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
+        v-for="item in goodList"
+        :key="item.spuId"
+      >
+        <wd-img :width="175" :height="160" :src="getUrl(item.saleUrl)" />
         <view class="w-155px name my-10px m-auto">
-          赵州雪梨干泡水赵雪雪梨干无硫赵州雪梨干泡水赵雪雪梨干无硫河北石家庄...河北石家庄...
+          {{ item.spuName }}
         </view>
         <view>
           <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
-          <text style="font-size: 18px; font-weight: 600; color: #f44d24">58.8</text>
-          <text style="margin-left: 8px; font-size: 12px; color: #999999">已售2353件</text>
+          <text style="font-size: 18px; font-weight: 600; color: #f44d24">
+            {{ item.sellPrice }}
+          </text>
+          <text style="margin-left: 8px; font-size: 12px; color: #999999">
+            已售{{ item.salesVolume }}件
+          </text>
         </view>
       </view>
     </view>
 
     <view v-else class="w-full p-14px box-border">
-      <view class="flex w-full h-100px p-7px box-border mb-10px bg-white border-rd-6px">
-        <wd-img :width="86" :height="86" :src="topbgBase64" />
+      <view
+        class="flex w-full p-10px box-border mb-10px bg-white border-rd-6px"
+        v-for="item in goodList"
+        :key="item.spuId"
+      >
+        <wd-img :width="86" :height="86" :src="getUrl(item.saleUrl)" />
         <div class="flex-1 ml-15px flex flex-col justify-between">
           <view class="w-full name">
-            赵州雪梨干泡水赵雪雪梨干无硫赵州雪梨干泡水赵雪雪梨干无硫河北石家庄...河北石家庄...
+            {{ item.spuName }}
           </view>
           <view class="flex justify-between">
             <view>
               <text style="font-size: 12px; color: #f44d24">￥</text>
-              <text style="font-size: 18px; font-weight: 600; color: #f44d24">58.8</text>
+              <text style="font-size: 18px; font-weight: 600; color: #f44d24">
+                {{ item.sellPrice }}
+              </text>
             </view>
-            <text style="margin-left: 8px; font-size: 12px; color: #999999">已售2353件</text>
+            <text style="margin-left: 8px; font-size: 12px; color: #999999">
+              已售{{ item.salesVolume }}件
+            </text>
           </view>
         </div>
       </view>
@@ -195,7 +248,6 @@ onShow(() => {})
     lock-scroll
     position="right"
     custom-style="width:307px;padding:215px 15px 15px;box-sizing:border-box;"
-    @close="handleClose"
   >
     <view class="price">
       <div class="title">价格区间</div>
@@ -203,7 +255,7 @@ onShow(() => {})
         <wd-input
           type="number"
           size="large"
-          v-model="value"
+          v-model="model.sellPriceMin"
           placeholder="最低价"
           no-border
           custom-class="input-style"
@@ -213,7 +265,7 @@ onShow(() => {})
         <wd-input
           type="number"
           size="large"
-          v-model="value"
+          v-model="model.sellPriceMax"
           placeholder="最高价"
           no-border
           custom-class="input-style"
@@ -224,24 +276,48 @@ onShow(() => {})
     <view class="mt-30px">
       <view class="title">品牌</view>
       <view class="mt-20px grid grid-cols-3 gap-row-9px gap-col-7px">
-        <view class="w-86px border-rd-17px brand active">品牌名称</view>
+        <view
+          class="w-86px border-rd-17px brand"
+          :class="[model.brandId === it.id ? 'active' : '']"
+          v-for="it in filterList.brandList"
+          :key="it.id"
+          @click="changeType('brandId', it.id)"
+        >
+          {{ it.name }}
+        </view>
       </view>
     </view>
     <view class="mt-30px">
       <view class="title">分类</view>
       <view class="mt-20px grid grid-cols-3 gap-row-9px gap-col-7px">
-        <view class="w-86px border-rd-17px brand active">品牌名称</view>
+        <view
+          class="w-86px border-rd-17px brand"
+          :class="model.secondCategoryId === it.id ? 'active' : ''"
+          v-for="it in filterList.categoryList"
+          :key="it.id"
+          @click="changeType('secondCategoryId', it.id)"
+        >
+          {{ it.name }}
+        </view>
       </view>
     </view>
     <view class="mt-30px">
       <view class="title">店铺</view>
       <view class="mt-20px grid grid-cols-3 gap-row-9px gap-col-7px">
-        <view class="w-86px border-rd-17px brand active">品牌名称</view>
+        <view
+          class="w-86px border-rd-17px brand"
+          :class="model.shopId === it.id ? 'active' : ''"
+          v-for="it in filterList.shopList"
+          :key="it.id"
+          @click="changeType('shopId', it.id)"
+        >
+          {{ it.name }}
+        </view>
       </view>
     </view>
     <view class="mt-50px flex items-center justify-center">
-      <view class="reset">重置</view>
-      <view class="submit ml-24px">确认</view>
+      <view class="reset" @click="reset">重置</view>
+      <view class="submit ml-24px" @click="searchSubmit">确认</view>
     </view>
   </wd-popup>
 </template>
@@ -320,11 +396,6 @@ onShow(() => {})
   border-radius: 50px;
 }
 
-.list {
-  min-height: calc(100vh - 201px);
-  background: #f7f7f7;
-}
-
 .brand {
   overflow: hidden;
   line-height: 33px;
@@ -361,5 +432,8 @@ onShow(() => {})
 :deep(.wd-tabs__nav) {
   color: #fff;
   background: transparent !important;
+}
+:deep(.is-active::after) {
+  display: none;
 }
 </style>
