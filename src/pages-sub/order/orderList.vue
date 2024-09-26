@@ -217,4 +217,7 @@ onLoad((options) => {
 :deep(.wd-input) {
   background: #f6f6f6;
 }
+:deep(.z-paging-content) {
+  background: #f3f4f6;
+}
 </style>
