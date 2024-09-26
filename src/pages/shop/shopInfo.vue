@@ -20,12 +20,13 @@ import duihao from '@/static/images/shop/duihao.png'
 import shoucang1 from '@/static/images/shop/shoucang1.png'
 import { getGoodDetails, favoritesList, userFavorites, unUserFavorites } from '@/service/api/shop'
 import vkDataGoodsSkuPopup from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup.vue'
+import { Toast } from '@/utils/uniapi/prompt'
 
 const userStore = useUserStore()
 const current = ref<number>(0)
 const title = ref('商品详情')
 const isFavor = ref(false)
-let details = reactive({})
+const details = reactive<any>({})
 const favorList = ref([])
 // 是否打开SKU弹窗
 const skuKey = ref(false)
@@ -34,21 +35,20 @@ const skuMode = ref(1)
 // 后端返回的商品信息
 let goodsInfo = reactive<any>({})
 const formatGoodsInfo = (arr: Array<any>) => {
-  let specList = []
   const obj = JSON.parse(arr[0].skuName)
-  specList = Object.keys(obj)
+  const specList = Object.keys(obj)
   goodsInfo = {
     _id: details.spuId,
     name: details.spuName,
-    goods_thumb: JSON.parse(details.saleUrl)[0],
+    goods_thumb: JSON.parse(details.saleUrl)[0].data,
     sku_list: arr.map((item, index) => {
       return {
         _id: item.id, // SKU ID
         goods_id: details.spuId, // 商品ID
         goods_name: details.spuName, // 商品名称
         // SKU头像
-        image: JSON.parse(details.skuUrl)[index],
-        price: 999, // SKU 价格
+        image: details.skuUrl[index],
+        price: item.sellPrice, // SKU 价格
         sku_name_arr: Object.values(JSON.parse(item.skuName)), // 该SKU由哪些规格组成（规格是有顺序的，需要与specList的数组顺序对应）
         stock: item.stock,
       }
@@ -77,30 +77,34 @@ function onChange(e) {
 
 const getDetails = (spuId: number) => {
   getGoodDetails({
-    spuId: 14943,
+    spuId,
   }).then((res: any) => {
     res.rotationUrl = JSON.parse(res.rotationUrl).map((item) => item.data)
     res.remarkUrl = JSON.parse(res.remarkUrl).map((item) => item.data)
-    details = res
-    console.log('res', details)
+    res.skuUrl = JSON.parse(res.skuUrl).map((item) => item.data)
+    Object.assign(details, res)
+    console.log('res', res)
     formatGoodsInfo(res.skuList)
   })
 }
-const foverGoods = async (spuId: number) => {
+const foverGoods = async () => {
   if (!userStore.isLogined) {
     routeTo({ url: '/pages/login/index' })
   } else {
     if (isFavor.value) {
       const res = await unUserFavorites({
-        productSpuIds: [14943],
+        productSpuIds: details.spuId,
       })
-      console.log('收藏', res)
+      Toast('取消收藏成功')
+      console.log('取消收藏', res)
     } else {
       const res = await userFavorites({
-        productSpuId: 14943,
+        productSpuId: details.spuId,
       })
-      console.log('取消收藏', res)
+      console.log('收藏', res)
+      Toast('收藏成功')
     }
+    getFavoritesList()
   }
 }
 const getFavoritesList = async () => {
@@ -112,10 +116,17 @@ const getFavoritesList = async () => {
   isFavor.value = favorList.value.includes(details.spuId)
   console.log('收藏列表', res, favorList.value)
 }
-const openSkuPopup = () => {
-  goodsInfo = {}
+const buyNow = (val: any) => {
+  console.log('提交订单', val)
+  const obj = {
+    shopId: details.shopId,
+    orderResource: '',
+  }
+  // routeTo({
+  //   url: '/pages/shop/order',
+  //   data: {},
+  // })
 }
-const onCloseSkuPopup = () => {}
 const addCart = () => {}
 onShow(() => {
   if (userStore.isLogined) {
@@ -134,6 +145,7 @@ onLoad(async (options) => {
     <dy-navbar :leftTitle="title" left style="background: transparent"></dy-navbar>
     <wd-swiper
       :list="details.rotationUrl"
+      value-key="data"
       autoplay
       v-model:current="current"
       @click="handleClick"
@@ -172,8 +184,8 @@ onLoad(async (options) => {
 
       <view class="mt-10px flex items-center color-#999999">
         <view class="mr-20px" @click="foverGoods">
-          <wd-img :width="16" :height="16" :src="shoucang"></wd-img>
-          <!-- <wd-img :width="16" :height="16" :src="shoucang1"></wd-img> -->
+          <wd-img v-if="!isFavor" :width="16" :height="16" :src="shoucang"></wd-img>
+          <wd-img v-else :width="16" :height="16" :src="shoucang1"></wd-img>
           <text class="ml-5px">收藏</text>
         </view>
         <view>
@@ -249,7 +261,10 @@ onLoad(async (options) => {
       class="w-full p-15px bg-white box-border flex items-center justify-between pos-fixed pos-bottom-none"
     >
       <view class="flex w-1/3 justify-between">
-        <view class="flex flex-col item-center justify-center">
+        <view
+          class="flex flex-col item-center justify-center"
+          @click="routeTo({ url: '/pages-sub/store/index', data: { id: details.shopId } })"
+        >
           <wd-img :width="30" height="30" :src="shangdian"></wd-img>
           <wd-text text="进店" color="#666666" size="12px"></wd-text>
         </view>
@@ -277,14 +292,13 @@ onLoad(async (options) => {
     </view>
 
     <vk-data-goods-sku-popup
+      :amount-type="0"
       ref="skuPopup"
       v-model="skuKey"
       border-radius="20"
       :z-index="990"
       :localdata="goodsInfo"
       :mode="skuMode"
-      @open="onOpenSkuPopup"
-      @close="onCloseSkuPopup"
       @add-cart="addCart"
       @buy-now="buyNow"
     ></vk-data-goods-sku-popup>

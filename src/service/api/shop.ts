@@ -8,14 +8,31 @@ const WX_PAY = baseUrlApi('/trade/wxPay/wxPay')
 const GET_SHOP_DETAIL = baseUrlApi('/product/app/shop/getShopDetail')
 const GET_GOOD_LIST = baseUrlApi('/product/app/productSpu/listPage')
 const GET_GOOD_DETAILS = baseUrlApi('/product/app/productSpu/getProductSpuByIdSkuList')
-const USER_FAVORITES = baseUrlApi('/product/manage/favorites/userFavorites')
-const UNUSER_FAVORITES = baseUrlApi('/product/manage/favorites/unUserFavorites')
+const USER_FAVORITES = baseUrlApi('/product/app/item/userFavorites')
+const UNUSER_FAVORITES = baseUrlApi('/product/app/item/unUserFavorites')
 const FAVORITES_LIST = baseUrlApi('/product/app/item/favoritesPage')
 const GOODS_SEARCH = baseUrlApi('/product/app/item/xcxListPage')
 const SHOP_CAR_LIST = baseUrlApi('/product/manager/shop/cart/getCareList')
 const ADD_CART = baseUrlApi('/product/manager/shop/cart/addCart')
 const DEL_CART = baseUrlApi('/product/manager/shop/cart/deleteByIdBatch')
 const FILTER_CONDITION = baseUrlApi('/product/app/item/getFilterCondition')
+const ADD_USER_SHOP = baseUrlApi('/product/app/userShop/addUserShop')
+/**
+ *   关注店铺
+ * @param params 初始参数()
+ * */
+export function addUserShop(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    ADD_USER_SHOP, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *   商品搜索筛选条件

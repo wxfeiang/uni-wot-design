@@ -15,12 +15,12 @@
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
 import { favoritesList, unUserFavorites } from '@/service/api/shop'
+import { Toast } from '@/utils/uniapi/prompt'
 
 const isManage = ref(false)
 const topbgBase64 = ref('')
-const { navTop } = useNav()
-const { VITE_APP_LOGOTITLE } = import.meta.env
-
+const arrList = ref([])
+const allCheck = ref(false)
 const paging = ref(null)
 const goodList = ref([])
 const getLsit = async (pageNo: number, pageSize: number) => {
@@ -31,13 +31,38 @@ const getLsit = async (pageNo: number, pageSize: number) => {
     })
     res.content.forEach((el) => {
       el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+      el.isCheck = false
     })
-    console.log('收藏列表', res.content)
 
     paging.value.complete(res.content)
   } catch {
     paging.value.complete(false)
   }
+}
+const handleChangeAll = ({ value }) => {
+  if (value) {
+    arrList.value = goodList.value.map((it) => it.spuId)
+  } else {
+    arrList.value.length = 0
+  }
+}
+const handleChange = ({ value }, id) => {
+  if (value) {
+    arrList.value.push(id)
+  } else {
+    const idx = arrList.value.indexOf(id)
+    arrList.value.splice(idx, 1)
+  }
+  if (arrList.value.length === goodList.value.length) {
+    allCheck.value = true
+  }
+  console.log('arrList.value', arrList.value)
+}
+const delFoverGoods = () => {
+  unUserFavorites({ productSpuIds: arrList.value }).then((res) => {
+    Toast('取消收藏成功')
+    paging.value.reload()
+  })
 }
 const toString = (val: string) => {
   return JSON.parse(val)
@@ -66,9 +91,18 @@ onLoad(async () => {
     >
       <view class="w-full flex">
         <view class="flex items-center">
-          <wd-checkbox v-if="isManage" v-model="value" @change="handleChange"></wd-checkbox>
+          <wd-checkbox
+            v-if="isManage"
+            v-model="item.isCheck"
+            @change="handleChange($event, item.spuId)"
+          ></wd-checkbox>
         </view>
-        <wd-img :width="105" :height="105" :src="toString(item.saleUrl)[0]" custom-class="img" />
+        <wd-img
+          :width="105"
+          :height="105"
+          :src="toString(item.saleUrl)[0].data"
+          custom-class="img"
+        />
         <view class="ml-15px flex-1 flex flex-col justify-between">
           <view class="w-190px">
             <view class="name mb-10px">{{ item.spuName }}</view>
@@ -101,10 +135,10 @@ onLoad(async () => {
     v-if="isManage"
     class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center"
   >
-    <wd-checkbox v-model="value" @change="handleChange">全选</wd-checkbox>
+    <wd-checkbox v-model="allCheck" @change="handleChangeAll">全选</wd-checkbox>
     <view class="flex items-center">
-      <view class="flex items-center">共计2件</view>
-      <view class="submit">删除</view>
+      <view class="flex items-center">共计{{ arrList.length }}件</view>
+      <view class="submit" @click="delFoverGoods">删除</view>
     </view>
   </view>
 </template>
