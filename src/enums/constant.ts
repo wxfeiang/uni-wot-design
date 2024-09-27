@@ -15,6 +15,9 @@ export enum Constant {
   // 二维码一卡通标志
   QR_CODE_FLAG = 'xaCard',
 
-  // 二维码一卡通交易类型
-  QR_CODE_TYPE = 'xaCard2',
+  // 二维码一卡通支付类型
+  QR_CODE_PAY = 'pay',
+
+  // 二维码一卡通核销类型
+  QR_CODE_OFF = 'writeOff',
 }

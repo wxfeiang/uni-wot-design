@@ -11,6 +11,7 @@
 // import { useRequest } from 'alova/client'
 // TODO: 背景图片
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
+import { Constant } from '@/enums/constant'
 import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
 import { removeT } from '../../../utils/index'
@@ -37,8 +38,8 @@ onLoad(async (options) => {
     await sendCouponInfo({ couponCode: options.couponCode })
     const qrcodeData = {
       couponCode: options.couponCode,
-      qrCodeType: 'xaCard',
-      atticon: 'writeOff',
+      qrCodeType: Constant.QR_CODE_FLAG,
+      actionType: Constant.QR_CODE_PAY,
     }
     cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
   } catch (error) {

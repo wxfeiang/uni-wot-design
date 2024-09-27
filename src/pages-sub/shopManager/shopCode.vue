@@ -17,6 +17,7 @@ import lPainter from '@/components/lime-painter/components/l-painter/l-painter.v
 import { routeTo } from '@/utils'
 import qs from 'qs'
 
+import { Constant } from '@/enums/constant'
 import { downSaveImage } from '@/utils/uniapi'
 import { useMessage } from 'wot-design-uni'
 import { shopDetilProps } from './utils/types'
@@ -149,8 +150,8 @@ onLoad(async (options) => {
     await sendShopDetail()
     const qrcodeData = {
       merchantId: shopMessage.value.merchantId,
-      qrCodeType: 'xaCard',
-      action: 'pay',
+      qrCodeType: Constant.QR_CODE_FLAG,
+      actionType: Constant.QR_CODE_OFF,
     }
     cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
   } catch (error) {

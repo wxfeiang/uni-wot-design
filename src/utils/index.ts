@@ -287,7 +287,7 @@ export function sceneResult(resData: any) {
     if (isArray(url) && url[1]) {
       url[1] = url[1].split(',')
       status = url[1].indexOf('xaCard') > -1
-      path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}&actionType=${url[1][1]}`
+      path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}&actionType=${url[1][2]}`
     }
   } else if (resData.scanType === 'QR_CODE' || resData.type === 'qrcode') {
     url = decodeURIComponent(resData.result).split('?')
