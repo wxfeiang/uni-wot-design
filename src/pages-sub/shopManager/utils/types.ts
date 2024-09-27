@@ -26,12 +26,18 @@ interface shopDetilProps {
 }
 
 interface respVoList {
-  orderPaymentCount: number
-  orderPaymentAmount: number
+  targetOrderId: string
+  orderId: string
+  orderActualAmount: number
+  couponAmount: number
+  payMentTime: string
+  orderTotalFee: number
+  userName: string
 }
-interface shopPayList {
+interface shopPayListProps {
+  orderPaymentSum: number
   orderPaymentCount: number
   respVoList: respVoList[]
 }
 
-export type { serveListProps, shopDetilProps, shopPayList }
+export type { respVoList, serveListProps, shopDetilProps, shopPayListProps }

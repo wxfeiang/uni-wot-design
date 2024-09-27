@@ -256,6 +256,18 @@ export function removeT(date: string) {
   if (!date) return ''
   return date.replace('T', ' ')
 }
+/**
+ * @description:  批量处理入参数Json 对象 转码 地址栏
+ * @param {} data 传入的key
+ * @return {}  data
+ */
+export function changeUrlJson(data: object) {
+  if (!data) return {}
+  for (const key in data) {
+    data[key] = decodeURIComponent(data[key])
+  }
+  return data
+}
 
 /**
  * @description:  处理小程序码扫码结果

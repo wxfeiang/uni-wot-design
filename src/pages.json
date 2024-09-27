@@ -271,23 +271,6 @@
       ]
     },
     {
-      "root": "/pages-sub/store",
-      "pages": [
-        {
-          "path": "index",
-          "type": "page",
-          "layout": "default",
-          "needLogin": true,
-          "style": {
-            "navigationBarTitleText": "",
-            "backgroundColor": "#fff",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTextStyle": "black"
-          }
-        }
-      ]
-    },
-    {
       "root": "pages-sub/serveMassage",
       "pages": [
         {

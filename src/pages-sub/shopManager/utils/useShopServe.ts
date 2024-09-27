@@ -1,4 +1,4 @@
-import { serveListProps, shopDetilProps } from './types'
+import { serveListProps, shopDetilProps, shopPayListProps } from './types'
 
 import { getAppTargetOrderIdByShop, getShopDetail } from '@/service/api/shop'
 import { useRequest } from 'alova/client'
@@ -116,7 +116,7 @@ const { send: sendShopDetail, data: shopMessage } = useRequest(
 
 //  查询商户收款记录
 const { send: sendOrderIdByShop, data: shopPayList } = useRequest(
-  (data) => getAppTargetOrderIdByShop(data),
+  (data) => getAppTargetOrderIdByShop<shopPayListProps>(data),
   {
     immediate: false,
     loading: false,
