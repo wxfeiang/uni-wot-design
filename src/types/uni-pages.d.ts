@@ -56,6 +56,7 @@ interface NavigateToOptions {
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/list" |
        "/pages-sub/shopManager/index" |
        "/pages-sub/shopManager/shopCode" |
+       "/pages-sub/shopManager/shopHome" |
        "/pages-sub/shopManager/shopPayList" |
        "/pages-sub/shopManager/shopPayMingxi" |
        "/pages-sub/order/logistics" |
