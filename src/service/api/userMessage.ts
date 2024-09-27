@@ -20,7 +20,7 @@ const RECEIVE_COUPON = baseUrlApi('/promotion/app/coupon/userReceive')
 
 const GET_USER_GOODS_ADDRESS_LIST = baseUrlApi('/member/app/goodsAddress/getUserGoodsAddressList')
 
-const ADD_BUSINESS_ADVICE = baseUrlApi('/system/api/business/advice/addBusinessAdvice')
+const ADD_BUSINESS_ADVICE = baseUrlApi('/promotion/app/xcxUserAdvice/saveOrUpdate')
 /**
  *  查询雄才卡信息
  * @param params

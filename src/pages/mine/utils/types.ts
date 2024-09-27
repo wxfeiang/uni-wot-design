@@ -14,5 +14,12 @@ interface serveListProps {
   icon: string
   path: string
 }
+interface msCountProps {
+  totalOrderNumDay?: string // 今日订单数
+  totalMoneyDay?: string // 今日收款金额
+  couponReceiveDay?: string // 今日优惠券领取数
+  couponOffDay?: string // 今日优惠券核销数
+  notMoneyDay?: string // 今日待收款金额
+}
 
-export type { serveListProps, serveProps }
+export type { msCountProps, serveListProps, serveProps }

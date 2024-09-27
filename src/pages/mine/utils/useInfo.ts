@@ -1,7 +1,7 @@
 import { logout } from '@/service/api/auth'
 import { useUserStore } from '@/store/user'
 import { useRequest } from 'alova/client'
-import type { serveListProps, serveProps } from '../utils/types'
+import type { msCountProps, serveListProps, serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import { findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
@@ -20,6 +20,7 @@ import yhzx from '@/static/images/mine/yhzx.png'
 
 import { routeTo } from '@/utils'
 
+import { getMerchantServicesCount } from '@/service/api/shop'
 import daifahuo from '@/static/images/mine//daifahuo.png'
 import dafukuan from '@/static/images/mine//daifukuan.png'
 import daishouhuo from '@/static/images/mine//daishouhuo.png'
@@ -207,6 +208,17 @@ const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true
   immediate: false,
   loading: false,
 })
+const { send: sendMerchantServicesCount, data: msCount } = useRequest(
+  (data) => getMerchantServicesCount<msCountProps>(data),
+  {
+    immediate: false,
+    loading: false,
+    initialData: {
+      totalMoneyDay: 0,
+      totalOrderNumDay: 0,
+    },
+  },
+)
 
 export default () => {
   return {
@@ -220,5 +232,7 @@ export default () => {
     sendInterInfo,
     serveOrderList,
     toContent,
+    sendMerchantServicesCount,
+    msCount,
   }
 }

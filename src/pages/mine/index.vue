@@ -33,6 +33,8 @@ const {
   sendUserCouponList,
   sendInterInfo,
   serveOrderList,
+  sendMerchantServicesCount,
+  msCount,
 } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
@@ -67,6 +69,8 @@ onShow(async () => {
       topList.value[0].value = data2.totalIntegral ?? 0
       const data: any = await sendUserCouponList(params)
       topList.value[1].value = data.unUsedCouponNum
+      const datas = await sendMerchantServicesCount()
+      console.log('🍪[datas]:', datas)
     } catch {
       topList.value[0].value = 0
       topList.value[1].value = 0
@@ -191,11 +195,11 @@ onShow(async () => {
         <view class="flex justify-around items-center gap-10px before-shu">
           <view class="text-center">
             <view class="text-14px color-#999 py-10px">今日收款 (元)</view>
-            <view>0.00</view>
+            <view>{{ msCount.totalMoneyDay }}</view>
           </view>
           <view class="text-center">
             <view class="text-14px color-#999 py-10px">今日订单</view>
-            <view>0.00</view>
+            <view>{{ msCount.totalOrderNumDay }}</view>
           </view>
         </view>
       </view>

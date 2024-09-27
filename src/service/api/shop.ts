@@ -90,8 +90,6 @@ export function addUserShop(data) {
   )
 }
 
-const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
-
 /**
  *   取消关注店铺
  * @param params 初始参数()
@@ -406,5 +404,15 @@ export function getAppTargetOrderIdByShop<T>(data) {
     {
       meta,
     },
+  )
+}
+/**
+ *   我的页面  --- 商户收款统计
+ * @param params 初始参数()
+ * */
+export function getMerchantServicesCount<T>(data) {
+  return request.Post<T>(
+    GET_MERCHANT_SERVICES_COUNT, // 请求地址
+    data,
   )
 }

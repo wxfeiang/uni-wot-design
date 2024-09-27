@@ -12,7 +12,10 @@ import useCenter from './utils/useCenter'
 const title = ref('投诉建议')
 const form = ref(null)
 
-const { model, rules, submit } = useCenter()
+const { model, rules, submit, adviceType } = useCenter()
+const handleConfirm = (e) => {
+  model.value.adviceType = e.value
+}
 </script>
 
 <template>
@@ -22,17 +25,26 @@ const { model, rules, submit } = useCenter()
       <view class="rounded-8px overflow-hidden">
         <wd-form ref="form" :model="model">
           <wd-cell-group border>
+            <view class="pt-10px px-10px color-#333 text-14px">我要反馈</view>
             <wd-textarea
-              v-model="model.adviceContent"
+              v-model="model.feedbackCon"
               placeholder="请输入您要建议/反馈的内容（必填，100字以内）"
-              prop="adviceContent"
-              :rules="rules.adviceContent"
+              prop="feedbackCon"
+              :rules="rules.feedbackCon"
               :maxlength="100"
               clearable
               show-word-limit
             />
+
+            <wd-picker
+              :columns="adviceType"
+              label="反馈类型"
+              v-model="model.adviceType"
+              @confirm="handleConfirm"
+            />
+
             <wd-cell title="反馈截图" title-width="100px">
-              <dy-upload v-model="model.adviceImgs"></dy-upload>
+              <dy-upload v-model="model.feedbackImg"></dy-upload>
             </wd-cell>
 
             <wd-input
@@ -40,7 +52,7 @@ const { model, rules, submit } = useCenter()
               :maxlength="11"
               prop="phone"
               clearable
-              v-model="model.adviceContact"
+              v-model="model.createPhone"
               placeholder="请输入联系电话(选填)"
             />
           </wd-cell-group>
