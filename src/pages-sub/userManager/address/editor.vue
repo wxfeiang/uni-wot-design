@@ -12,10 +12,12 @@
 <script lang="ts" setup>
 import { useColPickerData } from '@/hooks/useColPickerData'
 import useAddress from './utils/useAddress'
-const { model, rules } = useAddress()
+import { addressListAddOrEdit } from '@/service/api/address'
+const { model, rules, routeTo, Toast } = useAddress()
 const { colPickerData, findChildrenByCode } = useColPickerData()
 
 const title = ref('收货地址')
+const isAdd = ref(true)
 const area = ref<any[]>([
   colPickerData.map((item) => {
     return {
@@ -24,14 +26,39 @@ const area = ref<any[]>([
     }
   }),
 ])
-
 const form = ref()
+
+const addAddress = () => {
+  const { userName, userPhone, area, userAddress, isDefault, id } = model
+  const data: any = {
+    userName,
+    userPhone,
+    province: area[0],
+    city: area[1],
+    area: area[2],
+    userAddress,
+    isDefault,
+  }
+  let msg = ''
+  if (isAdd.value) {
+    msg = '新增成功'
+  } else {
+    data.id = id
+    msg = '编辑成功'
+  }
+  addressListAddOrEdit(data).then((res) => {
+    console.log('新增/修改地址', res)
+    Toast(msg)
+    routeTo({ url: '/pages-sub/userManager/address/list' })
+  })
+}
 const handleSubmit = () => {
   form.value
     .validate()
     .then(({ valid, errors }) => {
       if (valid) {
-        console.log('🥔')
+        console.log('🥔', model)
+        addAddress()
       }
     })
     .catch((error) => {
@@ -57,11 +84,22 @@ const columnChange = ({ selectedItem, resolve, finish }) => {
 function handleConfirm({ value, selectedItems }) {
   console.log(value, selectedItems)
 }
-function addAddress() {}
 
-onLoad(async () => {
+onLoad(async (options) => {
   // 设置背景图片
-  console.log('area', area.value)
+  console.log('options', options)
+  if (options.type === 'edit') {
+    isAdd.value = false
+    // let obj = JSON.parse(options.item)
+    // Object.keys(model).forEach(key => {
+    //   model[key] = obj[key]
+    // })
+    Object.assign(model, JSON.parse(options.item))
+    model.area = [model.province, model.city, model.area]
+    console.log('model', model)
+  } else {
+    Object.assign({}, model)
+  }
 })
 </script>
 <template>
@@ -72,21 +110,20 @@ onLoad(async () => {
         <wd-cell-group border>
           <wd-input
             label="收货人"
-            prop="name"
+            prop="userName"
             clearable
-            v-model="model.name"
+            v-model="model.userName"
             placeholder="请输入收货人姓名"
-            :rules="rules.name"
+            :rules="rules.userName"
           />
           <wd-input
             label="联系电话"
             :maxlength="11"
-            label-width="100px"
-            prop="phone"
+            prop="userPhone"
             clearable
-            v-model="model.phone"
+            v-model="model.userPhone"
             placeholder="请输入联系电话"
-            :rules="rules.phone"
+            :rules="rules.userPhone"
           />
           <wd-col-picker
             label="选择地址"
@@ -94,20 +131,26 @@ onLoad(async () => {
             :columns="area"
             :column-change="columnChange"
             prop="area"
+            value-key="label"
             @confirm="handleConfirm"
             :rules="rules.area"
           ></wd-col-picker>
           <wd-textarea
-            v-model="model.detail"
+            v-model="model.userAddress"
             placeholder="请填写详细地址（街道，楼牌号等）"
-            prop="detail"
-            :rules="rules.detail"
+            prop="userAddress"
+            :rules="rules.userAddress"
           />
         </wd-cell-group>
         <wd-cell-group>
           <wd-cell title="设为默认地址" center>
             <view class="mt-10px">
-              <wd-switch v-model="model.isDefault" size="16" change="handleSwitchChange" />
+              <wd-switch
+                v-model="model.isDefault"
+                size="16"
+                :active-value="1"
+                :inactive-value="0"
+              />
             </view>
           </wd-cell>
         </wd-cell-group>
@@ -115,7 +158,7 @@ onLoad(async () => {
     </view>
 
     <view class="px-10 py-20px fixed bottom-20px left-0 right-0">
-      <wd-button block custom-class="custom-class-mine-error" @click="addAddress">
+      <wd-button block custom-class="custom-class-mine-error" @click="handleSubmit">
         保存地址
       </wd-button>
     </view>

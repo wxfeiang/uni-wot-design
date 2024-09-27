@@ -8,27 +8,16 @@
 }
 </route>
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
 import useAddress from './utils/useAddress'
-const { sendList } = useAddress()
+import { addressList, addressListDel } from '@/service/api/address'
+import { useMessage } from 'wot-design-uni'
+const { routeTo, Toast } = useAddress()
+const message = useMessage()
 
 const title = ref('收货地址')
 
 const paging = ref(null)
-const dataList = ref([
-  {
-    name: '张三',
-    phone: '18794578345',
-    address: '雁园街道雁兴路3100号附近基业豪庭',
-    isDefault: true,
-  },
-  {
-    name: '张三',
-    phone: '18794578345',
-    address: '雁园街道雁兴路3100号附近基业豪庭',
-    isDefault: false,
-  },
-])
+const dataList = ref([])
 const queryList = async (pageNo, pageSize) => {
   const params = {
     page: pageNo,
@@ -36,18 +25,40 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    const data: any = await sendList(params)
+    const data: any = await addressList(params)
     console.log('🍛[data]:', data)
     // dataList.value = data.content
-    paging.value.complete(dataList.value)
+    paging.value.complete(data)
   } catch (error) {
     paging.value.complete(false)
   }
 }
+
+const delAdderss = (id: string) => {
+  message
+    .confirm({
+      msg: '是否删除这条收货地址？',
+      title: '提示',
+    })
+    .then(async () => {
+      try {
+        await addressListDel({ id })
+        Toast('删除成功')
+        paging.value.reload()
+      } catch (error) {
+        console.log('error', error)
+      }
+    })
+    .catch(() => {
+      console.log('点击了取消按钮')
+    })
+}
 function addAddress() {
   routeTo({
     url: '/pages-sub/userManager/address/editor',
-    data: '',
+    data: {
+      type: 'add',
+    },
   })
 }
 // 返回携带的参数
@@ -62,7 +73,7 @@ function actioAddress(item, type) {
   routeTo({
     url: '/pages-sub/userManager/address/editor',
     data: {
-      item,
+      item: JSON.stringify(item),
       type,
     },
   })
@@ -75,12 +86,13 @@ function actioAddress(item, type) {
     @query="queryList"
     class="bg-#f5f5f5"
     :refresher-enabled="false"
+    :paging-style="{ 'background-color': '#F7F7F7', 'box-sizing': 'border-box', padding: '20px' }"
     :loading-more-enabled="false"
   >
     <template #top>
       <dy-navbar :leftTitle="title" left></dy-navbar>
     </template>
-    <view class="px-10px mt-10px">
+    <view class="mt-10px">
       <view
         class="mb-10px rounded-8px overflow-hidden"
         v-for="(item, index) in dataList"
@@ -93,26 +105,28 @@ function actioAddress(item, type) {
                 <wd-tag type="danger">默认</wd-tag>
               </view>
               <text>
-                {{ item.name }}
+                {{ item.userName }}
               </text>
               <text class="#999">
-                {{ item.phone }}
+                {{ item.userPhone }}
               </text>
             </view>
           </template>
           <template #label>
-            <view class="color-#999 truncate-2">地址: {{ item.address }}</view>
+            <view class="color-#999 truncate-2">
+              地址:{{ item.province }} {{ item.city }} {{ item.area }} {{ item.userAddress }}
+            </view>
           </template>
           <view class="flex justify-between items-center gap-10px">
             <view
               class="rounded-full size-30px bg-#f5f5f5 text-center flex justify-center items-center"
-              @click.stop="actioAddress(item, '1')"
+              @click.stop="actioAddress(item, 'edit')"
             >
               <wd-icon name="edit-1" size="14px"></wd-icon>
             </view>
             <view
               class="rounded-full size-30px bg-#f5f5f5 text-center flex justify-center items-center"
-              @click.stop="actioAddress(item, '2')"
+              @click.stop="delAdderss(item.id)"
             >
               <wd-icon name="delete" size="14px"></wd-icon>
             </view>
