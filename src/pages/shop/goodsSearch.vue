@@ -17,6 +17,7 @@ import matrix from '@/static/images/shop/matrix.png'
 import screen from '@/static/images/shop/screen.png'
 import { pathToBase64 } from 'image-tools'
 import { goodsSearch, getFilterCondition } from '@/service/api/shop'
+import { routeTo } from '@/utils'
 
 const topbgBase64 = ref('')
 const searchIcon = ref('')
@@ -198,6 +199,7 @@ function handleChange(val, type) {
         class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
         v-for="item in goodList"
         :key="item.spuId"
+        @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
       >
         <wd-img :width="175" :height="160" :src="getUrl(item.saleUrl)" />
         <view class="w-155px name my-10px m-auto">
@@ -220,6 +222,7 @@ function handleChange(val, type) {
         class="flex w-full p-10px box-border mb-10px bg-white border-rd-6px"
         v-for="item in goodList"
         :key="item.spuId"
+        @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
       >
         <wd-img :width="86" :height="86" :src="getUrl(item.saleUrl)" />
         <div class="flex-1 ml-15px flex flex-col justify-between">
