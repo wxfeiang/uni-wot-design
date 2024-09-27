@@ -20,6 +20,7 @@ import yhzx from '@/static/images/mine/yhzx.png'
 
 import { routeTo } from '@/utils'
 
+import { getMerchantServicesCount } from '@/service/api/shop'
 import daifahuo from '@/static/images/mine//daifahuo.png'
 import dafukuan from '@/static/images/mine//daifukuan.png'
 import daishouhuo from '@/static/images/mine//daishouhuo.png'
@@ -207,6 +208,13 @@ const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true
   immediate: false,
   loading: false,
 })
+const { send: sendMerchantServicesCount, data: msCount } = useRequest(
+  (data) => getMerchantServicesCount(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
 
 export default () => {
   return {
@@ -220,5 +228,7 @@ export default () => {
     sendInterInfo,
     serveOrderList,
     toContent,
+    sendMerchantServicesCount,
+    msCount,
   }
 }

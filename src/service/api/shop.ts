@@ -19,6 +19,8 @@ const FILTER_CONDITION = baseUrlApi('/product/app/item/getFilterCondition')
 const ADD_USER_SHOP = baseUrlApi('/product/app/userShop/addUserShop')
 const DEL_USER_SHOP = baseUrlApi('/product/app/userShop/deleteUserShop')
 const GET_USER_SHOPLIST = baseUrlApi('/product/app/userShop/getUserShopList')
+const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
+const GET_MERCHANT_SERVICES_COUNT = baseUrlApi('/order/manage//getMerchantServicesCount')
 
 /**
  *   关注店铺列表
@@ -53,8 +55,6 @@ export function addUserShop(data) {
     },
   )
 }
-
-const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
 
 /**
  *   取消关注店铺
@@ -366,6 +366,22 @@ export function getAppTargetOrderIdByShop<T>(data) {
   }
   return request.Post<T>(
     GET_APP_TARGET_ORDER_ID_BY_SHOP, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+/**
+ *   我的页面  --- 商户收款统计
+ * @param params 初始参数()
+ * */
+export function getMerchantServicesCount<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post<T>(
+    GET_MERCHANT_SERVICES_COUNT, // 请求地址
     data,
     {
       meta,
