@@ -21,20 +21,31 @@ function messageClick(item) {
     data: { type: item.articleId },
   })
 }
+const adviceType = ref([
+  {
+    label: '投诉',
+    value: 0,
+  },
+  {
+    label: '建议',
+    value: 1,
+  },
+])
 
 // 投诉建议
 const model = ref({
-  adviceImgs: '',
-  adviceContact: '',
-  adviceContent: '',
+  feedbackCon: '',
+  feedbackImg: '',
+  createPhone: '',
+  adviceType: 1,
 })
 const rules = {
-  adviceImgs: [{ required: true, message: '请上传图片', trigger: 'blur' }],
-  adviceContact: [
+  feedbackImg: [{ required: true, message: '请上传图片', trigger: 'blur' }],
+  createPhone: [
     { required: true, message: '请输入联系方式', trigger: 'blur' },
     { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
   ],
-  adviceContent: [{ required: true, message: '请输入投诉建议内容', trigger: 'blur' }],
+  feedbackCon: [{ required: true, message: '请输入投诉建议内容', trigger: 'blur' }],
 }
 
 const { send: sendBusinessAdvice } = useRequest((data) => addBusinessAdvice(data), {
@@ -48,6 +59,8 @@ const submit = (form) => {
     if (valid) {
       try {
         const data: any = await sendBusinessAdvice(model.value)
+        console.log('🍋[data]:', data)
+        uni.navigateBack()
       } catch (error) {
         console.log('🍲[error]:', error)
       }
@@ -56,5 +69,5 @@ const submit = (form) => {
 }
 
 export default () => {
-  return { sendMessageList, messageData, messageClick, model, rules, submit }
+  return { sendMessageList, messageData, messageClick, model, rules, submit, adviceType }
 }
