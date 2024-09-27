@@ -12,13 +12,49 @@ const USER_FAVORITES = baseUrlApi('/product/app/item/userFavorites')
 const UNUSER_FAVORITES = baseUrlApi('/product/app/item/unUserFavorites')
 const FAVORITES_LIST = baseUrlApi('/product/app/item/favoritesPage')
 const GOODS_SEARCH = baseUrlApi('/product/app/item/xcxListPage')
-const SHOP_CAR_LIST = baseUrlApi('/product/manager/shop/cart/getCareList')
-const ADD_CART = baseUrlApi('/product/manager/shop/cart/addCart')
-const DEL_CART = baseUrlApi('/product/manager/shop/cart/deleteByIdBatch')
+const SHOP_CAR_LIST = baseUrlApi('/product/app/item/getCareList')
+const ADD_CART = baseUrlApi('/product/app/item/addCart')
+const DEL_CART = baseUrlApi('/product/app/item/deleteByIdBatch')
 const FILTER_CONDITION = baseUrlApi('/product/app/item/getFilterCondition')
 const ADD_USER_SHOP = baseUrlApi('/product/app/userShop/addUserShop')
 const DEL_USER_SHOP = baseUrlApi('/product/app/userShop/deleteUserShop')
 const GET_USER_SHOPLIST = baseUrlApi('/product/app/userShop/getUserShopList')
+const GET_SHOP_INFO = baseUrlApi('/product/app/shop/getShopSimpleInfoById')
+const GET_SHOP_GOODS = baseUrlApi('/product/app/productSpu/getShopProductByShopId')
+
+/**
+ *   店铺详情
+ * @param params 初始参数()
+ * */
+export function getShopInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_SHOP_INFO, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   店铺商品列表
+ * @param params 初始参数()
+ * */
+export function getShopGoods(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_SHOP_GOODS, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *   关注店铺列表

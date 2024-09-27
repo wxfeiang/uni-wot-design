@@ -14,13 +14,115 @@
 <script lang="ts" setup>
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
+import { useUserStore } from '@/store'
+import { shopCarList, delCart } from '@/service/api/shop'
+import { Toast } from '@/utils/uniapi/prompt'
 
-import { shopCarList } from '@/service/api/shop'
-
+const paging = ref(null)
+const allValue = ref(false)
+const goodList = ref([])
+const total = ref()
+const changeArr = ref([])
+const userStore = useUserStore()
 const isManage = ref(false)
 const topbgBase64 = ref('')
-const { navTop } = useNav()
-const { VITE_APP_LOGOTITLE } = import.meta.env
+
+const handleShop = ({ value }, id) => {
+  if (id === 'all') {
+    goodList.value.forEach((el) => {
+      el.isCheck = value
+      el.shopCartProductResp.forEach((key) => {
+        key.isCheck = value
+        if (value) {
+          changeArr.value.push(key.shopCartId)
+        } else {
+          changeArr.value.length = 0
+        }
+      })
+    })
+    allValue.value = value
+  } else {
+    goodList.value.forEach((el) => {
+      if (el.shopId === id) {
+        el.isCheck = value
+        el.shopCartProductResp.forEach((key) => {
+          key.isCheck = value
+          if (value) {
+            changeArr.value.push(key.shopCartId)
+          } else {
+            changeArr.value = changeArr.value.filter((item) => item !== key.shopCartId)
+          }
+        })
+      }
+    })
+  }
+
+  console.log('???', value, id)
+}
+
+const deleteCart = async () => {
+  if (changeArr.value.length === 0) {
+    Toast('请选择要删除的商品')
+    return
+  }
+  try {
+    const res = await delCart({
+      shopCartIds: changeArr.value,
+    })
+    console.log('删除', res)
+    Toast('删除成功')
+    paging.value.reload()
+  } catch {
+    console.log('???')
+  }
+}
+const handleGood = ({ value }, id) => {
+  goodList.value.forEach((el) => {
+    el.shopCartProductResp.forEach((key) => {
+      if (key.shopCartId === id) {
+        key.isCheck = value
+        if (value) {
+          changeArr.value.push(id)
+        } else {
+          changeArr.value = changeArr.value.filter((item) => item !== id)
+        }
+      }
+    })
+    const status = el.shopCartProductResp.every((it) => it.isCheck)
+    if (status) {
+      el.isCheck = true
+    }
+  })
+  console.log('???', value, id, changeArr.value)
+}
+const getLsit = async () => {
+  try {
+    const res: any = await shopCarList({
+      customerId: userStore.userInfo.userDId,
+      current: 1,
+      size: 10,
+    })
+    res.forEach((el) => {
+      el.isCheck = false
+      el.shopCartProductResp.forEach((key) => {
+        key.isCheck = false
+        key.skuName = Object.values(JSON.parse(key.skuName)).join(',')
+        key.skuUrl = JSON.parse(key.skuUrl)[0].data
+      })
+    })
+    console.log('购物车列表i', res)
+    total.value = res.reduce((a, b) => {
+      const num = b.shopCartProductResp.reduce((c, d) => {
+        return c + d.itemNum
+      }, 0)
+      return a + num
+    }, 0)
+    paging.value.complete(res)
+  } catch {
+    console.log('????')
+    paging.value.complete(false)
+  }
+}
 onLoad(async () => {
   topbgBase64.value = await pathToBase64(indexbg)
   // 设置背景图片
@@ -28,29 +130,50 @@ onLoad(async () => {
 </script>
 <template>
   <view class="w-full font-600 flex items-center justify-between px-20px box-border">
-    <view class="line-height-50px">购物车数量</view>
+    <view class="line-height-50px">购物车数量({{ total }})</view>
     <view>
-      <text style="margin-right: 10px; color: #f44d24" v-if="isManage">删除</text>
+      <text style="margin-right: 10px; color: #f44d24" v-if="isManage" @click="deleteCart">
+        删除
+      </text>
       <text @click="isManage = !isManage">管理</text>
     </view>
   </view>
-
-  <view class="list">
-    <view class="bg-white border-rd-10px p-15px box-border w-full">
+  <z-paging
+    ref="paging"
+    v-model="goodList"
+    @query="getLsit"
+    :paging-style="{
+      'box-sizing': 'border-box',
+      width: '100%',
+      height: ' calc(100vh - 50px)',
+      padding: '15px',
+      'padding-bottom': '80px',
+      'background-color': '#f5f6f8',
+      'margin-top': '50px',
+    }"
+  >
+    <view
+      class="bg-white border-rd-10px p-15px box-border w-full mb-15px"
+      v-for="item in goodList"
+      :key="item.shopId"
+    >
       <div class="flex items-center">
-        <wd-checkbox v-model="value" @change="handleChange"></wd-checkbox>
-        <view>店铺名称</view>
+        <wd-checkbox v-model="item.isCheck" @change="handleShop($event, item.shopId)"></wd-checkbox>
+        <view>{{ item.shopName }}</view>
         <wd-icon name="arrow-right" size="20px" color=""></wd-icon>
       </div>
 
-      <view class="w-full mt-15px flex">
+      <view class="w-full mt-15px flex" v-for="it in item.shopCartProductResp" :key="it.spuId">
         <view class="flex items-center">
-          <wd-checkbox v-model="value" @change="handleChange"></wd-checkbox>
+          <wd-checkbox
+            v-model="it.isCheck"
+            @change="handleGood($event, it.shopCartId)"
+          ></wd-checkbox>
         </view>
-        <wd-img :width="105" :height="105" :src="topbgBase64" custom-class="img" />
+        <wd-img :width="105" :height="105" :src="it.skuUrl" custom-class="img" />
         <view class="ml-15px flex-1 flex flex-col justify-between">
-          <view class="w-190px name">overflow-hiddenhiddenhiddenhiddenhiddenhidden</view>
-          <view style="font-size: 14px; color: #757575">灰色</view>
+          <view class="w-190px name">{{ it.spuName }}</view>
+          <view style="font-size: 14px; color: #757575">{{ it.skuName }}</view>
           <view class="w-full">
             <wd-tag color="#FAA21E" bg-color="#FF6609" plain>7天无理由退货</wd-tag>
             <wd-tag color="#FAA21E" bg-color="#FF6609" plain style="margin-left: 10px">
@@ -60,14 +183,14 @@ onLoad(async () => {
           <view class="w-full flex justify-between">
             <view class="flex items-center" style="font-weight: 600; color: #f44d24">
               <text style="font-size: 14px">￥</text>
-              <text style="font-size: 18px">0</text>
+              <text style="font-size: 18px">{{ it.sellingPrice }}</text>
             </view>
-            <view class="num">x1</view>
+            <view class="num">x{{ it.itemNum }}</view>
           </view>
         </view>
       </view>
     </view>
-  </view>
+  </z-paging>
 
   <!-- <view class="flex flex-col items-center justify-center mt-140px">
     <wd-img :width="246" :height="168"
@@ -79,7 +202,7 @@ onLoad(async () => {
     v-if="!isManage"
     class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center"
   >
-    <wd-checkbox v-model="value" @change="handleChange">全选</wd-checkbox>
+    <wd-checkbox v-model="allValue" @change="handleShop($event, 'all')">全选</wd-checkbox>
     <view class="flex items-center">
       <view class="flex items-center">
         合计：
@@ -102,16 +225,6 @@ onLoad(async () => {
   text-align: center;
   background: #f44d24;
   border-radius: 6px 6px 6px 6px;
-}
-
-.list {
-  box-sizing: border-box;
-  width: 100%;
-  height: calc(100vh - 50px);
-  padding: 15px;
-  padding-bottom: 80px;
-  overflow-y: auto;
-  background-color: #f5f6f8;
 }
 
 .img {

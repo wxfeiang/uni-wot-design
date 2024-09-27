@@ -18,7 +18,13 @@ import fenxiang from '@/static/images/shop/fenxiang.png'
 import shoucang from '@/static/images/shop/shoucang.png'
 import duihao from '@/static/images/shop/duihao.png'
 import shoucang1 from '@/static/images/shop/shoucang1.png'
-import { getGoodDetails, favoritesList, userFavorites, unUserFavorites } from '@/service/api/shop'
+import {
+  getGoodDetails,
+  favoritesList,
+  userFavorites,
+  unUserFavorites,
+  addCart,
+} from '@/service/api/shop'
 import vkDataGoodsSkuPopup from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup.vue'
 import { Toast } from '@/utils/uniapi/prompt'
 
@@ -66,15 +72,6 @@ const formatGoodsInfo = (arr: Array<any>) => {
   }
   console.log('goodsInfo', goodsInfo)
 }
-
-function handleClick(e) {
-  console.log(e)
-}
-
-function onChange(e) {
-  console.log(e)
-}
-
 const getDetails = (spuId: number) => {
   getGoodDetails({
     spuId,
@@ -127,7 +124,22 @@ const buyNow = (val: any) => {
   //   data: {},
   // })
 }
-const addCart = () => {}
+const addCar = (val: any) => {
+  console.log('加入购物车', val)
+  const obj = {
+    customerId: userStore.userInfo.userDId,
+    shopId: details.shopId,
+    skuId: val._id,
+    itemNum: val.buy_num,
+    spuType: details.spuType,
+    spuId: val.goods_id,
+  }
+  addCart(obj).then((res) => {
+    console.log('添加购物车', res)
+    Toast('添加购物车成功')
+    skuKey.value = false
+  })
+}
 onShow(() => {
   if (userStore.isLogined) {
     getFavoritesList()
@@ -164,10 +176,8 @@ onShareTimeline(() => {
       value-key="data"
       autoplay
       v-model:current="current"
-      @click="handleClick"
       height="400px"
       customStyle="border-radius: 0"
-      @change="onChange"
     ></wd-swiper>
     <view
       class="bg-#F5F6F8 w-full pos-absolute p-20px box-border overflow-hidden p-b-100px"
@@ -276,7 +286,7 @@ onShareTimeline(() => {
     <view
       class="w-full p-15px bg-white box-border flex items-center justify-between pos-fixed pos-bottom-none"
     >
-      <view class="flex w-1/3 justify-between">
+      <view class="flex w-2/5 justify-between pl-10px">
         <view
           class="flex flex-col item-center justify-center"
           @click="routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: details.shopId } })"
@@ -296,9 +306,8 @@ onShareTimeline(() => {
       <view
         class="flex-1 flex items-center ml-20px line-height-40px border-rd-50px overflow-hidden"
       >
-        <view class="w-3/7 text-center bg-#FEF2F2 color-#F44D24 font-size-15px">加入购物车</view>
         <view
-          class="w-4/7 text-center bg-#F44D24 color-#FFFFFF font-size-15px"
+          class="w-full text-center bg-#F44D24 color-#FFFFFF font-size-15px"
           @click="skuKey = true"
         >
           立即购买
@@ -315,7 +324,7 @@ onShareTimeline(() => {
       :z-index="990"
       :localdata="goodsInfo"
       :mode="skuMode"
-      @add-cart="addCart"
+      @add-cart="addCar"
       @buy-now="buyNow"
     ></vk-data-goods-sku-popup>
   </view>
