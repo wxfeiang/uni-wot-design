@@ -11,4 +11,10 @@ export enum Constant {
 
   // terminal
   TERMINAL = 'terminal',
+
+  // 二维码一卡通标志
+  QR_CODE_FLAG = 'xaCard',
+
+  // 二维码一卡通交易类型
+  QR_CODE_TYPE = 'xaCard2',
 }

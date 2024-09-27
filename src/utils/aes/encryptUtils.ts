@@ -1,4 +1,4 @@
-import { Constant } from '@/enum/constant'
+import { Constant } from '@/enums/constant'
 
 import { useUserStore } from '@/store'
 import { Decrypt, Encrypt } from '@/utils/aes/aesMgr'

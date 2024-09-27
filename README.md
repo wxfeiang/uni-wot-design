@@ -92,11 +92,6 @@ cli publish --platform mp-weixin --project 项目名称 --upload true --appid �
 │   │   │   └── dy-title.vue
 │   │   └── dy-verify
 │   │       └── dy-verify.vue
-│   ├── enum   ------枚举基础类型
-│   │   ├── CacheEnum.ts
-│   │   ├── HttpCodeEnum.ts
-│   │   ├── RouteEnum.ts
-│   │   └── constant.ts
 │   ├── enums  ------枚举系统类型
 │   │   ├── appEnum.ts
 │   │   ├── cacheEnum.ts
