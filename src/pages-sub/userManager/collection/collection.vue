@@ -16,6 +16,7 @@ import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
 import { favoritesList, unUserFavorites } from '@/service/api/shop'
 import { Toast } from '@/utils/uniapi/prompt'
+import { routeTo } from '@/utils'
 
 const isManage = ref(false)
 const topbgBase64 = ref('')
@@ -88,6 +89,7 @@ onLoad(async () => {
       class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
       v-for="item in goodList"
       :key="item.spuId"
+      @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
     >
       <view class="w-full flex">
         <view class="flex items-center">

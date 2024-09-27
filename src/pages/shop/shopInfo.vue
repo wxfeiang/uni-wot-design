@@ -108,7 +108,7 @@ const foverGoods = async () => {
   }
 }
 const getFavoritesList = async () => {
-  const res = await favoritesList({
+  const res: any = await favoritesList({
     current: 1,
     size: 9999,
   })
@@ -139,15 +139,15 @@ onLoad(async (options) => {
   getDetails(options.id)
 })
 onShareAppMessage((options) => {
-  const pageList = getCurrentPages()
+  const pageList = getCurrentPages<any>()
   return {
     title: details.spuName ? details.spuName : '商品',
     path: pageList[pageList.length - 1].$page.fullPath,
     imageUrl: details.rotationUrl[0],
   }
 })
-onShareTimeline((options) => {
-  const pageList = getCurrentPages()
+onShareTimeline(() => {
+  const pageList = getCurrentPages<any>()
   return {
     title: details.spuName ? details.spuName : '商品',
     path: pageList[pageList.length - 1].$page.fullPath,
@@ -279,7 +279,7 @@ onShareTimeline((options) => {
       <view class="flex w-1/3 justify-between">
         <view
           class="flex flex-col item-center justify-center"
-          @click="routeTo({ url: '/pages-sub/store/index', data: { id: details.shopId } })"
+          @click="routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: details.shopId } })"
         >
           <wd-img :width="30" height="30" :src="shangdian"></wd-img>
           <wd-text text="进店" color="#666666" size="12px"></wd-text>
