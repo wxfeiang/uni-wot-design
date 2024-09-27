@@ -67,16 +67,16 @@ const toContent = (item: serveListProps) => {
       </view>
     </view>
     <view class="px-15px py-5px">
-      <view class="p-10px bg-#fff rounded-4px flex justify-between items-center gap-10px">
+      <view class="p-10px bg-#fff rounded-4px flex justify-start items-start gap-10px">
         <view
-          class="w-1/4 flex flex-col items-center py-10px min-h-80px"
+          class="w-1/4 flex flex-col items-center py-10px"
           v-for="(item, index) in serveList"
           :key="index"
           @click="toContent(item)"
         >
           <wd-badge :modelValue="item.value">
             <view>
-              <wd-img :src="item.icon" width="26" height="26"></wd-img>
+              <wd-img :src="item.icon" width="38" height="38"></wd-img>
             </view>
           </wd-badge>
 

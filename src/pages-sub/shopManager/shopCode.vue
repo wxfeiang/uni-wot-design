@@ -8,88 +8,158 @@
 </route>
 
 <script lang="ts" setup>
-import { useRequest } from 'alova/client'
 import { pathToBase64 } from 'image-tools'
 import icons from './static/editlog.png'
 import tobg from './static/tobg.png'
 // TODO: 背景图片
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
-import { getSignValid } from '@/service/api/cardServe'
+import lPainter from '@/components/lime-painter/components/l-painter/l-painter.vue'
 import { routeTo } from '@/utils'
-import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
-const { sendPhoneCode, countdown, sending } = usePhoneCode()
-const topbgBase64 = ref('')
-const opts = ref({
-  lineColor: '#000000',
-  fontSize: 20,
-  width: 2,
-  textMargin: 0,
-  text: '1234567890657890',
-  value: '1234567890657890',
-  displayValue: false,
-})
-const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
-const str = ref<any>('')
+import qs from 'qs'
 
+import { Constant } from '@/enums/constant'
+import { downSaveImage } from '@/utils/uniapi'
+import { useMessage } from 'wot-design-uni'
+import { shopDetilProps } from './utils/types'
+import useShopServe from './utils/useShopServe'
+const { shopMessage, sendShopDetail } = useShopServe()
+const topbgBase64 = ref('')
+const { VITE_SERVER_BASEURL } = import.meta.env
+const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
+const message = useMessage()
+const show = ref(false)
+const qrCodeImg = ref('')
+const path = ref('')
 const cfig = ref()
 cfig.value = {
-  str: str.value,
+  str: '',
   size: 400,
+}
+// background: 'linear-gradient(131deg, #72c2fe 0%, #4055fe 100%)',
+const painter = ref()
+const poster = ref({
+  css: {
+    width: '750rpx',
+    margin: '0 auto',
+    background: '#4055fe',
+    opcity: '0.5',
+    padding: '0 20px',
+    borderRadius: '10px',
+  },
+  views: [
+    {
+      text: '商户收款码',
+      type: 'text',
+      css: {
+        display: 'block',
+        textAlign: 'center',
+        padding: '20px 0 ',
+        color: '#fff',
+        fontSize: '24px',
+        fontWeight: '600',
+      },
+    },
+    {
+      type: 'view',
+      css: {
+        padding: '10px 20px 40px',
+        borderRadius: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        boxSizing: 'border-box',
+        margin: '0 auto',
+        background: '#fff',
+      },
+      views: [
+        {
+          text: shopMessage.value.merchantName,
+          type: 'text',
+          css: {
+            display: 'block',
+            textAlign: 'center',
+            padding: '20px 0',
+            color: '#000',
+            fontSize: '18px',
+            height: '20px',
+          },
+        },
+        {
+          type: 'view',
+          css: {
+            width: '232px',
+            height: '232px',
+          },
+          views: [
+            {
+              type: 'image',
+              src: qrCodeImg,
+              css: {
+                width: '100%',
+                height: '100%',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      text: '打开雄安一卡通【扫一扫】',
+      type: 'text',
+      css: {
+        display: 'block',
+        textAlign: 'center',
+        padding: '20px 0 ',
+        color: '#fff',
+        fontSize: '16px',
+      },
+    },
+  ],
+})
+const downLoadQrcode = () => {
+  qrcode.value?.save().then((img) => {
+    show.value = true
+    qrCodeImg.value = img
+    painter.value.render(poster.value)
+    painter.value.canvasToTempFilePathSync({
+      // 在nvue里是jpeg
+      fileType: 'jpg',
+      quality: 1,
+      success: (res) => {
+        // 非H5 保存到相册
+        // H5 提示用户长按图另存
+        setTimeout(() => {
+          show.value = false
+        }, 3000)
+
+        // #ifndef  H5
+        downSaveImage(res.tempFilePath)
+        // #endif
+      },
+    })
+  })
 }
 
 function toMingxi() {
   routeTo({ url: '/pages-sub/shopManager/shopPayList' })
 }
 
-const lingdu = ref(0)
-
-const sendTiem = ref(60)
-let timer = null
-const incrementCount = () => {
-  timer = setInterval(() => {
-    if (sendTiem.value > 0) {
-      sendTiem.value--
-    } else {
-      // 刷新二维码请求
-      sendTiem.value = 60
-    }
-  }, 1000)
-}
-
-const { send: sendSignValid, loading: LoadingValid } = useRequest((data) => getSignValid(data), {
-  immediate: false,
-  loading: false,
-})
-
-watch(
-  () => countdown.value,
-  () => {
-    if (countdown.value === 0) {
-      sendPhoneCode()
-    }
-  },
-  { deep: true },
-)
-
-onLoad(async () => {
-  // 设置背景图片
+onLoad(async (options) => {
   topbgBase64.value = await pathToBase64(tobg)
-})
-onMounted(async () => {
-  incrementCount()
-  sendPhoneCode()
-  lingdu.value = (await usegetScreenBrightness()) as number
-
-  setTimeout(async () => {
-    await useSetScreenBrightness(1)
-    await useSetKeepScreenOn(true)
-  }, 3000)
-})
-onUnmounted(async () => {
-  timer && clearInterval(timer)
-
-  await useSetKeepScreenOn(false)
-  await useSetScreenBrightness(lingdu.value + 0.05)
+  try {
+    await sendShopDetail()
+    const qrcodeData = {
+      merchantId: shopMessage.value.merchantId,
+      qrCodeType: Constant.QR_CODE_FLAG,
+      actionType: Constant.QR_CODE_OFF,
+    }
+    cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
+  } catch (error) {
+    shopMessage.value = {} as shopDetilProps
+    message.alert({ title: '提示', msg: error.data.msg, closeOnClickModal: false }).then((res) => {
+      // uni.navigateBack()
+    })
+  }
 })
 </script>
 
@@ -99,15 +169,19 @@ onUnmounted(async () => {
     :style="`background-image: url(${topbgBase64}); background-size: 100% 300px`"
   >
     <dy-navbar leftTitle="收款码" left isNavShow></dy-navbar>
-    <view class="mt-30px px-20px">
+    <view class="mt-40px px-20px">
       <view class="bg-#fff p-20px py-0 rounded-10px overflow-hidden">
         <view class="text-18px py-10px">商户收款码</view>
         <view class="flex justify-center mt-10px flex-col items-center">
-          <view class="py-10px">雄安乐享便利店（**莹）</view>
+          <view class="py-10px">{{ shopMessage.merchantName }}</view>
           <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
-
           <view class="py-10px">
-            <wd-text text="下载二维码" color="#2D69EF" size="14px"></wd-text>
+            <wd-text
+              text="下载二维码"
+              color="#2D69EF"
+              size="14px"
+              @click="downLoadQrcode"
+            ></wd-text>
           </view>
         </view>
         <view
@@ -123,10 +197,27 @@ onUnmounted(async () => {
       </view>
     </view>
   </view>
+  <wd-overlay :show="show" @click="show = false">
+    <view class="size-full flex flex-col justify-center items-center bg-#000/30">
+      <view class="bd-1px_#888 rounded-10px px-10px py-20px bg-#fff">
+        <image :src="path" mode="widthFix" style="width: 350px; height: 480px"></image>
+      </view>
+      <!-- #ifdef H5-->
+      <view class="text-14px color-#fff mt-20px">长按图片片保存</view>
+      <!-- #endif -->
+    </view>
+  </wd-overlay>
+  <l-painter
+    isCanvasToTempFilePath
+    ref="painter"
+    @success="path = $event"
+    custom-style="position: fixed; left: 200%"
+    :painterConfig="poster"
+  />
 </template>
 
 <style lang="scss" scoped>
 .bg-sm {
-  background: linear-gradient(122deg, #ff9c06 0%, #ff181b 100%);
+  background: linear-gradient(131deg, #72c2fe 0%, #4055fe 100%);
 }
 </style>

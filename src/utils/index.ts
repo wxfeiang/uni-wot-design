@@ -256,6 +256,18 @@ export function removeT(date: string) {
   if (!date) return ''
   return date.replace('T', ' ')
 }
+/**
+ * @description:  批量处理入参数Json 对象 转码 地址栏
+ * @param {} data 传入的key
+ * @return {}  data
+ */
+export function changeUrlJson(data: object) {
+  if (!data) return {}
+  for (const key in data) {
+    data[key] = decodeURIComponent(data[key])
+  }
+  return data
+}
 
 /**
  * @description:  处理小程序码扫码结果
@@ -268,13 +280,14 @@ export function sceneResult(resData: any) {
   let status = false
   let url = null
   let path = null
+
   // 扫描到小程序码
   if (resData.scanType === 'WX_CODE') {
     url = decodeURIComponent(resData.path).split('?')
     if (isArray(url) && url[1]) {
       url[1] = url[1].split(',')
       status = url[1].indexOf('xaCard') > -1
-      path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}`
+      path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}&actionType=${url[1][2]}`
     }
   } else if (resData.scanType === 'QR_CODE' || resData.type === 'qrcode') {
     url = decodeURIComponent(resData.result).split('?')

@@ -1,4 +1,4 @@
-import { Constant } from '@/enum/constant'
+import { Constant } from '@/enums/constant'
 
 import { useUserStore } from '@/store'
 import { Decrypt, Encrypt } from '@/utils/aes/aesMgr'
@@ -20,6 +20,7 @@ export const constast = () => {
     userDId: userStore.userInfo.userDId,
     phone: userStore.userInfo.userPhone,
     merchantId: userStore.userInfo.merchantId,
+    shopId: userStore.userInfo.merchantId,
   }
 }
 

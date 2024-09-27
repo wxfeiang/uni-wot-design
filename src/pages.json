@@ -258,15 +258,6 @@
           "style": {
             "navigationStyle": "custom"
           }
-        },
-        {
-          "path": "OcrCamera",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
         }
       ]
     },

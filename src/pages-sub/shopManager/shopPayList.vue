@@ -8,55 +8,39 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
+import { removeT, routeTo } from '@/utils'
 import dayjs from 'dayjs'
-import iconyhq from './static/iconyhq.png'
 import todayImg from './static/payLog.png'
+import useShopServe from './utils/useShopServe'
 const title = ref('支付记录')
-const payList = ref([
-  {
-    name: '张三',
-    time: '2023-05-01 12:00:00',
-    jine: '100',
-    status: '已支付',
-    isYouhui: true,
-    yhje: '10',
-  },
-  {
-    name: '张三',
-    time: '2023-05-01 12:00:00',
-    jine: '100',
-    status: '已支付',
-    isYouhui: true,
-    yhje: '10',
-  },
-  {
-    name: '张三',
-    time: '2023-05-01 12:00:00',
-    jine: '100',
-    status: '已支付',
-    isYouhui: true,
-    yhje: '10',
-  },
-])
-const number = ref(2334)
+const { sendOrderIdByShop, shopPayList } = useShopServe()
+const maxDate = dayjs().valueOf()
+const cday = Date.now()
 const timer = ref<number>(Date.now())
 const timerShow = ref('')
 timerShow.value = dayjs(timer.value).format('YYYY-MM-DD')
 
-function handleConfirm({ value }) {
+async function handleConfirm({ value }) {
   timerShow.value = dayjs(value).format('YYYY-MM-DD')
+  await sendOrderIdByShop({ payMentTime: timerShow.value })
 }
 function toMingxi(item) {
   routeTo({
     url: '/pages-sub/shopManager/shopPayMingxi',
+    data: item,
   })
 }
+onLoad(async () => {
+  await sendOrderIdByShop({ payMentTime: timerShow.value })
+})
+const isNone = computed(() => {
+  return cday === dayjs(timer.value).valueOf() && !shopPayList.value.respVoList?.length
+})
 </script>
 
 <template>
   <dy-navbar :leftTitle="title" left></dy-navbar>
-  <view class="mt-20px p-10px">
+  <view class="mt-20px p-10px" v-if="isNone">
     <wd-status-tip
       :image="todayImg"
       :image-size="{
@@ -67,13 +51,14 @@ function toMingxi(item) {
     <view class="font-bold text-20px py-10px text-center">今天暂无收款记录</view>
     <view class="text-#999999 text-14px text-center">快去开启你的收款吧！</view>
   </view>
-
   <view class="mt-10px px-10px">
     <view class="p-15px px-10px bg-list rounded-10px">
       <view class="flex justify-between items-center">
         <view>
           <view class="py-10px">总收入</view>
-          <view class="color-#2D69EF text-20px font-600 py-10px">+ {{ number }}</view>
+          <view class="color-#2D69EF text-20px font-600 py-10px">
+            {{ shopPayList.orderPaymentSum ?? '--' }}
+          </view>
         </view>
         <view>
           <wd-datetime-picker
@@ -82,6 +67,7 @@ function toMingxi(item) {
             @confirm="handleConfirm"
             use-default-slot
             type="date"
+            :maxDate="maxDate"
           >
             <view class="flex justify-between items-center p-10px px-20px color-#666 text-14px">
               <view class="text-16px">
@@ -91,28 +77,26 @@ function toMingxi(item) {
             </view>
           </wd-datetime-picker>
           <view
-            class="bg-#2D69EF color-#fff text-14px py-5px px-10px rounded-full justify-center items-center flex gap-10px"
+            class="bg-#2D69EF color-#fff text-14px py-5px px-3px rounded-full text-center mx-auto"
           >
-            <view>+ {{ 3000 }}</view>
-            <view>|</view>
-            <view>{{ 1 }} 笔</view>
+            <view>共计: {{ shopPayList.orderPaymentCount }} 笔</view>
           </view>
         </view>
       </view>
       <view
         class="rounded-4px overflow-hidden my-10px bg-#fff h-68px"
-        v-for="(item, index) in payList"
+        v-for="(item, index) in shopPayList.respVoList"
         :key="index"
         @click="toMingxi(item)"
       >
-        <view class="px-20px flex justify-between relative">
+        <view class="px-20px flex justify-between relative items-center">
           <view>
-            <view class="text-16px py-10px">{{ item.name }}</view>
-            <view class="text-12px color-#999 py-3px">{{ item.time }}</view>
+            <view class="text-16px py-10px">{{ item.userName }}</view>
+            <view class="text-12px color-#999 py-3px">{{ removeT(item.payMentTime) }}</view>
           </view>
 
-          <view class="color-#FF6600 text-18px py-10px">+ {{ item.jine }}</view>
-
+          <view class="color-#FF6600 text-18px py-10px">+ {{ item.orderActualAmount }}</view>
+          <!--
           <view
             v-if="item.isYouhui"
             class="absolute right-0 bottom-[-6px] py-5px px-20px bg-#FFF6F0 rounded-tl-30px"
@@ -121,7 +105,7 @@ function toMingxi(item) {
               <wd-img :src="iconyhq" width="13" height="13"></wd-img>
               <view class="color-#FF9047 text-12px">优惠: {{ item.yhje }}</view>
             </view>
-          </view>
+          </view> -->
         </view>
       </view>
     </view>

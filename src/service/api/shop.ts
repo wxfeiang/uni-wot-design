@@ -54,6 +54,8 @@ export function addUserShop(data) {
   )
 }
 
+const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
+
 /**
  *   取消关注店铺
  * @param params 初始参数()
@@ -347,6 +349,23 @@ export function getUseOffline<T>(data) {
   }
   return request.Post<T>(
     USE_OFFLINE, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   商户收款记录
+ * @param params 初始参数()
+ * */
+export function getAppTargetOrderIdByShop<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post<T>(
+    GET_APP_TARGET_ORDER_ID_BY_SHOP, // 请求地址
     data,
     {
       meta,

@@ -1,4 +1,4 @@
-import { Constant } from '@/enum/constant'
+import { Constant } from '@/enums/constant'
 import {
   faceLogin,
   getUserIdKey,

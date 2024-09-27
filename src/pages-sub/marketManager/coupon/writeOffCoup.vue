@@ -7,6 +7,7 @@
 }
 </route>
 <script lang="ts" setup>
+import { Constant } from '@/enums/constant'
 import { routeTo, sceneResult } from '@/utils'
 import { Toast } from '@/utils/uniapi/prompt'
 import qs from 'qs'
@@ -30,12 +31,12 @@ const scancodeData = ref()
 async function scancode(e) {
   const { status, url } = sceneResult(e.detail)
   console.log('🎂', status, url)
-  if (status) {
-    scancodeData.value = qs.parse(decodeURIComponent(url) || url)
+  scancodeData.value = qs.parse(decodeURIComponent(url) || url)
+  if (status && scancodeData.value.actionType === Constant.QR_CODE_OFF) {
     console.log('🍹[scancodeData.value]:', scancodeData.value)
     getCoupDetil()
   } else {
-    message.alert({ title: '提示', msg: '仅雄安一卡通平台优惠券可核销!' })
+    message.alert({ title: '提示', msg: '仅雄安一卡通平台发放的【优惠券】可核销!' })
   }
 }
 async function getCoupDetil() {
