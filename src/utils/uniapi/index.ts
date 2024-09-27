@@ -1,4 +1,4 @@
-import { HideLoading, Loading, Modal, Toast } from './prompt'
+import { HideLoading, Modal, Toast } from './prompt'
 const { VITE_HALF_APPID } = import.meta.env
 /**
  * @description: 打开第三方小程序
@@ -228,13 +228,15 @@ export const useSaveImageToPhotosAlbum = (path: string) => {
   uni.downloadFile({
     url: path,
     success: (res) => {
+      console.log('🥫[res]:', res)
       if (res.statusCode === 200) {
         uni.saveImageToPhotosAlbum({
           filePath: res.tempFilePath,
           success: function () {
             Toast('保存成功', { icon: 'success' })
           },
-          fail: function () {
+          fail: function (err) {
+            console.log('🍜[err]:', err)
             Toast('保存失败，请稍后重试')
           },
           complete: function () {
@@ -251,11 +253,6 @@ export const useSaveImageToPhotosAlbum = (path: string) => {
  */
 
 export const downSaveImage = (imgurl: string) => {
-  // #ifdef H5
-  useSaveImageToPhotosAlbum(imgurl)
-  // #endif
-  // #ifndef H5
-  Loading('下载中')
   uni.getSetting({
     success(res) {
       if (res.authSetting['scope.writePhotosAlbum']) {
@@ -297,8 +294,10 @@ export const downSaveImage = (imgurl: string) => {
         })
       }
     },
+    fail(err) {
+      console.log('🍭[err]:', err)
+    },
   })
-  // #endif
 }
 
 /**

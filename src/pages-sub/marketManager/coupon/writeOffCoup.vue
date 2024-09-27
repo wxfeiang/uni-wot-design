@@ -30,8 +30,8 @@ const scancodeData = ref()
 async function scancode(e) {
   const { status, url } = sceneResult(e.detail)
   console.log('🎂', status, url)
-  if (status) {
-    scancodeData.value = qs.parse(decodeURIComponent(url) || url)
+  scancodeData.value = qs.parse(decodeURIComponent(url) || url)
+  if (status && scancodeData.value.actionType === 'writeOff') {
     console.log('🍹[scancodeData.value]:', scancodeData.value)
     getCoupDetil()
   } else {

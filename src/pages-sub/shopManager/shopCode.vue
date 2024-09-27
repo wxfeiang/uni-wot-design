@@ -34,12 +34,13 @@ cfig.value = {
   str: '',
   size: 400,
 }
+// background: 'linear-gradient(131deg, #72c2fe 0%, #4055fe 100%)',
 const painter = ref()
 const poster = ref({
   css: {
     width: '750rpx',
     margin: '0 auto',
-    background: 'linear-gradient(131deg, #72c2fe 0%, #4055fe 100%)',
+    background: '#4055fe',
     opcity: '0.5',
     padding: '0 20px',
     borderRadius: '10px',
@@ -119,12 +120,22 @@ const downLoadQrcode = () => {
     show.value = true
     qrCodeImg.value = img
     painter.value.render(poster.value)
+    painter.value.canvasToTempFilePathSync({
+      // 在nvue里是jpeg
+      fileType: 'jpg',
+      quality: 1,
+      success: (res) => {
+        // 非H5 保存到相册
+        // H5 提示用户长按图另存
+        setTimeout(() => {
+          show.value = false
+        }, 3000)
 
-    // 开始下载
-    setTimeout(() => {
-      show.value = false
-      downSaveImage(path.value)
-    }, 3000)
+        // #ifndef  H5
+        downSaveImage(res.tempFilePath)
+        // #endif
+      },
+    })
   })
 }
 
@@ -138,7 +149,7 @@ onLoad(async (options) => {
     await sendShopDetail()
     const qrcodeData = {
       merchantId: shopMessage.value.merchantId,
-      type: 'xaCard',
+      qrCodeType: 'xaCard',
       action: 'pay',
     }
     cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
@@ -188,8 +199,11 @@ onLoad(async (options) => {
   <wd-overlay :show="show" @click="show = false">
     <view class="size-full flex flex-col justify-center items-center bg-#000/30">
       <view class="bd-1px_#888 rounded-10px px-10px py-20px bg-#fff">
-        <image :src="path" mode="widthFix"></image>
+        <image :src="path" mode="widthFix" style="width: 350px; height: 480px"></image>
       </view>
+      <!-- #ifdef H5-->
+      <view class="text-14px color-#fff mt-20px">长按图片片保存</view>
+      <!-- #endif -->
     </view>
   </wd-overlay>
   <l-painter

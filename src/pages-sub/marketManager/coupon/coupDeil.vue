@@ -37,7 +37,7 @@ onLoad(async (options) => {
     await sendCouponInfo({ couponCode: options.couponCode })
     const qrcodeData = {
       couponCode: options.couponCode,
-      type: 'xaCard',
+      qrCodeType: 'xaCard',
       atticon: 'writeOff',
     }
     cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
