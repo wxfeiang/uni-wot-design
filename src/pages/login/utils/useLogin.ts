@@ -87,6 +87,8 @@ const Login = (form, flog?: boolean) => {
         // 登录
         const loginData = {
           userId,
+          cardCode: model.value.password,
+          userPhone: '',
         }
         const data: any = await sendFaceLogin(loginData)
 
