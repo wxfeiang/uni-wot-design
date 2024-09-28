@@ -52,9 +52,11 @@ onLoad(async () => {
 onShow(() => {
   getFilterData()
 })
+
 function changeGrid() {
   isGrid.value = !isGrid.value
 }
+
 const reset = () => {
   model = reactive({
     pullTimeOrder: 1, // 上架时间排序
@@ -82,6 +84,10 @@ const getFilterData = () => {
     console.log('filterList', filterList)
   })
 }
+
+const back = () => {
+  uni.navigateBack()
+}
 const searchSubmit = () => {
   showSearch.value = false
   paging.value.reload()
@@ -107,6 +113,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
 const getUrl = (str) => {
   return JSON.parse(str)[0].data
 }
+
 function changeSearch() {
   showSearch.value = true
 }
@@ -121,13 +128,15 @@ function handleChange(val, type) {
     class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
     :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
   >
-    <wd-navbar safeAreaInsetTop placeholder custom-class="nav_custom" :bordered="false">
-      <template #left>
-        <view class="flex gap-10px items-center">
-          <text class="line-height-44px text-18px color-#fff mt-5px">商品搜索</text>
-        </view>
-      </template>
-    </wd-navbar>
+    <dy-navbar :leftTitle="'商品搜索'" custom-class="nav_custom" left></dy-navbar>
+    <!--    <wd-navbar safeAreaInsetTop placeholder  :bordered="false">-->
+    <!--      <template #left>-->
+    <!--        <view class="flex gap-10px items-center">-->
+    <!--          <wd-icon name="thin-arrow-left" size="22px" @click="back"></wd-icon>-->
+    <!--          <text class="line-height-44px text-18px color-#fff mt-5px">商品搜索</text>-->
+    <!--        </view>-->
+    <!--      </template>-->
+    <!--    </wd-navbar>-->
 
     <!-- <wd-sticky :offset-top="navTop"> -->
     <view class="w-100vw flex items-center justify-center gap-2px box-border m-t-10px">
@@ -175,7 +184,7 @@ function handleChange(val, type) {
     <view class="right flex items-center px-10px bg-white z-999">
       <wd-img :width="23" :height="23" :src="matrix" @click="changeGrid" />
       <view class="inline-block flex" @click="changeSearch">
-        <view class="px-5px">| 筛选</view>
+        <view class="px-5px" style="font-size: 14px; line-height: 24px">筛选</view>
         <wd-img :width="23" :height="23" :src="screen" />
       </view>
     </view>
@@ -261,6 +270,7 @@ function handleChange(val, type) {
           v-model="model.sellPriceMin"
           placeholder="最低价"
           no-border
+          style="font-size: 14px"
           custom-class="input-style"
           custom-input-class="min-input"
         />
@@ -270,6 +280,7 @@ function handleChange(val, type) {
           size="large"
           v-model="model.sellPriceMax"
           placeholder="最高价"
+          style="font-size: 14px"
           no-border
           custom-class="input-style"
           custom-input-class="min-input"
@@ -345,11 +356,22 @@ function handleChange(val, type) {
   width: 122px;
   height: 33px;
   padding: 0 10px !important;
+  font-size: 12px;
   background: #f6f6f8 !important;
   border-radius: 17px !important;
 }
 
 .min-input {
+  box-sizing: border-box;
+  padding: 0 10px;
+  font-size: 12px;
+  text-align: center;
+}
+
+:deep(.wd-tabs__nav-item) {
+  box-sizing: border-box;
+  padding: 0 10px;
+  font-size: 12px;
   text-align: center;
 }
 
@@ -377,10 +399,11 @@ function handleChange(val, type) {
 
 .name {
   display: -webkit-box;
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .right {
@@ -399,8 +422,15 @@ function handleChange(val, type) {
   border-radius: 50px;
 }
 
+.title {
+  font-size: 14px;
+}
+
 .brand {
+  box-sizing: border-box;
+  padding: 0 10px;
   overflow: hidden;
+  font-size: 12px;
   line-height: 33px;
   color: #999999;
   text-align: center;
@@ -436,7 +466,12 @@ function handleChange(val, type) {
   color: #fff;
   background: transparent !important;
 }
+
 :deep(.is-active::after) {
   display: none;
+}
+
+:deep(.wd-input__inner) {
+  font-size: 12px !important;
 }
 </style>
