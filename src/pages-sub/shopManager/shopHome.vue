@@ -8,22 +8,30 @@
 <script lang="ts" setup>
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
-import { addUserShop, delUserShop, getUserShopList, goodsSearch } from '@/service/api/shop'
+import {
+  addUserShop,
+  delUserShop,
+  getUserShopList,
+  getShopInfo,
+  getShopGoods,
+  getShopDetail,
+} from '@/service/api/shop'
 import { routeTo } from '@/utils'
 
 const isFollow = ref(false)
 const topbgBase64 = ref('')
 const paging = ref(null)
+const shopDetails = reactive<any>({})
 const goodList = ref([])
 const sort = reactive({
-  pullTimeOrder: 1, // 上架时间排序
-  salesVolumeOrder: 1, // 销量排序
-  priceOrder: 1, // 价格排序
+  putPullTime: 1, // 上架时间排序
+  salesVolume: 1, // 销量排序
+  sellPrice: 1, // 价格排序
 })
 const model = reactive({
-  pullTimeOrder: 1, // 上架时间排序
-  salesVolumeOrder: 1, // 销量排序
-  priceOrder: 1, // 价格排序
+  putPullTime: 'asc', // 上架时间排序
+  salesVolume: 'asc', // 销量排序
+  sellPrice: 'asc', // 价格排序
   shopId: '', // 店铺id
 })
 const fllowShop = () => {
@@ -39,8 +47,13 @@ const fllowShop = () => {
     })
   }
 }
+const getShopDetails = () => {
+  getShopInfo({ shopId: model.shopId }).then((res) => {
+    console.log('店铺详情', res)
+  })
+}
 const getFollowList = async () => {
-  const res: any = await getUserShopList({})
+  const res: any = await getUserShopList()
   if (res.find((it) => it.shopInfo.id === model.shopId)) {
     isFollow.value = true
   } else {
@@ -50,7 +63,7 @@ const getFollowList = async () => {
 }
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
-    const res: any = await goodsSearch({
+    const res: any = await getShopGoods({
       current: pageNo,
       size: pageSize,
       ...model,
@@ -65,12 +78,15 @@ const getLsit = async (pageNo: number, pageSize: number) => {
 }
 
 function handleChange(val, type) {
-  model[type] = val === 1 ? 1 : 2
+  console.log('val', val)
+  model[type] = val === 1 ? 'asc' : 'desc'
   paging.value.reload()
 }
 onLoad(async (options) => {
   model.shopId = options.id
+  console.log('model', model)
   getFollowList()
+  getShopDetails()
   topbgBase64.value = await pathToBase64(indexbg)
   // 设置背景图片
 })
@@ -99,23 +115,23 @@ onLoad(async (options) => {
   <view style="display: flex; text-align: center; background: #fff">
     <view style="flex: 1">
       <wd-sort-button
-        v-model="sort.salesVolumeOrder"
+        v-model="sort.salesVolume"
         title="销量"
-        @change="handleChange($event, 'salesVolumeOrder')"
+        @change="handleChange($event, 'salesVolume')"
       />
     </view>
     <view style="flex: 1">
       <wd-sort-button
-        v-model="sort.pullTimeOrder"
+        v-model="sort.putPullTime"
         title="上架时间"
-        @change="handleChange($event, 'pullTimeOrder')"
+        @change="handleChange($event, 'putPullTime')"
       />
     </view>
     <view style="flex: 1">
       <wd-sort-button
-        v-model="sort.priceOrder"
+        v-model="sort.sellPrice"
         title="价格"
-        @change="handleChange($event, 'priceOrder')"
+        @change="handleChange($event, 'sellPrice')"
       />
     </view>
   </view>

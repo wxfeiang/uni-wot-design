@@ -17,7 +17,10 @@ import { pathToBase64 } from 'image-tools'
 import { useUserStore } from '@/store'
 import { shopCarList, delCart } from '@/service/api/shop'
 import { Toast } from '@/utils/uniapi/prompt'
+import { useToast } from 'wot-design-uni'
+import { routeTo } from '@/utils'
 
+const toast = useToast()
 const paging = ref(null)
 const allValue = ref(false)
 const goodList = ref([])
@@ -26,6 +29,7 @@ const changeArr = ref([])
 const userStore = useUserStore()
 const isManage = ref(false)
 const topbgBase64 = ref('')
+const submitData = ref([])
 
 const handleShop = ({ value }, id) => {
   if (id === 'all') {
@@ -94,6 +98,91 @@ const handleGood = ({ value }, id) => {
     }
   })
   console.log('???', value, id, changeArr.value)
+}
+const goSubmitOrder = () => {
+  if (changeArr.value.length === 0) {
+    toast.warning('未选择任何商品')
+    return
+  }
+  goodList.value.forEach((it, idx) => {
+    if (it.isCheck) {
+      const deliveryAmount = it.shopCartProductResp.reduce((a, b) => {
+        return a + Number((b.sellingPrice * b.itemNum).toFixed(2))
+      }, 0)
+      console.log('deliveryAmount', deliveryAmount)
+      submitData.value.push({
+        shopId: it.shopId,
+        shopName: it.shopName,
+        receiveAddrId: '', // 收货地址Id
+        deliveryAmount, // 订单金额 Number((val.buy_num * val.price).toFixed(2))
+        deliveryMode: 0, // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
+        orderNote: '', // 订单备注
+        receiveId: '', // 收货人Id
+        couponId: '', // 优惠券ID
+        orderResource: 2, //  订单来源 1web  2 小程序
+        payShopListReqVo: it.shopCartProductResp.map((im) => {
+          return {
+            spuId: im.spuId,
+            skuId: im.skuId,
+            image: im.skuUrl,
+            skuName: im.skuName,
+            itemNum: im.itemNum,
+            spuName: im.spuName,
+            price: im.sellingPrice,
+          }
+        }),
+      })
+    } else {
+      it.shopCartProductResp.forEach((item) => {
+        if (item.isCheck) {
+          const index = submitData.value.findIndex((k) => k.shopId === it.shopId)
+          if (index !== -1) {
+            const count = Number(
+              (item.sellingPrice * item.itemNum).toFixed(2) +
+                submitData.value[index].deliveryAmount,
+            )
+            submitData.value[index].deliveryAmount = count
+            submitData.value[index].payShopListReqVo.push({
+              spuId: item.spuId,
+              skuId: item.skuId,
+              image: item.skuUrl,
+              skuName: item.skuName,
+              itemNum: item.itemNum,
+              spuName: item.spuName,
+              price: item.sellingPrice,
+            })
+          } else {
+            const count = Number((item.sellingPrice * item.itemNum).toFixed(2))
+            submitData.value.push({
+              shopId: it.shopId,
+              shopName: it.shopName,
+              receiveAddrId: '', // 收货地址Id
+              deliveryAmount: count, // 订单金额 Number((val.buy_num * val.price).toFixed(2))
+              deliveryMode: 0, // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
+              orderNote: '', // 订单备注
+              receiveId: '', // 收货人Id
+              couponId: '', // 优惠券ID
+              orderResource: 2, //  订单来源 1web  2 小程序
+              payShopListReqVo: [
+                {
+                  spuId: item.spuId,
+                  skuId: item.skuId,
+                  image: item.skuUrl,
+                  skuName: item.skuName,
+                  itemNum: item.itemNum,
+                  spuName: item.spuName,
+                  price: item.sellingPrice,
+                },
+              ],
+            })
+          }
+        }
+      })
+    }
+  })
+
+  routeTo({ url: '/pages/shop/order', data: { obj: JSON.stringify(submitData.value) } })
+  console.log('submitData.value', submitData.value)
 }
 const getLsit = async () => {
   try {
@@ -211,7 +300,7 @@ onLoad(async () => {
           <text style="font-size: 20px">0</text>
         </view>
       </view>
-      <view class="submit">结算（3）</view>
+      <view class="submit" @click="goSubmitOrder">结算（{{ changeArr.length }}）</view>
     </view>
   </view>
 </template>

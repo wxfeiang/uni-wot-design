@@ -115,14 +115,37 @@ const getFavoritesList = async () => {
 }
 const buyNow = (val: any) => {
   console.log('提交订单', val)
-  const obj = {
-    shopId: details.shopId,
-    orderResource: '',
-  }
-  // routeTo({
-  //   url: '/pages/shop/order',
-  //   data: {},
-  // })
+  const { shopId, shopName } = details
+  const obj = [
+    {
+      shopId,
+      shopName,
+      receiveAddrId: '', // 收货地址Id
+      deliveryAmount: Number((val.buy_num * val.price).toFixed(2)), // 订单金额
+      deliveryMode: 0, // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
+      orderNote: '', // 订单备注
+      receiveId: '', // 收货人Id
+      couponId: '', // 优惠券ID
+      orderResource: 2, //  订单来源 1web  2 小程序
+      payShopListReqVo: [
+        {
+          spuId: val.goods_id,
+          skuId: val._id,
+          image: val.image,
+          skuName: val.sku_name_arr[0],
+          itemNum: val.buy_num,
+          spuName: val.goods_name,
+          price: val.price,
+        },
+      ],
+    },
+  ]
+  routeTo({
+    url: '/pages/shop/order',
+    data: {
+      obj: JSON.stringify(obj),
+    },
+  })
 }
 const addCar = (val: any) => {
   console.log('加入购物车', val)

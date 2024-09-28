@@ -21,6 +21,42 @@ const DEL_USER_SHOP = baseUrlApi('/product/app/userShop/deleteUserShop')
 const GET_USER_SHOPLIST = baseUrlApi('/product/app/userShop/getUserShopList')
 const GET_SHOP_INFO = baseUrlApi('/product/app/shop/getShopSimpleInfoById')
 const GET_SHOP_GOODS = baseUrlApi('/product/app/productSpu/getShopProductByShopId')
+const PICK_UP_STORE = baseUrlApi('/product/app/item/getPickUpStoreByMerchantId')
+const SUBMIT_ORDER = baseUrlApi('/trade/app/XcxPayment/createOrderProduct')
+
+/**
+ *   提交订单
+ * @param params 初始参数()
+ * */
+export function submitOrder(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    SUBMIT_ORDER, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   自提点列表
+ * @param params 初始参数()
+ * */
+export function getPickUpStoreByMerchantId(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    PICK_UP_STORE, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *   店铺详情

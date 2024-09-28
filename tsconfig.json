@@ -30,6 +30,7 @@
     "src/**/*.jsx",
     "src/**/*.vue",
     "src/**/*.json",
-    "src/pages-sub/serveMain/components/CardJuvnievue"
+    "src/pages-sub/serveMain/components/CardJuvnievue",
+    "src/pages/shop/utils/userOrder.ts"
   ]
 }
