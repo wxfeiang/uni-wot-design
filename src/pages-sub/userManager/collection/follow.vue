@@ -2,7 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
-  needLogin: true,
+
   style: {
     navigationBarTitleText: '店铺关注',
     backgroundColor: '#fff',

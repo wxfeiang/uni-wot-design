@@ -48,19 +48,18 @@ const goCar = () => {
 
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
-    const res: any = await getGoodList({
-      page: pageNo,
-      size: pageSize,
-      status: 1,
-    })
-    res.content.forEach((el) => {
-      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
-    })
-    console.log('商城列表', res.content)
-
-    paging.value.complete(res.content)
+    // const res: any = await getGoodList({
+    //   page: pageNo,
+    //   size: pageSize,
+    //   status: 1,
+    // })
+    // res.content.forEach((el) => {
+    //   el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+    // })
+    // console.log('商城列表', res.content)
+    // paging.value.complete(res.content)
+    paging.value.complete([])
   } catch {
-    console.log('????')
     paging.value.complete(false)
   }
 }

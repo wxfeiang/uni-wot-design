@@ -2,7 +2,6 @@
 <route lang="json5">
 {
   layout: 'default',
-  needLogin: true,
 }
 </route>
 <script lang="ts" setup>

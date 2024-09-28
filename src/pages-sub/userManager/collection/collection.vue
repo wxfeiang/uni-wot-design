@@ -2,7 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
-  needLogin: true,
+
   style: {
     navigationBarTitleText: '我的收藏',
     backgroundColor: '#fff',

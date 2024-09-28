@@ -25,10 +25,11 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    const data: any = await addressList(params)
-    console.log('🍛[data]:', data)
-    // dataList.value = data.content
-    paging.value.complete(data)
+    // const data: any = await addressList(params)
+    // console.log('🍛[data]:', data)
+    // // dataList.value = data.content
+    // paging.value.complete(data)
+    paging.value.complete([])
   } catch (error) {
     paging.value.complete(false)
   }

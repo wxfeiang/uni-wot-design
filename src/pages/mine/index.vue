@@ -74,8 +74,8 @@ onShow(async () => {
         status: 0,
       }
 
-      const countInfo: any = await sendMyInfo()
-      console.log('🍪[countInfo]:', countInfo)
+      // const countInfo: any = await sendMyInfo()
+      // console.log('🍪[countInfo]:', countInfo)
       // countInfo.value =
 
       const data2: any = await sendInterInfo()
