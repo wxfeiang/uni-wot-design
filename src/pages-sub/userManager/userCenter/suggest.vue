@@ -8,14 +8,67 @@
 </route>
 
 <script lang="ts" setup>
-import useCenter from './utils/useCenter'
+import { sendBusinessAdvice } from './utils/useCenter'
+// import {addBusinessAdvice} from "@/service/api/userMessage";
+
 const title = ref('投诉建议')
 const form = ref(null)
 
-const { model, rules, submit, adviceType } = useCenter()
 const handleConfirm = (e) => {
   model.value.adviceType = e.value
 }
+const adviceType = ref([
+  {
+    label: '投诉',
+    value: 0,
+  },
+  {
+    label: '建议',
+    value: 1,
+  },
+])
+
+// 投诉建议
+const model = ref({
+  feedbackCon: '',
+  feedbackImg: '',
+  createPhone: '',
+  adviceType: 1,
+})
+const rules = {
+  feedbackImg: [{ required: true, message: '请上传图片', trigger: 'blur' }],
+  createPhone: [
+    { required: true, message: '请输入联系方式', trigger: 'blur' },
+    { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+  ],
+  feedbackCon: [{ required: true, message: '请输入投诉建议内容', trigger: 'blur' }],
+}
+
+const submit = (form) => {
+  console.log('🍲[submit]:', form, model.value)
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        const data: any = await sendBusinessAdvice({
+          adviceContent: model.value.feedbackCon,
+          adviceImg: model.value.feedbackImg,
+          adviceType: model.value.adviceType,
+          advicePhone: model.value.createPhone,
+        })
+        console.log('🍋[data]:', data)
+        uni.navigateBack()
+      } catch (error) {
+        console.log('🍲[error]:', error)
+      }
+    }
+  })
+}
+onMounted(() => {
+  model.value.feedbackCon = ''
+  model.value.feedbackImg = ''
+  model.value.createPhone = ''
+  model.value.adviceType = 1
+})
 </script>
 
 <template>
@@ -43,9 +96,9 @@ const handleConfirm = (e) => {
               @confirm="handleConfirm"
             />
 
-            <wd-cell title="反馈截图" title-width="100px">
-              <dy-upload v-model="model.feedbackImg"></dy-upload>
-            </wd-cell>
+            <!--            <wd-cell title="反馈截图" title-width="100px">-->
+            <!--              <dy-upload v-model="model.feedbackImg"></dy-upload>-->
+            <!--            </wd-cell>-->
 
             <wd-input
               label="联系方式"

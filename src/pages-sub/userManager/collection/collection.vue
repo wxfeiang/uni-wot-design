@@ -161,7 +161,7 @@ onLoad(async () => {
   width: 100%;
   height: calc(100vh - 50px);
   margin-top: 50px;
-  background-color: #f5f6f8;
+  /*background-color: #f5f6f8;*/
 }
 
 .mingxi {

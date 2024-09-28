@@ -21,6 +21,9 @@ const RECEIVE_COUPON = baseUrlApi('/promotion/app/coupon/userReceive')
 const GET_USER_GOODS_ADDRESS_LIST = baseUrlApi('/member/app/goodsAddress/getUserGoodsAddressList')
 
 const ADD_BUSINESS_ADVICE = baseUrlApi('/promotion/app/xcxUserAdvice/saveOrUpdate')
+
+const FIND_MY_INFO = baseUrlApi('/api/userDetail/myInfo')
+
 /**
  *  查询雄才卡信息
  * @param params
@@ -37,6 +40,7 @@ export function getXinCangCardInfo(data) {
     },
   )
 }
+
 /**
  *  查询雄才卡查询授权
  * @param params
@@ -47,6 +51,23 @@ export function setXinCangCardAuthorize(data) {
   }
   return request.Post(
     SET_XIN_CANG_CARD_AUTHORIZE, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  查询积分，优惠券，金额，等级
+ * @param params
+ * */
+export function findmyInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    FIND_MY_INFO, // 地址
     data,
     {
       meta,
@@ -158,6 +179,7 @@ export function getUserGoodsAddressList(data) {
     data,
   )
 }
+
 /**
  * 用户反馈建议提交
  * @param params 初始参数()

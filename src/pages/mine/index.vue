@@ -35,6 +35,7 @@ const {
   serveOrderList,
   sendMerchantServicesCount,
   msCount,
+  sendMyInfo,
 } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
@@ -45,6 +46,13 @@ function login() {
 
 const toast = useToast()
 const bgUrlBase64 = ref()
+const countInfo = ref({
+  pointsNum: 0,
+  couponNum: 0,
+  pocketNum: 0,
+  userGrade: 1,
+  userGradeName: '普通',
+})
 
 const dingdan = (e) => {
   routeTo({ url: e })
@@ -65,6 +73,11 @@ onShow(async () => {
       const params = {
         status: 0,
       }
+
+      const countInfo: any = await sendMyInfo()
+      console.log('🍪[countInfo]:', countInfo)
+      // countInfo.value =
+
       const data2: any = await sendInterInfo()
       topList.value[0].value = data2.totalIntegral ?? 0
       const data: any = await sendUserCouponList(params)
@@ -118,6 +131,8 @@ onShow(async () => {
                 <view class="font-size-20px font-medium">
                   {{ isLogined ? (userInfo.userName ?? '微信用户') : '立即登录' }}
                 </view>
+
+                <view v-if="userInfo"></view>
               </view>
             </view>
           </template>

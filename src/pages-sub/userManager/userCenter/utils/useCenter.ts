@@ -48,7 +48,7 @@ const rules = {
   feedbackCon: [{ required: true, message: '请输入投诉建议内容', trigger: 'blur' }],
 }
 
-const { send: sendBusinessAdvice } = useRequest((data) => addBusinessAdvice(data), {
+export const { send: sendBusinessAdvice } = useRequest((data) => addBusinessAdvice(data), {
   immediate: false,
   loading: false,
 })
@@ -69,5 +69,14 @@ const submit = (form) => {
 }
 
 export default () => {
-  return { sendMessageList, messageData, messageClick, model, rules, submit, adviceType }
+  return {
+    sendMessageList,
+    messageData,
+    sendBusinessAdvice,
+    messageClick,
+    model,
+    rules,
+    submit,
+    adviceType,
+  }
 }
