@@ -77,13 +77,13 @@ const serveOrderList = ref<serveListProps[]>([
   {
     label: '待付款',
     icon: dafukuan,
-    value: 1,
+    value: 0,
     path: '/pages-sub/order/orderList?tabsVal=1',
   },
   {
     label: '待发货',
     icon: daifahuo,
-    value: 2,
+    value: 0,
     path: '/pages-sub/order/orderList?tabsVal=2',
   },
   {

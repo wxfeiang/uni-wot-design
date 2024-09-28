@@ -25,9 +25,10 @@ async function queryList(pageNo: number, pageSize: number) {
   }
   // 调用接口获取数据
   try {
-    const data: any = await sendOrderList(params)
-    list.value = data.content as any
-    paging.value.complete(list.value)
+    // const data: any = await sendOrderList(params)
+    // list.value = data.content as any
+    // paging.value.complete(list.value)
+    paging.value.complete([])
   } catch (error) {
     paging.value.complete(false)
   }
@@ -114,7 +115,7 @@ onLoad((options) => {
       </view>
     </template>
     <view class="pt-2 overflow-hidden ListBox pageBoxBg overflow-hidden">
-      <view v-for="(item, index) in 5" class="float-left w-full box-border" :key="index">
+      <view v-for="(item, index) in list" class="float-left w-full box-border" :key="index">
         <wd-card>
           <template #title>
             <view class="flex justify-between items-center">
@@ -131,7 +132,7 @@ onLoad((options) => {
               <wd-text text="代发货" size="14px" color="#777777" class=""></wd-text>
             </view>
           </template>
-          <view v-for="(it, ind) in 2" :key="ind">
+          <view v-for="(it, ind) in list2" :key="ind">
             <view class="flex justify-between items-center mt-2 mb-4">
               <wd-img
                 :width="100"
