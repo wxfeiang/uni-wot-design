@@ -41,7 +41,7 @@ function Choose(index) {
 async function getInfo(id: any) {
   uni.showLoading({ title: '' })
   // 这里是请求数据
-  const da = { shopId: 30561 }
+  const da = { orderId: id }
   const data: any = await sendOrderInfo(da)
   uni.hideLoading()
 }
@@ -59,7 +59,7 @@ const goback = function (url, e) {
 
 onLoad((options) => {
   showPop.value = options.showPop?.showPop || true
-  // getInfo(options.id)
+  getInfo(options.id)
 })
 </script>
 

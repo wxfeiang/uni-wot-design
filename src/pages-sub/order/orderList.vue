@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
+
   style: {
     navigationStyle: 'custom',
   },
@@ -11,6 +11,9 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import orderInter from './utils/orderInter'
+import { useUserStore } from '@/store'
+
+const userStore = useUserStore()
 
 const { sendOrderInfo, sendOrderList } = orderInter()
 const paging = ref(null)
@@ -19,30 +22,30 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    shopId: 30561,
-    // merchantId: '',
-    // orderStatus: ''
+    statusStr: tabsVal.value === '-1' ? '' : tabsVal.value,
+    orderFlag: 1,
+    loginUserId: userStore.userInfo.userDId,
   }
   // 调用接口获取数据
   try {
-    // const data: any = await sendOrderList(params)
-    // list.value = data.content as any
-    // paging.value.complete(list.value)
-    paging.value.complete([])
+    const data: any = await sendOrderList(params)
+    list.value = data.records as any
+    paging.value.complete(list.value)
+    // paging.value.complete([])
   } catch (error) {
     paging.value.complete(false)
   }
 }
 
 const title = ref('订单列表')
-const tabsVal = ref('0')
+const tabsVal = ref('')
 const tabslist = ref([
-  { name: '全部', value: '0' },
+  { name: '全部', value: '-1' },
   { name: '待付款', value: '1' },
-  { name: '待发货', value: '2' },
-  { name: '待收货', value: '3' },
-  { name: '已完成', value: '4' },
-  { name: '退换/取消', value: '5' },
+  { name: '待发货', value: '10' },
+  { name: '待收货', value: '11' },
+  { name: '已完成', value: '2' },
+  { name: '退换/取消', value: '3,20,21,22,23' },
 ])
 const list = ref([])
 const list2 = ref([])
@@ -52,8 +55,8 @@ const goback = function (url, e) {
 }
 
 function changeTab(e) {
-  tabsVal.value = e.index
-  console.log(e)
+  tabsVal.value = e.name
+  queryList()
 }
 
 const gopath = function (url, e) {
@@ -71,7 +74,7 @@ const goInfo = function (e) {
 }
 
 onLoad((options) => {
-  tabsVal.value = options.tabsVal ? options.tabsVal : '1'
+  tabsVal.value = options.tabsVal ? options.tabsVal : ''
 })
 </script>
 
@@ -218,6 +221,7 @@ onLoad((options) => {
 :deep(.wd-input) {
   background: #f6f6f6;
 }
+
 :deep(.z-paging-content) {
   background: #f3f4f6;
 }
