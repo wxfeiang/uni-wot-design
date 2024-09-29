@@ -161,7 +161,6 @@
       "path": "pages/shop/index",
       "type": "page",
       "layout": "default",
-      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
@@ -386,7 +385,6 @@
           "path": "collection/collection",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationBarTitleText": "我的收藏",
             "backgroundColor": "#fff",
@@ -398,7 +396,6 @@
           "path": "collection/follow",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationBarTitleText": "店铺关注",
             "backgroundColor": "#fff",
@@ -537,7 +534,6 @@
           "path": "IntegralMarket/IntegralMarket/list",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -547,6 +543,28 @@
     {
       "root": "pages-sub/shopManager",
       "pages": [
+        {
+          "path": "addEvaluate",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "评价",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "evaluateList",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "全部评价",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
         {
           "path": "index",
           "type": "page",
