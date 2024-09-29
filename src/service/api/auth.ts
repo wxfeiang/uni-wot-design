@@ -14,7 +14,7 @@ const GET_INFO = baseUrlApi('/user/app/getInfo')
 const ADD_XCX_USER_DETAIL = baseUrlApi('/member/app/addXcxUserDetail')
 const ADD_XCX_USER_DETAIL_WXV = baseUrlApi('/member/app/addXcxUserDetailWx')
 const GET_USER_OPEN_ID_BY_CODE = baseUrlApi('/member/app/getUserOpenIdByCode')
-const GET_XA_SC_OPEN_ID = baseUrlApi('/user/app/getXaScOpenId')
+const GET_XA_SC_OPEN_ID = baseUrlApi('/member/app/xcxLogin/getXaScOpenId')
 
 /**
  * 获取 人脸识别Key

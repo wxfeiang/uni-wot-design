@@ -21,21 +21,9 @@ const actualPrice = ref(0)
 const merchantId = ref('')
 const couponId = ref('')
 actualPrice.value = inValue.value
-const flog = ref(false)
+const payFlog = ref(false)
 
 const show = ref(true)
-const messData = ref([
-  {
-    title: '订单信息',
-    value: '中国雄安集团数字城市科技有限公司',
-    isLink: false,
-  },
-  {
-    title: '订单号',
-    value: 'IRUE8575757848488',
-    isLink: false,
-  },
-])
 
 const payStatus = ref(false)
 const payData = ref([
@@ -67,16 +55,20 @@ async function getOrderMess() {
     openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
     couponId: couponId.value, //
   }
-  console.log('订单入参数据', params)
+  console.log('订单入参数据==============', params)
   try {
     const data: any = await sendPay(params)
-    console.log('订单数据[data]:', data)
+    console.log('后端订单数据[data]:', data)
     if (data.errCode === 'SUCCESS') {
       payListInfo.value = data
       payData.value[0].value = data.orderInformation
       payData.value[1].value = data.merOrderId
-      const payRes = await useRequestPayment(payListInfo.value)
+      payFlog.value = true
+      const payRes: any = await useRequestPayment(payListInfo.value)
       console.log('🍦[payRes]:', payRes)
+      if (payRes.errMsg === 'requestPayment:ok') {
+        payStatus.value = true
+      }
     } else {
       message
         .alert({
@@ -85,48 +77,45 @@ async function getOrderMess() {
           closeOnClickModal: false,
         })
         .then(() => {
-          closeBack()
+          closeBack(2)
         })
     }
   } catch (error) {
-    console.log('🧀[error]:', error)
+    console.log('支付出错:', error)
     message
       .alert({
-        msg: '支付信息查询失败,请重试!',
+        msg: error.errMsg ? '支付(失败/取消)了!' : '支付信息查询失败,请重试!',
         title: '提示',
         closeOnClickModal: false,
       })
       .then(() => {
-        closeBack()
+        closeBack(2)
       })
   }
 }
+
 onLoad(async () => {
   // useSystemFig()
 })
 
 onShow(async (options) => {
   const data = uni.getEnterOptionsSync()
-  console.log('传入的数据:', data)
-  // data.referrerInfo.extraData = {
-  //   invoice: '2.00',
-  //   actualPrice: '1.00',
-  //   merchantId: '1835238852856737794',
-  //   couponId: 257,
-  // }
+  console.log('页面进入=======传入的数据:', data)
 
   inValue.value = data.referrerInfo?.extraData?.invoice
   actualPrice.value = data.referrerInfo?.extraData?.actualPrice
   merchantId.value = data.referrerInfo?.extraData?.merchantId
   couponId.value = data.referrerInfo?.extraData?.couponId
-
-  await getOrderMess()
+  // 支付状态false 携带支付
+  if (!payFlog.value && data.referrerInfo?.extraData?.payStatus === 1) {
+    await getOrderMess()
+  }
 })
-const closeBack = () => {
+const closeBack = (flog = 1) => {
   console.log('点击返回, 关闭弹窗 ,返回上一页面携带数据')
   uni.navigateBackMiniProgram({
     extraData: {
-      back: true,
+      back: flog,
     },
     success(res) {
       console.log('🍮[res]:', res)
@@ -143,6 +132,9 @@ const closeBack = () => {
     },
   })
 }
+onUnload(() => {
+  closeBack()
+})
 </script>
 
 <template>
@@ -176,7 +168,7 @@ const closeBack = () => {
       <view class="mt-10px">
         <wd-cell-group>
           <wd-cell
-            v-for="(item, index) in messData"
+            v-for="(item, index) in payData"
             :key="index"
             title-width="20%"
             custom-class="custom-class-cell"
@@ -203,7 +195,9 @@ const closeBack = () => {
     <!-- 支付后显示 -->
     <view v-else>
       <view class="flex justify-center">
-        <wd-img :src="pays" width="172" height="140"></wd-img>
+        <wd-transition :show="payStatus" name="zoom-in">
+          <wd-img :src="pays" width="172" height="140"></wd-img>
+        </wd-transition>
       </view>
 
       <view class="mt-10px">

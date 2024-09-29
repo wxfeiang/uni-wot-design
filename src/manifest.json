@@ -126,7 +126,7 @@
   "vueVersion": "3",
   "h5": {
     "router": {
-      "base": "/xa_card_mine/"
+      "base": "/xa_data_mine/"
     }
   },
   "requiredPrivateInfos": [
