@@ -8,6 +8,7 @@ interface NavigateToOptions {
        "/pages/login/index" |
        "/pages/login/login2" |
        "/pages/login/phoneLogin" |
+       "/pages/login/phoneLoginbc" |
        "/pages/login/sfzLogin" |
        "/pages/mine/index" |
        "/pages/pay/index" |

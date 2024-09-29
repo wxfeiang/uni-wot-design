@@ -17,23 +17,19 @@ import sfz2 from '@/static/images/login/sfz2.png'
 import user2 from '@/static/images/login/user2.png'
 import logo from '@/static/images/logo.png'
 import { useMessage } from 'wot-design-uni'
-// import loginOuther from './components/loginOuther.vue'
+import ablist from './components/abList.vue'
 import useLogin from './utils/useLogin'
 const {
   Login,
   model,
   rules,
   read,
-  model2,
-  rules2,
-  getCodeUrl,
-  codeflog,
-  submitPhoneCode,
-  countdown,
-  sending,
   submitPhoneLogin,
   toAgreement,
   shuziLogin,
+  loginUserList,
+  phoneShow,
+  ablistShow,
 } = useLogin()
 const form = ref(null)
 const form2 = ref(null)
@@ -142,7 +138,6 @@ onMounted(() => {})
       </view>
     </view>
   </view>
-  <login-Outher></login-Outher>
   <wd-message-box selector="wd-message-box-slot">
     <view class="text-left">
       我已阅读并同意
@@ -154,6 +149,12 @@ onMounted(() => {})
       </text>
     </view>
   </wd-message-box>
+  <!-- 选择多个店铺的情况 -->
+  <wd-overlay :show="ablistShow">
+    <view class="bg-#F3F4F6 h-full flex flex-col justify-center items-center">
+      <ablist :list="loginUserList"></ablist>
+    </view>
+  </wd-overlay>
 </template>
 <style lang="scss" scoped>
 :deep(.custom-cell) {

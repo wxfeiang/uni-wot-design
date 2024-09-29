@@ -1,19 +1,17 @@
 import { baseUrlApi } from '@/interceptors/utils'
 import { request } from '@/utils/http'
-const LOGIN = baseUrlApi('/system/api/helper/productLogin')
-const LOGIN_OUT = baseUrlApi('/captcha/faceLoginOut')
-const REFRESH_TOKEN = '/refresh/token'
-const TEST_TOKEN = '/employee/test'
-const GET_AGREEMENT = baseUrlApi('/agreement')
-const FACE_LOGIN = baseUrlApi('/user/app/faceLogin')
 
+const REFRESH_TOKEN = '/refresh/token'
+const FACE_LOGIN = baseUrlApi('/member/app/xcxLogin/faceLogin')
 const FACE_LOGIN_OUT = baseUrlApi('/captcha/faceLoginOut')
 
-const USER_ID_KEY = baseUrlApi('/user/app/getUserIdKey')
-const GET_INFO = baseUrlApi('/user/app/getInfo')
-const ADD_XCX_USER_DETAIL = baseUrlApi('/member/app/addXcxUserDetail')
-const ADD_XCX_USER_DETAIL_WXV = baseUrlApi('/member/app/addXcxUserDetailWx')
+const USER_ID_KEY = baseUrlApi('/member/app/xcxLogin/getUserIdKey')
+const GET_INFO = baseUrlApi('/member/app/xcxLogin/getInfo')
+const ADD_XCX_USER_DETAIL = baseUrlApi('/member/app/xcxLogin/xcxUserLoginByCode')
+const ADD_XCX_USER_DETAIL_WXV = baseUrlApi('/member/app/xcxLogin/xcxUserLoginByWx')
 const GET_USER_OPEN_ID_BY_CODE = baseUrlApi('/member/app/getUserOpenIdByCode')
+
+const UPDATE_REAL_NAME = baseUrlApi('/member/app/xcxLogin/updateRealName')
 
 /**
  * 获取 人脸识别Key
@@ -71,12 +69,23 @@ export function openIdCode(data) {
 }
 
 /**
- * 微信快捷
+ * 微信电话号码登录
  * @param params 初始参数()
  * */
 export function phoneChartLogin(data) {
   return request.Post(
     ADD_XCX_USER_DETAIL_WXV, // 地址
+    data,
+  )
+}
+
+/**
+ * 补充电话号码/实名认证
+ * @param params 初始参数()
+ * */
+export function updateRealName(data) {
+  return request.Post(
+    UPDATE_REAL_NAME, // 地址
     data,
   )
 }
