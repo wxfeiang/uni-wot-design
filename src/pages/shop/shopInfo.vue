@@ -149,7 +149,7 @@ const buyNow = (val: any) => {
           skuId: val._id,
           image: val.image,
           skuName: val.sku_name_arr[0],
-          itemNum: val.buy_num,
+          spuNum: val.buy_num,
           spuName: val.goods_name,
           price: val.price,
         },
