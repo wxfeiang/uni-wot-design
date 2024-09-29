@@ -2,7 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
-
+  needLogin: true,
   style: {
     navigationBarTitleText: '购物车',
     backgroundColor: '#fff',
@@ -181,7 +181,7 @@ const goSubmitOrder = () => {
     }
   })
 
-  routeTo({ url: '/pages/shop/order', data: { obj: JSON.stringify(submitData.value) } })
+  routeTo({ url: '/pages/shop/order?obj=' + JSON.stringify(submitData.value) })
   console.log('submitData.value', submitData.value)
 }
 const getLsit = async () => {
@@ -219,7 +219,7 @@ onLoad(async () => {
 </script>
 <template>
   <view class="w-full font-600 flex items-center justify-between px-20px box-border">
-    <view class="line-height-50px">购物车数量({{ total }})</view>
+    <view class="line-height-50px">购物车数量({{ total ? total : 0 }})</view>
     <view>
       <text style="margin-right: 10px; color: #f44d24" v-if="isManage" @click="deleteCart">
         删除

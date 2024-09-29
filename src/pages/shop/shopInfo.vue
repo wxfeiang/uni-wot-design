@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -40,6 +40,10 @@ const skuKey = ref(false)
 const skuMode = ref(1)
 // 后端返回的商品信息
 let goodsInfo = reactive<any>({})
+
+onShow(() => {
+  skuKey.value = false
+})
 const formatGoodsInfo = (arr: Array<any>) => {
   const obj = JSON.parse(arr[0].skuName)
   const specList = Object.keys(obj)
@@ -141,10 +145,7 @@ const buyNow = (val: any) => {
     },
   ]
   routeTo({
-    url: '/pages/shop/order',
-    data: {
-      obj: JSON.stringify(obj),
-    },
+    url: '/pages/shop/order?obj=' + JSON.stringify(obj),
   })
 }
 const addCar = (val: any) => {
