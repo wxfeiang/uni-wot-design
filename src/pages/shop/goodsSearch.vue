@@ -150,7 +150,7 @@ function handleChange(val, type) {
         />
         <view class="searchbtn" @click="paging.reload">搜索</view>
       </view>
-      <view class="caricon">
+      <view class="caricon" @click="routeTo({ url: '/pages/shop/shopCar' })">
         <wd-img :width="30" :height="28" :src="carIcon" />
       </view>
     </view>
