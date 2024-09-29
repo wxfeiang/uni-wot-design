@@ -28,6 +28,12 @@ import {
 import vkDataGoodsSkuPopup from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup.vue'
 import { Toast } from '@/utils/uniapi/prompt'
 
+const evaList = ref([
+  { id: 1, name: '用户1233', avatar: '', num: 20, time: 3, content: '小孩都说很好吃' },
+  { id: 2, name: 'afaasd ', avatar: '', num: 10, time: 4, content: '嘎嘎好吃' },
+  { id: 3, name: '根深蒂固', avatar: '', num: 1, time: 22, content: '好用，隔壁小孩都玩哭了' },
+  { id: 4, name: 'gsghrer1122', avatar: '', num: 3, time: 11, content: '小孩都说很好吃' },
+])
 const userStore = useUserStore()
 const current = ref<number>(0)
 const title = ref('商品详情')
@@ -44,6 +50,12 @@ let goodsInfo = reactive<any>({})
 onShow(() => {
   skuKey.value = false
 })
+
+const service = () => {
+  uni.makePhoneCall({
+    phoneNumber: details.shopPhone ? details.shopPhone : 12345,
+  })
+}
 const formatGoodsInfo = (arr: Array<any>) => {
   const obj = JSON.parse(arr[0].skuName)
   const specList = Object.keys(obj)
@@ -210,15 +222,7 @@ onShareTimeline(() => {
       <view class="w-full flex justify-between items-center">
         <view class="flex items-center">
           <wd-text text="￥" color="#F44D24" size="16px"></wd-text>
-          <wd-text
-            :text="
-              details && details.skuList && details.skuList[0].sellPrice
-                ? details.skuList[0].sellPrice
-                : ''
-            "
-            color="#F44D24"
-            size="25px"
-          ></wd-text>
+          <wd-text :text="details.skuList[0].sellPrice" color="#F44D24" size="25px"></wd-text>
           <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
             <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
             <wd-text text="￥" color="#fff" size="10px"></wd-text>
@@ -257,8 +261,9 @@ onShareTimeline(() => {
       </view>
 
       <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px">
-        <view>评价（200+）</view>
-        <view class="flex mt-10px">
+        <view>评价（{{ evaList.length }}）</view>
+        <!-- 只显示3条 截取评价列表数据3条就行 -->
+        <view class="flex mt-10px mb-20px" v-for="i in evaList.slice(0, 3)" :key="i.id">
           <wd-img
             :width="45"
             :height="45"
@@ -268,25 +273,26 @@ onShareTimeline(() => {
           <view class="flex-1 overflow-hidden ml-10px">
             <view class="w-full flex items-center justify-between">
               <view>
-                <wd-text text="用户姓名" bold color="#333"></wd-text>
+                <wd-text :text="i.name" bold color="#333"></wd-text>
                 <wd-text
                   text="已购"
                   size="12px"
                   color="#999"
                   custom-style="margin:0 10px;"
                 ></wd-text>
-                <wd-text text="60" size="12px" color="#999"></wd-text>
+                <wd-text :text="i.num" size="12px" color="#999"></wd-text>
               </view>
-              <wd-text text="9天前" size="12px" color="#999"></wd-text>
+              <wd-text :text="`${i.time}天前`" size="12px" color="#999"></wd-text>
             </view>
             <view class="text">
-              评价评价评价评价评价评价评价评价评价评价评价评价评价评价评价评价
+              {{ i.content }}
             </view>
           </view>
         </view>
         <view
           class="color-#999 w-full pt-5px flex items-center justify-center mt-10px"
           style="border-top: 1px solid #eee"
+          @click="routeTo({ url: '/pages-sub/shopManager/evaluateList?id=1' })"
         >
           <text>查看全部评价</text>
           <wd-icon name="arrow-right" size="20px"></wd-icon>
@@ -318,11 +324,14 @@ onShareTimeline(() => {
           <wd-img :width="30" height="30" :src="shangdian"></wd-img>
           <wd-text text="进店" color="#666666" size="12px"></wd-text>
         </view>
-        <view class="flex flex-col item-center justify-center">
+        <view class="flex flex-col item-center justify-center" @click="service">
           <wd-img :width="30" height="30" :src="kefu"></wd-img>
           <wd-text text="客服" color="#666666" size="12px"></wd-text>
         </view>
-        <view class="flex flex-col item-center justify-center">
+        <view
+          class="flex flex-col item-center justify-center"
+          @click="routeTo({ url: '/pages/shop/shopCar' })"
+        >
           <wd-img :width="30" height="30" :src="gouwuche"></wd-img>
           <wd-text text="购物车" color="#666666" size="12px"></wd-text>
         </view>
