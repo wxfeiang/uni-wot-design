@@ -2,7 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
-
+  needLogin: true,
   style: {
     navigationBarTitleText: '确认订单',
     backgroundColor: '#F3F4F6',
@@ -43,8 +43,8 @@ const disCount = ref(false)
 const topbgBase64 = ref('')
 
 onLoad(async (options) => {
-  console.log('传参', JSON.parse(options.obj))
-  orderDetails.value = JSON.parse(options.obj)
+  // console.log('传参', JSON.parse(decodeURIComponent(options.obj)))
+  orderDetails.value = JSON.parse(decodeURIComponent(options.obj))
   orderDetails.value.forEach((element) => {
     element.payShopListReqVo.forEach((el) => {
       el.userId = userStore.userInfo.userDId
