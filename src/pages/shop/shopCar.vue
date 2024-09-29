@@ -181,7 +181,7 @@ const goSubmitOrder = () => {
     }
   })
 
-  routeTo({ url: '/pages/shop/order', data: { obj: JSON.stringify(submitData.value) } })
+  routeTo({ url: '/pages/shop/order?obj=' + JSON.stringify(submitData.value) })
   console.log('submitData.value', submitData.value)
 }
 const getLsit = async () => {
