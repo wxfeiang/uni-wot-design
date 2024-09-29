@@ -4,242 +4,394 @@
   layout: 'default',
   needLogin: true,
   style: {
-    navigationStyle: 'custom',
-    navigationBarTitleText: '商城',
+    navigationBarTitleText: '确认订单',
+    backgroundColor: '#F3F4F6',
+    navigationBarBackgroundColor: '#F3F4F6',
+    navigationBarTextStyle: 'black',
   },
 }
 </route>
 <script lang="ts" setup>
+import useOrder from './utils/userOrder'
 import indexbg from '@/static/images/shop/navbg.png'
-import searchicon from '@/static/images/shop/search.png'
-import caricon from '@/static/images/shop/shopcar.png'
-import bgjifen from '@/static/images/shop/bgjifen.png'
-import jifen from '@/static/images/shop/jifen.png'
-import quanbg from '@/static/images/shop/quanbg.png'
-import quan from '@/static/images/shop/quan.png'
-import led from '@/static/images/shop/led.png'
-import tuijian from '@/static/images/shop/tuijian.png'
 import { pathToBase64 } from 'image-tools'
+import { useUserStore } from '@/store'
 
-import { getGoodList } from '@/service/api/shop'
-
-import { routeTo } from '@/utils'
-
-const paging = ref(null)
-const goodList = ref([])
-const { navTop } = useNav()
-const { VITE_APP_LOGOTITLE } = import.meta.env
+const userStore = useUserStore()
+const {
+  actions,
+  showPop,
+  checkDriver,
+  select,
+  orderDetails,
+  isExtractList,
+  shopExtractList,
+  handleChange,
+  checkExtract,
+  getAdsList,
+  adsList,
+  shopAdsList,
+  submit,
+  checkAddress,
+} = useOrder()
+const totalPrice = ref(0)
+const model = reactive({
+  value1: '',
+  value2: '',
+})
+const disCount = ref(false)
 const topbgBase64 = ref('')
-const searchIcon = ref('')
-const carIcon = ref('')
 
-const gopath = function (url, e) {
-  routeTo({
-    url,
-    data: e,
+onLoad(async (options) => {
+  console.log('传参', JSON.parse(options.obj))
+  orderDetails.value = JSON.parse(options.obj)
+  orderDetails.value.forEach((element) => {
+    element.payShopListReqVo.forEach((el) => {
+      el.userId = userStore.userInfo.userDId
+    })
   })
-}
-
-const goCar = () => {
-  uni.navigateTo({
-    url: '/pages/shop/shopCar',
-  })
-}
-
-const getLsit = async (pageNo: number, pageSize: number) => {
-  try {
-    // const res: any = await getGoodList({
-    //   page: pageNo,
-    //   size: pageSize,
-    //   status: 1,
-    // })
-    // res.content.forEach((el) => {
-    //   el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
-    // })
-    // console.log('商城列表', res.content)
-    // paging.value.complete(res.content)
-    paging.value.complete([])
-  } catch {
-    paging.value.complete(false)
-  }
-}
-onShow(() => {
-  // getLsit()
-})
-onLoad(async () => {
-  // 设置背景图片
+  totalPrice.value = orderDetails.value.reduce((a, b) => a + b.deliveryAmount, 0)
+  getAdsList()
   topbgBase64.value = await pathToBase64(indexbg)
-  searchIcon.value = await pathToBase64(searchicon)
-  carIcon.value = await pathToBase64(caricon)
+  // 获取地址列表
 })
-
-// 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
-  <view
-    class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
-    :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
-  >
-    <wd-navbar safeAreaInsetTop placeholder custom-class="nav_custom" :bordered="false">
-      <template #left>
-        <view class="flex gap-10px items-center">
-          <text class="line-height-44px text-18px color-#fff mt-5px">{{ VITE_APP_LOGOTITLE }}</text>
+  <view class="list">
+    <view
+      class="bg-white border-rd-5px mb-20px"
+      v-for="(item, idx) in orderDetails"
+      :key="item.shopId"
+    >
+      <view
+        class="border-rd-7px bg-white p-13px pb-0 box-border"
+        v-if="item.deliveryMode !== 1 && adsList.length > 0"
+        @click="checkAddress(idx)"
+      >
+        <view style="width: 100%; font-size: 14px; color: #888888" class="add-detail">
+          {{ shopAdsList[idx].province }} {{ shopAdsList[idx].city }} {{ shopAdsList[idx].area }}
         </view>
-      </template>
-    </wd-navbar>
-
-    <!-- <wd-sticky :offset-top="navTop"> -->
-    <view class="w-100vw flex items-center justify-center gap-2px box-border m-t-10px">
-      <view class="pl-10px pr-2px flex items-center search pos-relative">
-        <wd-img :width="17" :height="18" :src="searchIcon" />
-        <input
-          class="uni-input m-l-10px flex-1"
-          confirm-type="search"
-          placeholder="请输入搜索关键词"
-          @focus="routeTo({ url: '/pages/shop/goodsSearch' })"
-        />
-        <view class="searchbtn">搜索</view>
+        <view class="w-full flex items-center justify-between my-3px">
+          <view class="flex-1 add-detail">
+            {{ shopAdsList[idx].userAddress }}
+          </view>
+          <wd-icon name="arrow-right" size="22px" color="#000"></wd-icon>
+        </view>
+        <view style="margin-top: 5px; font-size: 14px">
+          {{ shopAdsList[idx].userName }} {{ shopAdsList[idx].userPhone }}
+        </view>
       </view>
-      <view class="caricon" @click="goCar">
-        <wd-img :width="30" :height="28" :src="carIcon" />
+
+      <view v-if="item.deliveryMode === 1">
+        <wd-form ref="form" :model="model">
+          <wd-cell-group border>
+            <wd-input
+              label="提货人姓名"
+              label-width="100px"
+              prop="value1"
+              clearable
+              v-model="model.value1"
+              placeholder="请输入提货人姓名"
+              :rules="[{ required: true, message: '请输入提货人姓名' }]"
+            />
+            <wd-input
+              label="提货人手机号"
+              label-width="100px"
+              prop="value2"
+              clearable
+              v-model="model.value2"
+              placeholder="请输入提货人手机号"
+              :rules="[{ required: true, message: '请填写提货人手机号' }]"
+            />
+          </wd-cell-group>
+        </wd-form>
+      </view>
+
+      <view class="border-rd-10px p-15px box-border w-full">
+        <div class="flex items-center">
+          <wd-img :width="25" :height="25" :src="topbgBase64" radius="5px" />
+          <view class="ml-12px" style="color: #333333">{{ item.shopName }}</view>
+        </div>
+
+        <view class="w-full mt-15px flex" v-for="it in item.payShopListReqVo" :key="it.spuId">
+          <wd-img :width="105" :height="105" :src="it.image" custom-image="img" />
+          <view class="ml-15px flex-1 flex flex-col justify-between overflow-hidden">
+            <view class="w-210px name">{{ it.spuName }}</view>
+            <view style="font-size: 14px; color: #757575">{{ it.skuName }}</view>
+            <view class="w-full">
+              <wd-tag color="#FAA21E" bg-color="#FF6609" plain>7天无理由退货</wd-tag>
+              <wd-tag color="#FAA21E" bg-color="#FF6609" plain style="margin-left: 10px">
+                运费险
+              </wd-tag>
+            </view>
+            <view class="w-full flex justify-between">
+              <view class="flex items-center" style="font-weight: 600">
+                <text style="font-size: 14px">￥</text>
+                <text style="font-size: 18px">{{ it.price }}</text>
+                <!-- <view class="quan">
+                  <text style="margin-right: 5px; font-size: 10px">券后价</text>
+                  <text style="font-size: 8px; font-weight: 600">￥</text>
+                  <text style="font-size: 16px; font-weight: 600">19.9</text>
+                </view> -->
+              </view>
+              <view class="num">x{{ it.itemNum }}</view>
+            </view>
+          </view>
+        </view>
+        <view class="w-full flex justify-between items-center mt-15px">
+          <view class="mr-50px">优惠券</view>
+          <view style="color: #777777">暂无可用优惠券</view>
+        </view>
+        <view class="w-full flex justify-between items-center mt-15px">
+          <view class="mr-50px">实际支付</view>
+          <view class="color-#F44D24" style="font-size: 16px">
+            <text>￥{{ item.deliveryAmount }}</text>
+          </view>
+        </view>
+        <view class="w-full flex justify-between items-center mt-15px">
+          <view class="mr-50px">配送方式</view>
+          <view class="flex items-center" @click="checkDriver('showDeliveryMode', idx)">
+            <text class="mr-5px">{{ actions[item.deliveryMode].name }}</text>
+            <wd-icon name="arrow-right" size="20px"></wd-icon>
+          </view>
+        </view>
+        <view
+          class="w-full flex justify-between items-center mt-15px"
+          v-if="item.deliveryMode === 1"
+        >
+          <view class="mr-50px">自提点</view>
+          <view @click="checkDriver('isExtract', idx)">
+            <wd-icon name="location" size="16px" color="#999999"></wd-icon>
+            <text class="mr-5px">{{ shopExtractList[idx] }}</text>
+            <wd-icon name="arrow-right" size="20px"></wd-icon>
+          </view>
+        </view>
+        <view class="w-full flex justify-between items-center mt-15px">
+          <view class="mr-50px">备注留言</view>
+          <wd-input
+            type="text"
+            v-model="item.orderNote"
+            placeholder="无备注"
+            no-border
+            custom-input-class="inp"
+            style="flex: 1; text-align: right"
+          />
+        </view>
       </view>
     </view>
-    <!-- </wd-sticky> -->
   </view>
 
-  <z-paging ref="paging" v-model="goodList" @query="getLsit">
-    <!-- z-paging默认铺满全屏，此时页面所有view都应放在z-paging标签内，否则会被盖住 -->
-    <!-- 需要固定在页面顶部的view请通过slot="top"插入，包括自定义的导航栏 -->
-    <view class="w-full p-10px pt-153px box-border banner">
-      <wd-img
-        width="100%"
-        :height="150"
-        src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
-      />
-      <div class="w-full mt-10px flex justify-between">
-        <div
-          class="pos-relative"
-          @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')"
-        >
-          <wd-img :width="174" :height="76" :src="bgjifen" />
-          <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
-          <view class="pos-absolute left-87px top-18px">
-            <view class="font-size-16px" style="color: #e22525">积分商城</view>
-            <view class="font-size-12px" style="color: #6e6e6e">福利来袭</view>
-          </view>
-        </div>
-        <div class="pos-relative" @click="gopath('/pages-sub/marketManager/coupon/index')">
-          <wd-img :width="174" :height="76" :src="quanbg" />
-          <wd-img :width="80" :height="80" :src="quan" custom-class="img" />
-          <view class="pos-absolute left-87px top-18px">
-            <view class="font-size-16px" style="color: #8839b6">领券中心</view>
-            <view class="font-size-12px" style="color: #6e6e6e">优惠多多</view>
-          </view>
-        </div>
-      </div>
-    </view>
-    <view class="list py-10px">
-      <view class="flex px-18px box-border mb-16px">
-        <wd-img :width="28" :height="28" :src="led" />
-        <wd-img :width="80" :height="30" :src="tuijian" custom-class="ml-2px" />
+  <view
+    class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center"
+    :class="disCount ? 'z-999' : ''"
+  >
+    <view class="flex flex-col" @click="disCount = true">
+      <view style="color: #f44d24" class="font-600">
+        <text style="font-size: 14px">￥</text>
+        <text style="font-size: 20px">{{ totalPrice }}</text>
       </view>
-      <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
-        <view
-          class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
-          v-for="item in goodList"
-          :key="item.spuId"
-          @click="gopath('/pages/shop/shopInfo', { id: item.spuId })"
-        >
-          <wd-img :width="175" :height="160" :src="item.rotationUrl[0]" />
-          <view class="w-155px name my-10px m-auto">
-            {{ item.spuName }}
-          </view>
-          <view>
-            <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
-            <text style="font-size: 18px; font-weight: 600; color: #f44d24">
-              {{ item.sellPrice }}
-            </text>
-            <text style="margin-left: 8px; font-size: 12px; color: #999999">
-              已售{{ item.salesVolume }}件
+      <!-- <view class="mingxi flex items-center">
+        <text>已优惠￥55.34 明细</text>
+        <wd-icon name="arrow-up" size="22px"></wd-icon>
+      </view> -->
+    </view>
+    <view class="submit" @click="submit">提交订单</view>
+  </view>
+  <!--  配送方式 -->
+  <wd-action-sheet v-model="showPop.showDeliveryMode" :actions="actions" @select="select" />
+
+  <!-- 券明细 -->
+  <wd-popup
+    v-model="disCount"
+    lock-scroll
+    position="bottom"
+    custom-style="padding:18px 15px;box-sizing:border-box;border-radius:20px 20px 0 0;bottom:80px;"
+  >
+    <view class="font-600 mb-20px">优惠明细</view>
+    <view class="font-600 mb-20px w-full flex items-center justify-between">
+      <text>合计优惠</text>
+      <view>
+        <text style="font-size: 14px">￥</text>
+        <text style="font-size: 20px">66.9</text>
+      </view>
+    </view>
+
+    <view>
+      <view class="w-full flex items-center justify-between">
+        <view style="color: #777777">· 优贝朵服装</view>
+        <view style="color: #f44d24">
+          <text>-</text>
+          <text style="font-size: 14px">￥</text>
+          <text style="font-size: 18px">2129</text>
+        </view>
+      </view>
+      <view class="pl-15px mt-12px w-full flex">
+        <wd-img :width="66" :height="66" :src="topbgBase64" custom-class="img" />
+        <view class="self-end ml-10px flex items-center">
+          <view class="jian flex items-center justify-center mr-5px">满100减20</view>
+          <view style="font-size: 12px; color: #777777">共减￥20</view>
+        </view>
+      </view>
+    </view>
+  </wd-popup>
+  <!-- 提货 -->
+  <wd-popup
+    v-model="showPop.isExtract"
+    lock-scroll
+    position="bottom"
+    custom-style="padding:18px 15px;box-sizing:border-box;border-radius:20px 20px 0 0;"
+  >
+    <view class="font-600 mb-20px">选择自提点</view>
+    <view style="width: 100%; max-height: 60vh; overflow-y: auto" v-if="isExtractList.length > 0">
+      <view class="flex w-full mb-15px" v-for="key in isExtractList" :key="key.id">
+        <view style="align-self: center">
+          <wd-checkbox
+            v-model="key.isCheck"
+            @change="handleChange($event, key.id, 'isExtractList')"
+          ></wd-checkbox>
+        </view>
+        <view class="flex-1 overflow-hidden">
+          <view class="name w-full overflow-hidden">{{ key.storeName }}</view>
+          <view class="name w-full overflow-hidden mt-5px">
+            <wd-icon name="location" size="16px" color="#999999"></wd-icon>
+            <text style="font-size: 14px; color: #999999">
+              {{ key.address }}
             </text>
           </view>
         </view>
       </view>
     </view>
-  </z-paging>
+    <wd-status-tip image="content" tip="暂无自提点" v-else />
+    <view
+      class="address-submit"
+      v-if="isExtractList.length > 0"
+      @click="checkExtract('isExtractList')"
+    >
+      确定
+    </view>
+  </wd-popup>
+  <!-- 选择收货地址 -->
+  <wd-popup
+    v-model="showPop.addList"
+    lock-scroll
+    position="bottom"
+    custom-style="padding:18px 15px;box-sizing:border-box;border-radius:20px 20px 0 0;"
+  >
+    <view class="font-600 mb-20px">选择收货地址</view>
+    <view style="width: 100%; max-height: 60vh; overflow-y: auto">
+      <view class="flex w-full mb-15px" v-for="it in adsList" :key="it.id">
+        <view style="align-self: center">
+          <wd-checkbox
+            v-model="it.isCheck"
+            @change="handleChange($event, it.id, 'adsList')"
+          ></wd-checkbox>
+        </view>
+        <view class="flex-1 overflow-hidden">
+          <view style="width: 100%; font-size: 14px; color: #888888" class="add-detail">
+            {{ it.province }} {{ it.city }} {{ it.area }}
+          </view>
+          <view class="w-full flex items-center justify-between my-3px">
+            <view class="flex-1 add-detail">
+              {{ it.userAddress }}
+            </view>
+          </view>
+          <view style="margin-top: 5px; font-size: 14px">{{ it.userName }} {{ it.userPhone }}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="address-submit" @click="checkExtract('adsList')">确定</view>
+  </wd-popup>
 </template>
 
 <style>
-.main-title-color {
-  color: #d14328;
-}
-
-:deep(.nav_custom) {
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: transparent !important;
-}
-
-.search {
+.address {
   box-sizing: border-box;
-  width: 308px;
-  height: 35px;
-  background: #ffffff;
-  border-radius: 20px 20px 20px 20px;
+  padding: 14px;
+  background-color: #f3f4f6;
 }
 
-.img {
-  position: absolute !important;
-  bottom: 6px;
-  left: 7px;
+.add-detail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.searchbtn {
-  width: 57px;
-  line-height: 31px;
+.address-submit {
+  width: 343px;
+  margin: 20px auto;
+  line-height: 40px;
   color: #fff;
   text-align: center;
   background: #f44d24;
-  border-radius: 20px 20px 20px 20px;
+  border-radius: 5px 5px 5px 5px;
 }
 
-.caricon {
-  position: relative;
-  margin-left: 16px;
+.submit {
+  width: 103px;
+  margin-left: 20px;
+  line-height: 40px;
+  color: #fff;
+  text-align: center;
+  background: #f44d24;
+  border-radius: 6px 6px 6px 6px;
 }
 
-.name {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.inp {
+  text-align: right !important;
 }
 
-.banner {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #f3f4f6 100%);
-}
-
-.caricon::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 12px;
-  height: 12px;
-  content: '';
-  background-color: #ff0707;
-  border: 1px solid #ffffff;
-  border-radius: 50px;
+.mingxi {
+  font-size: 12px;
+  color: #f44d24;
 }
 
 .list {
-  min-height: calc(100vh - 417px);
-  background: #f7f7f7;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 10px 15px 90px;
+  overflow-y: auto;
+  background-color: #f5f6f8;
 }
 
-:deep(.wd-tabs__nav) {
-  color: #fff;
-  background: transparent !important;
+.quan {
+  box-sizing: border-box;
+  width: 90px;
+  padding: 4px;
+  margin-left: 5px;
+  color: #f44d24;
+  text-align: center;
+  background: #ffece8;
+  border-radius: 2px 2px 2px 2px;
+}
+
+.img {
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.num {
+  width: 25px;
+  line-height: 25px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #999999;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.jian {
+  width: 67px;
+  height: 20px;
+  font-size: 10px;
+  color: #f44d24;
+  background: #ffece8;
+  border-radius: 2px 2px 2px 2px;
 }
 </style>

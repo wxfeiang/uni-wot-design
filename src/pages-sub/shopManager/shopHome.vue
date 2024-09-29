@@ -2,6 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
+  needLogin: true,
 }
 </route>
 <script lang="ts" setup>
@@ -84,8 +85,8 @@ function handleChange(val, type) {
 onLoad(async (options) => {
   model.shopId = options.id
   console.log('model', model)
-  // getFollowList()
-  // getShopDetails()
+  getFollowList()
+  getShopDetails()
   topbgBase64.value = await pathToBase64(indexbg)
   // 设置背景图片
 })
@@ -97,8 +98,8 @@ onLoad(async (options) => {
       <view class="ml-10px flex-1 overflow-hidden">
         <view class="w-full flex items-center justify-between">
           <view class="name">店铺名店铺名称店铺名称店铺名称店铺名称称</view>
-          <!--          <view v-if="!isFollow" class="guanzhu" @click="fllowShop">+关注</view>-->
-          <!--          <view v-else class="quxiao" @click="fllowShop">已关注</view>-->
+          <view v-if="!isFollow" class="guanzhu" @click="fllowShop">+关注</view>
+          <view v-else class="quxiao" @click="fllowShop">已关注</view>
         </view>
         <view class="w-full flex items-center">
           <view class="mr-5px" style="font-size: 14px; color: #999999">地址地址</view>

@@ -26,18 +26,18 @@ const paging = ref(null)
 const goodList = ref([])
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
-    // const res: any = await favoritesList({
-    //   current: pageNo,
-    //   size: pageSize,
-    // })
-    // res.content.forEach((el) => {
-    //   el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
-    //   el.isCheck = false
-    // })
-    //
-    // paging.value.complete(res.content)
+    const res: any = await favoritesList({
+      current: pageNo,
+      size: pageSize,
+    })
+    res.content.forEach((el) => {
+      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+      el.isCheck = false
+    })
 
-    paging.value.complete([])
+    paging.value.complete(res.content)
+
+    // paging.value.complete([])
   } catch {
     paging.value.complete(false)
   }
