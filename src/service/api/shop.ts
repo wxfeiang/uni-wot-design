@@ -244,6 +244,7 @@ export function favoritesList(data) {
     },
   )
 }
+
 /**
  *   商品收藏
  * @param params 初始参数()
@@ -278,14 +279,15 @@ export function unUserFavorites(data) {
   )
 }
 
-const GET_ORDER_LIST = baseUrlApi('/order/app/getXcxOrderList')
-const GET_ORDER_INFO = baseUrlApi('/order/app/getXcxOrderDetailByOrderId')
+const GET_ORDER_LIST = baseUrlApi('/order/app/manage/getOrderPageByUser')
+const GET_ORDER_INFO = baseUrlApi('/order/app/getOrderBeanDetailById')
 
 const USE_RECORD = baseUrlApi('/promotion/app/coupon/useRecord')
 
 const USE_OFFLINE = baseUrlApi('/promotion/app/coupon/useOffline')
 
 const COUPON_INFO = baseUrlApi('/promotion/app/coupon/info')
+
 /**
  *   获取订单列表
  * @param params 初始参数()
@@ -381,6 +383,7 @@ export function getWxPay<T>(data) {
     data,
   )
 }
+
 /**
  * 券码详情
  * @param params 初始参数()
@@ -398,6 +401,7 @@ export function getCouponInfo<T>(data) {
     },
   )
 }
+
 /**
  *   商户优惠券核销记录
  * @param params 初始参数()
@@ -408,6 +412,7 @@ export function getUseRecord<T>(data) {
     data,
   )
 }
+
 /**
  *   商户优惠券核销
  * @param params 初始参数()
@@ -442,6 +447,7 @@ export function getAppTargetOrderIdByShop<T>(data) {
     },
   )
 }
+
 /**
  *   我的页面  --- 商户收款统计
  * @param params 初始参数()
