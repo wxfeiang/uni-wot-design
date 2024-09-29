@@ -33,7 +33,7 @@ export const openEmbeddedMiniProgram = (path: string, extraData = {}, appId = VI
       appId,
       path,
       extraData, // 需要传递给目标小程序的数据
-      envVersion: 'trial', // trial
+      envVersion: 'develop', // trial
       success(res) {
         // 打开成功
         resolve(res)

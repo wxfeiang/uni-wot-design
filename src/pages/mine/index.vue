@@ -82,8 +82,10 @@ onShow(async () => {
       topList.value[0].value = data2.totalIntegral ?? 0
       const data: any = await sendUserCouponList(params)
       topList.value[1].value = data.unUsedCouponNum
-      const datas = await sendMerchantServicesCount()
-      console.log('🍪[datas]:', datas)
+      if (userInfo.value.merchantId) {
+        const datas = await sendMerchantServicesCount()
+        console.log('🍪[datas]:', datas)
+      }
     } catch {
       topList.value[0].value = 0
       topList.value[1].value = 0
@@ -263,36 +265,6 @@ onShow(async () => {
 .money {
   box-sizing: border-box;
   border-right: 1px solid #d4d4d4;
-}
-
-.h-bg {
-  background: linear-gradient(90deg, #a4e3fa 0%, #4bbefd 100%);
-}
-
-:deep(.custom-class-mine-login) {
-  color: #fff !important;
-  background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
-  border: none !important;
-  border-radius: 6px !important;
-}
-
-.before-shu {
-  &::before {
-    position: absolute;
-    right: 48%;
-    width: 1px;
-    height: 40px;
-    content: '';
-    background: #e5e5e5;
-  }
-}
-</style>
-<style lang="scss" scoped>
-.qiandao {
-  width: 82px;
-  height: 32px;
-  background: linear-gradient(270deg, #99c7f2 0%, #71a2fb 100%);
-  border-radius: 19px;
 }
 
 .h-bg {

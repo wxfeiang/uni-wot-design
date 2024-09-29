@@ -90,12 +90,15 @@ const onClose = async () => {
     console.log('🍦[params]:', params)
     try {
       const data = await sendYhq(params)
+      if (!yhList && !yhList.value.length) {
+        goPay()
+      }
       yhList.value = data
       itmeClick(yhList.value[0], 0)
     } catch (error) {
-      console.log('🥦[error]:', params, error)
       yhList.value = []
       actualPrice.value = inValue.value
+      goPay()
     }
   }
 }
@@ -143,24 +146,7 @@ function itmeClick(item: couponProps, index) {
 
   // 根据index  做优惠计算
 }
-const payStatus = ref(false)
-const payData = ref([
-  {
-    title: '支付金额',
-    value: '20.00',
-    isLink: true,
-  },
-  {
-    title: '订单信息',
-    value: '中国雄安集团数字城市科技有限公司',
-    isLink: false,
-  },
-  {
-    title: '订单号',
-    value: 'IRUE8575757848488',
-    isLink: false,
-  },
-])
+
 const popClose = () => {
   activeIndex.value = -1
 }
@@ -188,6 +174,7 @@ async function goPay() {
     actualPrice: actualPrice.value, // 实际支付金额
     merchantId: shopMessage.value.merchantId,
     couponId: yhList.value[activeIndex.value]?.couponId ?? '',
+    payStatus: 1,
   }
   console.log('🍩', params)
   await openEmbeddedMiniProgram('/pages/pay/index', { ...params })
@@ -219,9 +206,11 @@ onLoad(async (options) => {
 })
 onShow(async () => {
   const data = uni.getEnterOptionsSync()
-  console.log('🥨[data]:', data)
-  if (data.referrerInfo?.extraData?.back) {
-    //  上一个页面返回的
+  console.log('onShow进入获取数据[data]:', data)
+  // 2 可以继续支付
+  if (data.referrerInfo?.extraData?.back === 1) {
+    console.log('🦐')
+    //  上一个页面返回的 返回
     uni.navigateBack()
   }
 })

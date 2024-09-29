@@ -4,7 +4,7 @@ import { useRequest } from 'alova/client'
 import type { msCountProps, serveListProps, serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
-import { findXcxScoreUser, getUserCouponList, findmyInfo } from '@/service/api/userMessage'
+import { findmyInfo, findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
 import sfkb from '@/static/images/mine/sfkb.png'
 import shdz from '@/static/images/mine/shdz.png'
@@ -209,7 +209,7 @@ const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true
   loading: false,
 })
 
-const { send: sendMyInfo } = useRequest((data) => findmyInfo(data, true), {
+const { send: sendMyInfo } = useRequest((data) => findmyInfo(data), {
   immediate: false,
   loading: false,
 })
