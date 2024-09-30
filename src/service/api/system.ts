@@ -4,13 +4,14 @@ import { request } from '@/utils/http'
 import { useRequest } from 'alova/client'
 
 import { METHOD_INSTANCE } from '../model/baseModel'
+
 const CONFIG = baseUrlApi('/captcha/config')
 const CODE = baseUrlApi('/captcha/getCode')
 const RESCONFIG = baseUrlApi('/captcha/getResponseConfig')
 const GETDOT = baseUrlApi('/captcha/getDot')
 const PHNECODE = baseUrlApi('/member/app/sendVerificationCode')
 
-export const PRIVACY_UPLOAD = baseUrlApi('/api/zos/file/put')
+export const PRIVACY_UPLOAD = baseUrlApi('/zos/app/file/put')
 // export const PRIVACY_UPLOAD = baseUrlApi('/zos/file/put')
 export const UPLOAD_FILE = baseUrlApi('/system/file/api/minio/upload')
 
@@ -55,6 +56,7 @@ export const getResponseConfig = (config: any) => {
 
   return useRequest(methodInstance, config)
 }
+
 /**
  * 获取验证吗
  * @param params
