@@ -27,7 +27,6 @@ const rules = reactive({
 
 export default () => {
   return {
-    model,
     rules,
     routeTo,
     Toast,
