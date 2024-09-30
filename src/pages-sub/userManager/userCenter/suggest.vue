@@ -96,9 +96,9 @@ onMounted(() => {
               @confirm="handleConfirm"
             />
 
-            <!--            <wd-cell title="反馈截图" title-width="100px">-->
-            <!--              <dy-upload v-model="model.feedbackImg"></dy-upload>-->
-            <!--            </wd-cell>-->
+            <wd-cell title="反馈截图" title-width="100px">
+              <dy-upload v-model="model.feedbackImg"></dy-upload>
+            </wd-cell>
 
             <wd-input
               label="联系方式"

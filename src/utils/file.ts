@@ -53,23 +53,23 @@ export function rightFileUrl(data: string, option?: rightUlrOption) {
  */
 export const changeUploadUrl = (data: Array<any>, key?: string) => {
   console.log('🥘[data]:', data)
-  let str = ''
+  const str = ''
   if (isEmpty(data)) {
     return str
   } else {
-    str = data
-      .map((i: any, index) => {
-        if (i.response) {
-          const p = JSON.parse(i.response)
-          return key ? p.data[key] : p.data
-        } else {
-          return i.name
-        }
-      })
-      .join(',')
+    const arr = []
+    data.forEach((i: any, index) => {
+      if (i.response) {
+        const p = JSON.parse(i.response)
+        arr.push(key ? p.data[key] : p.data)
+      } else {
+        arr.push(i.name)
+      }
+    })
+
     // 最后删除空数据
-    console.log('🥫', str)
-    return str
+    console.log('🥫', arr.join(','))
+    return arr.join(',')
   }
 }
 
