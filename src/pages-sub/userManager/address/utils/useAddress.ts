@@ -2,14 +2,6 @@ import { Toast } from '@/utils/uniapi/prompt'
 import { routeTo } from '@/utils'
 import { isArray } from 'wot-design-uni/components/common/util'
 
-const model = reactive<any>({
-  id: null,
-  userName: '',
-  userPhone: '',
-  area: [],
-  userAddress: '',
-  isDefault: false,
-})
 const rules = reactive({
   userName: [{ required: true, message: '请输入收货人姓名', trigger: 'blur' }],
   userPhone: [
@@ -17,7 +9,7 @@ const rules = reactive({
     { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
   ],
 
-  area: [
+  areaName: [
     {
       required: true,
       message: '请选择所在地区',

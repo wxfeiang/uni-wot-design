@@ -14,12 +14,20 @@ import { useColPickerData } from '@/hooks/useColPickerData'
 import useAddress from './utils/useAddress'
 import { addressListAddOrEdit } from '@/service/api/address'
 
-const { model, rules, routeTo, Toast } = useAddress()
+const { rules, routeTo, Toast } = useAddress()
 const { colPickerData, findChildrenByCode } = useColPickerData()
 
 const title = ref('收货地址')
 const isAdd = ref(true)
-const area = ref<any[]>([
+const model = reactive<any>({
+  id: null,
+  userName: '',
+  userPhone: '',
+  areaName: [],
+  userAddress: '',
+  isDefault: false,
+})
+const areaName = ref<any[]>([
   colPickerData.map((item) => {
     return {
       value: item.value,
@@ -28,9 +36,9 @@ const area = ref<any[]>([
   }),
 ])
 const form = ref()
-const showArea = ref('')
+const showArea = ref([])
 const addAddress = () => {
-  const { userName, userPhone, area, userAddress, isDefault, id } = model
+  const { userName, userPhone, areaName, userAddress, isDefault, id } = model
   const data: any = {
     userName,
     userPhone,
@@ -71,11 +79,8 @@ const handleSubmit = () => {
 }
 
 function handleConfirm({ value, selectedItems }) {
-  console.log(value, selectedItems)
   showArea.value = selectedItems
 }
-
-const value = ref<string[]>(['150000', '150100', '150121'])
 
 const columnChange = async ({ selectedItem, resolve, finish }) => {
   await sleep(0.3)
@@ -102,13 +107,21 @@ function sleep(second: number = 1) {
   })
 }
 
-onLoad(async (options) => {
+onLoad((options) => {
   console.log('options', options)
   if (options?.type === 'edit') {
     isAdd.value = false
 
     Object.assign(model, JSON.parse(decodeURIComponent(options.item)))
-    model.area = [model.provinceCode, model.cityCode, model.areaCode]
+    model.areaName = [model.provinceCode, model.cityCode, model.areaCode]
+    showArea.value = [
+      { label: model.province, value: model.provinceCode },
+      {
+        label: model.city,
+        value: model.cityCode,
+      },
+      { label: model.area, value: model.areaCode },
+    ]
     console.log('model', model)
   } else {
     Object.assign({}, model)
@@ -141,12 +154,13 @@ onLoad(async (options) => {
 
           <wd-col-picker
             label="选择地址"
-            v-model="model.area"
-            :columns="area"
+            v-model="model.areaName"
+            :columns="areaName"
             :column-change="columnChange"
-            prop="area"
+            auto-complete
+            prop="areaName"
             @confirm="handleConfirm"
-            :rules="rules.area"
+            :rules="rules.areaName"
           ></wd-col-picker>
           <wd-textarea
             v-model="model.userAddress"
@@ -170,7 +184,7 @@ onLoad(async (options) => {
       </wd-form>
     </view>
 
-    <view class="px-10 py-20px fixed bottom-20px left-0 right-0">
+    <view class="px-4 py-20px fixed bottom-20px left-0 right-0">
       <wd-button block custom-class="custom-class-mine-error" @click="handleSubmit">
         保存地址
       </wd-button>
