@@ -44,8 +44,8 @@ export default defineUniPages({
         text: '服务',
       },
       {
-        iconPath: 'static/tabbar/shangcheng.png',
-        selectedIconPath: 'static/tabbar/shangcheng-a.png',
+        iconPath: 'static/tabbar/shop.png',
+        selectedIconPath: 'static/tabbar/shop-a.png',
         pagePath: 'pages/shop/index',
         text: '商城',
       },
