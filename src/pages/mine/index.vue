@@ -74,18 +74,18 @@ onShow(async () => {
         status: 0,
       }
 
-      // const countInfo: any = await sendMyInfo()
-      // console.log('🍪[countInfo]:', countInfo)
-      // countInfo.value =
+      const countInfo: any = await sendMyInfo()
+      console.log('🍪[countInfo]:', countInfo)
+      countInfo.value = {}
 
-      const data2: any = await sendInterInfo()
-      topList.value[0].value = data2.totalIntegral ?? 0
-      const data: any = await sendUserCouponList(params)
-      topList.value[1].value = data.unUsedCouponNum
-      if (userInfo.value.merchantId) {
-        const datas = await sendMerchantServicesCount()
-        console.log('🍪[datas]:', datas)
-      }
+      // const data2: any = await sendInterInfo()
+      // topList.value[0].value = data2.totalIntegral ?? 0
+      // const data: any = await sendUserCouponList(params)
+      // topList.value[1].value = data.unUsedCouponNum
+      // if (userInfo.value.merchantId) {
+      //   const datas = await sendMerchantServicesCount()
+      //   console.log('🍪[datas]:', datas)
+      // }
     } catch {
       topList.value[0].value = 0
       topList.value[1].value = 0

@@ -22,7 +22,7 @@ const GET_USER_GOODS_ADDRESS_LIST = baseUrlApi('/member/app/goodsAddress/getUser
 
 const ADD_BUSINESS_ADVICE = baseUrlApi('/promotion/app/xcxUserAdvice/saveOrUpdate')
 
-const FIND_MY_INFO = baseUrlApi('/api/userDetail/myInfo')
+const FIND_MY_INFO = baseUrlApi('/member/app/myInfo')
 
 /**
  *  查询雄才卡信息

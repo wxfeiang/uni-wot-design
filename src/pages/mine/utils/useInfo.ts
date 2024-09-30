@@ -4,7 +4,7 @@ import { useRequest } from 'alova/client'
 import type { msCountProps, serveListProps, serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
-import { findmyInfo, findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
+import { findXcxScoreUser, getUserCouponList, findmyInfo } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
 import sfkb from '@/static/images/mine/sfkb.png'
 import shdz from '@/static/images/mine/shdz.png'
@@ -77,32 +77,32 @@ const serveOrderList = ref<serveListProps[]>([
   {
     label: '待付款',
     icon: dafukuan,
-    value: 0,
+    value: '0',
     path: '/pages-sub/order/orderList?tabsVal=1',
   },
   {
     label: '待发货',
     icon: daifahuo,
-    value: 0,
-    path: '/pages-sub/order/orderList?tabsVal=2',
+    value: '0',
+    path: '/pages-sub/order/orderList?tabsVal=10',
   },
   {
     label: '待收货',
     icon: daishouhuo,
-    value: 0,
-    path: '/pages-sub/order/orderList?tabsVal=3',
+    value: '0',
+    path: '/pages-sub/order/orderList?tabsVal=11',
   },
   {
     label: '已完成',
     icon: yiwancheng,
-    value: 0,
-    path: '/pages-sub/order/orderList?tabsVal=4',
+    value: '0',
+    path: '/pages-sub/order/orderList?tabsVal=2',
   },
   {
     label: '售后订单',
     icon: shouhou,
-    value: 0,
-    path: '/pages-sub/order/orderList?tabsVal=5',
+    value: '0',
+    path: '/pages-sub/order/orderList?tabsVal=3,20,21,22,23',
   },
 ])
 
@@ -209,7 +209,7 @@ const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true
   loading: false,
 })
 
-const { send: sendMyInfo } = useRequest((data) => findmyInfo(data), {
+const { send: sendMyInfo } = useRequest((data) => findmyInfo(data, true), {
   immediate: false,
   loading: false,
 })
