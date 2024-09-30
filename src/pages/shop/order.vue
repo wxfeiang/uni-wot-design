@@ -46,9 +46,8 @@ onLoad(async (options) => {
   // console.log('传参', JSON.parse(decodeURIComponent(options.obj)))
   orderDetails.value = JSON.parse(decodeURIComponent(options.obj))
   orderDetails.value.forEach((element) => {
-    element.payShopListReqVo.forEach((el) => {
-      el.userId = userStore.userInfo.userDId
-    })
+    element.userId = userStore.userInfo.userDId
+    element.appKey = 1
   })
   totalPrice.value = orderDetails.value.reduce((a, b) => a + b.deliveryAmount, 0)
   getAdsList()

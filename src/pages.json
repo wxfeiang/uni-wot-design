@@ -115,7 +115,6 @@
       "path": "pages/mine/index",
       "type": "page",
       "layout": "default",
-      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "backgroundColor": "#F3F4F6"
@@ -161,7 +160,6 @@
       "path": "pages/shop/index",
       "type": "page",
       "layout": "default",
-      "needLogin": true,
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
@@ -541,6 +539,28 @@
     {
       "root": "pages-sub/shopManager",
       "pages": [
+        {
+          "path": "addEvaluate",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "评价",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "evaluateList",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": "全部评价",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
         {
           "path": "index",
           "type": "page",

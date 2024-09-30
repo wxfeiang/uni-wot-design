@@ -1,7 +1,7 @@
 <route lang="json5">
 {
   layout: 'default',
-  needLogin: true,
+
   style: {
     navigationStyle: 'custom',
     backgroundColor: '#F3F4F6',

@@ -25,7 +25,7 @@ const paging = ref(null)
 const allValue = ref(false)
 const goodList = ref([])
 const total = ref()
-const changeArr = ref([])
+const changeArr = ref<any>([])
 const userStore = useUserStore()
 const isManage = ref(false)
 const topbgBase64 = ref('')
@@ -61,7 +61,7 @@ const handleShop = ({ value }, id) => {
     })
   }
 
-  console.log('???', value, id)
+  allValue.value = total.value === changeArr.value.length
 }
 
 const deleteCart = async () => {
@@ -89,15 +89,19 @@ const handleGood = ({ value }, id) => {
           changeArr.value.push(id)
         } else {
           changeArr.value = changeArr.value.filter((item) => item !== id)
+          allValue.value = false
         }
       }
     })
     const status = el.shopCartProductResp.every((it) => it.isCheck)
     if (status) {
       el.isCheck = true
+    } else {
+      el.isCheck = false
     }
+    allValue.value = total.value === changeArr.value.length
   })
-  console.log('???', value, id, changeArr.value)
+  console.log('???', changeArr.value.length)
 }
 const goSubmitOrder = () => {
   if (changeArr.value.length === 0) {
@@ -126,7 +130,7 @@ const goSubmitOrder = () => {
             skuId: im.skuId,
             image: im.skuUrl,
             skuName: im.skuName,
-            itemNum: im.itemNum,
+            spuNum: im.itemNum,
             spuName: im.spuName,
             price: im.sellingPrice,
           }
@@ -147,7 +151,7 @@ const goSubmitOrder = () => {
               skuId: item.skuId,
               image: item.skuUrl,
               skuName: item.skuName,
-              itemNum: item.itemNum,
+              spuNum: item.itemNum,
               spuName: item.spuName,
               price: item.sellingPrice,
             })
@@ -169,7 +173,7 @@ const goSubmitOrder = () => {
                   skuId: item.skuId,
                   image: item.skuUrl,
                   skuName: item.skuName,
-                  itemNum: item.itemNum,
+                  spuNum: item.itemNum,
                   spuName: item.spuName,
                   price: item.sellingPrice,
                 },
