@@ -8,6 +8,7 @@ interface loginListProps {
   userName: string
   userId?: number
   userPhone?: string
+  cardCode?: string
 }
 
 export type { loginListProps }

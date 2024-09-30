@@ -28,7 +28,6 @@ const {
   toAgreement,
   shuziLogin,
   loginUserList,
-  phoneShow,
   ablistShow,
 } = useLogin()
 const form = ref(null)
@@ -151,7 +150,7 @@ onMounted(() => {})
   </wd-message-box>
   <!-- 选择多个店铺的情况 -->
   <wd-overlay :show="ablistShow">
-    <view class="bg-#F3F4F6 h-full flex flex-col justify-center items-center">
+    <view class="bg-#F3F4F6 h-full w-full flex flex-col justify-center">
       <ablist :list="loginUserList"></ablist>
     </view>
   </wd-overlay>

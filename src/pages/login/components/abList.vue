@@ -12,13 +12,13 @@ const props = defineProps({
 </script>
 <template>
   <view class="text-center font-bold text-20px py-20px">轻触选择登录账户</view>
-  <view class="w-full mt-10px px-20px">
+  <view class="w-100% mt-10px">
     <view class="px-20px">
       <view
         class="rounded-8px bg-#fff flex gap-10px my-10px p-10px"
         v-for="(item, index) in props.list"
         :key="index"
-        @click="userLogin(item)"
+        @click="userLogin(item, 2)"
       >
         <view>
           <wd-img :width="60" :height="60" :src="anvter1" />
@@ -26,6 +26,17 @@ const props = defineProps({
         <view class="flex flex-col justify-around">
           <view class="text-16px">{{ item.userName }}</view>
           <view class="text-16px color-#999">{{ item.userPhone }}</view>
+        </view>
+      </view>
+    </view>
+    <view class="px-20px">
+      <view class="rounded-8px bg-#fff flex gap-10px my-10px p-10px">
+        <view>
+          <wd-img :width="60" :height="60" :src="anvter1" />
+        </view>
+        <view class="flex flex-col justify-around">
+          <view class="text-16px">2434</view>
+          <view class="text-16px color-#999">2343</view>
         </view>
       </view>
     </view>

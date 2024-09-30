@@ -13,6 +13,8 @@ const GET_USER_OPEN_ID_BY_CODE = baseUrlApi('/member/app/getUserOpenIdByCode')
 
 const UPDATE_REAL_NAME = baseUrlApi('/member/app/xcxLogin/updateRealName')
 
+const XCX_SCAN_FACE_REAL_NAME_AUTH = baseUrlApi('/member/app/xcxLogin/xcxScanFaceRealNameAuth')
+
 /**
  * 获取 人脸识别Key
  * @param params
@@ -43,6 +45,17 @@ export function getUserInfo(data) {
 export function faceLogin(data) {
   return request.Post(
     FACE_LOGIN, // 地址
+    data,
+  )
+}
+
+/**
+ * 人脸实名认证
+ * @param params 初始参数()
+ * */
+export function xcxScanFaceRealNameAuth(data) {
+  return request.Post(
+    XCX_SCAN_FACE_REAL_NAME_AUTH, // 地址
     data,
   )
 }

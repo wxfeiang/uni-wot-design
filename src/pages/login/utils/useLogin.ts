@@ -7,6 +7,7 @@ import {
   phoneChartLogin,
   phoneLogin,
   updateRealName,
+  xcxScanFaceRealNameAuth,
 } from '@/service/api/auth'
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 
@@ -21,7 +22,7 @@ import { loginListProps } from './types'
 const { getCodeUrl, codeflog } = useImageVerify()
 const { sendPhoneCode, countdown, sending } = usePhoneCode()
 const openId = ref('')
-const phoneShow = ref(false)
+
 const ablistShow = ref(false)
 const loginUserList = ref<loginListProps[]>()
 
@@ -58,13 +59,18 @@ const { send: sendUserInfo, loading: LoadingInfo } = useRequest((data) => getUse
   immediate: false,
   loading: false,
 })
+const { send: sendXcxScanFaceRealNameAuth } = useRequest((data) => xcxScanFaceRealNameAuth(data), {
+  immediate: false,
+  loading: false,
+})
 
 const { loading, send: sendIsReceiveCardInfo } = useRequest((data) => getIsReceiveCardInfo(data), {
   immediate: false,
   loading: false,
 })
 // 默认身份证登录
-const Login = (form, flog = 1) => {
+// loginStatus 1  正常登录  2, 后期使命认证
+const Login = (form, flog = 1, loginStatus = 1) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
@@ -86,35 +92,45 @@ const Login = (form, flog = 1) => {
         }
         // 用key 验证
         const { verifyResult }: any = await startFacialRecognitionVerify(verifyData)
-
-        // info 验证
-        const dataInfo: any = await sendUserInfo({
+        const infoParams = {
           verifyResult,
           name: model.value.username,
           idCardNumber: model.value.password,
-        })
+        }
+
         uni.hideLoading()
-        // 登录根据返回结果列表登录
-        if (dataInfo.loginUserList && dataInfo.loginUserList.length === 1) {
-          if (!dataInfo.loginUserList[0].userPhone) {
-            // 展示补充电话号吗
-            routeTo({
-              url: '/pages/login/phoneLoginbc',
-              data: { cardCode: model.value.password, userId: dataInfo.loginUserList[0].userId },
-            })
-            return false
-          } else {
-            const usrData = {
-              userPhone: dataInfo.loginUserList[0].userPhone,
-              cardCode: model.value.password,
+        if (loginStatus === 2) {
+          await sendXcxScanFaceRealNameAuth(infoParams)
+          submitUpRealsfz(0) // 提交更新实名认证
+        } else {
+          // info 验证
+          const dataInfo: any = await sendUserInfo(infoParams)
+          // 登录根据返回结果列表登录 补充电话
+          if (dataInfo.loginUserList && dataInfo.loginUserList.length === 1) {
+            if (!dataInfo.loginUserList[0].userPhone) {
+              // 展示补充电话号吗
+              routeTo({
+                url: '/pages/login/phoneLoginbc',
+                data: { cardCode: model.value.password, userId: dataInfo.loginUserList[0].userId },
+              })
+              return false
+            } else {
+              const usrData = {
+                userPhone: dataInfo.loginUserList[0].userPhone,
+                cardCode: model.value.password,
+              }
+              await userLogin(usrData, 2)
             }
-            await userLogin(usrData, 2)
+          } else if (dataInfo.loginUserList && dataInfo.loginUserList.length > 1) {
+            // 显示选择框
+
+            dataInfo.loginUserList.forEach((item) => {
+              item.cardCode = model.value.password
+            })
+            loginUserList.value = dataInfo.loginUserList
+            ablistShow.value = true
+            return false
           }
-        } else if (dataInfo.loginUserList && dataInfo.loginUserList.length > 1) {
-          // 显示选择框
-          ablistShow.value = true
-          loginUserList.value = dataInfo.loginUserList
-          return false
         }
       } catch (error) {
         console.log('error', error)
@@ -257,12 +273,15 @@ const {
   form: model3,
 } = useForm(
   (formData) => {
+    const authStore = useUserStore()
     const params = {
       userPhone: formData.phone,
       verCode: formData.code,
       code: formData.code,
-      userCardCode: formData.userCardCode,
-      userId: formData.userId || authStore.userInfo.userId,
+      // TODO: 证件姓名
+      userName: formData.userName || model.value.username,
+      userCardCode: formData.userCardCode || model.value.password,
+      userId: formData.userId || authStore.userInfo.userDId,
     }
     // 可以在此转换表单数据并提交
     return updateRealName(params)
@@ -279,6 +298,7 @@ const {
       code: '',
       userCardCode: '',
       userId: '',
+      userName: '',
     },
   },
 )
@@ -302,6 +322,26 @@ const submitUpRealName = (form, flog) => {
       }
     }
   })
+}
+// 登录后的实名认证提交
+const submitUpRealsfz = async (flog) => {
+  uni.showLoading({ title: '认证成功...' })
+  try {
+    const res = await sendUpRealName()
+    if (res) {
+      const data = authStore.userInfo
+      const newData = {
+        idCardNumber: model.value.password,
+        userName: model.value.username,
+      }
+      await resultData({ ...data, ...newData }, flog)
+    } else {
+      uni.showToast({ title: '认证失败...' })
+      uni.hideLoading()
+    }
+  } catch (error) {
+    console.log('🍱[error]:', error)
+  }
 }
 
 // 最后一步登录
@@ -338,6 +378,7 @@ const resultData = async (data, flog = 2) => {
   const pages = getCurrentPages() // 当前页面栈
   // 确定返回页面的层数
   const index = pages[pages.length - 1].route === 'pages/login/index' ? 1 : flog
+  if (!index) return
   uni.navigateBack({ delta: index })
 }
 
@@ -392,7 +433,6 @@ export default () => {
     sendIsReceiveCardInfo,
     submitUpRealName,
     userLogin,
-    phoneShow,
     ablistShow,
     loginUserList,
   }
