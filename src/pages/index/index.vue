@@ -14,6 +14,7 @@ import bgTip from '@/static/images/index/bgTip.png'
 import btnbg from '@/static/images/index/btnbg.png'
 import indexbg from '@/static/images/index/indexbg.png'
 import msgicon from '@/static/images/index/msgicon.png'
+import znbg from '@/static/images/index/znbg.png'
 import znlogo from '@/static/images/index/znlogo.png'
 import logo from '@/static/images/logo.png'
 
@@ -36,8 +37,15 @@ const { VITE_APP_LOGOTITLE } = import.meta.env
 const basestore = useBaseStore()
 const toast = useToast()
 
-const { messageClick, sendMessageList, messageLoading, swiperList, serviceArea, topAction } =
-  useIndex()
+const {
+  messageClick,
+  sendMessageList,
+  messageLoading,
+  swiperList,
+  serviceArea,
+  topAction,
+  topAction2,
+} = useIndex()
 
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
@@ -119,11 +127,13 @@ const mess2 = ref<messProps[]>([])
 
 const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
+const znbgBase64 = ref('')
 
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(indexbg)
   btnbgBase64.value = await pathToBase64(btnbg)
+  znbgBase64.value = await pathToBase64(znbg)
 })
 onMounted(async () => {
   const mess: any = await sendMessageList({
@@ -154,7 +164,7 @@ onPageScroll((e) => {
   <!-- 顶部 -->
 
   <view
-    class="box-border h-310px relative bg-no-repeat bg-cover"
+    class="box-border h-290px relative bg-no-repeat bg-cover"
     :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
   >
     <wd-navbar safeAreaInsetTop placeholder :custom-class="navbg" fixed :bordered="false">
@@ -192,12 +202,30 @@ onPageScroll((e) => {
       <wd-img :width="207" :height="44" :src="bgTip" />
     </view>
   </view>
+  <view class="px-20px">
+    <view class="flex justify-between items-center">
+      <view
+        class="w-22% flex flex-col items-center py-10px"
+        v-for="(item, index) in topAction2"
+        :key="index"
+        @click="actionTop(item)"
+      >
+        <view>
+          <wd-img :src="item.icon" width="45" height="45"></wd-img>
+        </view>
+
+        <view class="text-12px mt-10px text-center">
+          {{ item.text }}
+        </view>
+      </view>
+    </view>
+  </view>
 
   <!-- 消息 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="px-10px">
+  <view class="px-15px">
     <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
-      <view class="w-60px h-full mr-10px msg flex pl-15px box-border items-center pt-8px">
+      <view class="w-53px h-full bg-#D6E6F9 mr-10px flex box-border pl-12px pt-10px rounded-r-full">
         <wd-badge :is-dot="false">
           <wd-img :width="20" :height="20" :src="msgicon" />
         </wd-badge>
@@ -229,7 +257,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px swiper px-10px">
+  <view class="py-3px h-135px swiper px-15px">
     <wd-swiper
       :list="swiperList"
       :autoplay="true"
@@ -245,7 +273,7 @@ onPageScroll((e) => {
 
   <view v-if="closeAdFlog">
     <wd-gap height="15" bg-color="#fff"></wd-gap>
-    <view class="px-10px">
+    <view class="px-15px">
       <view
         class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-10px pr-30px"
       >
@@ -265,75 +293,76 @@ onPageScroll((e) => {
   </view>
   <!-- 服务专区 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="px-10px">
-    <dy-title title="服务专区" bottom></dy-title>
-    <view class="flex gap-10px flex-wrap justify-between">
-      <view
-        class="relative w-22.5% h-80px overflow-hidden rounded-7px"
-        :style="`background:${item.bgcolor}`"
-        v-for="(item, index) in serviceArea"
-        :key="index"
-        @click="serveClick(item)"
-      >
-        <view class="text-center text-14px my-10px">{{ item.title }}</view>
-        <view class="pl-10px">
-          <wd-img :src="item.icon" width="34" height="34"></wd-img>
-        </view>
-
+  <view class="px-15px">
+    <view class="bsbg p-10px">
+      <dy-title title="服务专区" bottom></dy-title>
+      <view class="flex gap-10px flex-wrap justify-between mx-[-10px]">
         <view
-          class="absolute bottom-0 right-0 w-18px h-18px text-center rounded-tl-7px"
-          :style="`background: ${item.iconbg}`"
+          class="flex justify-between w-48.5% h-60px items-center overflow-hidden rounded-7px bg-#EBF3FE"
+          v-for="(item, index) in serviceArea"
+          :key="index"
+          @click="serveClick(item)"
         >
-          <wd-icon name="chevron-right" size="14px" color="#fff"></wd-icon>
+          <view class="flex-1 text-center text-14px my-10px">
+            {{ item.title }}
+          </view>
+          <view class="px-10px">
+            <wd-img :src="item.icon" width="53" height="54"></wd-img>
+          </view>
         </view>
       </view>
     </view>
   </view>
   <!-- 办事指南 -->
   <wd-gap height="15" bg-color="#fff"></wd-gap>
-  <view class="px-10px">
-    <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
-    <view class="p-12px relative zhbg">
-      <view class="flex gap-20px justify-around items-center">
-        <wd-img :width="140" :height="52" :src="znlogo" />
+  <view class="px-15px">
+    <view class="bsbg p-10px">
+      <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
+      <view class="mx-[-10px] relative">
         <view
-          class="flex gap-10px text-16px color-#fff items-center bg-cover w-153px h-38px justify-center"
-          :style="` background-image: url(${btnbgBase64})`"
-          @click="toBusinessOutlets"
+          class="h-84px flex justify-center items-center rounded-6px bgzn1 bg-no-repeat"
+          :style="`background-image: url(${znbgBase64});background-size: 100%`"
         >
-          <wd-icon name="search" size="16px"></wd-icon>
-          <view>网点一键查询</view>
-        </view>
-      </view>
-
-      <view
-        class="p-15px pb-20px mt-16px zn-item"
-        v-for="(item, index) in mess2"
-        :key="index"
-        @click="messageClick(item)"
-      >
-        <view style="display: flex">
-          <wd-skeleton
-            :custom-style="{ width: '100%' }"
-            animation="flashed"
-            theme="text"
-            :loading="messageLoading || mess2.length < 1"
-            :row="2"
-          >
-            <view class="color-#333 truncate-1">{{ item.articleTitle }}</view>
-            <view class="flex gap-20px color-#888 text-14px mt-10px">
-              <view>日期：{{ removeT(item.createTime) }}</view>
-              <view>
-                <!-- <wd-icon name="browse" size="14px"></wd-icon>
-                {{ mess2[0].createBy }}次 -->
-              </view>
+          <view class="flex gap-20px justify-around items-center">
+            <wd-img :width="140" :height="52" :src="znlogo" />
+            <view
+              class="flex gap-10px text-16px color-#fff items-center bg-cover w-153px h-38px justify-center"
+              :style="` background-image: url(${btnbgBase64})`"
+              @click="toBusinessOutlets"
+            >
+              <wd-icon name="search" size="16px"></wd-icon>
+              <view>网点一键查询</view>
             </view>
-          </wd-skeleton>
+          </view>
+        </view>
+        <view
+          class="p-15px pb-20px mt-16px zn-item"
+          v-for="(item, index) in mess2"
+          :key="index"
+          @click="messageClick(item)"
+        >
+          <view style="display: flex">
+            <wd-skeleton
+              :custom-style="{ width: '100%' }"
+              animation="flashed"
+              theme="text"
+              :loading="messageLoading || mess2.length < 1"
+              :row="2"
+            >
+              <view class="color-#333 truncate-1">{{ item.articleTitle }}</view>
+              <view class="flex gap-20px color-#888 text-14px mt-10px">
+                <view>日期：{{ removeT(item.createTime) }}</view>
+                <view>
+                  <!-- <wd-icon name="browse" size="14px"></wd-icon>
+                {{ mess2[0].createBy }}次 -->
+                </view>
+              </view>
+            </wd-skeleton>
+          </view>
         </view>
       </view>
     </view>
   </view>
-  <!--  <wd-gap height="15" bg-color="#fff"></wd-gap>-->
 </template>
 
 <style>
@@ -363,16 +392,18 @@ onPageScroll((e) => {
 .msg {
   background: linear-gradient(-74deg, transparent 10px, #2d69ef 0) top right;
 }
-
-.zhbg {
-  background: linear-gradient(180deg, #c0dcff 0%, #f5f9fe 100%);
+.bsbg {
+  background: linear-gradient(189deg, #e7f1ff 0%, #feffff 16%, #ffffff 100%);
   border-radius: 6px;
 }
 
+.bgzn1 {
+  background-color: linear-gradient(180deg, #d1e6ff 0%, #e6f4ff 100%);
+}
+
 .zn-item {
-  background: #ffffff;
+  background: #f2f5f7;
   border-radius: 6px;
-  box-shadow: 0px 0px 13px 1px rgba(12, 86, 182, 0.16);
 }
 
 .swiper {
