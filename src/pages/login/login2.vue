@@ -17,7 +17,6 @@ import useLogin from './utils/useLogin'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const { Login, model, rules } = useLogin()
 const form = ref(null)
-const store2 = useUserStore()
 function handleClickLeft() {
   uni.navigateBack()
 }
@@ -66,13 +65,13 @@ const iconColse = ref(false)
             :rules="rules.password"
             prop="password"
             no-border
-            maxlength="18"
+            :maxlength="18"
           />
         </view>
       </view>
     </wd-form>
     <view class="mt-40px">
-      <wd-button type="primary" size="medium" :round="false" @click="Login(form, true)" block>
+      <wd-button type="primary" size="medium" :round="false" @click="Login(form, 0, 2)" block>
         去 认 证
       </wd-button>
     </view>

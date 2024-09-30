@@ -99,6 +99,19 @@
       }
     },
     {
+      "path": "pages/login/phoneLoginbc",
+      "type": "page",
+      "layout": "default",
+      "needLogin": true,
+      "style": {
+        "navigationStyle": "custom",
+        "mp-alipay": {
+          "transparentTitle": "always",
+          "titlePenetrate": "YES"
+        }
+      }
+    },
+    {
       "path": "pages/login/sfzLogin",
       "type": "page",
       "layout": "default",

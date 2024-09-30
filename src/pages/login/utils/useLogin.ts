@@ -6,33 +6,51 @@ import {
   openIdCode,
   phoneChartLogin,
   phoneLogin,
+  updateRealName,
+  xcxScanFaceRealNameAuth,
 } from '@/service/api/auth'
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 
-import { useRequest } from 'alova/client'
+import { useForm, useRequest } from 'alova/client'
 
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { getLoginCode, startFacialRecognitionVerify } from '@/utils/uniapi'
 import { Toast } from '@/utils/uniapi/prompt'
+import { loginListProps } from './types'
 // 获取验证码
 const { getCodeUrl, codeflog } = useImageVerify()
 const { sendPhoneCode, countdown, sending } = usePhoneCode()
 const openId = ref('')
 
+const ablistShow = ref(false)
+const loginUserList = ref<loginListProps[]>()
+
 const authStore = useUserStore()
 const read = ref(false)
-const rules = {
-  username: [{ required: true, message: '请输入姓名' }],
-  password: [{ required: true, message: '请输入身份证号码' }],
-}
-
 const model = ref({
   username: '',
   password: '',
 })
 
+const rules = {
+  username: [{ required: true, message: '请输入姓名' }],
+  password: [{ required: true, message: '请输入身份证号码' }],
+}
+const rules2 = {
+  phone: [
+    { required: true, message: '请输入手机号', trigger: 'blur' },
+    { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+  ],
+  imgcode: [{ required: true, message: '请输入图形验证码', trigger: 'blur' }],
+  code: [{ required: true, message: '请输入手机验证码', trigger: 'blur' }],
+}
+
 const { send: sendUserIdKey, loading: LoadingKey } = useRequest((data) => getUserIdKey(data), {
+  immediate: false,
+  loading: false,
+})
+const { send: sendFaceLogin, loading: LoadingFace } = useRequest((data) => faceLogin(data), {
   immediate: false,
   loading: false,
 })
@@ -41,22 +59,18 @@ const { send: sendUserInfo, loading: LoadingInfo } = useRequest((data) => getUse
   immediate: false,
   loading: false,
 })
-
-const { send: sendFaceLogin, loading: LoadingFace } = useRequest((data) => faceLogin(data), {
+const { send: sendXcxScanFaceRealNameAuth } = useRequest((data) => xcxScanFaceRealNameAuth(data), {
   immediate: false,
   loading: false,
 })
 
-const {
-  loading,
-  send: sendIsReceiveCardInfo,
-  onSuccess: cardQuerySucess,
-} = useRequest((data) => getIsReceiveCardInfo(data), {
+const { loading, send: sendIsReceiveCardInfo } = useRequest((data) => getIsReceiveCardInfo(data), {
   immediate: false,
   loading: false,
 })
-
-const Login = (form, flog?: boolean) => {
+// 默认身份证登录
+// loginStatus 1  正常登录  2, 后期使命认证
+const Login = (form, flog = 1, loginStatus = 1) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
@@ -78,21 +92,46 @@ const Login = (form, flog?: boolean) => {
         }
         // 用key 验证
         const { verifyResult }: any = await startFacialRecognitionVerify(verifyData)
-        // info 验证
-        const { openid: userId }: any = await sendUserInfo({
+        const infoParams = {
           verifyResult,
           name: model.value.username,
           idCardNumber: model.value.password,
-        })
-        // 登录
-        const loginData = {
-          userId,
-          cardCode: model.value.password,
-          userPhone: '',
         }
-        const data: any = await sendFaceLogin(loginData)
 
-        await resultData(data, flog)
+        uni.hideLoading()
+        if (loginStatus === 2) {
+          await sendXcxScanFaceRealNameAuth(infoParams)
+          submitUpRealsfz(0) // 提交更新实名认证
+        } else {
+          // info 验证
+          const dataInfo: any = await sendUserInfo(infoParams)
+          // 登录根据返回结果列表登录 补充电话
+          if (dataInfo.loginUserList && dataInfo.loginUserList.length === 1) {
+            if (!dataInfo.loginUserList[0].userPhone) {
+              // 展示补充电话号吗
+              routeTo({
+                url: '/pages/login/phoneLoginbc',
+                data: { cardCode: model.value.password, userId: dataInfo.loginUserList[0].userId },
+              })
+              return false
+            } else {
+              const usrData = {
+                userPhone: dataInfo.loginUserList[0].userPhone,
+                cardCode: model.value.password,
+              }
+              await userLogin(usrData, 2)
+            }
+          } else if (dataInfo.loginUserList && dataInfo.loginUserList.length > 1) {
+            // 显示选择框
+
+            dataInfo.loginUserList.forEach((item) => {
+              item.cardCode = model.value.password
+            })
+            loginUserList.value = dataInfo.loginUserList
+            ablistShow.value = true
+            return false
+          }
+        }
       } catch (error) {
         console.log('error', error)
       }
@@ -102,22 +141,8 @@ const Login = (form, flog?: boolean) => {
   })
 }
 
-const model2 = ref({
-  phone: '',
-  imgcode: '',
-  code: '',
-})
-const rules2 = {
-  phone: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
-  ],
-  imgcode: [{ required: true, message: '请输入图形验证码', trigger: 'blur' }],
-  code: [{ required: true, message: '请输入手机验证码', trigger: 'blur' }],
-}
-
-const submitPhoneCode = (form) => {
-  if (!model2.value.imgcode) {
+const submitPhoneCode = (form, formData) => {
+  if (!formData?.imgcode) {
     Toast('请输入图形验证码')
     return false
   }
@@ -127,8 +152,8 @@ const submitPhoneCode = (form) => {
       if (valid) {
         try {
           const params = {
-            phone: model2.value.phone,
-            code: model2.value.imgcode,
+            phone: formData.phone,
+            code: formData.imgcode,
             uuid: codeflog.value,
           }
           console.log('🧀', params)
@@ -151,24 +176,44 @@ const submitPhoneCode = (form) => {
     })
 }
 //
-const { loading: phoneLoading, send: phoneSend } = useRequest((data) => phoneLogin(data), {
-  immediate: false,
-  loading: false,
-})
+const {
+  loading: phoneLoading,
+  send: phoneSend,
+  form: model2,
+} = useForm(
+  (formData) => {
+    const params = {
+      userId: '',
+      userPhone: formData.phone,
+      userName: '',
+      verCode: formData.code,
+      shopId: '',
+    }
+    // 可以在此转换表单数据并提交
+    return phoneLogin(params)
+  },
+  {
+    // 设置这个参数为true即可在提交完成后自动重置表单数据
+    resetAfterSubmiting: true,
+    immediate: false,
+    loading: false,
+    // 初始化表单数据
+    initialForm: {
+      phone: '',
+      imgcode: '',
+      code: '',
+    },
+  },
+)
 
+// 手机号登录
 const submitPhoneLogin = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
         uni.showLoading({ title: '登录中...' })
-        const params = {
-          userId: '',
-          userPhone: model2.value.phone,
-          userName: '',
-          verCode: model2.value.code,
-          shopId: '',
-        }
-        const data: any = await phoneSend(params)
+
+        const data: any = await phoneSend()
         console.log('🍷[data]:', data)
 
         await resultData(data)
@@ -181,6 +226,7 @@ const submitPhoneLogin = (form) => {
   })
 }
 
+// 获取openid
 const { loading: openLoading, send: sendOpenIdCode } = useRequest((data) => openIdCode(data), {
   immediate: false,
   loading: false,
@@ -191,6 +237,7 @@ const { loading: chartLoading, send: chartSend } = useRequest((data) => phoneCha
   loading: false,
 })
 
+// 点击快捷登录
 const getphonenumberLogin = async (e) => {
   if (e.errMsg === 'getPhoneNumber:ok') {
     try {
@@ -219,28 +266,98 @@ const getphonenumberLogin = async (e) => {
   }
 }
 
-const goPhoneLogin = () => {
-  routeTo({
-    url: '/pages/login/phoneLogin',
+// 补充手机号/ 实名认证补充
+const {
+  loading: bcphoneLoading,
+  send: sendUpRealName,
+  form: model3,
+} = useForm(
+  (formData) => {
+    const authStore = useUserStore()
+    const params = {
+      userPhone: formData.phone,
+      verCode: formData.code,
+      code: formData.code,
+      // TODO: 证件姓名
+      userName: formData.userName || model.value.username,
+      userCardCode: formData.userCardCode || model.value.password,
+      userId: formData.userId || authStore.userInfo.userDId,
+    }
+    // 可以在此转换表单数据并提交
+    return updateRealName(params)
+  },
+  {
+    immediate: false,
+    loading: false,
+    // 设置这个参数为true即可在提交完成后自动重置表单数据
+    resetAfterSubmiting: true,
+    // 初始化表单数据
+    initialForm: {
+      phone: '',
+      imgcode: '',
+      code: '',
+      userCardCode: '',
+      userId: '',
+      userName: '',
+    },
+  },
+)
+// 补充手机号登录校验
+const submitUpRealName = (form, flog) => {
+  form.validate().then(async ({ valid, errors }) => {
+    if (valid) {
+      try {
+        uni.showLoading({ title: '处理中...' })
+        await sendUpRealName()
+        const usrData = {
+          userPhone: model3.value.phone,
+          cardCode: model3.value.userCardCode || model.value.password,
+          userName: model.value.username,
+        }
+        await userLogin(usrData, flog)
+      } catch (error) {
+        console.log('🍱[error]:', error)
+      } finally {
+        getCodeUrl()
+      }
+    }
   })
 }
-const goSfzLogin = () => {
-  routeTo({
-    url: '/pages/login/sfzLogin',
-  })
-}
-const shuziLogin = () => {
-  const pages = getCurrentPages() // 当前页面栈
-  console.log('🍻[pages]:', pages)
-  Toast('功能开发中...')
+// 登录后的实名认证提交
+const submitUpRealsfz = async (flog) => {
+  uni.showLoading({ title: '认证成功...' })
+  try {
+    const res = await sendUpRealName()
+    if (res) {
+      const data = authStore.userInfo
+      const newData = {
+        idCardNumber: model.value.password,
+        userName: model.value.username,
+      }
+      await resultData({ ...data, ...newData }, flog)
+    } else {
+      uni.showToast({ title: '认证失败...' })
+      uni.hideLoading()
+    }
+  } catch (error) {
+    console.log('🍱[error]:', error)
+  }
 }
 
-const resultData = async (data, flog?: boolean) => {
+// 最后一步登录
+const userLogin = async (item, flog) => {
+  console.log('最后登录数据------>', item)
+  const data: any = await sendFaceLogin(item)
+  await resultData(data, flog)
+}
+
+// 登录后结果处理
+const resultData = async (data, flog = 2) => {
   uni.showLoading({ title: '登录成功' })
   // 保存
   authStore.setUserInfo(data)
   // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
-  if (data.cardType !== 3) {
+  if (data?.idCardNumber) {
     try {
       const params = {
         xm: authStore.userInfo.userName,
@@ -259,12 +376,27 @@ const resultData = async (data, flog?: boolean) => {
   // 跳转到登录后的页面
   uni.hideLoading()
   const pages = getCurrentPages() // 当前页面栈
-  const index = pages[pages.length - 1].route === 'pages/login/index' ? 1 : 2
-  if (!flog) {
-    uni.navigateBack({ delta: index })
-  }
+  // 确定返回页面的层数
+  const index = pages[pages.length - 1].route === 'pages/login/index' ? 1 : flog
+  if (!index) return
+  uni.navigateBack({ delta: index })
 }
 
+const goPhoneLogin = () => {
+  routeTo({
+    url: '/pages/login/phoneLogin',
+  })
+}
+const goSfzLogin = () => {
+  routeTo({
+    url: '/pages/login/sfzLogin',
+  })
+}
+const shuziLogin = () => {
+  const pages = getCurrentPages() // 当前页面栈
+  console.log('🍻[pages]:', pages)
+  Toast('功能开发中...')
+}
 const toAgreement = (articleId: string, title: string) => {
   routeTo({
     url: '/pages-sub/webView/index',
@@ -283,6 +415,7 @@ export default () => {
     sendFaceLogin,
     LoadingFace,
     model2,
+    model3,
     rules2,
     getCodeUrl,
     codeflog,
@@ -298,5 +431,9 @@ export default () => {
     goSfzLogin,
     toAgreement,
     sendIsReceiveCardInfo,
+    submitUpRealName,
+    userLogin,
+    ablistShow,
+    loginUserList,
   }
 }
