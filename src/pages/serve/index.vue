@@ -179,7 +179,6 @@ function gridClick(item: any) {
 const active = ref<number>(0)
 const scrollTop = ref<number>(0)
 const itemScrollTop = ref<number[]>([])
-const scrollIntoViewId = ref('id1')
 
 const categories = ref([
   {
@@ -210,31 +209,30 @@ const categories = ref([
 
 function handleChange({ value }) {
   // console.log('🍬[value]:', value)
-  if (value === 1 || value === 2 || value === 3) {
-    dyheight.value = '38%'
-  }
-  if (value === 0) {
-    dyheight.value = '100%'
-  }
+  // if (value === 1 || value === 2 || value === 3) {
+  //   dyheight.value = '38%'
+  // }
+  // if (value === 0) {
+  //   dyheight.value = '100%'
+  // }
   setTimeout(() => {
     active.value = value
     scrollTop.value = itemScrollTop.value[value]
-    scrollIntoViewId.value = 'id3'
   }, 100)
 }
 
 function onScroll(e) {
   const { scrollTop } = e.detail
   // console.log('🥚[scrollTop]:', scrollTop)
-  if (scrollTop < itemScrollTop.value[active.value]) {
-    dyheight.value = '100%'
-  }
+  // if (scrollTop < itemScrollTop.value[active.value]) {
+  //   dyheight.value = '100%'
+  // }
   const threshold = 50 // 下一个标题与顶部的距离
-  if (scrollTop < threshold) {
-    active.value = 0
-    dyheight.value = '100%'
-    return
-  }
+  // if (scrollTop < threshold) {
+  //   active.value = 0
+  //   dyheight.value = '100%'
+  //   return
+  // }
   const index = itemScrollTop.value.findIndex(
     (top) => top > scrollTop && top - scrollTop <= threshold,
   )
@@ -272,7 +270,7 @@ onMounted(() => {
         customClass="customClass"
       />
     </wd-sidebar>
-    <view class="flex-1 h-60% bg-#fff mt-190px mr-10px rounded-10px mb-20px">
+    <view class="flex-1 h-65% bg-#fff mt-190px mr-10px rounded-10px mb-20px">
       <scroll-view
         class="content"
         scroll-y
