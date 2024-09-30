@@ -25,11 +25,11 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    // const data: any = await addressList(params)
-    // console.log('🍛[data]:', data)
-    // // dataList.value = data.content
-    // paging.value.complete(data)
-    paging.value.complete([])
+    const data: any = await addressList(params)
+    console.log('🍛[data]:', data)
+    // dataList.value = data.content
+    paging.value.complete(data)
+    // paging.value.complete([])
   } catch (error) {
     paging.value.complete(false)
   }
@@ -137,7 +137,7 @@ function actioAddress(item, type) {
     </view>
 
     <template #bottom>
-      <view class="px-10 py-40px">
+      <view class="py-20px">
         <wd-button block custom-class="custom-class-mine-error" @click="addAddress">
           新增收货地址
         </wd-button>
