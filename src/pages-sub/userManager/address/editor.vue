@@ -13,6 +13,7 @@
 import { useColPickerData } from '@/hooks/useColPickerData'
 import useAddress from './utils/useAddress'
 import { addressListAddOrEdit } from '@/service/api/address'
+
 const { model, rules, routeTo, Toast } = useAddress()
 const { colPickerData, findChildrenByCode } = useColPickerData()
 
@@ -27,15 +28,18 @@ const area = ref<any[]>([
   }),
 ])
 const form = ref()
-
+const showArea = ref('')
 const addAddress = () => {
   const { userName, userPhone, area, userAddress, isDefault, id } = model
   const data: any = {
     userName,
     userPhone,
-    province: area[0],
-    city: area[1],
-    area: area[2],
+    province: area[0].label,
+    city: area[1].label,
+    area: area[2].label,
+    provinceCode: area[0].value,
+    cityCode: area[1].value,
+    areaCode: area[2].value,
     userAddress,
     isDefault,
   }
@@ -83,6 +87,7 @@ const columnChange = ({ selectedItem, resolve, finish }) => {
 
 function handleConfirm({ value, selectedItems }) {
   console.log(value, selectedItems)
+  model.area.value = selectedItems
 }
 
 onLoad(async (options) => {
@@ -90,12 +95,13 @@ onLoad(async (options) => {
   console.log('options', options)
   if (options.type === 'edit') {
     isAdd.value = false
-    // let obj = JSON.parse(options.item)
+    // let obj = JSON.parse(decodeURIComponent(options.item))
     // Object.keys(model).forEach(key => {
     //   model[key] = obj[key]
     // })
-    Object.assign(model, JSON.parse(options.item))
-    model.area = [model.province, model.city, model.area]
+    Object.assign(model, JSON.parse(decodeURIComponent(options.item)))
+    model.area = [model.provinceCode, model.cityCode, model.areaCode]
+
     console.log('model', model)
   } else {
     Object.assign({}, model)
@@ -125,13 +131,13 @@ onLoad(async (options) => {
             placeholder="请输入联系电话"
             :rules="rules.userPhone"
           />
+          {{ model.area }}
           <wd-col-picker
             label="选择地址"
             v-model="model.area"
             :columns="area"
             :column-change="columnChange"
             prop="area"
-            value-key="label"
             @confirm="handleConfirm"
             :rules="rules.area"
           ></wd-col-picker>
