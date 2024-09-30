@@ -182,6 +182,7 @@
       "path": "pages/shop/order",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationBarTitleText": "确认订单",
         "backgroundColor": "#F3F4F6",
@@ -193,6 +194,7 @@
       "path": "pages/shop/shopCar",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationBarTitleText": "购物车",
         "backgroundColor": "#fff",
@@ -204,6 +206,7 @@
       "path": "pages/shop/shopInfo",
       "type": "page",
       "layout": "default",
+      "needLogin": true,
       "style": {
         "navigationStyle": "custom"
       }
@@ -213,15 +216,6 @@
     {
       "root": "pages-sub/serveMain",
       "pages": [
-        {
-          "path": "OcrCamera",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
         {
           "path": "cardApplyFromType",
           "type": "page",
@@ -260,6 +254,15 @@
         },
         {
           "path": "jinrongType",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "OcrCamera",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -366,30 +369,6 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
-          "path": "SocialSecurityCard/barcode",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/index",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/indexback",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "address/editor",
           "type": "page",
           "layout": "default",
@@ -434,6 +413,30 @@
             "backgroundColor": "#fff",
             "navigationBarBackgroundColor": "#fff",
             "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/barcode",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/indexback",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
           }
         },
         {
@@ -593,7 +596,8 @@
         {
           "path": "shopHome",
           "type": "page",
-          "layout": "default"
+          "layout": "default",
+          "needLogin": true
         },
         {
           "path": "shopPayList",
@@ -628,7 +632,6 @@
           "path": "orderInfo",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -637,7 +640,6 @@
           "path": "orderList",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
