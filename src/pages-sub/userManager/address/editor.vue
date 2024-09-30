@@ -26,6 +26,18 @@ const area = ref<any[]>([
       label: item.text,
     }
   }),
+  findChildrenByCode(colPickerData, '130000')!.map((item) => {
+    return {
+      value: item.value,
+      label: item.text,
+    }
+  }),
+  findChildrenByCode(colPickerData, '130200')!.map((item) => {
+    return {
+      value: item.value,
+      label: item.text,
+    }
+  }),
 ])
 const form = ref()
 const showArea = ref('')
@@ -34,15 +46,16 @@ const addAddress = () => {
   const data: any = {
     userName,
     userPhone,
-    province: area[0].label,
-    city: area[1].label,
-    area: area[2].label,
-    provinceCode: area[0].value,
-    cityCode: area[1].value,
-    areaCode: area[2].value,
+    province: showArea.value[0].label,
+    city: showArea.value[1].label,
+    area: showArea.value[2].label,
+    provinceCode: showArea.value[0].value,
+    cityCode: showArea.value[1].value,
+    areaCode: showArea.value[2].value,
     userAddress,
     isDefault,
   }
+  console.log('data', data)
   let msg = ''
   if (isAdd.value) {
     msg = '新增成功'
@@ -61,7 +74,6 @@ const handleSubmit = () => {
     .validate()
     .then(({ valid, errors }) => {
       if (valid) {
-        console.log('🥔', model)
         addAddress()
       }
     })
@@ -69,6 +81,29 @@ const handleSubmit = () => {
       console.log(error, 'error')
     })
 }
+// const columnChange = ({ selectedItem, resolve, finish }) => {
+//   const areaData = findChildrenByCode(colPickerData, selectedItem.value)
+//   if (areaData && areaData.length) {
+//     resolve(
+//       areaData.map((item) => {
+//         return {
+//           value: item.value,
+//           label: item.text
+//         }
+//       })
+//     )
+//   } else {
+//     finish()
+//   }
+// }
+//
+// function handleConfirm({ value, selectedItems }) {
+//   console.log(value, selectedItems)
+//   showArea.value = selectedItems
+// }
+
+const value = ref<string[]>(['150000', '150100', '150121'])
+
 const columnChange = ({ selectedItem, resolve, finish }) => {
   const areaData = findChildrenByCode(colPickerData, selectedItem.value)
   if (areaData && areaData.length) {
@@ -85,9 +120,8 @@ const columnChange = ({ selectedItem, resolve, finish }) => {
   }
 }
 
-function handleConfirm({ value, selectedItems }) {
-  console.log(value, selectedItems)
-  model.area.value = selectedItems
+function handleConfirm({ value }) {
+  console.log(value)
 }
 
 onLoad(async (options) => {
@@ -100,8 +134,8 @@ onLoad(async (options) => {
     //   model[key] = obj[key]
     // })
     Object.assign(model, JSON.parse(decodeURIComponent(options.item)))
-    model.area = [model.provinceCode, model.cityCode, model.areaCode]
-
+    // model.area = [model.provinceCode, model.cityCode, model.areaCode]
+    model.area = ['110000', '110100', '110101']
     console.log('model', model)
   } else {
     Object.assign({}, model)
@@ -131,16 +165,23 @@ onLoad(async (options) => {
             placeholder="请输入联系电话"
             :rules="rules.userPhone"
           />
-          {{ model.area }}
           <wd-col-picker
             label="选择地址"
-            v-model="model.area"
+            v-model="value"
             :columns="area"
             :column-change="columnChange"
-            prop="area"
-            @confirm="handleConfirm"
-            :rules="rules.area"
           ></wd-col-picker>
+          <!--          {{ model.area }}-->
+          <!--          <wd-col-picker-->
+          <!--            label="选择地址"-->
+          <!--            v-model="model.area"-->
+          <!--            :columns="area"-->
+          <!--            :column-change="columnChange"-->
+          <!--            prop="area"-->
+          <!--            auto-complete-->
+          <!--            @confirm="handleConfirm"-->
+          <!--            :rules="rules.area"-->
+          <!--          ></wd-col-picker>-->
           <wd-textarea
             v-model="model.userAddress"
             placeholder="请填写详细地址（街道，楼牌号等）"
