@@ -61,7 +61,7 @@ onMounted(async () => {
 
 // 上传成功后 返回新的地址
 const handleChange = (e: any) => {
-  const str = changeUploadUrl(e.fileList)
+  const str = changeUploadUrl(e.fileList, 'data')
   emit('update:modelValue', str)
 }
 
