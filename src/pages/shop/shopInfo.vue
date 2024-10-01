@@ -52,9 +52,11 @@ onShow(() => {
 })
 
 const service = () => {
-  uni.makePhoneCall({
-    phoneNumber: details.shopPhone ? details.shopPhone : 12345,
-  })
+  if (details.shopPhone) {
+    uni.makePhoneCall({
+      phoneNumber: details.shopPhone ? details.shopPhone : '',
+    })
+  }
 }
 const formatGoodsInfo = (arr: Array<any>) => {
   const obj = JSON.parse(arr[0].skuName)
@@ -236,16 +238,16 @@ onShareTimeline(() => {
         {{ details.spuName }}
       </view>
 
-      <view class="mt-10px flex items-center color-#999999">
-        <view class="mr-20px" @click="foverGoods">
+      <view class="mt-10px flex items-center justify-left color-#999999">
+        <button class="btn mr-20px" @click="foverGoods">
           <wd-img v-if="!isFavor" :width="16" :height="16" :src="shoucang"></wd-img>
           <wd-img v-else :width="16" :height="16" :src="shoucang1"></wd-img>
           <text class="ml-5px">收藏</text>
-        </view>
-        <view>
+        </button>
+        <button class="btn" open-type="share">
           <wd-img :width="16" :height="16" :src="fenxiang"></wd-img>
           <text class="ml-5px">分享</text>
-        </view>
+        </button>
       </view>
 
       <view class="w-full bg-white p-15px box-border flex items-center border-rd-10px mt-10px">
@@ -324,7 +326,11 @@ onShareTimeline(() => {
           <wd-img :width="30" height="30" :src="shangdian"></wd-img>
           <wd-text text="进店" color="#666666" size="12px"></wd-text>
         </view>
-        <view class="flex flex-col item-center justify-center" @click="service">
+        <view
+          class="flex flex-col item-center justify-center"
+          @click="service"
+          v-if="details.shopPhone"
+        >
           <wd-img :width="30" height="30" :src="kefu"></wd-img>
           <wd-text text="客服" color="#666666" size="12px"></wd-text>
         </view>
@@ -381,5 +387,14 @@ onShareTimeline(() => {
   color: #333333;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-size: 16px;
+  color: #777777;
 }
 </style>

@@ -46,14 +46,8 @@ function login() {
 
 const toast = useToast()
 const bgUrlBase64 = ref()
-const countInfo = ref({
-  pointsNum: 0,
-  couponNum: 0,
-  pocketNum: 0,
-  userGrade: 1,
-  userGradeName: '普通',
-})
-
+const userGrade = ref(1)
+const userGradeTitle = ref('')
 const dingdan = (e) => {
   routeTo({ url: e })
 }
@@ -76,7 +70,11 @@ onShow(async () => {
 
       const countInfo: any = await sendMyInfo()
       console.log('🍪[countInfo]:', countInfo)
-      countInfo.value = {}
+      userGrade.value = countInfo.userGrade
+      topList.value[0].value = countInfo.pointsNum
+      topList.value[1].value = countInfo.couponNum
+      topList.value[2].value = countInfo.pocketNum
+      userGradeTitle.value = countInfo.userGradeName
 
       // const data2: any = await sendInterInfo()
       // topList.value[0].value = data2.totalIntegral ?? 0
@@ -134,7 +132,28 @@ onShow(async () => {
                   {{ isLogined ? (userInfo.userName ?? '微信用户') : '立即登录' }}
                 </view>
 
-                <view v-if="userInfo"></view>
+                <view v-if="isLogined">
+                  <view v-if="userGrade == 1" class="mt-2">
+                    <img src="/src/static/images/mine/level1.png" alt="" class="userGradeBG" />
+                    <span class="userGradeTitle l1">{{ userGradeTitle }}</span>
+                  </view>
+                  <view v-else-if="userGrade == 2" class="mt-2">
+                    <img src="/src/static/images/mine/level2.png" alt="" class="userGradeBG" />
+                    <span class="userGradeTitle l2">{{ userGradeTitle }}</span>
+                  </view>
+                  <view v-else-if="userGrade == 3" class="mt-2">
+                    <img src="/src/static/images/mine/level3.png" alt="" class="userGradeBG" />
+                    <span class="userGradeTitle l3">{{ userGradeTitle }}</span>
+                  </view>
+                  <view v-else-if="userGrade == 4" class="mt-2">
+                    <img src="/src/static/images/mine/level4.png" alt="" class="userGradeBG" />
+                    <span class="userGradeTitle l4">{{ userGradeTitle }}</span>
+                  </view>
+                  <view v-else-if="userGrade == 5" class="mt-2">
+                    <img src="/src/static/images/mine/level5.png" alt="" class="userGradeBG" />
+                    <span class="userGradeTitle l5">{{ userGradeTitle }}</span>
+                  </view>
+                </view>
               </view>
             </view>
           </template>
@@ -287,5 +306,48 @@ onShow(async () => {
     content: '';
     background: #e5e5e5;
   }
+}
+
+.userGradeTitle {
+  position: absolute;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 62px;
+  height: 19px;
+  padding-top: 4px;
+  padding-left: 12px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+
+  &.l1 {
+    color: #548d33;
+  }
+
+  &.l2 {
+    color: #898989;
+  }
+
+  &.l3 {
+    color: #ff8000;
+  }
+
+  &.l4 {
+    color: #f9f0ea;
+  }
+
+  &.l5 {
+    color: #f9f0ea;
+  }
+}
+
+.userGradeBG {
+  position: absolute;
+  display: inline-block;
+  width: 62px;
+  height: 19px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
 }
 </style>

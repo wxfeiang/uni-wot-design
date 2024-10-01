@@ -162,12 +162,12 @@ const serveList = ref<serveProps[]>([
     path: '/pages-sub/userManager/userCenter/suggest',
     islink: true,
   },
-  {
-    icon: yhzx,
-    title: '用户中心',
-    path: '/pages-sub/userManager/userCenter/user',
-    islink: true,
-  },
+  // {
+  //   icon: yhzx,
+  //   title: '用户中心',
+  //   path: '/pages-sub/userManager/userCenter/user',
+  //   islink: true,
+  // },
 
   {
     icon: shezhi,

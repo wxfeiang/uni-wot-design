@@ -29,7 +29,7 @@ async function queryList(pageNo: number, pageSize: number) {
   // 调用接口获取数据
   try {
     const data: any = await sendOrderList(params)
-    list.value = data.records as any
+    list.value = data.content as any
     paging.value.complete(list.value)
     // paging.value.complete([])
   } catch (error) {
@@ -56,7 +56,7 @@ const goback = function (url, e) {
 
 function changeTab(e) {
   tabsVal.value = e.name
-  queryList()
+  queryList(1, 10)
 }
 
 const gopath = function (url, e) {
@@ -129,70 +129,157 @@ onLoad((options) => {
                   round
                   src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
                 />
-                <wd-text text="无备注" size="16px" color="#777777" custom-class="ml-1"></wd-text>
+                <wd-text
+                  :text="item.shopName"
+                  size="16px"
+                  color="#777777"
+                  custom-class="ml-1"
+                ></wd-text>
                 <wd-icon name="arrow-right" size="16px" class="ml-1" color="#777777"></wd-icon>
               </view>
               <wd-text text="代发货" size="14px" color="#777777" class=""></wd-text>
             </view>
           </template>
-          <view v-for="(it, ind) in list2" :key="ind">
+          <view v-for="(it, ind) in item.sysOrderItemBeanList" :key="ind">
             <view class="flex justify-between items-center mt-2 mb-4">
-              <wd-img
-                :width="100"
-                :height="100"
-                radius="7"
-                src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-              />
+              <wd-img :width="100" :height="100" radius="7" :src="it.skuUrl[0]" />
               <view class="ml-2 flex-1">
                 <wd-text
-                  text="知味观糕点礼盒杭州特产中式送礼送长辈中式糕点心中秋月节饼"
+                  :text="it.productName"
                   :lines="2"
                   size="16px"
                   color="#000000"
                   custom-class="font-bold"
                 ></wd-text>
                 <wd-text
-                  text="圆形铁盒/盒"
+                  :text="item.skuName"
                   :lines="1"
                   size="14px"
                   color="#757575"
                   custom-class="mt-1"
                 ></wd-text>
                 <view class="flex justify-between items-center mt-4">
-                  <wd-text text="￥32111" size="16px" color="#000000"></wd-text>
-                  <wd-text text="x1" size="14px" color="#777777" custom-class="ml-1"></wd-text>
+                  <wd-text
+                    :text="`￥${it.skuSellingPrice?.toFixed(2)}`"
+                    size="16px"
+                    color="#000000"
+                  ></wd-text>
+                  <wd-text
+                    :text="`x${it.productSkuCount}`"
+                    size="14px"
+                    color="#777777"
+                    custom-class="ml-1"
+                  ></wd-text>
                 </view>
               </view>
             </view>
           </view>
           <view class="flex justify-end items-center my-3">
-            <wd-text text="共6件 金额：" size="14px" color="#000000"></wd-text>
+            <wd-text
+              :text="`共${item.sysOrderItemBeanList.length}件 金额：`"
+              size="14px"
+              color="#000000"
+            ></wd-text>
             <wd-text text="￥" size="14px" font-bold color="#d04b55" custom-class="ml-1"></wd-text>
-            <wd-text text="2339" size="18px" font-bold color="#d04b55" class=""></wd-text>
+            <wd-text
+              :text="
+                item.sysOrderItemBeanList?.reduce(
+                  (init, t) => (init += (t?.skuSellingPrice * 100 * t?.productSkuCount) / 100),
+                  0,
+                )
+              "
+              size="18px"
+              font-bold
+              color="#d04b55"
+              class=""
+            ></wd-text>
           </view>
           <template #footer>
             <view class="flex justify-between items-center">
               <wd-text text="代发货" size="14px" color="#f0883a" class=""></wd-text>
               <view class="flex justify-right items-center">
-                <wd-button
-                  size="small"
-                  plain
-                  type="warning"
-                  custom-class="inline-block ml-2"
-                  style="width: 5rem"
-                  @click="goInfo()"
-                >
-                  评价
-                </wd-button>
-                <wd-button
-                  size="small"
-                  plain
-                  type="info "
-                  custom-class="inline-block ml-2"
-                  style="width: 5rem"
-                >
-                  立即使用
-                </wd-button>
+                <template v-if="tabsVal == '2'">
+                  <wd-button
+                    size="small"
+                    plain
+                    type="warning"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfo()"
+                  >
+                    评价
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info "
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                  >
+                    立即使用
+                  </wd-button>
+                </template>
+                <template v-else-if="tabsVal == '1'">
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                  >
+                    取消订单
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="warning"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                  >
+                    去支付
+                  </wd-button>
+                </template>
+                <template v-else-if="tabsVal == '10'">
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                  >
+                    申请退款
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                  >
+                    联系催单
+                  </wd-button>
+                </template>
+                <template v-else-if="tabsVal == '11'">
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                  >
+                    查看物流
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="warning"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                  >
+                    确认收货
+                  </wd-button>
+                </template>
+                <template v-else>退换/取消</template>
               </view>
             </view>
           </template>

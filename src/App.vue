@@ -23,6 +23,14 @@ scroll-view {
   height: 100%;
   overflow: hidden;
 }
+button {
+  display: inline-block;
+  background-color: transparent;
+
+  &::after {
+    border: none;
+  }
+}
 
 image {
   width: 100%;
