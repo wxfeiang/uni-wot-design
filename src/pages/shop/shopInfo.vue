@@ -178,6 +178,25 @@ const addCar = (val: any) => {
     skuKey.value = false
   })
 }
+
+const getday = (sDate1: any) => {
+  const sDate2 = new Date()
+
+  const Y = sDate2.getFullYear() + '-'
+  const M =
+    (sDate2.getMonth() + 1 < 10 ? '0' + (sDate2.getMonth() + 1) : sDate2.getMonth() + 1) + '-'
+  const D = sDate2.getDate() < 10 ? '0' + sDate2.getDate() : sDate2.getDate()
+
+  const oDate2 = new Date(sDate1).getTime() // 转换为yyyy-MM-dd格式
+  const oDate1 = new Date(Y + M + D).getTime() // 转换为yyyy-MM-dd格式
+
+  const iDays = Math.abs(oDate2 - oDate1) / 1000 / 60 / 60 / 24 // 把相差的毫秒数转换为天数
+  if (parseInt(iDays) <= 0) return 0
+  else {
+    return parseInt(iDays)
+  } // 返回相差天数
+}
+
 onShow(() => {
   if (userStore.isLogined) {
     getFavoritesList()
@@ -263,9 +282,9 @@ onShareTimeline(() => {
       </view>
 
       <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px">
-        <view>评价（{{ evaList.length }}）</view>
+        <view>评价（{{ details.evaList.length }}）</view>
         <!-- 只显示3条 截取评价列表数据3条就行 -->
-        <view class="flex mt-10px mb-20px" v-for="i in evaList.slice(0, 3)" :key="i.id">
+        <view class="flex mt-10px mb-20px" v-for="i in details.evaList.slice(0, 3)" :key="i.id">
           <wd-img
             :width="45"
             :height="45"
@@ -275,7 +294,7 @@ onShareTimeline(() => {
           <view class="flex-1 overflow-hidden ml-10px">
             <view class="w-full flex items-center justify-between">
               <view>
-                <wd-text :text="i.name" bold color="#333"></wd-text>
+                <wd-text :text="i.userNickName" bold color="#333"></wd-text>
                 <wd-text
                   text="已购"
                   size="12px"
@@ -284,14 +303,19 @@ onShareTimeline(() => {
                 ></wd-text>
                 <wd-text :text="i.num" size="12px" color="#999"></wd-text>
               </view>
-              <wd-text :text="`${i.time}天前`" size="12px" color="#999"></wd-text>
+              <wd-text
+                :text="`${getday(i.evaluationTime.slice(0, 10))}天前`"
+                size="12px"
+                color="#999"
+              ></wd-text>
             </view>
             <view class="text">
-              {{ i.content }}
+              {{ i.evaluationContent }}
             </view>
           </view>
         </view>
         <view
+          v-if="details.evaList.length > 3"
           class="color-#999 w-full pt-5px flex items-center justify-center mt-10px"
           style="border-top: 1px solid #eee"
           @click="routeTo({ url: '/pages-sub/shopManager/evaluateList?id=1' })"
@@ -324,7 +348,7 @@ onShareTimeline(() => {
           @click="routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: details.shopId } })"
         >
           <wd-img :width="30" height="30" :src="shangdian"></wd-img>
-          <wd-text text="进店" color="#666666" size="12px"></wd-text>
+          <wd-text text="进店" color="#666666" size="12px" custom-class="texts"></wd-text>
         </view>
         <view
           class="flex flex-col item-center justify-center"
@@ -332,14 +356,14 @@ onShareTimeline(() => {
           v-if="details.shopPhone"
         >
           <wd-img :width="30" height="30" :src="kefu"></wd-img>
-          <wd-text text="客服" color="#666666" size="12px"></wd-text>
+          <wd-text text="客服" color="#666666" size="12px" custom-class="texts"></wd-text>
         </view>
         <view
           class="flex flex-col item-center justify-center"
           @click="routeTo({ url: '/pages/shop/shopCar' })"
         >
           <wd-img :width="30" height="30" :src="gouwuche"></wd-img>
-          <wd-text text="购物车" color="#666666" size="12px"></wd-text>
+          <wd-text text="购物车" color="#666666" size="12px" custom-class="texts"></wd-text>
         </view>
       </view>
       <view
@@ -396,5 +420,11 @@ onShareTimeline(() => {
   margin: 0;
   font-size: 16px;
   color: #777777;
+}
+
+:deep(.texts) {
+  display: inline-block;
+  min-width: 30px;
+  text-align: center;
 }
 </style>
