@@ -54,7 +54,6 @@ const getShopDetails = () => {
   getShopInfo({ shopId: model.shopId }).then((res) => {
     shopDetails.value = res
     isFollow.value = res.operation === 1
-    console.log('res', shopDetails.value)
   })
 }
 
@@ -65,9 +64,11 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       size: pageSize,
       ...model,
     })
+    console.log('res111111', res)
     res.forEach((el) => {
-      el.saleUrl = JSON.parse(el.saleUrl)[0].data
+      el.saleUrl = JSON.parse(el.rotationUrl).data
     })
+    console.log('goodList', res)
     paging.value.complete(res)
     // paging.value.complete([])
   } catch {
@@ -158,13 +159,16 @@ onLoad(async (options) => {
       </view>
     </template>
     <view
-      class="flex w-full h-100px p-7px box-border mb-10px bg-white border-rd-6px"
+      class="flex w-full px-4 py-2 box-border bg-white border-rd-6px"
       @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
       v-for="item in goodList"
       :key="item.spuId"
     >
-      <wd-img :width="86" :height="86" :src="item.saleUrl" radius="5px" />
-      <view class="flex-1 ml-15px flex flex-col justify-between overflow-hidden">
+      <wd-img :width="100" :height="100" :src="item.saleUrl" radius="5px" />
+      <view
+        class="flex-1 ml-15px py-2 flex flex-col justify-between overflow-hidden"
+        style="height: 100px"
+      >
         <view class="w-full name">
           {{ item.spuName }}
         </view>
