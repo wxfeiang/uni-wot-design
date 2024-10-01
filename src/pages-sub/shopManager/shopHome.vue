@@ -75,9 +75,22 @@ const getLsit = async (pageNo: number, pageSize: number) => {
   }
 }
 
+function resetSeach() {
+  model.putPullTime = ''
+  model.salesVolume = ''
+  model.sellPrice = ''
+  sort.putPullTime = 1
+  sort.salesVolume = 1
+  sort.sellPrice = 1
+}
+
 function handleChange(val, type) {
-  console.log('val', val)
-  model[type] = val === 1 ? 'asc' : 'desc'
+  resetSeach()
+
+  model[type] = val.value === 1 ? 'asc' : 'desc'
+  sort[type] = val.value
+
+  console.log('sort', sort)
   paging.value.reload()
 }
 
