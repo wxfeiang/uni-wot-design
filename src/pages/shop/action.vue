@@ -152,7 +152,13 @@ onLoad(async () => {
   background-color: transparent !important;
 }
 :deep(.wd-navbar) {
+  position: relative !important;
+  width: 100vw !important;
+  color: #fff !important;
   background-color: transparent !important;
+  .items-center {
+    color: #fff !important;
+  }
 }
 .back {
   position: fixed;
@@ -233,7 +239,7 @@ onLoad(async () => {
     }
     &::after {
       position: absolute;
-      top: calc(#{$d} + 4rpx);
+      top: calc(#{$d} + 7rpx);
       left: calc(#{$d} / 2);
       height: calc(100% - #{$d});
       content: '';
@@ -256,6 +262,9 @@ onLoad(async () => {
   margin-bottom: 22rpx;
   background: #fff;
   border-radius: 12rpx;
+  :deep(image) {
+    border-radius: 10rpx;
+  }
   .flex {
     display: flex;
     align-items: center;
@@ -293,6 +302,7 @@ onLoad(async () => {
       font-size: 28rpx;
     }
     .desc {
+      margin-left: 12rpx;
       font-size: 24rpx;
       color: #999;
     }
@@ -305,6 +315,10 @@ onLoad(async () => {
   width: 626rpx;
   height: 232rpx;
   padding: 32rpx 30rpx 26rpx 46rpx;
+  margin-bottom: 34rpx;
+  &:last-child {
+    margin-bottom: 0;
+  }
   image {
     position: absolute;
     top: 0;
