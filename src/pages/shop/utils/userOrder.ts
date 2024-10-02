@@ -7,6 +7,7 @@ import { useRequest } from 'alova/client'
 const orderDetails = ref<any>([])
 const checkShop = ref(null)
 const shopAdsList = ref<any>([])
+const selfAdsList = ref<any>([])
 const shopExtractList = ref<any>([])
 const showPop = reactive({
   showDeliveryMode: false,
@@ -28,24 +29,55 @@ const actions = ref<Array<any>>([
 ])
 
 const submit = () => {
-  console.log('提交订单', JSON.stringify(orderDetails.value))
-  submitOrder({ xcxPaymentReqVos: orderDetails.value }).then((res) => {
-    console.log('订单提交结果', res)
+  console.log('提交订单', orderDetails.value)
+
+  let fl = true
+  orderDetails.value.forEach((item, idx) => {
+    if (item.deliveryMode !== 1 && !shopAdsList.value[idx]) {
+      fl = false
+    }
+    if (item.deliveryMode === 1 && !selfAdsList.value[idx]) {
+      fl = false
+    }
   })
+
+  if (fl) {
+    submitOrder({ xcxPaymentReqVos: orderDetails.value }).then((res) => {
+      console.log('订单提交结果', res)
+    })
+  } else {
+    Toast('请选择配送地址或自提方式')
+  }
 }
 const getAdsList = async () => {
+  shopAdsList.value = []
+  selfAdsList.value = []
   adsList.value = await addressList({})
-  adsList.value.forEach((element) => {
-    element.isCheck = !!element.isDefault
-  })
-  const obj = adsList.value.find((it) => it.isDefault)
+  if (adsList.value.length > 0) {
+    adsList.value.forEach((element) => {
+      element.isCheck = !!element.isDefault
+    })
+    let obj = adsList.value.find((it) => it.isDefault)
+    if (!obj) {
+      obj = adsList.value[0]
+    }
 
-  orderDetails.value.forEach((it) => {
-    shopAdsList.value.push(obj)
-    shopExtractList.value.push('请选择门店')
-    it.receiveAddrId = obj.id
-  })
-  console.log('obj', obj)
+    orderDetails.value.forEach((it) => {
+      shopAdsList.value.push(obj)
+      selfAdsList.value.push({ username: '', userphone: '' })
+      shopExtractList.value.push('请选择门店')
+      it.receiveAddrId = obj.id
+    })
+  } else {
+    orderDetails.value.forEach((it) => {
+      const obj = adsList.value.find((it) => it.isDefault)
+      shopAdsList.value.push(obj)
+      selfAdsList.value.push({ username: '', userphone: '' })
+      shopExtractList.value.push('请选择门店')
+      it.receiveAddrId = ''
+    })
+  }
+  console.log('shopAdsList', shopAdsList)
 }
 
 const handleChange = ({ value }, id, key) => {
@@ -128,6 +160,7 @@ export default () => {
     submit,
     checkAddress,
     shopAdsList,
+    selfAdsList,
     shopExtractList,
     sendGetActivityList,
   }

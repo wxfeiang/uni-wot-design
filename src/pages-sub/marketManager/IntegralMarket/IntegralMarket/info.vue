@@ -11,6 +11,7 @@
 import { routeTo } from '@/utils'
 import { goodsInfoProps } from './utils/types'
 import useInter from './utils/useInter'
+
 const title = ref('商品详情')
 
 const { sendInterProductInfo } = useInter()
@@ -78,9 +79,9 @@ onLoad(async (option) => {
             :lines="1"
             size="24px"
             color="#FB2549"
-            class="font-bold"
+            custom-class="font-bold"
           ></wd-text>
-          <wd-text text="积分" :lines="1" size="12px" color="#FB2549" class="ml-1"></wd-text>
+          <wd-text text="积分" :lines="1" size="12px" color="#FB2549" custom-class="ml-1"></wd-text>
         </view>
 
         <wd-text
@@ -88,7 +89,7 @@ onLoad(async (option) => {
           :lines="1"
           size="12px"
           color="#999999"
-          class="ml-1"
+          custom-class="ml-1"
         ></wd-text>
       </view>
       <wd-text
@@ -96,7 +97,7 @@ onLoad(async (option) => {
         :lines="2"
         size="18px"
         color="#000000"
-        class="font-bold mb-2"
+        custom-class="font-bold mb-2"
       ></wd-text>
 
       <view class="flex justify-left items-center borders pt-2 pb-2 mt-2 mb-2">
@@ -106,12 +107,18 @@ onLoad(async (option) => {
           :lines="1"
           size="14px"
           color="#777777"
-          class="ml-2"
+          custom-class="ml-2"
         ></wd-text>
       </view>
 
       <view class="mt-2 mb-1">
-        <wd-text text="商品详情" :lines="1" size="18px" color="#000000" class="font-bold"></wd-text>
+        <wd-text
+          text="商品详情"
+          :lines="1"
+          size="18px"
+          color="#000000"
+          custom-class="font-bold"
+        ></wd-text>
         <view>
           <wd-img :src="goodsInfoData.goodImg" width="100%" height="150"></wd-img>
         </view>
