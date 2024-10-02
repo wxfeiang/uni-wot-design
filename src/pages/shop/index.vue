@@ -224,18 +224,17 @@ onLoad(async () => {
 .banner {
   background: #f7f7f7;
 }
-
-.caricon::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 12px;
-  height: 12px;
-  content: '';
-  background-color: #ff0707;
-  border: 1px solid #ffffff;
-  border-radius: 50px;
-}
+/*.caricon::after {*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  right: 0;*/
+/*  width: 12px;*/
+/*  height: 12px;*/
+/*  content: '';*/
+/*  background-color: #ff0707;*/
+/*  border: 1px solid #ffffff;*/
+/*  border-radius: 50px;*/
+/*}*/
 
 .list {
   /*min-height: calc(100vh - 417px);*/

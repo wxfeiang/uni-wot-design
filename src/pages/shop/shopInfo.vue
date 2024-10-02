@@ -28,12 +28,6 @@ import {
 import vkDataGoodsSkuPopup from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup.vue'
 import { Toast } from '@/utils/uniapi/prompt'
 
-const evaList = ref([
-  { id: 1, name: '用户1233', avatar: '', num: 20, time: 3, content: '小孩都说很好吃' },
-  { id: 2, name: 'afaasd ', avatar: '', num: 10, time: 4, content: '嘎嘎好吃' },
-  { id: 3, name: '根深蒂固', avatar: '', num: 1, time: 22, content: '好用，隔壁小孩都玩哭了' },
-  { id: 4, name: 'gsghrer1122', avatar: '', num: 3, time: 11, content: '小孩都说很好吃' },
-])
 const userStore = useUserStore()
 const current = ref<number>(0)
 const title = ref('商品详情')
@@ -133,11 +127,12 @@ const getFavoritesList = async () => {
 }
 const buyNow = (val: any) => {
   console.log('提交订单', val)
-  const { shopId, shopName } = details
+  const { shopId, shopName, shopAvatar } = details
   const obj = [
     {
       shopId,
       shopName,
+      shopAvatar,
       receiveAddrId: '', // 收货地址Id
       deliveryAmount: Number((val.buy_num * val.price).toFixed(2)), // 订单金额
       deliveryMode: 0, // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
@@ -145,6 +140,7 @@ const buyNow = (val: any) => {
       receiveId: '', // 收货人Id
       couponId: '', // 优惠券ID
       orderResource: 2, //  订单来源 1web  2 小程序
+
       payShopListReqVo: [
         {
           spuId: val.goods_id,
@@ -171,6 +167,7 @@ const addCar = (val: any) => {
     itemNum: val.buy_num,
     spuType: details.spuType,
     spuId: val.goods_id,
+    shopAvatar: details.shopAvatar,
   }
   addCart(obj).then((res) => {
     console.log('添加购物车', res)
@@ -243,7 +240,11 @@ onShareTimeline(() => {
       <view class="w-full flex justify-between items-center">
         <view class="flex items-center">
           <wd-text text="￥" color="#F44D24" size="16px"></wd-text>
-          <wd-text :text="details.skuList[0].sellPrice" color="#F44D24" size="25px"></wd-text>
+          <wd-text
+            :text="details.skuList ? details.skuList[0].sellPrice : 0"
+            color="#F44D24"
+            size="25px"
+          ></wd-text>
           <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
             <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
             <wd-text text="￥" color="#fff" size="10px"></wd-text>
@@ -281,8 +282,8 @@ onShareTimeline(() => {
         </view>
       </view>
 
-      <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px">
-        <view>评价（{{ details.evaList.length }}）</view>
+      <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px" v-if="details.evaList">
+        <view>评价（{{ details.evaList ? details.evaList.length : 0 }}）</view>
         <!-- 只显示3条 截取评价列表数据3条就行 -->
         <view class="flex mt-10px mb-20px" v-for="i in details.evaList.slice(0, 3)" :key="i.id">
           <wd-img

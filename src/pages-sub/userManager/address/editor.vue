@@ -62,7 +62,7 @@ const addAddress = () => {
   addressListAddOrEdit(data).then((res) => {
     console.log('新增/修改地址', res)
     Toast(msg)
-    routeTo({ url: '/pages-sub/userManager/address/list' })
+    uni.navigateBack()
   })
 }
 const handleSubmit = () => {

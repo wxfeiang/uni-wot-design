@@ -11,6 +11,7 @@
 import { routeTo } from '@/utils'
 import { ExchangeGoodsListProps } from './utils/types'
 import useInter from './utils/useInter'
+
 const title = ref('积分兑换')
 const paging = ref(null)
 const { sendInterProductList, sendInterInfo } = useInter()
@@ -154,6 +155,7 @@ onLoad(async () => {
 :deep(.tabsBox .wd-tabs__line) {
   display: none;
 }
+
 :deep(.tabsBox) {
   background: #f3f4f6 !important;
 }
