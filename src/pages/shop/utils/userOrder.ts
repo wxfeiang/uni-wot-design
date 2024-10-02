@@ -1,7 +1,8 @@
 import { Toast } from '@/utils/uniapi/prompt'
 import { routeTo } from '@/utils'
-import { getPickUpStoreByMerchantId, submitOrder } from '@/service/api/shop'
+import { getPickUpStoreByMerchantId, submitOrder, getActivityList } from '@/service/api/shop'
 import { addressList } from '@/service/api/address'
+import { useRequest } from 'alova/client'
 
 const orderDetails = ref<any>([])
 const checkShop = ref(null)
@@ -101,6 +102,15 @@ const select = (e) => {
   orderDetails.value[checkShop.value].deliveryMode = e.index
   console.log('orderDetails.value', orderDetails.value)
 }
+
+const { send: sendGetActivityList } = useRequest(
+  (params: ActivityParams) => getActivityList<IActivityList>(params),
+  {
+    immediate: false,
+    loading: true,
+  },
+)
+
 export default () => {
   return {
     routeTo,
@@ -119,5 +129,6 @@ export default () => {
     checkAddress,
     shopAdsList,
     shopExtractList,
+    sendGetActivityList,
   }
 }

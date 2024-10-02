@@ -23,6 +23,8 @@ const GET_SHOP_INFO = baseUrlApi('/product/app/shop/getShopSimpleInfoById')
 const GET_SHOP_GOODS = baseUrlApi('/product/app/productSpu/getShopProductByShopId')
 const PICK_UP_STORE = baseUrlApi('/product/app/item/getPickUpStoreByMerchantId')
 const SUBMIT_ORDER = baseUrlApi('/trade/app/XcxPayment/createOrderProduct')
+const GET_ACTIVITY_BY_ID = baseUrlApi('/promotion/app/coupon/getActivityCouponProductById')
+const GET_ACTIVITY_LIST = baseUrlApi('/promotion/app/hdShophd/page')
 
 /**
  *   提交订单
@@ -458,3 +460,18 @@ export function getMerchantServicesCount<T>(data) {
     data,
   )
 }
+
+/**
+ * 活动列表
+ * @param params 分页
+ * @returns
+ */
+export const getActivityList = <T>(params) => request.Post<T>(GET_ACTIVITY_LIST, params)
+
+/**
+ * 活动详情
+ * @param params 活动id
+ * @returns
+ */
+export const getActivityById = <T>(params: ActivityParams) =>
+  request.Post<T>(GET_ACTIVITY_BY_ID, params)

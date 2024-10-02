@@ -24,7 +24,10 @@ import { pathToBase64 } from 'image-tools'
 import { getGoodList } from '@/service/api/shop'
 
 import { routeTo } from '@/utils'
+import useUserOrder from './utils/userOrder'
 
+const { sendGetActivityList: getActivityList } = useUserOrder()
+const pageOption = ref<PageOption>({ page: 1, size: 10 })
 const paging = ref(null)
 const goodList = ref([])
 const { navTop } = useNav()
@@ -63,8 +66,9 @@ const getLsit = async (pageNo: number, pageSize: number) => {
     paging.value.complete(false)
   }
 }
-onShow(() => {
+onShow(async () => {
   // getLsit()
+  const res = await getActivityList(pageOption.value)
 })
 onLoad(async () => {
   // 设置背景图片
@@ -117,6 +121,7 @@ onLoad(async () => {
           width="100%"
           :height="150"
           src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
+          @click="gopath('/pages-sub/homeManager/action?id=3')"
         />
         <div class="w-full mt-10px flex justify-between">
           <div
