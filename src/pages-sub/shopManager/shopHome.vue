@@ -166,7 +166,7 @@ onLoad(async (options) => {
     >
       <wd-img :width="100" :height="100" :src="item.saleUrl" radius="5px" />
       <view
-        class="flex-1 ml-15px py-2 flex flex-col justify-between overflow-hidden"
+        class="flex-1 ml-15px py-2 flex flex-col justify-between overflow-hidden box-border"
         style="height: 100px"
       >
         <view class="w-full name">
