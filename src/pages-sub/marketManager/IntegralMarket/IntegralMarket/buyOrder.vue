@@ -6,32 +6,130 @@
   },
 }
 </route>
-
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
 import useInter from './utils/useInter'
-const title = ref('确认订单')
+import { useUserStore } from '@/store'
+import { routeTo } from '@/utils'
+import { Toast } from '@/utils/uniapi/prompt'
 
-const { sendExchangeGoods } = useInter()
+import { addressList } from '@/service/api/address'
+import { getPickUpStoreByMerchantId } from '@/service/api/shop'
 
-const gopath = function (e) {
-  routeTo({
-    url: '/pages-sub/marketManager/IntegralMarket/info',
-    data: e,
-  })
+const { sendExchangeGoods, sendInterProductInfo } = useInter()
+
+const userStore = useUserStore()
+
+const orderDetails = ref<any>([])
+const checkShop = ref(null)
+const shopAdsList = ref<any>({})
+const selfAdsList = ref<any>({})
+const shopExtractList = ref<any>({})
+
+const isExtractList = ref<any>([])
+const showPop = reactive({
+  showDeliveryMode: false,
+  isExtract: false,
+  addList: false,
+})
+const getAdsList = async () => {
+  shopAdsList.value = {}
+  selfAdsList.value = {}
+
+  adsList.value = await addressList({})
+  if (adsList.value.length > 0) {
+    adsList.value.forEach((element) => {
+      element.isCheck = !!element.isDefault
+    })
+    let obj = adsList.value.find((it) => it.isDefault)
+    if (!obj) {
+      obj = adsList.value[0]
+    }
+
+    shopAdsList.value = obj
+    selfAdsList.value = { username: '', userphone: '' }
+    shopExtractList.value = '请选择门店'
+  } else {
+    const obj = adsList.value.find((it) => it.isDefault)
+    shopAdsList.value = obj
+    selfAdsList.value = { username: '', userphone: '' }
+    shopExtractList.value = '请选择门店'
+  }
 }
-const chooesAdsress = function () {
+
+const handleChange = ({ value }, id, key) => {
+  console.log(value, id, key)
+  if (key === 'isExtractList') {
+    isExtractList.value.forEach((element) => {
+      if (element.id === id) {
+        element.isCheck = value
+      } else {
+        element.isCheck = !value
+      }
+    })
+  } else {
+    adsList.value.forEach((element) => {
+      if (element.id === id) {
+        element.isCheck = value
+      } else {
+        element.isCheck = !value
+      }
+    })
+  }
+}
+const checkAddress = (idx) => {
+  showPop.addList = true
+  checkShop.value = idx
+}
+const checkExtract = (key) => {
+  if (key === 'isExtractList') {
+    const obj = isExtractList.value.find((it) => it.isCheck)
+    orderDetails.value.receiveAddrId = obj.id
+    shopExtractList.value = obj.storeName
+    showPop.isExtract = false
+  } else {
+    const obj = adsList.value.find((it) => it.isCheck)
+    shopAdsList.value = obj
+    orderDetails.value.receiveAddrId = obj.id
+    showPop.addList = false
+  }
+}
+const checkDriver = async (key) => {
+  if (key === 'isExtract') {
+    isExtractList.value = await getPickUpStoreByMerchantId({
+      merchantId: orderDetails.value.shopId,
+    })
+    isExtractList.value.forEach((element) => {
+      element.isCheck = false
+    })
+    console.log(isExtractList.value)
+  }
+  showPop[key] = true
+}
+const select = (e) => {
+  orderDetails.value.deliveryMode = e.index
+  console.log('orderDetails.value', orderDetails.value)
+}
+const adsList = ref<any>([])
+const actions = ref<Array<any>>([
+  {
+    name: '快递配送',
+  },
+])
+const opData = ref()
+const disCount = ref(false)
+
+const goAddress = (val: any) => {
   routeTo({
     url: '/pages-sub/userManager/address/list',
   })
 }
 const submitExchangeGoods = async () => {
   const params = {
-    goodId: '',
-    receiver: '',
-    telephone: '',
-    address: '',
-    notes: '',
+    userDId: userStore.userInfo.userDId,
+    appKey: 'WXMP',
+    goodId: orderDetails.value.goodId,
+    addressId: orderDetails.value.receiveAddrId,
+    notes: orderDetails.value.orderNote,
   }
   try {
     const data = await sendExchangeGoods(params)
@@ -43,102 +141,127 @@ const submitExchangeGoods = async () => {
   //
 }
 
-onLoad(async (options) => {
-  console.log('🥖[options]:', options)
+onLoad(async (option) => {
+  opData.value = option
+
+  const params = {
+    goodId: option.goodId,
+  }
+  try {
+    const data = await sendInterProductInfo(params)
+
+    orderDetails.value = data
+    orderDetails.value.deliveryMode = 0
+    orderDetails.value.receiveAddrId = ''
+    orderDetails.value.orderNote = ''
+
+    console.log('🥕[ orderDetails.value]:', orderDetails.value)
+  } catch (error) {
+    console.log('🥠[error]:', error)
+  }
 })
 
-onShow(() => {
-  // TODO: 缓存中获取地址数据
+onShow(async (options) => {
+  getAdsList()
+
+  // 获取地址列表
 })
 </script>
-
 <template>
-  <view class="bg-#f3f4f6 min-h-100vh">
-    <dy-navbar :leftTitle="title" left></dy-navbar>
-    <view class="pt-4">
-      <wd-card @click="chooesAdsress">
-        <template #title>
-          <wd-text
-            text="甘肃省兰州市城关区雁南街道"
-            :lines="1"
-            size="14px"
-            color="#888888"
-          ></wd-text>
-        </template>
+  <view class="min-h-100vh bg-#f3f4f6">
+    <dy-navbar leftTitle="确认兑换" left></dy-navbar>
+    <view class="list">
+      <view class="border-rd-5px mb-20px">
+        <template v-if="orderDetails.goodSort === 2">
+          <view
+            class="bg-white border-rd-7px bg-white p-13px box-border mb-20px"
+            v-if="orderDetails.deliveryMode !== 1 && adsList.length > 0"
+            @click="checkAddress"
+          >
+            <view
+              style="width: 100%; font-size: 14px; color: #888888"
+              class="add-detail"
+              v-if="shopAdsList"
+            >
+              {{ shopAdsList.province }} {{ shopAdsList.city }} {{ shopAdsList.area }}
+            </view>
+            <view class="w-full flex items-center justify-between my-3px" v-if="shopAdsList">
+              <view class="flex-1 add-detail">
+                {{ shopAdsList.userAddress }}
+              </view>
+              <wd-icon name="arrow-right" size="22px" color="#000"></wd-icon>
+            </view>
+            <view style="margin-top: 5px; font-size: 14px" v-if="shopAdsList">
+              {{ shopAdsList.userName }} {{ shopAdsList.userPhone }}
+            </view>
+          </view>
 
-        <view class="flex justify-between items-center">
-          <wd-text
-            text="雁园街道雁兴路3100号附近基业豪庭"
-            :lines="2"
-            size="16px"
-            color="#000000"
-            class="font-bold"
-          ></wd-text>
-          <wd-icon name="arrow-right" size="22px" color="#000000"></wd-icon>
-        </view>
-        <template #footer>
-          <view class="flex justify-left items-center">
-            <wd-text text="张三18794578345" :lines="1" size="14px" color="#000000"></wd-text>
-          </view>
-        </template>
-      </wd-card>
-      <wd-card>
-        <template #title>
-          <view class="flex justify-left items-center">
-            <wd-img
-              :width="30"
-              :height="30"
-              round
-              src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-            />
-            <wd-text text="无备注" :lines="2" size="16px" color="#777777" class="ml-1"></wd-text>
-          </view>
-        </template>
-        <view class="flex justify-between items-center mt-2 mb-2">
-          <wd-img
-            :width="100"
-            :height="100"
-            radius="7"
-            src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-          />
-          <view class="mb-4 ml-2 flex-1">
-            <wd-text
-              text="知味观糕点礼盒杭州特产中式送礼送长辈中式糕点心中秋月节饼"
-              :lines="2"
-              size="16px"
-              color="#000000"
-              class="font-bold"
-            ></wd-text>
-            <wd-text text="圆形铁盒/盒" :lines="1" size="14px" color="#757575"></wd-text>
-            <view class="flex justify-left items-center">
-              <wd-text
-                text="32111"
-                :lines="2"
-                size="18px"
-                color="#F44D24"
-                class="font-bold"
-              ></wd-text>
-              <wd-text text="积分" :lines="2" size="12px" color="#F44D24" class="ml-1"></wd-text>
-            </view>
-          </view>
-        </view>
-        <template #footer>
-          <view>
-            <view class="flex justify-between items-center mb-4">
-              <wd-text text="订单运费" :lines="2" size="16px" color="#000000"></wd-text>
-              <wd-text text="包邮" :lines="2" size="16px" color="#000000"></wd-text>
-            </view>
-            <view class="flex justify-between items-center mb-2">
-              <wd-text text="备注" :lines="2" size="16px" color="#000000"></wd-text>
-              <view class="flex justify-left items-center">
-                <wd-text text="无备注" :lines="2" size="16px" color="#777777"></wd-text>
-                <wd-icon name="arrow-right" size="16px" color="#777777"></wd-icon>
+          <view
+            class="bg-white border-rd-7px bg-white p-13px box-border mb-20px"
+            v-if="adsList && adsList.length <= 0"
+          >
+            <view class="w-full flex items-center justify-between my-3px">
+              <wd-text text=" 暂无地址"></wd-text>
+
+              <view class="flex items-center justify-right">
+                <wd-button type="warning" @click="goAddress" size="small">去新增</wd-button>
+                <wd-icon name="arrow-right" size="22px" color="#000"></wd-icon>
               </view>
             </view>
           </view>
         </template>
-      </wd-card>
+        <view class="bg-white border-rd-10px p-15px box-border w-full">
+          <view class="w-full mt-15px flex" :key="orderDetails.spuId">
+            <wd-img :width="105" :height="105" :src="orderDetails.goodImg" custom-image="img" />
+            <view class="ml-15px flex-1 flex flex-col justify-between overflow-hidden">
+              <view class="w-210px name">{{ orderDetails.goodName }}</view>
+
+              <view class="w-full flex justify-between">
+                <view class="flex items-center" style="font-weight: 600">
+                  <text style="font-size: 18px" class="color-#F44D24">
+                    {{ orderDetails.coinPrice }}积分
+                  </text>
+                </view>
+                <view class="num">x1</view>
+              </view>
+            </view>
+          </view>
+          <!--          <view class="w-full flex justify-between items-center mt-15px">-->
+          <!--            <view class="mr-50px">优惠券</view>-->
+          <!--            <view style="color: #777777">暂无可用优惠券</view>-->
+          <!--          </view>-->
+          <!--          <view class="w-full flex justify-between items-center mt-15px">-->
+          <!--            <view class="mr-50px">实际支付</view>-->
+          <!--            <view class="color-#F44D24" style="font-size: 16px">-->
+          <!--              <text>￥{{ item.deliveryAmount }}</text>-->
+          <!--            </view>-->
+          <!--          </view>-->
+          <view
+            class="w-full flex justify-between items-center mt-15px"
+            v-if="orderDetails.goodSort === 2"
+          >
+            <view class="mr-50px">配送方式</view>
+            <view class="flex items-center">
+              <text class="mr-5px">{{ actions[orderDetails.deliveryMode].name }}</text>
+              <wd-icon name="arrow-right" size="20px"></wd-icon>
+            </view>
+          </view>
+
+          <view class="w-full flex justify-between items-center mt-15px">
+            <view class="mr-50px">备注留言</view>
+            <wd-input
+              type="text"
+              v-model="orderDetails.orderNote"
+              placeholder="无备注"
+              no-border
+              custom-input-class="inp"
+              style="flex: 1; text-align: right"
+            />
+          </view>
+        </view>
+      </view>
     </view>
+
     <view class="p4 fixed b0 w-full box-border" style="bottom: 0px">
       <wd-button
         block
@@ -149,14 +272,131 @@ onShow(() => {
         提交兑换
       </wd-button>
     </view>
+    <!--  配送方式 -->
+
+    <wd-popup
+      v-model="showPop.addList"
+      lock-scroll
+      position="bottom"
+      custom-style="padding:18px 15px;box-sizing:border-box;border-radius:20px 20px 0 0;"
+    >
+      <view class="font-600 mb-20px">选择收货地址</view>
+      <view style="width: 100%; max-height: 60vh; overflow-y: auto">
+        <view class="flex w-full mb-15px" v-for="it in adsList" :key="it.id">
+          <view style="align-self: center">
+            <wd-checkbox
+              v-model="it.isCheck"
+              @change="handleChange($event, it.id, 'adsList')"
+            ></wd-checkbox>
+          </view>
+          <view class="flex-1 overflow-hidden">
+            <view style="width: 100%; font-size: 14px; color: #888888" class="add-detail">
+              {{ it.province }} {{ it.city }} {{ it.area }}
+            </view>
+            <view class="w-full flex items-center justify-between my-3px">
+              <view class="flex-1 add-detail">
+                {{ it.userAddress }}
+              </view>
+            </view>
+            <view style="margin-top: 5px; font-size: 14px">
+              {{ it.userName }} {{ it.userPhone }}
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="address-submit" @click="checkExtract('adsList')">确定</view>
+    </wd-popup>
   </view>
-  <!-- </view> -->
 </template>
-<style lang="scss" scoped>
-:deep(.wd-card__footer) {
-  padding-top: 6px;
+
+<style>
+.address {
+  box-sizing: border-box;
+  padding: 14px;
+  background-color: #f3f4f6;
 }
-:deep(.wd-card__title-content) {
-  padding-bottom: 6px;
+
+.add-detail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.address-submit {
+  width: 343px;
+  margin: 20px auto;
+  line-height: 40px;
+  color: #fff;
+  text-align: center;
+  background: #f44d24;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.submit {
+  width: 103px;
+  margin-left: 20px;
+  line-height: 40px;
+  color: #fff;
+  text-align: center;
+  background: #f44d24;
+  border-radius: 6px 6px 6px 6px;
+}
+
+.inp {
+  text-align: right !important;
+}
+
+.mingxi {
+  font-size: 12px;
+  color: #f44d24;
+}
+
+.list {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 15px 90px;
+  overflow-y: auto;
+  background-color: #f5f6f8;
+}
+
+.quan {
+  box-sizing: border-box;
+  width: 90px;
+  padding: 4px;
+  margin-left: 5px;
+  color: #f44d24;
+  text-align: center;
+  background: #ffece8;
+  border-radius: 2px 2px 2px 2px;
+}
+
+.img {
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.num {
+  width: 25px;
+  line-height: 25px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #999999;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.jian {
+  width: 67px;
+  height: 20px;
+  font-size: 10px;
+  color: #f44d24;
+  background: #ffece8;
+  border-radius: 2px 2px 2px 2px;
 }
 </style>
