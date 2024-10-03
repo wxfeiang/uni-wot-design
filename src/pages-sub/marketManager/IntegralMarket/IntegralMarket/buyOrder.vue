@@ -140,6 +140,10 @@ const submitExchangeGoods = async () => {
   try {
     const data = await sendExchangeGoods(params)
     // 成功跳转订单页面
+
+    routeTo({
+      url: '/pages-sub/order/orderInfo?id=' + data.orderNo,
+    })
   } catch (error) {
     console.log('🍍[error]:', error)
   }

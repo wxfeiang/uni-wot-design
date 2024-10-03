@@ -43,7 +43,10 @@ const submit = () => {
 
   if (fl) {
     submitOrder({ xcxPaymentReqVos: orderDetails.value }).then((res) => {
-      console.log('订单提交结果', res)
+      console.log('resresresresresresresresresresresres', res.bizOrderNo)
+      routeTo({
+        url: '/pages-sub/order/orderInfo?id=' + res.bizOrderNo,
+      })
     })
   } else {
     Toast('请选择配送地址或自提方式')
