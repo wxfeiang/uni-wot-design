@@ -27,7 +27,11 @@ import { routeTo } from '@/utils'
 import useUserOrder from './utils/userOrder'
 
 const { sendGetActivityList: getActivityList } = useUserOrder()
-const pageOption = ref<PageOption>({ page: 1, size: 10, bannerFlag: 1 })
+const pageOption = ref<PageOption>({
+  page: 1,
+  size: 10,
+  bannerFlag: 1,
+})
 const swiperList = ref<IActivityBanner[]>([])
 const current = ref(0)
 const handleClick = (e: { item: IActivityBanner }) => {

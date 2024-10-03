@@ -16,23 +16,30 @@ import couponB from '@/static/images/serve/coupon_b.png'
 import useAction from './utils'
 import { useMessage } from 'wot-design-uni'
 import { Toast } from '@/utils/uniapi/prompt'
+import { useUserStore } from '@/store'
 
 const { getActivity, sendReceiveCoupon, format } = useAction()
+const userStore = useUserStore()
 const message = useMessage()
 
 const activity = ref<IActivity>()
-onLoad(async (options: ActivityParams) => {
-  activity.value = await getActivity(options)
+onLoad(async (options: Pick<ActivityParams, 'id'>) => {
+  const params: ActivityParams = {
+    id: options.id,
+    userDId: userStore.userInfo.userDId,
+    userId: userStore.userInfo.userDId,
+  }
+  activity.value = await getActivity(params)
 })
-interface Emits {
-  (e: 'refresh'): void
-}
-const emit = defineEmits<Emits>()
+// interface Emits {
+//   (e: 'refresh'): void
+// }
+// const emit = defineEmits<Emits>()
 const receiveCoupon = async (couponId: number) => {
   try {
     const data: any = await sendReceiveCoupon({ couponId })
     if (data === true) {
-      emit('refresh')
+      // emit('refresh')
       setTimeout(() => {
         Toast('领取成功')
       }, 50)

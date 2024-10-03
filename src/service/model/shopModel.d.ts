@@ -5,6 +5,8 @@
 // }
 declare type ActivityParams = {
   id: string | number
+  userDId: string | number
+  userId: string | number
 }
 
 declare type PageOption = {

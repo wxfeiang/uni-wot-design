@@ -64,7 +64,10 @@ interface NavigateToOptions {
        "/pages-sub/shopManager/shopPayMingxi" |
        "/pages-sub/order/logistics" |
        "/pages-sub/order/orderInfo" |
-       "/pages-sub/order/orderList";
+       "/pages-sub/order/orderList" |
+       "/pages-sub/homeManager/action" |
+       "/pages-sub/homeManager/gongjiaochuxing" |
+       "/pages-sub/homeManager/mafuwu";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
