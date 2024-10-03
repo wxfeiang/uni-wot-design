@@ -15,15 +15,30 @@ import actionB from '@/static/images/serve/action_b.png'
 import couponB from '@/static/images/serve/coupon_b.png'
 import useAction from './utils'
 import { useMessage } from 'wot-design-uni'
+import { Toast } from '@/utils/uniapi/prompt'
 
-const { getActivity, format } = useAction()
+const { getActivity, sendReceiveCoupon, format } = useAction()
 const message = useMessage()
 
 const activity = ref<IActivity>()
 onLoad(async (options: ActivityParams) => {
   activity.value = await getActivity(options)
-  console.log(activity.value)
 })
+interface Emits {
+  (e: 'refresh'): void
+}
+const emit = defineEmits<Emits>()
+const receiveCoupon = async (couponId: number) => {
+  try {
+    const data: any = await sendReceiveCoupon({ couponId })
+    if (data === true) {
+      emit('refresh')
+      setTimeout(() => {
+        Toast('领取成功')
+      }, 50)
+    }
+  } catch (error) {}
+}
 
 const alertBox = (msg: string) => {
   message.alert({
@@ -65,12 +80,20 @@ onLoad(async () => {
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>
-  <view style="display: flex; flex-direction: column; align-items: center">
+  <view>
     <dy-navbar leftTitle="活动" left></dy-navbar>
     <view class="back">
       <image :src="actionB"></image>
     </view>
-    <view style="position: relative; z-index: 2">
+    <view
+      style="
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      "
+    >
       <view class="t_title">{{ activity?.activityBean?.activityName }}</view>
       <view class="board">
         <view class="title">活动介绍</view>
@@ -128,7 +151,7 @@ onLoad(async () => {
                 </view>
               </view>
               <view class="operate flex">
-                <view class="receive_btn">领取</view>
+                <view class="receive_btn" @click="receiveCoupon(item?.couponId)">领取</view>
                 <text class="desc" @click="alertBox(item?.couponRemark)">查看使用说明</text>
               </view>
             </view>

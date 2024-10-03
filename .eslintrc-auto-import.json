@@ -111,6 +111,13 @@
     "usePhoneCode": true,
     "useNav": true,
     "useSoket": true,
-    "useColPickerData": true
+    "useColPickerData": true,
+    "DirectiveBinding": true,
+    "MaybeRef": true,
+    "MaybeRefOrGetter": true,
+    "onWatcherCleanup": true,
+    "useId": true,
+    "useModel": true,
+    "useTemplateRef": true
   }
 }

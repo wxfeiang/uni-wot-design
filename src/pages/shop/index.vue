@@ -27,7 +27,13 @@ import { routeTo } from '@/utils'
 import useUserOrder from './utils/userOrder'
 
 const { sendGetActivityList: getActivityList } = useUserOrder()
-const pageOption = ref<PageOption>({ page: 1, size: 10 })
+const pageOption = ref<PageOption>({ page: 1, size: 10, bannerFlag: 1 })
+const swiperList = ref<IActivityBanner[]>([])
+const current = ref(0)
+const handleClick = (e: { item: IActivityBanner }) => {
+  gopath('/pages-sub/homeManager/action', { id: e.item.itemId })
+}
+
 const paging = ref(null)
 const goodList = ref([])
 const { navTop } = useNav()
@@ -68,7 +74,8 @@ const getLsit = async (pageNo: number, pageSize: number) => {
 }
 onShow(async () => {
   // getLsit()
-  const res = await getActivityList(pageOption.value)
+  const { content = [] } = await getActivityList(pageOption.value)
+  swiperList.value = content
 })
 onLoad(async () => {
   // 设置背景图片
@@ -117,12 +124,21 @@ onLoad(async () => {
         <!-- </wd-sticky> -->
       </view>
       <view class="w-full p-10px pt-153px box-border banner">
-        <wd-img
+        <!-- <wd-img
           width="100%"
           :height="150"
           src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
           @click="gopath('/pages-sub/homeManager/action?id=3')"
-        />
+        /> -->
+        <wd-swiper
+          :list="swiperList"
+          autoplay
+          v-model:current="current"
+          value-key="shopHdBanner"
+          :indicator="{ type: 'dots-bar' }"
+          :display-multiple-items="0"
+          @click="handleClick"
+        ></wd-swiper>
         <div class="w-full mt-10px flex justify-between">
           <div
             class="pos-relative"

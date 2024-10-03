@@ -3,7 +3,6 @@
 //   msg?: string
 //   data?: T
 // }
-
 declare type ActivityParams = {
   id: string | number
 }
@@ -11,6 +10,7 @@ declare type ActivityParams = {
 declare type PageOption = {
   page?: number
   size?: number
+  bannerFlag: 1 | '1'
 }
 
 interface IActivityBean {
@@ -35,6 +35,7 @@ interface ITBCoupon {
   couponFillPrice: number
   couponType: number
   couponRemark: string
+  couponId: number
 }
 
 declare interface IActivity {
@@ -43,4 +44,16 @@ declare interface IActivity {
   tbCoupon?: Partial<ITBCoupon>[]
 }
 
-declare interface IActivityList {}
+declare interface IActivityBanner {
+  itemId: number
+  shopHdBanner: string
+}
+
+declare interface IPaginationData<T> {
+  content?: T[]
+  number?: number
+  numberOfElements?: 9
+  size?: number
+  totalElements?: number
+  totalPages?: number
+}

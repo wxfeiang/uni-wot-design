@@ -136,7 +136,7 @@ const select = (e) => {
 }
 
 const { send: sendGetActivityList } = useRequest(
-  (params: ActivityParams) => getActivityList<IActivityList>(params),
+  (params: ActivityParams) => getActivityList<IPaginationData<IActivityBanner>>(params),
   {
     immediate: false,
     loading: true,
