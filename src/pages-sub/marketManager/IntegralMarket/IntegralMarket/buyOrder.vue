@@ -24,8 +24,11 @@ const checkShop = ref(null)
 const shopAdsList = ref<any>({})
 const selfAdsList = ref<any>({})
 const shopExtractList = ref<any>({})
+const receiveAddrId = ref<any>('')
+const deliveryMode = ref<any>('')
+const orderNote = ref<any>('')
 
-const isExtractList = ref<any>([])
+const isExtractList = ref<any>('')
 const showPop = reactive({
   showDeliveryMode: false,
   isExtract: false,
@@ -47,23 +50,26 @@ const getAdsList = async () => {
 
     shopAdsList.value = obj
     selfAdsList.value = { username: '', userphone: '' }
+    receiveAddrId.value = obj.id
     shopExtractList.value = '请选择门店'
   } else {
     const obj = adsList.value.find((it) => it.isDefault)
     shopAdsList.value = obj
     selfAdsList.value = { username: '', userphone: '' }
+    receiveAddrId.value = obj.id
     shopExtractList.value = '请选择门店'
   }
+  console.log('orderDetails~~~~~~~~~~~~~~~', orderDetails.value)
 }
 
 const handleChange = ({ value }, id, key) => {
   console.log(value, id, key)
   if (key === 'isExtractList') {
     isExtractList.value.forEach((element) => {
-      if (element.id === id) {
-        element.isCheck = value
+      if (isExtractList.value.id === id) {
+        isExtractList.value.isCheck = value
       } else {
-        element.isCheck = !value
+        isExtractList.value.isCheck = !value
       }
     })
   } else {
@@ -83,13 +89,13 @@ const checkAddress = (idx) => {
 const checkExtract = (key) => {
   if (key === 'isExtractList') {
     const obj = isExtractList.value.find((it) => it.isCheck)
-    orderDetails.value.receiveAddrId = obj.id
+    receiveAddrId.value = obj.id
     shopExtractList.value = obj.storeName
     showPop.isExtract = false
   } else {
     const obj = adsList.value.find((it) => it.isCheck)
     shopAdsList.value = obj
-    orderDetails.value.receiveAddrId = obj.id
+    receiveAddrId.value = obj.id
     showPop.addList = false
   }
 }
@@ -106,7 +112,7 @@ const checkDriver = async (key) => {
   showPop[key] = true
 }
 const select = (e) => {
-  orderDetails.value.deliveryMode = e.index
+  deliveryMode.value = e.index
   console.log('orderDetails.value', orderDetails.value)
 }
 const adsList = ref<any>([])
@@ -126,10 +132,10 @@ const goAddress = (val: any) => {
 const submitExchangeGoods = async () => {
   const params = {
     userDId: userStore.userInfo.userDId,
-    appKey: 'WXMP',
+
     goodId: orderDetails.value.goodId,
-    addressId: orderDetails.value.receiveAddrId,
-    notes: orderDetails.value.orderNote,
+    addressId: receiveAddrId.value,
+    notes: orderNote.value,
   }
   try {
     const data = await sendExchangeGoods(params)
@@ -151,9 +157,9 @@ onLoad(async (option) => {
     const data = await sendInterProductInfo(params)
 
     orderDetails.value = data
-    orderDetails.value.deliveryMode = 0
-    orderDetails.value.receiveAddrId = ''
-    orderDetails.value.orderNote = ''
+    deliveryMode.value = 0
+
+    orderNote.value = ''
 
     console.log('🥕[ orderDetails.value]:', orderDetails.value)
   } catch (error) {
@@ -175,7 +181,7 @@ onShow(async (options) => {
         <template v-if="orderDetails.goodSort === 2">
           <view
             class="bg-white border-rd-7px bg-white p-13px box-border mb-20px"
-            v-if="orderDetails.deliveryMode !== 1 && adsList.length > 0"
+            v-if="deliveryMode !== 1 && adsList.length > 0"
             @click="checkAddress"
           >
             <view
@@ -242,7 +248,7 @@ onShow(async (options) => {
           >
             <view class="mr-50px">配送方式</view>
             <view class="flex items-center">
-              <text class="mr-5px">{{ actions[orderDetails.deliveryMode].name }}</text>
+              <text class="mr-5px">{{ actions[deliveryMode].name }}</text>
               <wd-icon name="arrow-right" size="20px"></wd-icon>
             </view>
           </view>
@@ -251,7 +257,7 @@ onShow(async (options) => {
             <view class="mr-50px">备注留言</view>
             <wd-input
               type="text"
-              v-model="orderDetails.orderNote"
+              v-model="orderNote"
               placeholder="无备注"
               no-border
               custom-input-class="inp"
