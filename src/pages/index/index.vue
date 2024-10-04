@@ -46,41 +46,42 @@ const {
   topAction,
   // topAction2,
   sendGetSpecialTypeList,
-  specialTypeList,
 } = useIndex()
 
 async function actionTop(item: any) {
-  return routeTo({ url: item.specialJump })
-  // if (item.type === 'sacn') {
-  //   const resData: any = await useScancode({ onlyFromCamera: true })
+  if (item.specialJumpType === 'H5') {
+    return routeTo({ url: item.specialJump })
+  }
+  if (item.type === 'sacn') {
+    const resData: any = await useScancode({ onlyFromCamera: true })
 
-  //   const { status, url } = sceneResult(resData)
-  //   if (status) {
-  //     routeTo({
-  //       url: '/pages/pay/index',
-  //       data: { url },
-  //     })
-  //   } else {
-  //     message.alert({
-  //       msg: '未识别到二维码内容',
-  //       title: '提示',
-  //     })
-  //   }
-  // } else if (item.type === 'wxChart') {
-  //   openWxChart(item.appId, item.path)
-  // } else if (item.type === 'switchTab') {
-  //   basestore.setActive(item.active)
-  //   routeTo({
-  //     url: item.path,
-  //     navType: NAVIGATE_TYPE.SWITCH_TAB,
-  //   })
-  // } else if (item.type === 'router') {
-  //   routeTo({
-  //     url: item.path,
-  //   })
-  // } else {
-  //   toast.show('功能开发中，敬请期待!...')
-  // }
+    const { status, url } = sceneResult(resData)
+    if (status) {
+      routeTo({
+        url: '/pages/pay/index',
+        data: { url },
+      })
+    } else {
+      message.alert({
+        msg: '未识别到二维码内容',
+        title: '提示',
+      })
+    }
+  } else if (item.type === 'wxChart') {
+    openWxChart(item.appId, item.path)
+  } else if (item.type === 'switchTab') {
+    basestore.setActive(item.active)
+    routeTo({
+      url: item.path,
+      navType: NAVIGATE_TYPE.SWITCH_TAB,
+    })
+  } else if (item.type === 'router') {
+    routeTo({
+      url: item.path,
+    })
+  } else {
+    toast.show('功能开发中，敬请期待!...')
+  }
 }
 
 function swiperClick(data) {
