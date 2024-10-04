@@ -17,6 +17,7 @@ import msgicon from '@/static/images/index/msgicon.png'
 import znbg from '@/static/images/index/znbg.png'
 import znlogo from '@/static/images/index/znlogo.png'
 import logo from '@/static/images/logo.png'
+import xagd from '@/static/images/index/xagd.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
@@ -44,14 +45,20 @@ const {
   swiperList,
   serviceArea,
   topAction,
-  // topAction2,
+  topAction2: top2,
   sendGetSpecialTypeList,
 } = useIndex()
 
 async function actionTop(item: any) {
-  if (item.specialJumpType === 'H5') {
-    return routeTo({ url: item.specialJump })
+  console.log(item)
+  switch (item.specialJumpType) {
+    case 'WX':
+      return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.SWITCH_TAB })
   }
+
+  // if (item.specialJumpType === 'H5') {
+  //   return routeTo({ url: item.specialJump })
+  // }
   if (item.type === 'sacn') {
     const resData: any = await useScancode({ onlyFromCamera: true })
 
@@ -138,7 +145,7 @@ const getSpecialTypeList = async () => {
   const {
     data: { data = [] },
   } = await sendGetSpecialTypeList()
-  topAction2.value = data
+  topAction2.value = [...data, { specialIcon: xagd, specialName: '更多' }]
 }
 
 onLoad(async () => {

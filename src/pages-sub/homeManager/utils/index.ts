@@ -1,4 +1,4 @@
-import { getActivityById } from '@/service/api/shop'
+import { getActivityById, getStdTDCode } from '@/service/api/shop'
 import { receiveCoupon } from '@/service/api/userMessage'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
@@ -22,10 +22,15 @@ const { send: sendReceiveCoupon, loading: listLoading3 } = useRequest(
   },
 )
 
+const { send: sendGetStdTDCode }: { send: (params: IStdTDParams) => any } = useRequest((params) =>
+  getStdTDCode(params),
+)
+
 const format = (val: string) => dayjs(val).format('YYYY-MM-DD hh:mm:ss')
 
 export default () => ({
   getActivity,
   sendReceiveCoupon,
+  sendGetStdTDCode,
   format,
 })

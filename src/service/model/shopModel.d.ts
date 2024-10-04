@@ -59,3 +59,15 @@ declare interface IPaginationData<T> {
   totalElements?: number
   totalPages?: number
 }
+
+declare interface IStdTDParams {
+  appId: string
+  data: {
+    publicKey: string
+    xm: string
+    cardNo: string
+    term: 'wx'
+    userId: string | number
+  }
+  appSign: string
+}
