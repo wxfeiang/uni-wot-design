@@ -11,6 +11,7 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import orderInter from './utils/orderInter'
+import { getShopInfo } from '@/service/api/shop'
 
 const { sendOrderInfo, sendOrderList } = orderInter()
 
@@ -20,12 +21,15 @@ const chooseIndex = ref(-1)
 const title = ref('订单详情')
 
 const orderInfo = ref({})
+const shopDetails = ref({})
 
 const showPop = ref(false)
 
 function openPop(e) {
   showPop.value = true
 }
+
+const time = ref<number>(0)
 
 function closePop(e) {
   showPop.value = false
@@ -38,11 +42,32 @@ function Choose(index) {
   // closePop()
 }
 
+const getShopDetails = (shopId) => {
+  getShopInfo({ shopId }).then((res) => {
+    shopDetails.value = res
+  })
+}
+
 async function getInfo(id: any) {
   uni.showLoading({ title: '' })
   // 这里是请求数据
   const da = { orderId: id }
   const data: any = await sendOrderInfo(da)
+
+  time.value = new Date(data.orderTime).getTime() + 1000 * 60 * 30 - new Date().getTime()
+  if (orderInfo.value.stutas === 1 && time.value < 0) {
+    // 修改订单状态
+    changeOrderStatus({ orderId: id }).then((res) => {
+      uni.redirectTo({ url: '/pages-sub/shopManager/shopHome', data: { id: data.shopId } })
+    })
+  }
+
+  orderInfo.value = data
+
+  if (data.shopId) {
+    getShopDetails(data.shopId)
+  }
+
   uni.hideLoading()
 }
 
@@ -53,8 +78,32 @@ const gopath = function (url, e) {
   })
 }
 
+const showSKU = function (obj) {
+  const SKU = []
+  Object.values(obj).map((i) => SKU.push(i))
+
+  return SKU.join(',')
+}
+const goshop = function () {
+  routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: orderInfo.value.shopId } })
+}
+
 const goback = function (url, e) {
   uni.navigateBack()
+}
+const copy = function (data) {
+  uni.setClipboardData({
+    data,
+    success: function () {
+      uni.getClipboardData({
+        success: function (res) {
+          uni.showToast({
+            title: '复制成功',
+          })
+        },
+      })
+    },
+  })
 }
 
 onLoad((options) => {
@@ -75,7 +124,8 @@ onLoad((options) => {
           custom-class="my-1 text-center font-bold"
         ></wd-text>
         <view class="flex justify-center items-center mt-1 mb-2">
-          <wd-text text="23:00:06" size="14px" color="#e3832a" custom-class="ml-1"></wd-text>
+          <wd-count-down :time="time" size="14px" color="#e3832a" custom-class="mr-1 time" />
+
           <wd-text
             text="后订单将自动取消"
             size="14px"
@@ -90,13 +140,13 @@ onLoad((options) => {
             <wd-icon name="location" size="22px"></wd-icon>
             <view class="flex justify-left items-start flex-col ml-1">
               <wd-text
-                text="姓名 1300000000"
+                :text="orderInfo.receiverName + ' ' + orderInfo.receiverTel"
                 size="16px"
                 color="#333333"
                 custom-class="font-bold"
               ></wd-text>
               <wd-text
-                text="甘肃省兰州市城关区xxxxxxxxxx号"
+                :text="orderInfo.receiverAddress"
                 size="16px"
                 color="#777777"
                 custom-class="mt-1"
@@ -109,45 +159,76 @@ onLoad((options) => {
       <wd-card>
         <template #title>
           <view class="flex justify-between items-center">
-            <view class="flex justify-left items-center">
-              <wd-img
-                :width="30"
-                :height="30"
-                round
-                src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-              />
-              <wd-text text="无备注" size="16px" color="#777777" custom-class="ml-2"></wd-text>
+            <view class="flex justify-left items-center" @click="goshop">
+              <wd-img :width="30" :height="30" round :src="shopDetails.shopAvatar" />
+              <wd-text
+                :text="shopDetails.name"
+                size="16px"
+                color="#777777"
+                custom-class="ml-2"
+              ></wd-text>
               <wd-icon name="arrow-right" size="16px" custom-class="ml-1" color="#777777"></wd-icon>
             </view>
-            <wd-text text="代发货" size="14px" color="#e3832a" class=""></wd-text>
+            <wd-text
+              v-if="orderInfo.status === 1"
+              text="待付款"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text
+              v-else-if="orderInfo.status === 10"
+              text="待发货"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text
+              v-else-if="orderInfo.status === 11"
+              text="待收货"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text
+              v-else-if="orderInfo.status === 2"
+              text="已完成"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text v-else text="售后/退款" size="14px" color="#e3832a" class=""></wd-text>
           </view>
         </template>
-        <view v-for="(it, ind) in 2" :key="ind">
-          <view class="flex justify-between items-center mt-2 mb-4">
-            <wd-img
-              :width="100"
-              :height="100"
-              radius="7"
-              src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-            />
+        <view v-for="(it, ind) in orderInfo.sysOrderItemBeans" :key="ind">
+          <view
+            class="flex justify-between items-center mt-2 mb-4"
+            @click="gopath('/pages/shop/shopInfo', { id: it.productSpuId })"
+          >
+            <wd-img :width="100" :height="100" radius="7" :src="JSON.parse(it.skuUrl)[0].data" />
             <view class="ml-2 flex-1">
               <wd-text
-                text="知味观糕点礼盒杭州特产中式送礼送长辈中式糕点心中秋月节饼"
+                :text="it.productName"
                 :lines="2"
                 size="16px"
                 color="#000000"
                 custom-class="font-bold"
               ></wd-text>
               <wd-text
-                text="圆形铁盒/盒"
+                :text="showSKU(JSON.parse(it.skuName))"
                 :lines="1"
                 size="14px"
                 color="#757575"
                 class="mt-1"
               ></wd-text>
               <view class="flex justify-between items-center mt-4">
-                <wd-text text="￥32111" size="16px" color="#000000"></wd-text>
-                <wd-text text="x1" size="14px" color="#777777" custom-class="ml-1"></wd-text>
+                <wd-text :text="'￥' + it.skuSellingPrice" size="16px" color="#000000"></wd-text>
+                <wd-text
+                  :text="'x' + it.productSkuCount"
+                  size="14px"
+                  color="#777777"
+                  custom-class="ml-1"
+                ></wd-text>
               </view>
             </view>
           </view>
@@ -156,30 +237,58 @@ onLoad((options) => {
 
       <wd-card class="cardno">
         <view class="py-2">
+          <view class="flex justify-left items-center mb-1">
+            <wd-text text="订单备注" size="14px" color="#777777" custom-class="tit"></wd-text>
+            <wd-text
+              :text="orderInfo.orderNote ? orderInfo.orderNote : '无备注'"
+              size="14px"
+              color="#333333"
+              custom-class="ml-2"
+            ></wd-text>
+          </view>
+        </view>
+      </wd-card>
+      <wd-card class="cardno">
+        <view class="py-2">
           <view class="flex justify-between items-center mb-1">
-            <view class="flex justify-left items-center">
-              <wd-text text="订单编号" size="14px" color="#777777" class=""></wd-text>
-              <wd-text
-                text="136465514654654"
-                size="14px"
-                color="#333333"
-                custom-class="ml-2"
-              ></wd-text>
+            <view class="flex justify-left items-center" style="width: calc(100% - 35px)">
+              <wd-text text="订单编号" size="14px" color="#777777" custom-class="tit"></wd-text>
+              <view class="ml-2 over2">{{ orderInfo.orderId }}</view>
             </view>
-            <wd-text text="复制" size="14px" color="#777777" class=""></wd-text>
+            <view class="tit2" @click="copy(orderInfo.orderId)">复制</view>
           </view>
           <view class="flex justify-left items-center mb-1">
-            <wd-text text="下单时间" size="14px" color="#777777" class=""></wd-text>
+            <wd-text text="下单时间" size="14px" color="#777777" custom-class="tit"></wd-text>
             <wd-text
-              text="2024-09-11 15:00:02"
+              :text="orderInfo.orderTime"
               size="14px"
               color="#333333"
               custom-class="ml-2"
             ></wd-text>
           </view>
           <view class="flex justify-left items-center mb-1">
-            <wd-text text="配送方式" size="14px" color="#777777" class=""></wd-text>
-            <wd-text text="快递配送" size="14px" color="#333333" custom-class="ml-2"></wd-text>
+            <wd-text text="配送方式" size="14px" color="#777777" custom-class="tit"></wd-text>
+            <wd-text
+              v-if="orderInfo.deliveryMode === 0"
+              text="快递配送"
+              size="14px"
+              color="#333333"
+              custom-class="ml-2"
+            ></wd-text>
+            <wd-text
+              v-if="orderInfo.deliveryMode === 1"
+              text="上门自提"
+              size="14px"
+              color="#333333"
+              custom-class="ml-2"
+            ></wd-text>
+            <wd-text
+              v-if="orderInfo.deliveryMode === 2"
+              text="同城配送"
+              size="14px"
+              color="#333333"
+              custom-class="ml-2"
+            ></wd-text>
           </view>
         </view>
       </wd-card>
@@ -187,21 +296,42 @@ onLoad((options) => {
       <wd-card class="cardno">
         <view class="py-2">
           <view class="flex justify-between items-center mb-1">
-            <wd-text text="运费" size="14px" color="#777777" class=""></wd-text>
-            <wd-text text="￥10" size="14px" color="#333333" class=""></wd-text>
+            <wd-text text="运费" size="14px" color="#777777" custom-class="tit"></wd-text>
+            <wd-text
+              :text="'￥' + orderInfo.deliveryAmount"
+              size="14px"
+              color="#333333"
+              class=""
+            ></wd-text>
           </view>
           <view class="flex justify-between items-center mb-1">
-            <wd-text text="商品总价" size="14px" color="#777777" class=""></wd-text>
-            <wd-text text="￥2222" size="14px" color="#333333" class=""></wd-text>
+            <wd-text text="商品总价" size="14px" color="#777777" custom-class="tit"></wd-text>
+            <wd-text
+              :text="'￥' + orderInfo.orderTotalFee"
+              size="14px"
+              color="#333333"
+              class=""
+            ></wd-text>
           </view>
           <view class="flex justify-between items-center mb-1">
-            <wd-text text="优惠券" size="14px" color="#777777" class=""></wd-text>
-            <wd-text text="0" size="14px" color="#333333" class=""></wd-text>
+            <wd-text text="优惠券" size="14px" color="#777777" custom-class="tit"></wd-text>
+            <wd-text
+              :text="'￥' + orderInfo.couponAmount"
+              size="14px"
+              color="#333333"
+              class=""
+            ></wd-text>
           </view>
           <view class="flex justify-end items-center my-3">
             <wd-text text="总计：" size="14px" color="#000000"></wd-text>
             <wd-text text="￥" size="14px" font-bold color="#d04b55" custom-class="ml-1"></wd-text>
-            <wd-text text="2339" size="18px" font-bold color="#d04b55" class=""></wd-text>
+            <wd-text
+              :text="orderInfo.orderActualAmount"
+              size="18px"
+              font-bold
+              color="#d04b55"
+              class=""
+            ></wd-text>
           </view>
         </view>
       </wd-card>
@@ -263,5 +393,32 @@ onLoad((options) => {
 :deep(.is-checked .wd-radio__shape) {
   background-color: #f44d24 !important;
   border-color: #f44d24 !important;
+}
+
+:deep(.time) {
+  font-size: 14px;
+  color: #e3832a !important;
+}
+
+:deep(.tit) {
+  width: 4rem;
+  margin-right: 5px;
+}
+
+:deep(.tit2) {
+  width: 30px;
+  margin-left: 5px;
+  font-size: 14px;
+  color: #777777;
+}
+
+:deep(.over2) {
+  flex: 1;
+  width: 100%;
+  overflow: hidden; //超出隐藏
+  font-size: 14px;
+  color: #333333;
+  text-overflow: ellipsis; //溢出显示省略号
+  white-space: nowrap; //不折行
 }
 </style>

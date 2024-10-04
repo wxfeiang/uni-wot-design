@@ -128,6 +128,7 @@ const getFavoritesList = async () => {
 const buyNow = (val: any) => {
   console.log('提交订单', val)
   const { shopId, shopName, shopAvatar } = details
+
   const obj = [
     {
       shopId,
@@ -146,7 +147,7 @@ const buyNow = (val: any) => {
           spuId: val.goods_id,
           skuId: val._id,
           image: val.image,
-          skuName: val.sku_name_arr[0],
+          skuName: val.sku_name_arr.join(','),
           spuNum: val.buy_num,
           spuName: val.goods_name,
           price: val.price,

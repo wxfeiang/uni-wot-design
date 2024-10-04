@@ -26,6 +26,7 @@ const SUBMIT_ORDER = baseUrlApi('/trade/app/XcxPayment/createOrderProduct')
 const GET_ACTIVITY_BY_ID = baseUrlApi('/promotion/app/coupon/getActivityCouponProductById')
 const GET_ACTIVITY_LIST = baseUrlApi('/promotion/app/hdShophd/page')
 const GET_STD_TD_CODE = baseUrlApi('/member/app/QrCode/getStdTDCodeApp')
+const CHANGE_ORDER_STUTAS = baseUrlApi('/XcxPayment/updateOrderStatus')
 
 /**
  *   提交订单
@@ -476,5 +477,4 @@ export const getActivityList = <T>(params) => request.Post<T>(GET_ACTIVITY_LIST,
  */
 export const getActivityById = <T>(params: ActivityParams) =>
   request.Post<T>(GET_ACTIVITY_BY_ID, params)
-
 export const getStdTDCode = <T>(params: IStdTDParams) => request.Post<T>(GET_STD_TD_CODE, params)

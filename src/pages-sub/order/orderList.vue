@@ -29,7 +29,8 @@ async function queryList(pageNo: number, pageSize: number) {
   // 调用接口获取数据
   try {
     const data: any = await sendOrderList(params)
-    list.value = data.content as any
+
+    list.value = data.records as any
     paging.value.complete(list.value)
     // paging.value.complete([])
   } catch (error) {
@@ -48,7 +49,6 @@ const tabslist = ref([
   { name: '退换/取消', value: '3,20,21,22,23' },
 ])
 const list = ref([])
-const list2 = ref([])
 
 const goback = function (url, e) {
   uni.navigateBack()
@@ -56,7 +56,7 @@ const goback = function (url, e) {
 
 function changeTab(e) {
   tabsVal.value = e.name
-  queryList(1, 10)
+  paging.value.reload()
 }
 
 const gopath = function (url, e) {
@@ -65,12 +65,8 @@ const gopath = function (url, e) {
     data: e,
   })
 }
-
-const goInfo = function (e) {
-  routeTo({
-    url: '/pages-sub/order/orderInfo',
-    data: e,
-  })
+const goshop = function (shopId) {
+  routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: shopId } })
 }
 
 onLoad((options) => {
@@ -122,13 +118,8 @@ onLoad((options) => {
         <wd-card>
           <template #title>
             <view class="flex justify-between items-center">
-              <view class="flex justify-left items-center">
-                <wd-img
-                  :width="30"
-                  :height="30"
-                  round
-                  src="https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png"
-                />
+              <view class="flex justify-left items-center" @click="goshop(item.shopId)">
+                <wd-img :width="30" :height="30" round :src="item.shopAvatar" />
                 <wd-text
                   :text="item.shopName"
                   size="16px"
@@ -137,12 +128,44 @@ onLoad((options) => {
                 ></wd-text>
                 <wd-icon name="arrow-right" size="16px" class="ml-1" color="#777777"></wd-icon>
               </view>
-              <wd-text text="代发货" size="14px" color="#777777" class=""></wd-text>
+              <wd-text
+                v-if="item.status === 1"
+                text="待付款"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text
+                v-else-if="item.status === 10"
+                text="待发货"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text
+                v-else-if="item.status === 11"
+                text="待收货"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text
+                v-else-if="item.status === 2"
+                text="已完成"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text v-else text="售后/退款" size="14px" color="#e3832a" class=""></wd-text>
             </view>
           </template>
-          <view v-for="(it, ind) in item.sysOrderItemBeanList" :key="ind">
-            <view class="flex justify-between items-center mt-2 mb-4">
-              <wd-img :width="100" :height="100" radius="7" :src="it.skuUrl[0]" />
+
+          <view v-for="(it, ind) in item.sysOrderItemBeans" :key="ind">
+            <view
+              class="flex justify-between items-center mt-2 mb-4"
+              @click="gopath('/pages/shop/shopInfo', { id: it.productSpuId })"
+            >
+              <wd-img :width="100" :height="100" radius="7" :src="JSON.parse(it.skuUrl)[0].data" />
               <view class="ml-2 flex-1">
                 <wd-text
                   :text="it.productName"
@@ -176,18 +199,14 @@ onLoad((options) => {
           </view>
           <view class="flex justify-end items-center my-3">
             <wd-text
-              :text="`共${item.sysOrderItemBeanList.length}件 金额：`"
+              v-if="item.sysOrderItemBeans"
+              :text="`共${item.sysOrderItemBeans.length}件 金额：`"
               size="14px"
               color="#000000"
             ></wd-text>
             <wd-text text="￥" size="14px" font-bold color="#d04b55" custom-class="ml-1"></wd-text>
             <wd-text
-              :text="
-                item.sysOrderItemBeanList?.reduce(
-                  (init, t) => (init += (t?.skuSellingPrice * 100 * t?.productSkuCount) / 100),
-                  0,
-                )
-              "
+              :text="item.orderActualAmount"
               size="18px"
               font-bold
               color="#d04b55"
@@ -196,7 +215,7 @@ onLoad((options) => {
           </view>
           <template #footer>
             <view class="flex justify-between items-center">
-              <wd-text text="代发货" size="14px" color="#f0883a" class=""></wd-text>
+              <view></view>
               <view class="flex justify-right items-center">
                 <template v-if="tabsVal == '2'">
                   <wd-button
@@ -205,7 +224,7 @@ onLoad((options) => {
                     type="warning"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfo()"
+                    @click="goInfo(item.orderId)"
                   >
                     评价
                   </wd-button>
