@@ -29,7 +29,15 @@ onLoad(async (options: Pick<ActivityParams, 'id'>) => {
     userDId: userStore.userInfo.userDId,
     userId: userStore.userInfo.userDId,
   }
-  activity.value = await getActivity(params)
+  let data = await getActivity(params)
+  data = {
+    ...data,
+    productSpuBean: data.productSpuBean.map((item) => {
+      const res = JSON.parse(item.rotationUrl)
+      return { ...item, rotationUrl: res?.data }
+    }),
+  }
+  activity.value = data
 })
 // interface Emits {
 //   (e: 'refresh'): void

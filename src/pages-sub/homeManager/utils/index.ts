@@ -28,9 +28,20 @@ const { send: sendGetStdTDCode }: { send: (params: IStdTDParams) => any } = useR
 
 const format = (val: string) => dayjs(val).format('YYYY-MM-DD hh:mm:ss')
 
+const encrypt = (val: string, type: 'name' | 'cardNo', flag: boolean) => {
+  if (flag) return val
+  switch (type) {
+    case 'name':
+      return val.replace(/.{2}$/, '**')
+    case 'cardNo':
+      return val.replace(/(.{6}).{9}(.{3})/, '$1*********$2')
+  }
+}
+
 export default () => ({
   getActivity,
   sendReceiveCoupon,
   sendGetStdTDCode,
   format,
+  encrypt,
 })

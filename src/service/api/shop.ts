@@ -25,7 +25,7 @@ const PICK_UP_STORE = baseUrlApi('/product/app/item/getPickUpStoreByMerchantId')
 const SUBMIT_ORDER = baseUrlApi('/trade/app/XcxPayment/createOrderProduct')
 const GET_ACTIVITY_BY_ID = baseUrlApi('/promotion/app/coupon/getActivityCouponProductById')
 const GET_ACTIVITY_LIST = baseUrlApi('/promotion/app/hdShophd/page')
-const GET_STD_TD_CODE = baseUrlApi('/member/QrCode/getStdTDCode')
+const GET_STD_TD_CODE = baseUrlApi('/member/app/QrCode/getStdTDCodeApp')
 
 /**
  *   提交订单

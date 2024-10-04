@@ -20,7 +20,7 @@ import useModule from './utils'
 import { useUserStore } from '@/store'
 
 const { sendPhoneCode, countdown, sending } = usePhoneCode()
-const { sendGetStdTDCode } = useModule()
+const { sendGetStdTDCode, encrypt } = useModule()
 const { userInfo } = useUserStore()
 const opts = ref({
   lineColor: '#000000',
@@ -42,6 +42,7 @@ cfig.value = {
   logoHeight: 60,
   size: 440,
 }
+const showS = ref(false)
 const barcodeBg = ref(false)
 const logcation = ref('北京市')
 const user = ref({
@@ -171,10 +172,18 @@ const barodeClick = () => {
       <view class="code_board">
         <view class="user_info_board">
           <view class="user_info">
-            <text style="margin-bottom: 8rpx">姓名：</text>
-            <text>身份证号：</text>
+            <text style="margin-bottom: 8rpx">
+              姓名：{{ encrypt(userInfo.userName, 'name', showS) }}
+            </text>
+            <text>身份证号：{{ encrypt('548651496533154995', 'cardNo', showS) }}</text>
           </view>
-          <view class="eye"></view>
+          <view class="eye">
+            <wd-icon
+              :name="showS ? 'view' : 'eye-close'"
+              size="22px"
+              @click="showS = !showS"
+            ></wd-icon>
+          </view>
         </view>
         <view class="bg-#fff pt-20px pb-5px rounded-10px overflow-hidden">
           <!-- <view class="flex justify-center flex-col items-center" @click="barodeClick">
@@ -185,7 +194,7 @@ const barodeClick = () => {
           <view class="flex justify-center mt-10px flex-col items-center">
             <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
             <view>
-              <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
+              <text class="text-#999999 text-14px mr-10px">{{ sendTiem }}秒自动刷新</text>
               <wd-button type="text">手动刷新</wd-button>
             </view>
             <view class="tip">
