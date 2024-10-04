@@ -67,7 +67,7 @@ onLoad(async (option) => {
         <view class="text-base text-white mb-1">我的积分</view>
         <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>
       </view>
-      <view class="text-2xl text-white">{{ opData.surplusIntegral }}</view>
+      <view class="text-2xl text-white">{{ opData ? opData.surplusIntegral : '0' }}</view>
     </view>
 
     <view class="cardtop"></view>
@@ -125,7 +125,11 @@ onLoad(async (option) => {
       </view>
     </view>
 
-    <view class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border" style="bottom: 0px">
+    <view
+      v-if="goodsInfoData.stock > 0"
+      class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border"
+      style="bottom: 0px"
+    >
       <wd-button
         block
         custom-class="duihuanBtn"
@@ -134,6 +138,13 @@ onLoad(async (option) => {
       >
         立即兑换
       </wd-button>
+    </view>
+    <view
+      v-else
+      class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border"
+      style="bottom: 0px"
+    >
+      <wd-button block type="info" :round="false" disabled>暂时缺货</wd-button>
     </view>
   </view>
   <!-- </view> -->

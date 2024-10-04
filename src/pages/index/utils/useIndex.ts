@@ -38,14 +38,14 @@ const topAction = ref([
   {
     icon: mfw,
     text: '码服务',
-    type: 'switchTab',
-    path: 'pages-sub/homeManager/mafuwu',
+    type: 'router',
+    path: '/pages-sub/homeManager/mafuwu',
   },
   {
     icon: jtcx,
     text: '公交出行',
-    type: 'switchTab',
-    path: 'pages-sub/homeManager/gongjiaochuxing', // 打开的页面路径，如果为空则打开首页
+    type: 'test',
+    path: '/pages-sub/homeManager/gongjiaochuxing', // 打开的页面路径，如果为空则打开首页
   },
   // {
   //   icon: xajft,

@@ -58,7 +58,7 @@ const goback = function (url, e) {
 }
 
 onLoad((options) => {
-  showPop.value = options.showPop?.showPop || true
+  showPop.value = options.showPop?.showPop || false
   getInfo(options.id)
 })
 </script>

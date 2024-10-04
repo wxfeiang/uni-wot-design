@@ -103,7 +103,7 @@ onLoad(async () => {
     <view class="p2 pageBoxBg">
       <view v-for="(item, index) in list" class="p2 float-left w-1/2 box-border" :key="index">
         <view class="bg-white rounded-md p-8px">
-          <view class="flex items-center justify-center">
+          <view class="flex items-center justify-center mb-2">
             <wd-img :width="100" :height="100" :src="item.goodImg" />
           </view>
           <view class="min-h-44px truncate-2 color-#999">
@@ -129,9 +129,15 @@ onLoad(async () => {
                 color="#999999"
               ></wd-text>
             </view>
-            <wd-button size="small" custom-class="duihuanBtn" @click="gopath(item)">
+            <wd-button
+              v-if="item.stock > 0"
+              size="small"
+              custom-class="duihuanBtn m0"
+              @click="gopath(item)"
+            >
               去兑换
             </wd-button>
+            <wd-button v-if="item.stock <= 0" size="small" disabled type="info">暂无货</wd-button>
           </view>
         </view>
       </view>
@@ -198,6 +204,9 @@ onLoad(async () => {
 
 :deep(.duihuanBtn) {
   background: #f44d24 !important;
+}
+:deep(.wd-button) {
+  margin: 0;
 }
 
 .tabTool {
