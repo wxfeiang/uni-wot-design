@@ -1,4 +1,4 @@
-import { getMessageList } from '@/service/api/source'
+import { getMessageList, getSpecialTypeList } from '@/service/api/source'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 import { bannerProps, messProps } from './types'
@@ -227,6 +227,15 @@ function messageClick(item: messProps) {
     data: { type: item.articleId },
   })
 }
+
+const { send: sendGetSpecialTypeList, data: specialTypeList } = useRequest(
+  (params) => getSpecialTypeList(params),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
+
 export default () => {
   return {
     messageData,
@@ -237,5 +246,7 @@ export default () => {
     serviceArea,
     topAction,
     topAction2,
+    sendGetSpecialTypeList,
+    specialTypeList,
   }
 }

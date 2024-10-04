@@ -45,6 +45,7 @@ const {
   serviceArea,
   topAction,
   topAction2,
+  sendGetSpecialTypeList,
 } = useIndex()
 
 async function actionTop(item: any) {
@@ -129,6 +130,11 @@ const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
 
+const getSpecialTypeList = async () => {
+  const res = await sendGetSpecialTypeList()
+  console.log(res)
+}
+
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(indexbg)
@@ -136,6 +142,7 @@ onLoad(async () => {
   znbgBase64.value = await pathToBase64(znbg)
 })
 onMounted(async () => {
+  getSpecialTypeList()
   const mess: any = await sendMessageList({
     page: 1,
     size: 50,

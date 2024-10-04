@@ -8,6 +8,8 @@ const ARTACLE_DETAIL = baseUrlApi('/member/app/manageArticle/findArtacleDetail')
 
 const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
 
+const GET_SPECIAL_TYPE_LIST = baseUrlApi('/promotion/app/xcxUserAdvice/getSpecialTypeList')
+
 /**
  * @description: 获取消息列表
  * @param {} data
@@ -81,4 +83,14 @@ export function getSerchList(data: any) {
   return request.Post(MESSAGE_LIST, data, {
     meta,
   })
+}
+
+export const getSpecialTypeList = (data) => {
+  const meta: METHOD_INSTANCE = {
+    ignoreSign: true,
+    ignorEencrypt: true,
+    ignorToken: true,
+    resAll: true,
+  }
+  return request.Post(GET_SPECIAL_TYPE_LIST, data, { meta })
 }
