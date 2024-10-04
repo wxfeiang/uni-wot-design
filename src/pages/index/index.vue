@@ -44,41 +44,43 @@ const {
   swiperList,
   serviceArea,
   topAction,
-  topAction2,
+  // topAction2,
   sendGetSpecialTypeList,
+  specialTypeList,
 } = useIndex()
 
 async function actionTop(item: any) {
-  if (item.type === 'sacn') {
-    const resData: any = await useScancode({ onlyFromCamera: true })
+  return routeTo({ url: item.specialJump })
+  // if (item.type === 'sacn') {
+  //   const resData: any = await useScancode({ onlyFromCamera: true })
 
-    const { status, url } = sceneResult(resData)
-    if (status) {
-      routeTo({
-        url: '/pages/pay/index',
-        data: { url },
-      })
-    } else {
-      message.alert({
-        msg: '未识别到二维码内容',
-        title: '提示',
-      })
-    }
-  } else if (item.type === 'wxChart') {
-    openWxChart(item.appId, item.path)
-  } else if (item.type === 'switchTab') {
-    basestore.setActive(item.active)
-    routeTo({
-      url: item.path,
-      navType: NAVIGATE_TYPE.SWITCH_TAB,
-    })
-  } else if (item.type === 'router') {
-    routeTo({
-      url: item.path,
-    })
-  } else {
-    toast.show('功能开发中，敬请期待!...')
-  }
+  //   const { status, url } = sceneResult(resData)
+  //   if (status) {
+  //     routeTo({
+  //       url: '/pages/pay/index',
+  //       data: { url },
+  //     })
+  //   } else {
+  //     message.alert({
+  //       msg: '未识别到二维码内容',
+  //       title: '提示',
+  //     })
+  //   }
+  // } else if (item.type === 'wxChart') {
+  //   openWxChart(item.appId, item.path)
+  // } else if (item.type === 'switchTab') {
+  //   basestore.setActive(item.active)
+  //   routeTo({
+  //     url: item.path,
+  //     navType: NAVIGATE_TYPE.SWITCH_TAB,
+  //   })
+  // } else if (item.type === 'router') {
+  //   routeTo({
+  //     url: item.path,
+  //   })
+  // } else {
+  //   toast.show('功能开发中，敬请期待!...')
+  // }
 }
 
 function swiperClick(data) {
@@ -130,9 +132,12 @@ const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
 
+const topAction2 = ref([])
 const getSpecialTypeList = async () => {
-  const res = await sendGetSpecialTypeList()
-  console.log(res)
+  const {
+    data: { data = [] },
+  } = await sendGetSpecialTypeList()
+  topAction2.value = data
 }
 
 onLoad(async () => {
@@ -218,11 +223,11 @@ onPageScroll((e) => {
         @click="actionTop(item)"
       >
         <view>
-          <wd-img :src="item.icon" width="45" height="45"></wd-img>
+          <wd-img :src="item.specialIcon" width="45" height="45"></wd-img>
         </view>
 
         <view class="text-12px mt-10px text-center">
-          {{ item.text }}
+          {{ item.specialName }}
         </view>
       </view>
     </view>
