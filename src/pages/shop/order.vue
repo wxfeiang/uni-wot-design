@@ -8,11 +8,14 @@
 </route>
 <script lang="ts" setup>
 import useOrder from './utils/userOrder'
-
+import couponB from '@/static/images/serve/coupon_b.png'
 import { pathToBase64 } from 'image-tools'
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { Toast } from '@/utils/uniapi/prompt'
+import { watch, getCurrentInstance } from 'vue'
+import { qr } from '@/components/dy-qrcode/drawing'
+import { getCouponList } from '@/service/api/address'
 
 const userStore = useUserStore()
 const {
@@ -31,13 +34,50 @@ const {
   selfAdsList,
   submit,
   checkAddress,
+  // getCoupon,
+  couponList,
 } = useOrder()
+
 const totalPrice = ref(0)
 const model = reactive({
   value1: '',
   value2: '',
 })
+const couponS = ref([])
+const avtCcoupon = ref(0)
 const disCount = ref(false)
+const getCouponOver = ref(null)
+const disCountInd = ref(0)
+
+const instance = getCurrentInstance()
+
+const getCoupon = async (data, index) => {
+  const res = await getCouponList(data)
+  couponS.value[index] = res
+
+  couponList.value[index].id = res[0].receiveId ? res[0].receiveId : ''
+  console.log(' couponS.value[index]!~~~~~~~~~~~~~~~~~~~~', couponS.value[index])
+  instance.proxy.$forceUpdate()
+  let fl = true
+  couponS.value.forEach((item, index) => {
+    if (item === null) {
+      fl = false
+    }
+  })
+  if (fl === true) {
+    getCouponOver.value = true
+    console.log('++++++++++++++++++++++++++++++', couponS.value)
+  } else {
+    getCouponOver.value = false
+  }
+}
+
+const openCount = (val: any, index: any) => {
+  disCount.value = val
+  disCountInd.value = index
+}
+
+//
 
 const goAddress = (val: any) => {
   routeTo({
@@ -45,21 +85,31 @@ const goAddress = (val: any) => {
   })
 }
 
+const chooseact = (item, ind) => {
+  couponList.value[disCountInd.value] = { act: ind, id: item.receiveId }
+}
+
 onLoad(async (options) => {
   // console.log('传参', JSON.parse(decodeURIComponent(options.obj)))
   orderDetails.value = JSON.parse(decodeURIComponent(options.obj))
-  orderDetails.value.forEach((element) => {
+  couponList.value = []
+  couponS.value = []
+  orderDetails.value.forEach((element, index) => {
     element.userId = userStore.userInfo.userDId
     element.appKey = 1
-  })
-  console.log('orderDetails!!!!!!!!!!!!!!!!!!!', orderDetails)
-  totalPrice.value = orderDetails.value.reduce((a, b) => a + b.deliveryAmount, 0)
+    totalPrice.value = orderDetails.value.reduce((a, b) => a + b.deliveryAmount, 0)
+    const da = { shopId: element.shopId, productsList: [] }
+    element.payShopListReqVo.forEach((e) => {
+      da.productsList.push({ productId: e.spuId, price: e.price, num: e.spuNum })
+    })
+    couponS.value.push(null)
+    couponList.value.push({ act: 0, id: null })
 
-  // 获取地址列表
+    getCoupon(da, index)
+  })
 })
 onShow(async (options) => {
   getAdsList()
-
   // 获取地址列表
 })
 </script>
@@ -158,10 +208,16 @@ onShow(async (options) => {
               </view>
             </view>
           </view>
-          <view class="w-full flex justify-between items-center mt-15px">
+          <!--          getCouponOver{{ getCouponOver }}-->
+          <view class="w-full flex justify-between items-center mt-15px" v-if="getCouponOver">
             <view class="mr-50px">优惠券</view>
-            <view style="color: #777777">暂无可用优惠券</view>
+
+            <view style="color: #777777" v-if="couponS[idx] !== null" @click="openCount(true, idx)">
+              {{ couponS[idx][0].couponName }}
+            </view>
+            <view style="color: #777777" v-else>暂无可用优惠券</view>
           </view>
+
           <view class="w-full flex justify-between items-center mt-15px">
             <view class="mr-50px">实际支付</view>
             <view class="color-#F44D24" style="font-size: 16px">
@@ -205,7 +261,7 @@ onShow(async (options) => {
       class="bg-white pos-fixed h-80px pos-bottom-none flex w-full justify-between px-15px box-border items-center"
       :class="disCount ? 'z-999' : ''"
     >
-      <view class="flex flex-col" @click="disCount = true">
+      <view class="flex flex-col">
         <view style="color: #f44d24" class="font-600">
           <text style="font-size: 14px">￥</text>
           <text style="font-size: 20px">{{ totalPrice }}</text>
@@ -220,36 +276,49 @@ onShow(async (options) => {
     <!--  配送方式 -->
     <wd-action-sheet v-model="showPop.showDeliveryMode" :actions="actions" @select="select" />
 
-    <!-- 券明细 -->
+    <!--     券明细 -->
     <wd-popup
       v-model="disCount"
       lock-scroll
       position="bottom"
       custom-style="padding:18px 15px;box-sizing:border-box;border-radius:20px 20px 0 0;bottom:80px;"
     >
-      <view class="font-600 mb-20px">优惠明细</view>
-      <view class="font-600 mb-20px w-full flex items-center justify-between">
-        <text>合计优惠</text>
-        <view>
-          <text style="font-size: 14px">￥</text>
-          <text style="font-size: 20px">66.9</text>
-        </view>
-      </view>
+      <view class="font-600 mb-20px">选择优惠券</view>
+      <!--      <view class="font-600 mb-20px w-full flex items-center justify-between">-->
+      <!--        <text>合计优惠</text>-->
+      <!--        <view>-->
+      <!--          <text style="font-size: 14px">￥</text>-->
+      <!--          <text style="font-size: 20px">66.9</text>-->
+      <!--        </view>-->
+      <!--      </view>-->
 
-      <view>
-        <view class="w-full flex items-center justify-between">
-          <view style="color: #777777">· 优贝朵服装</view>
-          <view style="color: #f44d24">
-            <text>-</text>
-            <text style="font-size: 14px">￥</text>
-            <text style="font-size: 18px">2129</text>
-          </view>
-        </view>
-        <view class="pl-15px mt-12px w-full flex">
-          <wd-img :width="66" :height="66" :src="topbgBase64" custom-class="img" />
-          <view class="self-end ml-10px flex items-center">
-            <view class="jian flex items-center justify-center mr-5px">满100减20</view>
-            <view style="font-size: 12px; color: #777777">共减￥20</view>
+      <view v-if="getCouponOver">
+        <view
+          class="coupon"
+          v-for="(item, index) in couponS[disCountInd]"
+          :key="index"
+          :class="index === couponList[disCountInd].act ? 'active' : 'unact'"
+          @click="chooseact(item, index)"
+        >
+          <image :src="couponB"></image>
+          <view
+            class="flex"
+            style="align-items: center; justify-content: space-between; height: 100%"
+          >
+            <view class="flex-c">
+              <view class="coupon_title">{{ item.couponName }}</view>
+              <view class="effect_time flex">
+                <text style="line-height: 1.25">有效期：</text>
+                <view class="flex-c">
+                  <text>{{ item.couponBeginDate.slice(0, 10) }}</text>
+                  <text>{{ item.couponEndDate.slice(0, 10) }}</text>
+                </view>
+              </view>
+            </view>
+            <div class="amount">
+              <text class="reduct">￥{{ item.couponPrice }}</text>
+              <text class="reduct_desc">满{{ item.couponFillPrice }}元可用</text>
+            </div>
           </view>
         </view>
       </view>
@@ -327,7 +396,7 @@ onShow(async (options) => {
   </view>
 </template>
 
-<style>
+<style lang="less">
 .address {
   box-sizing: border-box;
   padding: 14px;
@@ -415,5 +484,107 @@ onShow(async (options) => {
   color: #f44d24;
   background: #ffece8;
   border-radius: 2px 2px 2px 2px;
+}
+</style>
+<style lang="scss" scoped>
+.coupon {
+  $c: #ffc4a6;
+  position: relative;
+  box-sizing: border-box;
+  width: 626 rpx;
+  height: 232 rpx;
+  padding: 32 rpx 30 rpx 26 rpx 46 rpx;
+  margin-bottom: 34 rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+  }
+
+  & > view {
+    position: relative;
+    z-index: 2;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .flex-c {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .coupon_title {
+    margin-bottom: 8 rpx;
+    font-size: 36 rpx;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .effect_time {
+    margin-bottom: 8 rpx;
+    font-size: 24 rpx;
+    color: $c;
+  }
+
+  .operate {
+    display: flex;
+    align-items: center;
+
+    .receive_btn {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 140 rpx;
+      height: 50 rpx;
+      font-size: 24 rpx;
+      color: $c;
+      border: 2 rpx solid #fff;
+      border-radius: 26 rpx;
+    }
+
+    .desc {
+      margin-left: 40 rpx;
+      font-size: 24 rpx;
+      color: #fff6da;
+    }
+  }
+
+  .amount {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .reduct {
+      font-size: 64 rpx;
+      font-weight: bold;
+      color: #ff4345;
+    }
+
+    .reduct_desc {
+      font-size: 24 rpx;
+      color: #666;
+      text-indent: 10 rpx;
+    }
+  }
+}
+
+.unact {
+  opacity: 0.6;
+}
+
+.active {
+  opacity: 1;
 }
 </style>

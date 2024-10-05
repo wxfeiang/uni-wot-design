@@ -1,13 +1,14 @@
 import { Toast } from '@/utils/uniapi/prompt'
 import { routeTo } from '@/utils'
 import { getPickUpStoreByMerchantId, submitOrder, getActivityList } from '@/service/api/shop'
-import { addressList } from '@/service/api/address'
+import { addressList, getCouponList } from '@/service/api/address'
 import { useRequest } from 'alova/client'
 
 const orderDetails = ref<any>([])
 const checkShop = ref(null)
 const shopAdsList = ref<any>([])
 const selfAdsList = ref<any>([])
+const couponList = ref<any>([])
 const shopExtractList = ref<any>([])
 const showPop = reactive({
   showDeliveryMode: false,
@@ -42,6 +43,9 @@ const submit = () => {
   })
 
   if (fl) {
+    orderDetails.value.forEach((it, index) => {
+      it.receiveId = couponList.value[index].id ? couponList.value[index].id : ''
+    })
     submitOrder({ xcxPaymentReqVos: orderDetails.value }).then((res) => {
       console.log('resresresresresresresresresresresres', res.bizOrderNo)
       routeTo({
@@ -81,6 +85,12 @@ const getAdsList = async () => {
     })
   }
   console.log('shopAdsList', shopAdsList)
+}
+
+const getCoupon = async (data, index) => {
+  const res = await getCouponList(data)
+
+  couponList.value[index] = res[0].receiveId
 }
 
 const handleChange = ({ value }, id, key) => {
@@ -166,5 +176,7 @@ export default () => {
     selfAdsList,
     shopExtractList,
     sendGetActivityList,
+    // getCoupon,
+    couponList,
   }
 }

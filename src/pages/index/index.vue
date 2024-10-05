@@ -45,20 +45,25 @@ const {
   swiperList,
   serviceArea,
   topAction,
-  topAction2: top2,
+
   sendGetSpecialTypeList,
 } = useIndex()
 
-async function actionTop(item: any) {
+async function actionTop2(item: any) {
   console.log(item)
-  switch (item.specialJumpType) {
-    case 'WX':
-      return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.SWITCH_TAB })
-  }
 
-  // if (item.specialJumpType === 'H5') {
-  //   return routeTo({ url: item.specialJump })
-  // }
+  if (item.specialJumpType === 'WX') {
+    // return routeTo({url: item.specialJump, navType: NAVIGATE_TYPE.SWITCH_TAB})
+    openWxChart(item.appId, item.path)
+  } else if (item.specialJumpType === 'H5') {
+    if (!item.specialJump) {
+      toast.show('功能开发中，敬请期待!...')
+    } else {
+      return routeTo({ url: item.specialJump })
+    }
+  }
+}
+async function actionTop(item: any) {
   if (item.type === 'sacn') {
     const resData: any = await useScancode({ onlyFromCamera: true })
 
@@ -142,10 +147,9 @@ const znbgBase64 = ref('')
 
 const topAction2 = ref([])
 const getSpecialTypeList = async () => {
-  const {
-    data: { data = [] },
-  } = await sendGetSpecialTypeList()
-  topAction2.value = [...data, { specialIcon: xagd, specialName: '更多' }]
+  const data = await sendGetSpecialTypeList()
+
+  topAction2.value = data.data.data
 }
 
 onLoad(async () => {
@@ -228,7 +232,7 @@ onPageScroll((e) => {
         class="w-22% flex flex-col items-center py-10px"
         v-for="(item, index) in topAction2"
         :key="index"
-        @click="actionTop(item)"
+        @click="actionTop2(item)"
       >
         <view>
           <wd-img :src="item.specialIcon" width="45" height="45"></wd-img>
@@ -412,6 +416,7 @@ onPageScroll((e) => {
 .msg {
   background: linear-gradient(-74deg, transparent 10px, #2d69ef 0) top right;
 }
+
 .bsbg {
   background: linear-gradient(189deg, #e7f1ff 0%, #feffff 16%, #ffffff 100%);
   border-radius: 6px;

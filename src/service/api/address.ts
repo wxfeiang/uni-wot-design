@@ -5,6 +5,7 @@ import { METHOD_INSTANCE } from '../model/baseModel'
 const ADDRESS_LIST = baseUrlApi('/member/app/goodsAddress/getUserGoodsAddressList')
 const ADDRESS_ADDORUPDATE = baseUrlApi('/member/app/goodsAddress/addOrUpdateGoodsAddress')
 const ADDRESS_DELETE = baseUrlApi('/member/app/goodsAddress/deleteGoodsAddressById')
+const GET_COUPON_LIST = baseUrlApi('/promotion/app/coupon/haveGoods')
 
 /**
  *   收货地址列表
@@ -16,6 +17,19 @@ export function addressList(data) {
   }
   return request.Post(
     ADDRESS_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+export function getCouponList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_COUPON_LIST, // 请求地址
     data,
     {
       meta,

@@ -65,7 +65,8 @@ const formatGoodsInfo = (arr: Array<any>) => {
         goods_id: details.spuId, // 商品ID
         goods_name: details.spuName, // 商品名称
         // SKU头像
-        image: details.skuUrl[index],
+        image: details.skuUrl[0],
+        // TODO
         price: item.sellPrice, // SKU 价格
         sku_name_arr: Object.values(JSON.parse(item.skuName)), // 该SKU由哪些规格组成（规格是有顺序的，需要与specList的数组顺序对应）
         stock: item.stock,

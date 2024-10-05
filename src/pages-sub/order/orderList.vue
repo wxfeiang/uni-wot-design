@@ -58,7 +58,6 @@ function changeTab(e) {
   tabsVal.value = e.name
   paging.value.reload()
 }
-
 const gopath = function (url, e) {
   routeTo({
     url,
@@ -68,7 +67,6 @@ const gopath = function (url, e) {
 const goshop = function (shopId) {
   routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: shopId } })
 }
-
 onLoad((options) => {
   tabsVal.value = options.tabsVal ? options.tabsVal : ''
 })

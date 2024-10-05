@@ -67,6 +67,7 @@ const gopath = function (url, e) {
   routeTo({
     url,
     data: e,
+    navType: 'redirectTo',
   })
 }
 
@@ -135,7 +136,7 @@ onLoad(async () => {
       <view class="board">
         <view class="title">推荐商品</view>
         <view class="recommend" v-for="(item, index) in activity?.productSpuBean" :key="index">
-          <view class="flex">
+          <view class="flex" @click="gopath('/pages/shop/shopInfo', { id: item.spuId })">
             <wd-img :width="84" :height="84" :src="item?.rotationUrl"></wd-img>
             <view class="info flex-c">
               <view class="pro_title">{{ item?.spuName }}</view>
