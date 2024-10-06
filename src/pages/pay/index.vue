@@ -8,18 +8,22 @@
 </route>
 
 <script lang="ts" setup>
-import { getWxPay } from '@/service/api/shop'
+import { getWxPay, getWxPay2 } from '@/service/api/shop'
 import pays from '@/static/images/pay/pays.png'
 import { useSystemStore } from '@/store'
 import { useRequestPayment } from '@/utils/uniapi'
 import { useRequest } from 'alova/client'
 import { useMessage } from 'wot-design-uni'
+
 const message = useMessage()
 const store = useSystemStore()
 const inValue = ref<any>() // 输入框的值
 const actualPrice = ref(0)
 const merchantId = ref('')
 const couponId = ref('')
+const orderId = ref('')
+const PayType = ref('scan')
+
 actualPrice.value = inValue.value
 const payFlog = ref(false)
 
@@ -47,6 +51,12 @@ const { send: sendPay } = useRequest((data) => getWxPay(data), {
   initialData: {},
 })
 
+const { send: sendPay2 } = useRequest((data) => getWxPay2(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+})
+
 async function getOrderMess() {
   const params = {
     actualAmount: actualPrice.value, // 实际支付金额
@@ -55,9 +65,22 @@ async function getOrderMess() {
     openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
     couponId: couponId.value, //
   }
+  const params2 = {
+    orderId: orderId.value,
+    openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
+  }
   console.log('订单入参数据==============', params)
   try {
-    const data: any = await sendPay(params)
+    let data: any
+
+    if (PayType.value === 'order') {
+      data = await sendPay2(params2)
+    } else if (PayType.value === 'scan') {
+      data = await sendPay(params)
+    } else {
+      data = await sendPay(params)
+    }
+
     console.log('后端订单数据[data]:', data)
     if (data.errCode === 'SUCCESS') {
       payListInfo.value = data
@@ -100,8 +123,21 @@ onLoad(async () => {
 
 onShow(async (options) => {
   const data = uni.getEnterOptionsSync()
-  console.log('页面进入=======传入的数据:', data)
 
+  // const data = {
+  //   referrerInfo: {
+  //     extraData: {
+  //       actualPrice: 100,
+  //       orderId: "3AKE24100671b767ec7dc0411b8c66ae",
+  //       payType: "order",
+  //       payStatus: 1
+  //     }
+  //   }
+  // }
+
+  console.log('页面进入=======传入的数据:', data)
+  PayType.value = data.referrerInfo?.extraData?.payType // 支付类型
+  orderId.value = data.referrerInfo?.extraData?.orderId
   inValue.value = data.referrerInfo?.extraData?.invoice
   actualPrice.value = data.referrerInfo?.extraData?.actualPrice
   merchantId.value = data.referrerInfo?.extraData?.merchantId
@@ -160,6 +196,7 @@ onUnload(() => {
           <text>{{ actualPrice }}</text>
         </view>
         <view
+          v-if="inValue"
           class="mt-10px font-400 text-#999 text-20px text-center bg-#F1F0EE px-20px py-5px mx-auto max-w-30% rounded-500 line-through"
         >
           {{ inValue }}
@@ -234,9 +271,11 @@ onUnload(() => {
 :deep(.custom-class-popup) {
   @apply overflow-hidden rounded-t-20px px-20px;
 }
+
 :deep(.custom-class-cell) {
   @apply mx-[-10px]!;
 }
+
 :deep(.custom-input-class) {
   @apply text-26px! font-600!;
 }
