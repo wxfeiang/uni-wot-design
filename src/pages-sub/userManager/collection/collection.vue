@@ -91,7 +91,7 @@ onLoad(async () => {
       class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
       v-for="item in goodList"
       :key="item.spuId"
-      @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
+      @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
     >
       <view class="w-full flex">
         <view class="flex items-center">

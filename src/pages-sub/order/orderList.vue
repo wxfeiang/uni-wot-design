@@ -161,7 +161,7 @@ onLoad((options) => {
           <view v-for="(it, ind) in item.sysOrderItemBeans" :key="ind">
             <view
               class="flex justify-between items-center mt-2 mb-4"
-              @click="gopath('/pages/shop/shopInfo', { id: it.productSpuId })"
+              @click="gopath('/pages-sub/homeManager/shopInfo', { id: it.productSpuId })"
             >
               <wd-img :width="100" :height="100" radius="7" :src="JSON.parse(it.skuUrl)[0].data" />
               <view class="ml-2 flex-1">

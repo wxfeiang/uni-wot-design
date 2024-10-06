@@ -58,11 +58,12 @@ async function goPay() {
     toast.warning('订单已失效！')
   } else {
     const params = {
-      invoice: orderInfo.value.orderTotalFee, // 订单金额
-      actualPrice: orderInfo.value.orderActualAmount, // 实际支付金额
-      merchantId: orderInfo.value.merchantId,
-      couponId: orderInfo.value.couponId,
-      payStatus: 2,
+      // invoice: orderInfo.value.orderTotalFee, // 订单金额
+      // actualPrice: orderInfo.value.orderActualAmount, // 实际支付金额
+      // merchantId: orderInfo.value.merchantId,
+      // couponId: orderInfo.value.couponId,
+      orderId: orderInfo.value.orderId,
+      payStatus: 1,
       payType: 'order',
     }
     console.log('🍩', params)
@@ -237,7 +238,7 @@ onLoad((options) => {
         <view v-for="(it, ind) in orderInfo.sysOrderItemBeans" :key="ind">
           <view
             class="flex justify-between items-center mt-2 mb-4"
-            @click="gopath('/pages/shop/shopInfo', { id: it.productSpuId })"
+            @click="gopath('/pages-sub/homeManager/shopInfo', { id: it.productSpuId })"
           >
             <wd-img :width="100" :height="100" radius="7" :src="JSON.parse(it.skuUrl)[0].data" />
             <view class="ml-2 flex-1">

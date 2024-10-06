@@ -160,7 +160,7 @@ onLoad(async (options) => {
     </template>
     <view
       class="flex w-full px-4 py-2 box-border bg-white border-rd-6px"
-      @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
+      @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       v-for="item in goodList"
       :key="item.spuId"
     >

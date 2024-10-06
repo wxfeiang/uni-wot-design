@@ -157,7 +157,7 @@ const buyNow = (val: any) => {
     },
   ]
   routeTo({
-    url: '/pages/shop/order?obj=' + JSON.stringify(obj),
+    url: '/pages-sub/homeManager/order?obj=' + JSON.stringify(obj),
   })
 }
 const addCar = (val: any) => {
@@ -363,7 +363,7 @@ onShareTimeline(() => {
         </view>
         <view
           class="flex flex-col item-center justify-center"
-          @click="routeTo({ url: '/pages/shop/shopCar' })"
+          @click="routeTo({ url: '/pages-sub/homeManager/shopCar' })"
         >
           <wd-img :width="30" height="30" :src="gouwuche"></wd-img>
           <wd-text text="购物车" color="#666666" size="12px" custom-class="texts"></wd-text>

@@ -11,7 +11,7 @@
 </route>
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import actionB from '@/static/images/serve/action_b.png'
+import actionB from '@/static/images/serve/action_b.jpg'
 import couponB from '@/static/images/serve/coupon_b.png'
 import useAction from './utils'
 import { useMessage } from 'wot-design-uni'
@@ -136,7 +136,7 @@ onLoad(async () => {
       <view class="board">
         <view class="title">推荐商品</view>
         <view class="recommend" v-for="(item, index) in activity?.productSpuBean" :key="index">
-          <view class="flex" @click="gopath('/pages/shop/shopInfo', { id: item.spuId })">
+          <view class="flex" @click="gopath('/pages-sub/homeManager/shopInfo', { id: item.spuId })">
             <wd-img :width="84" :height="84" :src="item?.rotationUrl"></wd-img>
             <view class="info flex-c">
               <view class="pro_title">{{ item?.spuName }}</view>

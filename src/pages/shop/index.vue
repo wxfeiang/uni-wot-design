@@ -55,7 +55,7 @@ const gopath = function (url, e) {
 
 const goCar = () => {
   uni.navigateTo({
-    url: '/pages/shop/shopCar',
+    url: '/pages-sub/homeManager/shopCar',
   })
 }
 
@@ -117,7 +117,7 @@ onLoad(async () => {
               class="uni-input m-l-10px flex-1"
               confirm-type="search"
               placeholder="请输入搜索关键词"
-              @focus="routeTo({ url: '/pages/shop/goodsSearch' })"
+              @focus="routeTo({ url: '/pages-sub/homeManager/goodsSearch' })"
             />
             <view class="searchbtn">搜索</view>
           </view>
@@ -177,7 +177,7 @@ onLoad(async () => {
           class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
           v-for="item in goodList"
           :key="item.spuId"
-          @click="gopath('/pages/shop/shopInfo', { id: item.spuId })"
+          @click="gopath('/pages-sub/homeManager/shopInfo', { id: item.spuId })"
         >
           <wd-img :width="175" :height="160" :src="item.rotationUrl[0]" />
           <view class="w-155px name my-10px m-auto">

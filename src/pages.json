@@ -160,60 +160,12 @@
       }
     },
     {
-      "path": "pages/shop/action",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "活动"
-      }
-    },
-    {
-      "path": "pages/shop/goodsSearch",
-      "type": "page",
-      "layout": "default",
-      "needLogin": true,
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "商城"
-      }
-    },
-    {
       "path": "pages/shop/index",
       "type": "page",
       "layout": "default",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTitleText": "商城"
-      }
-    },
-    {
-      "path": "pages/shop/order",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/shop/shopCar",
-      "type": "page",
-      "layout": "default",
-      "needLogin": true,
-      "style": {
-        "navigationBarTitleText": "购物车",
-        "backgroundColor": "#fff",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTextStyle": "black"
-      }
-    },
-    {
-      "path": "pages/shop/shopInfo",
-      "type": "page",
-      "layout": "default",
-      "needLogin": true,
-      "style": {
-        "navigationStyle": "custom"
       }
     }
   ],
@@ -675,9 +627,48 @@
           }
         },
         {
+          "path": "goodsSearch",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "商城"
+          }
+        },
+        {
           "path": "mafuwu",
           "type": "page",
           "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "order",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "shopCar",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationBarTitleText": "购物车",
+            "backgroundColor": "#fff",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "shopInfo",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

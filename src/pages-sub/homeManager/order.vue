@@ -7,7 +7,7 @@
 }
 </route>
 <script lang="ts" setup>
-import useOrder from './utils/userOrder'
+import useOrder from '../../pages/shop/utils/userOrder'
 import couponB from '@/static/images/serve/coupon_b.png'
 import { pathToBase64 } from 'image-tools'
 import { useUserStore } from '@/store'
@@ -217,7 +217,11 @@ onShow(async (options) => {
           <view class="w-full flex justify-between items-center mt-15px" v-if="getCouponOver">
             <view class="mr-50px">优惠券</view>
 
-            <view style="color: #777777" v-if="couponS[idx] !== null" @click="openCount(true, idx)">
+            <view
+              style="color: #777777"
+              v-if="couponS[idx] !== null && couponS[idx][0]"
+              @click="openCount(true, idx)"
+            >
               {{ couponS[idx][0].couponName }}
             </view>
             <view style="color: #777777" v-else>暂无可用优惠券</view>

@@ -184,7 +184,7 @@ const goSubmitOrder = () => {
       }
     })
 
-    routeTo({ url: '/pages/shop/order?obj=' + JSON.stringify(submitData.value) })
+    routeTo({ url: '/pages-sub/homeManager/order?obj=' + JSON.stringify(submitData.value) })
     console.log('submitData.value', submitData.value)
   } else {
     toast.warning('暂不支持多店铺下单，请选择一个店铺下单吧~')

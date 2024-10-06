@@ -150,7 +150,7 @@ function handleChange(val, type) {
         />
         <view class="searchbtn" @click="paging.reload">搜索</view>
       </view>
-      <view class="caricon" @click="routeTo({ url: '/pages/shop/shopCar' })">
+      <view class="caricon" @click="routeTo({ url: '/pages-sub/homeManager/shopCar' })">
         <wd-img :width="30" :height="28" :src="carIcon" />
       </view>
     </view>
@@ -208,7 +208,7 @@ function handleChange(val, type) {
         class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
         v-for="item in goodList"
         :key="item.spuId"
-        @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
+        @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
         <wd-img :width="175" :height="160" :src="getUrl(item.saleUrl)" />
         <view class="w-155px name my-10px m-auto">
@@ -231,7 +231,7 @@ function handleChange(val, type) {
         class="flex w-full p-10px box-border mb-10px bg-white border-rd-6px"
         v-for="item in goodList"
         :key="item.spuId"
-        @click="routeTo({ url: '/pages/shop/shopInfo', data: { id: item.spuId } })"
+        @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
         <wd-img :width="86" :height="86" :src="getUrl(item.saleUrl)" />
         <div class="flex-1 ml-15px flex flex-col justify-between">

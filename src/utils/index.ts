@@ -3,6 +3,7 @@ import { pages, subPackages, tabBar } from '@/pages.json'
 import PLATFORM from '@/utils/platform'
 import { isArray } from 'lodash-es'
 import qs from 'qs'
+
 /** 判断当前页面是否是tabbar页  */
 export const getIsTabbar = () => {
   if (!tabBar) {
@@ -175,6 +176,7 @@ export const baseUrl = () => {
  */
 export const routeTo = (options: { url?: string; data?: any; navType?: NAVIGATE_TYPE }) => {
   let { url, data, navType = NAVIGATE_TYPE.NAVIGATE_TO } = options
+  console.log('跳转路径:', url)
   console.log('跳转携带参数:', data)
 
   if (data) {
@@ -256,6 +258,7 @@ export function removeT(date: string) {
   if (!date) return ''
   return date.replace('T', ' ')
 }
+
 /**
  * @description:  批量处理入参数Json 对象 转码 地址栏
  * @param {} data 传入的key

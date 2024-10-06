@@ -14,12 +14,7 @@ interface NavigateToOptions {
        "/pages/pay/index" |
        "/pages/pay/sacnResult" |
        "/pages/serve/index" |
-       "/pages/shop/action" |
-       "/pages/shop/goodsSearch" |
        "/pages/shop/index" |
-       "/pages/shop/order" |
-       "/pages/shop/shopCar" |
-       "/pages/shop/shopInfo" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
@@ -67,7 +62,11 @@ interface NavigateToOptions {
        "/pages-sub/order/orderList" |
        "/pages-sub/homeManager/action" |
        "/pages-sub/homeManager/gongjiaochuxing" |
-       "/pages-sub/homeManager/mafuwu";
+       "/pages-sub/homeManager/goodsSearch" |
+       "/pages-sub/homeManager/mafuwu" |
+       "/pages-sub/homeManager/order" |
+       "/pages-sub/homeManager/shopCar" |
+       "/pages-sub/homeManager/shopInfo";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
