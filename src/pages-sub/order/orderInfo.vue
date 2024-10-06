@@ -12,8 +12,11 @@
 import { routeTo } from '@/utils'
 import orderInter from './utils/orderInter'
 import { getShopInfo } from '@/service/api/shop'
+import { openEmbeddedMiniProgram } from '@/utils/uniapi'
+import { useToast } from 'wot-design-uni/index'
 
-const { sendOrderInfo, sendOrderList } = orderInter()
+const toast = useToast()
+const { sendOrderInfo, sendOrderList, changeOrderStatus } = orderInter()
 
 const paging = ref(null)
 const chooseIndex = ref(-1)
@@ -29,17 +32,42 @@ function openPop(e) {
   showPop.value = true
 }
 
-const time = ref<number>(0)
+const time = ref<number>(108000)
+const dispay = ref(false)
 
-function closePop(e) {
+function closePop() {
   showPop.value = false
 }
 
 function Choose(index) {
-  // chooseIndex.value = index
+  chooseIndex.value = index
   // console.log('chooseIndex', index)
   // skuInfo.value = skuList.value[index]
-  // closePop()
+  closePop()
+}
+
+function timefinish() {
+  dispay.value = true
+  changeOrderStatus({ orderId: orderInfo.value.orderId }).then((res) => {
+    uni.redirectTo({ url: '/pages-sub/order/orderList' })
+  })
+}
+
+async function goPay() {
+  if (dispay.value) {
+    toast.warning('订单已失效！')
+  } else {
+    const params = {
+      invoice: orderInfo.value.orderTotalFee, // 订单金额
+      actualPrice: orderInfo.value.orderActualAmount, // 实际支付金额
+      merchantId: orderInfo.value.merchantId,
+      couponId: orderInfo.value.couponId,
+      payStatus: 2,
+      payType: 'order',
+    }
+    console.log('🍩', params)
+    await openEmbeddedMiniProgram('/pages/pay/index', params)
+  }
 }
 
 const getShopDetails = (shopId) => {
@@ -55,10 +83,10 @@ async function getInfo(id: any) {
   const data: any = await sendOrderInfo(da)
 
   time.value = new Date(data.orderTime).getTime() + 1000 * 60 * 30 - new Date().getTime()
-  if (orderInfo.value.stutas === 1 && time.value < 0) {
+  if (orderInfo.value.stutas === 1 && time.value <= 0) {
     // 修改订单状态
     changeOrderStatus({ orderId: id }).then((res) => {
-      uni.redirectTo({ url: '/pages-sub/shopManager/shopHome', data: { id: data.shopId } })
+      uni.redirectTo({ url: '/pages-sub/order/orderList' })
     })
   }
 
@@ -124,7 +152,13 @@ onLoad((options) => {
           custom-class="my-1 text-center font-bold"
         ></wd-text>
         <view class="flex justify-center items-center mt-1 mb-2">
-          <wd-count-down :time="time" size="14px" color="#e3832a" custom-class="mr-1 time" />
+          <wd-count-down
+            :time="time"
+            size="14px"
+            color="#e3832a"
+            custom-class="mr-1 time"
+            @finish="timefinish()"
+          />
 
           <wd-text
             text="后订单将自动取消"
@@ -335,6 +369,15 @@ onLoad((options) => {
           </view>
         </view>
       </wd-card>
+
+      <view class="mt-8 mx-4">
+        <view class="mb-20px">
+          <wd-button block :round="false" @click="goPay" v-if="!dispay" custom-class="duihuanBtn">
+            立即支付
+          </wd-button>
+          <wd-button block :round="false" disabled v-else type="info">订单失效</wd-button>
+        </view>
+      </view>
     </view>
     <!--    <wd-overlay :show="showPop" @click="showPop = false"/>-->
     <wd-action-sheet v-model="showPop" @close="closePop" title="取消订单">
