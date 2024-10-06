@@ -55,7 +55,8 @@ const getCoupon = async (data, index) => {
   const res = await getCouponList(data)
   couponS.value[index] = res
 
-  couponList.value[index].id = res[0].receiveId ? res[0].receiveId : ''
+  couponList.value[index].id = res[0] ? res[0].receiveId : ''
+  couponList.value[index].cid = res[0] ? res[0].couponId : ''
   console.log(' couponS.value[index]!~~~~~~~~~~~~~~~~~~~~', couponS.value[index])
   instance.proxy.$forceUpdate()
   let fl = true
@@ -86,7 +87,11 @@ const goAddress = (val: any) => {
 }
 
 const chooseact = (item, ind) => {
-  couponList.value[disCountInd.value] = { act: ind, id: item.receiveId }
+  couponList.value[disCountInd.value] = {
+    act: ind,
+    id: item.receiveId ? item.receiveId : '',
+    cid: item.couponId ? item.couponId : '',
+  }
 }
 
 onLoad(async (options) => {
@@ -103,7 +108,7 @@ onLoad(async (options) => {
       da.productsList.push({ productId: e.spuId, price: e.price, num: e.spuNum })
     })
     couponS.value.push(null)
-    couponList.value.push({ act: 0, id: null })
+    couponList.value.push({ act: 0, id: null, cid: null })
 
     getCoupon(da, index)
   })
@@ -117,7 +122,7 @@ onShow(async (options) => {
   <view class="min-h-100vh bg-#f3f4f6">
     <dy-navbar leftTitle="确认订单" left></dy-navbar>
     <view class="list">
-      <view class="border-rd-5px mb-20px" v-for="(item, idx) in orderDetails" :key="item.shopId">
+      <view class="border-rd-5px mb-20px" v-for="(item, idx) in orderDetails" :key="idx">
         <view
           class="bg-white border-rd-7px bg-white p-13px box-border mb-20px"
           v-if="item.deliveryMode !== 1 && adsList.length > 0"
@@ -185,7 +190,7 @@ onShow(async (options) => {
             <view class="ml-12px" style="color: #333333">{{ item.shopName }}</view>
           </div>
 
-          <view class="w-full mt-15px flex" v-for="it in item.payShopListReqVo" :key="it.spuId">
+          <view class="w-full mt-15px flex" v-for="(it, indx) in item.payShopListReqVo" :key="indx">
             <wd-img :width="105" :height="105" :src="it.image" custom-image="img" />
             <view class="ml-15px flex-1 flex flex-col justify-between overflow-hidden">
               <view class="w-210px name">{{ it.spuName }}</view>
@@ -309,9 +314,12 @@ onShow(async (options) => {
               <view class="coupon_title">{{ item.couponName }}</view>
               <view class="effect_time flex">
                 <text style="line-height: 1.25">有效期：</text>
-                <view class="flex-c">
-                  <text>{{ item.couponBeginDate.slice(0, 10) }}</text>
-                  <text>{{ item.couponEndDate.slice(0, 10) }}</text>
+                <view class="flex-h">
+                  <text>
+                    {{
+                      item.couponBeginDate.slice(0, 10) + ' 至 ' + item.couponEndDate.slice(0, 10)
+                    }}
+                  </text>
                 </view>
               </view>
             </view>
@@ -332,7 +340,7 @@ onShow(async (options) => {
     >
       <view class="font-600 mb-20px">选择自提点</view>
       <view style="width: 100%; max-height: 60vh; overflow-y: auto" v-if="isExtractList.length > 0">
-        <view class="flex w-full mb-15px" v-for="key in isExtractList" :key="key.id">
+        <view class="flex w-full mb-15px" v-for="(key, ind) in isExtractList" :key="ind">
           <view style="align-self: center">
             <wd-checkbox
               v-model="key.isCheck"
@@ -368,7 +376,7 @@ onShow(async (options) => {
     >
       <view class="font-600 mb-20px">选择收货地址</view>
       <view style="width: 100%; max-height: 60vh; overflow-y: auto">
-        <view class="flex w-full mb-15px" v-for="it in adsList" :key="it.id">
+        <view class="flex w-full mb-15px" v-for="(it, ind) in adsList" :key="ind">
           <view style="align-self: center">
             <wd-checkbox
               v-model="it.isCheck"
@@ -491,10 +499,10 @@ onShow(async (options) => {
   $c: #ffc4a6;
   position: relative;
   box-sizing: border-box;
-  width: 626 rpx;
-  height: 232 rpx;
-  padding: 32 rpx 30 rpx 26 rpx 46 rpx;
-  margin-bottom: 34 rpx;
+  width: 100%;
+
+  padding: 17px;
+  margin-bottom: 10px;
 
   &:last-child {
     margin-bottom: 0;
@@ -520,20 +528,27 @@ onShow(async (options) => {
 
   .flex-c {
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
   }
 
+  .flex-h {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .coupon_title {
-    margin-bottom: 8 rpx;
-    font-size: 36 rpx;
+    margin-bottom: 4px;
+    font-size: 18px;
     font-weight: 600;
     color: #fff;
   }
 
   .effect_time {
-    margin-bottom: 8 rpx;
-    font-size: 24 rpx;
+    margin-bottom: 4px;
+    font-size: 12px;
     color: $c;
   }
 
@@ -546,17 +561,17 @@ onShow(async (options) => {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 140 rpx;
-      height: 50 rpx;
-      font-size: 24 rpx;
+      width: 70px;
+      height: 25px;
+      font-size: 13px;
       color: $c;
-      border: 2 rpx solid #fff;
-      border-radius: 26 rpx;
+      border: 1px solid #fff;
+      border-radius: 13px;
     }
 
     .desc {
-      margin-left: 40 rpx;
-      font-size: 24 rpx;
+      margin-left: 20px;
+      font-size: 12px;
       color: #fff6da;
     }
   }
@@ -567,21 +582,21 @@ onShow(async (options) => {
     align-items: center;
 
     .reduct {
-      font-size: 64 rpx;
+      font-size: 32px;
       font-weight: bold;
       color: #ff4345;
     }
 
     .reduct_desc {
-      font-size: 24 rpx;
+      font-size: 12px;
       color: #666;
-      text-indent: 10 rpx;
+      text-indent: 5px;
     }
   }
 }
 
 .unact {
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .active {
