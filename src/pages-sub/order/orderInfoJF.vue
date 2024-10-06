@@ -16,7 +16,7 @@ import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni/index'
 
 const toast = useToast()
-const { sendOrderInfo, sendOrderList, changeOrderStatus } = orderInter()
+const { sendOrderInfoJF } = orderInter()
 
 const paging = ref(null)
 const chooseIndex = ref(-1)
@@ -47,13 +47,6 @@ function Choose(index) {
   closePop()
 }
 
-function timefinish() {
-  dispay.value = true
-  changeOrderStatus({ orderId: orderInfo.value.orderId }).then((res) => {
-    uni.redirectTo({ url: '/pages-sub/order/orderList' })
-  })
-}
-
 async function goPay() {
   if (dispay.value) {
     toast.warning('订单已失效！')
@@ -79,19 +72,13 @@ const getShopDetails = (shopId) => {
   })
 }
 
-async function getInfo(id: any) {
+async function getInfoJF(id: any) {
   uni.showLoading({ title: '' })
   // 这里是请求数据
-  const da = { orderId: id }
-  const data: any = await sendOrderInfo(da)
+  const da = { goodId: id }
+  const data: any = await sendOrderInfoJF(da)
 
   time.value = new Date(data.orderTime).getTime() + 1000 * 60 * 30 - new Date().getTime()
-  if (orderInfo.value.stutas === 1 && time.value <= 0) {
-    // 修改订单状态
-    changeOrderStatus({ orderId: id }).then((res) => {
-      uni.redirectTo({ url: '/pages-sub/order/orderList' })
-    })
-  }
 
   orderInfo.value = data
 
@@ -145,7 +132,7 @@ onLoad((options) => {
 })
 
 onShow((options) => {
-  getInfo(orderID.value)
+  getInfoJF(orderID.value)
 })
 </script>
 
@@ -153,63 +140,8 @@ onShow((options) => {
   <view class="pageBoxBg w-screen h-screen pt-4 pb-4">
     <view class="tabTool w-screen">
       <dy-navbar :leftTitle="title" left></dy-navbar>
-      <view class="flex justify-center items-center flex-col" v-if="orderInfo.status === 1">
-        <wd-text
-          text="等待付款"
-          size="20px"
-          color="#333333"
-          custom-class="my-1 text-center font-bold"
-        ></wd-text>
-        <view class="flex justify-center items-center mt-1 mb-2">
-          <wd-count-down
-            :time="time"
-            size="14px"
-            color="#e3832a"
-            custom-class="mr-1 time"
-            @finish="timefinish()"
-          />
 
-          <wd-text
-            text="后订单将自动取消"
-            size="14px"
-            color="#777777"
-            custom-class="ml-1"
-          ></wd-text>
-        </view>
-      </view>
-      <view v-else-if="orderInfo.status === 10" class="flex justify-center items-center flex-col">
-        <wd-text
-          text="等待发货"
-          size="20px"
-          color="#333333"
-          custom-class="my-1 text-center font-bold"
-        ></wd-text>
-        <view class="flex justify-center items-center mt-1 mb-2">
-          <wd-text
-            text="订单商品将尽快发出，请您耐心等待"
-            size="14px"
-            color="#777777"
-            custom-class="ml-1"
-          ></wd-text>
-        </view>
-      </view>
-      <view v-else-if="orderInfo.status === 11" class="flex justify-center items-center flex-col">
-        <wd-text
-          text="等待收货"
-          size="20px"
-          color="#333333"
-          custom-class="my-1 text-center font-bold"
-        ></wd-text>
-        <view class="flex justify-center items-center mt-1 mb-2">
-          <wd-text
-            text="订单商品运输中，请您耐心等待"
-            size="14px"
-            color="#777777"
-            custom-class="ml-1"
-          ></wd-text>
-        </view>
-      </view>
-      <view v-else-if="orderInfo.status === 2" class="flex justify-center items-center flex-col">
+      <view class="flex justify-center items-center flex-col">
         <wd-text
           text="交易完成"
           size="20px"
@@ -217,14 +149,7 @@ onShow((options) => {
           custom-class="my-1 text-center font-bold"
         ></wd-text>
       </view>
-      <view v-else class="flex justify-center items-center flex-col">
-        <wd-text
-          text="交易关闭"
-          size="20px"
-          color="#333333"
-          custom-class="my-1 text-center font-bold"
-        ></wd-text>
-      </view>
+
       <wd-card class="cardno">
         <view class="flex justify-between items-center py-2">
           <view class="flex justify-left items-center">
@@ -260,35 +185,8 @@ onShow((options) => {
               ></wd-text>
               <wd-icon name="arrow-right" size="16px" custom-class="ml-1" color="#777777"></wd-icon>
             </view>
-            <wd-text
-              v-if="orderInfo.status === 1"
-              text="待付款"
-              size="14px"
-              color="#e3832a"
-              class=""
-            ></wd-text>
-            <wd-text
-              v-else-if="orderInfo.status === 10"
-              text="待发货"
-              size="14px"
-              color="#e3832a"
-              class=""
-            ></wd-text>
-            <wd-text
-              v-else-if="orderInfo.status === 11"
-              text="待收货"
-              size="14px"
-              color="#e3832a"
-              class=""
-            ></wd-text>
-            <wd-text
-              v-else-if="orderInfo.status === 2"
-              text="已完成"
-              size="14px"
-              color="#e3832a"
-              class=""
-            ></wd-text>
-            <wd-text v-else text="售后/退款" size="14px" color="#e3832a" class=""></wd-text>
+
+            <wd-text text="已完成" size="14px" color="#e3832a" class=""></wd-text>
           </view>
         </template>
         <view v-for="(it, ind) in orderInfo.sysOrderItemBeans" :key="ind">

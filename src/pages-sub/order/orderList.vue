@@ -58,6 +58,7 @@ function changeTab(e) {
   tabsVal.value = e.name
   paging.value.reload()
 }
+
 const gopath = function (url, e) {
   routeTo({
     url,
@@ -66,6 +67,9 @@ const gopath = function (url, e) {
 }
 const goshop = function (shopId) {
   routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: shopId } })
+}
+const goinfo = function (orderId) {
+  routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
 }
 onLoad((options) => {
   tabsVal.value = options.tabsVal ? options.tabsVal : ''
@@ -115,8 +119,8 @@ onLoad((options) => {
       <view v-for="(item, index) in list" class="float-left w-full box-border" :key="index">
         <wd-card>
           <template #title>
-            <view class="flex justify-between items-center">
-              <view class="flex justify-left items-center" @click="goshop(item.shopId)">
+            <view class="flex justify-between items-center" @click="goshop(item.shopId)">
+              <view class="flex justify-left items-center">
                 <wd-img :width="30" :height="30" round :src="item.shopAvatar" />
                 <wd-text
                   :text="item.shopName"
@@ -232,6 +236,7 @@ onLoad((options) => {
                     type="info "
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
+                    @click="goInfo(item.orderId)"
                   >
                     立即使用
                   </wd-button>
@@ -243,6 +248,7 @@ onLoad((options) => {
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
+                    @click="goInfo(item.orderId)"
                   >
                     取消订单
                   </wd-button>
@@ -252,6 +258,7 @@ onLoad((options) => {
                     type="warning"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
+                    @click="goInfo(item.orderId)"
                   >
                     去支付
                   </wd-button>
@@ -263,6 +270,7 @@ onLoad((options) => {
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
+                    @click="goInfo(item.orderId)"
                   >
                     申请退款
                   </wd-button>
@@ -272,6 +280,7 @@ onLoad((options) => {
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
+                    @click="goInfo(item.orderId)"
                   >
                     联系催单
                   </wd-button>
@@ -283,6 +292,7 @@ onLoad((options) => {
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
+                    @click="goInfo(item.orderId)"
                   >
                     查看物流
                   </wd-button>
@@ -292,6 +302,7 @@ onLoad((options) => {
                     type="warning"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
+                    @click="goInfo(item.orderId)"
                   >
                     确认收货
                   </wd-button>

@@ -107,7 +107,7 @@ onLoad(async (options) => {
 <template>
   <z-paging ref="paging" v-model="goodList" @query="getLsit" class="w-screen h-screen">
     <template #top>
-      <dy-navbar leftTitle="商家" left></dy-navbar>
+      <dy-navbar leftTitle="店铺" left></dy-navbar>
       <view class="w-full p-15px box-border bg-#F3F4F6">
         <view class="flex w-full p-15px box-border bg-white border-rd-10px overflow-hidden">
           <wd-img :width="57" :height="57" :src="shopDetails.shopAvatar" round />
@@ -121,13 +121,13 @@ onLoad(async (options) => {
             </view>
             <view class="w-full flex items-center">
               <view class="mr-5px" style="font-size: 14px; color: #999999">
-                {{ shopDetails.address }}
+                地址：{{ shopDetails.address }}
               </view>
               <wd-icon name="location" size="16px" color="#999999"></wd-icon>
             </view>
             <view class="w-full flex items-center">
               <view class="mr-5px" style="font-size: 14px; color: #999999">
-                {{ shopDetails.shopPhone }}
+                电话： {{ shopDetails.shopPhone }}
               </view>
               <wd-icon name="call" size="16px" color="#999999"></wd-icon>
             </view>

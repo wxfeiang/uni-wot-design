@@ -142,7 +142,7 @@ const submitExchangeGoods = async () => {
     // 成功跳转订单页面
 
     routeTo({
-      url: '/pages-sub/order/orderInfo?id=' + data.orderNo,
+      url: '/pages-sub/order/orderInfoJF?id=' + orderDetails.value.goodId,
     })
   } catch (error) {
     console.log('🍍[error]:', error)

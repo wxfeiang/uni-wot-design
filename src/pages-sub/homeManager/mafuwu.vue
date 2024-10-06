@@ -193,14 +193,14 @@ const barodeClick = () => {
 
           <view class="flex justify-center mt-10px flex-col items-center">
             <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
-            <view>
-              <text class="text-#999999 text-14px mr-10px">{{ sendTiem }}秒自动刷新</text>
-              <wd-button type="text">手动刷新</wd-button>
-            </view>
-            <view class="tip">
-              绑定银行卡，即可开启便捷支付功能
-              <navigator class="a">【去绑卡】</navigator>
-            </view>
+            <!--            <view>-->
+            <!--              <text class="text-#999999 text-14px mr-10px">{{ sendTiem }}秒自动刷新</text>-->
+            <!--              <wd-button type="text">手动刷新</wd-button>-->
+            <!--            </view>-->
+            <!--            <view class="tip">-->
+            <!--              绑定银行卡，即可开启便捷支付功能-->
+            <!--              <navigator class="a">【去绑卡】</navigator>-->
+            <!--            </view>-->
           </view>
 
           <!-- <view

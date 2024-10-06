@@ -597,6 +597,15 @@
           }
         },
         {
+          "path": "orderInfoJF",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "orderList",
           "type": "page",
           "layout": "default",

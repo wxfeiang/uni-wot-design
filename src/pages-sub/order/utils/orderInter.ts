@@ -1,9 +1,13 @@
-import { getOrderList, getOrderInfo } from '@/service/api/shop'
+import { getOrderList, getOrderInfo, getOrderInfoJF } from '@/service/api/shop'
 
 import { useRequest } from 'alova/client'
 
 // 查询订单详情
 const { send: sendOrderInfo } = useRequest((data) => getOrderInfo(data), {
+  immediate: false,
+  loading: false,
+})
+const { send: sendOrderInfoJF } = useRequest((data) => getOrderInfoJF(data), {
   immediate: false,
   loading: false,
 })
@@ -19,5 +23,5 @@ const { send: changeOrderStatus } = useRequest((data) => changeOrderStatus(data)
   loading: false,
 })
 export default () => {
-  return { sendOrderInfo, sendOrderList, changeOrderStatus }
+  return { sendOrderInfo, sendOrderList, changeOrderStatus, sendOrderInfoJF }
 }

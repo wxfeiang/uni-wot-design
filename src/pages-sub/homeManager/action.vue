@@ -115,7 +115,7 @@ onLoad(async () => {
         <view class="title">活动介绍</view>
         <view class="timeline">
           <view class="timeline_row">
-            <view class="timeline_row_title">活动类型</view>
+            <view class="timeline_row_title">活动名称</view>
             <view class="timeline_row_content">{{ activity?.activityBean?.activityName }}</view>
           </view>
           <view class="timeline_row">
@@ -126,7 +126,7 @@ onLoad(async () => {
             </view>
           </view>
           <view class="timeline_row">
-            <view class="timeline_row_title">活动规则</view>
+            <view class="timeline_row_title">活动说明</view>
             <view class="timeline_row_content">
               {{ activity?.activityBean?.activityContent }}
             </view>
