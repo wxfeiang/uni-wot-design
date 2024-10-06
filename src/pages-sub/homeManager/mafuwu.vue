@@ -77,6 +77,7 @@ watch(
   async (newv) => {
     if (newv === 60) {
       // KB23GNsIXC
+      // "term":"调用终端：1 微信小程序 2 支付宝小程序 3 androd 4 ios  "
       const res = await sendGetStdTDCode({
         appId: 'KB23GNsIXC',
         appSign: '一卡通个人码',
