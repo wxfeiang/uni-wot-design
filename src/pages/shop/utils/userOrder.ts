@@ -31,6 +31,7 @@ const actions = ref<Array<any>>([
 
 const submit = () => {
   console.log('提交订单', orderDetails.value)
+  uni.showLoading({ title: '订单提交中...' })
 
   let fl = true
   orderDetails.value.forEach((item, idx) => {
@@ -45,14 +46,17 @@ const submit = () => {
   if (fl) {
     orderDetails.value.forEach((it, index) => {
       it.receiveId = couponList.value[index].id ? couponList.value[index].id : ''
+      it.couponId = couponList.value[index].cid ? couponList.value[index].cid : ''
     })
     submitOrder({ xcxPaymentReqVos: orderDetails.value }).then((res) => {
       console.log('resresresresresresresresresresresres', res.bizOrderNo)
+      uni.hideLoading()
       routeTo({
         url: '/pages-sub/order/orderInfo?id=' + res.bizOrderNo,
       })
     })
   } else {
+    uni.hideLoading()
     Toast('请选择配送地址或自提方式')
   }
 }
@@ -90,7 +94,8 @@ const getAdsList = async () => {
 const getCoupon = async (data, index) => {
   const res = await getCouponList(data)
 
-  couponList.value[index] = res[0].receiveId
+  couponList.value[index].id = res[0] ? res[0].receiveId : ''
+  couponList.value[index].cid = res[0] ? res[0].couponId : ''
 }
 
 const handleChange = ({ value }, id, key) => {

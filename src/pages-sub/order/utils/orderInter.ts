@@ -14,6 +14,10 @@ const { send: sendOrderList } = useRequest((data) => getOrderList(data), {
   loading: false,
 })
 
+const { send: changeOrderStatus } = useRequest((data) => changeOrderStatus(data), {
+  immediate: false,
+  loading: false,
+})
 export default () => {
-  return { sendOrderInfo, sendOrderList }
+  return { sendOrderInfo, sendOrderList, changeOrderStatus }
 }

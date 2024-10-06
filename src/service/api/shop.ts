@@ -26,7 +26,7 @@ const SUBMIT_ORDER = baseUrlApi('/trade/app/XcxPayment/createOrderProduct')
 const GET_ACTIVITY_BY_ID = baseUrlApi('/promotion/app/coupon/getActivityCouponProductById')
 const GET_ACTIVITY_LIST = baseUrlApi('/promotion/app/hdShophd/page')
 const GET_STD_TD_CODE = baseUrlApi('/member/app/QrCode/getStdTDCodeApp')
-const CHANGE_ORDER_STUTAS = baseUrlApi('/XcxPayment/updateOrderStatus')
+const CHANGE_ORDER_STUTAS = baseUrlApi('/trade/app/XcxPayment/updateOrderStatus')
 
 /**
  *   提交订单
@@ -459,6 +459,13 @@ export function getAppTargetOrderIdByShop<T>(data) {
 export function getMerchantServicesCount<T>(data) {
   return request.Post<T>(
     GET_MERCHANT_SERVICES_COUNT, // 请求地址
+    data,
+  )
+}
+
+export function changeOrderStatus<T>(data) {
+  return request.Post<T>(
+    CHANGE_ORDER_STUTAS, // 请求地址
     data,
   )
 }

@@ -175,6 +175,7 @@ async function goPay() {
     merchantId: shopMessage.value.merchantId,
     couponId: yhList.value[activeIndex.value]?.couponId ?? '',
     payStatus: 1,
+    payType: 'scan',
   }
   console.log('🍩', params)
   await openEmbeddedMiniProgram('/pages/pay/index', { ...params })
