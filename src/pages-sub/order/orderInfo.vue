@@ -62,6 +62,7 @@ async function goPay() {
       // actualPrice: orderInfo.value.orderActualAmount, // 实际支付金额
       // merchantId: orderInfo.value.merchantId,
       // couponId: orderInfo.value.couponId,
+      actualPrice: orderInfo.value.orderActualAmount, // 实际支付金额
       orderId: orderInfo.value.orderId,
       payStatus: 1,
       payType: 'order',
