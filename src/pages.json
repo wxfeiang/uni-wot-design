@@ -39,7 +39,7 @@
       {
         "iconPath": "static/tabbar/shop.png",
         "selectedIconPath": "static/tabbar/shop-a.png",
-        "pagePath": "pages/shop/action",
+        "pagePath": "pages/shop/index",
         "text": "商城"
       },
       {
@@ -191,12 +191,8 @@
       "path": "pages/shop/order",
       "type": "page",
       "layout": "default",
-      "needLogin": true,
       "style": {
-        "navigationBarTitleText": "确认订单",
-        "backgroundColor": "#F3F4F6",
-        "navigationBarBackgroundColor": "#F3F4F6",
-        "navigationBarTextStyle": "black"
+        "navigationStyle": "custom"
       }
     },
     {
@@ -650,6 +646,36 @@
         },
         {
           "path": "orderList",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        }
+      ]
+    },
+    {
+      "root": "pages-sub/homeManager",
+      "pages": [
+        {
+          "path": "action",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTitleText": "活动"
+          }
+        },
+        {
+          "path": "gongjiaochuxing",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "mafuwu",
           "type": "page",
           "layout": "default",
           "style": {
