@@ -8,17 +8,17 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
+import { routeTo, changeUrlJson } from '@/utils'
 import { goodsInfoProps } from './utils/types'
 import useInter from './utils/useInter'
 
 const title = ref('商品详情')
 
-const { sendInterProductInfo } = useInter()
-const gopath = (id) => {
+const { sendInterProductInfo, sendInterInfo } = useInter()
+const gopath = () => {
   routeTo({
     url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder',
-    data: { goodId: id },
+    data: { ...changeUrlJson(goodsInfoData.value) },
   })
 }
 const opData = ref()
@@ -39,6 +39,14 @@ const goodsInfoData = ref<goodsInfoProps>({
   stock: null,
   purchaseLimit: null,
   sellOut: null,
+})
+onShow(async () => {
+  try {
+    const data: any = await sendInterInfo()
+    opData.value.surplusIntegral = data.surplusIntegral ?? 0
+  } catch (error) {
+    opData.value.surplusIntegral = 0
+  }
 })
 onLoad(async (option) => {
   opData.value = option
@@ -130,12 +138,7 @@ onLoad(async (option) => {
       class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border"
       style="bottom: 0px"
     >
-      <wd-button
-        block
-        custom-class="duihuanBtn"
-        :round="false"
-        @click="gopath(goodsInfoData.goodId)"
-      >
+      <wd-button block custom-class="duihuanBtn" :round="false" @click="gopath()">
         立即兑换
       </wd-button>
     </view>

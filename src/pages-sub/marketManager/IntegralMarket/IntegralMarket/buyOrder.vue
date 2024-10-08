@@ -7,36 +7,25 @@
 }
 </route>
 <script lang="ts" setup>
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import useInter from './utils/useInter'
 import { useUserStore } from '@/store'
-import { routeTo } from '@/utils'
-import { Toast } from '@/utils/uniapi/prompt'
-
+import { routeTo, changeUrlJson } from '@/utils'
 import { addressList } from '@/service/api/address'
-import { getPickUpStoreByMerchantId } from '@/service/api/shop'
-
 const { sendExchangeGoods, sendInterProductInfo } = useInter()
 
 const userStore = useUserStore()
 
-const orderDetails = ref<any>([])
-const checkShop = ref(null)
 const shopAdsList = ref<any>({})
-const selfAdsList = ref<any>({})
-const shopExtractList = ref<any>({})
 const receiveAddrId = ref<any>('')
-const deliveryMode = ref<any>('')
+const deliveryMode = ref<any>(0)
 const orderNote = ref<any>('')
 
-const isExtractList = ref<any>('')
 const showPop = reactive({
-  showDeliveryMode: false,
-  isExtract: false,
   addList: false,
 })
 const getAdsList = async () => {
   shopAdsList.value = {}
-  selfAdsList.value = {}
 
   adsList.value = await addressList({})
   if (adsList.value.length > 0) {
@@ -49,72 +38,30 @@ const getAdsList = async () => {
     }
 
     shopAdsList.value = obj
-    selfAdsList.value = { username: '', userphone: '' }
     receiveAddrId.value = obj.id
-    shopExtractList.value = '请选择门店'
-  } else {
-    const obj = adsList.value.find((it) => it.isDefault)
-    shopAdsList.value = obj
-    selfAdsList.value = { username: '', userphone: '' }
-    receiveAddrId.value = obj.id
-    shopExtractList.value = '请选择门店'
   }
-  console.log('orderDetails~~~~~~~~~~~~~~~', orderDetails.value)
 }
 
-const handleChange = ({ value }, id, key) => {
-  console.log(value, id, key)
-  if (key === 'isExtractList') {
-    isExtractList.value.forEach((element) => {
-      if (isExtractList.value.id === id) {
-        isExtractList.value.isCheck = value
-      } else {
-        isExtractList.value.isCheck = !value
-      }
-    })
-  } else {
-    adsList.value.forEach((element) => {
-      if (element.id === id) {
-        element.isCheck = value
-      } else {
-        element.isCheck = !value
-      }
-    })
-  }
+const handleChange = ({ value }, id) => {
+  console.log(value, id)
+  adsList.value.forEach((element) => {
+    if (element.id === id) {
+      element.isCheck = value
+    } else {
+      element.isCheck = !value
+    }
+  })
 }
-const checkAddress = (idx) => {
+const checkAddress = () => {
   showPop.addList = true
-  checkShop.value = idx
 }
-const checkExtract = (key) => {
-  if (key === 'isExtractList') {
-    const obj = isExtractList.value.find((it) => it.isCheck)
-    receiveAddrId.value = obj.id
-    shopExtractList.value = obj.storeName
-    showPop.isExtract = false
-  } else {
-    const obj = adsList.value.find((it) => it.isCheck)
-    shopAdsList.value = obj
-    receiveAddrId.value = obj.id
-    showPop.addList = false
-  }
+const checkExtract = () => {
+  const obj = adsList.value.find((it) => it.isCheck)
+  shopAdsList.value = obj
+  receiveAddrId.value = obj.id
+  showPop.addList = false
 }
-const checkDriver = async (key) => {
-  if (key === 'isExtract') {
-    isExtractList.value = await getPickUpStoreByMerchantId({
-      merchantId: orderDetails.value.shopId,
-    })
-    isExtractList.value.forEach((element) => {
-      element.isCheck = false
-    })
-    console.log(isExtractList.value)
-  }
-  showPop[key] = true
-}
-const select = (e) => {
-  deliveryMode.value = e.index
-  console.log('orderDetails.value', orderDetails.value)
-}
+
 const adsList = ref<any>([])
 const actions = ref<Array<any>>([
   {
@@ -122,7 +69,6 @@ const actions = ref<Array<any>>([
   },
 ])
 const opData = ref()
-const disCount = ref(false)
 
 const goAddress = (val: any) => {
   routeTo({
@@ -132,17 +78,28 @@ const goAddress = (val: any) => {
 const submitExchangeGoods = async () => {
   const params = {
     userDId: userStore.userInfo.userDId,
-
-    goodId: orderDetails.value.goodId,
+    goodId: opData.value.goodId,
     addressId: receiveAddrId.value,
     notes: orderNote.value,
   }
   try {
     const data = await sendExchangeGoods(params)
+    console.log('兑换商品', data)
     // 成功跳转订单页面
-
+    const obj = {
+      ...shopAdsList.value,
+      ...opData.value,
+      orderNote: orderNote.value,
+      deliveryMode: deliveryMode.value,
+      orderNo: data.orderNo,
+      orderTime: data.createTime,
+    }
     routeTo({
-      url: '/pages-sub/order/orderInfoJF?id=' + orderDetails.value.goodId,
+      url: '/pages-sub/order/orderInfoJF',
+      data: {
+        ...changeUrlJson(obj),
+      },
+      navType: NAVIGATE_TYPE.REDIRECT_TO,
     })
   } catch (error) {
     console.log('🍍[error]:', error)
@@ -153,22 +110,7 @@ const submitExchangeGoods = async () => {
 
 onLoad(async (option) => {
   opData.value = option
-
-  const params = {
-    goodId: option.goodId,
-  }
-  try {
-    const data = await sendInterProductInfo(params)
-
-    orderDetails.value = data
-    deliveryMode.value = 0
-
-    orderNote.value = ''
-
-    console.log('🥕[ orderDetails.value]:', orderDetails.value)
-  } catch (error) {
-    console.log('🥠[error]:', error)
-  }
+  console.log('option', option)
 })
 
 onShow(async (options) => {
@@ -182,7 +124,7 @@ onShow(async (options) => {
     <dy-navbar leftTitle="确认兑换" left></dy-navbar>
     <view class="list">
       <view class="border-rd-5px mb-20px">
-        <template v-if="orderDetails.goodSort === 2">
+        <template v-if="opData.goodSort === '2'">
           <view
             class="bg-white border-rd-7px bg-white p-13px box-border mb-20px"
             v-if="deliveryMode !== 1 && adsList.length > 0"
@@ -221,15 +163,15 @@ onShow(async (options) => {
           </view>
         </template>
         <view class="bg-white border-rd-10px p-15px box-border w-full">
-          <view class="w-full mt-15px flex" :key="orderDetails.spuId">
-            <wd-img :width="105" :height="105" :src="orderDetails.goodImg" custom-image="img" />
+          <view class="w-full mt-15px flex">
+            <wd-img :width="105" :height="105" :src="opData.goodImg" custom-image="img" />
             <view class="ml-15px flex-1 flex flex-col justify-between overflow-hidden">
-              <view class="w-210px name">{{ orderDetails.goodName }}</view>
+              <view class="w-210px name">{{ opData.goodName }}</view>
 
               <view class="w-full flex justify-between">
                 <view class="flex items-center" style="font-weight: 600">
                   <text style="font-size: 18px" class="color-#F44D24">
-                    {{ orderDetails.coinPrice }}积分
+                    {{ opData.coinPrice }}积分
                   </text>
                 </view>
                 <view class="num">x1</view>
@@ -248,7 +190,7 @@ onShow(async (options) => {
           <!--          </view>-->
           <view
             class="w-full flex justify-between items-center mt-15px"
-            v-if="orderDetails.goodSort === 2"
+            v-if="opData.goodSort === '2'"
           >
             <view class="mr-50px">配送方式</view>
             <view class="flex items-center">
@@ -282,7 +224,8 @@ onShow(async (options) => {
         提交兑换
       </wd-button>
     </view>
-    <!--  配送方式 -->
+
+    <!--  收货地址 -->
 
     <wd-popup
       v-model="showPop.addList"
@@ -294,10 +237,7 @@ onShow(async (options) => {
       <view style="width: 100%; max-height: 60vh; overflow-y: auto">
         <view class="flex w-full mb-15px" v-for="it in adsList" :key="it.id">
           <view style="align-self: center">
-            <wd-checkbox
-              v-model="it.isCheck"
-              @change="handleChange($event, it.id, 'adsList')"
-            ></wd-checkbox>
+            <wd-checkbox v-model="it.isCheck" @change="handleChange($event, it.id)"></wd-checkbox>
           </view>
           <view class="flex-1 overflow-hidden">
             <view style="width: 100%; font-size: 14px; color: #888888" class="add-detail">
@@ -315,7 +255,7 @@ onShow(async (options) => {
         </view>
       </view>
 
-      <view class="address-submit" @click="checkExtract('adsList')">确定</view>
+      <view class="address-submit" @click="checkExtract()">确定</view>
     </wd-popup>
   </view>
 </template>
