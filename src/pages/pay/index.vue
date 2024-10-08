@@ -58,28 +58,24 @@ const { send: sendPay2 } = useRequest((data) => getWxPay2(data), {
 })
 
 async function getOrderMess() {
-  const params = {
-    actualAmount: actualPrice.value, // 实际支付金额
-    totalAmount: inValue.value, // 总金额
-    merchantId: merchantId.value, // '1833701004270182401', // 商户Id
-    openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
-    couponId: couponId.value, //
-  }
-  const params2 = {
-    orderId: orderId.value,
-    openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
-  }
-  console.log('订单入参数据==============', params)
   try {
     let data: any
-
+    const params2 = {
+      orderId: orderId.value,
+      openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
+    }
     if (PayType.value === 'order') {
       data = await sendPay2(params2)
     } else {
+      const params = {
+        actualAmount: actualPrice.value, // 实际支付金额
+        totalAmount: inValue.value, // 总金额
+        merchantId: merchantId.value, // '1833701004270182401', // 商户Id
+        openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
+        couponId: couponId.value, //
+      }
       data = await sendPay(params)
     }
-
-    console.log('后端订单数据[data]:', data)
     if (data.errCode === 'SUCCESS') {
       payListInfo.value = data
       payData.value[0].value = data.orderInformation
