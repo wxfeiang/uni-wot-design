@@ -9,8 +9,6 @@
 </route>
 
 <script lang="ts" setup>
-import indexbg from '@/static/images/shop/navbg.png'
-import { pathToBase64 } from 'image-tools'
 import {
   addUserShop,
   delUserShop,
@@ -20,11 +18,15 @@ import {
   getShopDetail,
 } from '@/service/api/shop'
 import { routeTo } from '@/utils'
+import { useUserStore } from '@/store'
+import { Modal } from '@/utils/uniapi/prompt'
+
+const userStore = useUserStore()
 
 const isFollow = ref(false)
 const topbgBase64 = ref('')
 const paging = ref(null)
-const shopDetails = ref({})
+const shopDetails: any = ref({})
 const goodList = ref([])
 const sort = reactive({
   putPullTime: 1, // 上架时间排序
@@ -38,25 +40,55 @@ const model = reactive({
   shopId: '', // 店铺id
 })
 const fllowShop = () => {
-  if (isFollow.value) {
-    delUserShop({ idList: [model.shopId] }).then((res) => {
-      console.log('取消关注店铺', res)
-      getShopDetails()
+  if (!userStore.isLogined) {
+    Modal({ title: '提示', content: '您还没有登录，请先登录？' }).then((res: any) => {
+      if (res.confirm) {
+        routeTo({ url: '/pages/login/index' })
+      }
     })
   } else {
-    addUserShop({ shopId: model.shopId }).then((res) => {
-      console.log('关注店铺', res)
-      getShopDetails()
-    })
+    if (isFollow.value) {
+      delUserShop({ idList: [model.shopId] }).then((res) => {
+        console.log('取消关注店铺', res)
+        getShopDetails()
+      })
+    } else {
+      addUserShop({ shopId: model.shopId }).then((res) => {
+        console.log('关注店铺', res)
+        getShopDetails()
+      })
+    }
   }
 }
 const getShopDetails = () => {
-  getShopInfo({ shopId: model.shopId }).then((res) => {
+  getShopInfo({ shopId: model.shopId }).then((res: any) => {
     shopDetails.value = res
     isFollow.value = res.operation === 1
   })
 }
-
+const getlocation = () => {
+  // const { lat, lon } = shopDetails.value
+  // uni.openLocation({
+  //   latitude: Number(lat),
+  //   longitude: Number(lon),
+  //   name: 'name',
+  //   address: '详细说明',
+  //   success: function () {
+  //     console.log('success')
+  //   },
+  //   fail: function (res) {
+  //     console.log(res)
+  //   },
+  // })
+}
+const call = () => {
+  console.log('打电话', shopDetails.value.shopPhone)
+  if (shopDetails.value.shopPhone) {
+    uni.makePhoneCall({
+      phoneNumber: shopDetails.value.shopPhone ? shopDetails.value.shopPhone : '',
+    })
+  }
+}
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
     const res: any = await getShopGoods({
@@ -119,13 +151,13 @@ onLoad(async (options) => {
               <view v-if="!isFollow" class="guanzhu" @click="fllowShop">+关注</view>
               <view v-else class="quxiao" @click="fllowShop">已关注</view>
             </view>
-            <view class="w-full flex items-center">
+            <view class="w-full flex items-center" @click="getlocation">
               <view class="mr-5px" style="font-size: 14px; color: #999999">
                 地址：{{ shopDetails.address }}
               </view>
               <wd-icon name="location" size="16px" color="#999999"></wd-icon>
             </view>
-            <view class="w-full flex items-center">
+            <view class="w-full flex items-center" @click="call">
               <view class="mr-5px" style="font-size: 14px; color: #999999">
                 电话： {{ shopDetails.shopPhone }}
               </view>

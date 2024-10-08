@@ -26,7 +26,7 @@ import {
   addCart,
 } from '@/service/api/shop'
 import vkDataGoodsSkuPopup from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup.vue'
-import { Toast } from '@/utils/uniapi/prompt'
+import { Toast, Modal } from '@/utils/uniapi/prompt'
 
 const userStore = useUserStore()
 const current = ref<number>(0)
@@ -99,7 +99,11 @@ const getDetails = (spuId: number) => {
 }
 const foverGoods = async () => {
   if (!userStore.isLogined) {
-    routeTo({ url: '/pages/login/index' })
+    Modal({ title: '提示', content: '您还没有登录，请先登录？' }).then((res: any) => {
+      if (res.confirm) {
+        routeTo({ url: '/pages/login/index' })
+      }
+    })
   } else {
     if (isFavor.value) {
       const res = await unUserFavorites({
@@ -161,21 +165,29 @@ const buyNow = (val: any) => {
   })
 }
 const addCar = (val: any) => {
-  console.log('加入购物车', val)
-  const obj = {
-    customerId: userStore.userInfo.userDId,
-    shopId: details.shopId,
-    skuId: val._id,
-    itemNum: val.buy_num,
-    spuType: details.spuType,
-    spuId: val.goods_id,
-    shopAvatar: details.shopAvatar,
+  console.log('加入购物车', val, userStore.userInfo)
+  if (userStore.isLogined) {
+    const obj = {
+      customerId: userStore.userInfo.userDId,
+      shopId: details.shopId,
+      skuId: val._id,
+      itemNum: val.buy_num,
+      spuType: details.spuType,
+      spuId: val.goods_id,
+      shopAvatar: details.shopAvatar,
+    }
+    addCart(obj).then((res) => {
+      console.log('添加购物车', res)
+      Toast('添加购物车成功')
+      skuKey.value = false
+    })
+  } else {
+    Modal({ title: '提示', content: '您还没有登录，请先登录？' }).then((res: any) => {
+      if (res.confirm) {
+        routeTo({ url: '/pages/login/index' })
+      }
+    })
   }
-  addCart(obj).then((res) => {
-    console.log('添加购物车', res)
-    Toast('添加购物车成功')
-    skuKey.value = false
-  })
 }
 
 const getday = (sDate1: any) => {
