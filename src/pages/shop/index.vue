@@ -127,54 +127,60 @@ onLoad(async () => {
         </view>
         <!-- </wd-sticky> -->
       </view>
-      <view class="w-full p-10px pt-153px box-border banner">
-        <!-- <wd-img
-          width="100%"
-          :height="150"
-          src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
-          @click="gopath('/pages-sub/homeManager/action?id=3')"
-        /> -->
-        <wd-swiper
-          :list="swiperList"
-          autoplay
-          v-model:current="current"
-          value-key="shopHdBanner"
-          :indicator="{ type: 'dots-bar' }"
-          :display-multiple-items="0"
-          @click="handleClick"
-        ></wd-swiper>
-        <div class="w-full mt-10px flex justify-between">
-          <div
-            class="pos-relative"
-            @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')"
-          >
-            <wd-img :width="174" :height="76" :src="bgjifen" />
-            <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
-            <view class="pos-absolute left-87px top-18px">
-              <view class="font-size-16px" style="color: #e22525">积分商城</view>
-              <view class="font-size-12px" style="color: #6e6e6e">福利来袭</view>
-            </view>
-          </div>
-          <div class="pos-relative" @click="gopath('/pages-sub/marketManager/coupon/index')">
-            <wd-img :width="174" :height="76" :src="quanbg" />
-            <wd-img :width="80" :height="80" :src="quan" custom-class="img" />
-            <view class="pos-absolute left-87px top-18px">
-              <view class="font-size-16px" style="color: #8839b6">领券中心</view>
-              <view class="font-size-12px" style="color: #6e6e6e">优惠多多</view>
-            </view>
-          </div>
-        </div>
-      </view>
     </template>
+    <view class="w-full pt-153px box-border banner">
+      <!-- <wd-img
+        width="100%"
+        :height="150"
+        src="https://oss.xay.xacloudy.cn/images/2024-09/ed5ce984-0c3d-4b97-b96f-9c7600646fe4banner.png"
+        @click="gopath('/pages-sub/homeManager/action?id=3')"
+      /> -->
+      <wd-swiper
+        :list="swiperList"
+        autoplay
+        loop
+        v-model:current="current"
+        value-key="shopHdBanner"
+        :indicator="{ type: 'dots-bar' }"
+        :display-multiple-items="0"
+        @click="handleClick"
+      ></wd-swiper>
+      <div class="w-full p-4 mt-10px flex justify-between box-border pos-relative">
+        <div
+          class="pos-relative"
+          style="width: calc(50% - 16rpx)"
+          @click="gopath('/pages-sub/marketManager/IntegralMarket/IntegralMarket/list')"
+        >
+          <wd-img width="100%" :height="76" :src="bgjifen" />
+          <wd-img :width="80" :height="80" :src="jifen" custom-class="img" />
+          <view class="pos-absolute left-87px top-18px">
+            <view class="font-size-16px" style="color: #e22525">积分商城</view>
+            <view class="font-size-12px" style="color: #6e6e6e">福利来袭</view>
+          </view>
+        </div>
+        <div
+          class="pos-relative"
+          style="width: calc(50% - 16rpx)"
+          @click="gopath('/pages-sub/marketManager/coupon/index')"
+        >
+          <wd-img width="100%" :height="76" :src="quanbg" />
+          <wd-img :width="80" :height="80" :src="quan" custom-class="img" />
+          <view class="pos-absolute left-87px top-18px">
+            <view class="font-size-16px" style="color: #8839b6">领券中心</view>
+            <view class="font-size-12px" style="color: #6e6e6e">优惠多多</view>
+          </view>
+        </div>
+      </div>
+    </view>
 
-    <view class="list py-10px">
+    <view class="list py-10px p-4 pos-relative">
       <view class="flex px-18px box-border mb-16px">
         <wd-img :width="28" :height="28" :src="led" />
         <wd-img :width="80" :height="30" :src="tuijian" custom-class="ml-2px" />
       </view>
-      <view class="grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border">
+      <view class="grid grid-cols-2 gap-row-16px gap-col-16px box-border pos-relative">
         <view
-          class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
+          class="flex flex-col border-rd-6px overflow-hidden bg-white pb-5px"
           v-for="item in goodList"
           :key="item.spuId"
           @click="gopath('/pages-sub/homeManager/shopInfo', { id: item.spuId })"
@@ -277,5 +283,22 @@ onLoad(async () => {
 :deep(.wd-tabs__nav) {
   color: #fff;
   background: transparent !important;
+}
+
+:deep(.wd-swiper__track) {
+  box-sizing: border-box;
+  margin-top: 1rem;
+  border-radius: 0 !important;
+}
+
+:deep(.wd-swiper__item) {
+  box-sizing: border-box;
+  padding: 0 1rem !important;
+}
+
+:deep(.wd-swiper__image) {
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 8px !important;
 }
 </style>
