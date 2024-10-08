@@ -71,5 +71,5 @@ onLaunch((options) => {
 })
 </script>
 <template>
-  <dy-navbar leftTitle="扫码结果" left></dy-navbar>
+  <dy-navbar leftTitle="页面加载中..." left></dy-navbar>
 </template>

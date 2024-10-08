@@ -62,7 +62,7 @@ const changeTab = (e) => {
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
-      <dy-navbar leftTitle="消息列表" left></dy-navbar>
+      <dy-navbar leftTitle="公告列表" left></dy-navbar>
       <!--      <wd-tabs v-model="tab" @change="changeTab">-->
       <!--        <block v-for="item in tablist" :key="item.index">-->
       <!--          <wd-tab :title="item.title"></wd-tab>-->
