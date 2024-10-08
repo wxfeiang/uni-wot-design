@@ -5,21 +5,14 @@
 
 interface NavigateToOptions {
   url: "/pages/pay/index" |
-       "/pages/pay/index copy" |
        "/pages/index/index" |
-       "/pages/login/index" |
-       "/pages/login/login2" |
-       "/pages/login/phoneLogin" |
-       "/pages/login/sfzLogin" |
-       "/pages/mine/index" |
-       "/pages/serve/index" |
-       "/pages/shop/index" |
-       "/pages/login/compoents/loginOuther";
+       "/pages/index/index2" |
+       "/pages/pay/sacnResult";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/index/index" | "/pages/serve/index" | "/pages/mine/index"
+  url: "/pages/index/index" | "/pages/index/index2"
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;

@@ -1,6 +1,7 @@
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { pages, subPackages, tabBar } from '@/pages.json'
 import PLATFORM from '@/utils/platform'
+import { isArray } from 'lodash-es'
 import qs from 'qs'
 /** 判断当前页面是否是tabbar页  */
 export const getIsTabbar = () => {
@@ -245,4 +246,39 @@ export function getUrlKeyValue(key: string) {
 export function removeT(date: string) {
   if (!date) return ''
   return date.replace('T', ' ')
+}
+
+/**
+ * @description:  处理小程序码扫码结果
+ * @param {} resData 传入的结果
+ * @return {}  obg 返回拼接后的url /  不符合的提示
+ */
+export function sceneResult(resData: any) {
+  console.log('扫码内容=====:', resData)
+  // 如果不是小程序码的标志 直接返回
+  let status = false
+  let url = null
+  let path = null
+
+  // 扫描到小程序码
+  if (resData.scanType === 'WX_CODE') {
+    url = decodeURIComponent(resData.path).split('?')
+    if (isArray(url) && url[1]) {
+      url[1] = url[1].split(',')
+      status = url[1].indexOf('xaCard') > -1
+      path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}&actionType=${url[1][2]}`
+    }
+  } else if (resData.scanType === 'QR_CODE' || resData.type === 'qrcode') {
+    url = decodeURIComponent(resData.result).split('?')
+    if (isArray(url) && url[1]) {
+      console.log('🥫[url]:', url)
+      status = url[1].indexOf('xaCard') > -1
+      path = url[1]
+      console.log('🍷,', status)
+    }
+  }
+  return {
+    status,
+    url: path,
+  }
 }

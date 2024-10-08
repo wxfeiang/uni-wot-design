@@ -75,8 +75,6 @@ async function getOrderMess() {
 
     if (PayType.value === 'order') {
       data = await sendPay2(params2)
-    } else if (PayType.value === 'scan') {
-      data = await sendPay(params)
     } else {
       data = await sendPay(params)
     }
@@ -123,18 +121,6 @@ onLoad(async () => {
 
 onShow(async (options) => {
   const data = uni.getEnterOptionsSync()
-
-  // const data = {
-  //   referrerInfo: {
-  //     extraData: {
-  //       actualPrice: 100,
-  //       orderId: "3AKE24100671b767ec7dc0411b8c66ae",
-  //       payType: "order",
-  //       payStatus: 1
-  //     }
-  //   }
-  // }
-
   console.log('页面进入=======传入的数据:', data)
   PayType.value = data.referrerInfo?.extraData?.payType // 支付类型
   orderId.value = data.referrerInfo?.extraData?.orderId

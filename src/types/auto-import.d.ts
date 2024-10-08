@@ -189,7 +189,6 @@ declare module 'vue' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
-    readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
     readonly useNav: UnwrapRef<typeof import('../hooks/useNav')['default']>
     readonly usePhoneCode: UnwrapRef<typeof import('../hooks/usePhoneCode')['default']>

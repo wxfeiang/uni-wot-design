@@ -91,21 +91,3 @@ export function getPhoneCode(data: any) {
 
   return request.Post(PHNECODE, data)
 }
-
-/**
- * @description: 解析加密图片
- * @param {} data
- * @param {} config
- * @return {}
- */
-export function getFileParse(data: any, config: any) {
-  const methodInstance = request.Post(
-    PRIVACY_FILE_STREAM, // 请求地址
-    data,
-    {
-      responseType: 'arraybuffer', // 配置参数
-    },
-  )
-
-  return useRequest(methodInstance, config)
-}

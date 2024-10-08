@@ -28,19 +28,13 @@
         "iconPath": "static/tabbar/index.png",
         "selectedIconPath": "static/tabbar/index-a.png",
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "支付"
       },
       {
-        "iconPath": "static/tabbar/fuwu.png",
-        "selectedIconPath": "static/tabbar/fuwu-a.png",
-        "pagePath": "pages/serve/index",
-        "text": "服务"
-      },
-      {
-        "iconPath": "static/tabbar/mine.png",
-        "selectedIconPath": "static/tabbar/mine-a.png",
-        "pagePath": "pages/mine/index",
-        "text": "我的"
+        "iconPath": "static/tabbar/index.png",
+        "selectedIconPath": "static/tabbar/index-a.png",
+        "pagePath": "pages/index/index2",
+        "text": "支付"
       }
     ]
   },
@@ -54,104 +48,29 @@
       }
     },
     {
-      "path": "pages/pay/index copy",
-      "type": "home",
-      "layout": "default",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/index/index",
       "type": "page",
       "layout": "default",
       "style": {
-        "navigationStyle": "custom"
+        "navigationBarTitleText": "首页"
       }
     },
     {
-      "path": "pages/login/index",
-      "type": "page",
-      "layout": "default",
-      "needLogin": true,
-      "style": {
-        "navigationStyle": "custom",
-        "mp-alipay": {
-          "transparentTitle": "always",
-          "titlePenetrate": "YES"
-        }
-      }
-    },
-    {
-      "path": "pages/login/login2",
+      "path": "pages/index/index2",
       "type": "page",
       "layout": "default",
       "style": {
-        "navigationStyle": "custom",
-        "mp-alipay": {
-          "transparentTitle": "always",
-          "titlePenetrate": "YES"
-        }
+        "navigationBarTitleText": "首页"
       }
     },
     {
-      "path": "pages/login/phoneLogin",
+      "path": "pages/pay/sacnResult",
       "type": "page",
       "layout": "default",
-      "needLogin": true,
-      "style": {
-        "navigationStyle": "custom",
-        "mp-alipay": {
-          "transparentTitle": "always",
-          "titlePenetrate": "YES"
-        }
-      }
-    },
-    {
-      "path": "pages/login/sfzLogin",
-      "type": "page",
-      "layout": "default",
-      "needLogin": true,
-      "style": {
-        "navigationStyle": "custom",
-        "mp-alipay": {
-          "transparentTitle": "always",
-          "titlePenetrate": "YES"
-        }
-      }
-    },
-    {
-      "path": "pages/mine/index",
-      "type": "page",
-      "layout": "default",
+      "needLoginPages": true,
       "style": {
         "navigationStyle": "custom"
       }
-    },
-    {
-      "path": "pages/serve/index",
-      "type": "page",
-      "needLogin": true,
-      "layout": "default",
-      "style": {
-        "navigationBarTitleText": "服务中心",
-        "backgroundColor": "#fff",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTextStyle": "black"
-      }
-    },
-    {
-      "path": "pages/shop/index",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "商城"
-      }
-    },
-    {
-      "path": "pages/login/compoents/loginOuther",
-      "type": "page"
     }
   ],
   "subPackages": []

@@ -31,7 +31,7 @@
       "//$3",
       "</script>\n",
       "<template>",
-      "  <view class=\"\">$2</view>",
+      "  <view class=\"\">$2 内容区域</view>",
       "</template>\n",
       "<style lang=\"scss\" scoped>",
       "//$4",
