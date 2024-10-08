@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -95,6 +96,7 @@ watch(
     immediate: true,
   },
 )
+
 function disableScreenCapture() {
   // 判断当前环境是否支持setScreenCaptured方法
   // uni.setUserCaptureScreen({
@@ -264,33 +266,39 @@ page {
   right: 0;
   left: 0;
   z-index: 1;
-  height: 600rpx;
+  height: 600 rpx;
   background: linear-gradient(#d1e8fe, #f7f7f7);
 }
+
 .code_board {
-  font-size: 26rpx;
+  font-size: 26 rpx;
   color: #fff;
   background: #2d69ef;
-  border-radius: 24rpx;
+  border-radius: 24 rpx;
+
   .user_info_board {
     display: flex;
-    padding: 24rpx;
+    padding: 24 rpx;
+
     .user_info {
       display: flex;
       flex: 1;
       flex-direction: column;
     }
+
     .eye {
-      width: 36rpx;
+      width: 36 rpx;
     }
   }
 }
+
 .tip {
   display: flex;
-  padding-top: 66rpx;
-  padding-bottom: 54rpx;
-  font-size: 28rpx;
+  padding-top: 66 rpx;
+  padding-bottom: 54 rpx;
+  font-size: 28 rpx;
   color: #999;
+
   .a {
     color: #2d69ef;
   }
