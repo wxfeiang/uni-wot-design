@@ -132,11 +132,11 @@ onLoad(async () => {
         </view>
 
         <view class="mt-10px">
-          <view class="flex items-center gap-10px flex-wrap justify-between">
+          <view class="grid grid-cols-4 gap-10px">
             <view
-              class="text-center rounded-md p-10px w-1/6 flex flex-col h-140rpx"
+              class="text-center rounded-md p-10px flex flex-col h-140rpx"
               :class="[
-                index === 6 ? 'ml-auto w-2.55/6! text-left' : '',
+                index === 6 ? 'text-left col-span-2' : '',
                 item.highlight == 1 ? 'bg-#FFE3CB' : 'bg-#FFF6EA ',
               ]"
               v-for="(item, index) in infoData.stageList ?? []"

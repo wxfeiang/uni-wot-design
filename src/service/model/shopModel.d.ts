@@ -66,7 +66,7 @@ declare interface IStdTDParams {
     publicKey: string
     xm: string
     cardNo: string
-    term: 'wx'
+    term: '1' | '2' | '3' | '4'
     userId: string | number
   }
   appSign: string

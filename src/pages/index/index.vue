@@ -17,7 +17,6 @@ import msgicon from '@/static/images/index/msgicon.png'
 import znbg from '@/static/images/index/znbg.png'
 import znlogo from '@/static/images/index/znlogo.png'
 import logo from '@/static/images/logo.png'
-import xagd from '@/static/images/index/xagd.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
@@ -320,9 +319,9 @@ onPageScroll((e) => {
   <view class="px-15px">
     <view class="bsbg p-10px">
       <dy-title title="服务专区" bottom></dy-title>
-      <view class="flex gap-10px flex-wrap justify-between mx-[-10px]">
+      <view class="grid grid-cols-2 gap-10px mx-[-10px]">
         <view
-          class="flex justify-between w-48.5% h-60px items-center overflow-hidden rounded-7px bg-#EBF3FE"
+          class="flex justify-between h-60px items-center overflow-hidden rounded-7px bg-#EBF3FE"
           v-for="(item, index) in serviceArea"
           :key="index"
           @click="serveClick(item)"

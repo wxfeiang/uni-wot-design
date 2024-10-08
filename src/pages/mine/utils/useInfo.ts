@@ -4,7 +4,7 @@ import { useRequest } from 'alova/client'
 import type { msCountProps, serveListProps, serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
-import { findXcxScoreUser, getUserCouponList, findmyInfo } from '@/service/api/userMessage'
+import { findmyInfo, findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
 import sfkb from '@/static/images/mine/sfkb.png'
 import shdz from '@/static/images/mine/shdz.png'
@@ -16,7 +16,6 @@ import wdjf from '@/static/images/mine/wdjf.png'
 import dpgz from '@/static/images/mine/dpgz.png'
 import tsjy from '@/static/images/mine/tsjy.png'
 import xxtz from '@/static/images/mine/xxtz.png'
-import yhzx from '@/static/images/mine/yhzx.png'
 
 import { routeTo } from '@/utils'
 
@@ -56,7 +55,7 @@ const topList = ref<serveProps[]>([
   {
     title: '积分',
     value: 0,
-    path: '/pages-sub/marketManager/integral/index',
+    path: '/pages-sub/marketManager/integral/interList',
     islink: true,
   },
   {
