@@ -77,15 +77,15 @@ watch(
   () => sendTiem.value,
   async (newv) => {
     if (newv === 60) {
+      // KB23GNsIXC
+      // "term":"调用终端：1 微信小程序 2 支付宝小程序 3 androd 4 ios  "
       const res = await sendGetStdTDCode({
         appId: 'KB23GNsIXC',
         appSign: '一卡通个人码',
         data: {
           publicKey:
             '3059301306072a8648ce3d020106082a811ccf5501822d03420004bad31a84302aeeb8918e75cbc2c6ee6405597ab1793008374a7e9c40894ab682e80cf91b5a1b12d3264e4b69851041aeeaf5ec3d4efe96ce0ff0a47373d9b839',
-          xm: userInfo.userName,
-          cardNo: '632534193838174714',
-          term: 'wx',
+          term: '1',
           userId: userInfo.userDId,
         },
       })
