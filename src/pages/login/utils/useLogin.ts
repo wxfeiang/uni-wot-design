@@ -8,6 +8,7 @@ import {
   phoneLogin,
   updateRealName,
   xcxScanFaceRealNameAuth,
+  updateOpenIdAndUnionId,
 } from '@/service/api/auth'
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 
@@ -373,6 +374,10 @@ const resultData = async (data, flog = 2) => {
       console.log('🍡[error]:', error)
     }
   }
+
+  // 小程序登录成功后更新或新增 openId 和 unionId
+  await updateUnionId()
+
   // 跳转到登录后的页面
   uni.hideLoading()
   const pages = getCurrentPages() // 当前页面栈
@@ -402,6 +407,21 @@ const toAgreement = (articleId: string, title: string) => {
     url: '/pages-sub/webView/index',
     data: { type: articleId, showTop: true, title },
   })
+}
+
+const { loading: unionLoading, send: sendUpdateOpenIdAndUnionId } = useRequest(
+  (data) => updateOpenIdAndUnionId(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
+
+const updateUnionId = async () => {
+  // 微信登录
+  const wxLoginCode = await getLoginCode()
+  // openid
+  await sendUpdateOpenIdAndUnionId({ code: wxLoginCode, appKey: Constant.APP_KEY })
 }
 
 export default () => {

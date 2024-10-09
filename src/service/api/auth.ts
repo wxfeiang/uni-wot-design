@@ -10,6 +10,7 @@ const GET_INFO = baseUrlApi('/member/app/xcxLogin/getInfo')
 const ADD_XCX_USER_DETAIL = baseUrlApi('/member/app/xcxLogin/xcxUserLoginByCode')
 const ADD_XCX_USER_DETAIL_WXV = baseUrlApi('/member/app/xcxLogin/xcxUserLoginByWx')
 const GET_USER_OPEN_ID_BY_CODE = baseUrlApi('/member/app/getUserOpenIdByCode')
+const UPDATE_OPENID_AND_UNIONID = baseUrlApi('/member/app/updateOpenIdAndUnionId')
 
 const UPDATE_REAL_NAME = baseUrlApi('/member/app/xcxLogin/updateRealName')
 
@@ -77,6 +78,17 @@ export function phoneLogin(data) {
 export function openIdCode(data) {
   return request.Post(
     GET_USER_OPEN_ID_BY_CODE, // 地址
+    data,
+  )
+}
+
+/**
+ * 小程序登录成功后更新或新增 openId 和 unionId
+ * @param params 初始参数()
+ * */
+export function updateOpenIdAndUnionId(data) {
+  return request.Post(
+    UPDATE_OPENID_AND_UNIONID, // 地址
     data,
   )
 }
