@@ -72,10 +72,6 @@ onLoad(async () => {
 })
 </script>
 <template>
-  <view class="w-full font-600 flex items-center justify-between px-20px box-border">
-    <view class="line-height-50px">店铺数量（{{ goodList.length }}）</view>
-    <view @click="isManage = !isManage">管理</view>
-  </view>
   <z-paging
     ref="paging"
     v-model="goodList"
@@ -83,6 +79,12 @@ onLoad(async () => {
     class="list"
     :class="isManage ? 'p-15px pb-80px' : 'p-15px'"
   >
+    <template #top>
+      <view class="w-full font-600 flex items-center justify-between px-20px box-border">
+        <view class="line-height-50px">店铺数量（{{ goodList.length }}）</view>
+        <view @click="isManage = !isManage">管理</view>
+      </view>
+    </template>
     <view
       class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
       v-for="item in goodList"
@@ -93,13 +95,15 @@ onLoad(async () => {
           <wd-checkbox
             v-if="isManage"
             v-model="item.isCheck"
-            @change="handleChange($event, item.shopInfo.id)"
+            @change="handleChange($event, item.shopBean.id)"
           ></wd-checkbox>
         </view>
 
         <view
           class="flex-1 flex"
-          @click="routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: item.id } })"
+          @click="
+            routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: item.shopBean.id } })
+          "
         >
           <wd-img
             :width="80"
