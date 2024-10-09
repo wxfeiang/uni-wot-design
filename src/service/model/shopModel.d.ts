@@ -66,6 +66,7 @@ declare interface IStdTDParams {
     publicKey: string
     xm: string
     cardNo: string
+    // "调用终端：1 微信小程序 2 支付宝小程序 3 androd 4 ios  "
     term: '1' | '2' | '3' | '4'
     userId: string | number
   }

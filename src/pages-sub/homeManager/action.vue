@@ -10,13 +10,13 @@
 }
 </route>
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
 import actionB from '@/static/images/serve/action_b.jpg'
 import couponB from '@/static/images/serve/coupon_b.png'
-import useAction from './utils'
-import { useMessage } from 'wot-design-uni'
-import { Toast } from '@/utils/uniapi/prompt'
 import { useUserStore } from '@/store'
+import { routeTo } from '@/utils'
+import { Toast } from '@/utils/uniapi/prompt'
+import { useMessage } from 'wot-design-uni'
+import useAction from './utils/useIndex'
 
 const { getActivity, sendReceiveCoupon, format } = useAction()
 const userStore = useUserStore()

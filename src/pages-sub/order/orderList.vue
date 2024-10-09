@@ -65,12 +65,35 @@ const gopath = function (url, e) {
     data: e,
   })
 }
-const goshop = function (shopId) {
+
+function goShop(shopId) {
   routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: shopId } })
 }
-const goinfo = function (orderId) {
+
+function goInfo(orderId) {
   routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
 }
+
+function goLogistics(orderId) {
+  routeTo({ url: '/pages-sub/order/logistic', data: { id: orderId } })
+}
+
+function goEvaluate(orderId) {
+  routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
+}
+
+function goRefund(orderId) {
+  routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPop: true } })
+}
+
+function goReminders(orderId) {
+  console.log('催单')
+}
+
+function goNext(orderId) {
+  console.log('订单下一步')
+}
+
 onLoad((options) => {
   tabsVal.value = options.tabsVal ? options.tabsVal : ''
 })
@@ -119,7 +142,7 @@ onLoad((options) => {
       <view v-for="(item, index) in list" class="float-left w-full box-border" :key="index">
         <wd-card>
           <template #title>
-            <view class="flex justify-between items-center" @click="goshop(item.shopId)">
+            <view class="flex justify-between items-center" @click="goShop(item.shopId)">
               <view class="flex justify-left items-center">
                 <wd-img :width="30" :height="30" round :src="item.shopAvatar" />
                 <wd-text
@@ -264,14 +287,38 @@ onLoad((options) => {
                     去支付
                   </wd-button>
                 </template>
-                <template v-else-if="tabsVal == '10'">
+                <template v-else-if="item.status == 2">
                   <wd-button
                     size="small"
                     plain
-                    type="info"
+                    type="info "
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
                     @click="goInfo(item.orderId)"
+                  >
+                    查看详情
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="warning"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goEvaluate(item.orderId)"
+                  >
+                    去评价
+                  </wd-button>
+                </template>
+
+                <template v-else-if="item.status == 10">
+                  <wd-button
+                    size="small"
+                    plain
+                    disabled
+                    type="info"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goRefund(item.orderId)"
                   >
                     申请退款
                   </wd-button>
@@ -281,19 +328,19 @@ onLoad((options) => {
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfo(item.orderId)"
+                    @click="goReminders(item.orderId)"
                   >
                     联系催单
                   </wd-button>
                 </template>
-                <template v-else-if="tabsVal == '11'">
+                <template v-else-if="item.status == 11">
                   <wd-button
                     size="small"
                     plain
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfo(item.orderId)"
+                    @click="goLogistics(item.orderId)"
                   >
                     查看物流
                   </wd-button>
@@ -303,12 +350,23 @@ onLoad((options) => {
                     type="warning"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfo(item.orderId)"
+                    @click="goNext(item.orderId)"
                   >
                     确认收货
                   </wd-button>
                 </template>
-                <template v-else>退换/取消</template>
+                <template v-else>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info "
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfo(item.orderId)"
+                  >
+                    查看详情
+                  </wd-button>
+                </template>
               </view>
             </view>
           </template>

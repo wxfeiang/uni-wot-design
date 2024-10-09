@@ -106,7 +106,7 @@ const handleGood = ({ value }, id) => {
 const goSubmitOrder = () => {
   if (changeArr.value.length === 0) {
     toast.warning('未选择任何商品')
-  } else if (changeArr.value === 1) {
+  } else if (changeArr.value.length === 1) {
     goodList.value.forEach((it, idx) => {
       if (it.isCheck) {
         const deliveryAmount = it.shopCartProductResp.reduce((a, b) => {
@@ -271,9 +271,7 @@ onLoad(async () => {
           <view style="font-size: 14px; color: #757575">{{ it.skuName }}</view>
           <view class="w-full">
             <wd-tag color="#FAA21E" bg-color="#FF6609" plain>7天无理由退货</wd-tag>
-            <wd-tag color="#FAA21E" bg-color="#FF6609" plain style="margin-left: 10px">
-              运费险
-            </wd-tag>
+            <wd-tag color="#FAA21E" bg-color="#FF6609" plain custom-class="ml-1">运费险</wd-tag>
           </view>
           <view class="w-full flex justify-between">
             <view class="flex items-center" style="font-weight: 600; color: #f44d24">

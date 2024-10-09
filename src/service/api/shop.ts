@@ -533,6 +533,21 @@ export const getActivityList = <T>(params) => request.Post<T>(GET_ACTIVITY_LIST,
  * @param params 活动id
  * @returns
  */
-export const getActivityById = <T>(params: ActivityParams) =>
-  request.Post<T>(GET_ACTIVITY_BY_ID, params)
-export const getStdTDCode = <T>(params: IStdTDParams) => request.Post<T>(GET_STD_TD_CODE, params)
+export const getActivityById = <T>(params: ActivityParams) => {
+  return request.Post<T>(GET_ACTIVITY_BY_ID, params)
+}
+
+/**
+ *  生成二维码标准码接口
+ * @param params
+ * @returns
+ */
+
+export const getStdTDCode = <T>(params: IStdTDParams) => {
+  const meta: METHOD_INSTANCE = {
+    Tips: true,
+  }
+  return request.Post<T>(GET_STD_TD_CODE, params, {
+    meta,
+  })
+}

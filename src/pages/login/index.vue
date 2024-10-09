@@ -97,6 +97,7 @@ const readChange = (type: number) => {
             hairline
             custom-class="custom-class-mine-login2"
             @click="goPhoneLogin"
+            :round="false"
           >
             手机验证码登录
           </wd-button>
