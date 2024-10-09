@@ -44,8 +44,9 @@ const {
   swiperList,
   serviceArea,
   topAction,
-
+  specialTypeskeleton,
   sendGetSpecialTypeList,
+  specialTypeLoading,
 } = useIndex()
 
 async function actionTop2(item: any) {
@@ -146,8 +147,7 @@ const znbgBase64 = ref('')
 
 const topAction2 = ref([])
 const getSpecialTypeList = async () => {
-  const data = await sendGetSpecialTypeList()
-
+  const data: any = await sendGetSpecialTypeList()
   topAction2.value = data.data.data
 }
 
@@ -225,30 +225,31 @@ onPageScroll((e) => {
       <wd-img :width="207" :height="44" :src="bgTip" />
     </view>
   </view>
-  <view class="px-20px">
-    <view class="grid grid-cols-5">
-      <view
-        class="flex flex-col items-center py-10px"
-        v-for="(item, index) in topAction2"
-        :key="index"
-        @click="actionTop2(item)"
-      >
-        <view>
-          <wd-img :src="item.specialIcon" width="45" height="45"></wd-img>
-        </view>
-
-        <view class="text-12px mt-10px text-center">
-          {{ item.specialName }}
+  <view class="px-20px pt-10px">
+    <wd-skeleton :row-col="specialTypeskeleton" :loading="specialTypeLoading">
+      <view class="grid grid-cols-5">
+        <view
+          class="flex flex-col items-center"
+          v-for="(item, index) in topAction2"
+          :key="index"
+          @click="actionTop2(item)"
+        >
+          <view>
+            <wd-img :src="item.specialIcon" width="45" height="45"></wd-img>
+          </view>
+          <view class="text-12px mt-3px text-center">
+            {{ item.specialName }}
+          </view>
         </view>
       </view>
-    </view>
+    </wd-skeleton>
   </view>
 
   <!-- 消息 -->
-  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">
     <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
-      <view class="w-53px h-full bg-#D6E6F9 mr-10px flex box-border pl-12px pt-10px rounded-r-full">
+      <view class="w-53px h-full bg-#D6E6F9 mr-10px flex box-border pl-15px pt-10px rounded-r-full">
         <wd-badge :is-dot="false">
           <wd-img :width="20" :height="20" :src="msgicon" />
         </wd-badge>
@@ -271,15 +272,15 @@ onPageScroll((e) => {
 
       <view
         @click.stop="toMessage"
-        class="absolute right-0 top-0 pl-15px pr-10px py-3px color-#fff text-12px bg-#2D69EF rounded-bl-11px"
+        class="absolute right-5px top-0 h-100% flex justify-center items-center"
       >
-        更多
+        <wd-icon name="arrow-right" size="16px" color="#888"></wd-icon>
       </view>
     </view>
   </view>
 
   <!-- 广告位 -->
-  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="py-3px h-135px swiper px-15px">
     <wd-swiper
       :list="swiperList"
@@ -295,7 +296,7 @@ onPageScroll((e) => {
   </view>
 
   <view v-if="closeAdFlog">
-    <wd-gap height="15" bg-color="#fff"></wd-gap>
+    <wd-gap height="10" bg-color="#fff"></wd-gap>
     <view class="px-15px">
       <view
         class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-10px pr-30px"
@@ -315,9 +316,9 @@ onPageScroll((e) => {
     </view>
   </view>
   <!-- 服务专区 -->
-  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">
-    <view class="bsbg p-10px">
+    <view class="bsbg px-10px">
       <dy-title title="服务专区" bottom></dy-title>
       <view class="grid grid-cols-2 gap-10px mx-[-10px]">
         <view
@@ -337,7 +338,7 @@ onPageScroll((e) => {
     </view>
   </view>
   <!-- 办事指南 -->
-  <wd-gap height="15" bg-color="#fff"></wd-gap>
+  <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">
     <view class="bsbg p-10px">
       <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
@@ -359,7 +360,7 @@ onPageScroll((e) => {
           </view>
         </view>
         <view
-          class="p-15px pb-20px mt-16px zn-item"
+          class="p-15px pb-10px mt-10px zn-item"
           v-for="(item, index) in mess2"
           :key="index"
           @click="messageClick(item)"
@@ -372,8 +373,8 @@ onPageScroll((e) => {
               :loading="messageLoading || mess2.length < 1"
               :row="2"
             >
-              <view class="color-#333 truncate-1">{{ item.articleTitle }}</view>
-              <view class="flex gap-20px color-#888 text-14px mt-10px">
+              <view class="color-#333 truncate-1 py-2px">{{ item.articleTitle }}</view>
+              <view class="flex gap-20px color-#888 text-14px py-2px">
                 <view>日期：{{ removeT(item.createTime) }}</view>
                 <view>
                   <!-- <wd-icon name="browse" size="14px"></wd-icon>

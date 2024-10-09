@@ -228,13 +228,30 @@ function messageClick(item: messProps) {
   })
 }
 
-const { send: sendGetSpecialTypeList, data: specialTypeList } = useRequest(
-  (params) => getSpecialTypeList(params),
-  {
-    immediate: false,
-    loading: false,
-  },
-)
+const {
+  send: sendGetSpecialTypeList,
+  data: specialTypeList,
+  loading: specialTypeLoading,
+} = useRequest((params) => getSpecialTypeList(params), {
+  immediate: false,
+  loading: false,
+})
+const specialTypeskeleton = ref([
+  [
+    { width: '48px', height: '48px' },
+    { width: '48px', height: '48px' },
+    { width: '48px', height: '48px' },
+    { width: '48px', height: '48px' },
+    { width: '48px', height: '48px' },
+  ],
+  [
+    { width: '48px', height: '16px' },
+    { width: '48px', height: '16px' },
+    { width: '48px', height: '16px' },
+    { width: '48px', height: '16px' },
+    { width: '48px', height: '16px' },
+  ],
+])
 
 export default () => {
   return {
@@ -247,6 +264,7 @@ export default () => {
     topAction,
     topAction2,
     sendGetSpecialTypeList,
-    specialTypeList,
+    specialTypeLoading,
+    specialTypeskeleton,
   }
 }

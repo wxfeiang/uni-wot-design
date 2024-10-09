@@ -14,6 +14,7 @@ import spsc from '@/static/images/mine/spsc.png'
 import wdjf from '@/static/images/mine/wdjf.png'
 
 import dpgz from '@/static/images/mine/dpgz.png'
+import jfscl from '@/static/images/mine/jfscl.png'
 import tsjy from '@/static/images/mine/tsjy.png'
 import xxtz from '@/static/images/mine/xxtz.png'
 
@@ -126,6 +127,12 @@ const serveList = ref<serveProps[]>([
     islink: true,
   },
   {
+    icon: jfscl,
+    title: '积分商城 ',
+    path: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/list',
+    islink: true,
+  },
+  {
     icon: linquan,
     title: '领券中心',
     path: '/pages-sub/marketManager/coupon/index',
@@ -208,7 +215,7 @@ const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true
   loading: false,
 })
 
-const { send: sendMyInfo } = useRequest((data) => findmyInfo(data, true), {
+const { send: sendMyInfo } = useRequest((data) => findmyInfo(data), {
   immediate: false,
   loading: false,
 })
