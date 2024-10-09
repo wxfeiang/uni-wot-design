@@ -1,6 +1,6 @@
 import { getActivityById, getStdTDCode } from '@/service/api/shop'
 import { receiveCoupon } from '@/service/api/userMessage'
-import { useRequest } from 'alova/client'
+import { useCaptcha, useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 
 const activity = ref({})
@@ -22,9 +22,10 @@ const { send: sendReceiveCoupon, loading: listLoading3 } = useRequest(
   },
 )
 
-const { send: sendGetStdTDCode }: { send: (params: IStdTDParams) => any } = useRequest((params) =>
-  getStdTDCode(params),
-)
+const { send: sendGetStdTDCode, countdown } = useCaptcha((params) => getStdTDCode(params), {
+  initialCountdown: 60,
+  loading: false,
+})
 
 const format = (val: string) => dayjs(val).format('YYYY-MM-DD hh:mm:ss')
 
@@ -44,4 +45,5 @@ export default () => ({
   sendGetStdTDCode,
   format,
   encrypt,
+  countdown,
 })
