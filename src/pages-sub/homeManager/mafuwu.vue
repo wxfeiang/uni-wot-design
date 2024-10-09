@@ -11,11 +11,11 @@
 <script lang="ts" setup>
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import { Constant } from '@/enums/constant'
-import stkts from '@/static/images/index/sbkts.png'
 import logo from '@/static/images/logo.png'
 import { useUserStore } from '@/store'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import qs from 'qs'
+import stkts from './static/images/index/sbkts.png'
 import useModule from './utils/useIndex'
 const { VITE_SERVER_BASEURL } = import.meta.env
 const { sendGetStdTDCode, encrypt } = useModule() // countdown
