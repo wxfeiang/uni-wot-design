@@ -96,7 +96,6 @@ onMounted(() => {
               @confirm="handleConfirm"
             />
 
-            feedbackImg: {{ model.feedbackImg }}
             <wd-cell title="反馈截图" title-width="100px">
               <dy-upload v-model="model.feedbackImg"></dy-upload>
             </wd-cell>

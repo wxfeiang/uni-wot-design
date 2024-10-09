@@ -84,16 +84,14 @@ async function getInfo(id: any) {
   // 这里是请求数据
   const da = { orderId: id }
   const data: any = await sendOrderInfo(da)
-
+  orderInfo.value = data
   time.value = new Date(data.orderTime).getTime() + 1000 * 60 * 30 - new Date().getTime()
-  if (orderInfo.value.stutas === 1 && time.value <= 0) {
+  if (orderInfo.value.status === 1 && time.value <= 0) {
     // 修改订单状态
     changeOrderStatus({ orderId: id }).then((res) => {
       uni.redirectTo({ url: '/pages-sub/order/orderList' })
     })
   }
-
-  orderInfo.value = data
 
   if (data.shopId) {
     getShopDetails(data.shopId)
@@ -115,11 +113,11 @@ const showSKU = function (obj) {
 
   return SKU.join(',')
 }
-const goshop = function () {
+function goshop() {
   routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: orderInfo.value.shopId } })
 }
 
-const goback = function (url, e) {
+function goback(url, e) {
   uni.navigateBack()
 }
 const copy = function (data) {
@@ -135,6 +133,15 @@ const copy = function (data) {
       })
     },
   })
+}
+function goLogistics(orderId) {
+  routeTo({ url: '/pages-sub/order/logistic', data: { id: orderId } })
+}
+function goEvaluate(orderId) {
+  routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
+}
+function goRefund(orderId) {
+  console.log('申请退款')
 }
 
 onLoad((options) => {
@@ -429,10 +436,46 @@ onShow((options) => {
 
       <view class="mt-8 mx-4">
         <view class="mb-20px">
-          <wd-button block :round="false" @click="goPay" v-if="!dispay" custom-class="duihuanBtn">
-            立即支付
-          </wd-button>
-          <wd-button block :round="false" disabled v-else type="info">订单失效</wd-button>
+          <template v-if="orderInfo.status == 1">
+            <wd-button block :round="false" @click="goPay" v-if="!dispay" custom-class="duihuanBtn">
+              立即支付
+            </wd-button>
+            <wd-button block :round="false" v-else custom-class="duihuanBtn2">订单失效</wd-button>
+          </template>
+          <template v-else-if="orderInfo.status == 2">
+            <wd-button
+              block
+              :round="false"
+              @click="goEvaluate(orderInfo.orderId)"
+              custom-class="duihuanBtn"
+            >
+              去评价
+            </wd-button>
+          </template>
+          <template v-else-if="orderInfo.status == 10">
+            <wd-button
+              block
+              disabled
+              type="info"
+              custom-class="inline-block ml-2"
+              style="width: 5rem"
+              @click="goRefund(orderInfo.orderId)"
+            >
+              申请退款
+            </wd-button>
+          </template>
+          <template v-else-if="orderInfo.status == 11">
+            <wd-button
+              block
+              type="warning"
+              custom-class="inline-block ml-2"
+              style="width: 5rem"
+              @click="goNext(orderInfo.orderId)"
+            >
+              确认收货
+            </wd-button>
+          </template>
+          <template v-else></template>
         </view>
       </view>
     </view>
@@ -488,6 +531,12 @@ onShow((options) => {
   width: 100% !important;
   color: #ffffff;
   background: #f44d24 !important;
+}
+:deep(.duihuanBtn2) {
+  width: 100% !important;
+  color: #ffffff;
+  background: #f44d24 !important;
+  opacity: 0.5;
 }
 
 :deep(.is-checked .wd-radio__shape) {
