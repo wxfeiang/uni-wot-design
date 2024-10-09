@@ -73,15 +73,19 @@ function goShop(shopId) {
 function goInfo(orderId) {
   routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
 }
+
 function goLogistics(orderId) {
   routeTo({ url: '/pages-sub/order/logistic', data: { id: orderId } })
 }
+
 function goEvaluate(orderId) {
   routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
 }
+
 function goRefund(orderId) {
-  console.log('申请退款')
+  routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPop: true } })
 }
+
 function goReminders(orderId) {
   console.log('催单')
 }

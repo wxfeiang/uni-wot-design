@@ -13,7 +13,7 @@ import { routeTo, changeUrlJson } from '@/utils'
 
 const chooseIndex = ref(-1)
 
-const title = ref('订单详情')
+const title = ref('兑换详情')
 
 const orderInfo = ref({})
 
