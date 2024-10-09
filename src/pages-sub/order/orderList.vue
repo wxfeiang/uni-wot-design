@@ -219,29 +219,7 @@ onLoad((options) => {
             <view class="flex justify-between items-center">
               <view></view>
               <view class="flex justify-right items-center">
-                <template v-if="tabsVal == '2'">
-                  <wd-button
-                    size="small"
-                    plain
-                    type="warning"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="goInfo(item.orderId)"
-                  >
-                    评价
-                  </wd-button>
-                  <wd-button
-                    size="small"
-                    plain
-                    type="info "
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="goInfo(item.orderId)"
-                  >
-                    立即使用
-                  </wd-button>
-                </template>
-                <template v-else-if="tabsVal == '1'">
+                <template v-if="item.status == 1">
                   <wd-button
                     size="small"
                     plain
@@ -263,7 +241,30 @@ onLoad((options) => {
                     去支付
                   </wd-button>
                 </template>
-                <template v-else-if="tabsVal == '10'">
+                <template v-else-if="item.status == 2">
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info "
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfo(item.orderId)"
+                  >
+                    查看详情
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="warning"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfo(item.orderId)"
+                  >
+                    去评价
+                  </wd-button>
+                </template>
+
+                <template v-else-if="item.status == 10">
                   <wd-button
                     size="small"
                     plain
@@ -285,7 +286,7 @@ onLoad((options) => {
                     联系催单
                   </wd-button>
                 </template>
-                <template v-else-if="tabsVal == '11'">
+                <template v-else-if="item.status == 11">
                   <wd-button
                     size="small"
                     plain
@@ -307,7 +308,18 @@ onLoad((options) => {
                     确认收货
                   </wd-button>
                 </template>
-                <template v-else>退换/取消</template>
+                <template v-else>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info "
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfo(item.orderId)"
+                  >
+                    查看详情
+                  </wd-button>
+                </template>
               </view>
             </view>
           </template>
