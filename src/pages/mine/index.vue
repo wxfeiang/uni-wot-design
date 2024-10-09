@@ -196,9 +196,9 @@ onShow(async () => {
       </view>
     </view>
     <view class="p-15px">
-      <view class="p-10px bg-#fff rounded-7px flex justify-between items-center gap-10px">
+      <view class="py-10px bg-#fff rounded-7px grid grid-cols-5 gap-2px">
         <view
-          class="w-1/5 flex flex-col items-center py-10px"
+          class="flex flex-col items-center py-10px"
           v-for="(item, index) in serveOrderList"
           :key="index"
           @click="dingdan(item.path)"
@@ -209,7 +209,7 @@ onShow(async () => {
             </view>
           </wd-badge>
 
-          <view class="text-14px mt-10px">
+          <view class="text-13px mt-10px">
             {{ item.label }}
           </view>
         </view>
