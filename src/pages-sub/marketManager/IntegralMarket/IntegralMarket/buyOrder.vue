@@ -109,7 +109,7 @@ const submitExchangeGoods = async () => {
 }
 
 onLoad(async (option) => {
-  opData.value = option
+  opData.value = changeUrlJson(option)
   console.log('option', option)
 })
 

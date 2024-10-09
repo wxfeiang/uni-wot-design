@@ -9,7 +9,7 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
+import { routeTo, changeUrlJson } from '@/utils'
 
 const chooseIndex = ref(-1)
 
@@ -55,7 +55,7 @@ const copy = function (data) {
 
 onLoad((options) => {
   console.log('options', options)
-  orderInfo.value = options
+  orderInfo.value = changeUrlJson(options)
   showPop.value = options.showPop?.showPop || false
   orderID.value = options.id
 
