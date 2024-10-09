@@ -36,6 +36,15 @@ const iconColse = ref(false)
 //     }
 //   }
 // }
+const encrypt = (val: string, type: 'name' | 'cardNo', flag: boolean) => {
+  if (flag) return val
+  switch (type) {
+    case 'name':
+      return val.replace(/.{2}$/, '**')
+    case 'cardNo':
+      return val.replace(/(.{1}).{16}(.{1})/, '$1*********$2')
+  }
+}
 </script>
 <template>
   <dy-navbar leftTitle="实名认证" left></dy-navbar>
@@ -80,17 +89,25 @@ const iconColse = ref(false)
     <view class="rounded-10px overflow-hidden bg-#fff">
       <wd-cell-group title="基本信息" border>
         <template #value>
-          <!-- <view @click="close">
+          <view @click="iconColse = !iconColse">
             <wd-icon
               :name="iconColse ? 'eye-close' : 'view'"
               size="20px"
               :color="iconColse ? '#666' : '#2D69EF'"
             ></wd-icon>
-          </view> -->
+          </view>
         </template>
-        <wd-cell title="姓名" :value="userInfo.userName" border></wd-cell>
+        <wd-cell
+          title="姓名"
+          :value="encrypt(userInfo.userName, 'name', iconColse)"
+          border
+        ></wd-cell>
         <wd-cell title="证件类型" value="身份证" border></wd-cell>
-        <wd-cell title="身份证号" :value="userInfo.idCardNumber" border></wd-cell>
+        <wd-cell
+          title="身份证号"
+          :value="encrypt(userInfo.idCardNumber, 'cardNo', iconColse)"
+          border
+        ></wd-cell>
       </wd-cell-group>
     </view>
     <view class="mt-30px">

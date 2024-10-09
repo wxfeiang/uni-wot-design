@@ -93,17 +93,16 @@ const isShow = async () => {
   show.value = !show.value
   if (!show.value) {
     codeRefsh()
+    lingdu.value = (await usegetScreenBrightness()) as number
+
+    setTimeout(async () => {
+      await useSetScreenBrightness(1)
+      await useSetKeepScreenOn(true)
+    }, 3000)
   }
 }
 
-onMounted(async () => {
-  lingdu.value = (await usegetScreenBrightness()) as number
-
-  setTimeout(async () => {
-    await useSetScreenBrightness(1)
-    await useSetKeepScreenOn(true)
-  }, 3000)
-})
+onMounted(async () => {})
 onUnmounted(async () => {
   await useSetKeepScreenOn(false)
   await useSetScreenBrightness(lingdu.value + 0.05)
