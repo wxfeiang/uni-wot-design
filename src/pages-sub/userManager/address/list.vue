@@ -34,7 +34,9 @@ const queryList = async (pageNo, pageSize) => {
     paging.value.complete(false)
   }
 }
-
+onShow(() => {
+  paging.value.reload()
+})
 const delAdderss = (id: string) => {
   message
     .confirm({
