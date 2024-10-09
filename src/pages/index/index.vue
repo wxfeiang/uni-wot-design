@@ -53,13 +53,12 @@ async function actionTop2(item: any) {
   console.log(item)
 
   if (item.specialJumpType === 'WX') {
-    // return routeTo({url: item.specialJump, navType: NAVIGATE_TYPE.SWITCH_TAB})
     openWxChart(item.appId, item.path)
   } else if (item.specialJumpType === 'H5') {
     if (!item.specialJump) {
       toast.show('功能开发中，敬请期待!...')
     } else {
-      return routeTo({ url: item.specialJump })
+      return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.SWITCH_TAB })
     }
   }
 }
