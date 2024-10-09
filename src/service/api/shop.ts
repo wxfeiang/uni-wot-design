@@ -27,6 +27,8 @@ const GET_ACTIVITY_BY_ID = baseUrlApi('/promotion/app/coupon/getActivityCouponPr
 const GET_ACTIVITY_LIST = baseUrlApi('/promotion/app/hdShophd/page')
 const GET_STD_TD_CODE = baseUrlApi('/member/app/QrCode/getStdTDCodeApp')
 const CHANGE_ORDER_STUTAS = baseUrlApi('/trade/app/XcxPayment/updateOrderStatus')
+const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
+const GET_MERCHANT_SERVICES_COUNT = baseUrlApi('/order/manage//getMerchantServicesCount')
 
 /**
  *   提交订单
@@ -497,6 +499,21 @@ export const getActivityList = <T>(params) => request.Post<T>(GET_ACTIVITY_LIST,
  * @param params 活动id
  * @returns
  */
-export const getActivityById = <T>(params: ActivityParams) =>
-  request.Post<T>(GET_ACTIVITY_BY_ID, params)
-export const getStdTDCode = <T>(params: IStdTDParams) => request.Post<T>(GET_STD_TD_CODE, params)
+export const getActivityById = <T>(params: ActivityParams) => {
+  return request.Post<T>(GET_ACTIVITY_BY_ID, params)
+}
+
+/**
+ *  生成二维码标准码接口
+ * @param params
+ * @returns
+ */
+
+export const getStdTDCode = <T>(params: IStdTDParams) => {
+  const meta: METHOD_INSTANCE = {
+    Tips: true,
+  }
+  return request.Post<T>(GET_STD_TD_CODE, params, {
+    meta,
+  })
+}

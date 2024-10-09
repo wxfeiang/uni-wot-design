@@ -10,70 +10,93 @@
 
 <script lang="ts" setup>
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
+import { Constant } from '@/enums/constant'
 import stkts from '@/static/images/index/sbkts.png'
 import logo from '@/static/images/logo.png'
 import { useUserStore } from '@/store'
-import { routeTo } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
-import useModule from './utils'
-
-const { sendGetStdTDCode, encrypt, countdown } = useModule()
+import qs from 'qs'
+import useModule from './utils/useIndex'
+const { VITE_SERVER_BASEURL } = import.meta.env
+const { sendGetStdTDCode, encrypt } = useModule() // countdown
 const { userInfo } = useUserStore()
 
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
-const str = ref<any>('')
-
-const cfig = ref()
-cfig.value = {
+// TODO:临时使用
+const countdown = ref(60)
+const timer = ref(null)
+const incrementCount = () => {
+  clearInterval(timer.value)
+  countdown.value = 60
+  timer.value = setInterval(() => {
+    if (countdown.value > 0) {
+      countdown.value--
+    } else {
+      // 刷新二维码请求
+      countdown.value = 60
+    }
+  }, 1000)
+}
+const cfig = ref({
   logoImage: logo,
-  str: str.value,
+  str: '',
   logoWidth: 60,
   logoHeight: 60,
   size: 440,
-}
+})
 
-const show = ref(false)
+const show = ref(true)
 const textArr = ref([
   '电子社保卡二维码用于身份认证和支付',
   '结算时向商家出示',
   '请不要将二维码及数字发送给他人',
 ])
 const lingdu = ref(0)
-const isShow = async () => {
-  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
-  show.value = !show.value
-}
-const showS = ref(false)
-const codeShow = async () => {
-  // // "term":"调用终端：1 微信小程序 2 支付宝小程序 3 androd 4 ios  "
 
-  const params = {
-    appId: 'KB23GNsIXC',
-    appSign: '一卡通个人码',
-    data: {
-      publicKey:
-        '3059301306072a8648ce3d020106082a811ccf5501822d03420004bad31a84302aeeb8918e75cbc2c6ee6405597ab1793008374a7e9c40894ab682e80cf91b5a1b12d3264e4b69851041aeeaf5ec3d4efe96ce0ff0a47373d9b839',
-      term: '1',
-      userId: userInfo.userDId,
-    },
+const privacyStatus = ref(false)
+const codeRefsh = async () => {
+  // const params = {
+  //   appId: 'KB23GNsIXC',
+  //   appSign: '一卡通个人码',
+  //   data: {
+  //     publicKey:
+  //       '3059301306072a8648ce3d020106082a811ccf5501822d03420004bad31a84302aeeb8918e75cbc2c6ee6405597ab1793008374a7e9c40894ab682e80cf91b5a1b12d3264e4b69851041aeeaf5ec3d4efe96ce0ff0a47373d9b839',
+  //     term: '1',
+  //     userId: userInfo.userDId,
+  //   },
+  // }
+  // const res = await sendGetStdTDCode(params)
+  // console.log(res)
+  const qrcodeData = {
+    time: new Date().getTime(),
+    idCardNumber: userInfo.idCardNumber,
+    userId: userInfo.userDId,
+    qrCodeType: Constant.QR_CODE_FLAG,
+    actionType: Constant.QR_CODE_CARD,
   }
-  const res = await sendGetStdTDCode(params)
-  console.log(res)
+  cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
+  incrementCount()
 }
 
 watch(
   () => countdown.value,
   () => {
     if (countdown.value === 0) {
-      codeShow()
+      timer.value = null
+      countdown.value = 60
+      codeRefsh()
     }
-    console.log('🥛', countdown)
   },
   { deep: true },
 )
+const isShow = async () => {
+  show.value = !show.value
+  if (!show.value) {
+    codeRefsh()
+  }
+}
 
 onMounted(async () => {
-  codeShow()
   lingdu.value = (await usegetScreenBrightness()) as number
 
   setTimeout(async () => {
@@ -84,6 +107,7 @@ onMounted(async () => {
 onUnmounted(async () => {
   await useSetKeepScreenOn(false)
   await useSetScreenBrightness(lingdu.value + 0.05)
+  timer.value && clearInterval(timer.value)
 })
 </script>
 
@@ -95,20 +119,28 @@ onUnmounted(async () => {
         <view class="bg-#2D69EF color-#fff rounded-10px">
           <view class="relative p-10px">
             <view class="">
-              <view class="text-14px py-5px">姓名：{{ countdown }}</view>
-              <view class="text-14px py-5px">身份证号：{{ 111 }}</view>
+              <view class="text-14px py-5px">
+                姓名：{{ encrypt(userInfo.userName, 'name', privacyStatus) }}
+              </view>
+              <view class="text-14px py-5px">
+                身份证号：{{ encrypt(userInfo.idCardNumber, 'cardNo', privacyStatus) }}
+              </view>
             </view>
             <view class="absolute right-15px top-5px">
               <wd-icon
-                :name="showS ? 'view' : 'eye-close'"
+                :name="privacyStatus ? 'view' : 'eye-close'"
                 size="22px"
-                @click="showS = !showS"
+                @click="privacyStatus = !privacyStatus"
               ></wd-icon>
             </view>
           </view>
           <view class="bg-#fff py-20px rounded-10px overflow-hidden">
             <view class="flex justify-center mt-10px flex-col items-center">
               <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
+              <view>
+                <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
+                <wd-button type="text" @click="codeRefsh">手动刷新</wd-button>
+              </view>
             </view>
           </view>
         </view>
