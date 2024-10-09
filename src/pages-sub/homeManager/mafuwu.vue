@@ -15,7 +15,7 @@ import logo from '@/static/images/logo.png'
 import { useUserStore } from '@/store'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import qs from 'qs'
-import stkts from './static/images/index/sbkts.png'
+import stkts from './static/image/sbkts.png'
 import useModule from './utils/useIndex'
 const { VITE_SERVER_BASEURL } = import.meta.env
 const { sendGetStdTDCode, encrypt } = useModule() // countdown

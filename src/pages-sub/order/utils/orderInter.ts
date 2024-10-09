@@ -1,4 +1,10 @@
-import { getOrderList, getOrderInfo, getOrderInfoJF } from '@/service/api/shop'
+import {
+  getOrderList,
+  getOrderInfo,
+  getOrderInfoJF,
+  updateOrderStatusById,
+  logistics,
+} from '@/service/api/shop'
 
 import { useRequest } from 'alova/client'
 
@@ -17,11 +23,27 @@ const { send: sendOrderList } = useRequest((data) => getOrderList(data), {
   immediate: false,
   loading: false,
 })
+const { send: updateOrderBeanStatusById } = useRequest((data) => updateOrderStatusById(data), {
+  immediate: false,
+  loading: false,
+})
 
 const { send: changeOrderStatus } = useRequest((data) => changeOrderStatus(data), {
   immediate: false,
   loading: false,
 })
+
+const { send: getLogistics } = useRequest((data) => logistics(data), {
+  immediate: false,
+  loading: false,
+})
 export default () => {
-  return { sendOrderInfo, sendOrderList, changeOrderStatus, sendOrderInfoJF }
+  return {
+    sendOrderInfo,
+    sendOrderList,
+    changeOrderStatus,
+    sendOrderInfoJF,
+    updateOrderBeanStatusById,
+    getLogistics,
+  }
 }

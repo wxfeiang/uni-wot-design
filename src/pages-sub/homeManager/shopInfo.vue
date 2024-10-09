@@ -266,7 +266,11 @@ onShareTimeline(() => {
           <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
             <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
             <wd-text text="￥" color="#fff" size="10px"></wd-text>
-            <wd-text text="29.9" color="#fff" size="18px"></wd-text>
+            <wd-text
+              :text="details.skuList ? details.skuList[0].settlementPrice : 0"
+              color="#fff"
+              size="18px"
+            ></wd-text>
           </view>
         </view>
         <wd-text :text="`已售${details.salesVolume}`" color="#F44D24" size="14px"></wd-text>

@@ -15,7 +15,7 @@ import { useUserStore } from '@/store'
 
 const userStore = useUserStore()
 
-const { sendOrderInfo, sendOrderList } = orderInter()
+const { sendOrderInfo, sendOrderList, updateOrderBeanStatusById } = orderInter()
 const paging = ref(null)
 
 async function queryList(pageNo: number, pageSize: number) {
@@ -75,7 +75,7 @@ function goInfo(orderId) {
 }
 
 function goLogistics(orderId) {
-  routeTo({ url: '/pages-sub/order/logistic', data: { id: orderId } })
+  routeTo({ url: '/pages-sub/order/logistics', data: { id: orderId } })
 }
 
 function goEvaluate(orderId) {
@@ -90,8 +90,11 @@ function goReminders(orderId) {
   console.log('催单')
 }
 
-function goNext(orderId) {
-  console.log('订单下一步')
+function gosure(orderId, status = 2) {
+  const data = { orderId, status }
+  updateOrderBeanStatusById(data).then((res) => {
+    uni.redirectTo({ url: '/pages-sub/order/orderList', tabsVal: tabsVal.value })
+  })
 }
 
 onLoad((options) => {
@@ -242,30 +245,7 @@ onLoad((options) => {
             <view class="flex justify-between items-center">
               <view></view>
               <view class="flex justify-right items-center">
-                <template v-if="tabsVal == '2'">
-                  <wd-button
-                    size="small"
-                    plain
-                    type="warning"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    v-if="item.isEvaluatio === '0'"
-                    @click="gopath('/pages-sub/shopManager/addEvaluate', { orderId: item.orderId })"
-                  >
-                    评价
-                  </wd-button>
-                  <wd-button
-                    size="small"
-                    plain
-                    type="info"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="goInfo(item.orderId)"
-                  >
-                    立即使用
-                  </wd-button>
-                </template>
-                <template v-else-if="tabsVal == '1'">
+                <template v-if="item.status === 1">
                   <wd-button
                     size="small"
                     plain
@@ -287,7 +267,7 @@ onLoad((options) => {
                     去支付
                   </wd-button>
                 </template>
-                <template v-else-if="item.status == 2">
+                <template v-else-if="item.status === 2">
                   <wd-button
                     size="small"
                     plain
@@ -298,19 +278,21 @@ onLoad((options) => {
                   >
                     查看详情
                   </wd-button>
+
                   <wd-button
                     size="small"
                     plain
                     type="warning"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goEvaluate(item.orderId)"
+                    v-if="item.isEvaluatio === '0'"
+                    @click="gopath('/pages-sub/shopManager/addEvaluate', { orderId: item.orderId })"
                   >
-                    去评价
+                    评价
                   </wd-button>
                 </template>
 
-                <template v-else-if="item.status == 10">
+                <template v-else-if="item.status === 10">
                   <wd-button
                     size="small"
                     plain
@@ -322,18 +304,18 @@ onLoad((options) => {
                   >
                     申请退款
                   </wd-button>
-                  <wd-button
-                    size="small"
-                    plain
-                    type="info"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="goReminders(item.orderId)"
-                  >
-                    联系催单
-                  </wd-button>
+                  <!--                  <wd-button-->
+                  <!--                    size="small"-->
+                  <!--                    plain-->
+                  <!--                    type="info"-->
+                  <!--                    custom-class="inline-block ml-2"-->
+                  <!--                    style="width: 5rem"-->
+                  <!--                    @click="goReminders(item.orderId)"-->
+                  <!--                  >-->
+                  <!--                    联系催单-->
+                  <!--                  </wd-button>-->
                 </template>
-                <template v-else-if="item.status == 11">
+                <template v-else-if="item.status === 11">
                   <wd-button
                     size="small"
                     plain
@@ -350,7 +332,7 @@ onLoad((options) => {
                     type="warning"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goNext(item.orderId)"
+                    @click="gosure(item.orderId)"
                   >
                     确认收货
                   </wd-button>

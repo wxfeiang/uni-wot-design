@@ -16,8 +16,7 @@ import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni/index'
 
 const toast = useToast()
-const { sendOrderInfo, sendOrderList, changeOrderStatus } = orderInter()
-
+const { sendOrderInfo, sendOrderList, changeOrderStatus, updateOrderBeanStatusById } = orderInter()
 const paging = ref(null)
 const chooseIndex = ref(-1)
 
@@ -113,6 +112,7 @@ const showSKU = function (obj) {
 
   return SKU.join(',')
 }
+
 function goshop() {
   routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: orderInfo.value.shopId } })
 }
@@ -120,6 +120,7 @@ function goshop() {
 function goback(url, e) {
   uni.navigateBack()
 }
+
 const copy = function (data) {
   uni.setClipboardData({
     data,
@@ -134,14 +135,24 @@ const copy = function (data) {
     },
   })
 }
+
 function goLogistics(orderId) {
   routeTo({ url: '/pages-sub/order/logistic', data: { id: orderId } })
 }
+
 function goEvaluate(orderId) {
   routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
 }
+
 function goRefund(orderId) {
   console.log('申请退款')
+}
+
+function gosure(orderId, status) {
+  const data = { orderId, status }
+  updateOrderBeanStatusById(data).then((res) => {
+    uni.redirectTo({ url: '/pages-sub/order/orderInfo', query: { id: orderId } })
+  })
 }
 
 onLoad((options) => {
@@ -532,6 +543,7 @@ onShow((options) => {
   color: #ffffff;
   background: #f44d24 !important;
 }
+
 :deep(.duihuanBtn2) {
   width: 100% !important;
   color: #ffffff;

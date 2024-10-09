@@ -327,8 +327,10 @@ const USE_RECORD = baseUrlApi('/promotion/app/coupon/useRecord')
 const USE_OFFLINE = baseUrlApi('/promotion/app/coupon/useOffline')
 
 const COUPON_INFO = baseUrlApi('/promotion/app/coupon/info')
+const LOG_ISTICS_INFO = baseUrlApi('/order/app/getPath')
 
 const GET_ORDER_INFO_JF = baseUrlApi('/promotion/app/h5/exchangeGoods/getExchangeGoodsInfo')
+const UPDATA_ORDER_STATUS = baseUrlApi('/order/app/manage/updateOrderBeanStatusById')
 
 /**
  *   获取订单列表
@@ -357,6 +359,40 @@ export function getOrderInfo(data) {
   }
   return request.Post(
     GET_ORDER_INFO, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   获取订单详情
+ * @param params 初始参数()
+ * */
+export function logistics(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    LOG_ISTICS_INFO, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   获取订单详情
+ * @param params 初始参数()
+ * */
+export function updateOrderStatusById(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    UPDATA_ORDER_STATUS, // 请求地址
     data,
     {
       meta,
