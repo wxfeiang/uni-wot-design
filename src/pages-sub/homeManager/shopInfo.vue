@@ -92,6 +92,10 @@ const getDetails = (spuId: number) => {
     res.rotationUrl = JSON.parse(res.rotationUrl).map((item) => item.data)
     res.remarkUrl = JSON.parse(res.remarkUrl).map((item) => item.data)
     res.skuUrl = JSON.parse(res.skuUrl).map((item) => item.data)
+    res.evaList.forEach((el) => {
+      el.userNickname = el.userNickname || '匿名用户'
+      el.evaluationContent = el.evaluationContent || '该用户没有填写评价'
+    })
     Object.assign(details, res)
     console.log('res', res)
     formatGoodsInfo(res.skuList)
@@ -299,7 +303,7 @@ onShareTimeline(() => {
       <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px" v-if="details.evaList">
         <view>评价（{{ details.evaList ? details.evaList.length : 0 }}）</view>
         <!-- 只显示3条 截取评价列表数据3条就行 -->
-        <view class="flex mt-10px mb-20px" v-for="i in details.evaList.slice(0, 3)" :key="i.id">
+        <view class="flex mt-10px mb-10px" v-for="i in details.evaList.slice(0, 3)" :key="i.id">
           <wd-img
             :width="45"
             :height="45"
@@ -309,14 +313,14 @@ onShareTimeline(() => {
           <view class="flex-1 overflow-hidden ml-10px">
             <view class="w-full flex items-center justify-between">
               <view>
-                <wd-text :text="i.userNickName" bold color="#333"></wd-text>
+                <wd-text :text="i.userNickname" bold color="#333"></wd-text>
+
                 <wd-text
-                  text="已购"
+                  :text="i.specification"
                   size="12px"
                   color="#999"
-                  custom-style="margin:0 10px;"
+                  custom-class="ml-20px"
                 ></wd-text>
-                <wd-text :text="i.num" size="12px" color="#999"></wd-text>
               </view>
               <wd-text
                 :text="`${getday(i.evaluationTime.slice(0, 10))}天前`"
@@ -333,7 +337,7 @@ onShareTimeline(() => {
           v-if="details.evaList.length > 3"
           class="color-#999 w-full pt-5px flex items-center justify-center mt-10px"
           style="border-top: 1px solid #eee"
-          @click="routeTo({ url: '/pages-sub/shopManager/evaluateList?id=1' })"
+          @click="routeTo({ url: `/pages-sub/shopManager/evaluateList?details=${details.spuId}` })"
         >
           <text>查看全部评价</text>
           <wd-icon name="arrow-right" size="20px"></wd-icon>

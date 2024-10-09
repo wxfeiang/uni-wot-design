@@ -427,7 +427,7 @@ onShow((options) => {
         </view>
       </wd-card>
 
-      <view class="mt-8 mx-4">
+      <view class="mt-8 mx-4 pb-80px">
         <view class="mb-20px">
           <wd-button block :round="false" @click="goPay" v-if="!dispay" custom-class="duihuanBtn">
             立即支付

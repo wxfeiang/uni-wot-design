@@ -14,32 +14,43 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import shoukuanma from './static/shoukuanma.png'
+import { evaluationList } from '@/service/api/shop'
 
 const paging = ref(null)
 const goodList = ref([])
 const num = ref(3)
 const content = ref('评价内容评价内容评价内容评价内容评价内容评价内容评价内容')
 const tabIndex = ref(0)
-
+const spuId = ref(null)
 const filterData = (type: number) => {
   console.log(type)
   tabIndex.value = type
   // paging.value.reload()
 }
-const getLsit = async () => {
-  // try {
-  //   const res: any = await shopCarList({
-  //     customerId: userStore.userInfo.userDId,
-  //     current: 1,
-  //     size: 10,
-  //   })
-  //   paging.value.complete(res)
-  // } catch {
-  //   console.log('????')
-  //   paging.value.complete(false)
-  // }
+const getLsit = async (pageNo, pageSize) => {
+  try {
+    const res: any = await evaluationList({
+      page: pageNo,
+      size: pageSize,
+      spuId: spuId.value,
+    })
+    res.content.forEach((el) => {
+      el.productScore = Number(el.productScore)
+      el.evaluationImg = el.evaluationImg.length > 0 ? el.evaluationImg.split(',') : []
+      el.userNickname = el.userNickname || '匿名用户'
+      el.evaluationContent = el.evaluationContent || '该用户没有填写评价'
+    })
+    console.log('????', res.content)
+    paging.value.complete(res.content)
+  } catch {
+    console.log('????')
+    paging.value.complete(false)
+  }
 }
-onLoad(async () => {})
+onLoad(async (options) => {
+  console.log(options)
+  spuId.value = options.details
+})
 </script>
 <template>
   <z-paging
@@ -53,12 +64,12 @@ onLoad(async () => {})
     }"
   >
     <view class="bg-white w-full p-10px box-border" style="border-radius: 10px 10px 0 0">
-      <view class="mb-10px">
+      <view v-if="false" class="mb-10px">
         <wd-text text="评分" color="#999999" size="14px"></wd-text>
         <wd-text text="99%" color="#F54F25" size="14px"></wd-text>
         <wd-text text="好评" color="#999999" size="14px"></wd-text>
       </view>
-      <view class="flex items-center justify-between">
+      <view v-if="false" class="flex items-center justify-between">
         <!--  -->
         <view
           class="w-62px line-height-30px text-center font-size-14px border-rd-5px"
@@ -100,47 +111,35 @@ onLoad(async () => {})
 
     <!-- 评价列表 -->
     <view class="w-full bg-white" style="border-radius: 0 0 10px 10px">
-      <view class="flex p-10px box-border" v-for="i in 10" :key="i">
+      <view class="flex p-10px box-border" v-for="it in goodList" :key="it.id">
         <wd-img :src="shoukuanma" :width="28" :height="28" round></wd-img>
         <view class="flex-1 ml-8px">
           <view>
             <view class="w-full flex items-center justify-between">
               <view>
-                <wd-text text="用户昵称" color="#000000" size="14px" bold></wd-text>
+                <wd-text :text="it.userNickname" color="#000000" size="14px" bold></wd-text>
                 <wd-text
-                  text="已购 60片"
+                  :text="it.specification"
                   color="#9C9DAD"
                   size="14px"
                   custom-class="ml-28px"
                 ></wd-text>
               </view>
-              <wd-text text="2024/09/03 12.22" color="#CCCCCC" size="14px"></wd-text>
+              <wd-text :text="it.evaluationTime" color="#CCCCCC" size="14px"></wd-text>
             </view>
           </view>
-          <wd-rate v-model="num" readonly size="14px" />
+          <wd-rate v-model="it.productScore" readonly size="14px" />
           <view class="mt-10px">
-            <wd-text :text="content" color="#000000" size="14px"></wd-text>
-            <view class="mt-10px flex flex-warp">
+            <wd-text :text="it.evaluationContent" color="#000000" size="14px"></wd-text>
+            <view class="mt-10px flex flex-warp" v-if="it.evaluationImg.length > 0">
               <wd-img
                 :width="90"
                 :height="90"
-                :src="shoukuanma"
+                :src="i"
                 custom-class="mr-10px"
                 mode="aspectFill"
-              />
-              <wd-img
-                :width="90"
-                :height="90"
-                :src="shoukuanma"
-                custom-class="mr-10px"
-                mode="aspectFill"
-              />
-              <wd-img
-                :width="90"
-                :height="90"
-                :src="shoukuanma"
-                custom-class="mr-10px"
-                mode="aspectFill"
+                v-for="i in it.evaluationImg"
+                :key="i"
               />
             </view>
           </view>

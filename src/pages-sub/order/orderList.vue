@@ -226,14 +226,15 @@ onLoad((options) => {
                     type="warning"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfo(item.orderId)"
+                    v-if="item.isEvaluatio === '0'"
+                    @click="gopath('/pages-sub/shopManager/addEvaluate', { orderId: item.orderId })"
                   >
                     评价
                   </wd-button>
                   <wd-button
                     size="small"
                     plain
-                    type="info "
+                    type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
                     @click="goInfo(item.orderId)"

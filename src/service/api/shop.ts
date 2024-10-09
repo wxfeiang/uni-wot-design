@@ -27,6 +27,42 @@ const GET_ACTIVITY_BY_ID = baseUrlApi('/promotion/app/coupon/getActivityCouponPr
 const GET_ACTIVITY_LIST = baseUrlApi('/promotion/app/hdShophd/page')
 const GET_STD_TD_CODE = baseUrlApi('/member/app/QrCode/getStdTDCodeApp')
 const CHANGE_ORDER_STUTAS = baseUrlApi('/trade/app/XcxPayment/updateOrderStatus')
+const EVALUATION_LIST = baseUrlApi('/product/app/evaluation/list')
+const EVALUATION_ADD = baseUrlApi('/product/app/evaluation/saveOrUpdate')
+
+/**
+ *   商品评价新增
+ * @param params 初始参数()
+ * */
+export function evaluationAdd(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    EVALUATION_ADD, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   商品评价列表
+ * @param params 初始参数()
+ * */
+export function evaluationList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    EVALUATION_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *   提交订单
