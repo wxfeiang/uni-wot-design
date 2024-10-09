@@ -20,10 +20,10 @@ import xxtz from '@/static/images/mine/xxtz.png'
 import { routeTo } from '@/utils'
 
 import { getMerchantServicesCount } from '@/service/api/shop'
-import daifahuo from '@/static/images/mine//daifahuo.png'
-import dafukuan from '@/static/images/mine//daifukuan.png'
-import daishouhuo from '@/static/images/mine//daishouhuo.png'
-import shouhou from '@/static/images/mine//shouhoudd.png'
+import daifahuo from '@/static/images/mine/daifahuo.png'
+import dafukuan from '@/static/images/mine/daifukuan.png'
+import daishouhuo from '@/static/images/mine/daishouhuo.png'
+import shouhou from '@/static/images/mine/shouhoudd.png'
 import yiwancheng from '@/static/images/mine/yiwancheng.png'
 
 // 查询user列表
