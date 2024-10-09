@@ -45,7 +45,7 @@ const cfig = ref({
   size: 440,
 })
 
-const show = ref(true)
+const show = ref(false)
 const textArr = ref([
   '电子社保卡二维码用于身份认证和支付',
   '结算时向商家出示',
