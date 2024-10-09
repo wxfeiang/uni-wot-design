@@ -226,9 +226,9 @@ onPageScroll((e) => {
     </view>
   </view>
   <view class="px-20px">
-    <view class="flex justify-between items-center">
+    <view class="grid grid-cols-5">
       <view
-        class="w-22% flex flex-col items-center py-10px"
+        class="flex flex-col items-center py-10px"
         v-for="(item, index) in topAction2"
         :key="index"
         @click="actionTop2(item)"

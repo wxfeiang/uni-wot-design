@@ -20,4 +20,6 @@ export enum Constant {
 
   // 二维码一卡通核销类型
   QR_CODE_OFF = 'writeOff',
+  // 二维码一卡通卡展示类型
+  QR_CODE_CARD = 'card',
 }
