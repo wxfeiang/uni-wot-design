@@ -94,6 +94,7 @@ const submitExchangeGoods = async () => {
       orderNo: data.orderNo,
       orderTime: data.createTime,
     }
+    console.log('跳转传参', obj)
     routeTo({
       url: '/pages-sub/order/orderInfoJF',
       data: {
