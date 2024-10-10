@@ -10,6 +10,7 @@
 }
 </route>
 <script lang="ts" setup>
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import actionB from '@/static/images/serve/action_b.jpg'
 import couponB from '@/static/images/serve/coupon_b.png'
 import { useUserStore } from '@/store'
@@ -67,7 +68,7 @@ const gopath = function (url, e) {
   routeTo({
     url,
     data: e,
-    navType: 'redirectTo',
+    navType: NAVIGATE_TYPE.REDIRECT_TO,
   })
 }
 
@@ -85,7 +86,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
     // paging.value.complete(res.content)
     // paging.value.complete([])
   } catch {
-    paging.value.complete(false)
+    // paging.value.complete(false)
   }
 }
 

@@ -48,7 +48,6 @@ const {
   sendGetSpecialTypeList,
   specialTypeLoading,
 } = useIndex()
-
 async function actionTop2(item: any) {
   console.log(item)
 

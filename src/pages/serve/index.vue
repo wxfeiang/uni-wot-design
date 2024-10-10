@@ -199,12 +199,12 @@ const categories = ref([
     icon: 'location',
     items: mainData3.value,
   },
-  {
-    label: '金融服务',
-    title: '标题四',
-    icon: 'location',
-    items: mainData4.value,
-  },
+  // {
+  //   label: '金融服务',
+  //   title: '标题四',
+  //   icon: 'location',
+  //   items: mainData4.value,
+  // },
 ])
 
 function handleChange({ value }) {
@@ -270,7 +270,7 @@ onMounted(() => {
         customClass="customClass"
       />
     </wd-sidebar>
-    <view class="flex-1 h-65% bg-#fff mt-190px mr-10px rounded-10px mb-20px">
+    <view class="flex-1 right-h bg-#fff mt-190px mr-10px rounded-10px mb-20px">
       <scroll-view
         class="content"
         scroll-y
@@ -336,6 +336,7 @@ onMounted(() => {
   height: calc(100vh - var(--window-top) - constant(safe-area-inset-bottom));
   height: calc(100vh - var(--window-top) - env(safe-area-inset-bottom));
 }
+
 .content {
   box-sizing: border-box;
   flex: 1;
@@ -347,6 +348,9 @@ onMounted(() => {
   // background: #fff;
   // border-radius: 0 10px 10px 0;
   // box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
+}
+.right-h {
+  height: calc(100vh - 180px);
 }
 
 :deep(.customClass-warp) {
