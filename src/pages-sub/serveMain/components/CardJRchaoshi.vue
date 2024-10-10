@@ -24,6 +24,16 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const paging = ref(null)
 const dataList = ref([])
+function handleClickLeft() {
+  const pageList = getCurrentPages()
+  if (pageList.length <= 1) {
+    uni.reLaunch({
+      url: '/pages/index/index',
+    })
+  } else {
+    uni.navigateBack()
+  }
+}
 const queryList = async (pageNo, pageSize) => {
   const data = {
     number: pageNo,

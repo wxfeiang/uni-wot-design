@@ -57,7 +57,10 @@ async function actionTop2(item: any) {
     if (!item.specialJump) {
       toast.show('功能开发中，敬请期待!...')
     } else {
-      return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.SWITCH_TAB })
+      return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.NAVIGATE_TO })
+
+      // let str='/pages-sub/serveMain/cardFromType?base=changeCardPwd&title=服务密码管理'
+      // return routeTo({ url: str, navType: NAVIGATE_TYPE.NAVIGATE_TO })
     }
   }
 }

@@ -90,10 +90,6 @@ const getLsit = async (pageNo: number, pageSize: number) => {
   }
 }
 
-onLoad(async () => {
-  // 设置背景图片
-})
-
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 </script>
 <template>

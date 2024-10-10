@@ -51,7 +51,14 @@ const tabslist = ref([
 const list = ref([])
 
 const goback = function (url, e) {
-  uni.navigateBack()
+  const pageList = getCurrentPages()
+  if (pageList.length <= 1) {
+    uni.reLaunch({
+      url: '/pages/index/index',
+    })
+  } else {
+    uni.navigateBack()
+  }
 }
 
 function changeTab(e) {

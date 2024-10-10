@@ -29,7 +29,14 @@ const props = defineProps({
   },
 })
 function handleClickLeft() {
-  uni.navigateBack()
+  const pageList = getCurrentPages()
+  if (pageList.length <= 1) {
+    uni.reLaunch({
+      url: '/pages/index/index',
+    })
+  } else {
+    uni.navigateBack()
+  }
 }
 </script>
 <template>
