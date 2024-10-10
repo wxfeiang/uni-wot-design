@@ -20,6 +20,7 @@ const shopAdsList = ref<any>({})
 const receiveAddrId = ref<any>('')
 const deliveryMode = ref<any>(0)
 const orderNote = ref<any>('')
+const show = ref(false)
 
 const showPop = reactive({
   addList: false,
@@ -85,23 +86,7 @@ const submitExchangeGoods = async () => {
   try {
     const data = await sendExchangeGoods(params)
     console.log('兑换商品', data)
-    // 成功跳转订单页面
-    const obj = {
-      ...shopAdsList.value,
-      ...opData.value,
-      orderNote: orderNote.value,
-      deliveryMode: deliveryMode.value,
-      orderNo: data.orderNo,
-      orderTime: data.createTime,
-    }
-    console.log('跳转传参', obj)
-    routeTo({
-      url: '/pages-sub/order/orderInfoJF',
-      data: {
-        ...changeUrlJson(obj),
-      },
-      navType: NAVIGATE_TYPE.REDIRECT_TO,
-    })
+    show.value = true
   } catch (error) {
     console.log('🍍[error]:', error)
   }
@@ -115,9 +100,8 @@ onLoad(async (option) => {
 })
 
 onShow(async (options) => {
-  getAdsList()
-
   // 获取地址列表
+  getAdsList()
 })
 </script>
 <template>
@@ -226,6 +210,34 @@ onShow(async (options) => {
       </wd-button>
     </view>
 
+    <!-- 兑换成功 -->
+    <wd-popup
+      v-model="show"
+      custom-style="border-radius:10px;width:309px;height:325px;"
+      custom-class="flex flex-col items-center justify-center"
+    >
+      <view class="w-60px h-60px bg-#F44D24 border-rd-50px flex items-center justify-center">
+        <wd-icon name="check" size="30px" color="#fff"></wd-icon>
+      </view>
+      <wd-text text="兑换成功" color="#000" bold size="20px" custom-class="my-20px"></wd-text>
+      <wd-text
+        text="我们会尽快给您寄出，请耐心等待"
+        color="#999999"
+        size="14px"
+        custom-class="mb-30px"
+      ></wd-text>
+      <view
+        class="color-white bg-#F44D24 w-170px line-height-35px border-rd-6px text-center"
+        @click="
+          routeTo({
+            url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/list',
+            navType: NAVIGATE_TYPE.REDIRECT_TO,
+          })
+        "
+      >
+        返回积分商城
+      </view>
+    </wd-popup>
     <!--  收货地址 -->
 
     <wd-popup
