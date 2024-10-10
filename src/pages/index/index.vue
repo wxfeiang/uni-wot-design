@@ -47,6 +47,10 @@ const {
   specialTypeskeleton,
   sendGetSpecialTypeList,
   specialTypeLoading,
+
+  sendSwiperList,
+  swiperListData,
+  swiperListLoading,
 } = useIndex()
 async function actionTop2(item: any) {
   console.log(item)
@@ -99,10 +103,9 @@ async function actionTop(item: any) {
 
 function swiperClick(data) {
   const { item } = data
-
-  if (item.type === 'router') {
+  if (item.shopHdType === 1) {
     routeTo({ url: item.path, data: { ...item.data } })
-  } else {
+  } else if (item.shopHdType === 0) {
     routeTo({
       url: '/pages-sub/webView/index',
       data: { type: item.id },
@@ -151,6 +154,7 @@ const getSpecialTypeList = async () => {
   const data: any = await sendGetSpecialTypeList()
   topAction2.value = data.data.data
 }
+// 获取消息
 
 onLoad(async () => {
   // 设置背景图片
@@ -158,12 +162,21 @@ onLoad(async () => {
   btnbgBase64.value = await pathToBase64(btnbg)
   znbgBase64.value = await pathToBase64(znbg)
 })
+
 onMounted(async () => {
   getSpecialTypeList()
+
   const mess: any = await sendMessageList({
     page: 1,
     size: 50,
   })
+
+  await sendSwiperList({
+    page: 1,
+    size: 10,
+    location: 1,
+  })
+
   mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 5)
 
   mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
@@ -247,6 +260,7 @@ onPageScroll((e) => {
   </view>
 
   <!-- 消息 -->
+
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">
     <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
@@ -258,7 +272,7 @@ onPageScroll((e) => {
       <view class="flex-1">
         <wd-skeleton
           animation="flashed"
-          :loading="messageLoading || mess1.length < 1"
+          :loading="mess1 || mess1.length < 1"
           :row-col="[{ width: '80%', height: '20px' }]"
         >
           <wd-notice-bar
@@ -283,17 +297,19 @@ onPageScroll((e) => {
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="py-3px h-135px swiper px-15px">
-    <wd-swiper
-      :list="swiperList"
-      :autoplay="true"
-      :current="0"
-      :height="135"
-      @click="swiperClick"
-      :indicator="{ type: 'dots-bar' }"
-      custom-indicator-class="custom-indicator-class"
-      value-key="image"
-      imageMode="scaleToFill"
-    ></wd-swiper>
+    <wd-skeleton :row-col="[[{ width: '100%', height: '135px' }]]" :loading="swiperListLoading">
+      <wd-swiper
+        :list="swiperListData?.content"
+        :autoplay="true"
+        :current="0"
+        :height="135"
+        @click="swiperClick"
+        :indicator="{ type: 'dots-bar' }"
+        custom-indicator-class="custom-indicator-class"
+        value-key="shopHdBanner"
+        imageMode="scaleToFill"
+      ></wd-swiper>
+    </wd-skeleton>
   </view>
 
   <view v-if="closeAdFlog">

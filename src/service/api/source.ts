@@ -10,8 +10,33 @@ const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
 
 const GET_SPECIAL_TYPE_LIST = baseUrlApi('/promotion/app/xcxUserAdvice/getSpecialTypeList')
 
+const GET_HISTORY_PAGE_BY_USER_ID = baseUrlApi('/user/app/history/getHistoryPageByUserId')
+const GET_DETAIL_UPDATE_READ = baseUrlApi('/user/app/history/getDetailUpdateRead ')
 /**
  * @description: 获取消息列表
+ * @param {} data
+ * @return {}
+ */
+export function getHistoryPageByUserId(data) {
+  return request.Post(
+    GET_HISTORY_PAGE_BY_USER_ID, // 请求地址
+    data,
+  )
+}
+/**
+ * @description: 获取消息列表详情
+ * @param {} data
+ * @return {}
+ */
+export function getDetailUpdateRead(data) {
+  return request.Post(
+    GET_DETAIL_UPDATE_READ, // 请求地址
+    data,
+  )
+}
+
+/**
+ * @description: 获取文章列表
  * @param {} data
  * @return {}
  */

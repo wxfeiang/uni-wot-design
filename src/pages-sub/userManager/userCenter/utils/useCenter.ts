@@ -1,24 +1,32 @@
-import { getMessageList } from '@/service/api/source'
+import { getDetailUpdateRead, getHistoryPageByUserId } from '@/service/api/source'
 import { addBusinessAdvice } from '@/service/api/userMessage'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 // 消息列表
 
-// 消息列表
 const {
-  send: sendMessageList,
-  data: messageData,
-  onSuccess: messageSucess,
-}: { send: any; data: any; onSuccess: any } = useRequest((data) => getMessageList(data), {
+  send: sendHistoryPageByUserId,
+  data: histotyMessData,
+  loading: histotyMessDataLoadng,
+} = useRequest((data) => getHistoryPageByUserId(data), {
   immediate: false,
   loading: false,
-  initialData: [],
+  initialData: {} as any,
+})
+const {
+  send: sendDetailUpdateRead,
+  data: ReadData,
+  loading: DetailUpdateReadDataLoadng,
+} = useRequest((data) => getDetailUpdateRead(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
 })
 
 function messageClick(item) {
   routeTo({
-    url: '/pages-sub/webView/index',
-    data: { type: item.articleId },
+    url: '/pages-sub/userManager/userCenter/messDeil',
+    data: { type: item.id },
   })
 }
 const adviceType = ref([
@@ -70,13 +78,16 @@ const submit = (form) => {
 
 export default () => {
   return {
-    sendMessageList,
-    messageData,
     sendBusinessAdvice,
     messageClick,
     model,
     rules,
     submit,
     adviceType,
+    sendHistoryPageByUserId,
+    histotyMessDataLoadng,
+    histotyMessData,
+    sendDetailUpdateRead,
+    ReadData,
   }
 }
