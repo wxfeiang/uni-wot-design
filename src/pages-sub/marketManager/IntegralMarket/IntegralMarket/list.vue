@@ -9,6 +9,7 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
+import quanbg from '../../static/images/integral/quanbg.png'
 import { ExchangeGoodsListProps } from './utils/types'
 import useInter from './utils/useInter'
 
@@ -20,8 +21,7 @@ async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    minVal: Number(tabslist.value[active.value].name.split('-')[0] || 0),
-    maxVal: Number(tabslist.value[active.value].name.split('-')[1] || 0),
+    goodSort: active.value,
   }
   // 调用接口获取数据
   try {
@@ -33,26 +33,22 @@ async function queryList(pageNo: number, pageSize: number) {
   }
 }
 
-const active = ref(0)
+const active = ref<any>('')
 
-const tabslist = ref([
-  { name: '0-1000', value: 1 },
-  { name: '1000-2000', value: 2 },
-  { name: '2000-3000', value: 3 },
-  { name: '3000-4000', value: 4 },
-  { name: '4000-5000', value: 5 },
-  { name: '>5000', value: 6 },
-])
 const list = ref([])
 
 function changeTab(e) {
-  active.value = e.index
+  active.value = e
   paging.value.reload()
 }
 
 const gopath = (e) => {
+  let url = '/pages-sub/marketManager/IntegralMarket/IntegralMarket/info'
+  if (e.goodSort === 4) {
+    url = '/pages-sub/marketManager/IntegralMarket/IntegralMarket/virtualGoods'
+  }
   routeTo({
-    url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/info',
+    url,
     data: { goodId: e.goodId, surplusIntegral: surplusIntegral.value, sellOut: e.sellOut },
   })
 }
@@ -79,32 +75,53 @@ onLoad(async () => {
       <dy-navbar :leftTitle="title" left></dy-navbar>
       <view class="flex justify-between items-center navbg w-screen h-80px">
         <view class="flex justify-left items-start flex-col">
-          <view class="text-base text-white mb-1">我的积分</view>
+          <view class="text-base text-white mb-1">
+            <wd-text :text="surplusIntegral" size="28px" color="#fff"></wd-text>
+            <wd-text text=" 分" size="12px" color="#fff"></wd-text>
+          </view>
           <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>
         </view>
-        <view class="text-2xl text-white">{{ surplusIntegral }}</view>
+        <view class="font-size-14px text-#F44D24 bg-white px-20px py-5px border-rd-50px">
+          兑换记录
+        </view>
       </view>
-      <wd-tabs
-        v-model="active"
-        swipeable
-        custom-class="tabsBox"
-        :slidable-num="4"
-        @change="changeTab"
-      >
-        <block>
-          <wd-tab :title="active > 0 ? '显示全部' : '分值浏览'"></wd-tab>
-        </block>
-
-        <block v-for="item in tabslist" :key="item.value">
-          <wd-tab :title="item.name"></wd-tab>
-        </block>
-      </wd-tabs>
+      <view class="w-full flex items-center px-25px pt-15px">
+        <view :class="active === '' ? 'text-#F44D24' : 'color-#888888'" @click="changeTab('')">
+          全部
+        </view>
+        <view
+          :class="active === 2 ? 'text-#F44D24' : 'color-#888888'"
+          class="ml-20px"
+          @click="changeTab(2)"
+        >
+          实物商品
+        </view>
+        <view
+          :class="active === 4 ? 'text-#F44D24' : 'color-#888888'"
+          class="ml-20px"
+          @click="changeTab(4)"
+        >
+          优惠券
+        </view>
+      </view>
     </template>
     <view class="p2 pageBoxBg">
       <view v-for="(item, index) in list" class="p2 float-left w-1/2 box-border" :key="index">
         <view class="bg-white rounded-md p-8px">
           <view class="flex items-center justify-center mb-2">
-            <wd-img :width="100" :height="100" :src="item.goodImg" />
+            <view class="w-full h-135px pos-relative" v-if="item.goodSort === 4">
+              <wd-img width="100%" :height="135" :src="quanbg" />
+              <view
+                class="w-full h-full pos-absolute pos-top-none pos-left-none flex flex-col justify-center items-center"
+              >
+                <wd-text :text="item.exchangeNotes" size="18px" color="#ff4345"></wd-text>
+                <!-- <view class="mt-20px">
+                  <wd-text text="100" size="42px" bold color="#ff4345"></wd-text>
+                  <wd-text text="￥" size="20px" bold color="#ff4345"></wd-text>
+                </view> -->
+              </view>
+            </view>
+            <wd-img width="100%" :height="135" :src="item.goodImg" v-else />
           </view>
           <view class="min-h-44px truncate-2 color-#999">
             {{ item.goodName }}
@@ -158,48 +175,12 @@ onLoad(async () => {
   background-size: 100% 100%;
 }
 
-:deep(.tabsBox .wd-tabs__line) {
-  display: none;
-}
-
-:deep(.tabsBox) {
-  background: #f3f4f6 !important;
-}
-
-:deep(.tabsBox .wd-tabs__nav-item) {
-  height: 26px;
-  margin: 8px 5px;
-  line-height: 26px;
-
-  color: rgba(244, 77, 36, 0.79);
-  background: #ffffff;
-  border-radius: 3px 3px 3px 3px;
-}
-
-:deep(.tabsBox .wd-tabs__nav-item:first-child) {
-  height: 26px;
-  margin: 8px 5px;
-  font-weight: bold;
-  line-height: 26px;
-  color: rgba(244, 77, 36, 0.79);
-  background: transparent !important;
-  border-radius: 3px 3px 3px 3px;
-}
-
 :deep(.z-paging-content) {
   background: #f3f4f6;
 }
 
-:deep(.tabsBox .wd-tabs__nav-item.is-active) {
-  background: rgb(255, 223, 212);
-}
-
-:deep(.tabsBox .wd-tabs__nav) {
-  background: transparent;
-}
-
 .tabsBox {
-  background: transparent;
+  background: transparent !important;
 }
 
 :deep(.duihuanBtn) {

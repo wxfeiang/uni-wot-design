@@ -51,6 +51,8 @@ interface NavigateToOptions {
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/info" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/list" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/virtualGoods" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/virtualResult" |
        "/pages-sub/shopManager/addEvaluate" |
        "/pages-sub/shopManager/evaluateList" |
        "/pages-sub/shopManager/index" |

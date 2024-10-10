@@ -128,16 +128,32 @@ onLoad(async (option) => {
           custom-class="font-bold"
         ></wd-text>
         <view>
-          <wd-img :src="goodsInfoData.goodImg" width="100%" height="150"></wd-img>
+          <!-- <template v-if="details && details.remarkUrl">
+            <wd-img
+              width="100%"
+              mode="widthFix"
+              v-for="i in details.remarkUrl"
+              :src="i"
+              :key="i"
+            ></wd-img>
+          </template> -->
+          <wd-img :src="goodsInfoData.goodImg" mode="widthFix" width="100%"></wd-img>
         </view>
       </view>
     </view>
 
     <view
       v-if="goodsInfoData.stock > 0"
-      class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border"
+      class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border pb-20px"
       style="bottom: 0px"
     >
+      <wd-text text="温馨提示" size="18px" color="#000000" bold></wd-text>
+      <wd-text
+        text="积分商品一旦兑换不支持退换！"
+        size="16px"
+        color="#F44D24"
+        custom-class="block mt-5px mb-10px"
+      ></wd-text>
       <wd-button block custom-class="duihuanBtn" :round="false" @click="gopath()">
         立即兑换
       </wd-button>
@@ -194,6 +210,6 @@ onLoad(async (option) => {
 .contentBox {
   box-sizing: border-box;
   min-height: calc(100vh - 390px);
-  padding-bottom: 80px;
+  padding-bottom: 125px;
 }
 </style>

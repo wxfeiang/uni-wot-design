@@ -515,6 +515,22 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/virtualGoods",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "IntegralMarket/IntegralMarket/virtualResult",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     },
