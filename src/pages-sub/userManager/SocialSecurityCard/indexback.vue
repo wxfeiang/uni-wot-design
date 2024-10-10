@@ -15,7 +15,6 @@ import { getSignValid } from '@/service/api/cardServe'
 import logo from '@/static/images/logo.png'
 import { routeTo } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
-import stkts from '../static/image/sbkts.png'
 const { sendPhoneCode, countdown, sending } = usePhoneCode()
 const opts = ref({
   lineColor: '#000000',
@@ -176,13 +175,13 @@ const barodeClick = () => {
   <!-- 提示信息 -->
   <wd-overlay :show="show">
     <view class="size-full flex flex-col justify-center items-center bg-#fff">
-      <wd-status-tip
+      <!-- <wd-status-tip
         :image="stkts"
         :image-size="{
           height: 132,
           width: 224,
         }"
-      />
+      /> -->
       <view class="mt-20px">
         <view class="mt-10px text-center" v-for="(item, index) in textArr" :key="index">
           <wd-text :text="item" color="#555"></wd-text>
