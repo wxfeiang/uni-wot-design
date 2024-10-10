@@ -25,8 +25,8 @@ const {
 
 function messageClick(item) {
   routeTo({
-    url: '/pages-sub/userManager/userCenter/messDeil',
-    data: { type: item.id },
+    url: '/pages-sub/webView/index',
+    data: { type: item.id, showType: 'message' },
   })
 }
 const adviceType = ref([

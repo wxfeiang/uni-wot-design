@@ -66,7 +66,7 @@ export function getArtacleDetail(data) {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
 
   return request.Post(ARTACLE_DETAIL, data, {

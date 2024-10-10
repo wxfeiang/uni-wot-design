@@ -103,12 +103,13 @@ async function actionTop(item: any) {
 
 function swiperClick(data) {
   const { item } = data
+  console.log('🍇[item]:', item)
   if (item.shopHdType === 1) {
     routeTo({ url: item.path, data: { ...item.data } })
   } else if (item.shopHdType === 0) {
     routeTo({
       url: '/pages-sub/webView/index',
-      data: { type: item.id },
+      data: { type: item.shopHdId, showType: 'banner' },
     })
   }
 }
@@ -185,6 +186,15 @@ onMounted(async () => {
 const closeAdFlog = ref(true)
 const closeAd = () => {
   closeAdFlog.value = false
+}
+const toWxChart = () => {
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: {
+      showType: 'webView',
+      url: 'https://mp.weixin.qq.com/s?__biz=MzkyOTYzOTg3NQ==&mid=2247483688&idx=1&sn=af447ae94177b1e42fe3b9622d5cde13&chksm=c2073d84f570b492da13ec97251dfe7a4fbefb0ba238cf10001ea375cad6bf36943e9f705011#rd',
+    },
+  })
 }
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
@@ -272,7 +282,7 @@ onPageScroll((e) => {
       <view class="flex-1">
         <wd-skeleton
           animation="flashed"
-          :loading="mess1 || mess1.length < 1"
+          :loading="messageLoading || mess1.length < 1"
           :row-col="[{ width: '80%', height: '20px' }]"
         >
           <wd-notice-bar
@@ -297,7 +307,11 @@ onPageScroll((e) => {
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="py-3px h-135px swiper px-15px">
-    <wd-skeleton :row-col="[[{ width: '100%', height: '135px' }]]" :loading="swiperListLoading">
+    <wd-skeleton
+      animation="flashed"
+      :row-col="[{ width: '100%', height: '135px' }]"
+      :loading="swiperListLoading"
+    >
       <wd-swiper
         :list="swiperListData?.content"
         :autoplay="true"
@@ -325,7 +339,12 @@ onPageScroll((e) => {
           <view class="text-14px">关注雄安一卡通公众号</view>
           <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
         </view>
-        <view class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000">立即关注</view>
+        <view
+          class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000"
+          @click="toWxChart"
+        >
+          立即关注
+        </view>
         <view class="absolute top-0 right-0" @click="closeAd">
           <wd-icon name="close-circle" size="22px" color="#E4C29C"></wd-icon>
         </view>
