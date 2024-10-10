@@ -103,10 +103,12 @@ async function actionTop(item: any) {
 
 function swiperClick(data) {
   const { item } = data
-  console.log('🍇[item]:', item)
+
   if (item.shopHdType === 1) {
     routeTo({ url: item.path, data: { ...item.data } })
   } else if (item.shopHdType === 0) {
+    console.log('🍇[item]:', item)
+    basestore.setbannetData(item)
     routeTo({
       url: '/pages-sub/webView/index',
       data: { type: item.shopHdId, showType: 'banner' },

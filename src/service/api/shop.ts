@@ -29,6 +29,8 @@ const GET_STD_TD_CODE = baseUrlApi('/member/app/QrCode/getStdTDCodeApp')
 const CHANGE_ORDER_STUTAS = baseUrlApi('/trade/app/XcxPayment/updateOrderStatus')
 const EVALUATION_LIST = baseUrlApi('/product/app/evaluation/list')
 const EVALUATION_ADD = baseUrlApi('/product/app/evaluation/saveOrUpdate')
+const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
+const GET_MERCHANT_SERVICES_COUNT = baseUrlApi('/order/manage//getMerchantServicesCount')
 
 /**
  *   商品评价新增

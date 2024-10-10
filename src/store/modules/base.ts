@@ -15,11 +15,18 @@ export const useBaseStore = defineStore(
     function setActive(val) {
       active.value = val
     }
+
     // 当前用户坐标
     const userLocation = ref({} as any)
 
     const setLocation = (val) => {
       userLocation.value = val
+    }
+    // bannet 自带详情
+    const bannerData = ref(0)
+
+    function setbannetData(val) {
+      bannerData.value = val
     }
 
     // 用户历史搜索记录
@@ -44,6 +51,8 @@ export const useBaseStore = defineStore(
       setHistorySearch,
       clearHistorySearch,
       setActive,
+      setbannetData,
+      bannerData,
     }
   },
   {
