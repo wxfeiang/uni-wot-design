@@ -240,7 +240,7 @@ onPageScroll((e) => {
     </view>
   </view>
   <view class="px-20px pt-10px">
-    <wd-skeleton :row-col="specialTypeskeleton" :loading="specialTypeLoading">
+    <wd-skeleton :row-col="specialTypeskeleton" :loading="specialTypeLoading" animation="flashed">
       <view class="grid grid-cols-5">
         <view
           class="flex flex-col items-center"
