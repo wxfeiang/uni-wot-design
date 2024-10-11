@@ -11,6 +11,9 @@
 <script lang="ts" setup>
 import { removeT } from '@/utils'
 import { signInDetailRopos } from './utils/types'
+import mingxibtn from './static/image/mingxibtn.png'
+import mingxilogo from './static/image/mingxilogo.png'
+import mingxititle from './static/image/mingxititle.png'
 import useInter from './utils/useInter'
 const { sendMessageList } = useInter()
 
@@ -44,8 +47,8 @@ const queryList = async (pageNo, pageSize) => {
   // 调用接口获取数据
   try {
     const data: any = await sendMessageList(params)
-    dataList.value = data.content as signInDetailRopos[]
-    paging.value.complete(dataList.value)
+    // dataList.value = data.content as signInDetailRopos[]
+    paging.value.complete(data.content)
   } catch (error) {
     paging.value.complete(false)
   }
@@ -60,12 +63,27 @@ const changeTab = (e) => {
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
       <!-- 顶部 -->
-      <dy-navbar leftTitle="我的积分明细" left></dy-navbar>
-      <wd-tabs v-model="tab" @change="changeTab">
-        <block v-for="item in tablist" :key="item.index">
-          <wd-tab :title="item.title"></wd-tab>
-        </block>
-      </wd-tabs>
+      <view class="top pos-relative">
+        <dy-navbar leftTitle="我的积分明细" left></dy-navbar>
+        <view class="w-full flex justify-between items-center px-30px box-border mt-10px">
+          <view class="flex flex-col justify-center items-center">
+            <wd-img :width="164" :height="62" :src="mingxititle"></wd-img>
+            <wd-img :width="125" :height="31" :src="mingxibtn" custom-class="mt-10px"></wd-img>
+          </view>
+          <wd-img :width="147" :height="108" :src="mingxilogo"></wd-img>
+        </view>
+
+        <view
+          class="pos-absolute pos-bottom-none w-full overflow-hidden"
+          style="border-radius: 20px 20px 0 0"
+        >
+          <wd-tabs v-model="tab" @change="changeTab">
+            <block v-for="item in tablist" :key="item.index">
+              <wd-tab :title="item.title"></wd-tab>
+            </block>
+          </wd-tabs>
+        </view>
+      </view>
     </template>
     <view class="px-10px pt-10px">
       <wd-cell-group>
@@ -106,6 +124,21 @@ page {
 }
 </style>
 <style lang="scss" scoped>
+.top {
+  width: 100%;
+  height: 279px;
+  background-image: url(./static/image/mingxibg.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 120% 100%;
+}
+:deep(.wd-navbar) {
+  width: 100%;
+  background-color: transparent !important;
+}
+:deep(.wd-tabs__line) {
+  background-color: #f44d24 !important;
+}
 :deep(.wd-cell-group),
 :deep(.wd-cell-group__body) {
   @apply bg-transparent!;
