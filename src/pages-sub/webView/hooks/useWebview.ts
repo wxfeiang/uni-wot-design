@@ -1,35 +1,50 @@
-import { getArtacleDetail } from '@/service/api/source'
+import { gethdShophddetail } from '@/service/api/shop'
+import { getArtacleDetail, getDetailUpdateRead } from '@/service/api/source'
 import { useRequest } from 'alova/client'
 const content = ref('')
 const articleTitle = ref('')
 const createTime = ref('')
 
-const { send: sedAarData, loading: Loading } = useRequest((data) => getArtacleDetail(data), {
+const {
+  send: sedAarData,
+  loading: Loading,
+  data: ArticleData,
+} = useRequest((data) => getArtacleDetail(data), {
   immediate: false,
   loading: false,
 })
 
-const AarData = async (articleId) => {
-  const params = {
-    articleId,
-  }
-  try {
-    const data: any = await sedAarData(params)
-    content.value = data.data.data.articleContent ?? ''
-    createTime.value = data.data.data.createTime
-    articleTitle.value = data.data.data.articleTitle
-  } catch (error) {
-    content.value = ''
-    console.log(error)
-  }
-}
+// 获取活动详情
+const { send: getbanner, data: bannerDaata } = useRequest(
+  (data: ActivityParams) => gethdShophddetail(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
+// 获取消息详情
+
+const {
+  send: sendDetailUpdateRead,
+  data: ReadData,
+  loading: DetailUpdateReadDataLoadng,
+} = useRequest((data) => getDetailUpdateRead(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+})
 
 export default () => {
   return {
     content,
-    AarData,
+    sedAarData,
     Loading,
     articleTitle,
     createTime,
+    getbanner,
+    sendDetailUpdateRead,
+    ReadData,
+    ArticleData,
+    bannerDaata,
   }
 }

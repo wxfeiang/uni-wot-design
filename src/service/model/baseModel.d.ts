@@ -17,3 +17,12 @@ export declare interface METHOD_INSTANCE<T = any> {
   loading?: boolean // 是否显示全局loading
   Tips?: boolean // 是否显示全局提示 (默认显示: false)
 }
+
+export declare interface List<T = any> {
+  content: T
+  totalElements?: string
+  size?: number
+  number?: number
+  numberOfElements?: number
+  totalPages?: number
+}

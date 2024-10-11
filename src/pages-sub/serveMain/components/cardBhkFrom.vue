@@ -40,7 +40,8 @@ const { userInfo } = userStore
 const cardUrl1 = ref()
 const cardUrl2 = ref()
 const cardUrl0 = ref()
-
+const dbrCardUrl = ref()
+const dbrCardUrl2 = ref()
 const visible = ref<boolean>(false)
 
 function showKeyBoard() {
@@ -117,6 +118,20 @@ function changeCamearData(cameraData) {
     cardUrl0.value = cameraData.url
     model.value.photoId = cameraData.id
   }
+  if (cameraData.type === 3) {
+    dbrCardUrl.value = cameraData.url
+    model.value.dbrIdCardFrontPhotoId = cameraData.id
+
+    // const { words_result: wordsResult }: any = cameraData.data
+    // model.value.dbrName = wordsResult['姓名'].words
+    // model.value.dbrZjhm = wordsResult['公民身份号码'].words
+    // model.value.dbrSex = changeDict(sexList, wordsResult['性别'].words, 'value', 'label')
+    // model.value.dbrAddress = wordsResult['住址'].words
+  }
+  if (cameraData.type === 4) {
+    dbrCardUrl2.value = cameraData.url
+    model.value.dbrIdCardBackPhotoId = cameraData.id
+  }
 }
 
 const steep = ref(1)
@@ -161,6 +176,84 @@ const handleChange = async (pickerView, value, columnIndex, resolve) => {
 }
 //
 const reasonList = computed(() => reason.filter((v) => v.type.includes(model.value.businessType)))
+
+const footerBtns2 = computed(() => {
+  if (model.value.dbbs === '1') {
+    return [
+      {
+        text: '上一步',
+        size: 'medium',
+        round: false,
+        plain: true,
+        type: 'info',
+        action: 'prev',
+        customClass: 'btn-class',
+      },
+      {
+        text: '下一步',
+        size: 'medium',
+        round: false,
+        plain: true,
+        type: 'info',
+        customClass: 'btn-class',
+        action: 'next',
+      },
+    ]
+  } else {
+    return [
+      {
+        text: '上一步',
+        size: 'medium',
+        round: false,
+        plain: true,
+        type: 'info',
+        customClass: 'btn-class',
+        action: 'prev',
+      },
+      {
+        text: '确认提交',
+        size: 'medium',
+        round: false,
+        plain: true,
+        type: 'primary',
+        action: 'submit',
+        customClass: 'btn-class',
+      },
+    ]
+  }
+})
+const btnClick2 = async (item) => {
+  if (item.action === 'prev') {
+    steep.value -= 1
+  } else if (item.action === 'next') {
+    const status = await submitCard(form.value, 'next')
+    if (status) {
+      steep.value = 3
+    }
+  } else if (item.action === 'submit') {
+    submitCard(form.value)
+  }
+}
+const footerBtns3 = ref([
+  {
+    text: '上一步',
+    size: 'medium',
+    round: false,
+    plain: true,
+    type: 'info',
+    action: 'prev',
+    customClass: 'btn-class',
+  },
+  {
+    text: '确认提交',
+    size: 'medium',
+    round: false,
+    plain: true,
+    type: 'primary',
+    action: 'submit',
+    customClass: 'btn-class',
+  },
+])
 </script>
 <template>
   <view class="p-10px py-20px" v-if="steep == 1">
@@ -351,6 +444,39 @@ const reasonList = computed(() => reason.filter((v) => v.type.includes(model.val
             prop="reason"
             :disabled="!model.businessType"
           />
+          <template v-if="model.isPostcard == '1'">
+            <wd-input
+              label="邮寄人姓名"
+              v-model="model.postcardName"
+              :rules="rules.postcardName"
+              prop="postcardName"
+              label-width="100px"
+              type="text"
+              placeholder="请输入邮寄人姓名"
+              custom-input-class="custom-input-right"
+            />
+            <wd-input
+              label="邮寄人手机号"
+              v-model="model.postcardPhone"
+              :rules="rules.postcardPhone"
+              prop="postcardPhone"
+              label-width="100px"
+              type="text"
+              placeholder="请输入邮寄人手机号"
+              custom-input-class="custom-input-right"
+            />
+
+            <wd-input
+              label="邮寄地址"
+              v-model="model.postcardAddress"
+              :rules="rules.postcardAddress"
+              prop="postcardAddress"
+              label-width="100px"
+              type="text"
+              placeholder="请输入邮寄地址"
+              custom-input-class="custom-input-right"
+            />
+          </template>
           <wd-picker
             :columns="isDbbs"
             custom-value-class="custom-input-right"
@@ -427,47 +553,52 @@ const reasonList = computed(() => reason.filter((v) => v.type.includes(model.val
               custom-input-class="custom-input-right"
             />
           </template>
-
-          <template v-if="model.isPostcard == '1'">
-            <wd-input
-              label="邮寄人姓名"
-              v-model="model.postcardName"
-              :rules="rules.postcardName"
-              prop="postcardName"
-              label-width="100px"
-              type="text"
-              placeholder="请输入邮寄人姓名"
-              custom-input-class="custom-input-right"
-            />
-            <wd-input
-              label="邮寄人手机号"
-              v-model="model.postcardPhone"
-              :rules="rules.postcardPhone"
-              prop="postcardPhone"
-              label-width="100px"
-              type="text"
-              placeholder="请输入邮寄人手机号"
-              custom-input-class="custom-input-right"
-            />
-
-            <wd-input
-              label="邮寄地址"
-              v-model="model.postcardAddress"
-              :rules="rules.postcardAddress"
-              prop="postcardAddress"
-              label-width="100px"
-              type="text"
-              placeholder="请输入邮寄地址"
-              custom-input-class="custom-input-right"
-            />
-          </template>
         </wd-cell-group>
       </wd-form>
     </view>
-    <view class="mt-20px">
-      <wd-button type="primary" :round="false" size="medium" @click="submitCard(form)" block>
-        确认提交
-      </wd-button>
+    <view class="flex gap-15px mt-20px">
+      <view class="flex-1" v-for="(item, index) in footerBtns2" :key="index">
+        <wd-button
+          :round="item.round"
+          block
+          :size="item.size"
+          :type="item.type"
+          @click="btnClick2(item)"
+        >
+          {{ item.text }}
+        </wd-button>
+      </view>
+    </view>
+  </view>
+  <view class="p-10px py-20px" v-if="steep == 3">
+    <view class="rounded-10px overflow-hidden bg-#fff">
+      <wd-form ref="formPhoto" :model="modelPhoto">
+        <view class="mb-20px px-20px">
+          <view @click="upload('3', '1')">
+            <Card-Upload :type="1" :imgUrl="dbrCardUrl" smTitle="代办人" />
+          </view>
+          <view @click="upload('4', '1')">
+            <Card-Upload :type="2" :imgUrl="dbrCardUrl2" smTitle="代办人" />
+          </view>
+        </view>
+      </wd-form>
+    </view>
+    <view class="mt-10px">
+      <wd-text type="warning" text="温馨提示:"></wd-text>
+      请保持证件边框与图片边框基本一致 照片大小为80KB 以内
+    </view>
+    <view class="flex gap-15px mt-20px">
+      <view class="flex-1" v-for="(item, index) in footerBtns3" :key="index">
+        <wd-button
+          :round="item.round"
+          block
+          :size="item.size"
+          :type="item.type"
+          @click="btnClick2(item)"
+        >
+          {{ item.text }}
+        </wd-button>
+      </view>
     </view>
   </view>
   <wd-message-box></wd-message-box>

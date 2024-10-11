@@ -18,8 +18,7 @@ import {
 } from '../types/dict'
 import CardUpload from './CardUpload.vue'
 const message = useMessage()
-const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
-  useCardJuvenApply()
+const { modelPhoto, model, rules, submitCard, submitStatus, statusDel } = useCardJuvenApply()
 const minDate = dayjs('191000101').valueOf()
 const maxDate = dayjs('20991225').valueOf()
 const userStore = useUserStore()
@@ -137,7 +136,7 @@ const footerBtns1 = ref([
     size: 'medium',
     round: false,
     plain: true,
-    type: '',
+    type: 'info',
 
     customClass: 'btn-class',
   },
@@ -146,7 +145,7 @@ const footerBtns1 = ref([
     size: 'medium',
     round: false,
     plain: true,
-    type: '',
+    type: 'primary',
     customClass: 'btn-class',
   },
 ])
@@ -505,36 +504,38 @@ function btnClick3(item) {
             :rules="rules.isPostcard"
             prop="isPostcard"
           />
-          <wd-input
-            label="收件人姓名:"
-            label-width="100px"
-            type="text"
-            v-model="model.postcardName"
-            placeholder="请输入收件人姓名"
-            :rules="rules.postcardName"
-            prop="postcardName"
-            custom-input-class="custom-input-right"
-          />
-          <wd-input
-            label="收件人联系方式:"
-            label-width="100px"
-            type="text"
-            v-model="model.postcardPhone"
-            placeholder="请输入收件人联系方式"
-            :rules="rules.postcardPhone"
-            prop="postcardPhone"
-            custom-input-class="custom-input-right"
-          />
-          <wd-input
-            label="收件人地址:"
-            label-width="100px"
-            type="text"
-            v-model="model.postcardaddress"
-            placeholder="请输入收件人地址"
-            :rules="rules.postcardaddress"
-            prop="postcardaddress"
-            custom-input-class="custom-input-right"
-          />
+          <template v-if="model.isPostcard == '1'">
+            <wd-input
+              label="收件人姓名:"
+              label-width="100px"
+              type="text"
+              v-model="model.postcardName"
+              placeholder="请输入收件人姓名"
+              :rules="rules.postcardName"
+              prop="postcardName"
+              custom-input-class="custom-input-right"
+            />
+            <wd-input
+              label="收件人联系方式:"
+              label-width="100px"
+              type="text"
+              v-model="model.postcardPhone"
+              placeholder="请输入收件人联系方式"
+              :rules="rules.postcardPhone"
+              prop="postcardPhone"
+              custom-input-class="custom-input-right"
+            />
+            <wd-input
+              label="收件人地址:"
+              label-width="100px"
+              type="text"
+              v-model="model.postcardaddress"
+              placeholder="请输入收件人地址"
+              :rules="rules.postcardaddress"
+              prop="postcardaddress"
+              custom-input-class="custom-input-right"
+            />
+          </template>
           <wd-input
             label="永居证中文名"
             v-model="model.idName"

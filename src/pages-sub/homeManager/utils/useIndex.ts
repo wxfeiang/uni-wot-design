@@ -1,6 +1,6 @@
 import { getActivityById, getStdTDCode } from '@/service/api/shop'
 import { receiveCoupon } from '@/service/api/userMessage'
-import { useCaptcha } from 'alova/client'
+import { useCaptcha, useRequest } from 'alova/client'
 import dayjs from 'dayjs'
 
 const activity = ref({})

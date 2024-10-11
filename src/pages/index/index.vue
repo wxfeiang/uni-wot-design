@@ -46,11 +46,14 @@ const {
   topAction,
   specialTypeskeleton,
   sendGetSpecialTypeList,
+  specialTypeList,
   specialTypeLoading,
+
+  sendSwiperList,
+  swiperListData,
+  swiperListLoading,
 } = useIndex()
 async function actionTop2(item: any) {
-  console.log(item)
-
   if (item.specialJumpType === 'WX') {
     openWxChart(item.appId, item.path)
   } else if (item.specialJumpType === 'H5') {
@@ -99,13 +102,12 @@ async function actionTop(item: any) {
 
 function swiperClick(data) {
   const { item } = data
-
-  if (item.type === 'router') {
-    routeTo({ url: item.path, data: { ...item.data } })
-  } else {
+  if (item.shopHdType === 1) {
+    routeTo({ url: item.appUrl, data: { ...item.data } })
+  } else if (item.shopHdType === 0) {
     routeTo({
       url: '/pages-sub/webView/index',
-      data: { type: item.id },
+      data: { type: item.shopHdId, showType: 'banner' },
     })
   }
 }
@@ -135,7 +137,6 @@ function toMessage() {
 
 function toMessageItem(e) {
   const { index } = e
-
   messageClick(mess1.value[index])
 }
 
@@ -146,11 +147,9 @@ const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
 
-const topAction2 = ref([])
-const getSpecialTypeList = async () => {
-  const data: any = await sendGetSpecialTypeList()
-  topAction2.value = data.data.data
-}
+const topAction2 = ref<any>([])
+
+// 获取消息
 
 onLoad(async () => {
   // 设置背景图片
@@ -158,20 +157,38 @@ onLoad(async () => {
   btnbgBase64.value = await pathToBase64(btnbg)
   znbgBase64.value = await pathToBase64(znbg)
 })
-onMounted(async () => {
-  getSpecialTypeList()
+
+onShow(async () => {
+  await sendGetSpecialTypeList()
+  topAction2.value = specialTypeList.value
+
   const mess: any = await sendMessageList({
     page: 1,
     size: 50,
   })
-  mess1.value = mess.data.data.content.filter((i) => i.articleType === '0').slice(0, 5)
 
-  mess2.value = mess.data.data.content.filter((i) => i.articleType === '1').slice(0, 3)
+  await sendSwiperList({
+    page: 1,
+    size: 10,
+    location: 1,
+  })
+
+  mess1.value = mess.content.filter((i) => i.articleType === '0').slice(0, 5)
+  mess2.value = mess.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
 
 const closeAdFlog = ref(true)
 const closeAd = () => {
   closeAdFlog.value = false
+}
+const toWxChart = () => {
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: {
+      showType: 'webView',
+      url: 'https://mp.weixin.qq.com/s?__biz=MzkyOTYzOTg3NQ==&mid=2247483688&idx=1&sn=af447ae94177b1e42fe3b9622d5cde13&chksm=c2073d84f570b492da13ec97251dfe7a4fbefb0ba238cf10001ea375cad6bf36943e9f705011#rd',
+    },
+  })
 }
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
@@ -227,7 +244,7 @@ onPageScroll((e) => {
     </view>
   </view>
   <view class="px-20px pt-10px">
-    <wd-skeleton :row-col="specialTypeskeleton" :loading="specialTypeLoading">
+    <wd-skeleton :row-col="specialTypeskeleton" :loading="specialTypeLoading" animation="flashed">
       <view class="grid grid-cols-5">
         <view
           class="flex flex-col items-center"
@@ -247,6 +264,7 @@ onPageScroll((e) => {
   </view>
 
   <!-- 消息 -->
+
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">
     <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
@@ -273,7 +291,7 @@ onPageScroll((e) => {
 
       <view
         @click.stop="toMessage"
-        class="absolute right-5px top-0 h-100% flex justify-center items-center"
+        class="absolute right-0px top-0 h-100% flex justify-center items-center w-30px"
       >
         <wd-icon name="arrow-right" size="16px" color="#888"></wd-icon>
       </view>
@@ -283,19 +301,26 @@ onPageScroll((e) => {
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="py-3px h-135px swiper px-15px">
-    <wd-swiper
-      :list="swiperList"
-      :autoplay="true"
-      :current="0"
-      :height="135"
-      @click="swiperClick"
-      :indicator="{ type: 'dots-bar' }"
-      custom-indicator-class="custom-indicator-class"
-      value-key="image"
-      imageMode="scaleToFill"
-    ></wd-swiper>
+    <wd-skeleton
+      animation="flashed"
+      :row-col="[{ width: '100%', height: '135px' }]"
+      :loading="swiperListLoading"
+    >
+      <wd-swiper
+        :list="swiperListData?.content"
+        :autoplay="true"
+        :current="0"
+        :height="135"
+        @click="swiperClick"
+        :indicator="{ type: 'dots-bar' }"
+        custom-indicator-class="custom-indicator-class"
+        value-key="shopHdBanner"
+        imageMode="scaleToFill"
+      ></wd-swiper>
+    </wd-skeleton>
   </view>
 
+  <!-- #ifdef MP-WEIXIN -->
   <view v-if="closeAdFlog">
     <wd-gap height="10" bg-color="#fff"></wd-gap>
     <view class="px-15px">
@@ -309,13 +334,20 @@ onPageScroll((e) => {
           <view class="text-14px">关注雄安一卡通公众号</view>
           <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
         </view>
-        <view class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000">立即关注</view>
+        <view
+          class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000"
+          @click="toWxChart"
+        >
+          立即关注
+        </view>
         <view class="absolute top-0 right-0" @click="closeAd">
           <wd-icon name="close-circle" size="22px" color="#E4C29C"></wd-icon>
         </view>
       </view>
     </view>
   </view>
+  <!-- #endif -->
+
   <!-- 服务专区 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">

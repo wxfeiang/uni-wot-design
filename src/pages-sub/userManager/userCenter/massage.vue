@@ -14,7 +14,8 @@ import { removeT } from '@/utils'
 
 import useCenter from './utils/useCenter'
 
-const { sendMessageList, messageClick } = useCenter()
+const { sendHistoryPageByUserId, histotyMessDataLoadng, histotyMessData, messageClick } =
+  useCenter()
 
 defineOptions({
   name: 'messageList',
@@ -42,13 +43,11 @@ const queryList = async (pageNo, pageSize) => {
   const data = {
     page: pageNo,
     size: pageSize,
-    articleType: 1000,
   }
   // 调用接口获取数据
   try {
-    const a = await sendMessageList(data)
-    dataList.value = a.data.data.content
-    paging.value.complete(dataList.value)
+    await sendHistoryPageByUserId(data)
+    paging.value.complete(histotyMessData.value.content)
   } catch (error) {
     paging.value.complete(false)
   }
@@ -56,6 +55,18 @@ const queryList = async (pageNo, pageSize) => {
 const changeTab = (e) => {
   tab.value = e.index
   paging.value.reload()
+}
+const removeHtmlStyle = (html) => {
+  const relStyle = /style\s*?=\s*?(['"])[\s\S]*?\1/g
+  const relTag = /<.+?>/g
+  const relClass = /class\s*?=\s*?(['"])[\s\S]*?\1/g
+  let newHtml = ''
+  if (html) {
+    newHtml = html.replace(relStyle, '')
+    newHtml = newHtml.replace(relTag, '')
+    newHtml = newHtml.replace(relClass, '')
+  }
+  return newHtml
 }
 </script>
 <template>
@@ -81,7 +92,7 @@ const changeTab = (e) => {
           <template #title>
             <view class="relative" @click="messageClick(item)">
               <view>
-                <text class="ml-5px truncate-1">系统消息</text>
+                <text class="ml-5px truncate-1">{{ item.title }}</text>
               </view>
               <!-- <view
                 class="w-10px h-10px rounded-100 absolute top-[-2px] left-[-5px] bg-#E81010"
@@ -99,7 +110,7 @@ const changeTab = (e) => {
           </template>
           <wd-cell clickable title-width="100%" @click="messageClick(item)">
             <template #label>
-              <view class="truncate-5 color-#333">{{ item.articleTitle }}</view>
+              <view class="truncate-5 color-#333">{{ removeHtmlStyle(item.content) }}</view>
               <!-- 模版判断 -->
               <!-- <view class="truncate-5 color-#333" v-if="item.type == 0">{{ item.center }}</view> -->
               <!-- TODO:暂时注释第二个模板 -->

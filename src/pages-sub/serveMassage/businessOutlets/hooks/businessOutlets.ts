@@ -2,6 +2,7 @@ import { getBranchesInfo } from '@/service/api/source'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 
+import { List } from '@/service/model/baseModel'
 import { useBaseStore } from '@/store'
 
 const { userLocation } = useBaseStore()
@@ -10,7 +11,7 @@ const {
   data: cardInfoData,
   send: sendbranchesInfo,
   loading,
-} = useRequest((data) => getBranchesInfo(data), {
+} = useRequest((data) => getBranchesInfo<List>(data), {
   immediate: false,
   loading: false,
 })

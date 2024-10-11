@@ -10,19 +10,44 @@ const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
 
 const GET_SPECIAL_TYPE_LIST = baseUrlApi('/promotion/app/xcxUserAdvice/getSpecialTypeList')
 
+const GET_HISTORY_PAGE_BY_USER_ID = baseUrlApi('/user/app/history/getHistoryPageByUserId')
+const GET_DETAIL_UPDATE_READ = baseUrlApi('/user/app/history/getDetailUpdateRead ')
 /**
  * @description: 获取消息列表
  * @param {} data
  * @return {}
  */
-export function getMessageList(data) {
+export function getHistoryPageByUserId<T>(data) {
+  return request.Post<T>(
+    GET_HISTORY_PAGE_BY_USER_ID, // 请求地址
+    data,
+  )
+}
+/**
+ * @description: 获取消息列表详情
+ * @param {} data
+ * @return {}
+ */
+export function getDetailUpdateRead(data) {
+  return request.Post(
+    GET_DETAIL_UPDATE_READ, // 请求地址
+    data,
+  )
+}
+
+/**
+ * @description: 获取文章列表
+ * @param {} data
+ * @return {}
+ */
+export function getMessageList<T>(data) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
-  return request.Post(
+  return request.Post<T>(
     MESSAGE_LIST, // 请求地址
     data,
     {
@@ -41,7 +66,7 @@ export function getArtacleDetail(data) {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
 
   return request.Post(ARTACLE_DETAIL, data, {
@@ -60,6 +85,7 @@ export function getBranchesInfo<T>(data: any) {
     ignorEencrypt: true,
     ignorToken: true,
     Analysis: true,
+    loading: true,
   }
 
   return request.Post<T>(GET_BRANCHES_INFO, data, {
@@ -90,7 +116,7 @@ export const getSpecialTypeList = (data) => {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
   return request.Post(GET_SPECIAL_TYPE_LIST, data, { meta })
 }

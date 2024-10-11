@@ -29,6 +29,8 @@ const GET_STD_TD_CODE = baseUrlApi('/member/app/QrCode/getStdTDCodeApp')
 const CHANGE_ORDER_STUTAS = baseUrlApi('/trade/app/XcxPayment/updateOrderStatus')
 const EVALUATION_LIST = baseUrlApi('/product/app/evaluation/list')
 const EVALUATION_ADD = baseUrlApi('/product/app/evaluation/saveOrUpdate')
+const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
+const GET_MERCHANT_SERVICES_COUNT = baseUrlApi('/order/manage//getMerchantServicesCount')
 
 /**
  *   商品评价新增
@@ -332,6 +334,8 @@ const LOG_ISTICS_INFO = baseUrlApi('/order/app/getPath')
 const GET_ORDER_INFO_JF = baseUrlApi('/promotion/app/h5/exchangeGoods/getExchangeGoodsInfo')
 const UPDATA_ORDER_STATUS = baseUrlApi('/order/app/manage/updateOrderBeanStatusById')
 
+const HD_SHOPHD_DETAIL = baseUrlApi('/promotion/app/hdShophd/getDetail')
+
 /**
  *   获取订单列表
  * @param params 初始参数()
@@ -571,6 +575,15 @@ export const getActivityList = <T>(params) => request.Post<T>(GET_ACTIVITY_LIST,
  */
 export const getActivityById = <T>(params: ActivityParams) => {
   return request.Post<T>(GET_ACTIVITY_BY_ID, params)
+}
+
+/**
+ * 轮播图详情
+ * @param params  banner
+ * @returns
+ */
+export const gethdShophddetail = <T>(data) => {
+  return request.Post<T>(HD_SHOPHD_DETAIL, data)
 }
 
 /**

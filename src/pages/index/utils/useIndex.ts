@@ -15,6 +15,7 @@ import jinxonghutong from '@/static/images/index/8.png'
 import xajft2 from '@/static/images/index/xajf.png'
 import xasb from '@/static/images/index/xasb.png'
 
+import { getActivityList } from '@/service/api/shop'
 import jtcx from '@/static/images/index/jtcx.png'
 import kfw from '@/static/images/index/kfw.png'
 import mfw from '@/static/images/index/mfw.png'
@@ -209,7 +210,18 @@ const serviceArea = ref([
     id: '1710488285782016012',
   },
 ])
-// 消息列表
+
+// 轮播图
+const {
+  send: sendSwiperList,
+  data: swiperListData,
+  loading: swiperListLoading,
+} = useRequest((data) => getActivityList(data), {
+  immediate: false,
+  loading: true,
+})
+
+// 文章列表
 const {
   send: sendMessageList,
   data: messageData,
@@ -264,7 +276,11 @@ export default () => {
     topAction,
     topAction2,
     sendGetSpecialTypeList,
+    specialTypeList,
     specialTypeLoading,
     specialTypeskeleton,
+    sendSwiperList,
+    swiperListData,
+    swiperListLoading,
   }
 }

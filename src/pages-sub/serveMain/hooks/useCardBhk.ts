@@ -1,9 +1,4 @@
-import {
-  changeCardData,
-  getBranchesInfoSlect,
-  getCardcheckInfo,
-  uploadPhoneInfo,
-} from '@/service/api/cardServe'
+import { changeCardData, getBranchesInfoSlect, getCardcheckInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
@@ -47,20 +42,12 @@ const modelPhoto = ref({
   url2: '',
 })
 
-const {
-  loading: loadingPhoto,
-  send: sendPhoto,
-  onSuccess: photoSucess,
-} = useRequest((data) => uploadPhoneInfo(data), {
-  immediate: false,
-  loading: false,
-})
 const bankBranchList = []
 // 补卡信息提交
 const model = ref({
   name: userInfo.userName,
   idCardNumber: userInfo.idCardNumber,
-  sex: userInfo.sex,
+  sex: userInfo.sex || 0,
   nation: '01',
   phoneNumber: userInfo.userPhone,
   mailAddress: '',
@@ -105,7 +92,7 @@ const rules = {
   endDate: [{ required: true, message: '请选择结束时间', trigger: 'change' }],
   work: [{ required: true, message: '请输入工作单位', trigger: 'blur' }],
   bankCode: [{ required: true, message: '请选择开户银行', trigger: 'change' }],
-  bankBranchCode: [{ required: true, message: '请选择开户网点', trigger: 'change' }],
+  bankBranchCode: [{ required: true, message: '请选择申领网点', trigger: 'change' }],
   businessType: [{ required: true, message: '请选择业务类型', trigger: 'change' }],
   reason: [{ required: true, message: '请选择补卡原因', trigger: 'change' }],
   photoId: [{ required: true, message: '请上传照片', trigger: 'change' }],
@@ -141,23 +128,26 @@ const { loading: loading3, send: sendBranchesInfos } = useRequest((data) => chan
 const statusDel = ref<statusTisProps>()
 const submitStatus = ref(false)
 
-const submitCard = (form) => {
-  form.validate().then(async ({ valid, errors }) => {
-    if (valid) {
-      try {
-        const params = cloneDeep(model.value)
-        params.startDate = dayjs(params.startDate).format('YYYYMMDD')
-        params.endDate = dayjs(params.endDate).format('YYYYMMDD')
+const submitCard = async (form, flog?: any) => {
+  const { valid } = await form.validate()
+  if (flog) {
+    return valid
+  }
+  if (valid) {
+    try {
+      const params = cloneDeep(model.value)
+      params.startDate = dayjs(params.startDate).format('YYYYMMDD')
+      params.endDate = dayjs(params.endDate).format('YYYYMMDD')
 
-        const data: any = await sendCardData(params)
+      const data: any = await sendCardData(params)
 
-        submitStatus.value = true
-        statusDel.value = data
-      } catch (error) {
-        console.log('数据校验失败')
-      }
+      submitStatus.value = true
+      statusDel.value = data
+    } catch (error) {
+      console.log('数据校验失败')
+      return false
     }
-  })
+  }
 }
 
 export default () => {
@@ -176,8 +166,7 @@ export default () => {
     loading,
     loading2,
     read,
-    sendPhoto,
-    loadingPhoto,
+
     loadingBranches,
     sendBranches,
   }

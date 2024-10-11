@@ -69,7 +69,7 @@ const bankLogoList = ref([
 function getLogo(data: string) {
   return bankLogoList.value.find((item) => data.indexOf(item.title) !== -1)?.logo ?? defaultImg
 }
-const { sendbranchesInfo, loading } = useBusinessOutlets()
+const { sendbranchesInfo, loading, cardInfoData } = useBusinessOutlets()
 
 function toPhone(e) {
   uni.makePhoneCall({
@@ -114,11 +114,8 @@ const queryList = async (pageNo, pageSize) => {
       longitude: baseStore.userLocation?.longitude?.toString(),
       dimension: baseStore.userLocation?.latitude?.toString(),
     }
-    uni.showLoading({ title: '加载中' })
-    const res: any = await sendbranchesInfo(params)
-
-    dataList.value = res.content
-    paging.value.complete(dataList.value)
+    await sendbranchesInfo(params)
+    paging.value.complete(cardInfoData.value.content)
   } catch (error) {
     console.log('🥒[error]:', error)
     paging.value.complete(false)

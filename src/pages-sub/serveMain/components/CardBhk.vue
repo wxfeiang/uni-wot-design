@@ -45,22 +45,21 @@ async function toApply(item) {
   })
 }
 const footerBtns = ref([
+  // {
+  //   text: '非本人办理',
+  //   type: 'info',
+  //   size: 'medium',
+  //   round: false,
+  //   plain: true,
+  //   customClass: 'btn-class',
+  //   isPeople: true,
+  // },
   {
-    text: '非本人办理',
-    type: 'info',
+    text: '立即办理',
     size: 'medium',
     round: false,
     plain: true,
     customClass: 'btn-class',
-    isPeople: true,
-  },
-  {
-    text: '本人办理',
-    size: 'medium',
-    round: false,
-    plain: true,
-    customClass: 'btn-class',
-
     isPeople: false,
     data: { base: 'shebaokbh', title: '社保卡补换信息' },
   },
