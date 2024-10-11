@@ -325,6 +325,7 @@ onPageScroll((e) => {
     </wd-skeleton>
   </view>
 
+  <!-- #ifdef MP-WEIXIN -->
   <view v-if="closeAdFlog">
     <wd-gap height="10" bg-color="#fff"></wd-gap>
     <view class="px-15px">
@@ -350,6 +351,8 @@ onPageScroll((e) => {
       </view>
     </view>
   </view>
+  <!-- #endif -->
+
   <!-- 服务专区 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">

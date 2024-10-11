@@ -65,7 +65,7 @@ onLoad(async (options) => {
         </view>
       </view>
     </view>
-    <view class="p-20px">
+    <view class="py-20px px-10px">
       <dy-richtext
         :html="cuurentData.content || cuurentData.articleContent || cuurentData.shopHdDesc"
       ></dy-richtext>
