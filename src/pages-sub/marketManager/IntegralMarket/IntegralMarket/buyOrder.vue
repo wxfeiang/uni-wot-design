@@ -173,41 +173,35 @@ onShow(async (options) => {
           <!--              <text>￥{{ item.deliveryAmount }}</text>-->
           <!--            </view>-->
           <!--          </view>-->
-          <view
-            class="w-full flex justify-between items-center mt-15px"
-            v-if="opData.goodSort === '2'"
-          >
-            <view class="mr-50px">配送方式</view>
+          <view class="w-full flex justify-between items-center mt-15px">
+            <view class="mr-50px text-#999999">订单运费</view>
             <view class="flex items-center">
-              <text class="mr-5px">{{ actions[deliveryMode].name }}</text>
-              <wd-icon name="arrow-right" size="20px"></wd-icon>
+              <text class="mr-5px">包邮</text>
             </view>
           </view>
 
           <view class="w-full flex justify-between items-center mt-15px">
-            <view class="mr-50px">备注留言</view>
-            <wd-input
-              type="text"
-              v-model="orderNote"
-              placeholder="无备注"
-              no-border
-              custom-input-class="inp"
-              style="flex: 1; text-align: right"
-            />
+            <view class="mr-50px text-#999999">所需积分</view>
+            <view class="flex items-center">
+              <text class="mr-5px">{{ opData.coinPrice }}</text>
+            </view>
           </view>
         </view>
       </view>
     </view>
 
-    <view class="p4 fixed b0 w-full box-border" style="bottom: 0px">
-      <wd-button
-        block
-        custom-class="custom-class-mine-error"
-        :round="false"
+    <view class="p4 fixed pos-bottom-none w-full box-border flex justify-between bg-white">
+      <view class="flex items-baseline pt-5px">
+        <wd-text text="合计积分：" color="#666666" size="16px"></wd-text>
+        <wd-text :text="opData.coinPrice" color="#F44D24" bold size="24px"></wd-text>
+        <wd-text text=" 积分" color="#F44D24" size="12px"></wd-text>
+      </view>
+      <view
+        class="bg-#F44D24 text-white w-103px line-height-40px border-rd-6px text-center"
         @click="submitExchangeGoods"
       >
-        提交兑换
-      </wd-button>
+        兑换
+      </view>
     </view>
 
     <!-- 兑换成功 -->
