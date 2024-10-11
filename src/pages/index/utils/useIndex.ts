@@ -217,7 +217,7 @@ const {
   send: sendSwiperList,
   data: swiperListData,
   loading: swiperListLoading,
-} = useRequest((data) => getActivityList(data), {
+} = useRequest((data) => getActivityList<List>(data), {
   immediate: false,
   loading: true,
 })

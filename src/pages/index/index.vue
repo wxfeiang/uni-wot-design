@@ -301,7 +301,7 @@ onPageScroll((e) => {
       :loading="swiperListLoading"
     >
       <wd-swiper
-        :list="swiperListData?.content"
+        :list="swiperListData.content"
         :autoplay="true"
         :current="0"
         :height="135"
