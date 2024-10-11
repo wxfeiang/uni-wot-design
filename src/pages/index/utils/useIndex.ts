@@ -220,6 +220,7 @@ const {
 } = useRequest((data) => getActivityList<List>(data), {
   immediate: false,
   loading: true,
+  initialData: [] as List[],
 })
 
 // 文章列表

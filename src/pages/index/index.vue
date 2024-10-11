@@ -1,4 +1,3 @@
-<!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
 <route lang="json5" type="home">
 {
   layout: 'default',
@@ -8,7 +7,6 @@
   },
 }
 </route>
-
 <script lang="ts" setup>
 import bgTip from '@/static/images/index/bgTip.png'
 import btnbg from '@/static/images/index/btnbg.png'
@@ -301,7 +299,7 @@ onPageScroll((e) => {
       :loading="swiperListLoading"
     >
       <wd-swiper
-        :list="swiperListData.content"
+        :list="swiperListData!.content"
         :autoplay="true"
         :current="0"
         :height="135"
