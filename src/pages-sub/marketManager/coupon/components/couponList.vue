@@ -33,7 +33,7 @@ const statusCoupopnList = ref([
   {
     statsSrc: '',
     btnText: '去使用',
-    btnShow: true,
+    btnShow: false,
   },
   {
     statsSrc: status1,
