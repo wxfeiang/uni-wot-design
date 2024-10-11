@@ -12,7 +12,6 @@
 <script lang="ts" setup>
 import bgTip from '@/static/images/index/bgTip.png'
 import btnbg from '@/static/images/index/btnbg.png'
-import indexbg from '@/static/images/index/indexbg.png'
 import msgicon from '@/static/images/index/msgicon.png'
 import znbg from '@/static/images/index/znbg.png'
 import znlogo from '@/static/images/index/znlogo.png'
@@ -143,7 +142,9 @@ function toMessageItem(e) {
 const mess1 = ref<messProps[]>([])
 const mess2 = ref<messProps[]>([])
 
-const topbgBase64 = ref('')
+const topbgBase64 = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/3ce4fcc4-5f4e-4acd-a3e5-238085a09388j95TiPFo8STT8ed4b7daa361d320ff446f49a4aa7467.png',
+)
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
 
@@ -153,7 +154,6 @@ const topAction2 = ref<any>([])
 
 onLoad(async () => {
   // 设置背景图片
-  topbgBase64.value = await pathToBase64(indexbg)
   btnbgBase64.value = await pathToBase64(btnbg)
   znbgBase64.value = await pathToBase64(znbg)
 })
@@ -300,7 +300,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px swiper px-15px">
+  <view class="py-3px h-135px swiper px-15px rounded-4px overflow-hidden">
     <wd-skeleton
       animation="flashed"
       :row-col="[{ width: '100%', height: '135px' }]"
