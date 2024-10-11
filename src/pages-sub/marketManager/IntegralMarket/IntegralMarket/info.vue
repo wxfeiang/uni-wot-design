@@ -13,7 +13,24 @@ import { goodsInfoProps } from './utils/types'
 import useInter from './utils/useInter'
 
 const title = ref('商品详情')
-
+const step = ref([
+  {
+    text: '选择商品',
+    icon: 'goods',
+  },
+  {
+    text: '填写收货信息',
+    icon: 'location',
+  },
+  {
+    text: '积分支付',
+    icon: 'layers',
+  },
+  {
+    text: '等待发货',
+    icon: 'home1',
+  },
+])
 const { sendInterProductInfo, sendInterInfo } = useInter()
 const gopath = () => {
   routeTo({
@@ -108,15 +125,26 @@ onLoad(async (option) => {
         custom-class="font-bold mb-2"
       ></wd-text>
 
-      <view class="flex justify-left items-center borders pt-2 pb-2 mt-2 mb-2">
-        <wd-text text="兑换规则" :lines="1" size="14px" color="#000000"></wd-text>
-        <wd-text
-          :text="goodsInfoData.exchangeNotes"
-          :lines="1"
-          size="14px"
-          color="#777777"
-          custom-class="ml-2"
-        ></wd-text>
+      <view class="p-10px box-border bg-#F7F7F7 border-rd-6px">
+        <wd-text text="兑换流程" bold size="16px" color="#000"></wd-text>
+
+        <view class="w-full mt-10px">
+          <wd-steps :active="0" align-center>
+            <wd-step v-for="it in step" :key="it.icon">
+              <template #icon>
+                <wd-icon :name="it.icon" size="22px" color="#999999"></wd-icon>
+              </template>
+              <template #title>
+                <wd-text
+                  :text="it.text"
+                  size="14px"
+                  color="#999999"
+                  custom-class="mt-5px "
+                ></wd-text>
+              </template>
+            </wd-step>
+          </wd-steps>
+        </view>
       </view>
 
       <view class="mt-2 mb-1">
@@ -175,6 +203,10 @@ onLoad(async (option) => {
   background-image: url('https://oss.xay.xacloudy.cn/images/2024-09/5066fcb4-00df-4f6a-8641-3bba21c8b824jifenbg.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+
+:deep(.wd-step__icon) {
+  background-color: #f7f7f7 !important;
 }
 
 :deep(.wd-navbar) {
