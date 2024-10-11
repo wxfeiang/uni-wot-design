@@ -13,7 +13,7 @@ import { routeTo, changeUrlJson } from '@/utils'
 import quanbg from '../../static/images/integral/quanbg.png'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 
-const title = ref('兑换结果')
+const title = ref('积分兑换结果')
 const description = ref('积分商品一但兑换不支持退换')
 const gopath = () => {
   routeTo({
