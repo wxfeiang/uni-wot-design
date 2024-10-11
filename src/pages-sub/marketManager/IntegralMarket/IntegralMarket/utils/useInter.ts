@@ -3,6 +3,7 @@ import {
   getExchangeGoodsInfo,
   getExchangeGoodsList,
   getIntegralInfo,
+  getPointsInfoRecordPage,
 } from '@/service/api/integral'
 import { useRequest } from 'alova/client'
 import { goodsInfoProps } from './types'
@@ -15,6 +16,12 @@ const { send: sendInterInfo } = useRequest((data) => getIntegralInfo(data), {
 
 // 查询积分商品列表
 const { send: sendInterProductList, loading } = useRequest((data) => getExchangeGoodsList(data), {
+  immediate: false,
+  loading: false,
+})
+
+// 查询积分兑换列表
+const { send: sendPointsInfoRecordPage } = useRequest((data) => getPointsInfoRecordPage(data), {
   immediate: false,
   loading: false,
 })
@@ -35,5 +42,11 @@ const { send: sendExchangeGoods } = useRequest((data) => exchangeGoods(data), {
 })
 
 export default () => {
-  return { sendInterProductList, sendInterInfo, sendInterProductInfo, sendExchangeGoods }
+  return {
+    sendInterProductList,
+    sendInterInfo,
+    sendInterProductInfo,
+    sendExchangeGoods,
+    sendPointsInfoRecordPage,
+  }
 }

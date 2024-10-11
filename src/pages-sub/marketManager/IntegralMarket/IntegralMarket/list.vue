@@ -81,7 +81,14 @@ onLoad(async () => {
           </view>
           <view class="text-xs text-slate-100 opacity-60">积分可兑换商品，避免失效请尽快使用</view>
         </view>
-        <view class="font-size-14px text-#F44D24 bg-white px-20px py-5px border-rd-50px">
+        <view
+          class="font-size-14px text-#F44D24 bg-white px-20px py-5px border-rd-50px"
+          @click="
+            routeTo({
+              url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/exchangeRecords',
+            })
+          "
+        >
           兑换记录
         </view>
       </view>

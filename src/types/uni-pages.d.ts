@@ -48,6 +48,7 @@ interface NavigateToOptions {
        "/pages-sub/marketManager/integral/index" |
        "/pages-sub/marketManager/integral/interList" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/buyOrder" |
+       "/pages-sub/marketManager/IntegralMarket/IntegralMarket/exchangeRecords" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/info" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/list" |
        "/pages-sub/marketManager/IntegralMarket/IntegralMarket/virtualGoods" |

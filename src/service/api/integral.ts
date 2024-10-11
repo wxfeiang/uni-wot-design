@@ -8,6 +8,24 @@ const GET_INTEGRAL_INFO = baseUrlApi('/member/app/integral/getIntegralInfo')
 const GET_EXCHANGE_GOODS_INFO = baseUrlApi('/promotion/app/h5/exchangeGoods/getExchangeGoodsInfo')
 
 const EXCHANGE_GOODS = baseUrlApi('/promotion/app/h5/exchangeGoods/exchangeGoods')
+const GET_PRINTS_INFO_RECORD = baseUrlApi('/promotion/app/point/getPointsInfoRecordPage')
+
+/**
+ *  获取积分兑换列表
+ * @param params
+ * */
+export function getPointsInfoRecordPage(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_PRINTS_INFO_RECORD, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *   获取我的可用积分
