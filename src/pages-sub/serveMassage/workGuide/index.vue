@@ -10,17 +10,14 @@
 </route>
 
 <script lang="ts" setup>
-import useNav from '@/hooks/useNav'
 import { removeT } from '@/utils/index'
 import useNews from './hooks/useGurid'
 
-const { sendMessageList, messageClick } = useNews()
-const { navTop } = useNav()
+const { sendMessageList, messageData, messageClick } = useNews()
 
 defineOptions({
   name: 'workGuide',
 })
-const { safeAreaInsets } = uni.getSystemInfoSync()
 
 const paging = ref(null)
 const dataList = ref([])
@@ -32,9 +29,8 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    const a: any = await sendMessageList(data)
-    dataList.value = a.data.data.content
-    paging.value.complete(dataList.value)
+    await sendMessageList(data)
+    paging.value.complete(messageData.value.content)
   } catch (error) {
     paging.value.complete(false)
   }

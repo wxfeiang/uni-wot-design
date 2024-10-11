@@ -1,5 +1,6 @@
 import { getDetailUpdateRead, getHistoryPageByUserId } from '@/service/api/source'
 import { addBusinessAdvice } from '@/service/api/userMessage'
+import { List } from '@/service/model/baseModel'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 // 消息列表
@@ -8,7 +9,7 @@ const {
   send: sendHistoryPageByUserId,
   data: histotyMessData,
   loading: histotyMessDataLoadng,
-} = useRequest((data) => getHistoryPageByUserId(data), {
+} = useRequest((data) => getHistoryPageByUserId<List>(data), {
   immediate: false,
   loading: false,
   initialData: {} as any,

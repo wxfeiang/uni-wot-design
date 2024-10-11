@@ -47,8 +47,7 @@ const queryList = async (pageNo, pageSize) => {
   // 调用接口获取数据
   try {
     await sendHistoryPageByUserId(data)
-    dataList.value = histotyMessData.value.content
-    paging.value.complete(dataList.value)
+    paging.value.complete(histotyMessData.value.content)
   } catch (error) {
     paging.value.complete(false)
   }

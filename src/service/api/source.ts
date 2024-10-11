@@ -17,8 +17,8 @@ const GET_DETAIL_UPDATE_READ = baseUrlApi('/user/app/history/getDetailUpdateRead
  * @param {} data
  * @return {}
  */
-export function getHistoryPageByUserId(data) {
-  return request.Post(
+export function getHistoryPageByUserId<T>(data) {
+  return request.Post<T>(
     GET_HISTORY_PAGE_BY_USER_ID, // 请求地址
     data,
   )
@@ -40,14 +40,14 @@ export function getDetailUpdateRead(data) {
  * @param {} data
  * @return {}
  */
-export function getMessageList(data) {
+export function getMessageList<T>(data) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
-  return request.Post(
+  return request.Post<T>(
     MESSAGE_LIST, // 请求地址
     data,
     {
@@ -85,6 +85,7 @@ export function getBranchesInfo<T>(data: any) {
     ignorEencrypt: true,
     ignorToken: true,
     Analysis: true,
+    loading: true,
   }
 
   return request.Post<T>(GET_BRANCHES_INFO, data, {

@@ -14,7 +14,7 @@ import { removeT } from '@/utils'
 import { messProps } from './hooks/types'
 import useNews from './hooks/useNews'
 
-const { sendMessageList, messageClick } = useNews()
+const { sendMessageList, messageClick, messageData } = useNews()
 
 defineOptions({
   name: 'messageList',
@@ -46,9 +46,8 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    const a = await sendMessageList(data)
-    dataList.value = a.data.data.content
-    paging.value.complete(dataList.value)
+    await sendMessageList(data)
+    paging.value.complete(messageData.value.content)
   } catch (error) {
     paging.value.complete(false)
   }
