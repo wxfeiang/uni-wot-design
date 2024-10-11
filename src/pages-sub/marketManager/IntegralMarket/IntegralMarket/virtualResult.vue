@@ -14,6 +14,7 @@ import quanbg from '../../static/images/integral/quanbg.png'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 
 const title = ref('兑换结果')
+const description = ref('积分商品一但兑换不支持退换')
 const gopath = () => {
   routeTo({
     url: '/pages/shop/index',
@@ -22,11 +23,12 @@ const gopath = () => {
 }
 const opData = ref()
 
-const goodsInfoData = ref({})
-
 onLoad(async (option) => {
   console.log('opData', opData.value, option)
   opData.value = { ...changeUrlJson(option) }
+  if (opData.value.goodSort === '4') {
+    description.value = '优惠券一经兑换无法退回'
+  }
 })
 </script>
 
@@ -45,13 +47,13 @@ onLoad(async (option) => {
     <view class="cardtop"></view>
     <view class="bg-white w-screen p4 box-border pt-0 absolute contentBox">
       <wd-cell-group>
-        <wd-cell title="消耗积分" :value="opData.consumePoints" />
+        <wd-cell title="消耗积分" :value="opData.consumePoints || opData.coinPrice" />
         <wd-cell title="兑换单号" :value="opData.orderNo" />
-        <wd-cell title="兑换时间" :value="opData.createTime" />
-        <wd-cell title="特别说明" :value="opData.description" />
+        <wd-cell title="兑换时间" :value="opData.createTime || opData.exchangeTime" />
+        <wd-cell title="特别说明" title-width="100px" :value="opData.description || description" />
       </wd-cell-group>
-
-      <view class="w-full mt-30px flex">
+      <!-- 优惠券 -->
+      <view class="w-full mt-30px flex" v-if="opData.goodSort === '4'">
         <view class="pos-relative">
           <wd-img :src="quanbg" :width="90" :height="70"></wd-img>
           <view
@@ -73,11 +75,25 @@ onLoad(async (option) => {
           </view>
         </view>
       </view>
+      <!-- 商品 -->
+      <view class="w-full mt-30px flex" v-else>
+        <view class="w-83px">
+          <wd-img :width="83" :height="75" :src="opData.goodImg"></wd-img>
+        </view>
+        <view class="ml-10px flex-1 flex flex-col justify-between">
+          <wd-text :text="opData.goodName" bold :lines="2" color="#000" size="16px"></wd-text>
+          <view>
+            <wd-text :text="opData.coinPrice" color="#FF4345" bold size="18px"></wd-text>
+            <wd-text text="积分 " color="#FF4345" size="12px"></wd-text>
+          </view>
+        </view>
+      </view>
     </view>
 
     <view
       class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border pb-20px flex"
       style="bottom: 0px"
+      v-if="opData.createTime"
     >
       <wd-button
         block
