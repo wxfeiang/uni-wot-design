@@ -111,12 +111,14 @@ export function getSerchList(data: any) {
   })
 }
 
-export const getSpecialTypeList = (data) => {
+export function getSpecialTypeList<T>(data) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
     Analysis: true,
   }
-  return request.Post(GET_SPECIAL_TYPE_LIST, data, { meta })
+  return request.Post<T>(GET_SPECIAL_TYPE_LIST, data, {
+    meta,
+  })
 }

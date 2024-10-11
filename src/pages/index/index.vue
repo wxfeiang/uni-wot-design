@@ -39,15 +39,14 @@ const toast = useToast()
 const {
   messageClick,
   sendMessageList,
+  messageData,
   messageLoading,
-  swiperList,
   serviceArea,
   topAction,
   specialTypeskeleton,
   sendGetSpecialTypeList,
   specialTypeList,
   specialTypeLoading,
-
   sendSwiperList,
   swiperListData,
   swiperListLoading,
@@ -60,9 +59,6 @@ async function actionTop2(item: any) {
       toast.show('功能开发中，敬请期待!...')
     } else {
       return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.NAVIGATE_TO })
-
-      // let str='/pages-sub/serveMain/cardFromType?base=changeCardPwd&title=服务密码管理'
-      // return routeTo({ url: str, navType: NAVIGATE_TYPE.NAVIGATE_TO })
     }
   }
 }
@@ -161,20 +157,18 @@ onLoad(async () => {
 onShow(async () => {
   await sendGetSpecialTypeList()
   topAction2.value = specialTypeList.value
-
-  const mess: any = await sendMessageList({
+  await sendMessageList({
     page: 1,
     size: 50,
   })
-
   await sendSwiperList({
     page: 1,
     size: 10,
     location: 1,
   })
 
-  mess1.value = mess.content.filter((i) => i.articleType === '0').slice(0, 5)
-  mess2.value = mess.content.filter((i) => i.articleType === '1').slice(0, 3)
+  mess1.value = messageData.value.content.filter((i) => i.articleType === '0').slice(0, 5)
+  mess2.value = messageData.value.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
 
 const closeAdFlog = ref(true)

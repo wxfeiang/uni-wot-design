@@ -16,6 +16,7 @@ import xajft2 from '@/static/images/index/xajf.png'
 import xasb from '@/static/images/index/xasb.png'
 
 import { getActivityList } from '@/service/api/shop'
+import { List } from '@/service/model/baseModel'
 import jtcx from '@/static/images/index/jtcx.png'
 import kfw from '@/static/images/index/kfw.png'
 import mfw from '@/static/images/index/mfw.png'
@@ -227,7 +228,7 @@ const {
   data: messageData,
   onSuccess: messageSucess,
   loading: messageLoading,
-} = useRequest((data) => getMessageList(data), {
+} = useRequest((data) => getMessageList<List>(data), {
   immediate: false,
   loading: false,
   initialData: [],
@@ -244,7 +245,7 @@ const {
   send: sendGetSpecialTypeList,
   data: specialTypeList,
   loading: specialTypeLoading,
-} = useRequest((params) => getSpecialTypeList(params), {
+} = useRequest((params) => getSpecialTypeList<List>(params), {
   immediate: false,
   loading: false,
 })
