@@ -46,6 +46,7 @@ const {
   topAction,
   specialTypeskeleton,
   sendGetSpecialTypeList,
+  specialTypeList,
   specialTypeLoading,
 
   sendSwiperList,
@@ -53,8 +54,6 @@ const {
   swiperListLoading,
 } = useIndex()
 async function actionTop2(item: any) {
-  console.log(item)
-
   if (item.specialJumpType === 'WX') {
     openWxChart(item.appId, item.path)
   } else if (item.specialJumpType === 'H5') {
@@ -138,7 +137,6 @@ function toMessage() {
 
 function toMessageItem(e) {
   const { index } = e
-
   messageClick(mess1.value[index])
 }
 
@@ -149,11 +147,8 @@ const topbgBase64 = ref('')
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
 
-const topAction2 = ref([])
-const getSpecialTypeList = async () => {
-  const data: any = await sendGetSpecialTypeList()
-  topAction2.value = data.data.data
-}
+const topAction2 = ref<any>([])
+
 // 获取消息
 
 onLoad(async () => {
@@ -163,8 +158,9 @@ onLoad(async () => {
   znbgBase64.value = await pathToBase64(znbg)
 })
 
-onMounted(async () => {
-  getSpecialTypeList()
+onShow(async () => {
+  await sendGetSpecialTypeList()
+  topAction2.value = specialTypeList.value
 
   const mess: any = await sendMessageList({
     page: 1,
@@ -296,7 +292,7 @@ onPageScroll((e) => {
 
       <view
         @click.stop="toMessage"
-        class="absolute right-5px top-0 h-100% flex justify-center items-center"
+        class="absolute right-0px top-0 h-100% flex justify-center items-center w-30px"
       >
         <wd-icon name="arrow-right" size="16px" color="#888"></wd-icon>
       </view>

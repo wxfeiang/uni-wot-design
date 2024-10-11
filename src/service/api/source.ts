@@ -115,7 +115,7 @@ export const getSpecialTypeList = (data) => {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
   return request.Post(GET_SPECIAL_TYPE_LIST, data, { meta })
 }

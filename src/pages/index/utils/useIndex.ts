@@ -276,6 +276,7 @@ export default () => {
     topAction,
     topAction2,
     sendGetSpecialTypeList,
+    specialTypeList,
     specialTypeLoading,
     specialTypeskeleton,
     sendSwiperList,
