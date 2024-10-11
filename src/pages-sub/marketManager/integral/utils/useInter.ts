@@ -1,7 +1,14 @@
 import { findXcxScoreUser, getInterList, interSignIn } from '@/service/api/userMessage'
 import { useRequest } from 'alova/client'
+import { getExchangeGoodsList } from '@/service/api/integral'
 // 查询信息
 const { send: sendInterInfo, loading } = useRequest((data) => findXcxScoreUser(data), {
+  immediate: false,
+  loading: false,
+})
+
+// 查询积分商品列表
+const { send: sendInterProductList } = useRequest((data) => getExchangeGoodsList(data), {
   immediate: false,
   loading: false,
 })
@@ -19,5 +26,5 @@ const { send: sendSign } = useRequest((data) => interSignIn(data), {
 })
 
 export default () => {
-  return { sendMessageList, loading, sendInterInfo, sendSign }
+  return { sendMessageList, loading, sendInterInfo, sendSign, sendInterProductList }
 }
