@@ -11,9 +11,9 @@
 <script lang="ts" setup>
 import { removeT } from '@/utils'
 import { signInDetailRopos } from './utils/types'
-import mingxibtn from './static/image/mingxibtn.png'
-import mingxilogo from './static/image/mingxilogo.png'
-import mingxititle from './static/image/mingxititle.png'
+import mingxibtn from '../static/images/integral/mingxibtn.png'
+import mingxilogo from '../static/images/integral/mingxilogo.png'
+import mingxititle from '../static/images/integral/mingxititle.png'
 import useInter from './utils/useInter'
 const { sendMessageList } = useInter()
 
@@ -127,7 +127,7 @@ page {
 .top {
   width: 100%;
   height: 279px;
-  background-image: url(./static/image/mingxibg.png);
+  background-image: url(../static/images/integral/mingxibg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 120% 100%;
