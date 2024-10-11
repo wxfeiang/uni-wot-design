@@ -406,15 +406,6 @@
           }
         },
         {
-          "path": "userCenter/messDeil",
-          "type": "page",
-          "layout": "default",
-          "needLogin": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "userCenter/suggest",
           "type": "page",
           "layout": "default",

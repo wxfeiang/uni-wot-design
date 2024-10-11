@@ -28,22 +28,14 @@ const showType = ref()
 const webUrl = ref('')
 const cuurentData = ref({})
 onLoad(async (options) => {
-  console.log('🍑[options]=======:', options)
   showType.value = options.showType
   showTop.value = options.showTop
   title.value = options.title ? decodeURIComponent(options.title) : '详情'
   if (showType.value === 'webView') {
     webUrl.value = decodeURIComponent(options.url)
   } else if (showType.value === 'banner') {
-    const params: ActivityParams = {
-      id: options.type,
-      userDId: userStore.userInfo.userDId,
-      userId: userStore.userInfo.userDId,
-    }
-    // await getbanner(params)
-    // cuurentData.value = bannerDaata.value
-    cuurentData.value = basestore.bannerData
-    console.log('🍐[cuurentData.value]:', basestore.bannerData, cuurentData.value)
+    await getbanner({ shopHdId: options.type })
+    cuurentData.value = bannerDaata.value
   } else if (showType.value === 'message') {
     await sendDetailUpdateRead({ id: options.type })
     cuurentData.value = ReadData.value

@@ -9,7 +9,7 @@ const props = defineProps(htmlProps)
     <template v-if="html">
       <mp-html :content="html" />
     </template>
-    <view :class="props.dyHeight ? props.dyHeight : 'mt-50'" v-else>
+    <view :class="props.dyHeight ? props.dyHeight : 'mt-30'" v-else>
       <wd-status-tip image="content" tip="当前该内容生效中......" />
     </view>
   </view>

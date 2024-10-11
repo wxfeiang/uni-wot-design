@@ -1,4 +1,4 @@
-import { getActivityById } from '@/service/api/shop'
+import { gethdShophddetail } from '@/service/api/shop'
 import { getArtacleDetail, getDetailUpdateRead } from '@/service/api/source'
 import { useRequest } from 'alova/client'
 const content = ref('')
@@ -16,7 +16,7 @@ const {
 
 // 获取活动详情
 const { send: getbanner, data: bannerDaata } = useRequest(
-  (data: ActivityParams) => getActivityById<IActivity>(data),
+  (data: ActivityParams) => gethdShophddetail(data),
   {
     immediate: false,
     loading: false,

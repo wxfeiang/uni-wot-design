@@ -38,7 +38,6 @@ interface NavigateToOptions {
        "/pages-sub/userManager/collection/collection" |
        "/pages-sub/userManager/collection/follow" |
        "/pages-sub/userManager/userCenter/massage" |
-       "/pages-sub/userManager/userCenter/messDeil" |
        "/pages-sub/userManager/userCenter/suggest" |
        "/pages-sub/userManager/userCenter/user" |
        "/pages-sub/marketManager/coupon/coupDeil" |
