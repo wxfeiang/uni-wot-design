@@ -13,14 +13,17 @@ import { pathToBase64 } from 'image-tools'
 import { useMessage } from 'wot-design-uni'
 import jinbi from '../static/images/integral/jinbi.png'
 import jinb2 from '../static/images/integral/jinbi2.png'
+import jifen from '../static/images/integral/jifen.png'
 import bg from '../static/images/integral/topbg.png'
+import quanbg from '../static/images/integral/quanbg.png'
 import { signInFoProps, signMess } from './utils/types'
 import useInter from './utils/useInter'
 const message = useMessage()
 
-const { sendInterInfo, sendSign } = useInter()
+const { sendInterInfo, sendSign, sendInterProductList } = useInter()
 const topbgBase64 = ref('')
 const title = ref('积分')
+const list = ref([])
 const toMingxi = () => {
   routeTo({ url: '/pages-sub/marketManager/integral/interList' })
 }
@@ -29,6 +32,20 @@ const toAgreement = () => {
     url: '/pages-sub/webView/index',
     data: { type: '19aer903e4u90', showTop: true, title: '积分规则' },
   })
+}
+
+const getProductList = async () => {
+  const params = {
+    page: 1,
+    size: 4,
+  }
+  // 调用接口获取数据
+  try {
+    const data: any = await sendInterProductList(params)
+    list.value = data.content
+  } catch (error) {
+    console.log(error)
+  }
 }
 const tips = ref(false)
 const qiandaoMsg = ref<signMess>({
@@ -50,6 +67,16 @@ const qiandao = async () => {
     console.log('error', error)
   }
 }
+const gopath = (e) => {
+  let url = '/pages-sub/marketManager/IntegralMarket/IntegralMarket/info'
+  if (e.goodSort === 4) {
+    url = '/pages-sub/marketManager/IntegralMarket/IntegralMarket/virtualGoods'
+  }
+  routeTo({
+    url,
+    data: { goodId: e.goodId },
+  })
+}
 const infoData = ref<signInFoProps>({
   totalSignInDay: '',
   todayIntegral: '',
@@ -70,7 +97,9 @@ const getInterInfo = async () => {
 // const isToDay = computed(() => {
 //   return infoData.value.stageList.find((item) => item.isToday).isToday ?? false
 // })
-
+onShow(() => {
+  getProductList()
+})
 onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
@@ -162,6 +191,81 @@ onLoad(async () => {
         </view>
       </view>
     </view>
+
+    <!-- 推荐商品 -->
+    <wd-cell
+      value="查看更多"
+      is-link
+      to="/pages-sub/marketManager/IntegralMarket/IntegralMarket/list"
+    >
+      <template #icon>
+        <wd-img :src="jifen" :width="24" :height="24"></wd-img>
+      </template>
+      <template #title>
+        <wd-text
+          text="积分兑换好物"
+          size="18px"
+          bold
+          color="#000000"
+          custom-class="ml-5px"
+        ></wd-text>
+      </template>
+    </wd-cell>
+
+    <view class="p2 pageBoxBg">
+      <view v-for="(item, index) in list" class="p2 float-left w-1/2 box-border" :key="index">
+        <view class="bg-white rounded-md p-8px">
+          <view class="flex items-center justify-center mb-2">
+            <view class="w-full h-135px pos-relative" v-if="item.goodSort === 4">
+              <wd-img width="100%" :height="135" :src="quanbg" />
+              <view
+                class="w-full h-full pos-absolute pos-top-none pos-left-none flex flex-col justify-center items-center"
+              >
+                <wd-text :text="item.exchangeNotes" size="18px" color="#ff4345"></wd-text>
+                <!-- <view class="mt-20px">
+                  <wd-text text="100" size="42px" bold color="#ff4345"></wd-text>
+                  <wd-text text="￥" size="20px" bold color="#ff4345"></wd-text>
+                </view> -->
+              </view>
+            </view>
+            <wd-img width="100%" :height="135" :src="item.goodImg" v-else />
+          </view>
+          <view class="min-h-44px truncate-2 color-#999">
+            {{ item.goodName }}
+          </view>
+
+          <view class="flex justify-between items-center">
+            <view class="flex justify-left items-start flex-col">
+              <view class="flex justify-left items-center">
+                <wd-text
+                  :text="item.coinPrice.toString()"
+                  :lines="2"
+                  size="18px"
+                  color="#F44D24"
+                  class="font-bold"
+                ></wd-text>
+                <wd-text text="积分" :lines="2" size="12px" color="#F44D24" class="ml-1"></wd-text>
+              </view>
+              <wd-text
+                :text="'已兑' + item.sellOut + '件'"
+                :lines="1"
+                size="12px"
+                color="#999999"
+              ></wd-text>
+            </view>
+            <wd-button
+              v-if="item.stock > 0"
+              size="small"
+              custom-class="duihuanBtn m0"
+              @click="gopath(item)"
+            >
+              去兑换
+            </wd-button>
+            <wd-button v-if="item.stock <= 0" size="small" disabled type="info">暂无货</wd-button>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
   <wd-popup v-model="tips" custom-class="custom-class-pop">
     <view>
@@ -184,6 +288,15 @@ onLoad(async () => {
 </template>
 
 <style lang="scss" scoped>
+.pageBoxBg {
+  padding-top: 0;
+}
+:deep(.duihuanBtn) {
+  background: #f44d24 !important;
+}
+:deep(.wd-cell__value) {
+  color: #888888;
+}
 .bg {
   background: #feb329;
   border: 0.9px solid rgba(255, 255, 255, 0.51);
@@ -192,6 +305,12 @@ onLoad(async () => {
 .bg2 {
   background: linear-gradient(127deg, #ea5233 0%, #eb8935 100%);
 }
+
+:deep(.wd-cell) {
+  margin: 5px 0 0;
+  background-color: transparent !important;
+}
+
 :deep(.custom-class-pop) {
   @apply w-80%  rounded-10px;
 }
