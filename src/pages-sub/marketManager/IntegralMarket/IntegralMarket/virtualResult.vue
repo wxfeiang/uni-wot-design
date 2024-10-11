@@ -17,7 +17,7 @@ const title = ref('积分兑换结果')
 const description = ref('积分商品一但兑换不支持退换')
 const gopath = () => {
   routeTo({
-    url: '/pages/shop/index',
+    url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/list',
     navType: NAVIGATE_TYPE.SWITCH_TAB,
   })
 }
@@ -36,7 +36,7 @@ onLoad(async (option) => {
   <view class="min-h-100vh bg-#f3f4f6">
     <view class="top-bg">
       <dy-navbar :leftTitle="title" left isNavShow :placeholder="false" color="#000"></dy-navbar>
-      <view class="w-full h-200px flex flex-col justify-center items-center pt-30px">
+      <view class="w-full h-200px flex flex-col justify-center items-center pt-90px">
         <view class="w-60px h-60px bg-#F44D24 border-rd-50px flex items-center justify-center">
           <wd-icon name="check" size="30px" color="#fff"></wd-icon>
         </view>
@@ -53,7 +53,7 @@ onLoad(async (option) => {
         <wd-cell title="特别说明" title-width="100px" :value="opData.description || description" />
       </wd-cell-group>
       <!-- 优惠券 -->
-      <view class="w-full mt-30px flex" v-if="opData.goodSort === '4'">
+      <view class="w-full mt-30px flex shdow p-10px box-border" v-if="opData.goodSort === '4'">
         <view class="pos-relative">
           <wd-img :src="quanbg" :width="90" :height="70"></wd-img>
           <view
@@ -76,7 +76,7 @@ onLoad(async (option) => {
         </view>
       </view>
       <!-- 商品 -->
-      <view class="w-full mt-30px flex" v-else>
+      <view class="w-full mt-30px flex shdow p-10px box-border" v-else>
         <view class="w-83px">
           <wd-img :width="83" :height="75" :src="opData.goodImg"></wd-img>
         </view>
@@ -91,15 +91,12 @@ onLoad(async (option) => {
     </view>
 
     <view
-      class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border pb-20px flex"
+      class="z-10 px-4 py-2 shadow bg-white fixed b0 w-full box-border pb-20px flex justify-around"
       style="bottom: 0px"
       v-if="opData.createTime"
     >
-      <wd-button
-        block
-        custom-class="duihuanBtn"
-        custom-style="background-color: #ffe7e1;color:#F44D24;"
-        :round="false"
+      <view
+        class="bg-#ffe7e1 color-#F44D24 w-157px line-height-40px text-center border-rd-5px"
         @click="
           routeTo({
             url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/list',
@@ -107,16 +104,13 @@ onLoad(async (option) => {
         "
       >
         暂不使用
-      </wd-button>
-      <wd-button
-        block
-        custom-class="duihuanBtn"
-        :round="false"
-        custom-style="background-color: #F44D24;color:#fff;"
+      </view>
+      <view
+        class="bg-#F44D24 color-#ffffff w-157px line-height-40px text-center border-rd-5px"
         @click="gopath"
       >
         立即使用
-      </wd-button>
+      </view>
     </view>
   </view>
 </template>
@@ -127,14 +121,17 @@ onLoad(async (option) => {
 
 :deep(.wd-navbar) {
   width: 100%;
-  color: #ffffff !important;
+  color: #f5f6f8 !important;
   background-color: transparent !important;
 }
 
 :deep(.wd-navbar__title) {
   color: #ffffff !important;
 }
-
+.shdow {
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 4px 0px 10px 1px rgba(0, 0, 0, 0.09);
+}
 .cardtop {
   position: relative;
   top: -14px;
@@ -166,7 +163,7 @@ onLoad(async (option) => {
 }
 .contentBox {
   box-sizing: border-box;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 290px);
   padding-bottom: 80px;
 }
 </style>

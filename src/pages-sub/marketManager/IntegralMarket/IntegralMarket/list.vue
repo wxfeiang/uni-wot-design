@@ -92,7 +92,7 @@ onLoad(async () => {
           兑换记录
         </view>
       </view>
-      <view class="w-full flex items-center px-25px pt-15px">
+      <view class="w-full flex items-center px-25px pt-15px pb-10px">
         <view :class="active === '' ? 'text-#F44D24' : 'color-#888888'" @click="changeTab('')">
           全部
         </view>
@@ -170,6 +170,7 @@ onLoad(async () => {
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {
+  padding-top: 0 !important;
   overflow: hidden;
   background: #f3f4f6;
 }

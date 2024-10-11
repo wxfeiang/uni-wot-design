@@ -40,7 +40,7 @@ onLoad(async (option) => {})
       ref="paging"
       v-model="dataList"
       @query="queryList"
-      :paging-style="{ boxSizing: 'border-box', padding: '50px 16px 16px' }"
+      :paging-style="{ boxSizing: 'border-box', padding: '100px 16px 16px' }"
     >
       <view
         class="w-full bg-white border-rd-6px p-12px box-border mb-13px flex"

@@ -9,7 +9,7 @@
 </route>
 
 <script lang="ts" setup>
-import { removeT } from '@/utils'
+import { removeT, routeTo } from '@/utils'
 import { signInDetailRopos } from './utils/types'
 import mingxibtn from '../static/images/integral/mingxibtn.png'
 import mingxilogo from '../static/images/integral/mingxilogo.png'
@@ -68,7 +68,15 @@ const changeTab = (e) => {
         <view class="w-full flex justify-between items-center px-30px box-border mt-10px">
           <view class="flex flex-col justify-center items-center">
             <wd-img :width="164" :height="62" :src="mingxititle"></wd-img>
-            <wd-img :width="125" :height="31" :src="mingxibtn" custom-class="mt-10px"></wd-img>
+            <wd-img
+              :width="125"
+              :height="31"
+              :src="mingxibtn"
+              custom-class="mt-10px"
+              @click="
+                routeTo({ url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/list' })
+              "
+            ></wd-img>
           </view>
           <wd-img :width="147" :height="108" :src="mingxilogo"></wd-img>
         </view>
