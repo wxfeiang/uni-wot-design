@@ -12,7 +12,7 @@ import { Toast } from '@/utils/uniapi/prompt'
 import { pathToBase64 } from 'image-tools'
 import { getCurrentInstance, onMounted } from 'vue' // eslint-disable-line
 import { useToast } from 'wot-design-uni'
-import useCardBhk from './hooks/useCardBhk'
+import useUpload from './hooks/useUpload'
 import card0 from './static/images/Card0.png'
 import card1 from './static/images/Card1.png'
 import card2 from './static/images/Card2.png'
@@ -20,7 +20,7 @@ import { Camera } from './types/types'
 const instance = getCurrentInstance().proxy
 
 const eventChannel = instance.getOpenerEventChannel() // eslint-disable-line
-const { sendPhoto, loadingPhoto } = useCardBhk()
+const { sendPhoto, loadingPhoto } = useUpload()
 const toast = useToast()
 const cover = ref(null) // 辅助
 const camera = ref(null)
@@ -186,22 +186,21 @@ async function upload(ress) {
   }
   try {
     const resData: any = await sendPhoto(formData)
-    if (resData.data.data.message) {
+    if (resData.message) {
       console.log('🍫[resData]:', resData)
-      toast.error(resData.data.data.message)
+      toast.error(resData.message)
     } else {
       console.log('🍖', resData)
       const cameraData = {
         type: currentParams.value.photoType * 1,
         url: ress,
-        id: resData.data.data.id,
-        data: currData.value.imgType === 0 ? {} : JSON.parse(resData.data.data.identifyCardInfo),
+        id: resData.id,
+        data: currData.value.imgType === 0 ? {} : JSON.parse(resData.identifyCardInfo),
       }
 
       eventChannel.emit('camera', {
         cameraData,
       })
-      console.log('🍦[resData]========:', resData)
 
       close()
     }

@@ -40,9 +40,16 @@ const GET_BRANCHES_INFO_SELECT = baseUrlApi('/card/app/getBranchesInfoSelect')
  * @param params 初始参数()
  * */
 export function getCardBasicInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     BASIC_INFO, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -51,9 +58,16 @@ export function getCardBasicInfo(data) {
  * @param params 初始参数()
  * */
 export function getCardScheduleInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     CARD_SCHEDULE_INFO, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -84,7 +98,7 @@ export function uploadPhoneInfo(data) {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
 
   return request.Post(
@@ -100,9 +114,16 @@ export function uploadPhoneInfo(data) {
  * @param params 初始参数()
  * */
 export function cardFirstApplication(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     CARD_FIRST_APPLICATION, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -111,9 +132,16 @@ export function cardFirstApplication(data) {
  * @param params 初始参数()
  * */
 export function cardFirstDbrApplication(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     CARD_FIRST_DBR_APPLICATION, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -122,9 +150,16 @@ export function cardFirstDbrApplication(data) {
  * @param params 初始参数()
  * */
 export function changeCardData(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     CARD_RECHARGE, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -133,9 +168,16 @@ export function changeCardData(data) {
  * @param params 初始参数()
  * */
 export function SeverPassRest(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     SERVICE_PASSWORD_RESET, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -144,9 +186,16 @@ export function SeverPassRest(data) {
  * @param params 初始参数()
  * */
 export function changeCardPwd(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     CHANGE_CARD_PWD, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -155,9 +204,16 @@ export function changeCardPwd(data) {
  * @param params 初始参数()
  * */
 export function cardLoss(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     CARD_LOSS, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -178,10 +234,16 @@ export function getIsReceiveCardInfo(data) {
  * @param params 初始参数()
  * */
 export function personInfoChange(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     PERSON_INFO_CHANGE, // 请求地址
     data,
-    {},
+    {
+      meta,
+    },
   )
 }
 
@@ -190,9 +252,16 @@ export function personInfoChange(data) {
  * @param params 初始参数()
  * */
 export function cardSocialStart(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     SOCIAL_SECARD_ACTIVE, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 
@@ -200,9 +269,16 @@ export function cardSocialStart(data) {
  *社保卡解挂
  */
 export function getUnboxingInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+
   return request.Post(
     UNBOXING_INFO, // 请求地址
     data,
+    {
+      meta,
+    },
   )
 }
 

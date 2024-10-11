@@ -1,4 +1,4 @@
-import { cardFirstDbrApplication, getCardcheckInfo, uploadPhoneInfo } from '@/service/api/cardServe'
+import { cardFirstDbrApplication, getCardcheckInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store'
 import { useRequest } from 'alova/client'
 import dayjs from 'dayjs'
@@ -30,15 +30,6 @@ const {
 const modelPhoto = ref({
   url1: '',
   url2: '',
-})
-
-const {
-  loading: loadingPhoto,
-  send: sendPhoto,
-  onSuccess: photoSucess,
-} = useRequest((data) => uploadPhoneInfo(data), {
-  immediate: false,
-  loading: false,
 })
 
 // 卡信息提交
@@ -159,7 +150,5 @@ export default () => {
     loading,
     loading2,
     read,
-    sendPhoto,
-    loadingPhoto,
   }
 }

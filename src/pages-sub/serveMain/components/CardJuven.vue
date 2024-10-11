@@ -18,8 +18,7 @@ import {
 } from '../types/dict'
 import CardUpload from './CardUpload.vue'
 const message = useMessage()
-const { modelPhoto, model, rules, submitCard, submitStatus, statusDel, sendPhoto, loadingPhoto } =
-  useCardJuvenApply()
+const { modelPhoto, model, rules, submitCard, submitStatus, statusDel } = useCardJuvenApply()
 const minDate = dayjs('191000101').valueOf()
 const maxDate = dayjs('20991225').valueOf()
 const userStore = useUserStore()
