@@ -123,29 +123,29 @@ const getLsit = async (pageNo: number, pageSize: number) => {
             </view>
           </view>
           <view class="timeline_row">
-            <view class="timeline_row_title">活动说明</view>
+            <view class="timeline_row_title">活动介绍</view>
             <view class="timeline_row_content">
               {{ activity?.activityBean?.activityContent }}
             </view>
           </view>
         </view>
       </view>
-      <view class="board">
-        <view class="title">推荐商品</view>
-        <view class="recommend" v-for="(item, index) in activity?.productSpuBean" :key="index">
-          <view class="flex" @click="gopath('/pages-sub/homeManager/shopInfo', { id: item.spuId })">
-            <wd-img :width="84" :height="84" :src="item?.rotationUrl"></wd-img>
-            <view class="info flex-c">
-              <view class="pro_title">{{ item?.spuName }}</view>
-              <view class="price">
-                <text class="sy">￥</text>
-                {{ item?.sellPrice }}
-                <text class="desc">已售{{ item?.salesVolume }}件</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
+      <!--      <view class="board">-->
+      <!--        <view class="title">推荐商品</view>-->
+      <!--        <view class="recommend" v-for="(item, index) in activity?.productSpuBean" :key="index">-->
+      <!--          <view class="flex" @click="gopath('/pages-sub/homeManager/shopInfo', { id: item.spuId })">-->
+      <!--            <wd-img :width="84" :height="84" :src="item?.rotationUrl"></wd-img>-->
+      <!--            <view class="info flex-c">-->
+      <!--              <view class="pro_title">{{ item?.spuName }}</view>-->
+      <!--              <view class="price">-->
+      <!--                <text class="sy">￥</text>-->
+      <!--                {{ item?.sellPrice }}-->
+      <!--                <text class="desc">已售{{ item?.salesVolume }}件</text>-->
+      <!--              </view>-->
+      <!--            </view>-->
+      <!--          </view>-->
+      <!--        </view>-->
+      <!--      </view>-->
       <view class="board">
         <view class="title">优惠券</view>
         <view class="coupon" v-for="(item, index) in activity?.tbCoupon" :key="index">

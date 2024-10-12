@@ -115,7 +115,10 @@ const url = ref(
         <view class="color-#FFC4A6 text-12px">
           有效期:
           {{
-            props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
+            // props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
+            props.data.couponReceiveBeginDate.slice(0, 10) +
+            ' 至 ' +
+            props.data.couponReceiveEndDate.slice(0, 10)
           }}
         </view>
         <view v-if="sourceStu" class="color-#FFC4A6 text-12px">仅雄安一卡通支付使用</view>

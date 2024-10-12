@@ -3,6 +3,8 @@ import {
   getOrderInfo,
   getOrderInfoJF,
   updateOrderStatusById,
+  changeOrderStatus,
+  getRefund,
   logistics,
 } from '@/service/api/shop'
 
@@ -28,7 +30,11 @@ const { send: updateOrderBeanStatusById } = useRequest((data) => updateOrderStat
   loading: false,
 })
 
-const { send: changeOrderStatus } = useRequest((data) => changeOrderStatus(data), {
+const { send: sendchangeOrderStatus } = useRequest((data) => changeOrderStatus(data), {
+  immediate: false,
+  loading: false,
+})
+const { send: sendRefund } = useRequest((data) => getRefund(data), {
   immediate: false,
   loading: false,
 })
@@ -41,8 +47,8 @@ export default () => {
   return {
     sendOrderInfo,
     sendOrderList,
-    changeOrderStatus,
-    sendOrderInfoJF,
+    sendchangeOrderStatus,
+    sendRefund,
     updateOrderBeanStatusById,
     getLogistics,
   }
