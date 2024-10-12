@@ -29,16 +29,5 @@ const props = defineProps({
         </view>
       </view>
     </view>
-    <view class="px-20px">
-      <view class="rounded-8px bg-#fff flex gap-10px my-10px p-10px">
-        <view>
-          <wd-img :width="60" :height="60" :src="anvter1" />
-        </view>
-        <view class="flex flex-col justify-around">
-          <view class="text-16px">2434</view>
-          <view class="text-16px color-#999">2343</view>
-        </view>
-      </view>
-    </view>
   </view>
 </template>

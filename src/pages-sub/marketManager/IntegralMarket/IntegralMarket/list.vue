@@ -158,8 +158,9 @@ onLoad(async () => {
               size="small"
               custom-class="duihuanBtn m0"
               @click="gopath(item)"
+              :disabled="surplusIntegral < item.coinPrice"
             >
-              去兑换
+              {{ surplusIntegral < item.coinPrice ? '积分不足' : '去兑换' }}
             </wd-button>
             <wd-button v-if="item.stock <= 0" size="small" disabled type="info">暂无货</wd-button>
           </view>

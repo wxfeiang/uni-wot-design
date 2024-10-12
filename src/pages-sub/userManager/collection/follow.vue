@@ -30,7 +30,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       size: pageSize,
     })
     const arr = res.map((it) => {
-      it.shopInfo.isCheck = false
+      it.isCheck = false
       return it
     })
 
@@ -43,9 +43,16 @@ const getLsit = async (pageNo: number, pageSize: number) => {
 const handleChangeAll = ({ value }) => {
   if (value) {
     arrList.value = goodList.value.map((it) => it.shopInfo.id)
+    goodList.value.forEach((it) => {
+      it.isCheck = true
+    })
   } else {
     arrList.value.length = 0
+    goodList.value.forEach((it) => {
+      it.isCheck = false
+    })
   }
+  console.log('全选', value, goodList.value, arrList.value)
 }
 const handleChange = ({ value }, id) => {
   if (value) {
@@ -56,6 +63,8 @@ const handleChange = ({ value }, id) => {
   }
   if (arrList.value.length === goodList.value.length) {
     allCheck.value = true
+  } else {
+    allCheck.value = false
   }
   console.log('arrList.value', arrList.value)
 }

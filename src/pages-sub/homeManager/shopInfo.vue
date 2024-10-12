@@ -41,10 +41,10 @@ const skuMode = ref(1)
 // 后端返回的商品信息
 let goodsInfo = reactive<any>({})
 
-onShow(() => {
-  skuKey.value = false
-})
-
+const showSku = (val: number) => {
+  skuKey.value = true
+  skuMode.value = val
+}
 const service = () => {
   if (details.shopPhone) {
     uni.makePhoneCall({
@@ -217,6 +217,11 @@ onShow(() => {
     getFavoritesList()
   }
 })
+const goList = () => {
+  if (details.evaList.length <= 3) {
+    routeTo({ url: `/pages-sub/shopManager/evaluateList?details=${details.spuId}` })
+  }
+}
 onLoad(async (options) => {
   // await getList()
   console.log('options', options, userStore.isLogined)
@@ -263,7 +268,7 @@ onShareTimeline(() => {
             color="#F44D24"
             size="25px"
           ></wd-text>
-          <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
+          <!-- <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
             <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
             <wd-text text="￥" color="#fff" size="10px"></wd-text>
             <wd-text
@@ -271,7 +276,7 @@ onShareTimeline(() => {
               color="#fff"
               size="18px"
             ></wd-text>
-          </view>
+          </view> -->
         </view>
         <wd-text :text="`已售${details.salesVolume}`" color="#F44D24" size="14px"></wd-text>
       </view>
@@ -307,7 +312,12 @@ onShareTimeline(() => {
       <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px" v-if="details.evaList">
         <view>评价（{{ details.evaList ? details.evaList.length : 0 }}）</view>
         <!-- 只显示3条 截取评价列表数据3条就行 -->
-        <view class="flex mt-10px mb-10px" v-for="i in details.evaList.slice(0, 3)" :key="i.id">
+        <view
+          class="flex mt-10px mb-10px"
+          v-for="i in details.evaList.slice(0, 3)"
+          :key="i.id"
+          @click="goList"
+        >
           <wd-img
             :width="45"
             :height="45"
@@ -390,11 +400,17 @@ onShareTimeline(() => {
         </view>
       </view>
       <view
-        class="flex-1 flex items-center ml-20px line-height-40px border-rd-50px overflow-hidden"
+        class="flex-1 flex items-center ml-10px line-height-40px border-rd-50px overflow-hidden"
       >
         <view
-          class="w-full text-center bg-#F44D24 color-#FFFFFF font-size-15px"
-          @click="skuKey = true"
+          class="w-full text-center bg-#FEF2F2 color-#F44D24 font-size-15px w-1/2"
+          @click="showSku(2)"
+        >
+          加入购物车
+        </view>
+        <view
+          class="w-full text-center bg-#F44D24 color-#FFFFFF font-size-15px w-1/2"
+          @click="showSku(3)"
         >
           立即购买
         </view>
