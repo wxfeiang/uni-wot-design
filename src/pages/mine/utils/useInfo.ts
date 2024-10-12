@@ -110,7 +110,7 @@ const serveList = ref<serveProps[]>([
   {
     icon: smrz,
     title: '实名认证',
-    path: '/pages/login/login2',
+    path: '/pages/login/loginsmrz',
     islink: true,
   },
   {
