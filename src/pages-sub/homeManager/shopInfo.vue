@@ -217,6 +217,11 @@ onShow(() => {
     getFavoritesList()
   }
 })
+const goList = () => {
+  if (details.evaList.length <= 3) {
+    routeTo({ url: `/pages-sub/shopManager/evaluateList?details=${details.spuId}` })
+  }
+}
 onLoad(async (options) => {
   // await getList()
   console.log('options', options, userStore.isLogined)
@@ -307,7 +312,12 @@ onShareTimeline(() => {
       <view class="w-full bg-white p-15px box-border border-rd-10px mt-10px" v-if="details.evaList">
         <view>评价（{{ details.evaList ? details.evaList.length : 0 }}）</view>
         <!-- 只显示3条 截取评价列表数据3条就行 -->
-        <view class="flex mt-10px mb-10px" v-for="i in details.evaList.slice(0, 3)" :key="i.id">
+        <view
+          class="flex mt-10px mb-10px"
+          v-for="i in details.evaList.slice(0, 3)"
+          :key="i.id"
+          @click="goList"
+        >
           <wd-img
             :width="45"
             :height="45"
