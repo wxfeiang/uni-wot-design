@@ -12,10 +12,10 @@
 <script lang="ts" setup>
 import { removeT } from '@/utils'
 
-import useCenter from './utils/useCenter'
+import useMymessage from './utils/useMymessage'
 
 const { sendHistoryPageByUserId, histotyMessDataLoadng, histotyMessData, messageClick } =
-  useCenter()
+  useMymessage()
 
 defineOptions({
   name: 'messageList',
@@ -70,16 +70,22 @@ const removeHtmlStyle = (html) => {
 }
 </script>
 <template>
-  <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
+  <z-paging
+    ref="paging"
+    v-model="dataList"
+    @query="queryList"
+    :auto-show-system-loading="true"
+    class="bg-#f3f4f6"
+  >
     <template #top>
       <!-- 顶部 -->
       <dy-navbar leftTitle="消息列表" left></dy-navbar>
-      <!--      <wd-tabs v-model="tab" @change="changeTab">-->
-      <!--        <block v-for="item in tablist" :key="item.index">-->
-      <!--          <wd-tab :title="item.title"></wd-tab>-->
-      <!--        </block>-->
-      <!--      </wd-tabs>-->
-      <!--      <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>-->
+      <!-- <wd-tabs v-model="tab" @change="changeTab">
+             <block v-for="item in tablist" :key="item.index">
+               <wd-tab :title="item.title"></wd-tab>
+             </block>
+           </wd-tabs>
+           <wd-gap height="5" bg-color="#f5f5f5"></wd-gap> -->
     </template>
 
     <!-- leibiao  -->
@@ -127,23 +133,5 @@ const removeHtmlStyle = (html) => {
     </view>
   </z-paging>
 </template>
-<style>
-page {
-  background-color: #f5f6f8;
-}
-</style>
 
-<style lang="scss" scoped>
-.t_bg {
-  background: rgba($color: #ccc, $alpha: 0.2);
-}
-:deep(.nav_bg) {
-  background-color: var(--color-nav-bg);
-  .wd-navbar__title {
-    color: var(--color-nav-text);
-  }
-  .wd-navbar__left {
-    color: var(--color-nav-text);
-  }
-}
-</style>
+<style lang="scss" scoped></style>

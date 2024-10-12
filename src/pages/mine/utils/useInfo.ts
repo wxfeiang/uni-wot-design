@@ -159,7 +159,7 @@ const serveList = ref<serveProps[]>([
   {
     icon: xxtz,
     title: '消息通知',
-    path: '/pages-sub/userManager/userCenter/massage',
+    path: '/pages-sub/userManager/userCenter/myMessage/massage',
     islink: true,
   },
   {
