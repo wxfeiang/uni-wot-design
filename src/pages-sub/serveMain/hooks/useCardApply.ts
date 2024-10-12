@@ -100,8 +100,6 @@ const submitCard = (form) => {
         params.birthdate = dayjs(params.birthdate).format('YYYYMMDD')
         params.startDate = dayjs(params.startDate).format('YYYYMMDD')
         params.endDate = dayjs(params.endDate).format('YYYYMMDD')
-        console.log('🌮[params]:', params)
-
         const data: any = await sendCardData(params)
 
         submitStatus.value = true

@@ -170,6 +170,15 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
+          "path": "OcrCamera",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
@@ -207,15 +216,6 @@
         },
         {
           "path": "jinrongType",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "OcrCamera",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -322,6 +322,30 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
+          "path": "SocialSecurityCard/barcode",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/indexback",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "address/editor",
           "type": "page",
           "layout": "default",
@@ -369,30 +393,6 @@
           }
         },
         {
-          "path": "SocialSecurityCard/barcode",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/index",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/indexback",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "userCenter/massage",
           "type": "home",
           "layout": "default",
@@ -402,7 +402,16 @@
           }
         },
         {
-          "path": "userCenter/suggest",
+          "path": "userCenter/user",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/suggest/list",
           "type": "page",
           "layout": "default",
           "style": {
@@ -410,10 +419,17 @@
           }
         },
         {
-          "path": "userCenter/user",
+          "path": "userCenter/suggest/suggest",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/suggest/suggestDetil",
+          "type": "page",
+          "layout": "default",
           "style": {
             "navigationStyle": "custom"
           }

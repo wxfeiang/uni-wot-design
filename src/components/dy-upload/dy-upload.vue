@@ -71,7 +71,6 @@ const handleChange = (e: any) => {
  * @return {Object} formData
  * */
 const buildFormData = ({ file, formData, resolve }) => {
-  console.log('🍱[file, formData, resolve ]:', file, formData)
   let imageName = file.url.substring(file.url.lastIndexOf('/') + 1) // 从图片路径中截取图片名称
   // #ifdef H5
   // h5端url中不包含扩展名，可以拼接一下name
@@ -81,7 +80,6 @@ const buildFormData = ({ file, formData, resolve }) => {
   formData = {
     ...formData,
   }
-  console.log('🥠=====formdata', formData)
 
   resolve(formData) // 组装成功后返回 formData，必须返回
 }

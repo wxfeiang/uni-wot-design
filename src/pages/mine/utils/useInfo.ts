@@ -165,7 +165,7 @@ const serveList = ref<serveProps[]>([
   {
     icon: tsjy,
     title: '投诉建议',
-    path: '/pages-sub/userManager/userCenter/suggest',
+    path: '/pages-sub/userManager/userCenter/suggest/list',
     islink: true,
   },
   // {

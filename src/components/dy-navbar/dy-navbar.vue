@@ -27,6 +27,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  customStyle: {
+    type: String,
+    default: '',
+  },
 })
 function handleClickLeft() {
   const pageList = getCurrentPages()
@@ -48,6 +52,7 @@ function handleClickLeft() {
       fixed
       :bordered="props.border"
       :custom-class="`custom-class-nav-left ${props.isNavShow ? 'nav_show' : ''}`"
+      :custom-style="props.customStyle"
       v-if="props.left"
     >
       <template #left>
@@ -78,6 +83,7 @@ function handleClickLeft() {
       left-arrow
       :bordered="props.border"
       :custom-class="`${props.isNavShow ? 'nav_show' : ''}`"
+      :custom-style="props.customStyle"
       safeAreaInsetTop
     >
       <template #left>
