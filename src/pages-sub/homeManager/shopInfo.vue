@@ -41,10 +41,10 @@ const skuMode = ref(1)
 // 后端返回的商品信息
 let goodsInfo = reactive<any>({})
 
-onShow(() => {
-  skuKey.value = false
-})
-
+const showSku = (val: number) => {
+  skuKey.value = true
+  skuMode.value = val
+}
 const service = () => {
   if (details.shopPhone) {
     uni.makePhoneCall({
@@ -263,7 +263,7 @@ onShareTimeline(() => {
             color="#F44D24"
             size="25px"
           ></wd-text>
-          <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
+          <!-- <view class="w-133px line-height-35px bg-#F44D24 text-center ml-10px border-rd-50px">
             <wd-text text="券后价" color="#FFF" size="14px"></wd-text>
             <wd-text text="￥" color="#fff" size="10px"></wd-text>
             <wd-text
@@ -271,7 +271,7 @@ onShareTimeline(() => {
               color="#fff"
               size="18px"
             ></wd-text>
-          </view>
+          </view> -->
         </view>
         <wd-text :text="`已售${details.salesVolume}`" color="#F44D24" size="14px"></wd-text>
       </view>
@@ -390,11 +390,17 @@ onShareTimeline(() => {
         </view>
       </view>
       <view
-        class="flex-1 flex items-center ml-20px line-height-40px border-rd-50px overflow-hidden"
+        class="flex-1 flex items-center ml-10px line-height-40px border-rd-50px overflow-hidden"
       >
         <view
-          class="w-full text-center bg-#F44D24 color-#FFFFFF font-size-15px"
-          @click="skuKey = true"
+          class="w-full text-center bg-#FEF2F2 color-#F44D24 font-size-15px w-1/2"
+          @click="showSku(2)"
+        >
+          加入购物车
+        </view>
+        <view
+          class="w-full text-center bg-#F44D24 color-#FFFFFF font-size-15px w-1/2"
+          @click="showSku(3)"
         >
           立即购买
         </view>
