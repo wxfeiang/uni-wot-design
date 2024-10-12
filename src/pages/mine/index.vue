@@ -11,14 +11,12 @@
 <script lang="ts" setup>
 import anvter from '@/static/images/mine/anvter.png'
 import anvter1 from '@/static/images/mine/anvter1.png'
-import imgUrl from '@/static/images/mine/bg.png'
 import h0 from '@/static/images/mine/h0.png'
 import h1 from '@/static/images/mine/h1.png'
 import sjfw from '@/static/images/mine/sjfw.png'
 import tygj from '@/static/images/mine/tygj.png'
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
-import { pathToBase64 } from 'image-tools'
 import { storeToRefs } from 'pinia'
 import { useMessage, useToast } from 'wot-design-uni'
 import useInfo from './utils/useInfo'
@@ -45,7 +43,9 @@ function login() {
 }
 
 const toast = useToast()
-const bgUrlBase64 = ref()
+const bgUrlBase64 = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/0d9fe262-f40e-4115-9173-e9f89d24828aJZDxK0DIw9Ta144dbd42ab626884a3018ec3ecaf2d6d.png',
+)
 const userGrade = ref(1)
 const userGradeTitle = ref('')
 const dingdan = (e) => {
@@ -57,10 +57,7 @@ const qiandao = () => {
 const toShopService = () => {
   routeTo({ url: '/pages-sub/shopManager/index' })
 }
-onLoad(async () => {
-  // 设置背景图片
-  bgUrlBase64.value = await pathToBase64(imgUrl)
-})
+
 onShow(async () => {
   if (isLogined.value) {
     try {

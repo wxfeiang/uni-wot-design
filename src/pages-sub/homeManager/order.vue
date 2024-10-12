@@ -7,15 +7,12 @@
 }
 </route>
 <script lang="ts" setup>
-import useOrder from '../../pages/shop/utils/userOrder'
-import couponB from '@/static/images/serve/coupon_b.png'
-import { pathToBase64 } from 'image-tools'
+import { getCouponList } from '@/service/api/address'
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
-import { Toast } from '@/utils/uniapi/prompt'
-import { watch, getCurrentInstance } from 'vue'
-import { qr } from '@/components/dy-qrcode/drawing'
-import { getCouponList } from '@/service/api/address'
+import { getCurrentInstance } from 'vue'
+import useOrder from '../../pages/shop/utils/userOrder'
+import couponB from './static/image/coupon_b.png'
 
 const userStore = useUserStore()
 const {

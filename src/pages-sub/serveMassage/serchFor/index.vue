@@ -99,7 +99,7 @@ const toDetile = (item: any) => {
     <view class="rounded-3px overflow-hidden bg-#C7C7C7/18 py-5px">
       <wd-search
         v-model="serchValue"
-        maxlength="10"
+        :maxlength="10"
         placeholder-left
         placeholder="请输入关键词检索"
         custom-class="custom-class-serch"

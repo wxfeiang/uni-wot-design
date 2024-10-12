@@ -1,4 +1,3 @@
-<!-- 使用 type="home" 属性设置首页，其他页面不需要设置，默认为page；推荐使用json5，更强大，且允许注释 -->
 <route lang="json5" type="home">
 {
   layout: 'default',
@@ -8,11 +7,9 @@
   },
 }
 </route>
-
 <script lang="ts" setup>
 import bgTip from '@/static/images/index/bgTip.png'
 import btnbg from '@/static/images/index/btnbg.png'
-import indexbg from '@/static/images/index/indexbg.png'
 import msgicon from '@/static/images/index/msgicon.png'
 import znbg from '@/static/images/index/znbg.png'
 import znlogo from '@/static/images/index/znlogo.png'
@@ -40,15 +37,14 @@ const toast = useToast()
 const {
   messageClick,
   sendMessageList,
+  messageData,
   messageLoading,
-  swiperList,
   serviceArea,
   topAction,
   specialTypeskeleton,
   sendGetSpecialTypeList,
   specialTypeList,
   specialTypeLoading,
-
   sendSwiperList,
   swiperListData,
   swiperListLoading,
@@ -61,9 +57,6 @@ async function actionTop2(item: any) {
       toast.show('功能开发中，敬请期待!...')
     } else {
       return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.NAVIGATE_TO })
-
-      // let str='/pages-sub/serveMain/cardFromType?base=changeCardPwd&title=服务密码管理'
-      // return routeTo({ url: str, navType: NAVIGATE_TYPE.NAVIGATE_TO })
     }
   }
 }
@@ -143,7 +136,9 @@ function toMessageItem(e) {
 const mess1 = ref<messProps[]>([])
 const mess2 = ref<messProps[]>([])
 
-const topbgBase64 = ref('')
+const topbgBase64 = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/3ce4fcc4-5f4e-4acd-a3e5-238085a09388j95TiPFo8STT8ed4b7daa361d320ff446f49a4aa7467.png',
+)
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
 
@@ -153,7 +148,6 @@ const topAction2 = ref<any>([])
 
 onLoad(async () => {
   // 设置背景图片
-  topbgBase64.value = await pathToBase64(indexbg)
   btnbgBase64.value = await pathToBase64(btnbg)
   znbgBase64.value = await pathToBase64(znbg)
 })
@@ -161,20 +155,18 @@ onLoad(async () => {
 onShow(async () => {
   await sendGetSpecialTypeList()
   topAction2.value = specialTypeList.value
-
-  const mess: any = await sendMessageList({
+  await sendMessageList({
     page: 1,
     size: 50,
   })
-
   await sendSwiperList({
     page: 1,
     size: 10,
     location: 1,
   })
 
-  mess1.value = mess.content.filter((i) => i.articleType === '0').slice(0, 5)
-  mess2.value = mess.content.filter((i) => i.articleType === '1').slice(0, 3)
+  mess1.value = messageData.value.content.filter((i) => i.articleType === '0').slice(0, 5)
+  mess2.value = messageData.value.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
 
 const closeAdFlog = ref(true)
@@ -300,14 +292,14 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px swiper px-15px">
+  <view class="py-3px h-135px swiper px-15px rounded-4px overflow-hidden">
     <wd-skeleton
       animation="flashed"
       :row-col="[{ width: '100%', height: '135px' }]"
       :loading="swiperListLoading"
     >
       <wd-swiper
-        :list="swiperListData?.content"
+        :list="swiperListData!.content"
         :autoplay="true"
         :current="0"
         :height="135"
