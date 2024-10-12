@@ -27,7 +27,7 @@ const {
 function messageClick(item) {
   routeTo({
     url: '/pages-sub/webView/index',
-    data: { type: item.id, showType: 'message' },
+    data: { id: item.id, code: item.code, showType: 'message' },
   })
 }
 const adviceType = ref([
