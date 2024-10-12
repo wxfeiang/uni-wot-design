@@ -95,7 +95,7 @@ const readChange = (type: number) => {
             block
             plain
             hairline
-            custom-class="custom-class-mine-login2"
+            custom-class="custom-class-mine-loginsmrz"
             @click="goPhoneLogin"
             :round="false"
           >

@@ -10,7 +10,7 @@ import { Modal } from '@/utils/uniapi/prompt'
 
 // TODO Check
 const loginRoute = '/pages/login/index'
-const feaceRouter = '/pages/login/login2'
+const feaceRouter = '/pages/login/loginsmrz'
 
 const isLogined = () => {
   const userStore = useUserStore()
