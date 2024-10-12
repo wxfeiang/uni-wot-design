@@ -31,6 +31,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  customClass: {
+    type: String,
+    default: '',
+  },
 })
 function handleClickLeft() {
   const pageList = getCurrentPages()
@@ -51,7 +55,7 @@ function handleClickLeft() {
       :placeholder="props.placeholder"
       fixed
       :bordered="props.border"
-      :custom-class="`custom-class-nav-left ${props.isNavShow ? 'nav_show' : ''}`"
+      :custom-class="`${props.isNavShow ? 'nav_show' : (props.customClass ?? '')}`"
       :custom-style="props.customStyle"
       v-if="props.left"
     >
@@ -82,7 +86,7 @@ function handleClickLeft() {
       :placeholder="props.placeholder"
       left-arrow
       :bordered="props.border"
-      :custom-class="`${props.isNavShow ? 'nav_show' : ''}`"
+      :custom-class="`${props.isNavShow ? 'nav_show' : (props.customClass ?? '')}`"
       :custom-style="props.customStyle"
       safeAreaInsetTop
     >
@@ -121,6 +125,15 @@ export default {
     .wd-navbar__title {
       @apply flex-1! flex! max-w-85%!;
     }
+  }
+}
+:deep(.nav_bg) {
+  background-color: var(--color-nav-bg);
+  .wd-navbar__title {
+    color: var(--color-nav-text);
+  }
+  .wd-navbar__left {
+    color: var(--color-nav-text);
   }
 }
 </style>

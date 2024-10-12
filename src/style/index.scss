@@ -16,6 +16,12 @@ page {
   --color-nav-text: #fff !important;
   //
   --btn-round: 6px;
+  // info
+  --dy-innfo-color: #2d69ef;
+  // infobg
+  --dy-info-bg: #eff4ff;
+  //dy-info-border:
+  --dy-info-border: 1px solid #c7d9ff;
 }
 
 // .test {
@@ -24,25 +30,32 @@ page {
 //   padding-top: 4px;
 //   color: red;
 // }
-.custom-class-mine-login {
+:deep(.custom-class-mine-login) {
   color: #fff !important;
   background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
-.custom-class-mine-error {
+:deep(.custom-class-mine-error) {
   color: #fff !important;
   background: #f44d24 !important;
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
-.dy-tab-full-hight {
+:deep(.dy-tab-full-hight) {
   height: calc(100vh - var(--window-bottom));
 }
-// .custom-class-mine-loginsmrz {
-//   border-radius: var(--btn-round) !important;
-// }
-.dy-bottom-tabbar {
+:deep(.custom-class-mine-dyPlain) {
+  border-radius: var(--btn-round) !important;
+  @apply overflow-hidden!;
+}
+:deep(.custom-class-mine-dyinfo) {
+  color: var(--dy-info-color) !important;
+  background: var(--dy-info-bg) !important;
+  border: var(--dy-info-border) !important;
+  border-radius: var(--btn-round) !important;
+}
+:deep(.dy-bottom-tabbar) {
   bottom: calc(var(--window-bottom) + 5px) !important;
 }
 .nav_show {

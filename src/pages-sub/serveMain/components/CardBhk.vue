@@ -77,9 +77,10 @@ const value = ref()
     <view class="text-center color-#000 font-bold line-height-60px text-20px">
       {{ showData.title }}
     </view>
+
     <view v-for="(item, index) in showData.list" :key="index">
-      <wd-text color="#000" custom-class="custom-text" :text="item"></wd-text>
-      <wd-gap bg-color="#f5f5f5"></wd-gap>
+      <wd-text color="#555555" custom-class="custom-text" :text="item" size="16px"></wd-text>
+      <wd-gap bg-color="#fff"></wd-gap>
     </view>
 
     <!-- 底部 -->
@@ -136,6 +137,6 @@ export default {
 }
 
 :deep(.label-class .wd-checkbox__txt) {
-  @apply whitespace-pre-wrap!;
+  @apply whitespace-pre-wrap! color-#A6A6A6!;
 }
 </style>

@@ -69,19 +69,17 @@ const footerBtns = ref([
     size: 'medium',
     round: false,
     plain: true,
-    customClass: 'btn-class',
     isRead: true,
     isApply: false,
     isPeople: true,
     index: 0,
+    customClass: 'custom-class-mine-dyinfo',
     data: { base: 'xinshenersl', title: '代未成年人申领' },
   },
   {
     text: '本人办理',
     size: 'medium',
     round: false,
-    plain: true,
-    customClass: 'btn-class',
     isRead: true,
     isApply: false,
     isPeople: false,
@@ -104,8 +102,8 @@ onMounted(async () => {
       {{ showData.title }}
     </view>
     <view v-for="(item, index) in showData.list" :key="index">
-      <wd-text color="#000" custom-class="custom-text" :text="item"></wd-text>
-      <wd-gap bg-color="#f5f5f5"></wd-gap>
+      <wd-text color="#555555" custom-class="custom-text" :text="item" size="16px"></wd-text>
+      <wd-gap bg-color="#fff"></wd-gap>
     </view>
 
     <!-- 底部 -->
@@ -124,10 +122,10 @@ onMounted(async () => {
           <view class="flex-1" v-for="(item, index) in footerBtns" :key="index">
             <wd-button
               :round="item.round"
-              block
-              :size="item.size"
               :type="item.type"
+              block
               @click="btnClick(item)"
+              :custom-class="item.customClass"
             >
               {{ item.text }}
             </wd-button>
@@ -162,6 +160,9 @@ export default {
 }
 
 :deep(.label-class .wd-checkbox__txt) {
-  @apply whitespace-pre-wrap!;
+  @apply whitespace-pre-wrap! color-#A6A6A6!;
 }
+// :deep(.custom-class-mine-dyPlain) {
+//   color: red !important;
+// }
 </style>
