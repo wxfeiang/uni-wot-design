@@ -74,15 +74,11 @@
       }
     },
     {
-      "path": "pages/login/login2",
+      "path": "pages/login/loginsmrz",
       "type": "page",
       "layout": "default",
       "style": {
-        "navigationStyle": "custom",
-        "mp-alipay": {
-          "transparentTitle": "always",
-          "titlePenetrate": "YES"
-        }
+        "navigationStyle": "custom"
       }
     },
     {

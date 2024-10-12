@@ -1,12 +1,8 @@
-<route lang="json5">
+<route lang="json5" type="page">
 {
   layout: 'default',
   style: {
     navigationStyle: 'custom',
-    'mp-alipay': {
-      transparentTitle: 'always',
-      titlePenetrate: 'YES',
-    },
   },
 }
 </route>
