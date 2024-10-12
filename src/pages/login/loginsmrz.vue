@@ -20,18 +20,6 @@ function handleClickLeft() {
 const data = ref([])
 const iconColse = ref(false)
 
-// function close() {
-//   iconColse.value = !iconColse.value
-//   if (!iconColse.value) {
-//     data.value[0].value = userInfo.value.userName
-//     data.value[2].value = userInfo.value.idCardNumber
-//   } else {
-//     if (userInfo.value?.userName) {
-//       data.value[0].value = data.value[0].value.replace(/(.).*?(.)/, '**$2')
-//       data.value[2].value = data.value[2].value.replace(/(\d{1})\d{16}(\d{1})/, '$1************$2')
-//     }
-//   }
-// }
 const encrypt = (val: string, type: 'name' | 'cardNo', flag: boolean) => {
   if (flag) return val
   switch (type) {

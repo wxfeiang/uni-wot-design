@@ -6,9 +6,9 @@ import {
   openIdCode,
   phoneChartLogin,
   phoneLogin,
+  updateOpenIdAndUnionId,
   updateRealName,
   xcxScanFaceRealNameAuth,
-  updateOpenIdAndUnionId,
 } from '@/service/api/auth'
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 
@@ -326,7 +326,7 @@ const submitUpRealName = (form, flog) => {
 }
 // 登录后的实名认证提交
 const submitUpRealsfz = async (flog) => {
-  uni.showLoading({ title: '认证成功...' })
+  uni.showLoading({ title: '认证中...' })
   try {
     const res = await sendUpRealName()
     if (res) {
@@ -335,6 +335,7 @@ const submitUpRealsfz = async (flog) => {
         idCardNumber: model.value.password,
         userName: model.value.username,
       }
+      uni.showLoading({ title: '认证成功' })
       await resultData({ ...data, ...newData }, flog)
     } else {
       uni.showToast({ title: '认证失败...' })
@@ -358,7 +359,7 @@ const resultData = async (data, flog = 2) => {
   // 保存
   authStore.setUserInfo(data)
   // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
-  if (data?.idCardNumber) {
+  if (data?.idCardNumber && flog !== 0) {
     try {
       const params = {
         xm: authStore.userInfo.userName,
@@ -368,8 +369,8 @@ const resultData = async (data, flog = 2) => {
         wdcode: '999-130632004',
         areaCode: 'CHN',
       }
-      const resultData: any = await sendIsReceiveCardInfo(params)
-      authStore.userInfo.cardType = resultData.cardType
+      const rData: any = await sendIsReceiveCardInfo(params)
+      authStore.userInfo.cardType = rData.cardType
     } catch (error) {
       console.log('🍡[error]:', error)
     }
