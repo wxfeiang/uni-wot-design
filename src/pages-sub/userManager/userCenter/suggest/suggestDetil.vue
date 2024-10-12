@@ -90,7 +90,7 @@ onLoad(async (option: any) => {
   <view class="w-100vw h-100vh bg box-border overflow-y-auto pb-100px">
     <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
     <view class="p-15px">
-      <Sug-Item :dataList="dataList" />
+      <Sug-Item :dataList="dataList" :status="true" />
     </view>
 
     <view class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff">
