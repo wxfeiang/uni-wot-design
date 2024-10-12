@@ -15,7 +15,7 @@ import { useUserStore } from '@/store'
 
 const userStore = useUserStore()
 
-const { sendOrderInfo, sendOrderList, updateOrderBeanStatusById } = orderInter()
+const { sendOrderInfo, sendOrderList, updateOrderBeanStatusById, sendRefund } = orderInter()
 const paging = ref(null)
 
 async function queryList(pageNo: number, pageSize: number) {
@@ -89,7 +89,29 @@ function goEvaluate(orderId) {
   routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
 }
 
-function goRefund(orderId) {
+function goRefund(orderId, note = '') {
+  uni.showModal({
+    title: '退款确认',
+    content: '您确定要申请退款吗',
+    success: async function (res) {
+      if (res.confirm) {
+        const date = await sendRefund({ orderId, note })
+        if (date.code === 200) {
+          routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
+        } else {
+          uni.showToast({
+            title: date.msg,
+            duration: 2000,
+          })
+        }
+      } else if (res.cancel) {
+        console.log('用户点击取消')
+      }
+    },
+  })
+}
+
+function goInfoQX(orderId) {
   routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPop: true } })
 }
 
@@ -196,10 +218,7 @@ onLoad((options) => {
           </template>
 
           <view v-for="(it, ind) in item.sysOrderItemBeans" :key="ind">
-            <view
-              class="flex justify-between items-center mt-2 mb-4"
-              @click="gopath('/pages-sub/homeManager/shopInfo', { id: it.productSpuId })"
-            >
+            <view class="flex justify-between items-center mt-2 mb-4" @click="goInfo(item.orderId)">
               <wd-img :width="100" :height="100" radius="7" :src="JSON.parse(it.skuUrl)[0].data" />
               <view class="ml-2 flex-1">
                 <wd-text
@@ -208,6 +227,7 @@ onLoad((options) => {
                   size="16px"
                   color="#000000"
                   custom-class="font-bold"
+                  @click.self="gopath('/pages-sub/homeManager/shopInfo', { id: it.productSpuId })"
                 ></wd-text>
                 <wd-text
                   :text="item.skuName"
@@ -259,7 +279,7 @@ onLoad((options) => {
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfo(item.orderId)"
+                    @click="goInfoQX(item.orderId)"
                   >
                     取消订单
                   </wd-button>
@@ -303,7 +323,6 @@ onLoad((options) => {
                   <wd-button
                     size="small"
                     plain
-                    disabled
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"

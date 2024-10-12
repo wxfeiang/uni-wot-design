@@ -170,15 +170,6 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
-          "path": "OcrCamera",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
@@ -216,6 +207,15 @@
         },
         {
           "path": "jinrongType",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "OcrCamera",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -322,30 +322,6 @@
       "root": "pages-sub/userManager",
       "pages": [
         {
-          "path": "SocialSecurityCard/barcode",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/index",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/indexback",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "address/editor",
           "type": "page",
           "layout": "default",
@@ -390,6 +366,30 @@
             "backgroundColor": "#fff",
             "navigationBarBackgroundColor": "#fff",
             "navigationBarTextStyle": "black"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/barcode",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/indexback",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
           }
         },
         {

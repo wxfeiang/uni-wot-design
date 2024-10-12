@@ -16,9 +16,10 @@ import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni/index'
 
 const toast = useToast()
-const { sendOrderInfo, sendOrderList, changeOrderStatus, updateOrderBeanStatusById } = orderInter()
+const { sendOrderInfo, sendOrderList, sendchangeOrderStatus, updateOrderBeanStatusById } =
+  orderInter()
 const paging = ref(null)
-const chooseIndex = ref(-1)
+const chooseIndex = ref<number>(0)
 
 const title = ref('订单详情')
 
@@ -34,28 +35,41 @@ function openPop(e) {
 
 const time = ref<number>(108000)
 const dispay = ref(false)
+const canList = ref(['不想要了', '信息填错，重新下单', '卖家缺货', '物流原因', '其他原因'])
 
 function closePop() {
   showPop.value = false
 }
 
 function Choose(index) {
-  chooseIndex.value = index
-  // console.log('chooseIndex', index)
-  // skuInfo.value = skuList.value[index]
-  closePop()
+  chooseIndex.value = index.value
 }
 
 function timefinish() {
   dispay.value = true
-  changeOrderStatus({ orderId: orderInfo.value.orderId }).then((res) => {
+  sendchangeOrderStatus({ orderId: orderInfo.value.orderId }).then((res) => {
     uni.redirectTo({ url: '/pages-sub/order/orderList' })
+  })
+}
+
+function cancal() {
+  sendchangeOrderStatus({
+    orderId: orderInfo.value.orderId,
+    note: canList.value[chooseIndex.value],
+  }).then((res) => {
+    closePop()
+    // uni.redirectTo({ url: '/pages-sub/order/orderList' })
+    uni.redirectTo({ url: '/pages-sub/order/orderInfo?id=' + orderInfo.value.orderId })
   })
 }
 
 async function goPay() {
   if (dispay.value) {
-    toast.warning('订单已失效！')
+    // toast.warning('订单已失效！')
+
+    uni.showToast({
+      title: '订单已失效',
+    })
   } else {
     const params = {
       // invoice: orderInfo.value.orderTotalFee, // 订单金额
@@ -79,24 +93,21 @@ const getShopDetails = (shopId) => {
 }
 
 async function getInfo(id: any) {
-  uni.showLoading({ title: '' })
   // 这里是请求数据
   const da = { orderId: id }
-  const data: any = await sendOrderInfo(da)
-  orderInfo.value = data
-  time.value = new Date(data.orderTime).getTime() + 1000 * 60 * 30 - new Date().getTime()
+  orderInfo.value = await sendOrderInfo(da)
+
+  time.value = new Date(orderInfo.value.orderTime).getTime() + 1000 * 60 * 30 - new Date().getTime()
   if (orderInfo.value.status === 1 && time.value <= 0) {
     // 修改订单状态
-    changeOrderStatus({ orderId: id }).then((res) => {
+    await sendchangeOrderStatus({ orderId: id, note: '' }).then((res) => {
       uni.redirectTo({ url: '/pages-sub/order/orderList' })
     })
   }
 
-  if (data.shopId) {
-    getShopDetails(data.shopId)
+  if (orderInfo.value.shopId) {
+    await getShopDetails(orderInfo.value.shopId)
   }
-
-  uni.hideLoading()
 }
 
 const gopath = function (url, e) {
@@ -144,8 +155,26 @@ function goEvaluate(orderId) {
   routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
 }
 
-function goRefund(orderId) {
-  console.log('申请退款')
+function goRefund(orderId, note = '') {
+  uni.showModal({
+    title: '退款确认',
+    content: '您确定要申请退款吗',
+    success: async function (res) {
+      if (res.confirm) {
+        const date = await sendRefund({ orderId, note })
+        if (date.code === 200) {
+          routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
+        } else {
+          uni.showToast({
+            title: date.msg,
+            duration: 2000,
+          })
+        }
+      } else if (res.cancel) {
+        console.log('用户点击取消')
+      }
+    },
+  })
 }
 
 function gosure(orderId, status) {
@@ -155,15 +184,15 @@ function gosure(orderId, status) {
   })
 }
 
-onLoad((options) => {
-  showPop.value = options.showPop?.showPop || false
+onLoad(async (options) => {
+  showPop.value = options.showPop ? options.showPop : false
   orderID.value = options.id
 
   // getInfo(options.id)
 })
 
-onShow((options) => {
-  getInfo(orderID.value)
+onShow(async (options) => {
+  await getInfo(orderID.value)
 })
 </script>
 
@@ -451,7 +480,9 @@ onShow((options) => {
             <wd-button block :round="false" @click="goPay" v-if="!dispay" custom-class="duihuanBtn">
               立即支付
             </wd-button>
-            <wd-button block :round="false" v-else custom-class="duihuanBtn2">订单失效</wd-button>
+            <wd-button block plain type="info" :round="false" v-else custom-class="duihuanBtn2">
+              订单失效
+            </wd-button>
           </template>
           <template v-else-if="orderInfo.status == 2">
             <wd-button
@@ -491,7 +522,7 @@ onShow((options) => {
       </view>
     </view>
     <!--    <wd-overlay :show="showPop" @click="showPop = false"/>-->
-    <wd-action-sheet v-model="showPop" @close="closePop" title="取消订单">
+    <wd-action-sheet v-model="showPop" v-if="showPop" @close="closePop" title="取消订单">
       <!--  <wd-popup v-model="showPop" position="bottom" closable @close="closePop">-->
       <view class="px-4">
         <view class="pb-4">
@@ -499,16 +530,10 @@ onShow((options) => {
         </view>
 
         <wd-radio-group v-model="chooseIndex" shape="dot" @change="Choose" checked-color="#f44d24">
-          <wd-radio :value="1">不想要了</wd-radio>
-          <wd-radio :value="2">信息填错，重新下单</wd-radio>
-          <wd-radio :value="3">卖家缺货</wd-radio>
-          <wd-radio :value="4">物流原因</wd-radio>
-          <wd-radio :value="5">其他原因</wd-radio>
+          <wd-radio :value="index" v-for="(it, index) in canList" :key="index">{{ it }}</wd-radio>
         </wd-radio-group>
 
-        <wd-button type="warning" custom-class="duihuanBtn   mt-4 " @click="closePop">
-          确定
-        </wd-button>
+        <wd-button type="warning" custom-class="duihuanBtn   mt-4 " @click="cancal">确定</wd-button>
       </view>
 
       <!--  </wd-popup>-->
