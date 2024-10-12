@@ -9,7 +9,7 @@ const ARTACLE_DETAIL = baseUrlApi('/member/app/manageArticle/findArtacleDetail')
 const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
 
 const GET_SPECIAL_TYPE_LIST = baseUrlApi('/promotion/app/xcxUserAdvice/getSpecialTypeList')
-
+const ADD_READ_HISTORY_RECORD = baseUrlApi('/user/app/history/addReadHistoryRecord')
 const GET_HISTORY_PAGE_BY_USER_ID = baseUrlApi('/user/app/history/getHistoryPageByUserId')
 const GET_DETAIL_UPDATE_READ = baseUrlApi('/user/app/history/getDetailUpdateRead ')
 /**
@@ -31,6 +31,17 @@ export function getHistoryPageByUserId<T>(data) {
 export function getDetailUpdateRead(data) {
   return request.Post(
     GET_DETAIL_UPDATE_READ, // 请求地址
+    data,
+  )
+}
+/**
+ * @description: 消息改状态
+ * @param {} data
+ * @return {}
+ */
+export function addReadHistoryRecord(data) {
+  return request.Post(
+    ADD_READ_HISTORY_RECORD, // 请求地址
     data,
   )
 }

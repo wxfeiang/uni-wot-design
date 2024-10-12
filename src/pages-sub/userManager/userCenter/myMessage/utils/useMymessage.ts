@@ -1,4 +1,8 @@
-import { getDetailUpdateRead, getHistoryPageByUserId } from '@/service/api/source'
+import {
+  addReadHistoryRecord,
+  getDetailUpdateRead,
+  getHistoryPageByUserId,
+} from '@/service/api/source'
 import { List } from '@/service/model/baseModel'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
@@ -11,7 +15,7 @@ const {
 } = useRequest((data) => getHistoryPageByUserId<List>(data), {
   immediate: false,
   loading: false,
-  initialData: {} as any,
+  initialData: [],
 })
 const {
   send: sendDetailUpdateRead,
@@ -23,11 +27,17 @@ const {
   initialData: {},
 })
 
-function messageClick(item) {
+const { send: sendDetailStatus } = useRequest((data) => addReadHistoryRecord(data), {
+  immediate: false,
+  loading: false,
+})
+
+async function messageClick(item) {
   routeTo({
     url: '/pages-sub/webView/index',
     data: { id: item.id, code: item.code, showType: 'message' },
   })
+  await sendDetailStatus(item)
 }
 
 export default () => {
@@ -38,5 +48,6 @@ export default () => {
     histotyMessData,
     sendDetailUpdateRead,
     ReadData,
+    sendDetailStatus,
   }
 }

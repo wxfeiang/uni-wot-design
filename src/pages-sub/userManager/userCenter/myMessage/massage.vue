@@ -100,10 +100,9 @@ const removeHtmlStyle = (html) => {
               <view>
                 <text class="ml-5px truncate-1">{{ item.title }}</text>
               </view>
-              <!-- <view
+              <view
                 class="w-10px h-10px rounded-100 absolute top-[-2px] left-[-5px] bg-#E81010"
-                v-if="item.isread"
-              ></view> -->
+              ></view>
             </view>
           </template>
           <template #value>
