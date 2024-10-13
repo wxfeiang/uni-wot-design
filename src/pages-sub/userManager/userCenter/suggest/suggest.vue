@@ -41,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <view class="w-100vw h-100vh bg box-border overflow-y-auto pb-100px">
+  <view class="w-100vw h-100vh dy-blue-bg box-border overflow-y-auto pb-100px">
     <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
     <view class="p-15px">
       <view class="rounded-8px overflow-hidden">
@@ -94,9 +94,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.bg {
-  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 50%);
-}
 :deep(.wd-radio.is-button .wd-radio__label) {
   @apply rounded-4px bg-#EFF4FF color-#2D69EF;
 }

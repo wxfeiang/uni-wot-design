@@ -153,22 +153,6 @@ const readChange = (type: number) => {
   font-size: 12px !important;
   color: #999 !important;
 }
-:deep(.custom-class-tab),
-:deep(.wd-tabs__nav) {
-  @apply bg-transparent!;
-}
-:deep(.wd-tabs__nav-item) {
-  @apply color-[#fff]! bg-#3177f6!;
-}
-:deep(.wd-tabs__nav-item.is-active) {
-  @apply color-[#000]! bg-#fff!;
-}
-:deep(.wd-input) {
-  @apply bg-transparent!;
-}
-:deep(.wd-tabs__line) {
-  @apply hidden!;
-}
 :deep(.wd-img) {
   vertical-align: middle !important;
 }

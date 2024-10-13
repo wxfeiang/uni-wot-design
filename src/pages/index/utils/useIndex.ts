@@ -46,8 +46,8 @@ const topAction = ref([
   {
     icon: jtcx,
     text: '公交出行',
-    type: 'test',
-    path: '/pages-sub/homeManager/gongjiaochuxing', // 打开的页面路径，如果为空则打开首页
+    type: 'router',
+    path: '/pages-sub/userManager/userCenter/transit/index', // 打开的页面路径，如果为空则打开首页
   },
   // {
   //   icon: xajft,

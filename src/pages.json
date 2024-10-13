@@ -423,6 +423,31 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "userCenter/transit/detil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/transit/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/transit/list",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     },
@@ -650,14 +675,6 @@
           "style": {
             "navigationStyle": "custom",
             "navigationBarTitleText": "活动"
-          }
-        },
-        {
-          "path": "gongjiaochuxing",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
           }
         },
         {

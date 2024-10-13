@@ -87,7 +87,7 @@ onLoad(async (option: any) => {
 </script>
 
 <template>
-  <view class="w-100vw h-100vh bg box-border overflow-y-auto pb-100px">
+  <view class="w-100vw h-100vh dy-blue-bg box-border overflow-y-auto pb-100px">
     <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
     <view class="p-15px">
       <Sug-Item :dataList="dataList" :status="true" />
@@ -112,8 +112,4 @@ onLoad(async (option: any) => {
   </view>
 </template>
 
-<style lang="scss" scoped>
-.bg {
-  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 50%);
-}
-</style>
+<style lang="scss" scoped></style>

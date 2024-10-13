@@ -41,6 +41,9 @@ interface NavigateToOptions {
        "/pages-sub/userManager/userCenter/suggest/list" |
        "/pages-sub/userManager/userCenter/suggest/suggest" |
        "/pages-sub/userManager/userCenter/suggest/suggestDetil" |
+       "/pages-sub/userManager/userCenter/transit/detil" |
+       "/pages-sub/userManager/userCenter/transit/index" |
+       "/pages-sub/userManager/userCenter/transit/list" |
        "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |
@@ -66,7 +69,6 @@ interface NavigateToOptions {
        "/pages-sub/order/orderInfoJF" |
        "/pages-sub/order/orderList" |
        "/pages-sub/homeManager/action" |
-       "/pages-sub/homeManager/gongjiaochuxing" |
        "/pages-sub/homeManager/goodsSearch" |
        "/pages-sub/homeManager/mafuwu" |
        "/pages-sub/homeManager/order" |
