@@ -55,7 +55,7 @@ function handleClickLeft() {
       :placeholder="props.placeholder"
       fixed
       :bordered="props.border"
-      :custom-class="`${props.isNavShow ? 'nav_show' : (props.customClass ?? '')}`"
+      :custom-class="`custom-class-nav-left ${props.isNavShow ? 'nav_show' : (props.customClass ?? '')}`"
       :custom-style="props.customStyle"
       v-if="props.left"
     >
@@ -86,7 +86,7 @@ function handleClickLeft() {
       :placeholder="props.placeholder"
       left-arrow
       :bordered="props.border"
-      :custom-class="`${props.isNavShow ? 'nav_show' : (props.customClass ?? '')}`"
+      :custom-class="` ${props.isNavShow ? 'nav_show' : (props.customClass ?? '')}`"
       :custom-style="props.customStyle"
       safeAreaInsetTop
     >
