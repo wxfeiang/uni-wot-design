@@ -18,6 +18,8 @@ import fenxiang from '@/static/images/shop/fenxiang.png'
 import shoucang from '@/static/images/shop/shoucang.png'
 import duihao from '@/static/images/shop/duihao.png'
 import shoucang1 from '@/static/images/shop/shoucang1.png'
+import morentouxiang from '@/pages-sub/shopManager/static/shoukuanma.png'
+
 import {
   getGoodDetails,
   favoritesList,
@@ -318,12 +320,7 @@ onShareTimeline(() => {
           :key="i.id"
           @click="goList"
         >
-          <wd-img
-            :width="45"
-            :height="45"
-            src="https://registry.npmmirror.com/wot-design-uni-assets/*/files/redpanda.jpg"
-            round
-          ></wd-img>
+          <wd-img :width="45" :height="45" :src="morentouxiang" round></wd-img>
           <view class="flex-1 overflow-hidden ml-10px">
             <view class="w-full flex items-center justify-between">
               <view>

@@ -16,8 +16,13 @@ import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni/index'
 
 const toast = useToast()
-const { sendOrderInfo, sendOrderList, sendchangeOrderStatus, updateOrderBeanStatusById } =
-  orderInter()
+const {
+  sendOrderInfo,
+  sendOrderList,
+  sendchangeOrderStatus,
+  updateOrderBeanStatusById,
+  sendOrderUpdate,
+} = orderInter()
 const paging = ref(null)
 const chooseIndex = ref<number>(0)
 
@@ -66,16 +71,15 @@ function cancal() {
 async function goPay() {
   if (dispay.value) {
     // toast.warning('订单已失效！')
-
     uni.showToast({
       title: '订单已失效',
     })
   } else {
+    const sysOrderItemBeans = JSON.parse(JSON.stringify(orderInfo.value.sysOrderItemBeans))
+    orderInfo.value = await sendOrderUpdate({ orderId: orderInfo.value.orderId })
+    orderInfo.value.sysOrderItemBeans = sysOrderItemBeans
+    orderID.value = orderInfo.value.orderId
     const params = {
-      // invoice: orderInfo.value.orderTotalFee, // 订单金额
-      // actualPrice: orderInfo.value.orderActualAmount, // 实际支付金额
-      // merchantId: orderInfo.value.merchantId,
-      // couponId: orderInfo.value.couponId,
       actualPrice: orderInfo.value.orderActualAmount, // 实际支付金额
       orderId: orderInfo.value.orderId,
       payStatus: 1,
@@ -161,12 +165,16 @@ function goRefund(orderId, note = '') {
     content: '您确定要申请退款吗',
     success: async function (res) {
       if (res.confirm) {
-        const date = await sendRefund({ orderId, note })
-        if (date.code === 200) {
+        const da = {
+          orderId,
+          note,
+        }
+        const date = await sendRefund(da)
+        if (date.errCode === 'SUCCESS') {
           routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
         } else {
           uni.showToast({
-            title: date.msg,
+            title: date.errMsg,
             duration: 2000,
           })
         }
@@ -176,7 +184,6 @@ function goRefund(orderId, note = '') {
     },
   })
 }
-
 function gosure(orderId, status) {
   const data = { orderId, status }
   updateOrderBeanStatusById(data).then((res) => {
@@ -192,7 +199,9 @@ onLoad(async (options) => {
 })
 
 onShow(async (options) => {
-  await getInfo(orderID.value)
+  if (orderID.value) {
+    await getInfo(orderID.value)
+  }
 })
 </script>
 
@@ -259,6 +268,30 @@ onShow(async (options) => {
       <view v-else-if="orderInfo.status === 2" class="flex justify-center items-center flex-col">
         <wd-text
           text="交易完成"
+          size="20px"
+          color="#333333"
+          custom-class="my-1 text-center font-bold"
+        ></wd-text>
+      </view>
+      <view v-else-if="orderInfo.status === 22" class="flex justify-center items-center flex-col">
+        <wd-text
+          text="退款成功"
+          size="20px"
+          color="#333333"
+          custom-class="my-1 text-center font-bold"
+        ></wd-text>
+      </view>
+      <view v-else-if="orderInfo.status === 23" class="flex justify-center items-center flex-col">
+        <wd-text
+          text="退款失败"
+          size="20px"
+          color="#333333"
+          custom-class="my-1 text-center font-bold"
+        ></wd-text>
+      </view>
+      <view v-else-if="orderInfo.status === 3" class="flex justify-center items-center flex-col">
+        <wd-text
+          text="订单取消"
           size="20px"
           color="#333333"
           custom-class="my-1 text-center font-bold"

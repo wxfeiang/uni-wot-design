@@ -5,6 +5,7 @@ import {
   updateOrderStatusById,
   changeOrderStatus,
   getRefund,
+  orderUpdate,
   logistics,
 } from '@/service/api/shop'
 
@@ -43,12 +44,18 @@ const { send: getLogistics } = useRequest((data) => logistics(data), {
   immediate: false,
   loading: false,
 })
+
+const { send: sendOrderUpdate } = useRequest((data) => orderUpdate(data), {
+  immediate: false,
+  loading: false,
+})
 export default () => {
   return {
     sendOrderInfo,
     sendOrderList,
     sendchangeOrderStatus,
     sendRefund,
+    sendOrderUpdate,
     updateOrderBeanStatusById,
     getLogistics,
   }

@@ -95,12 +95,16 @@ function goRefund(orderId, note = '') {
     content: '您确定要申请退款吗',
     success: async function (res) {
       if (res.confirm) {
-        const date = await sendRefund({ orderId, note })
-        if (date.code === 200) {
+        const da = {
+          orderId,
+          note,
+        }
+        const date = await sendRefund(da)
+        if (date.errCode === 'SUCCESS') {
           routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
         } else {
           uni.showToast({
-            title: date.msg,
+            title: date.errMsg,
             duration: 2000,
           })
         }

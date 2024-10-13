@@ -32,6 +32,7 @@ const EVALUATION_ADD = baseUrlApi('/product/app/evaluation/saveOrUpdate')
 const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
 const GET_MERCHANT_SERVICES_COUNT = baseUrlApi('/order/manage/getMerchantServicesCount')
 const GET_REFUND = baseUrlApi('/trade/wxPay/wxRefund')
+const ORDER_UPDATE = baseUrlApi('/trade/app/XcxPayment/payAgain')
 
 /**
  *   商品评价新增
@@ -65,7 +66,9 @@ export function evaluationList(data) {
       meta,
     },
   )
-} /**
+}
+
+/**
  *   商品评价列表
  * @param params 初始参数()
  * */
@@ -75,6 +78,22 @@ export function getRefund(data) {
   }
   return request.Post(
     GET_REFUND, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+/**
+ *   商品评价列表
+ * @param params 初始参数()
+ * */
+export function orderUpdate(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    ORDER_UPDATE, // 请求地址
     data,
     {
       meta,
