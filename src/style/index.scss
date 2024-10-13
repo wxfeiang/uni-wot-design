@@ -30,32 +30,36 @@ page {
 //   padding-top: 4px;
 //   color: red;
 // }
-:deep(.custom-class-mine-login) {
+.custom-class-mine-login {
   color: #fff !important;
   background: linear-gradient(90deg, #72c2fe 0%, #4055fe 100%) !important;
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
-:deep(.custom-class-mine-error) {
+:deep(.custom-class-mine-error),
+.custom-class-mine-error {
   color: #fff !important;
   background: #f44d24 !important;
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
-:deep(.dy-tab-full-hight) {
+
+.dy-tab-full-hight {
   height: calc(100vh - var(--window-bottom));
 }
-:deep(.custom-class-mine-dyPlain) {
+
+:deep(.custom-class-mine-dyplain),
+.custom-class-mine-dyplain {
   border-radius: var(--btn-round) !important;
   @apply overflow-hidden!;
 }
-:deep(.custom-class-mine-dyinfo) {
+.custom-class-mine-dyinfo {
   color: var(--dy-info-color) !important;
   background: var(--dy-info-bg) !important;
   border: var(--dy-info-border) !important;
   border-radius: var(--btn-round) !important;
 }
-:deep(.dy-bottom-tabbar) {
+.dy-bottom-tabbar {
   bottom: calc(var(--window-bottom) + 5px) !important;
 }
 .nav_show {
