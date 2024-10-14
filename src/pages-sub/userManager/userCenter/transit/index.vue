@@ -27,9 +27,18 @@ function toMingxi() {
   routeTo({ url: '/pages-sub/userManager/userCenter/transit/list' })
 }
 
-const status = ref(2)
-const cardyh = ref(true)
+const status = ref(1)
+const cardyh = ref(false)
 const countdown = ref(60)
+const codeRefsh = () => {
+  console.log('🥗')
+}
+const goby = () => {
+  uni.showToast({
+    title: '暂未开放',
+    icon: 'none',
+  })
+}
 </script>
 <template>
   <view class="dy-blue-bg">
@@ -58,7 +67,7 @@ const countdown = ref(60)
               />
             </view>
             <view class="my-20px">
-              <wd-button block :round="false">立即开通</wd-button>
+              <wd-button block :round="false" @click="goby">立即开通</wd-button>
             </view>
           </template>
           <template v-else>
