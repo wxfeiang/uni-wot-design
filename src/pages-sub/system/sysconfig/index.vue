@@ -17,9 +17,11 @@ import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 import { useMessage } from 'wot-design-uni'
 import gywm from '../static/images/gywm.png'
+import out from '../static/images/logout.png'
 import mmdl from '../static/images/mmdl.png'
 import yhxy from '../static/images/yhxy.png'
 import yszc from '../static/images/yszc.png'
+// import zhzx from '../static/images/zhzx.png'
 import { serveProps } from './utils/types'
 const message = useMessage()
 const serveList = ref<serveProps[]>([
@@ -54,8 +56,15 @@ const serveList = ref<serveProps[]>([
     islink: false,
     value: 'V1.2.0',
   },
+  // {
+  //   icon: zhzx,
+  //   title: '账号账号',
+  //   path: 'min',
+  //   islink: false,
+  //   value: '注销后无法恢复，请谨慎操作',
+  // },
   {
-    icon: gywm,
+    icon: out,
     title: '退出登录',
     path: '',
     islink: false,
