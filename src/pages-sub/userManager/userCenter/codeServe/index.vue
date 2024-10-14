@@ -49,7 +49,7 @@ function changeClick(index) {
   codeRefsh()
 }
 const incrementCount = () => {
-  clearInterval(timer.value)
+  timer.value && clearInterval(timer.value)
   countdown.value = 60
   timer.value = setInterval(() => {
     if (countdown.value > 0) {
