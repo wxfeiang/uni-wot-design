@@ -10,38 +10,38 @@
 
 <script lang="ts" setup>
 import { getSerchList } from '@/service/api/source'
+import { List } from '@/service/model/baseModel'
 import { useBaseStore } from '@/store'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
 import kong from '../static/images/kong.png'
 const { historySearch } = storeToRefs(useBaseStore())
-const serchListData = ref([])
+
 const serchValue = ref('')
 const flog = ref(false)
 const cancel = () => {
-  console.log('取消')
   serchValue.value = ''
   if (serchValue.value.length === 0) {
-    serchListData.value = []
+    serchListData.value.content = []
   }
 }
 const clear = () => {
-  console.log('清除')
-
   if (serchValue.value.length === 0) {
-    serchListData.value = []
+    serchListData.value.content = []
   }
 }
 
 const {
   loading,
   send: sendSerchList,
-  onSuccess: SerchListSucess,
-} = useRequest((data) => getSerchList(data), {
+  data: serchListData,
+} = useRequest((data) => getSerchList<List>(data), {
   immediate: false,
   loading: false,
-  initialData: [],
+  initialData: {
+    content: [],
+  },
 })
 
 const search = async () => {
@@ -51,33 +51,25 @@ const search = async () => {
   uni.showLoading({ title: '加载中' })
   // 发起请求
   try {
-    const data: any = await sendSerchList({ articleTitle: serchValue.value })
-    console.log('🥒[data]:', data)
-    serchListData.value = data.data.data.content
-    if (!serchListData.value.length) {
-      console.log('🌯')
+    await sendSerchList({ articleTitle: serchValue.value })
+    if (!serchListData.value.content.length) {
       flog.value = true
     }
-    console.log(serchListData.value)
     useBaseStore().setHistorySearch(serchValue.value)
   } catch (error) {
-    console.log('🍛[error]:', error)
   } finally {
     uni.hideLoading()
   }
 }
 const change = () => {
-  console.log('改变')
-  console.log('🥘====', serchValue.value)
   if (serchValue.value.length === 0) {
-    serchListData.value = []
+    serchListData.value.content = []
     flog.value = true
   } else {
     flog.value = false
   }
 }
 const cleatHistory = () => {
-  console.log('清除历史')
   useBaseStore().clearHistorySearch()
 }
 const histortSerch = (item: string) => {
@@ -125,10 +117,10 @@ const toDetile = (item: any) => {
   </view>
 
   <!-- content -->
-  <view class="px-20px mt-10px" v-if="!loading || (serchListData && serchValue.length > 0)">
+  <view class="px-20px mt-10px" v-if="!loading || (serchListData.content && serchValue.length > 0)">
     <view
       class="flex gap-10px justify-between items-center text-16px bb-1px_dashed_#707070 py-10px border-#707070/20!"
-      v-for="(item, index) in serchListData"
+      v-for="(item, index) in serchListData.content"
       :key="index"
       @click="toDetile(item)"
     >
@@ -137,7 +129,7 @@ const toDetile = (item: any) => {
       <wd-icon name="arrow-right" size="16px" color="#A7A7A7"></wd-icon>
     </view>
   </view>
-  <view class="mt-30" v-if="serchListData.length === 0 && serchValue.length !== 0 && flog">
+  <view class="mt-30" v-if="serchListData.content.length === 0 && serchValue.length !== 0 && flog">
     <wd-status-tip
       :image="kong"
       :image-size="{

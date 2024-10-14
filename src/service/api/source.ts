@@ -97,15 +97,15 @@ export function getBranchesInfo<T>(data: any) {
  * @return {}
  */
 
-export function getSerchList(data: any) {
+export function getSerchList<T>(data: any) {
   const meta: METHOD_INSTANCE = {
     ignoreSign: true,
     ignorEencrypt: true,
     ignorToken: true,
-    resAll: true,
+    Analysis: true,
   }
 
-  return request.Post(MESSAGE_LIST, data, {
+  return request.Post<T>(MESSAGE_LIST, data, {
     meta,
   })
 }
