@@ -92,9 +92,9 @@ onUnload(() => {
 
 <style lang="scss" scoped>
 :deep(.wd-radio.is-button .wd-radio__label) {
-  @apply rounded-4px bg-#EFF4FF color-#2D69EF;
+  @apply rounded-4px! bg-#EFF4FF! color-#2D69EF!;
 }
 :deep(.wd-radio.is-button.is-checked .wd-radio__label) {
-  @apply bg-#2D69EF color-#fff!;
+  @apply bg-#2D69EF!  color-#fff!;
 }
 </style>
