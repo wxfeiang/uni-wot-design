@@ -37,7 +37,7 @@ onLoad(async (options) => {
     await getbanner({ shopHdId: options.type })
     cuurentData.value = bannerDaata.value
   } else if (showType.value === 'message') {
-    await sendDetailUpdateRead({ id: options.id, code: options.code })
+    await sendDetailUpdateRead({ id: options.type })
     cuurentData.value = ReadData.value
   } else {
     types.value = options.type
