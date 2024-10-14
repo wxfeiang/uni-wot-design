@@ -3,7 +3,7 @@ import { createAlova } from 'alova'
 
 import { ContentTypeEnum, ResultEnum } from '@/enums/httpEnum'
 // eslint-disable-next-line import/named
-import { useSystemStore, useUserStore } from '@/store'
+import { useUserStore } from '@/store'
 import { checkStatus } from '@/utils/http/checkStatus'
 
 import { beforeQuest, responseAes } from '@/utils/aes/encryptUtils'
@@ -71,12 +71,6 @@ const alovaInstance = createAlova({
           }
           if (enableUpload) {
             // 上传处理
-            return rawData
-          }
-          // TODO: 处理白名单返回 处理正确数据返回
-          const useSystem = useSystemStore()
-
-          if (useSystem.filterData.whiteList.includes(method.url)) {
             return rawData
           }
           // 返回不解析的数据 ()

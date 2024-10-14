@@ -241,7 +241,7 @@
         },
         {
           "path": "messageList/index",
-          "type": "home",
+          "type": "page",
           "layout": "default",
           "needLogin": true,
           "style": {
@@ -394,9 +394,8 @@
         },
         {
           "path": "userCenter/myMessage/massage",
-          "type": "home",
+          "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -419,6 +418,31 @@
         },
         {
           "path": "userCenter/suggest/suggestDetil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/transit/detil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/transit/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "userCenter/transit/list",
           "type": "page",
           "layout": "default",
           "style": {
@@ -651,14 +675,6 @@
           "style": {
             "navigationStyle": "custom",
             "navigationBarTitleText": "活动"
-          }
-        },
-        {
-          "path": "gongjiaochuxing",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
           }
         },
         {

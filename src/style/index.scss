@@ -16,6 +16,12 @@ page {
   --color-nav-text: #fff !important;
   //
   --btn-round: 6px;
+  // info
+  --dy-innfo-color: #2d69ef;
+  // infobg
+  --dy-info-bg: #eff4ff;
+  //dy-info-border:
+  --dy-info-border: 1px solid #c7d9ff;
 }
 
 // .test {
@@ -30,18 +36,29 @@ page {
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
+:deep(.custom-class-mine-error),
 .custom-class-mine-error {
   color: #fff !important;
   background: #f44d24 !important;
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
+
 .dy-tab-full-hight {
   height: calc(100vh - var(--window-bottom));
 }
-// .custom-class-mine-loginsmrz {
-//   border-radius: var(--btn-round) !important;
-// }
+
+:deep(.custom-class-mine-dyplain),
+.custom-class-mine-dyplain {
+  border-radius: var(--btn-round) !important;
+  @apply overflow-hidden!;
+}
+.custom-class-mine-dyinfo {
+  color: var(--dy-info-color) !important;
+  background: var(--dy-info-bg) !important;
+  border: var(--dy-info-border) !important;
+  border-radius: var(--btn-round) !important;
+}
 .dy-bottom-tabbar {
   bottom: calc(var(--window-bottom) + 5px) !important;
 }
@@ -51,4 +68,9 @@ page {
 .nav_bg {
   color: var(--color-nav-text);
   background-color: var(--color-nav-bg);
+}
+// 统一蓝色导航背景
+.dy-blue-bg {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%);
 }

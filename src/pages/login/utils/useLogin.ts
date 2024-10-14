@@ -157,17 +157,11 @@ const submitPhoneCode = (form, formData) => {
             code: formData.imgcode,
             uuid: codeflog.value,
           }
-          console.log('🧀', params)
           const data: any = await sendPhoneCode(params)
-          console.log('🍷[data]:', data)
           if (data.errorCode === 0) {
             Toast('验证码发送成功')
           }
-
-          getCodeUrl()
         } catch (error) {
-          console.log('🍱[error]:', error)
-
           getCodeUrl()
         }
       }
@@ -213,13 +207,10 @@ const submitPhoneLogin = (form) => {
     if (valid) {
       try {
         uni.showLoading({ title: '登录中...' })
-
         const data: any = await phoneSend()
-        console.log('🍷[data]:', data)
-
         await resultData(data)
       } catch (error) {
-        console.log('🍱[error]:', error)
+        console.log('🍱=====[error]:', error)
       } finally {
         getCodeUrl()
       }
@@ -317,7 +308,7 @@ const submitUpRealName = (form, flog) => {
         }
         await userLogin(usrData, flog)
       } catch (error) {
-        console.log('🍱[error]:', error)
+        console.log('补充error:', error)
       } finally {
         getCodeUrl()
       }
@@ -342,7 +333,7 @@ const submitUpRealsfz = async (flog) => {
       uni.hideLoading()
     }
   } catch (error) {
-    console.log('🍱[error]:', error)
+    console.log('认证错误:', error)
   }
 }
 
@@ -370,6 +361,7 @@ const resultData = async (data, flog = 2) => {
         areaCode: 'CHN',
       }
       const rData: any = await sendIsReceiveCardInfo(params)
+      console.log('renzhen===[rData]:', rData)
       authStore.userInfo.cardType = rData.cardType
     } catch (error) {
       console.log('🍡[error]:', error)

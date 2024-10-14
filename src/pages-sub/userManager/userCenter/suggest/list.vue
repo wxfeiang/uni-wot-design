@@ -55,7 +55,7 @@ function toDetil(e) {
     v-model="dataList"
     @query="queryList"
     :auto-show-system-loading="true"
-    class="bg"
+    class="dy-blue-bg"
   >
     <template #top>
       <!-- 顶部 -->
@@ -73,18 +73,4 @@ function toDetil(e) {
   </z-paging>
 </template>
 
-<style lang="scss" scoped>
-.bg {
-  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 50%);
-}
-:deep(.wd-cell-group),
-:deep(.wd-cell-group__body) {
-  @apply bg-transparent!;
-}
-:deep(.custom-class-cell) {
-  @apply rounded-6px mb-10px overflow-hidden;
-}
-:deep(.wd-cell__wrapper) {
-  @apply items-center!;
-}
-</style>
+<style lang="scss" scoped></style>
