@@ -37,6 +37,7 @@ interface NavigateToOptions {
        "/pages-sub/userManager/collection/collection" |
        "/pages-sub/userManager/collection/follow" |
        "/pages-sub/userManager/userCenter/user" |
+       "/pages-sub/userManager/userCenter/codeServe/index" |
        "/pages-sub/userManager/userCenter/myMessage/massage" |
        "/pages-sub/userManager/userCenter/suggest/list" |
        "/pages-sub/userManager/userCenter/suggest/suggest" |

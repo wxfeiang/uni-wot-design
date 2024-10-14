@@ -41,7 +41,7 @@ const topAction = ref([
     icon: mfw,
     text: '码服务',
     type: 'router',
-    path: '/pages-sub/homeManager/mafuwu',
+    path: '/pages-sub/userManager/userCenter/codeServe/index',
   },
   {
     icon: jtcx,

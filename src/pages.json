@@ -393,6 +393,15 @@
           }
         },
         {
+          "path": "userCenter/codeServe/index",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "userCenter/myMessage/massage",
           "type": "page",
           "layout": "default",
