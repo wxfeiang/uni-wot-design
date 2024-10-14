@@ -51,17 +51,19 @@ onLoad(async (options) => {
 <template>
   <web-view :src="webUrl" v-if="showType === 'webView'"></web-view>
   <view class="" v-else>
-    <dy-navbar :leftTitle="title" left></dy-navbar>
-    <view class="mt-20px" v-if="!showTop">
-      <view class="text-center line-height-30px">
-        {{ cuurentData.articleTitle || cuurentData.title || cuurentData.shopHdTitle }}
-      </view>
-      <view class="text-center flex justify-center gap-20px mt-10px">
-        <view class="text-center color-#999 font-size-12px line-height-20px">
-          来源： {{ remark || '一卡通平台' }}
+    <view class="bg-#F8F8F8">
+      <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
+      <view class="py-20px px-30px" v-if="!showTop">
+        <view class="line-height-40px text-26px">
+          {{ cuurentData.articleTitle || cuurentData.title || cuurentData.shopHdTitle }}
         </view>
-        <view class="text-center color-#999 font-size-12px line-height-20px">
-          发布时间：{{ removeT(cuurentData.createTime || cuurentData.shopHdStartT) }}
+        <view class="flex justify-center gap-20px mt-10px">
+          <view class="text-center color-#999 font-size-12px line-height-20px">
+            来源： {{ remark || '一卡通平台' }}
+          </view>
+          <view class="color-#999 font-size-12px line-height-20px">
+            发布时间：{{ removeT(cuurentData.createTime || cuurentData.shopHdStartT) }}
+          </view>
         </view>
       </view>
     </view>
