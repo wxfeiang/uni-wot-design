@@ -24,6 +24,8 @@ const ADD_BUSINESS_ADVICE = baseUrlApi('/promotion/app/xcxUserAdvice/saveOrUpdat
 
 const FIND_MY_INFO = baseUrlApi('/member/app/myInfo')
 
+const GET_ADVICELIST = baseUrlApi('/promotion/app/xcxUserAdvice/getAdvicelist')
+const GET_DETAIL_BY_ADVICE_ID = baseUrlApi('/promotion/app/xcxUserAdvice/getDetailByAdviceId')
 /**
  *  查询雄才卡信息
  * @param params
@@ -181,12 +183,42 @@ export function getUserGoodsAddressList(data) {
 }
 
 /**
- * 用户反馈建议提交
+ * 用户反馈建议新增==
  * @param params 初始参数()
  * */
 export function addBusinessAdvice(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
   return request.Post(
     ADD_BUSINESS_ADVICE, // 地址
     data,
+  )
+}
+/**
+ * 用户反馈建议列表
+ * @param params 初始参数()
+ * */
+export function getAdvicelist<T>(data) {
+  return request.Post<T>(
+    GET_ADVICELIST, // 地址
+    data,
+  )
+}
+
+/**
+ * 用户反馈详情
+ * @param params 初始参数()
+ * */
+export function getDetailByAdviceId<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post<T>(
+    GET_DETAIL_BY_ADVICE_ID, // 地址
+    data,
+    {
+      meta,
+    },
   )
 }

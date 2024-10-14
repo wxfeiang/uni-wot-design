@@ -12,19 +12,11 @@ import { useMessage } from 'wot-design-uni'
 import SugItem from './components/sugItem.vue'
 import useSuggest from './utils/useSuggest'
 const message = useMessage()
-const { sendDetail, detilData } = useSuggest()
+const { sendDetail, detilData, submit, model } = useSuggest()
 const title = ref('投诉与建议')
 const form = ref(null)
 const next = ref(false)
-const dataList = ref([
-  {
-    title: '签到',
-    createTime: '2023-10-10 10:10:10',
-    type: 1,
-    adviceType: 1,
-    id: 1,
-  },
-])
+const dataList = ref([])
 const footerBtns2 = computed(() => {
   if (!next.value) {
     return [
@@ -72,17 +64,33 @@ const btnClick2 = async (item) => {
         closeOnClickModal: false,
       })
       .then(() => {
-        console.log('🍭')
-        // 更新状态
-        // 重新查询数据
+        updateStatus()
       })
   }
 }
+// 更新状态
+async function updateStatus() {
+  model.value.adviceContent = detilData.value!.adviceContent
+  model.value.adviceImg = detilData.value!.adviceImg
+  model.value.adviceType = detilData.value!.adviceType
+  model.value.adviceState = '2'
+  model.value.isDone = '1'
+  model.value.adviceId = detilId.value
+  await submit(model.value, true)
+  getDetil()
+}
+
+// 重新查询数据
+
+const detilId = ref('')
+async function getDetil() {
+  await sendDetail({ id: detilId.value })
+  dataList.value = [detilData.value]
+}
 
 onLoad(async (option: any) => {
-  console.log(option)
-  await sendDetail({ id: option.id })
-  // dataList.value = detilData.value
+  detilId.value = option.id
+  getDetil()
 })
 </script>
 
@@ -93,7 +101,10 @@ onLoad(async (option: any) => {
       <Sug-Item :dataList="dataList" :status="true" />
     </view>
 
-    <view class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff">
+    <view
+      class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff"
+      v-if="dataList[0].isDone === '0'"
+    >
       <view class="flex gap-15px">
         <view class="flex-1" v-for="(item, index) in footerBtns2" :key="index">
           <wd-button
@@ -107,7 +118,6 @@ onLoad(async (option: any) => {
           </wd-button>
         </view>
       </view>
-      <!-- <wd-button block :round="false" @click="submit(form)">提 交</wd-button> -->
     </view>
   </view>
 </template>

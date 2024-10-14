@@ -38,7 +38,7 @@ const tabs = ref([
     logo,
   },
   {
-    name: '雄安数字身份码',
+    name: '雄安数字身份',
     value: '3',
     logo: '',
   },
@@ -185,6 +185,9 @@ onUnmounted(async () => {
           <view class="bg-#fff py-20px rounded-10px overflow-hidden min-h-250px">
             <template v-if="active === 0">
               <view class="flex justify-center mt-10px flex-col items-center">
+                <view class="text-center color-#000 text-14px py-5px">
+                  {{ tabs[active].name }}二维码
+                </view>
                 <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
                 <view>
                   <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>

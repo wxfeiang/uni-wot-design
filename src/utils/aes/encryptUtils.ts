@@ -116,7 +116,7 @@ export function responseAes(res: any) {
   const aesRes = decrypt(res.header.responsek ?? res.header.ResponseK)
   const aesResiv = decrypt(res.header.responsev ?? res.header.Responsev)
   if (!aesRes || !aesResiv) {
-    return { msg: '解密出现问题了----' }
+    return { msg: '数据提示:系统解密异常!' }
   }
   return JSON.parse(Decrypt(res.data, aesRes, aesResiv) as any)
 }

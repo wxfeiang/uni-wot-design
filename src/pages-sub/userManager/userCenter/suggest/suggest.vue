@@ -32,11 +32,8 @@ watchEffect(() => {
       })
   }
 })
-onMounted(() => {
-  model.value.feedbackCon = ''
-  model.value.feedbackImg = ''
-  model.value.createPhone = ''
-  model.value.adviceType = 0
+onUnload(() => {
+  submitStatus.value = false
 })
 </script>
 
@@ -61,17 +58,17 @@ onMounted(() => {
               <text class="color-red">*</text>
             </view>
             <wd-textarea
-              v-model="model.feedbackCon"
+              v-model="model.adviceContent"
               placeholder="请输入您要建议/反馈的内容（必填，100字以内）"
-              prop="feedbackCon"
-              :rules="rules.feedbackCon"
+              prop="adviceContent"
+              :rules="rules.adviceContent"
               :maxlength="100"
               clearable
               show-word-limit
             />
 
             <wd-cell title="反馈截图" title-width="100px">
-              <dy-upload v-model="model.feedbackImg" :limit="3"></dy-upload>
+              <dy-upload v-model="model.adviceImg"></dy-upload>
             </wd-cell>
 
             <wd-input
@@ -79,7 +76,7 @@ onMounted(() => {
               :maxlength="11"
               prop="phone"
               clearable
-              v-model="model.createPhone"
+              v-model="model.advicePhone"
               placeholder="请输入联系电话(选填)"
             />
           </wd-cell-group>

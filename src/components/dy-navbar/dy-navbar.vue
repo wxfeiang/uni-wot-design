@@ -46,6 +46,14 @@ function handleClickLeft() {
     uni.navigateBack()
   }
 }
+onPageScroll((e) => {
+  console.log('🍓[e]:', e)
+  // if (e.scrollTop > 30) {
+  //   navbg.value = 'nav_hide'
+  // } else {
+  //   navbg.value = 'nav_show'
+  // }
+})
 </script>
 <template>
   <view class="">
