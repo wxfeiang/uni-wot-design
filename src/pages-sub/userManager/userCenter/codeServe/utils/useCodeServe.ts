@@ -1,16 +1,7 @@
-import { getActivityById, getStdTDCode } from '@/service/api/shop'
+import { getStdTDCode } from '@/service/api/shop'
 import { receiveCoupon } from '@/service/api/userMessage'
 import { useCaptcha, useRequest } from 'alova/client'
 import dayjs from 'dayjs'
-
-const activity = ref({})
-const { send: getActivity } = useRequest(
-  (data: ActivityParams) => getActivityById<IActivity>(data),
-  {
-    immediate: false,
-    loading: false,
-  },
-)
 
 // 用户领取
 
@@ -39,7 +30,6 @@ const encrypt = (val: string, type: 'name' | 'cardNo', flag: boolean) => {
 }
 
 export default () => ({
-  getActivity,
   sendReceiveCoupon,
   sendGetStdTDCode,
   format,

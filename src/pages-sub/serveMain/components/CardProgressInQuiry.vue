@@ -13,29 +13,6 @@ const back = () => {
   uni.navigateBack()
 }
 
-const data1 = ref([
-  {
-    title: '姓名:',
-    value: '',
-    prop: 'xm',
-  },
-  {
-    title: '身份证号:',
-    value: '',
-    prop: 'xb',
-  },
-  {
-    title: '申领银行:',
-    value: '',
-    prop: 'phone',
-  },
-  {
-    title: '申领时间:',
-    value: '',
-    prop: 'dh',
-  },
-])
-
 const data2 = ref([
   {
     title: '申领状态:',
@@ -47,12 +24,33 @@ const data2 = ref([
     value: '',
     prop: 'date',
   },
+  // TODO:
+  {
+    title: '网点名称:',
+    value: '',
+    prop: 'date',
+  },
+  {
+    title: '领取渠道:',
+    value: '',
+    prop: 'date',
+  },
+  {
+    title: '邮寄单号:',
+    value: '',
+    prop: 'date',
+  },
+  {
+    title: '邮寄公司:',
+    value: '',
+    prop: 'date',
+  },
 ])
 onUnmounted(() => {
   cardInfoData.value = null
 })
 const suMit1 = ref(true)
-
+// 您未在本平台申领社保卡，未查询到您的制卡进度
 function juvenClick(form) {
   suMit1.value = false
   cardQury(form)
