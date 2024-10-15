@@ -23,6 +23,7 @@ const merchantId = ref('')
 const couponId = ref('')
 const orderId = ref('')
 const PayType = ref('scan')
+const userId = ref('')
 
 actualPrice.value = inValue.value
 const payFlog = ref(false)
@@ -68,6 +69,7 @@ async function getOrderMess() {
       data = await sendPay2(params2)
     } else {
       const params = {
+        userId: userId.value,
         actualAmount: actualPrice.value, // 实际支付金额
         totalAmount: inValue.value, // 总金额
         merchantId: merchantId.value, // '1833701004270182401', // 商户Id
@@ -115,7 +117,7 @@ onLoad(async () => {
   // useSystemFig()
 })
 
-onShow(async (options) => {
+onShow(async () => {
   const data = uni.getEnterOptionsSync()
   console.log('页面进入=======传入的数据:', data)
   PayType.value = data.referrerInfo?.extraData?.payType // 支付类型
@@ -124,6 +126,7 @@ onShow(async (options) => {
   actualPrice.value = data.referrerInfo?.extraData?.actualPrice
   merchantId.value = data.referrerInfo?.extraData?.merchantId
   couponId.value = data.referrerInfo?.extraData?.couponId
+  userId.value = data.referrerInfo?.extraData?.userId
   // 支付状态false 携带支付
   if (!payFlog.value && data.referrerInfo?.extraData?.payStatus === 1) {
     await getOrderMess()
