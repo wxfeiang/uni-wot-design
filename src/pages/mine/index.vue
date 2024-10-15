@@ -32,6 +32,7 @@ const {
   // msCount,
   sendMyInfo,
   sendOrderStatistics,
+  sendBusinessInfo,
 } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
@@ -75,17 +76,16 @@ onShow(async () => {
         // 查询商户统计
         const datas: any = await sendBusinessInfo()
 
-        msCount.value.totalMoneyDay = da.todayAmount ? da.todayAmount : 0
-        msCount.value.totalOrderNumDay = da.todayOrderNum ? da.todayOrderNum : 0
+        msCount.value.totalMoneyDay = datas.todayAmount ? datas.todayAmount : 0
+        msCount.value.totalOrderNumDay = datas.todayOrderNum ? datas.todayOrderNum : 0
       }
-      if (isLogined.value) {
-        const da: any = await sendOrderStatistics()
-        serveOrderList.value[0].value = da.dfh ? da.dfh : 0
-        serveOrderList.value[1].value = da.dfk ? da.dfk : 0
-        serveOrderList.value[2].value = da.dsh ? da.dsh : 0
-        serveOrderList.value[3].value = da.ywc ? da.ywc : 0
-        serveOrderList.value[4].value = da.sh ? da.sh : 0
-      }
+
+      const da: any = await sendOrderStatistics()
+      serveOrderList.value[0].value = da.dfh ? da.dfh : 0
+      serveOrderList.value[1].value = da.dfk ? da.dfk : 0
+      serveOrderList.value[2].value = da.dsh ? da.dsh : 0
+      serveOrderList.value[3].value = da.ywc ? da.ywc : 0
+      serveOrderList.value[4].value = da.sh ? da.sh : 0
     } catch {
       topList.value[0].value = 0
       topList.value[1].value = 0
