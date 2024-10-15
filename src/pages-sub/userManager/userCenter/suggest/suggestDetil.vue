@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import { useMessage } from 'wot-design-uni'
-import SugItem from './components/sugItem.vue'
+import SugItem from './components/SugItem.vue'
 import useSuggest from './utils/useSuggest'
 const message = useMessage()
 const { sendDetail, detilData, submit, model } = useSuggest()

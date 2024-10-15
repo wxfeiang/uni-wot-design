@@ -92,7 +92,7 @@ watchEffect(() => {
             prop="zhbzkh"
             custom-input-class="custom-input-right"
           />
-          <wd-input
+          <!-- <wd-input
             label="经办人:"
             label-width="100px"
             type="text"
@@ -101,7 +101,7 @@ watchEffect(() => {
             :rules="rules.jbr"
             prop="jbr"
             custom-input-class="custom-input-right"
-          />
+          /> -->
         </wd-cell-group>
       </wd-form>
     </view>

@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
-import SugItem from './components/sugItem.vue'
+import SugItem from './components/SugItem.vue'
 import useSuggest from './utils/useSuggest'
 const { sendAdvicelist, advicelist } = useSuggest()
 

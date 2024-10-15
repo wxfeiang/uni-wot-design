@@ -1,11 +1,18 @@
 <script lang="ts" setup>
 import { cardSocialStart } from '@/service/api/cardServe'
-import { useRequest } from 'alova/client'
+import { useUserStore } from '@/store/user'
+import { useForm } from 'alova/client'
 import { useMessage } from 'wot-design-uni'
-import cardSocialActive from '../hooks/cardSocialActive'
 import { statusTisProps } from '../types/types'
 const message = useMessage()
-const { model, rules } = cardSocialActive()
+const { userInfo } = useUserStore()
+const rules = {
+  userName: [{ required: true, message: '请输入姓名' }],
+  cardNumber: [{ required: true, message: '请输入证件号码' }],
+  socialScCardNumber: [{ required: true, message: '请输入社会保障卡号' }],
+  operator: [{ required: true, message: '请输入经办人' }],
+}
+
 const form = ref(null)
 
 const visible = ref<boolean>(false)
@@ -14,9 +21,21 @@ function showKeyBoard() {
   visible.value = true
 }
 // 社保卡启用
-const { loading, send: sendsocialsecardActive } = useRequest((data) => cardSocialStart(data), {
+const {
+  loading,
+  send: sendsocialsecardActive,
+  form: model,
+} = useForm((data) => cardSocialStart(data), {
   immediate: false,
   loading: false,
+  initialData: {},
+  resetAfterSubmiting: true,
+  initialForm: {
+    userName: userInfo.userName,
+    cardNumber: userInfo.idCardNumber,
+    socialScCardNumber: '',
+    operator: userInfo.userName,
+  },
 })
 const statusDel = ref<statusTisProps>()
 const submitCardSocialActive = (form) => {
@@ -93,7 +112,7 @@ const submitCardSocialActive = (form) => {
             prop="socialScCardNumber"
             custom-input-class="custom-input-right"
           />
-          <wd-input
+          <!-- <wd-input
             label="经办人:"
             label-width="100px"
             type="text"
@@ -102,7 +121,7 @@ const submitCardSocialActive = (form) => {
             :rules="rules.operator"
             prop="operator"
             custom-input-class="custom-input-right"
-          />
+          /> -->
         </wd-cell-group>
       </wd-form>
     </view>

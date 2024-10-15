@@ -11,7 +11,7 @@ const visible = ref<boolean>(false)
 const Passreset = function () {
   routeTo({
     url: '/pages-sub/serveMain/cardFromType',
-    data: { base: 'servepassreset', title: '服务密码管理' },
+    data: { base: 'servepassreset', title: '服务密码重置' },
   })
 }
 
@@ -104,7 +104,7 @@ watchEffect(() => {
             prop="newPwd"
             custom-input-class="custom-input-right"
           />
-          <wd-input
+          <!-- <wd-input
             label="经办人:"
             label-width="100px"
             type="text"
@@ -113,7 +113,7 @@ watchEffect(() => {
             :rules="rules.jbr"
             prop="jbr"
             custom-input-class="custom-input-right"
-          />
+          /> -->
         </wd-cell-group>
       </wd-form>
     </view>

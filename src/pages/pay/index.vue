@@ -10,11 +10,13 @@
 <script lang="ts" setup>
 import { getShopDetail } from '@/service/api/shop'
 import { getPayCouponUserPhone } from '@/service/api/userMessage'
+import { useUserStore } from '@/store'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useRequest } from 'alova/client'
 import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
 import { couponProps, shopDetilProps } from './utils/types'
+const userStore = useUserStore()
 
 const message = useMessage()
 const inValue = ref<any>() // 输入框的值
@@ -170,6 +172,7 @@ async function goPay() {
   }
 
   const params = {
+    userId: userStore.userInfo.userDId,
     invoice: inValue.value, // 订单金额
     actualPrice: actualPrice.value, // 实际支付金额
     merchantId: shopMessage.value.merchantId,

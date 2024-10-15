@@ -8,6 +8,7 @@
 </route>
 
 <script lang="ts" setup>
+import { SetClipboardData } from '@/utils/uniapi'
 import orderInter from './utils/orderInter'
 
 const { getLogistics } = orderInter()
@@ -17,11 +18,11 @@ const title = ref('物流信息')
 // TODO: 对数据做反转
 const active = ref(0)
 const orderId = ref(0)
-const logisticsData = ref({})
+const logisticsData = ref<any>({})
 
 onLoad(async (options) => {
   orderId.value = options.id ? options.id : ''
-  const data = await getLogistics({ orderId: orderId.value })
+  const data: any = await getLogistics({ orderId: orderId.value })
   logisticsData.value = data
 })
 </script>

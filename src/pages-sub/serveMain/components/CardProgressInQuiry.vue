@@ -1,11 +1,23 @@
 <script lang="ts" setup>
+import { SetClipboardData } from '@/utils/uniapi'
+import { useMessage } from 'wot-design-uni'
 import useCardpress from '../hooks/useCardpress'
-const { cardQury, model, rules, loading, cardInfoData } = useCardpress()
-
+const {
+  cardQury,
+  model,
+  rules,
+  loading,
+  cardInfoData,
+  submitStatus,
+  statusDel,
+  serchBtnStatus,
+  sendCardMail,
+  model2,
+  cardMailData,
+} = useCardpress()
 const form = ref(null)
-
+const message = useMessage()
 const visible = ref<boolean>(false)
-
 function showKeyBoard() {
   visible.value = true
 }
@@ -13,7 +25,7 @@ const back = () => {
   uni.navigateBack()
 }
 
-const data2 = ref([
+const data = ref([
   {
     title: '申领状态:',
     value: '',
@@ -24,26 +36,28 @@ const data2 = ref([
     value: '',
     prop: 'date',
   },
-  // TODO:
+])
+const data1 = ref([
   {
     title: '网点名称:',
     value: '',
-    prop: 'date',
+    prop: 'wdName',
   },
   {
     title: '领取渠道:',
     value: '',
-    prop: 'date',
+    prop: 'lqqd',
   },
   {
     title: '邮寄单号:',
     value: '',
-    prop: 'date',
+    prop: 'yjdh',
+    action: 'copy',
   },
   {
     title: '邮寄公司:',
     value: '',
-    prop: 'date',
+    prop: 'yjCompany',
   },
 ])
 onUnmounted(() => {
@@ -55,6 +69,36 @@ function juvenClick(form) {
   suMit1.value = false
   cardQury(form)
 }
+// 错误提示
+watchEffect(async () => {
+  if (submitStatus.value) {
+    message
+      .alert({
+        closeOnClickModal: false,
+        msg: statusDel.value.message,
+        title: '提示',
+        confirmButtonText: '确定',
+      })
+      .then(() => {
+        if (!statusDel.value?.message) {
+          uni.navigateBack()
+        }
+        submitStatus.value = false
+        serchBtnStatus.value = false
+      })
+  }
+  if (cardInfoData.value) {
+    try {
+      await sendCardMail()
+    } catch (error) {
+      cardMailData.value = null
+      console.log('🥨[error]:', error)
+    }
+  }
+})
+onUnmounted(() => {
+  serchBtnStatus.value = false
+})
 </script>
 <template>
   <view class="p-15px">
@@ -125,9 +169,25 @@ function juvenClick(form) {
             :title="item.title"
             :value="cardInfoData[item.prop]"
             border
-            v-for="(item, index) in data2"
+            v-for="(item, index) in data"
             :key="index"
           ></wd-cell>
+          <template v-if="cardMailData">
+            <wd-cell :title="item.title" border v-for="(item, index) in data1" :key="index">
+              <view>
+                <view class="flex gap-10px items-center justify-end">
+                  <text>{{ cardMailData[item.prop] }}</text>
+                  <wd-icon
+                    name="file-copy"
+                    size="18px"
+                    color="#1890ff"
+                    v-if="item.action && item.action == 'copy'"
+                    @click="SetClipboardData(cardMailData[item.prop])"
+                  ></wd-icon>
+                </view>
+              </view>
+            </wd-cell>
+          </template>
         </wd-cell-group>
       </view>
       <view class="mt-20px">
@@ -135,6 +195,7 @@ function juvenClick(form) {
       </view>
     </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {

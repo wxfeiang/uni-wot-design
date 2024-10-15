@@ -1,24 +1,42 @@
 <script lang="ts" setup>
 import { cardLoss } from '@/service/api/cardServe'
-import { useRequest } from 'alova/client'
+import { useUserStore } from '@/store/user'
+import { useForm } from 'alova/client'
 import { useMessage } from 'wot-design-uni'
-import useCardLoss from '../hooks/useCardLoss'
 import { statusTisProps } from '../types/types'
 const message = useMessage()
-const { model, rules } = useCardLoss()
+
 const form = ref(null)
 const visible = ref<boolean>(false)
+const { userInfo } = useUserStore()
 
+const rules = {
+  xm: [{ required: true, message: '请输入姓名' }],
+  zjhm: [{ required: true, message: '请输入证件号码' }],
+  jbr: [{ required: true, message: '请输入经办人' }],
+  zhbzkh: [{ required: true, message: '请输入社会保障卡号' }],
+}
 function showKeyBoard() {
   visible.value = true
 }
 // 社保卡挂失
-const { loading, send: sendCardLoss } = useRequest((data) => cardLoss(data), {
+const {
+  loading,
+  send: sendCardLoss,
+  form: model,
+} = useForm((data) => cardLoss(data), {
   immediate: false,
   loading: false,
+  resetAfterSubmiting: true,
+  initialForm: {
+    xm: userInfo.userName,
+    zjhm: userInfo.idCardNumber,
+    zhbzkh: '',
+    jbr: '',
+  },
 })
 const statusDel = ref<statusTisProps>()
-// msg: statusDel.value?.message ? statusDel.value.message : '提交成功',
+
 const submitCard = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
@@ -106,7 +124,7 @@ const submitCard = (form) => {
             custom-input-class="custom-input-right"
           />
 
-          <wd-input
+          <!-- <wd-input
             label="经办人:"
             label-width="100px"
             type="text"
@@ -115,7 +133,7 @@ const submitCard = (form) => {
             :rules="rules.jbr"
             prop="jbr"
             custom-input-class="custom-input-right"
-          />
+          /> -->
         </wd-cell-group>
       </wd-form>
     </view>

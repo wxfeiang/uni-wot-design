@@ -1,39 +1,46 @@
 import { changeCardPwd } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 
-import { useRequest } from 'alova/client'
+import { useForm } from 'alova/client'
 import { statusTisProps } from '../types/types'
 const { userInfo } = useUserStore()
-const model = ref({
-  xm: userInfo.userName,
-  zjhm: userInfo.idCardNumber,
-  shbzkh: '',
-  oldPwd: '',
-  newPwd: '',
-  jbr: userInfo.userName,
-})
+
 const rules = {
   xm: [{ required: true, message: '请输入姓名' }],
   zjhm: [{ required: true, message: '请输入证件号码' }],
   shbzkh: [{ required: true, message: '请输入社会保障卡号' }],
   oldPwd: [{ required: true, message: '请输入旧密码' }],
   newPwd: [{ required: true, message: '请输入新密码' }],
-  jbr: [{ required: true, message: '请输入经办人' }],
+  // jbr: [{ required: true, message: '请输入经办人' }],
 }
 const statusDel = ref<statusTisProps>()
 const submitStatus = ref(false)
 
 // 服务密码修改
-const { loading, send: sendChangeCardPwd } = useRequest((data) => changeCardPwd(data), {
+const {
+  loading,
+  send: sendChangeCardPwd,
+  form: model,
+} = useForm((data) => changeCardPwd(data), {
   immediate: false,
   loading: false,
+  // 初始化表单数据
+  resetAfterSubmiting: true,
+  initialForm: {
+    xm: userInfo.userName,
+    zjhm: userInfo.idCardNumber,
+    shbzkh: '',
+    oldPwd: '',
+    newPwd: '',
+    jbr: userInfo.userName,
+  },
 })
 
 const submitPasswoed = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        const data: any = await sendChangeCardPwd(model.value)
+        const data: any = await sendChangeCardPwd()
         submitStatus.value = true
         statusDel.value = data
       } catch (error) {
