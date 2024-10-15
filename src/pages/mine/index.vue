@@ -80,7 +80,7 @@ onShow(async () => {
         msCount.value.totalOrderNumDay = datas.todayOrderNum ? datas.todayOrderNum : 0
       }
 
-      const da: any = await sendOrderStatistics()
+      const da: any = await sendOrderStatistics({ type: 1 })
       serveOrderList.value[0].value = da.dfh ? da.dfh : 0
       serveOrderList.value[1].value = da.dfk ? da.dfk : 0
       serveOrderList.value[2].value = da.dsh ? da.dsh : 0
