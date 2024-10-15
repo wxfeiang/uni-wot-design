@@ -8,7 +8,7 @@ import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
 const { sendReceiveCoupon } = userCoupon()
-
+const readUseOnly = ref('仅雄安一卡通支付使用')
 defineOptions({
   name: 'couponList',
 })
@@ -99,91 +99,102 @@ onLoad(async () => {
   topbgBase64.value = await pathToBase64(bg)
 })
 const url = ref(
-  'https://oss.xay.xacloudy.cn/images/2024-09/ffa60c37-8ecc-496d-8880-2ce60cbe1977items.png',
+  'https://oss.xay.xacloudy.cn/images/2024-09/0791669c-1691-416f-bc2f-1523986a55e9WechatIMG248.jpg',
 )
 </script>
 
 <template>
-  <view
-    :style="`background-image: url(${url});background-size: 100% ${sourceStu ? '135px' : '120px'}`"
-    class="bg-no-repeat min-h-120px relative pl-24px pr-10px py-20px box-border rounded-t-10px ml-[-5px]"
-    :class="statusBg ? '' : 'grayscale opacity-50'"
-  >
-    <view class="flex justify-between items-center">
-      <view class="flex flex-col justify-between">
-        <view class="color-#fff text-22px">{{ props.data.couponName }}</view>
-        <view class="color-#FFC4A6 text-12px">
-          有效期:
-          {{
-            // props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
-            props.data.couponReceiveBeginDate.slice(0, 10) +
-            ' 至 ' +
-            props.data.couponReceiveEndDate.slice(0, 10)
-          }}
-        </view>
-        <view v-if="sourceStu" class="color-#FFC4A6 text-12px">仅雄安一卡通支付使用</view>
-        <view class="flex justify-between items-center mt-10px">
-          <view
-            class="px-15px py-2px rounded-100 bd-1px_#fff color-#fff text-12px"
-            v-if="statusCoupopn.btnShow"
-            @click="handleReceive(props.data)"
-          >
-            {{ statusCoupopn.btnText }}
-          </view>
-          <view class="color-#FFF6DA text-12px flex items-center" @click="showDetil">
-            查看使用说明
-            <wd-icon name="fill-arrow-down" color="#fff" size="16px"></wd-icon>
-          </view>
-        </view>
-      </view>
-      <view class="flex flex-col justify-around pt-15px items-end gap-10px">
-        <view class="text-32px color-#FF4345">
-          <text v-if="props.data.couponType != 3">¥</text>
-          <text>
-            {{
-              props.data.couponType == 3
-                ? props.data.couponPrice * 10 + '折券'
-                : props.data.couponPrice
-            }}
-          </text>
-        </view>
-        <view class="text-12px color-#666">
-          {{
-            props.data.couponFillPrice > 0 ? '满' + props.data.couponFillPrice + '元可用' : '无门槛'
-          }}
-        </view>
-      </view>
-    </view>
-    <!-- <view
-      class="absolute top-10px right-0 px-15px py-2px rounded-bl-22px rounded-tr-4px bg-#F71603 color-#fff text-12px"
+  <view class="px-20px my-10px">
+    <view
+      class="relative box-border rounded-10px bg-#FFFFFF bg"
+      :class="statusBg ? '' : 'grayscale opacity-50'"
     >
-      {{ props.data.couponSource == 1 ? '平台券' : '商家券' }}
-    </view> -->
-    <view class="absolute top-30px right-25% z-99">
-      <wd-img :src="statusCoupopn.statsSrc" :width="66" :height="66" />
-    </view>
-    <!-- 详情显示 -->
-    <view :class="open ? 'block' : 'hidden'">
-      <view class="p-10px ml-[-5px] mt-20px bg-#FFE1C2 color-#6D341C text-12px line-height-20px">
-        <view v-if="props.data.couponReceiveBeginDate">
-          领取时间:
-          {{
-            props.data.couponReceiveBeginDate?.slice(0, 10) +
-            ' 至 ' +
-            props.data.couponReceiveEndDate?.slice(0, 10)
-          }}
+      <view class="flex gap-10px">
+        <view
+          class="flex flex-col item-content justify-center gap-10px h-106px w-116px bg-no-repeat"
+          :style="`background-image: url(${url});background-size:  100% `"
+        >
+          <view class="color-#FF4345 text-center">
+            <view class="text-14px">
+              {{
+                props.data.couponFillPrice > 0
+                  ? '满' + props.data.couponFillPrice + '元可用'
+                  : '无门槛'
+              }}
+            </view>
+          </view>
+          <view class="color-#FF4345 flex items-end px-15px justify-between">
+            <view class="text-50px text-center flex-1">
+              {{
+                props.data.couponType == 3 ? props.data.couponPrice * 10 : props.data.couponPrice
+              }}
+            </view>
+            <view class="w-18px text-14px">
+              {{ props.data.couponType == 3 ? '折' : '¥' }}
+            </view>
+          </view>
         </view>
-        <view>
-          有效期:
-          {{
-            props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
-          }}
+        <view class="flex flex-col justify-between">
+          <view class="text-22px">{{ props.data.couponName }}</view>
+          <view class="text-12px">
+            有效期:
+            {{
+              // props.data.couponBeginDate.slice(0, 10) + ' 至 ' + props.data.couponEndDate.slice(0, 10)
+              props.data.couponReceiveBeginDate.slice(0, 10) +
+              ' 至 ' +
+              props.data.couponReceiveEndDate.slice(0, 10)
+            }}
+          </view>
+          <view v-if="sourceStu" class="text-12px">{{ readUseOnly }}</view>
+          <view class="flex justify-between items-center mt-10px">
+            <view class="color-#FF4345 text-12px flex items-center" @click="showDetil">
+              查看使用说明
+              <wd-icon name="fill-arrow-down" color="#FF4345" size="16px"></wd-icon>
+            </view>
+            <view
+              class="px-15px py-2px rounded-100 bd-1px_#fff color-#fff text-12px"
+              v-if="statusCoupopn.btnShow"
+              @click="handleReceive(props.data)"
+            >
+              {{ statusCoupopn.btnText }}领取
+            </view>
+          </view>
         </view>
-        <view>优惠内容: {{ '满 ' + props.data.couponFillPrice + ' 元可用' }}</view>
-        <view v-if="props.data.type === 3">线下进店展码核销</view>
+      </view>
+      <view class="absolute top-30px right-25% z-99">
+        <wd-img :src="statusCoupopn.statsSrc" :width="66" :height="66" />
+      </view>
+      <!-- 详情显示 -->
+      <view :class="open ? 'block' : 'hidden'">
+        <view class="px-20px">
+          <view class="p-10px bg-#FFE8E3 color-#FF4345 text-12px line-height-20px">
+            <view v-if="props.data.couponReceiveBeginDate">
+              领取时间:
+              {{
+                props.data.couponReceiveBeginDate?.slice(0, 10) +
+                ' 至 ' +
+                props.data.couponReceiveEndDate?.slice(0, 10)
+              }}
+            </view>
+            <view>
+              有效期:
+              {{
+                props.data.couponBeginDate.slice(0, 10) +
+                ' 至 ' +
+                props.data.couponEndDate.slice(0, 10)
+              }}
+            </view>
+            <view>优惠内容: {{ '满 ' + props.data.couponFillPrice + ' 元可用' }}</view>
+            <view v-if="props.data.type === 3">线下进店展码核销</view>
+          </view>
+        </view>
       </view>
     </view>
   </view>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bg {
+  box-shadow: 4px 0px 10px 1px rgba(0, 0, 0, 0.11);
+}
+</style>

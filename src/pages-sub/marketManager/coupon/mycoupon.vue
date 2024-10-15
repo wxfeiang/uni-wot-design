@@ -93,7 +93,7 @@ onLoad(async () => {
           <wd-img :src="myyhbtn" width="138" height="35"></wd-img>
         </view>
       </view>
-      <view class="bg-#C30000 mt-42px h-42px">
+      <view class="bg-#C30000/56 mt-42px h-42px">
         <wd-tabs v-model="tab" @change="changeTab" custom-class="custom-class-tab">
           <block v-for="item in tablist" :key="item.index">
             <wd-tab :title="`${item.title}   (${item.count})`"></wd-tab>
@@ -101,13 +101,9 @@ onLoad(async () => {
         </wd-tabs>
       </view>
     </template>
-    <view class="mt-10px">
-      <view class="pt-10px px-10px">
-        <view
-          class="rounded-4px overflow-hidden my-10px"
-          v-for="(item, index) in conponList"
-          :key="index"
-        >
+    <view class="mt-0px">
+      <view class="">
+        <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
           <Coupon-List :data="item"></Coupon-List>
         </view>
       </view>
