@@ -1,16 +1,13 @@
-import { getCardBasicInfo, personInfoChange } from '@/service/api/cardServe'
+import { getCardBasicInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 import { Toast } from '@/utils/uniapi/prompt'
-import { useRequest } from 'alova/client'
+import { useForm } from 'alova/client'
 import dayjs from 'dayjs'
+import { statusTisProps } from '../types/types'
 
 const userStore = useUserStore()
 const { userInfo } = userStore
-const model = ref({
-  xm: userInfo.userName,
-  zjhm: userInfo.idCardNumber,
-  shbzhm: '',
-})
+
 const rules = {
   xm: [{ required: true, message: '请输入姓名' }],
   zjhm: [{ required: true, message: '请输入证件号码' }],
@@ -22,63 +19,91 @@ const rules = {
   zy: [{ required: true, message: '请选择职业' }],
 }
 
-// 卡进度查询
-const { loading, send: sendCard } = useRequest((data) => getCardBasicInfo(data), {
+// 卡信息查询
+const {
+  loading,
+  send: sendCard,
+  form: model,
+} = useForm((data) => getCardBasicInfo(data), {
   immediate: false,
   loading: false,
   initialData: {},
+  // 初始化表单数据
+  resetAfterSubmiting: true,
+  initialForm: {
+    xm: userInfo.userName,
+    zjhm: userInfo.idCardNumber,
+    shbzhm: '',
+  },
 })
-
-const cardChangeInfo = ref({
-  xm: '',
-  zjhm: '',
-  xb: '',
-  gj: '',
-  mz: '',
-  address: '',
-  phone: '',
-  cardStartTime: '',
-  cardEndTime: '',
-  zy: '',
-})
+const serchBtnStatus = ref(false)
+const statusDel = ref<statusTisProps>()
+const submitStatus = ref(false)
 const cardQury = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        const data: any = await sendCard(model.value)
-        if (data.zjhm) {
-          cardChangeInfo.value = data
+        const res: any = await sendCard()
+        if (res.cardInfo) {
+          cardChangeInfo.value = res.cardInfo
+          serchBtnStatus.value = true
         }
-        console.log('返回的数据', data)
-      } catch (error) {}
+      } catch (error) {
+        submitStatus.value = true
+        statusDel.value = error.data
+      }
     }
   })
 }
 
+// 提交变更信息
+
+const {
+  loading: bgloading,
+  send: sendBgInfo,
+  form: cardChangeInfo,
+} = useForm(
+  (formData) => {
+    const params = {
+      name: userInfo.userName,
+      idCardNumber: userInfo.idCardNumber,
+      address: formData.address,
+      phoneNumber: formData.phone,
+      startDate: dayjs(formData.cardStartTime).format('YYYYMMDD'),
+      endDate: dayjs(formData.cardEndTime).format('YYYYMMDD'),
+      work: formData.zy,
+    }
+    // 可以在此转换表单数据并提交
+    return getCardBasicInfo(params)
+  },
+  {
+    immediate: false,
+    loading: false,
+    initialData: {},
+    // 初始化表单数据
+    initialForm: {
+      xm: '',
+      zjhm: '',
+      xb: '',
+      gj: '',
+      mz: '',
+      address: '',
+      phone: '',
+      cardStartTime: '',
+      cardEndTime: '',
+      zy: '',
+    },
+  },
+)
 const changeSubmit = (form) => {
   form.validate().then(async ({ valid, errors }) => {
     if (valid) {
       try {
-        const newData = {
-          name: userInfo.userName,
-          idCardNumber: userInfo.idCardNumber,
-          address: cardChangeInfo.value.address,
-          phoneNumber: cardChangeInfo.value.phone,
-          startDate: dayjs(cardChangeInfo.value.cardStartTime).format('YYYYMMDD'),
-          endDate: dayjs(cardChangeInfo.value.cardEndTime).format('YYYYMMDD'),
-          work: cardChangeInfo.value.zy,
-        }
-        try {
-          const resultData = await personInfoChange(newData)
-          console.log('++++++++++++++resultData++++++++++++++', resultData)
-
-          // 跳转到登录后的页面
-          uni.navigateBack()
-        } catch (error) {
-          Toast(error)
-        }
+        await sendBgInfo()
+        // 跳转到登录后的页面
+        uni.navigateBack()
       } catch (error) {
-        console.log('error', error)
+        Toast(error)
       }
     } else {
       console.log('数据校验失败')
@@ -96,5 +121,8 @@ export default () => {
     loading,
     read,
     changeSubmit,
+    submitStatus,
+    statusDel,
+    serchBtnStatus,
   }
 }

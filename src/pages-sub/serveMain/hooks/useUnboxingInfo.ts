@@ -1,16 +1,10 @@
 import { getUnboxingInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 
-import { useRequest } from 'alova/client'
+import { useForm } from 'alova/client'
 import { statusTisProps } from '../types/types'
 const { userInfo } = useUserStore()
-console.log('🍋[userInfo]:', userInfo)
-const model = ref({
-  xm: userInfo.userName,
-  zjhm: userInfo.idCardNumber,
-  zhbzkh: '',
-  jbr: '',
-})
+
 const rules = {
   xm: [{ required: true, message: '请输入姓名' }],
   zjhm: [{ required: true, message: '请输入证件号码' }],
@@ -21,9 +15,20 @@ const statusDel = ref<statusTisProps>()
 const submitStatus = ref(false)
 
 // 社保卡解挂
-const { loading, send: sendUnboxingInfo } = useRequest((data) => getUnboxingInfo(data), {
+const {
+  loading,
+  send: sendUnboxingInfo,
+  form: model,
+} = useForm((data) => getUnboxingInfo(data), {
   immediate: false,
   loading: false,
+  resetAfterSubmiting: true,
+  initialForm: {
+    xm: userInfo.userName,
+    zjhm: userInfo.idCardNumber,
+    zhbzkh: '',
+    jbr: userInfo.userName,
+  },
 })
 
 const submitUnboxingInfo = (form) => {

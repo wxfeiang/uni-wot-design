@@ -9,8 +9,6 @@
 </route>
 
 <script lang="ts" setup>
-import { SetClipboardData } from '@/utils/uniapi'
-
 const title = ref('用户中心')
 </script>
 

@@ -6,6 +6,7 @@ const BASIC_INFO = baseUrlApi('/card/app/getBasicInfo')
 
 const CARD_SCHEDULE_INFO = baseUrlApi('/card/app/getCardScheduleInfo')
 
+const GET_CARD_PAYMENT_INFO = baseUrlApi('/card/app/getCardPaymentInfo')
 const CARDCHECK_INFO = baseUrlApi('/card/app/getCardcheckInfo')
 
 const CARD_FIRST_APPLICATION = baseUrlApi('/card/app/cardFirstApplication')
@@ -42,6 +43,7 @@ const GET_BRANCHES_INFO_SELECT = baseUrlApi('/card/app/getBranchesInfoSelect')
 export function getCardBasicInfo(data) {
   const meta: METHOD_INSTANCE = {
     loading: true,
+    Tips: true,
   }
 
   return request.Post(
@@ -64,6 +66,24 @@ export function getCardScheduleInfo(data) {
 
   return request.Post(
     CARD_SCHEDULE_INFO, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  卡进度邮寄信息查询
+ * @param params 初始参数()
+ * */
+export function getCardPaymentInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    Tips: true,
+  }
+
+  return request.Post(
+    GET_CARD_PAYMENT_INFO, // 请求地址
     data,
     {
       meta,

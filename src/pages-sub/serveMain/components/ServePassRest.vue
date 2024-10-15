@@ -104,7 +104,7 @@ function submitPasswoed(form) {
             prop="resetPassword"
             custom-input-class="custom-input-right"
           />
-          <wd-input
+          <!-- <wd-input
             label="经办人:"
             label-width="100px"
             type="text"
@@ -113,7 +113,7 @@ function submitPasswoed(form) {
             :rules="rules.operator"
             prop="operator"
             custom-input-class="custom-input-right"
-          />
+          /> -->
         </wd-cell-group>
       </wd-form>
     </view>

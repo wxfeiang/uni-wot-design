@@ -21,7 +21,7 @@ onLoad((options: any) => {
 </script>
 
 <template>
-  <view class="h-100vh bg-#f5f5f5">
+  <view class="min-h-100vh bg-#F3F4F6">
     <dy-navbar :leftTitle="navTitle" center customClass="nav_bg"></dy-navbar>
 
     <!-- <dy-title :title="navTitle" customClass="custom-title"></dy-title> -->

@@ -56,9 +56,14 @@ export const SetClipboardData = (data: string, showToast = true) => {
   return new Promise((resolve, reject) => {
     uni.setClipboardData({
       data,
-      showToast,
       success: (res) => {
         resolve(res)
+        if (showToast) {
+          uni.showToast({
+            title: '内容已复制!',
+            icon: 'none',
+          })
+        }
       },
       fail: (err) => {
         reject(err)

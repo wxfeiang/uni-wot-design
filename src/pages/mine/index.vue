@@ -79,7 +79,7 @@ onShow(async () => {
 
 <template>
   <view
-    class="box-border w-100vw flex flex-col bg-no-repeat bg-#f5f5f5 min-ht-100vh"
+    class="box-border w-100vw flex flex-col bg-no-repeat bg-#f5f5f5 min-h-100vh"
     :style="`padding-top:${navTop}px ;background-image: url(${bgUrlBase64}); background-size:100% 310px`"
   >
     <view class="px-15px mt-10%">

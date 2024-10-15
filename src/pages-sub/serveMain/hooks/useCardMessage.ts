@@ -1,25 +1,27 @@
 import { getCardBasicInfo } from '@/service/api/cardServe'
 import { useUserStore } from '@/store'
-import { useRequest } from 'alova/client'
+import { useForm } from 'alova/client'
 const { userInfo } = useUserStore()
-// 卡基础信息
+
+// 卡信息查询
 const {
+  loading,
   send: getCadInfo,
   data: cardInfoData,
-  loading,
-} = useRequest(
-  getCardBasicInfo({
+  form: model,
+} = useForm((data) => getCardBasicInfo(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+  // 初始化表单数据
+  resetAfterSubmiting: true,
+  initialForm: {
     xm: userInfo.userName,
     zjhm: userInfo.idCardNumber,
     shbzhm: '',
-  }),
-  {
-    immediate: false,
-    loading: false,
-    initialData: [],
   },
-)
+})
 
 export default () => {
-  return { cardInfoData, getCadInfo, loading }
+  return { cardInfoData, getCadInfo, loading, model }
 }

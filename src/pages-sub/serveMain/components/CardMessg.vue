@@ -127,15 +127,14 @@ const cardInfoData = ref<any[]>([])
 onMounted(async () => {
   try {
     const res: any = await getCadInfo()
-    Object.keys(res).forEach((key) => {
+    Object.keys(res.cardInfo).forEach((key) => {
       data.value.forEach((item) => {
         if (item.prop === key) {
-          item.value = res[key]
+          item.value = res.cardInfo[key] ?? ''
           cardInfoData.value.push(item)
         }
       })
     })
-    console.log('🍢[res]:======>', cardInfoData.value)
   } catch (error) {
     console.log('🧀[error]:', error)
   }
@@ -146,7 +145,7 @@ onUnmounted(() => {
 </script>
 <template>
   <view class="p-15px">
-    <view class="rounded-10px overflow-hidden bg-#fff">
+    <view class="rounded-10px overflow-hidden bg-#fff pb-10px">
       <template v-if="cardInfoData.length === 0 && !loading">
         <wd-status-tip image="search" tip="没有查询到该信息" />
       </template>

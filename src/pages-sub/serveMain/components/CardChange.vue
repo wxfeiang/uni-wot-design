@@ -6,47 +6,61 @@ import {
   sexList,
 } from '@/pages-sub/serveMain/types/dict'
 import dayjs from 'dayjs'
+import { useMessage } from 'wot-design-uni'
 import useCardChange from '../hooks/useCardChange'
 const minDate = dayjs('191000101').valueOf()
 const maxDate = dayjs('20991225').valueOf()
-const { cardQury, model, rules, loading, cardChangeInfo, changeSubmit } = useCardChange()
+const {
+  cardQury,
+  model,
+  rules,
+  loading,
+  cardChangeInfo,
+  changeSubmit,
+  submitStatus,
+  statusDel,
+  serchBtnStatus,
+} = useCardChange()
 
 const form = ref(null)
+const form2 = ref(null)
 
 const visible = ref<boolean>(false)
 
 function showKeyBoard() {
   visible.value = true
 }
-const back = () => {
-  uni.navigateBack()
-}
 
-const data1 = ref([
-  {
-    title: '姓名:',
-    value: '',
-    prop: 'xm',
-  },
-  {
-    title: '证件号码',
-    value: '',
-    prop: 'zjhm',
-  },
-  {
-    title: '社会保障号码',
-    value: '',
-    prop: 'shbzhm',
-  },
-])
-
+const message = useMessage()
 const defaultValue = ref<number>(Date.now())
 const minData = ref<number>(dayjs().subtract(100, 'year').valueOf())
 const maxData = ref<number>(dayjs().add(50, 'year').valueOf())
+// 错误提示
+watchEffect(() => {
+  if (submitStatus.value) {
+    message
+      .alert({
+        closeOnClickModal: false,
+        msg: statusDel.value.message,
+        title: '提示',
+        confirmButtonText: '确定',
+      })
+      .then(() => {
+        if (!statusDel.value?.message) {
+          uni.navigateBack()
+        }
+        submitStatus.value = false
+        serchBtnStatus.value = false
+      })
+  }
+})
+onUnmounted(() => {
+  serchBtnStatus.value = false
+})
 </script>
 <template>
   <view class="p-15px">
-    <view v-if="!cardChangeInfo.zjhm">
+    <view v-if="!serchBtnStatus">
       <view class="rounded-10px overflow-hidden bg-#fff">
         <wd-form ref="form" :model="model">
           <wd-cell-group border>
@@ -109,10 +123,10 @@ const maxData = ref<number>(dayjs().add(50, 'year').valueOf())
       </view>
     </view>
 
-    <view v-if="cardChangeInfo.zjhm && !loading">
+    <view v-if="serchBtnStatus && !loading">
       <view class="rounded-10px overflow-hidden bg-#fff">
         <wd-cell-group title="基础信息" border>
-          <wd-form ref="form" :model="cardChangeInfo">
+          <wd-form ref="form2" :model="cardChangeInfo">
             <wd-cell-group>
               <wd-input
                 label="姓名:"
@@ -156,9 +170,7 @@ const maxData = ref<number>(dayjs().add(50, 'year').valueOf())
             </wd-cell-group>
           </wd-form>
         </wd-cell-group>
-
-        <wd-gap height="5" bg-color="#f5f5f5"></wd-gap>
-
+        <wd-gap height="10" bg-color="#f5f5f5"></wd-gap>
         <wd-cell-group title="可修改信息" border>
           <wd-form ref="form" :model="cardChangeInfo">
             <wd-cell-group>
@@ -220,6 +232,7 @@ const maxData = ref<number>(dayjs().add(50, 'year').valueOf())
       </view>
     </view>
   </view>
+  <wd-message-box></wd-message-box>
 </template>
 <script lang="ts">
 export default {
