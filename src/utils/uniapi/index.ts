@@ -60,7 +60,7 @@ export const SetClipboardData = (data: string, showToast = true) => {
         resolve(res)
         if (showToast) {
           uni.showToast({
-            title: '内容已复制!',
+            title: '内容已复制到剪切板!',
             icon: 'none',
           })
         }

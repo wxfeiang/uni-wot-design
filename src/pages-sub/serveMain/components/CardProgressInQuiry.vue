@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { SetClipboardData } from '@/utils/uniapi'
 import { useMessage } from 'wot-design-uni'
 import useCardpress from '../hooks/useCardpress'
 const {
@@ -51,6 +52,7 @@ const data1 = ref([
     title: '邮寄单号:',
     value: '',
     prop: 'yjdh',
+    action: 'copy',
   },
   {
     title: '邮寄公司:',
@@ -88,7 +90,6 @@ watchEffect(async () => {
   if (cardInfoData.value) {
     try {
       await sendCardMail()
-      console.log('🍸', cardMailData.value)
     } catch (error) {
       cardMailData.value = null
       console.log('🥨[error]:', error)
@@ -117,7 +118,6 @@ onUnmounted(() => {
               @click="showKeyBoard"
               :maxlength="18"
               :mixlength="16"
-              disabled
             />
             <wd-number-keyboard
               v-model:visible="visible"
@@ -135,7 +135,6 @@ onUnmounted(() => {
               placeholder="请输入姓名"
               :rules="rules.xm"
               prop="xm"
-              disabled
               custom-input-class="custom-input-right"
             />
           </wd-cell-group>
@@ -174,13 +173,20 @@ onUnmounted(() => {
             :key="index"
           ></wd-cell>
           <template v-if="cardMailData">
-            <wd-cell
-              :title="item.title"
-              :value="cardMailData[item.prop]"
-              border
-              v-for="(item, index) in data1"
-              :key="index"
-            ></wd-cell>
+            <wd-cell :title="item.title" border v-for="(item, index) in data1" :key="index">
+              <view>
+                <view class="flex gap-10px items-center justify-end">
+                  <text>{{ cardMailData[item.prop] }}</text>
+                  <wd-icon
+                    name="file-copy"
+                    size="18px"
+                    color="#1890ff"
+                    v-if="item.action && item.action == 'copy'"
+                    @click="SetClipboardData(cardMailData[item.prop])"
+                  ></wd-icon>
+                </view>
+              </view>
+            </wd-cell>
           </template>
         </wd-cell-group>
       </view>
