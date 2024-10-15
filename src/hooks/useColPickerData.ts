@@ -1,5 +1,6 @@
 // 可以将此代码放置于项目src/hooks/useColPickerData.ts中
-import { useCascaderAreaData } from '@vant/area-data'
+// import { useCascaderAreaData } from '@vant/area-data'
+import { useCascaderAreaData } from './Areadist/index' // 这里导入的是自己的组件库中的hooks，根据实际情况替换为自己的hooks
 
 export type CascaderOption = {
   text: string
