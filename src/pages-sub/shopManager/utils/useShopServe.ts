@@ -1,6 +1,11 @@
 import { serveListProps, shopDetilProps, shopPayListProps } from './types'
 
-import { getAppTargetOrderIdByShop, getShopDetail } from '@/service/api/shop'
+import {
+  getAppTargetOrderIdByShop,
+  getBusinessInfo,
+  getOrderStatistics,
+  getShopDetail,
+} from '@/service/api/shop'
 import { useRequest } from 'alova/client'
 import daifahuo from '../static/daifahuo.png'
 import dafukuan from '../static/daifukuan.png'
@@ -123,6 +128,15 @@ const { send: sendOrderIdByShop, data: shopPayList } = useRequest(
     initialData: [],
   },
 )
+const { send: sendBusinessInfo } = useRequest((data) => getBusinessInfo(data), {
+  immediate: false,
+  loading: false,
+})
+
+const { send: sendOrderStatistics } = useRequest((data) => getOrderStatistics(data), {
+  immediate: false,
+  loading: false,
+})
 
 export default () => {
   return {
@@ -133,5 +147,7 @@ export default () => {
     sendShopDetail,
     sendOrderIdByShop,
     shopPayList,
+    sendOrderStatistics,
+    sendBusinessInfo,
   }
 }

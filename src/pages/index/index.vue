@@ -23,7 +23,10 @@ import { pathToBase64 } from 'image-tools'
 import { useMessage, useToast } from 'wot-design-uni'
 import { messProps } from './utils/types'
 import useIndex from './utils/useIndex'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
 
+const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 defineOptions({
   name: 'Index',
@@ -48,7 +51,9 @@ const {
   sendSwiperList,
   swiperListData,
   swiperListLoading,
+  showTopGZH,
 } = useIndex()
+
 async function actionTop2(item: any) {
   if (item.specialJumpType === 'WX') {
     openWxChart(item.appId, item.path)
@@ -60,6 +65,7 @@ async function actionTop2(item: any) {
     }
   }
 }
+
 async function actionTop(item: any) {
   if (item.type === 'sacn') {
     const resData: any = await useScancode({ onlyFromCamera: true })
@@ -141,6 +147,7 @@ const topbgBase64 = ref(
 )
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
+const showGHZ = ref(0)
 
 const topAction2 = ref<any>([])
 
@@ -155,6 +162,10 @@ onLoad(async () => {
 onShow(async () => {
   await sendGetSpecialTypeList()
   topAction2.value = specialTypeList.value
+  if (isLogined.value) {
+    showGHZ.value = await showTopGZH()
+  }
+
   await sendMessageList({
     page: 1,
     size: 50,
@@ -313,7 +324,7 @@ onPageScroll((e) => {
   </view>
 
   <!-- #ifdef MP-WEIXIN -->
-  <view v-if="closeAdFlog">
+  <view v-if="closeAdFlog && showGHZ === 0">
     <wd-gap height="10" bg-color="#fff"></wd-gap>
     <view class="px-15px">
       <view

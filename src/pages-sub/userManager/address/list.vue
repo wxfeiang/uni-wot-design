@@ -11,6 +11,7 @@
 import useAddress from './utils/useAddress'
 import { addressList, addressListDel } from '@/service/api/address'
 import { useMessage } from 'wot-design-uni'
+
 const { routeTo, Toast } = useAddress()
 const message = useMessage()
 
@@ -35,7 +36,9 @@ const queryList = async (pageNo, pageSize) => {
   }
 }
 onShow(() => {
-  paging.value.reload()
+  if (paging.value.reload()) {
+    paging.value.reload()
+  }
 })
 const delAdderss = (id: string) => {
   message
@@ -56,6 +59,7 @@ const delAdderss = (id: string) => {
       console.log('点击了取消按钮')
     })
 }
+
 function addAddress() {
   routeTo({
     url: '/pages-sub/userManager/address/editor',
@@ -64,6 +68,7 @@ function addAddress() {
     },
   })
 }
+
 // 返回携带的参数
 function selectAddress(item) {
   // TODO:本地存储
@@ -72,6 +77,7 @@ function selectAddress(item) {
   //   data: item,
   // })
 }
+
 function actioAddress(item, type) {
   routeTo({
     url: '/pages-sub/userManager/address/editor',

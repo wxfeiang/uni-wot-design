@@ -11,6 +11,7 @@ const GET_BRANCHES_INFO = baseUrlApi('/card/app/getBranchesInfo')
 const GET_SPECIAL_TYPE_LIST = baseUrlApi('/promotion/app/xcxUserAdvice/getSpecialTypeList')
 const GET_HISTORY_PAGE_BY_USER_ID = baseUrlApi('/user/app/history/getHistoryPageByUserId')
 const GET_DETAIL_UPDATE_READ = baseUrlApi('/user/app/history/getDetailUpdateRead')
+const GET_SHOW_TOP_GZH = baseUrlApi('/member/app/userInfo/getUserGzh')
 /**
  * @description: 获取消息列表
  * @param {} data
@@ -22,6 +23,14 @@ export function getHistoryPageByUserId<T>(data) {
     data,
   )
 }
+
+export function getShowTopGZH<T>(data) {
+  return request.Post<T>(
+    GET_SHOW_TOP_GZH, // 请求地址
+    data,
+  )
+}
+
 /**
  * @description: 获取消息列表详情
  * @param {} data
