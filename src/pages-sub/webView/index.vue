@@ -52,7 +52,12 @@ onLoad(async (options) => {
   <web-view :src="webUrl" v-if="showType === 'webView'"></web-view>
   <view class="" v-else>
     <view class="bg-#F8F8F8">
-      <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
+      <dy-navbar
+        :leftTitle="title"
+        left
+        color="#000"
+        custom-style="background-color: #F8F8F8"
+      ></dy-navbar>
       <view class="py-20px px-30px" v-if="!showTop">
         <view class="line-height-40px text-26px">
           {{ cuurentData.articleTitle || cuurentData.title || cuurentData.shopHdTitle }}

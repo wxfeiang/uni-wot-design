@@ -17,14 +17,14 @@ import logo from '@/static/images/logo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
+import { useUserStore } from '@/store/user'
 import { removeT, routeTo, sceneResult } from '@/utils'
 import { openWxChart, useScancode } from '@/utils/uniapi'
 import { pathToBase64 } from 'image-tools'
+import { storeToRefs } from 'pinia'
 import { useMessage, useToast } from 'wot-design-uni'
 import { messProps } from './utils/types'
 import useIndex from './utils/useIndex'
-import { useUserStore } from '@/store/user'
-import { storeToRefs } from 'pinia'
 
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
@@ -303,7 +303,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
-  <view class="py-3px h-135px swiper px-15px rounded-4px overflow-hidden">
+  <view class="py-3px h-135px swiper px-15px">
     <wd-skeleton
       animation="flashed"
       :row-col="[{ width: '100%', height: '135px' }]"
@@ -317,6 +317,7 @@ onPageScroll((e) => {
         @click="swiperClick"
         :indicator="{ type: 'dots-bar' }"
         custom-indicator-class="custom-indicator-class"
+        customClass="custom-class-swiper"
         value-key="shopHdBanner"
         imageMode="scaleToFill"
       ></wd-swiper>
@@ -476,5 +477,8 @@ onPageScroll((e) => {
 
 :deep(.custom-class-noticebar) {
   @apply p-0! bg-transparent!  color-#333! text-14px! w-60vw overflow-hidden truncate-1!;
+}
+:deep(.custom-class-swiper) {
+  @apply rounded-4px! overflow-hidden!;
 }
 </style>
