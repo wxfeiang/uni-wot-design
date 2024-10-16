@@ -307,28 +307,29 @@ onShow(async (options) => {
           custom-class="my-1 text-center font-bold"
         ></wd-text>
       </view>
-      <wd-card class="cardno">
-        <view class="flex justify-between items-center py-2">
-          <view class="flex justify-left items-center">
-            <wd-icon name="location" size="22px"></wd-icon>
-            <view class="flex justify-left items-start flex-col ml-1">
-              <wd-text
-                :text="orderInfo.receiverName + ' ' + orderInfo.receiverTel"
-                size="16px"
-                color="#333333"
-                custom-class="font-bold"
-              ></wd-text>
-              <wd-text
-                :text="orderInfo.receiverAddress"
-                size="16px"
-                color="#777777"
-                custom-class="mt-1"
-              ></wd-text>
+      <view class="mt-4">
+        <wd-card class="cardno">
+          <view class="flex justify-between items-center py-2">
+            <view class="flex justify-left items-center">
+              <wd-icon name="location" size="22px"></wd-icon>
+              <view class="flex justify-left items-start flex-col ml-1">
+                <wd-text
+                  :text="orderInfo.receiverName + ' ' + orderInfo.receiverTel"
+                  size="16px"
+                  color="#333333"
+                  custom-class="font-bold"
+                ></wd-text>
+                <wd-text
+                  :text="orderInfo.receiverAddress"
+                  size="16px"
+                  color="#777777"
+                  custom-class="mt-1"
+                ></wd-text>
+              </view>
             </view>
           </view>
-        </view>
-      </wd-card>
-
+        </wd-card>
+      </view>
       <wd-card>
         <template #title>
           <view class="flex justify-between items-center">

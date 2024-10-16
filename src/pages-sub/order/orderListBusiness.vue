@@ -15,7 +15,13 @@ import { useUserStore } from '@/store'
 
 const userStore = useUserStore()
 
-const { sendOrderInfo, sendOrderList, updateOrderBeanStatusById, sendRefund } = orderInter()
+const {
+  sendOrderInfo,
+  sendOrderList,
+  updateOrderBeanStatusById,
+  sendRefund,
+  sendchangeOrderStatus,
+} = orderInter()
 const paging = ref(null)
 
 async function queryList(pageNo: number, pageSize: number) {
@@ -23,7 +29,7 @@ async function queryList(pageNo: number, pageSize: number) {
     page: pageNo,
     size: pageSize,
     statusStr: tabsVal.value === '-1' ? '' : tabsVal.value,
-    orderFlag: 1,
+    orderFlag: 2,
     loginUserId: userStore.userInfo.userDId,
   }
   // 调用接口获取数据
@@ -38,10 +44,10 @@ async function queryList(pageNo: number, pageSize: number) {
   }
 }
 
-const title = ref('订单列表')
+const title = ref('商家订单')
 const tabsVal = ref('')
 const tabslist = ref([
-  { name: '全部', value: '-1' },
+  { name: '全部订单', value: '-1' },
   { name: '待付款', value: '1' },
   { name: '待发货', value: '10' },
   { name: '待收货', value: '11' },
@@ -78,7 +84,7 @@ function goShop(shopId) {
 }
 
 function goInfo(orderId) {
-  routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
+  routeTo({ url: '/pages-sub/order/orderInfoBusiness', data: { id: orderId } })
 }
 
 function goLogistics(orderId) {
@@ -89,19 +95,19 @@ function goEvaluate(orderId) {
   routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
 }
 
-function goRefund(orderId, note = '') {
+function goInfoQX(orderId, note = '') {
   uni.showModal({
-    title: '退款确认',
-    content: '您确定要申请退款吗',
+    title: '取消确认',
+    content: '您确定要取消订单吗',
     success: async function (res) {
       if (res.confirm) {
         const da = {
           orderId,
           note,
         }
-        const date = await sendRefund(da)
+        const date = await sendchangeOrderStatus(da)
         if (date.errCode === 'SUCCESS') {
-          routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
+          routeTo({ url: '/pages-sub/order/orderInfoBusiness', data: { id: orderId } })
         } else {
           uni.showToast({
             title: date.errMsg,
@@ -113,14 +119,6 @@ function goRefund(orderId, note = '') {
       }
     },
   })
-}
-
-function goInfoQX(orderId) {
-  routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPop: true } })
-}
-
-function goReminders(orderId) {
-  console.log('催单')
 }
 
 function gosure(orderId, status = 2) {
@@ -149,16 +147,6 @@ onLoad((options) => {
         <wd-navbar safeAreaInsetTop placeholder :bordered="false">
           <template #left>
             <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-            <!--            <view class="flex justify-left items-center">-->
-            <!--              <wd-icon name="thin-arrow-left" size="18px" @click="goback"></wd-icon>-->
-            <!--              <view-->
-            <!--                style="height: 22px; padding: 5px 15px; background: #f6f6f6"-->
-            <!--                class="rounded-3xl px-4 text-left ml-2 overflow-hidden flex justify-left items-center"-->
-            <!--              >-->
-            <!--                <wd-icon name="search" size="16px" custom-class="mr-2 " color="#777777"></wd-icon>-->
-            <!--                <input class="text-16px" />-->
-            <!--              </view>-->
-            <!--            </view>-->
           </template>
         </wd-navbar>
 
@@ -179,109 +167,152 @@ onLoad((options) => {
       <view v-for="(item, index) in list" class="float-left w-full box-border" :key="index">
         <wd-card>
           <template #title>
-            <view class="flex justify-between items-center" @click="goShop(item.shopId)">
-              <view class="flex justify-left items-center">
-                <wd-img :width="30" :height="30" round :src="item.shopAvatar" />
-                <wd-text
-                  :text="item.shopName"
-                  size="16px"
-                  color="#777777"
-                  custom-class="ml-1"
-                ></wd-text>
-                <wd-icon name="arrow-right" size="16px" class="ml-1" color="#777777"></wd-icon>
-              </view>
+            <view class="flex justify-between items-center">
+              <wd-text
+                :text="
+                  '下单时间：' + item.orderTime.slice(0, 10) + ' ' + item.orderTime.slice(11, 19)
+                "
+                size="14px"
+                color="#999999"
+              ></wd-text>
+
               <wd-text
                 v-if="item.status === 1"
                 text="待付款"
                 size="14px"
-                color="#e3832a"
+                color="#000000"
                 class=""
               ></wd-text>
               <wd-text
                 v-else-if="item.status === 10"
                 text="待发货"
                 size="14px"
-                color="#e3832a"
+                color="#000000"
                 class=""
               ></wd-text>
               <wd-text
                 v-else-if="item.status === 11"
                 text="待收货"
                 size="14px"
-                color="#e3832a"
+                color="#000000"
                 class=""
               ></wd-text>
               <wd-text
                 v-else-if="item.status === 2"
                 text="已完成"
                 size="14px"
-                color="#e3832a"
+                color="#000000"
                 class=""
               ></wd-text>
-              <wd-text v-else text="售后/退款" size="14px" color="#e3832a" class=""></wd-text>
+              <wd-text v-else text="售后/退款" size="14px" color="#000000" class=""></wd-text>
             </view>
           </template>
-
-          <view v-for="(it, ind) in item.sysOrderItemBeans" :key="ind">
-            <view class="flex justify-between items-center mt-2 mb-4" @click="goInfo(item.orderId)">
-              <wd-img :width="100" :height="100" radius="7" :src="JSON.parse(it.skuUrl)[0].data" />
-              <view class="ml-2 flex-1">
-                <wd-text
-                  :text="it.productName"
-                  :lines="2"
-                  size="16px"
-                  color="#000000"
-                  custom-class="font-bold"
-                  @click.self="gopath('/pages-sub/homeManager/shopInfo', { id: it.productSpuId })"
-                ></wd-text>
-                <wd-text
-                  :text="item.skuName"
-                  :lines="1"
-                  size="14px"
-                  color="#757575"
-                  custom-class="mt-1"
-                ></wd-text>
-                <view class="flex justify-between items-center mt-4">
+          <view class="bottomline topline">
+            <view v-for="(it, ind) in item.sysOrderItemBeans" :key="ind">
+              <view
+                class="flex justify-between items-center mt-2 mb-4"
+                @click="goInfo(item.orderId)"
+              >
+                <wd-img
+                  :width="100"
+                  :height="100"
+                  radius="7"
+                  :src="JSON.parse(it.skuUrl)[0].data"
+                />
+                <view class="ml-2 flex-1">
                   <wd-text
-                    :text="`￥${it.skuSellingPrice?.toFixed(2)}`"
-                    size="16px"
-                    color="#000000"
-                  ></wd-text>
-                  <wd-text
-                    :text="`x${it.productSkuCount}`"
+                    :text="it.productName"
+                    :lines="2"
                     size="14px"
-                    color="#777777"
-                    custom-class="ml-1"
+                    color="#000000"
+                    custom-class="font-bold"
                   ></wd-text>
+                  <wd-text
+                    :text="item.skuName"
+                    :lines="1"
+                    size="14px"
+                    color="#757575"
+                    custom-class="mt-1"
+                  ></wd-text>
+                  <view class="flex justify-between items-center mt-4">
+                    <wd-text
+                      :text="`￥${it.skuSellingPrice?.toFixed(2)}`"
+                      size="16px"
+                      color="#F44D24"
+                    ></wd-text>
+                    <wd-text
+                      :text="`x${it.productSkuCount}`"
+                      size="14px"
+                      color="#000000"
+                      custom-class="ml-1 nums"
+                    ></wd-text>
+                  </view>
                 </view>
               </view>
             </view>
           </view>
-          <view class="flex justify-end items-center my-3">
-            <wd-text
-              v-if="item.sysOrderItemBeans"
-              :text="`共${item.sysOrderItemBeans.length}件 金额：`"
-              size="14px"
-              color="#000000"
-            ></wd-text>
-            <wd-text text="￥" size="14px" font-bold color="#d04b55" custom-class="ml-1"></wd-text>
-            <wd-text
-              :text="item.orderActualAmount"
-              size="18px"
-              font-bold
-              color="#d04b55"
-              class=""
-            ></wd-text>
-          </view>
           <template #footer>
             <view class="flex justify-between items-center">
-              <view></view>
+              <view>
+                <view class="flex justify-end items-center">
+                  <wd-text
+                    v-if="item.sysOrderItemBeans"
+                    :text="`共${item.sysOrderItemBeans.length}件   支付:`"
+                    size="12px"
+                    color="#999999"
+                  ></wd-text>
+                  <wd-text text="￥" size="12px" font-bold color="#F44D24"></wd-text>
+                  <wd-text
+                    :text="item.orderActualAmount"
+                    size="18px"
+                    custom-class="font-bold"
+                    color="#F44D24"
+                  ></wd-text>
+                </view>
+              </view>
               <view class="flex justify-right items-center">
                 <template v-if="item.status === 1">
                   <wd-button
                     size="small"
                     plain
-                    type="info"
+                    :round="false"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfoQX(item.orderId)"
+                  >
+                    取消订单
+                  </wd-button>
+                </template>
+                <template v-else-if="item.status === 2">
+                  <wd-button
+                    size="small"
+                    plain
+                    :round="false"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfoQX(item.orderId)"
+                  >
+                    取消订单
+                  </wd-button>
+
+                  <wd-button
+                    size="small"
+                    plain
+                    :round="false"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    v-if="item.isEvaluatio === '0'"
+                    @click="gopath('/pages-sub/shopManager/addEvaluate', { orderId: item.orderId })"
+                  >
+                    回复评价
+                  </wd-button>
+                </template>
+
+                <template v-else-if="item.status === 10">
+                  <wd-button
+                    size="small"
+                    plain
+                    :round="false"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
                     @click="goInfoQX(item.orderId)"
@@ -290,94 +321,45 @@ onLoad((options) => {
                   </wd-button>
                   <wd-button
                     size="small"
-                    plain
-                    type="warning"
+                    :round="false"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
                     @click="goInfo(item.orderId)"
                   >
-                    去支付
+                    去发货
                   </wd-button>
-                </template>
-                <template v-else-if="item.status === 2">
-                  <wd-button
-                    size="small"
-                    plain
-                    type="info "
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="goInfo(item.orderId)"
-                  >
-                    查看详情
-                  </wd-button>
-
-                  <wd-button
-                    size="small"
-                    plain
-                    type="warning"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    v-if="item.isEvaluatio === '0'"
-                    @click="gopath('/pages-sub/shopManager/addEvaluate', { orderId: item.orderId })"
-                  >
-                    评价
-                  </wd-button>
-                </template>
-
-                <template v-else-if="item.status === 10">
-                  <wd-button
-                    size="small"
-                    plain
-                    type="info"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="goRefund(item.orderId)"
-                  >
-                    申请退款
-                  </wd-button>
-                  <!--                  <wd-button-->
-                  <!--                    size="small"-->
-                  <!--                    plain-->
-                  <!--                    type="info"-->
-                  <!--                    custom-class="inline-block ml-2"-->
-                  <!--                    style="width: 5rem"-->
-                  <!--                    @click="goReminders(item.orderId)"-->
-                  <!--                  >-->
-                  <!--                    联系催单-->
-                  <!--                  </wd-button>-->
                 </template>
                 <template v-else-if="item.status === 11">
                   <wd-button
                     size="small"
                     plain
-                    type="info"
+                    :round="false"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfoQX(item.orderId)"
+                  >
+                    取消订单
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    :round="false"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
                     @click="goLogistics(item.orderId)"
                   >
                     查看物流
                   </wd-button>
-                  <wd-button
-                    size="small"
-                    plain
-                    type="warning"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="gosure(item.orderId)"
-                  >
-                    确认收货
-                  </wd-button>
                 </template>
                 <template v-else>
                   <wd-button
                     size="small"
-                    plain
-                    type="info "
+                    type="text"
+                    :round="false"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
                     @click="goInfo(item.orderId)"
                   >
-                    查看详情
+                    退款成功
                   </wd-button>
                 </template>
               </view>
@@ -411,5 +393,20 @@ onLoad((options) => {
 
 :deep(.z-paging-content) {
   background: #f3f4f6;
+}
+
+.bottomline {
+  border-bottom: 1px solid #efefef;
+}
+
+.topline {
+  border-top: 1px solid #efefef;
+}
+
+:deep(.nums) {
+  padding: 3px 5px;
+  font-weight: bold;
+  border: 1px solid #999;
+  border-radius: 4px;
 }
 </style>

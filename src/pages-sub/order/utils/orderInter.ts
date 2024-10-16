@@ -7,6 +7,9 @@ import {
   getRefund,
   orderUpdate,
   logistics,
+  getPostList,
+  getPostInfo,
+  gethuifu,
 } from '@/service/api/shop'
 
 import { useRequest } from 'alova/client'
@@ -49,6 +52,19 @@ const { send: sendOrderUpdate } = useRequest((data) => orderUpdate(data), {
   immediate: false,
   loading: false,
 })
+const { send: sendPostList } = useRequest((data) => getPostList(data), {
+  immediate: false,
+  loading: false,
+})
+const { send: sendPostInfo } = useRequest((data) => getPostInfo(data), {
+  immediate: false,
+  loading: false,
+})
+const { send: sendhuifu } = useRequest((data) => gethuifu(data), {
+  immediate: false,
+  loading: false,
+})
+
 export default () => {
   return {
     sendOrderInfo,
@@ -58,5 +74,8 @@ export default () => {
     sendOrderUpdate,
     updateOrderBeanStatusById,
     getLogistics,
+    sendPostList,
+    sendPostInfo,
+    sendhuifu,
   }
 }

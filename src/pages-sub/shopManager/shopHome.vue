@@ -30,12 +30,12 @@ const shopDetails: any = ref({})
 const goodList = ref([])
 const sort = reactive({
   putPullTime: 1, // 上架时间排序
-  salesVolume: 1, // 销量排序
+  frequently: 1, // 销量排序
   sellPrice: 1, // 价格排序
 })
 const model = reactive({
   putPullTime: '', // 上架时间排序
-  salesVolume: '', // 销量排序
+  frequently: '', // 销量排序
   sellPrice: '', // 价格排序
   shopId: '', // 店铺id
 })
@@ -110,10 +110,10 @@ const getLsit = async (pageNo: number, pageSize: number) => {
 
 function resetSeach() {
   model.putPullTime = ''
-  model.salesVolume = ''
+  model.frequently = ''
   model.sellPrice = ''
   sort.putPullTime = 1
-  sort.salesVolume = 1
+  sort.frequently = 1
   sort.sellPrice = 1
 }
 
@@ -169,9 +169,9 @@ onLoad(async (options) => {
       <view style="display: flex; text-align: center; background: #fff">
         <view style="flex: 1">
           <wd-sort-button
-            v-model="sort.salesVolume"
+            v-model="sort.frequently"
             title="销量"
-            @change="handleChange($event, 'salesVolume')"
+            @change="handleChange($event, 'frequently')"
           />
         </view>
         <view style="flex: 1">
@@ -213,9 +213,9 @@ onLoad(async (options) => {
           </view>
           <text
             style="margin-left: 8px; font-size: 12px; color: #999999"
-            v-if="item.salesVolume > 0"
+            v-if="item.frequently > 0"
           >
-            已售{{ item.salesVolume }}件
+            已售{{ item.frequently }}件
           </text>
         </view>
       </view>

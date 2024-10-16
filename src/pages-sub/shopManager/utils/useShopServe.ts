@@ -20,26 +20,26 @@ const serveOrderList = ref<serveListProps[]>([
   {
     label: '待付款',
     icon: dafukuan,
-    value: 12,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    value: 0,
+    path: '/pages-sub/order/orderListBusiness?tabsVal=1',
   },
   {
     label: '待发货',
     icon: daifahuo,
     value: 0,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    path: '/pages-sub/order/orderListBusiness?tabsVal=10',
   },
   {
     label: '待收货',
     icon: daishouhuo,
     value: 0,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    path: '/pages-sub/order/orderListBusiness?tabsVal=11',
   },
   {
     label: '售后订单',
     icon: shouhou,
     value: 0,
-    path: '/pages-sub/shopManager/orderList/index?status=0',
+    path: '/pages-sub/order/orderListBusiness?tabsVal=20,21,22,23',
   },
 ])
 

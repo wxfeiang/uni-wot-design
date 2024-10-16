@@ -281,8 +281,8 @@ onShareTimeline(() => {
           </view> -->
         </view>
         <wd-text
-          v-if="details.salesVolume > 0"
-          :text="`已售${details.salesVolume}`"
+          v-if="details.frequently > 0"
+          :text="`已售${details.frequently}`"
           color="#F44D24"
           size="14px"
         ></wd-text>

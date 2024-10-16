@@ -196,9 +196,9 @@ onLoad(async () => {
             </text>
             <text
               style="margin-left: 8px; font-size: 12px; color: #999999"
-              v-if="item.salesVolume > 0"
+              v-if="item.frequently > 0"
             >
-              已售{{ item.salesVolume }}件
+              已售{{ item.frequently }}件
             </text>
           </view>
         </view>

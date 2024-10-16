@@ -67,8 +67,10 @@ interface NavigateToOptions {
        "/pages-sub/shopManager/shopPayMingxi" |
        "/pages-sub/order/logistics" |
        "/pages-sub/order/orderInfo" |
+       "/pages-sub/order/orderInfoBusiness" |
        "/pages-sub/order/orderInfoJF" |
        "/pages-sub/order/orderList" |
+       "/pages-sub/order/orderListBusiness" |
        "/pages-sub/homeManager/action" |
        "/pages-sub/homeManager/goodsSearch" |
        "/pages-sub/homeManager/order" |

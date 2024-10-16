@@ -657,6 +657,14 @@
           }
         },
         {
+          "path": "orderInfoBusiness",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "orderInfoJF",
           "type": "page",
           "layout": "default",
@@ -666,6 +674,14 @@
         },
         {
           "path": "orderList",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "orderListBusiness",
           "type": "page",
           "layout": "default",
           "style": {

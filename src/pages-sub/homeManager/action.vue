@@ -140,7 +140,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       <!--              <view class="price">-->
       <!--                <text class="sy">￥</text>-->
       <!--                {{ item?.sellPrice }}-->
-      <!--                <text class="desc">已售{{ item?.salesVolume }}件</text>-->
+      <!--                <text class="desc">已售{{ item?.frequently }}件</text>-->
       <!--              </view>-->
       <!--            </view>-->
       <!--          </view>-->

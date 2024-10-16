@@ -220,7 +220,7 @@ function handleChange(val, type) {
             {{ item.sellPrice }}
           </text>
           <text style="margin-left: 8px; font-size: 12px; color: #999999">
-            已售{{ item.salesVolume }}件
+            已售{{ item.frequently }}件
           </text>
         </view>
       </view>
@@ -246,7 +246,7 @@ function handleChange(val, type) {
               </text>
             </view>
             <text style="margin-left: 8px; font-size: 12px; color: #999999">
-              已售{{ item.salesVolume }}件
+              已售{{ item.frequently }}件
             </text>
           </view>
         </div>

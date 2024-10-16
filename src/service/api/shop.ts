@@ -35,6 +35,9 @@ const GET_REFUND = baseUrlApi('/trade/wxPay/wxRefund')
 const ORDER_UPDATE = baseUrlApi('/trade/app/XcxPayment/payAgain')
 const GET_ORDER_NUM = baseUrlApi('/order/app/manage/getOrderStatistics')
 const GET_BUSINESS_INFO = baseUrlApi('/order/app/manage/merchantIdOrderStatistics')
+const GET_POST_LIST = baseUrlApi('/order/app/xcxWaybillBiz')
+const GET_POST_INFO = baseUrlApi('/order/app/manage/orderBeanSend')
+const GET_HUIFU = baseUrlApi('/product/app/evaluation/reply')
 
 /**
  *   商品评价新增
@@ -46,6 +49,22 @@ export function evaluationAdd(data) {
   }
   return request.Post(
     EVALUATION_ADD, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+/**
+ *   商品评价新增
+ * @param params 初始参数()
+ * */
+export function gethuifu(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_HUIFU, // 请求地址
     data,
     {
       meta,
@@ -79,6 +98,32 @@ export function getBusinessInfo(data) {
   }
   return request.Post(
     GET_BUSINESS_INFO, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+export function getPostList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_POST_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+export function getPostInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_POST_INFO, // 请求地址
     data,
     {
       meta,
