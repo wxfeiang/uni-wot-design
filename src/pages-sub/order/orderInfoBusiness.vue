@@ -220,23 +220,26 @@ function handleConfirm(e) {
 
 function submitHF(orderId) {
   // product/app/evaluation/reply
-
-  const da = {
-    evaluationId: orderInfo.value.productEvaluationList[0].id,
-    replyContent: HFval.value,
-  }
-  sendhuifu(da).then((e: any) => {
-    if (e.data) {
-      toast.success('回复成功')
-    } else {
-      toast.success(e.data.msg)
+  if (HFval.value === '') {
+    toast.warning('请输入回复内容')
+  } else {
+    const da = {
+      evaluationId: orderInfo.value.productEvaluationList[0].id,
+      replyContent: HFval.value,
     }
-    routeTo({
-      url: '/pages-sub/order/orderInfoBusiness',
-      data: { id: orderId },
-      navType: NAVIGATE_TYPE.REDIRECT_TO,
+    sendhuifu(da).then((e: any) => {
+      if (e) {
+        toast.success('回复成功')
+      } else {
+        toast.success(e.msg)
+      }
+      routeTo({
+        url: '/pages-sub/order/orderInfoBusiness',
+        data: { id: orderId },
+        navType: NAVIGATE_TYPE.REDIRECT_TO,
+      })
     })
-  })
+  }
 }
 
 function goRefund(orderId, note = '') {
@@ -592,7 +595,7 @@ onShow(async (options) => {
           <view class="flex justify-left items-center mt-2 bottomline">
             <wd-text text="物流单号" size="14px" color="#777777" custom-class="mr-2"></wd-text>
             <wd-input
-              v-model="postNumber"
+              v-model.trim="postNumber"
               no-border
               placeholder="请输入物流单号"
               custom-class="F1 p2"
@@ -651,7 +654,7 @@ onShow(async (options) => {
             {{ orderInfo.productEvaluationList[0].replyList[0].replyContent }}
           </view>
 
-          <textarea v-else v-model="HFval" placeholder="请填写评价" class="liuyan" />
+          <textarea v-else v-model.trim="HFval" placeholder="请填写评价" class="liuyan" />
         </view>
       </wd-card>
 
@@ -687,14 +690,11 @@ onShow(async (options) => {
             <wd-button
               block
               :round="false"
-              v-if="orderInfo.productEvaluationList[0].replyList?.length > 0"
+              v-if="orderInfo.productEvaluationList[0].replyList?.length === 0"
               custom-class="mb-4"
               @click="submitHF(orderInfo.orderId)"
             >
               确认回复
-            </wd-button>
-            <wd-button block plain :round="false" @click="goInfoQX(orderInfo.orderId)">
-              取消订单
             </wd-button>
           </template>
           <template v-else></template>

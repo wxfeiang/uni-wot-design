@@ -290,21 +290,9 @@ onLoad((options) => {
                     :round="false"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfoQX(item.orderId)"
+                    @click="goInfo(item.orderId)"
                   >
-                    取消订单
-                  </wd-button>
-
-                  <wd-button
-                    size="small"
-                    plain
-                    :round="false"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    v-if="item.isEvaluatio === '0'"
-                    @click="gopath('/pages-sub/shopManager/addEvaluate', { orderId: item.orderId })"
-                  >
-                    回复评价
+                    查看详情
                   </wd-button>
                 </template>
 
