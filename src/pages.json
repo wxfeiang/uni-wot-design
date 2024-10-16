@@ -467,6 +467,7 @@
           "path": "coupon/coupDeil",
           "type": "page",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

@@ -101,8 +101,8 @@ onLoad(async () => {
         </wd-tabs>
       </view>
     </template>
-    <view class="mt-0px">
-      <view class="">
+    <view>
+      <view class="py-10px">
         <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
           <Coupon-List :data="item"></Coupon-List>
         </view>

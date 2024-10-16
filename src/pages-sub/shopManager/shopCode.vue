@@ -203,7 +203,7 @@ onLoad(async (options) => {
         <image :src="path" mode="widthFix" style="width: 350px; height: 480px"></image>
       </view>
       <!-- #ifdef H5-->
-      <view class="text-14px color-#fff mt-20px">长按图片片保存</view>
+      <view class="text-14px color-#fff mt-20px">长按图片保存</view>
       <!-- #endif -->
     </view>
   </wd-overlay>
