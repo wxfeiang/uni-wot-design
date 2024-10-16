@@ -41,7 +41,7 @@ export default defineUniPages({
         iconPath: 'static/tabbar/index.png',
         selectedIconPath: 'static/tabbar/index-a.png',
         pagePath: 'pages/index/index2',
-        text: '支付',
+        text: '测试页面',
       },
     ],
   },

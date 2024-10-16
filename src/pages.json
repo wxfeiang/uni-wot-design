@@ -34,25 +34,17 @@
         "iconPath": "static/tabbar/index.png",
         "selectedIconPath": "static/tabbar/index-a.png",
         "pagePath": "pages/index/index2",
-        "text": "支付"
+        "text": "测试页面"
       }
     ]
   },
   "pages": [
     {
-      "path": "pages/pay/index",
+      "path": "pages/index/index",
       "type": "home",
       "layout": "default",
       "style": {
         "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/index/index",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationBarTitleText": "首页"
       }
     },
     {
@@ -61,6 +53,14 @@
       "layout": "default",
       "style": {
         "navigationBarTitleText": "首页"
+      }
+    },
+    {
+      "path": "pages/pay/index",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationStyle": "custom"
       }
     },
     {
