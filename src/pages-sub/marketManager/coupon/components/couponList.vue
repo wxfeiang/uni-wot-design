@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { removeT, routeTo } from '@/utils'
 
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { Toast } from '@/utils/uniapi/prompt'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
@@ -91,8 +92,8 @@ const handleReceive = async (item) => {
       routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
     } else {
       // 商城跳转
-      // routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
-      Toast('功能开发中...')
+      routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+      // Toast('功能开发中...')
     }
   } else {
     const params = {
@@ -128,7 +129,7 @@ const share = () => {
 <template>
   <view class="px-15px my-15px">
     <view
-      class="relative box-border rounded-10px bg-#FFFFFF"
+      class="relative box-border rounded-10px bg-#F7F7F7"
       :class="{ 'grayscale-95 opacity-80': !statusBg, isShadow: props.actionShow }"
       @click="props.detil ? toDetil() : ''"
     >
@@ -147,7 +148,7 @@ const share = () => {
             </view>
           </view>
           <view class="color-#FF4345 flex items-end px-15px justify-between">
-            <view class="text-50px text-center flex-1">
+            <view class="text-30px text-center flex-1">
               {{
                 props.data.couponType == 3 ? props.data.couponPrice * 10 : props.data.couponPrice
               }}
@@ -157,7 +158,10 @@ const share = () => {
             </view>
           </view>
         </view>
-        <view class="flex flex-col justify-center flex-1 pr-10px box-border py-3px gap-8px">
+        <view
+          class="flex flex-col justify-center flex-1 pr-10px box-border py-3px"
+          :class="!readUseOnly ? 'gap-8px' : 'gap-4px'"
+        >
           <view class="text-16px color-#000">{{ props.data.couponName }}</view>
           <view class="text-12px color-#999">
             <view class="">
@@ -168,7 +172,7 @@ const share = () => {
           </view>
 
           <view class="flex justify-between items-center" v-if="props.actionShow">
-            <view class="color-#FF4345 text-12px flex items-center" @click="showDetil">
+            <view class="color-#FF4345 text-12px flex items-center" @click.stop="showDetil">
               查看使用说明
               <wd-icon name="fill-arrow-down" color="#FF4345" size="16px"></wd-icon>
             </view>
@@ -209,8 +213,9 @@ const share = () => {
       <!-- 分享按钮 -->
       <view
         class="py-5px px-10px absolute top-0 right-0 z-99 bg-#FFEEEE rounded-bl-20px"
-        v-if="statusBg && props.isShare"
+        v-if="props.isShare"
       >
+        <!-- v-if="statusBg && props.isShare" -->
         <view class="flex justify-center items-center gap-5px" @click.stop="share">
           <wd-icon name="share" size="12px" color="#FF4345"></wd-icon>
           <text class="color-#FF4345 text-12px">分享</text>

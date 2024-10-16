@@ -19,6 +19,7 @@ import { useUserStore } from '@/store'
 import { routeTo, sceneResult } from '@/utils'
 import PLATFORM from '@/utils/platform'
 import { downSaveImage, useScancode } from '@/utils/uniapi'
+import { pathToBase64 } from 'image-tools'
 import { storeToRefs } from 'pinia'
 import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
@@ -27,12 +28,12 @@ import wx from '../static/images/coupon/wx.png'
 import CouponList from './components/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
-
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 const { VITE_SERVER_BASEURL } = import.meta.env
 const { VITE_APP_LOGOTITLE } = import.meta.env
 const { sendCouponInfo, couponInfoData } = userCoupon()
+const sharePath = ref('/pages/index/index')
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 const cfigSatatus = ref(false)
 const show = ref(false)
@@ -43,6 +44,7 @@ const cfig = ref({
 const shareQbg = ref(
   'https://oss.xay.xacloudy.cn/images/2024-10/5abaa059-f847-4b9f-b2a1-083d082498e3qbg.png',
 )
+const btnbgBase64 = ref('')
 const path = ref('')
 const share = async () => {
   show.value = true
@@ -63,19 +65,29 @@ const poster = ref({
   css: {
     width: '750rpx',
     margin: '0 auto',
-    background: '#D51710',
-    backgroundRepeat: 'no-repeat',
-    padding: '0 20px',
+    padding: '20px',
     borderRadius: '5px',
+    position: 'relative',
   },
   views: [
     {
-      text: couponInfoData.value.couponName,
+      src: btnbgBase64.value,
+      type: 'image',
+      css: {
+        objectFit: 'cover',
+        objectPosition: '50% 50%',
+        width: '606rpx',
+        height: '606rpx',
+      },
+    },
+    {
+      // text: couponInfoData.value.couponName,
+      text: '无门槛优惠券!',
       type: 'text',
       css: {
         display: 'block',
         textAlign: 'center',
-        padding: '20px 0 ',
+        padding: '0 0 20px',
         color: '#fff',
         fontSize: '20px',
       },
@@ -85,23 +97,24 @@ const poster = ref({
       css: {
         display: 'block',
         textAlign: 'center',
-        padding: '20px 0 ',
-        lineHeight: '100px',
+        padding: '30px 0 ',
       },
       views: [
         {
-          text: couponPrice,
+          // text: couponPrice,
+          text: 20,
           type: 'text',
           css: {
             color: '#FFECBA',
             fontSize: '80px',
-            lineHeight: '100px',
             fontWeight: '600',
+            lineHeight: '20px',
             verticalAlign: 'bottom',
           },
         },
         {
-          text: company,
+          // text: company,
+          text: '折',
           type: 'text',
           css: {
             color: '#FFECBA',
@@ -114,37 +127,29 @@ const poster = ref({
       ],
     },
     {
-      text: couponFillPrice,
+      // text: couponFillPrice,
+      text: '满100元可用',
       type: 'text',
       css: {
         display: 'block',
         textAlign: 'center',
-        padding: '20px 0 ',
-        color: '#fff',
-        fontSize: '24px',
-        fontWeight: '600',
+        padding: '20px 0',
+        color: '#FFECBA',
+        fontSize: '14px',
       },
     },
     {
-      type: 'view',
+      type: 'qrcode',
+      text: sharePath.value,
       css: {
-        display: 'block',
-        textAlign: 'center',
-        padding: '20px 0 ',
-        color: '#fff',
+        width: '80px',
+        height: '80px',
+        padding: '10px',
+        margin: '0 auto',
+        borderRadius: '5px',
+        color: '#000',
+        background: '#fff',
       },
-      views: [
-        {
-          type: 'qrcode',
-          text: 'limeui.qcoon.cn',
-          css: {
-            width: '200px',
-            height: '100px',
-            margin: '0 auto',
-            padding: '10px',
-          },
-        },
-      ],
     },
   ],
 })
@@ -254,6 +259,7 @@ const wexinClick = () => {
 }
 
 onLoad(async (options) => {
+  btnbgBase64.value = await pathToBase64(shareQbg.value)
   console.log('🥧======', options)
   try {
     await sendCouponInfo({ couponCode: options.couponCode })
@@ -373,11 +379,10 @@ onShareAppMessage((res) => {
       <view class="text-right ml-auto mb-10px">
         <wd-icon name="close-circle" size="30px" color="#fff" @click="showHb = false"></wd-icon>
       </view>
-      <view class="bd-1px_#888 rounded-10px p-10px box-border">
-        <image :src="path" mode="widthFix" style="width: 260px; height: 415px"></image>
+      <view class="bd-1px_#888 rounded-10px p-10px box-border bg-#fff">
+        <image :src="path" mode="widthFix" style="width: 320px; height: 420px"></image>
       </view>
       <!-- #ifdef H5-->
-      <!-- <view class="text-14px color-#fff mt-20px"></view> -->
       <view class="w-full mt-20px">
         <wd-button
           :round="false"
