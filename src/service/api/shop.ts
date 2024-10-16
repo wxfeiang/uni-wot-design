@@ -33,6 +33,8 @@ const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrder
 const GET_MERCHANT_SERVICES_COUNT = baseUrlApi('/order/manage/getMerchantServicesCount')
 const GET_REFUND = baseUrlApi('/trade/wxPay/wxRefund')
 const ORDER_UPDATE = baseUrlApi('/trade/app/XcxPayment/payAgain')
+const GET_ORDER_NUM = baseUrlApi('/order/app/manage/getOrderStatistics')
+const GET_BUSINESS_INFO = baseUrlApi('/order/app/manage/merchantIdOrderStatistics')
 
 /**
  *   商品评价新增
@@ -44,6 +46,39 @@ export function evaluationAdd(data) {
   }
   return request.Post(
     EVALUATION_ADD, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   获取订单数量
+ * @param params 初始参数()
+ * */
+export function getOrderStatistics(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_ORDER_NUM, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+/**
+ *   获取订单数量
+ * @param params 初始参数()
+ * */
+export function getBusinessInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_BUSINESS_INFO, // 请求地址
     data,
     {
       meta,

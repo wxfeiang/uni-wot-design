@@ -29,8 +29,10 @@ const {
   topList,
   serveOrderList,
   sendMerchantServicesCount,
-  msCount,
+  // msCount,
   sendMyInfo,
+  sendOrderStatistics,
+  sendBusinessInfo,
 } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
@@ -44,6 +46,11 @@ const bgUrlBase64 = ref(
   'https://oss.xay.xacloudy.cn/images/2024-10/0d9fe262-f40e-4115-9173-e9f89d24828aJZDxK0DIw9Ta144dbd42ab626884a3018ec3ecaf2d6d.png',
 )
 const userGrade = ref(1)
+const msCount = ref({
+  totalMoneyDay: 0,
+  totalOrderNumDay: 0,
+})
+
 const userGradeTitle = ref('')
 const dingdan = (e) => {
   routeTo({ url: e })
@@ -64,15 +71,36 @@ onShow(async () => {
       topList.value[1].value = countInfo.couponNum
       topList.value[2].value = countInfo.pocketNum
       userGradeTitle.value = countInfo.userGradeName
+
       if (userInfo.value.merchantId) {
         // 查询商户统计
-        await sendMerchantServicesCount()
+        const datas: any = await sendBusinessInfo()
+
+        msCount.value.totalMoneyDay = datas.todayAmount ? datas.todayAmount : 0
+        msCount.value.totalOrderNumDay = datas.todayOrderNum ? datas.todayOrderNum : 0
       }
+
+      const da: any = await sendOrderStatistics({ type: 1 })
+      serveOrderList.value[0].value = da.dfk ? da.dfk : 0
+      serveOrderList.value[1].value = da.dfh ? da.dfh : 0
+      serveOrderList.value[2].value = da.dsh ? da.dsh : 0
+      serveOrderList.value[3].value = da.ywc ? da.ywc : 0
+      serveOrderList.value[4].value = da.sh ? da.sh : 0
     } catch {
       topList.value[0].value = 0
       topList.value[1].value = 0
       topList.value[2].value = 0
     }
+  } else {
+    serveOrderList.value[0].value = 0
+    serveOrderList.value[1].value = 0
+    serveOrderList.value[2].value = 0
+    serveOrderList.value[3].value = 0
+    serveOrderList.value[4].value = 0
+
+    topList.value[0].value = 0
+    topList.value[1].value = 0
+    topList.value[2].value = 0
   }
 })
 </script>

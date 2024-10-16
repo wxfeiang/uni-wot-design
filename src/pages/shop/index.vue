@@ -194,7 +194,10 @@ onLoad(async () => {
             <text style="font-size: 18px; font-weight: 600; color: #f44d24">
               {{ item.sellPrice }}
             </text>
-            <text style="margin-left: 8px; font-size: 12px; color: #999999">
+            <text
+              style="margin-left: 8px; font-size: 12px; color: #999999"
+              v-if="item.salesVolume > 0"
+            >
               已售{{ item.salesVolume }}件
             </text>
           </view>

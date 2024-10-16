@@ -1,4 +1,4 @@
-import { getMessageList, getSpecialTypeList } from '@/service/api/source'
+import { getMessageList, getSpecialTypeList, getShowTopGZH } from '@/service/api/source'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 import { bannerProps, messProps } from './types'
@@ -24,6 +24,7 @@ import saoyisao from '@/static/images/index/saoyisao.png'
 import xagd from '@/static/images/index/xagd.png'
 import xalb from '@/static/images/index/xalb.png'
 import xazx from '@/static/images/index/xazx.png'
+import { logout } from '@/service/api/auth'
 
 const topAction = ref([
   // {
@@ -223,6 +224,11 @@ const {
   initialData: [] as List[],
 })
 
+const { loading, send: showTopGZH } = useRequest(getShowTopGZH, {
+  immediate: false,
+  loading: false,
+})
+
 // 文章列表
 const {
   send: sendMessageList,
@@ -284,5 +290,6 @@ export default () => {
     sendSwiperList,
     swiperListData,
     swiperListLoading,
+    showTopGZH,
   }
 }

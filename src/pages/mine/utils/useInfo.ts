@@ -20,7 +20,7 @@ import xxtz from '@/static/images/mine/xxtz.png'
 
 import { routeTo } from '@/utils'
 
-import { getMerchantServicesCount } from '@/service/api/shop'
+import { getMerchantServicesCount, getOrderStatistics, getBusinessInfo } from '@/service/api/shop'
 import daifahuo from '../../../static/images/mine/daifahuo.png'
 import dafukuan from '../../../static/images/mine/daifukuan.png'
 import daishouhuo from '../../../static/images/mine/daishouhuo.png'
@@ -219,6 +219,15 @@ const { send: sendMyInfo } = useRequest((data) => findmyInfo(data), {
   immediate: false,
   loading: false,
 })
+const { send: sendOrderStatistics } = useRequest((data) => getOrderStatistics(data), {
+  immediate: false,
+  loading: false,
+})
+
+const { send: sendBusinessInfo } = useRequest((data) => getBusinessInfo(data), {
+  immediate: false,
+  loading: false,
+})
 
 const { send: sendMerchantServicesCount, data: msCount } = useRequest(
   (data) => getMerchantServicesCount<msCountProps>(data),
@@ -247,5 +256,7 @@ export default () => {
     sendMerchantServicesCount,
     msCount,
     sendMyInfo,
+    sendOrderStatistics,
+    sendBusinessInfo,
   }
 }
