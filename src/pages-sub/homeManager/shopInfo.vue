@@ -280,7 +280,12 @@ onShareTimeline(() => {
             ></wd-text>
           </view> -->
         </view>
-        <wd-text :text="`已售${details.salesVolume}`" color="#F44D24" size="14px"></wd-text>
+        <wd-text
+          v-if="details.salesVolume > 0"
+          :text="`已售${details.salesVolume}`"
+          color="#F44D24"
+          size="14px"
+        ></wd-text>
       </view>
 
       <view class="w-full text-cut-line2 mt-10px font-600">

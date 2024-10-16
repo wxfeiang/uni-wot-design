@@ -22,6 +22,7 @@ const {
   sendchangeOrderStatus,
   updateOrderBeanStatusById,
   sendOrderUpdate,
+  sendRefund,
 } = orderInter()
 const paging = ref(null)
 const chooseIndex = ref<number>(0)
@@ -184,6 +185,7 @@ function goRefund(orderId, note = '') {
     },
   })
 }
+
 function gosure(orderId, status) {
   const data = { orderId, status }
   updateOrderBeanStatusById(data).then((res) => {
@@ -530,7 +532,7 @@ onShow(async (options) => {
           <template v-else-if="orderInfo.status == 10">
             <wd-button
               block
-              disabled
+              plain
               type="info"
               custom-class="inline-block ml-2"
               style="width: 5rem"

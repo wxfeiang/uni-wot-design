@@ -81,8 +81,8 @@ onShow(async () => {
       }
 
       const da: any = await sendOrderStatistics({ type: 1 })
-      serveOrderList.value[0].value = da.dfh ? da.dfh : 0
-      serveOrderList.value[1].value = da.dfk ? da.dfk : 0
+      serveOrderList.value[0].value = da.dfk ? da.dfk : 0
+      serveOrderList.value[1].value = da.dfh ? da.dfh : 0
       serveOrderList.value[2].value = da.dsh ? da.dsh : 0
       serveOrderList.value[3].value = da.ywc ? da.ywc : 0
       serveOrderList.value[4].value = da.sh ? da.sh : 0
@@ -91,6 +91,16 @@ onShow(async () => {
       topList.value[1].value = 0
       topList.value[2].value = 0
     }
+  } else {
+    serveOrderList.value[0].value = 0
+    serveOrderList.value[1].value = 0
+    serveOrderList.value[2].value = 0
+    serveOrderList.value[3].value = 0
+    serveOrderList.value[4].value = 0
+
+    topList.value[0].value = 0
+    topList.value[1].value = 0
+    topList.value[2].value = 0
   }
 })
 </script>
