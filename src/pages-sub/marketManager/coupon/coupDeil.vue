@@ -97,6 +97,7 @@ const poster = ref({
             fontSize: '80px',
             lineHeight: '100px',
             fontWeight: '600',
+            verticalAlign: 'bottom',
           },
         },
         {
@@ -107,6 +108,7 @@ const poster = ref({
             fontSize: '30px',
             fontWeight: '600',
             lineHeight: '20px',
+            verticalAlign: 'bottom',
           },
         },
       ],
@@ -136,7 +138,7 @@ const poster = ref({
           type: 'qrcode',
           text: 'limeui.qcoon.cn',
           css: {
-            width: '100px',
+            width: '200px',
             height: '100px',
             margin: '0 auto',
             padding: '10px',
