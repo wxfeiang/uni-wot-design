@@ -21,28 +21,4 @@ export default defineUniPages({
       '^dy-(.*)': 'components/dy-$1/dy-$1.vue',
     },
   },
-  tabBar: {
-    color: '#000000',
-    selectedColor: '#3177f6',
-    backgroundColor: '#fff',
-    borderStyle: 'black',
-    height: '50px',
-    fontSize: '10px',
-    iconWidth: '24px',
-    spacing: '3px',
-    list: [
-      {
-        iconPath: 'static/tabbar/index.png',
-        selectedIconPath: 'static/tabbar/index-a.png',
-        pagePath: 'pages/index/index',
-        text: '首页',
-      },
-      {
-        iconPath: 'static/tabbar/index.png',
-        selectedIconPath: 'static/tabbar/index-a.png',
-        pagePath: 'pages/index/index2',
-        text: '支付中心',
-      },
-    ],
-  },
 })

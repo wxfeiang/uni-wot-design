@@ -5,14 +5,13 @@
 
 interface NavigateToOptions {
   url: "/pages/index/index" |
-       "/pages/index/index2" |
        "/pages/pay/index" |
        "/pages/pay/sacnResult";
 }
 interface RedirectToOptions extends NavigateToOptions {}
 
 interface SwitchTabOptions {
-  url: "/pages/index/index" | "/pages/index/index2"
+  
 }
 
 type ReLaunchOptions = NavigateToOptions | SwitchTabOptions;
