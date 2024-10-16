@@ -15,6 +15,6 @@ const url = ref(
 
 <template>
   <view class="min-h-100vh">
-    <image :src="url" mode="widthFix" class="w-100% h-100%"></image>
+    <image :src="url" mode="widthFix" class="w-100% h-100%" lazy-load></image>
   </view>
 </template>
