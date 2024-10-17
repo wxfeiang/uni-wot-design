@@ -39,25 +39,21 @@ function toDetil(item) {
     data: { id: item.adviceId },
   })
 }
-// onShow(() => {
-//   if (paging.value.reload()) {
-//     paging.value.reload()
-//   }
-// })
+onShow(() => {
+  if (paging.value.reload()) {
+    paging.value.reload()
+  }
+})
 </script>
 <template>
-  <z-paging
-    ref="paging"
-    v-model="dataList"
-    @query="queryList"
-    :auto-show-system-loading="true"
-    class="dy-blue-bg"
-  >
+  <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
-      <!-- 顶部 -->
-      <dy-navbar leftTitle="投诉与建议" left isNavShow color="#000"></dy-navbar>
+      <view class="bg1">
+        <!-- 顶部 -->
+        <dy-navbar leftTitle="投诉与建议" left isNavShow color="#000"></dy-navbar>
+      </view>
     </template>
-    <view class="px-10px pt-10px">
+    <view class="px-10px pt-10px dy-blue-bg2">
       <Sug-Item :dataList="dataList" @deitl="toDetil" />
     </view>
     <template #bottom>
@@ -69,4 +65,11 @@ function toDetil(item) {
   </z-paging>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.bg1) {
+  background: #d6eafe !important;
+}
+:deep(.zp-paging-container) {
+  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
+}
+</style>

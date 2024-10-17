@@ -200,9 +200,9 @@ const showHbClose = () => {
 }
 const btnClick2 = async (item) => {
   if (item.action === 'lq') {
-    routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', navType: NAVIGATE_TYPE.REDIRECT_TO })
+    routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil' })
   } else if (item.action === 'myCoupon') {
-    routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon', navType: NAVIGATE_TYPE.REDIRECT_TO })
+    routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon' })
   } else if (item.action === 'uselq') {
     if (!isLogined.value) {
       const pages = getCurrentPages()
@@ -243,9 +243,9 @@ const btnClick2 = async (item) => {
     }
     if (couponInfoData.value.type === 2) {
       setTimeout(() => {
-        Toast('即将前往上城中心!')
+        Toast('即将前往商城城中心!')
         routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
-      }, 2000)
+      }, 3000)
     }
     if (couponInfoData.value.type === 3) {
       cfigSatatus.value = true

@@ -88,6 +88,6 @@ page {
 }
 // 统一蓝色导航背景
 .dy-blue-bg {
-  min-height: 100vh;
-  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%);
+  min-height: 100vh !important;
+  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
 }

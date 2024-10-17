@@ -65,7 +65,7 @@ const defaultAttrs = {
         </view>
       </wd-cell>
     </wd-cell-group>
-    <view v-if="props.status" class="bg-#fff rounded-6px overflow-hidden p-10px">
+    <view v-if="props.status" class="bg-#fff rounded-6px overflow-hidden p-10px mt-10px">
       <view class="flex justify-between items-center py-10px">
         <text class="font-600 text-14px">反馈内容</text>
         <text class="color-#999 text-14px">{{ removeT(props.dataList[0]!.createTime) }}</text>
@@ -83,16 +83,25 @@ const defaultAttrs = {
     </view>
   </view>
 </template>
-
+<script lang="ts">
+export default {
+  options: {
+    styleIsolation: 'shared',
+  },
+}
+</script>
 <style lang="scss" scoped>
 :deep(.wd-cell-group),
 :deep(.wd-cell-group__body) {
   @apply bg-transparent!;
 }
 :deep(.custom-class-cell) {
-  @apply rounded-6px mb-10px overflow-hidden;
+  @apply rounded-6px! mb-10px! overflow-hidden!;
 }
 :deep(.wd-cell__wrapper) {
   @apply items-center!;
+}
+.custom-class-cell {
+  @apply rounded-6px! mb-10px! overflow-hidden!;
 }
 </style>

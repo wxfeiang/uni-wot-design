@@ -155,7 +155,7 @@ const share = () => {
     <view
       class="relative box-border rounded-10px bg-#F7F7F7"
       :class="{ 'grayscale-95 opacity-80': !statusBg, isShadow: props.actionShow }"
-      @click="toDetil()"
+      @click="props.detil ? toDetil() : ''"
     >
       <view class="flex gap-10px">
         <view
