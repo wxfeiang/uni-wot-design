@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { getBack } from '@/utils'
+
 const props = defineProps({
   leftTitle: {
     type: [String, Number],
@@ -37,14 +39,7 @@ const props = defineProps({
   },
 })
 function handleClickLeft() {
-  const pageList = getCurrentPages()
-  if (pageList.length <= 1) {
-    uni.reLaunch({
-      url: '/pages/index/index',
-    })
-  } else {
-    uni.navigateBack()
-  }
+  getBack()
 }
 onPageScroll((e) => {
   console.log('🍓[e]:', e)
