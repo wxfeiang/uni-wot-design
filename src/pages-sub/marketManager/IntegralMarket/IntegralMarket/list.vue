@@ -121,7 +121,17 @@ onLoad(async () => {
               <view
                 class="w-full h-full pos-absolute pos-top-none pos-left-none flex flex-col justify-center items-center"
               >
-                <wd-text :text="item.exchangeNotes" size="18px" color="#ff4345"></wd-text>
+                <wd-text
+                  :text="item.exchangeNotes.split('减')[0] + '可用'"
+                  size="14px"
+                  color="#ff4345"
+                  custom-class="mb-2"
+                ></wd-text>
+                <wd-text
+                  :text="item.exchangeNotes.split('减')[1]"
+                  size="28px"
+                  color="#ff4345"
+                ></wd-text>
                 <!-- <view class="mt-20px">
                   <wd-text text="100" size="42px" bold color="#ff4345"></wd-text>
                   <wd-text text="￥" size="20px" bold color="#ff4345"></wd-text>
