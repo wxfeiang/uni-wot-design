@@ -57,7 +57,8 @@ const share = async () => {
 const path = ref('')
 const showHb = ref(false)
 const painter = ref(null)
-const isShare = ref(false)
+const isShare = ref(false) // 是否显现分享按钮
+const shareType = ref('') // 是否分享入口进入
 const poster = ref({})
 const createImg = () => {
   const couponPrice =
@@ -324,7 +325,7 @@ const couponId = ref('')
 const footbtn = computed(() => {
   if (isLogined.value) {
     console.log('🍨========', isShare.value)
-    if (isShare.value) {
+    if (isShare.value || shareType.value === mainTypeEmums.SHARE_COUPN) {
       console.log('🍲')
       return footerBtns2.value
     } else {
@@ -337,7 +338,8 @@ const footbtn = computed(() => {
 })
 onLoad(async (options) => {
   isShare.value = Number(options.isMain) === 1
-  console.log('🍉[ isShare.value]:', isShare.value)
+  shareType.value = options.type
+
   couponId.value = options.couponId
   try {
     await sendCouponInfo({ couponCode: options.couponCode, couponId: couponId.value })
