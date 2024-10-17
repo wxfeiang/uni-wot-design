@@ -2,13 +2,16 @@
 import { removeT, routeTo } from '@/utils'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
+import { useUserStore } from '@/store'
 import { Toast } from '@/utils/uniapi/prompt'
+import { storeToRefs } from 'pinia'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
 const { sendReceiveCoupon } = userCoupon()
 const readUseOnly = ref('仅雄安一卡通支付使用')
+const { isLogined, userInfo } = storeToRefs(useUserStore())
 defineOptions({
   name: 'couponList',
 })
@@ -213,9 +216,8 @@ const share = () => {
       <!-- 分享按钮 -->
       <view
         class="py-5px px-10px absolute top-0 right-0 z-99 bg-#FFEEEE rounded-bl-20px"
-        v-if="props.isShare"
+        v-if="statusBg && props.isShare && isLogined"
       >
-        <!-- v-if="statusBg && props.isShare" -->
         <view class="flex justify-center items-center gap-5px" @click.stop="share">
           <wd-icon name="share" size="12px" color="#FF4345"></wd-icon>
           <text class="color-#FF4345 text-12px">分享</text>

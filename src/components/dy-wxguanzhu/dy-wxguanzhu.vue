@@ -1,0 +1,69 @@
+<script lang="ts" setup>
+// #ifdef MP-WEIXIN
+import { getShowTopGZH } from '@/service/api/source'
+import logo from '@/static/images/logo.png'
+import { useUserStore } from '@/store/user'
+import { routeTo } from '@/utils'
+import { useRequest } from 'alova/client'
+import { storeToRefs } from 'pinia'
+const { isLogined, userInfo } = storeToRefs(useUserStore())
+const closeAdFlog = ref(true)
+const closeAd = () => {
+  closeAdFlog.value = false
+}
+const showGHZ = ref(0)
+const toWxChart = () => {
+  routeTo({
+    url: '/pages-sub/webView/index',
+    data: {
+      showType: 'webView',
+      url: 'https://mp.weixin.qq.com/s?__biz=MzkyOTYzOTg3NQ==&mid=2247483688&idx=1&sn=af447ae94177b1e42fe3b9622d5cde13&chksm=c2073d84f570b492da13ec97251dfe7a4fbefb0ba238cf10001ea375cad6bf36943e9f705011#rd',
+    },
+  })
+}
+const { loading, send: showTopGZH } = useRequest(getShowTopGZH, {
+  immediate: false,
+  loading: false,
+})
+onMounted(async () => {
+  if (isLogined.value) {
+    const data: any = await showTopGZH()
+    console.log('🥒[data]:', data, closeAdFlog.value, !data && closeAdFlog.value)
+    showGHZ.value = data
+  }
+})
+// #endif
+</script>
+
+<template>
+  <!-- #ifdef MP-WEIXIN -->
+
+  <view v-if="closeAdFlog && !showGHZ">
+    <wd-gap height="10" bg-color="#fff"></wd-gap>
+    <view class="">
+      <view
+        class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-10px pr-30px"
+      >
+        <view>
+          <wd-img :src="logo" height="40" width="40"></wd-img>
+        </view>
+        <view class="flex-1">
+          <view class="text-14px">关注雄安一卡通公众号</view>
+          <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
+        </view>
+        <view
+          class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000"
+          @click="toWxChart"
+        >
+          立即关注
+        </view>
+        <view class="absolute top-0 right-0" @click="closeAd">
+          <wd-icon name="close-circle" size="22px" color="#E4C29C"></wd-icon>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- #endif -->
+</template>
+
+<style lang="scss" scoped></style>

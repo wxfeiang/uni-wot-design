@@ -16,7 +16,7 @@ import { routeTo } from '@/utils'
 //
 onLoad((options) => {
   uni.showLoading({ title: '加载中', mask: true })
-  console.log('🍢[options]:', options)
+  console.log('🍢页面进入数据====》:', options)
   if (options.type === mainTypeEmums.SHARE_COUPN) {
     routeTo({
       url: `${Constant.COUPON_PATH}`,
@@ -29,7 +29,7 @@ onLoad((options) => {
 </script>
 
 <template>
-  <view class="">处理中</view>
+  <view class=""></view>
 </template>
 
 <style lang="scss" scoped>

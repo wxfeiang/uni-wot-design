@@ -16,10 +16,12 @@ import lPainter from '@/components/lime-painter/components/l-painter/l-painter.v
 import { Constant } from '@/enums/constant'
 import { mainTypeEmums } from '@/enums/mainTypeEmum'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
+import { isLoginCheckd } from '@/interceptors/route'
 import { useUserStore } from '@/store'
 import { getBack, routeTo, sceneResult } from '@/utils'
 import PLATFORM from '@/utils/platform'
 import { downSaveImage, useScancode } from '@/utils/uniapi'
+import { Toast } from '@/utils/uniapi/prompt'
 import { storeToRefs } from 'pinia'
 import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
@@ -33,7 +35,7 @@ const message = useMessage()
 const { VITE_SERVER_BASEURL, VITE_APP_LOGOTITLE } = import.meta.env
 const sharePath = ref(Constant.MAIN_PAGE)
 
-const { sendCouponInfo, couponInfoData } = userCoupon()
+const { sendCouponInfo, couponInfoData, sendReceiveCoupon } = userCoupon()
 
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 const cfigSatatus = ref(false)
@@ -172,6 +174,7 @@ const createImg = () => {
 }
 // 海报打开后开始下载
 const downLoadQrcode = async () => {
+  showHb.value = true
   poster.value = createImg()
   console.log('🥑', poster.value)
   painter.value.render(poster.value)
@@ -182,9 +185,9 @@ const downLoadQrcode = async () => {
     success: (res) => {
       // 非H5 保存到相册
       // H5 提示用户长按图另存
-      // setTimeout(() => {
-      //   show.value = false
-      // }, 3000)
+      setTimeout(() => {
+        show.value = false
+      }, 3000)
       // #ifndef  H5
       downSaveImage(res.tempFilePath)
       // #endif
@@ -200,6 +203,26 @@ const btnClick2 = async (item) => {
     routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', navType: NAVIGATE_TYPE.REDIRECT_TO })
   } else if (item.action === 'myCoupon') {
     routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon', navType: NAVIGATE_TYPE.REDIRECT_TO })
+  } else if (item.action === 'uselq') {
+    if (!isLogined.value) {
+      const pages = getCurrentPages()
+      const currentPage = pages[pages.length - 1]
+      // 获取当前页面的路径
+      const currentPath = currentPage.route
+      isLoginCheckd(currentPath)
+    } else {
+      const params = {
+        couponId: couponInfoData.value.couponId,
+      }
+      try {
+        const data: any = await sendReceiveCoupon(params)
+        if (data === true) {
+          setTimeout(() => {
+            Toast('领取成功')
+          }, 50)
+        }
+      } catch (error) {}
+    }
   } else if (item.action === 'useCoupon') {
     // 点击分享
 
@@ -220,10 +243,7 @@ const btnClick2 = async (item) => {
     }
     if (couponInfoData.value.type === 2) {
       setTimeout(() => {
-        uni.showToast({
-          title: '即将前往上城中心!',
-          icon: 'none',
-        })
+        Toast('即将前往上城中心!')
         routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
       }, 2000)
     }
@@ -247,7 +267,7 @@ const footerBtns1 = ref([
     size: 'medium',
     round: false,
     type: 'error',
-    action: 'useCoupon',
+    action: 'uselq',
     customClass: 'custom-class-mine-error',
   },
 ])
@@ -262,14 +282,14 @@ const footerBtns3 = ref([
     action: 'myCoupon',
     customClass: 'custom-class-error-dyplain',
   },
-  {
-    text: '立即使用',
-    size: 'medium',
-    round: false,
-    type: 'error',
-    action: 'useCoupon',
-    customClass: 'custom-class-mine-error',
-  },
+  // {
+  //   text: '立即使用',
+  //   size: 'medium',
+  //   round: false,
+  //   type: 'error',
+  //   action: 'useCoupon',
+  //   customClass: 'custom-class-mine-error',
+  // },
 ])
 const footbtn = computed(() => {
   return isLogined.value ? footerBtns3.value : footerBtns1.value
@@ -312,6 +332,7 @@ onLoad(async (options) => {
 // 来自页面内分享按钮
 onShareAppMessage((res) => {
   if (res.from === 'button' || res.from === 'menu') {
+    show.value = false
     return {
       title: VITE_APP_LOGOTITLE,
       desc: '我抢到优惠券啦!快来一起抢，名额有限!',
@@ -348,6 +369,9 @@ onShareAppMessage((res) => {
             <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
           </view>
         </view>
+      </view>
+      <view>
+        <dy-wxguanzhu></dy-wxguanzhu>
       </view>
       <view>
         <view class="text-14px p-15px mt-20px" v-if="couponInfoData.couponRemark">

@@ -48,17 +48,7 @@ const navigateToInterceptor = {
       return true
     } else {
       if (!hasLogin) {
-        Modal({
-          title: '提示',
-          content: '您还没有登录,请先登录？',
-          showCancel: true,
-        }).then((res: any) => {
-          if (res.confirm) {
-            // 重定向
-            const redirectRoute = `${loginRoute}?redirect=${encodeURIComponent(url)}`
-            uni.navigateTo({ url: redirectRoute })
-          }
-        })
+        isLoginCheckd(url)
       } else if (hasFeace && !isIdcard()) {
         Modal({
           title: '提示',
@@ -78,6 +68,19 @@ const navigateToInterceptor = {
       return false
     }
   },
+}
+export const isLoginCheckd = (url) => {
+  Modal({
+    title: '提示',
+    content: '您还没有登录,请先登录？',
+    showCancel: true,
+  }).then((res: any) => {
+    if (res.confirm) {
+      // 重定向
+      const redirectRoute = `${loginRoute}?redirect=${encodeURIComponent(url)}`
+      uni.navigateTo({ url: redirectRoute })
+    }
+  })
 }
 
 export const routeInterceptor = {
