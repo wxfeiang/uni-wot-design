@@ -12,6 +12,7 @@ interface NavigateToOptions {
        "/pages/login/sfzLogin" |
        "/pages/mine/index" |
        "/pages/pay/index" |
+       "/pages/pay/mainResult" |
        "/pages/pay/sacnResult" |
        "/pages/serve/index" |
        "/pages/shop/index" |

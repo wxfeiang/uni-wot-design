@@ -14,12 +14,12 @@
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import lPainter from '@/components/lime-painter/components/l-painter/l-painter.vue'
 import { Constant } from '@/enums/constant'
+import { mainTypeEmums } from '@/enums/mainTypeEmum'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useUserStore } from '@/store'
-import { routeTo, sceneResult } from '@/utils'
+import { getBack, routeTo, sceneResult } from '@/utils'
 import PLATFORM from '@/utils/platform'
 import { downSaveImage, useScancode } from '@/utils/uniapi'
-import { pathToBase64 } from 'image-tools'
 import { storeToRefs } from 'pinia'
 import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
@@ -30,10 +30,11 @@ import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
-const { VITE_SERVER_BASEURL } = import.meta.env
-const { VITE_APP_LOGOTITLE } = import.meta.env
+const { VITE_SERVER_BASEURL, VITE_APP_LOGOTITLE } = import.meta.env
+const sharePath = ref(Constant.MAIN_PAGE)
+
 const { sendCouponInfo, couponInfoData } = userCoupon()
-const sharePath = ref('/pages/index/index')
+
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 const cfigSatatus = ref(false)
 const show = ref(false)
@@ -44,117 +45,134 @@ const cfig = ref({
 const shareQbg = ref(
   'https://oss.xay.xacloudy.cn/images/2024-10/5abaa059-f847-4b9f-b2a1-083d082498e3qbg.png',
 )
-const btnbgBase64 = ref('')
-const path = ref('')
+const shareQbg2 = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/c9b8ca4c-b555-495a-a631-5c6b5703f35ashareCounp.png',
+)
+
 const share = async () => {
   show.value = true
 }
-
+const path = ref('')
 const showHb = ref(false)
-const painter = ref()
-const couponPrice =
-  couponInfoData.value.couponType === 3
-    ? couponInfoData.value.couponPrice * 10
-    : couponInfoData.value.couponPrice
-const company = couponInfoData.value.couponType === 3 ? '折' : '¥'
-const couponFillPrice =
-  couponInfoData.value.couponFillPrice > 0
-    ? '满' + couponInfoData.value.couponFillPrice + '元可用'
-    : '无门槛'
-const poster = ref({
-  css: {
-    width: '750rpx',
-    margin: '0 auto',
-    padding: '20px',
-    borderRadius: '5px',
-    position: 'relative',
-  },
-  views: [
-    {
-      src: btnbgBase64.value,
-      type: 'image',
-      css: {
-        objectFit: 'cover',
-        objectPosition: '50% 50%',
-        width: '606rpx',
-        height: '606rpx',
-      },
+const painter = ref(null)
+
+const poster = ref({})
+const createImg = () => {
+  const couponPrice =
+    couponInfoData.value.couponType === 3
+      ? couponInfoData.value.couponPrice * 10
+      : couponInfoData.value.couponPrice
+  const company = couponInfoData.value.couponType === 3 ? '折' : '¥'
+  const couponFillPrice =
+    couponInfoData.value.couponFillPrice > 0
+      ? '满' + couponInfoData.value.couponFillPrice + '元可用'
+      : '无门槛'
+  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&couponCode=${couponInfoData.value.couponCode}`
+  return {
+    css: {
+      width: '750rpx',
+      margin: '0 auto',
+      padding: '10px',
+      borderRadius: '5px',
+      position: 'relative',
+      backgroundImage: `url(${shareQbg.value})`,
+      backgroundRepeat: 'no-repeat',
+      // backgrounSize: '100%',
     },
-    {
-      // text: couponInfoData.value.couponName,
-      text: '无门槛优惠券!',
-      type: 'text',
-      css: {
-        display: 'block',
-        textAlign: 'center',
-        padding: '0 0 20px',
-        color: '#fff',
-        fontSize: '20px',
-      },
-    },
-    {
-      type: 'view',
-      css: {
-        display: 'block',
-        textAlign: 'center',
-        padding: '30px 0 ',
-      },
-      views: [
-        {
-          // text: couponPrice,
-          text: 20,
-          type: 'text',
-          css: {
-            color: '#FFECBA',
-            fontSize: '80px',
-            fontWeight: '600',
-            lineHeight: '20px',
-            verticalAlign: 'bottom',
-          },
+    views: [
+      // {
+      //   src: shareQbg.value,
+      //   type: 'image',
+      //   css: {
+      //     objectFit: 'contain',
+      //     objectPosition: '100% 100%',
+      //     width: '750rpx',
+      //     height: '100%',
+      //     position: 'absolute',
+      //     top: '0',
+      //     left: '0',
+      //     right: '0',
+      //     bottm: '0',
+      //     zIndex: '-1',
+      //   },
+      // },
+      {
+        text: couponInfoData.value.couponName,
+        // text: '无门槛优惠券!',
+        type: 'text',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          padding: '0 0 20px',
+          color: '#fff',
+          fontSize: '20px',
         },
-        {
-          // text: company,
-          text: '折',
-          type: 'text',
-          css: {
-            color: '#FFECBA',
-            fontSize: '30px',
-            fontWeight: '600',
-            lineHeight: '20px',
-            verticalAlign: 'bottom',
-          },
+      },
+      {
+        type: 'view',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          marginTop: '20px',
+          padding: '30px 0 ',
         },
-      ],
-    },
-    {
-      // text: couponFillPrice,
-      text: '满100元可用',
-      type: 'text',
-      css: {
-        display: 'block',
-        textAlign: 'center',
-        padding: '20px 0',
-        color: '#FFECBA',
-        fontSize: '14px',
+        views: [
+          {
+            text: couponPrice,
+            // text: 20,
+            type: 'text',
+            css: {
+              color: '#FFECBA',
+              fontSize: '80px',
+              fontWeight: '600',
+              lineHeight: '20px',
+              verticalAlign: 'bottom',
+            },
+          },
+          {
+            text: company,
+            type: 'text',
+            css: {
+              color: '#FFECBA',
+              fontSize: '30px',
+              fontWeight: '600',
+              lineHeight: '20px',
+              verticalAlign: 'bottom',
+            },
+          },
+        ],
       },
-    },
-    {
-      type: 'qrcode',
-      text: sharePath.value,
-      css: {
-        width: '80px',
-        height: '80px',
-        padding: '10px',
-        margin: '0 auto',
-        borderRadius: '5px',
-        color: '#000',
-        background: '#fff',
+      {
+        text: couponFillPrice,
+        // text: '满100元可用',
+        type: 'text',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          padding: '10px 0',
+          color: '#FFECBA',
+          fontSize: '14px',
+        },
       },
-    },
-  ],
-})
-const downLoadQrcode = () => {
-  showHb.value = true
+      {
+        type: 'qrcode',
+        text: qrcodePath,
+        css: {
+          width: '80px',
+          height: '80px',
+          padding: '10px',
+          margin: '0 auto',
+          borderRadius: '5px',
+          color: '#000',
+          background: '#fff',
+        },
+      },
+    ],
+  }
+}
+// 海报打开后开始下载
+const downLoadQrcode = async () => {
+  poster.value = createImg()
   console.log('🥑', poster.value)
   painter.value.render(poster.value)
   painter.value.canvasToTempFilePathSync({
@@ -167,12 +185,15 @@ const downLoadQrcode = () => {
       // setTimeout(() => {
       //   show.value = false
       // }, 3000)
-
       // #ifndef  H5
       downSaveImage(res.tempFilePath)
       // #endif
     },
   })
+}
+const showHbClose = () => {
+  showHb.value = false
+  show.value = false
 }
 const btnClick2 = async (item) => {
   if (item.action === 'lq') {
@@ -198,7 +219,13 @@ const btnClick2 = async (item) => {
       }
     }
     if (couponInfoData.value.type === 2) {
-      routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+      setTimeout(() => {
+        uni.showToast({
+          title: '即将前往上城中心!',
+          icon: 'none',
+        })
+        routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+      }, 2000)
     }
     if (couponInfoData.value.type === 3) {
       cfigSatatus.value = true
@@ -259,7 +286,6 @@ const wexinClick = () => {
 }
 
 onLoad(async (options) => {
-  btnbgBase64.value = await pathToBase64(shareQbg.value)
   console.log('🥧======', options)
   try {
     await sendCouponInfo({ couponCode: options.couponCode })
@@ -271,20 +297,31 @@ onLoad(async (options) => {
     cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
   } catch (error) {
     couponInfoData.value = {} as conponListProps
-    message.alert({ title: '提示', msg: error.data.msg, closeOnClickModal: false }).then((res) => {
-      uni.navigateBack()
-    })
+    message
+      .alert({
+        title: '提示',
+        msg: error.data?.msg ?? '优惠券不存在!',
+        closeOnClickModal: false,
+      })
+      .then((res) => {
+        getBack()
+      })
   }
 })
 
+// 来自页面内分享按钮
 onShareAppMessage((res) => {
   if (res.from === 'button' || res.from === 'menu') {
-    // 来自页面内分享按钮
     return {
       title: VITE_APP_LOGOTITLE,
-      summary: '我抢到优惠券啦!快来一起抢，名额有限!',
-      imageUrl: shareQbg.value,
-      path: '/pages/test/test?id=123',
+      desc: '我抢到优惠券啦!快来一起抢，名额有限!',
+      imageUrl: shareQbg2.value,
+      path:
+        sharePath.value +
+        `?type=${mainTypeEmums.SHARE_COUPN}&couponCode=${couponInfoData.value.couponCode}`,
+      complete: () => {
+        handleClose()
+      },
     }
   }
 })
@@ -343,14 +380,14 @@ onShareAppMessage((res) => {
       position="bottom"
       :safe-area-inset-bottom="true"
       :z-index="100"
-      :close-on-click-modal="false"
+      :close-on-click-modal="true"
     >
       <view class="rounded-t-10px overflow-hidden">
         <view class="flex justify-around items-center py-10px px-20px bg-#fff py-20px">
           <!-- #ifdef H5 -->
           <view class="flex justify-center gap-10px items-center" @click="wexinClick">
             <wd-img :src="wx" width="24" height="19"></wd-img>
-            <view color="#888888">微信好友</view>
+            <view class="color-#888 text-14px">微信好友</view>
           </view>
           <!--  #endif -->
           <!-- #ifdef MP-WEIXIN -->
@@ -358,7 +395,7 @@ onShareAppMessage((res) => {
             <wd-button class="" type="text" open-type="share">
               <view class="flex justify-center gap-10px items-center">
                 <wd-img :src="wx" width="24" height="19"></wd-img>
-                <view color="#888888">微信好友</view>
+                <view class="color-#888 text-14px">微信好友</view>
               </view>
             </wd-button>
           </view>
@@ -366,8 +403,7 @@ onShareAppMessage((res) => {
           <view class="color-#e8e8e8">|</view>
           <view class="flex justify-center gap-10px items-center" @click="downLoadQrcode">
             <wd-img :src="hb" width="24" height="19"></wd-img>
-
-            <view color="#888888">生成海报</view>
+            <view class="color-#888 text-14px">生成海报</view>
           </view>
         </view>
         <view @click="handleClose" class="py-15px color-#000 text-center bt-1px_#E8E8E8">取消</view>
@@ -376,14 +412,14 @@ onShareAppMessage((res) => {
   </view>
   <wd-overlay :show="showHb" :z-index="1000" :close-on-click-modal="false">
     <view class="h-full flex flex-col justify-center items-center bg-#000/30 px-50px box-border">
-      <view class="text-right ml-auto mb-10px">
-        <wd-icon name="close-circle" size="30px" color="#fff" @click="showHb = false"></wd-icon>
+      <view class="text-right ml-auto mb-10px mx-[-30px]">
+        <wd-icon name="error-fill" size="30px" color="#fff" @click="showHbClose"></wd-icon>
       </view>
-      <view class="bd-1px_#888 rounded-10px p-10px box-border bg-#fff">
-        <image :src="path" mode="widthFix" style="width: 320px; height: 420px"></image>
+      <view class="bd-1px_#888 rounded-10px p-5px box-border bg-#fff">
+        <image :src="path" mode="widthFix" style="width: 320px; height: 100%"></image>
       </view>
       <!-- #ifdef H5-->
-      <view class="w-full mt-20px">
+      <view class="w-full mt-20px mx-[-15px]">
         <wd-button
           :round="false"
           block
