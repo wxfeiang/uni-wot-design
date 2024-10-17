@@ -7,7 +7,7 @@ export enum Constant {
   // 国际化
   LANF = 'language',
   // appkey
-  APP_KEY = 'appKey', // default
+  APP_KEY = 'wx', // default
 
   // terminal
   TERMINAL = 'terminal',
@@ -22,4 +22,13 @@ export enum Constant {
   QR_CODE_OFF = 'writeOff',
   // 二维码一卡通卡展示类型
   QR_CODE_CARD = 'card',
+
+  // 统一分享基础地址
+  MAIN_PATH = 'https://ykt.xionganbc.com/wx/',
+
+  // 统一小程序入口地址
+  MAIN_PAGE = '/pages/pay/mainResult',
+
+  // 优惠券入口地址
+  COUPON_PATH = '/pages-sub/marketManager/coupon/coupDeil',
 }
