@@ -71,7 +71,7 @@ onLoad(async () => {
     <view class="bg-#ffff rounded-20px overflow-hidden mt-20px" style="min-height: 100px">
       <view class="pt-10px">
         <view class="" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item" @refresh="paging.reload()" :detil="false"></Coupon-List>
+          <Coupon-List :data="item" @refresh="paging.reload()" :detil="true" isMain></Coupon-List>
         </view>
       </view>
     </view>

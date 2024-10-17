@@ -95,7 +95,7 @@ export function beforeQuest(method: any) {
 
     config.headers.sign = !ignoreSign ? sign(method.data) : ''
   }
-  console.log('请求入参==>', method.data)
+  console.log('请求入参==>', method.url, method.data)
 
   createFilter(method)
 }

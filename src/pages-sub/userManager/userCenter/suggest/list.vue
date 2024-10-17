@@ -23,6 +23,7 @@ const queryList = async (pageNo, pageSize) => {
   // 调用接口获取数据
   try {
     await sendAdvicelist(params)
+    dataList.value = advicelist.value.content
     paging.value.complete(advicelist.value.content)
   } catch (error) {
     paging.value.complete(false)
@@ -33,15 +34,16 @@ function toSuggest(e) {
   routeTo({ url: '/pages-sub/userManager/userCenter/suggest/suggest' })
 }
 function toDetil(item) {
-  console.log('🍛', item)
   routeTo({
     url: '/pages-sub/userManager/userCenter/suggest/suggestDetil',
     data: { id: item.adviceId },
   })
 }
-onShow(() => {
-  paging.value.reload()
-})
+// onShow(() => {
+//   if (paging.value.reload()) {
+//     paging.value.reload()
+//   }
+// })
 </script>
 <template>
   <z-paging

@@ -57,7 +57,7 @@ const share = async () => {
 const path = ref('')
 const showHb = ref(false)
 const painter = ref(null)
-
+const isShare = ref(false)
 const poster = ref({})
 const createImg = () => {
   const couponPrice =
@@ -271,8 +271,7 @@ const footerBtns1 = ref([
     customClass: 'custom-class-mine-error',
   },
 ])
-
-const footerBtns3 = ref([
+const footerBtns2 = ref([
   {
     text: '我的优惠券',
     size: 'medium',
@@ -291,9 +290,26 @@ const footerBtns3 = ref([
   //   customClass: 'custom-class-mine-error',
   // },
 ])
-const footbtn = computed(() => {
-  return isLogined.value ? footerBtns3.value : footerBtns1.value
-})
+const footerBtns3 = ref([
+  {
+    text: '我的优惠券',
+    size: 'medium',
+    round: false,
+    plain: true,
+    type: 'error',
+    action: 'myCoupon',
+    customClass: 'custom-class-error-dyplain',
+  },
+  {
+    text: '立即使用',
+    size: 'medium',
+    round: false,
+    type: 'error',
+    action: 'useCoupon',
+    customClass: 'custom-class-mine-error',
+  },
+])
+
 const handleClose = () => {
   show.value = false
 }
@@ -304,11 +320,27 @@ const wexinClick = () => {
     console.log('🍲')
   }
 }
-
+const couponId = ref('')
+const footbtn = computed(() => {
+  if (isLogined.value) {
+    console.log('🍨========', isShare.value)
+    if (isShare.value) {
+      console.log('🍲')
+      return footerBtns2.value
+    } else {
+      console.log('🍡')
+      return footerBtns3.value
+    }
+  } else {
+    return footerBtns1.value
+  }
+})
 onLoad(async (options) => {
-  console.log('🥧======', options)
+  isShare.value = Number(options.isMain) === 1
+  console.log('🍉[ isShare.value]:', isShare.value)
+  couponId.value = options.couponId
   try {
-    await sendCouponInfo({ couponCode: options.couponCode })
+    await sendCouponInfo({ couponCode: options.couponCode, couponId: couponId.value })
     const qrcodeData = {
       couponCode: options.couponCode,
       qrCodeType: Constant.QR_CODE_FLAG,
@@ -337,9 +369,7 @@ onShareAppMessage((res) => {
       title: VITE_APP_LOGOTITLE,
       desc: '我抢到优惠券啦!快来一起抢，名额有限!',
       imageUrl: shareQbg2.value,
-      path:
-        sharePath.value +
-        `?type=${mainTypeEmums.SHARE_COUPN}&couponCode=${couponInfoData.value.couponCode}`,
+      path: sharePath.value + `?type=${mainTypeEmums.SHARE_COUPN}&couponId=${couponId.value}`,
       complete: () => {
         handleClose()
       },
@@ -357,7 +387,7 @@ onShareAppMessage((res) => {
           <Coupon-List
             :data="couponInfoData"
             :actionShow="false"
-            :isShare="true"
+            :isShare="isShare"
             :detil="false"
             @share="share"
           ></Coupon-List>
@@ -370,9 +400,9 @@ onShareAppMessage((res) => {
           </view>
         </view>
       </view>
-      <view>
+      <!-- <view>
         <dy-wxguanzhu></dy-wxguanzhu>
-      </view>
+      </view> -->
       <view>
         <view class="text-14px p-15px mt-20px" v-if="couponInfoData.couponRemark">
           <view class="color-#000 text-16px">使用说明</view>

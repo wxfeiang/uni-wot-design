@@ -10,7 +10,7 @@ import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
 const { sendReceiveCoupon } = userCoupon()
-const readUseOnly = ref('仅雄安一卡通支付使用')
+
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 defineOptions({
   name: 'couponList',
@@ -38,6 +38,10 @@ const props = defineProps({
     default: true,
   },
   isShare: {
+    type: Boolean,
+    default: false,
+  },
+  isMain: {
     type: Boolean,
     default: false,
   },
@@ -70,6 +74,18 @@ const statusCoupopnList = ref([
     btnShow: true,
   },
 ])
+
+const couponTypeText = computed(() => {
+  let text = ''
+  if (props.data.type === 1) {
+    text = '仅雄安一卡通支付使用'
+  } else if (props.data.type === 2) {
+    text = '仅雄安一卡通平台商城使用'
+  } else if (props.data.type === 3) {
+    text = '仅雄安一卡通平台线下商户扫码核销'
+  }
+  return text
+})
 // 券3种状态
 const statusCoupopn = computed(() => {
   return statusCoupopnList.value[props.data.couponStatus ?? 3]
@@ -99,24 +115,29 @@ const handleReceive = async (item) => {
       // Toast('功能开发中...')
     }
   } else {
+    console.log('🍕', props.data)
     const params = {
       couponId: props.data.couponId,
     }
     try {
       const data: any = await sendReceiveCoupon(params)
+      console.log('🍊[data]:', data)
       if (data === true) {
         emit('refresh')
         setTimeout(() => {
           Toast('领取成功')
         }, 50)
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log('🍈[error]:', error)
+    }
   }
 }
 const toDetil = () => {
-  console.log('🍌======')
   const data = {
     couponCode: props.data.couponCode,
+    isMain: props.isMain ? 1 : 0,
+    couponId: props.data.couponId,
   }
   routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
 }
@@ -134,7 +155,7 @@ const share = () => {
     <view
       class="relative box-border rounded-10px bg-#F7F7F7"
       :class="{ 'grayscale-95 opacity-80': !statusBg, isShadow: props.actionShow }"
-      @click="props.detil ? toDetil() : ''"
+      @click="toDetil()"
     >
       <view class="flex gap-10px">
         <view
@@ -161,17 +182,15 @@ const share = () => {
             </view>
           </view>
         </view>
-        <view
-          class="flex flex-col justify-center flex-1 pr-10px box-border py-3px"
-          :class="!readUseOnly ? 'gap-8px' : 'gap-4px'"
-        >
+        <view class="flex flex-col justify-center flex-1 pr-10px box-border py-3px gap-4px">
+          <!--  :class="!sourceStu ? 'gap-8px' : 'gap-4px'" -->
           <view class="text-16px color-#000">{{ props.data.couponName }}</view>
           <view class="text-12px color-#999">
             <view class="">
               有效期:
               {{ removeT(props.data.couponBeginDate) + ' 至 ' + removeT(props.data.couponEndDate) }}
             </view>
-            <view v-if="sourceStu" class="text-12px">{{ readUseOnly }}</view>
+            <view class="text-12px">{{ couponTypeText }}</view>
           </view>
 
           <view class="flex justify-between items-center" v-if="props.actionShow">
@@ -215,7 +234,7 @@ const share = () => {
       </view>
       <!-- 分享按钮 -->
       <view
-        class="py-5px px-10px absolute top-0 right-0 z-99 bg-#FFEEEE rounded-bl-20px"
+        class="py-6px px-10px absolute top-0 right-0 z-99 bg-#FFEEEE rounded-bl-20px"
         v-if="statusBg && props.isShare && isLogined"
       >
         <view class="flex justify-center items-center gap-5px" @click.stop="share">

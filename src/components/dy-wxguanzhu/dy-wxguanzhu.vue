@@ -28,7 +28,7 @@ const { loading, send: showTopGZH } = useRequest(getShowTopGZH, {
 onShow(async () => {
   if (isLogined.value) {
     const data: any = await showTopGZH()
-    console.log('🥒[data]:', data, closeAdFlog.value, !data && closeAdFlog.value)
+    console.log('🥒[data]:', data, closeAdFlog.value, data * 1 === 0 && closeAdFlog.value)
     showGHZ.value = data
   }
 })
@@ -38,7 +38,7 @@ onShow(async () => {
 <template>
   <!-- #ifdef MP-WEIXIN -->
 
-  <view v-if="closeAdFlog && !showGHZ">
+  <view v-if="closeAdFlog && showGHZ * 1 === 0">
     <wd-gap height="10" bg-color="#fff"></wd-gap>
     <view class="">
       <view
