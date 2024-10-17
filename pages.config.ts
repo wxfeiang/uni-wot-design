@@ -47,7 +47,7 @@ export default defineUniPages({
         iconPath: 'static/tabbar/shop.png',
         selectedIconPath: 'static/tabbar/shop-a.png',
         pagePath: 'pages/shop/index',
-        text: '商城',
+        text: '惠生活',
       },
       {
         iconPath: 'static/tabbar/mine.png',
