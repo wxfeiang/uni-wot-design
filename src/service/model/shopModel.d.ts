@@ -26,7 +26,7 @@ interface IProductSpuBean {
   spuName: string
   rotationUrl: string
   sellPrice: number
-  salesVolume: string
+  frequently: string
 }
 
 interface ITBCoupon {
