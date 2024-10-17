@@ -303,7 +303,7 @@ onPageScroll((e) => {
     </wd-skeleton>
   </view>
   <!-- 关注公众号 -->
-  <view>
+  <view class="px-15px">
     <dy-wxguanzhu></dy-wxguanzhu>
   </view>
   <!-- 服务专区 -->

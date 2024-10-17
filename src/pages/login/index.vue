@@ -94,8 +94,7 @@ const readChange = (type: number) => {
           <wd-button
             block
             plain
-            hairline
-            custom-class="custom-class-mine-dyplain "
+            custom-class="custom-class-mine-dyplain"
             @click="goPhoneLogin"
             :round="false"
           >

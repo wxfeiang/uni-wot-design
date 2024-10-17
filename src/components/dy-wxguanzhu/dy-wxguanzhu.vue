@@ -25,7 +25,7 @@ const { loading, send: showTopGZH } = useRequest(getShowTopGZH, {
   immediate: false,
   loading: false,
 })
-onMounted(async () => {
+onShow(async () => {
   if (isLogined.value) {
     const data: any = await showTopGZH()
     console.log('🥒[data]:', data, closeAdFlog.value, !data && closeAdFlog.value)

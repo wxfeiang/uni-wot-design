@@ -56,10 +56,7 @@ page {
 .dy-tab-full-hight {
   height: calc(100vh - var(--window-bottom));
 }
-:deep(.custom-class-mine-dyplain) {
-  border-radius: var(--btn-round) !important;
-  @apply overflow-hidden!;
-}
+
 .custom-class-mine-dyplain {
   border-radius: var(--btn-round) !important;
   @apply overflow-hidden!;
