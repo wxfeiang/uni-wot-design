@@ -13,7 +13,6 @@ import btnbg from '@/static/images/index/btnbg.png'
 import msgicon from '@/static/images/index/msgicon.png'
 import znbg from '@/static/images/index/znbg.png'
 import znlogo from '@/static/images/index/znlogo.png'
-import logo from '@/static/images/logo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
@@ -51,7 +50,6 @@ const {
   sendSwiperList,
   swiperListData,
   swiperListLoading,
-  showTopGZH,
 } = useIndex()
 
 async function actionTop2(item: any) {
@@ -147,7 +145,6 @@ const topbgBase64 = ref(
 )
 const btnbgBase64 = ref('')
 const znbgBase64 = ref('')
-const showGHZ = ref(0)
 
 const topAction2 = ref<any>([])
 
@@ -162,9 +159,6 @@ onLoad(async () => {
 onShow(async () => {
   await sendGetSpecialTypeList()
   topAction2.value = specialTypeList.value
-  if (isLogined.value) {
-    showGHZ.value = await showTopGZH()
-  }
 
   await sendMessageList({
     page: 1,
@@ -175,24 +169,9 @@ onShow(async () => {
     size: 10,
     location: 1,
   })
-
   mess1.value = messageData.value.content.filter((i) => i.articleType === '0').slice(0, 5)
   mess2.value = messageData.value.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
-
-const closeAdFlog = ref(true)
-const closeAd = () => {
-  closeAdFlog.value = false
-}
-const toWxChart = () => {
-  routeTo({
-    url: '/pages-sub/webView/index',
-    data: {
-      showType: 'webView',
-      url: 'https://mp.weixin.qq.com/s?__biz=MzkyOTYzOTg3NQ==&mid=2247483688&idx=1&sn=af447ae94177b1e42fe3b9622d5cde13&chksm=c2073d84f570b492da13ec97251dfe7a4fbefb0ba238cf10001ea375cad6bf36943e9f705011#rd',
-    },
-  })
-}
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生
 const navbg = ref('nav_show')
@@ -323,35 +302,10 @@ onPageScroll((e) => {
       ></wd-swiper>
     </wd-skeleton>
   </view>
-
-  <!-- #ifdef MP-WEIXIN -->
-  <view v-if="closeAdFlog && showGHZ === 0">
-    <wd-gap height="10" bg-color="#fff"></wd-gap>
-    <view class="px-15px">
-      <view
-        class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-10px pr-30px"
-      >
-        <view>
-          <wd-img :src="logo" height="40" width="40"></wd-img>
-        </view>
-        <view class="flex-1">
-          <view class="text-14px">关注雄安一卡通公众号</view>
-          <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
-        </view>
-        <view
-          class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000"
-          @click="toWxChart"
-        >
-          立即关注
-        </view>
-        <view class="absolute top-0 right-0" @click="closeAd">
-          <wd-icon name="close-circle" size="22px" color="#E4C29C"></wd-icon>
-        </view>
-      </view>
-    </view>
+  <!-- 关注公众号 -->
+  <view>
+    <dy-wxguanzhu></dy-wxguanzhu>
   </view>
-  <!-- #endif -->
-
   <!-- 服务专区 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
   <view class="px-15px">
