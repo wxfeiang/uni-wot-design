@@ -9,12 +9,11 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
 import orderInter from './utils/orderInter'
 import { getShopInfo } from '@/service/api/shop'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni/index'
-
+import { removeT, routeTo } from '@/utils'
 const toast = useToast()
 const {
   sendOrderInfo,
@@ -434,7 +433,7 @@ onShow(async (options) => {
           <view class="flex justify-left items-center mb-1">
             <wd-text text="下单时间" size="14px" color="#777777" custom-class="tit"></wd-text>
             <wd-text
-              :text="orderInfo.orderTime"
+              :text="removeT(orderInfo.orderTime)"
               size="14px"
               color="#333333"
               custom-class="ml-2"
