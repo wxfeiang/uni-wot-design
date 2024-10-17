@@ -55,13 +55,9 @@ onLoad(async () => {
     v-model="conponList"
     @query="queryList"
     :auto-show-system-loading="true"
-    class="flex flex-col bg-no-repeat bg-#ffd7af h-100vh"
+    class="flex flex-col bg-no-repeat h-100vh"
     :style="`background-image: url(${topbgBase64}); background-size: 100% 290px`"
   >
-    <!-- <view
-    class="flex flex-col bg-no-repeat bg-#ffd7af h-100vh"
-    :style="`background-image: url(${topbgBase64}); background-size: 100% 290px`"
-  > -->
     <template #top>
       <dy-navbar :leftTitle="title" left isNavShow></dy-navbar>
 
@@ -72,10 +68,10 @@ onLoad(async () => {
         <wd-img :src="myyhbtn" width="153" height="35"></wd-img>
       </view>
     </template>
-    <view class="bg-#ffd7af rounded-20px overflow-hidden mt-20px" style="min-height: 100px">
-      <view class="pt-10px px-10px">
-        <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item" @refresh="paging.reload()"></Coupon-List>
+    <view class="bg-#ffff rounded-20px overflow-hidden mt-20px" style="min-height: 100px">
+      <view class="pt-10px">
+        <view class="" v-for="(item, index) in conponList" :key="index">
+          <Coupon-List :data="item" @refresh="paging.reload()" :detil="false"></Coupon-List>
         </view>
       </view>
     </view>

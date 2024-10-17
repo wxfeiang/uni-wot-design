@@ -162,7 +162,4 @@ export default {
 :deep(.label-class .wd-checkbox__txt) {
   @apply whitespace-pre-wrap! color-#A6A6A6!;
 }
-// :deep(.custom-class-mine-dyPlain) {
-//   color: red !important;
-// }
 </style>

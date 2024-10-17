@@ -22,6 +22,9 @@ page {
   --dy-info-bg: #eff4ff;
   //dy-info-border:
   --dy-info-border: 1px solid #c7d9ff;
+  --dy-error-color: #f44d24;
+  --dy-error-bg: #ffe7e1;
+  --dy-error-border: 1px solid #ffe7e1;
 }
 
 // .test {
@@ -36,8 +39,14 @@ page {
   border: none !important;
   border-radius: var(--btn-round) !important;
 }
-:deep(.custom-class-mine-error),
 .custom-class-mine-error {
+  color: #fff !important;
+  background: #f44d24 !important;
+  border: none !important;
+  border-radius: var(--btn-round) !important;
+}
+
+:deep(.custom-class-mine-error) {
   color: #fff !important;
   background: #f44d24 !important;
   border: none !important;
@@ -48,8 +57,11 @@ page {
   height: calc(100vh - var(--window-bottom));
 }
 
-:deep(.custom-class-mine-dyplain),
 .custom-class-mine-dyplain {
+  border-radius: var(--btn-round) !important;
+  @apply overflow-hidden!;
+}
+:deep(.custom-class-mine-dyplain) {
   border-radius: var(--btn-round) !important;
   @apply overflow-hidden!;
 }
@@ -59,6 +71,14 @@ page {
   border: var(--dy-info-border) !important;
   border-radius: var(--btn-round) !important;
 }
+
+.custom-class-error-dyplain {
+  color: var(--dy-error-color) !important;
+  background: var(--dy-error-bg) !important;
+  border: var(--dy-error-border) !important;
+  border-radius: var(--btn-round) !important;
+}
+
 .dy-bottom-tabbar {
   bottom: calc(var(--window-bottom) + 5px) !important;
 }

@@ -261,6 +261,7 @@ export const useSaveImageToPhotosAlbum = (path: string) => {
 export const downSaveImage = (imgurl: string) => {
   uni.getSetting({
     success(res) {
+      console.log('🥨[res]:', res)
       if (res.authSetting['scope.writePhotosAlbum']) {
         // 已授权，直接保存图片
         useSaveImageToPhotosAlbum(imgurl)

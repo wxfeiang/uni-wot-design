@@ -305,3 +305,17 @@ export function sceneResult(resData: any) {
     url: path,
   }
 }
+
+/**
+ * @description:  处理返回 操作
+ */
+export function getBack() {
+  const pageList = getCurrentPages()
+  if (pageList.length <= 1) {
+    uni.reLaunch({
+      url: '/pages/index/index',
+    })
+  } else {
+    uni.navigateBack()
+  }
+}

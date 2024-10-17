@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -11,26 +12,278 @@
 // import { useRequest } from 'alova/client'
 // TODO: 背景图片
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
+import lPainter from '@/components/lime-painter/components/l-painter/l-painter.vue'
 import { Constant } from '@/enums/constant'
+import { mainTypeEmums } from '@/enums/mainTypeEmum'
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
+import { useUserStore } from '@/store'
+import { getBack, routeTo, sceneResult } from '@/utils'
+import PLATFORM from '@/utils/platform'
+import { downSaveImage, useScancode } from '@/utils/uniapi'
+import { storeToRefs } from 'pinia'
 import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
-import { removeT } from '../../../utils/index'
+import hb from '../static/images/coupon/hb.png'
+import wx from '../static/images/coupon/wx.png'
+import CouponList from './components/couponList.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
-
+const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
-const { VITE_SERVER_BASEURL } = import.meta.env
-const bg = ref(
-  'https://oss.xay.xacloudy.cn/images/2024-09/a729f7e3-985b-451e-9a22-6f0a50e2fc16yhqmbg.png',
-)
+const { VITE_SERVER_BASEURL, VITE_APP_LOGOTITLE } = import.meta.env
+const sharePath = ref(Constant.MAIN_PAGE)
 
 const { sendCouponInfo, couponInfoData } = userCoupon()
-const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 
+const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
+const cfigSatatus = ref(false)
+const show = ref(false)
 const cfig = ref({
   str: '', // 要生成二维码的字符串
-  size: 400,
+  size: 300,
 })
+const shareQbg = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/5abaa059-f847-4b9f-b2a1-083d082498e3qbg.png',
+)
+const shareQbg2 = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/c9b8ca4c-b555-495a-a631-5c6b5703f35ashareCounp.png',
+)
+
+const share = async () => {
+  show.value = true
+}
+const path = ref('')
+const showHb = ref(false)
+const painter = ref(null)
+
+const poster = ref({})
+const createImg = () => {
+  const couponPrice =
+    couponInfoData.value.couponType === 3
+      ? couponInfoData.value.couponPrice * 10
+      : couponInfoData.value.couponPrice
+  const company = couponInfoData.value.couponType === 3 ? '折' : '¥'
+  const couponFillPrice =
+    couponInfoData.value.couponFillPrice > 0
+      ? '满' + couponInfoData.value.couponFillPrice + '元可用'
+      : '无门槛'
+  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&couponCode=${couponInfoData.value.couponCode}`
+  return {
+    css: {
+      width: '750rpx',
+      margin: '0 auto',
+      padding: '10px',
+      borderRadius: '5px',
+      position: 'relative',
+      backgroundImage: `url(${shareQbg.value})`,
+      backgroundRepeat: 'no-repeat',
+      // backgrounSize: '100%',
+    },
+    views: [
+      // {
+      //   src: shareQbg.value,
+      //   type: 'image',
+      //   css: {
+      //     objectFit: 'contain',
+      //     objectPosition: '100% 100%',
+      //     width: '750rpx',
+      //     height: '100%',
+      //     position: 'absolute',
+      //     top: '0',
+      //     left: '0',
+      //     right: '0',
+      //     bottm: '0',
+      //     zIndex: '-1',
+      //   },
+      // },
+      {
+        text: couponInfoData.value.couponName,
+        // text: '无门槛优惠券!',
+        type: 'text',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          padding: '0 0 20px',
+          color: '#fff',
+          fontSize: '20px',
+        },
+      },
+      {
+        type: 'view',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          marginTop: '20px',
+          padding: '30px 0 ',
+        },
+        views: [
+          {
+            text: couponPrice,
+            // text: 20,
+            type: 'text',
+            css: {
+              color: '#FFECBA',
+              fontSize: '80px',
+              fontWeight: '600',
+              lineHeight: '20px',
+              verticalAlign: 'bottom',
+            },
+          },
+          {
+            text: company,
+            type: 'text',
+            css: {
+              color: '#FFECBA',
+              fontSize: '30px',
+              fontWeight: '600',
+              lineHeight: '20px',
+              verticalAlign: 'bottom',
+            },
+          },
+        ],
+      },
+      {
+        text: couponFillPrice,
+        // text: '满100元可用',
+        type: 'text',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          padding: '10px 0',
+          color: '#FFECBA',
+          fontSize: '14px',
+        },
+      },
+      {
+        type: 'qrcode',
+        text: qrcodePath,
+        css: {
+          width: '80px',
+          height: '80px',
+          padding: '10px',
+          margin: '0 auto',
+          borderRadius: '5px',
+          color: '#000',
+          background: '#fff',
+        },
+      },
+    ],
+  }
+}
+// 海报打开后开始下载
+const downLoadQrcode = async () => {
+  poster.value = createImg()
+  console.log('🥑', poster.value)
+  painter.value.render(poster.value)
+  painter.value.canvasToTempFilePathSync({
+    // 在nvue里是jpeg
+    fileType: 'jpg',
+    quality: 1,
+    success: (res) => {
+      // 非H5 保存到相册
+      // H5 提示用户长按图另存
+      // setTimeout(() => {
+      //   show.value = false
+      // }, 3000)
+      // #ifndef  H5
+      downSaveImage(res.tempFilePath)
+      // #endif
+    },
+  })
+}
+const showHbClose = () => {
+  showHb.value = false
+  show.value = false
+}
+const btnClick2 = async (item) => {
+  if (item.action === 'lq') {
+    routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', navType: NAVIGATE_TYPE.REDIRECT_TO })
+  } else if (item.action === 'myCoupon') {
+    routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon', navType: NAVIGATE_TYPE.REDIRECT_TO })
+  } else if (item.action === 'useCoupon') {
+    // 点击分享
+
+    if (couponInfoData.value.type === 1) {
+      const resData: any = await useScancode({ onlyFromCamera: true })
+      const { status, url } = sceneResult(resData)
+      if (status) {
+        routeTo({
+          url: '/pages/pay/index',
+          data: { url },
+        })
+      } else {
+        message.alert({
+          msg: '未识别到二维码内容',
+          title: '提示',
+        })
+      }
+    }
+    if (couponInfoData.value.type === 2) {
+      setTimeout(() => {
+        uni.showToast({
+          title: '即将前往上城中心!',
+          icon: 'none',
+        })
+        routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+      }, 2000)
+    }
+    if (couponInfoData.value.type === 3) {
+      cfigSatatus.value = true
+    }
+  }
+}
+const footerBtns1 = ref([
+  {
+    text: '领券中心',
+    size: 'medium',
+    round: false,
+    plain: true,
+    type: 'error',
+    action: 'lq',
+    customClass: 'custom-class-error-dyplain',
+  },
+  {
+    text: '立即领取',
+    size: 'medium',
+    round: false,
+    type: 'error',
+    action: 'useCoupon',
+    customClass: 'custom-class-mine-error',
+  },
+])
+
+const footerBtns3 = ref([
+  {
+    text: '我的优惠券',
+    size: 'medium',
+    round: false,
+    plain: true,
+    type: 'error',
+    action: 'myCoupon',
+    customClass: 'custom-class-error-dyplain',
+  },
+  {
+    text: '立即使用',
+    size: 'medium',
+    round: false,
+    type: 'error',
+    action: 'useCoupon',
+    customClass: 'custom-class-mine-error',
+  },
+])
+const footbtn = computed(() => {
+  return isLogined.value ? footerBtns3.value : footerBtns1.value
+})
+const handleClose = () => {
+  show.value = false
+}
+const wexinClick = () => {
+  if (PLATFORM.platform === 'h5') {
+    console.log('🥧')
+  } else {
+    console.log('🍲')
+  }
+}
 
 onLoad(async (options) => {
   console.log('🥧======', options)
@@ -44,57 +297,157 @@ onLoad(async (options) => {
     cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
   } catch (error) {
     couponInfoData.value = {} as conponListProps
-    message.alert({ title: '提示', msg: error.data.msg, closeOnClickModal: false }).then((res) => {
-      uni.navigateBack()
-    })
+    message
+      .alert({
+        title: '提示',
+        msg: error.data?.msg ?? '优惠券不存在!',
+        closeOnClickModal: false,
+      })
+      .then((res) => {
+        getBack()
+      })
+  }
+})
+
+// 来自页面内分享按钮
+onShareAppMessage((res) => {
+  if (res.from === 'button' || res.from === 'menu') {
+    return {
+      title: VITE_APP_LOGOTITLE,
+      desc: '我抢到优惠券啦!快来一起抢，名额有限!',
+      imageUrl: shareQbg2.value,
+      path:
+        sharePath.value +
+        `?type=${mainTypeEmums.SHARE_COUPN}&couponCode=${couponInfoData.value.couponCode}`,
+      complete: () => {
+        handleClose()
+      },
+    }
   }
 })
 </script>
 
 <template>
-  <view
-    class="bg-#FCC388 w-100vw h-100vh flex flex-col"
-    :style="`background-image: url(${bg}); background-size: 100%`"
-  >
-    <dy-navbar leftTitle="优惠券" left isNavShow></dy-navbar>
-    <view class="text-center mt-15px px-20px">
-      <view class="color-#F2110D font-600 text-30px">
-        {{ couponInfoData.couponPrice }}元无门槛红包
-      </view>
-      <view class="color-#fff bg-sm rounded-5px text-center text-16px py-5px my-10px">
-        有效期截至：{{ removeT(couponInfoData?.couponEndDate) }}
-      </view>
-    </view>
+  <view class="min-h-100vh">
+    <dy-navbar leftTitle="优惠券详情" left></dy-navbar>
+    <view class="px-15px">
+      <view class="isShadow rounded-10px">
+        <view class="mx-[-15px]">
+          <Coupon-List
+            :data="couponInfoData"
+            :actionShow="false"
+            :isShare="true"
+            :detil="false"
+            @share="share"
+          ></Coupon-List>
+        </view>
 
-    <view class="mt-20px px-20px">
-      <view class="bg-#FF7206 py-10px rounded-10px">
-        <view class="bg-#fff pt-15px rounded-10px overflow-hidden">
-          <view class="py-10px color-#FF7206 text-16px text-center">
-            券码：{{ couponInfoData.couponCode }}
-          </view>
+        <view class="pb-30px" v-if="couponInfoData.type === 3 && cfigSatatus && isLogined">
+          <view class="py-10px text-16px text-center">券码：{{ couponInfoData.couponCode }}</view>
           <view class="flex justify-center mt-10px flex-col items-center">
-            <view class="p-10px rounded-10px bg-#FFE9D8">
-              <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
-            </view>
-
-            <view class="py-10px">
-              <text class="color-#333">请出示二维码核销</text>
-            </view>
-          </view>
-
-          <view class="text-14px p-15px mt-20px bg-#FFF6EF">
-            <view class="color-#000 text-16px">使用说明</view>
-            <view class="color-#333 mt-5px">{{ couponInfoData.couponRemark }}</view>
-            <view class="color-#333 mt-5px">线下进店展码核销!</view>
+            <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
           </view>
         </view>
       </view>
+      <view>
+        <view class="text-14px p-15px mt-20px" v-if="couponInfoData.couponRemark">
+          <view class="color-#000 text-16px">使用说明</view>
+          <view class="color-#777777 mt-5px">{{ couponInfoData.couponRemark }}</view>
+        </view>
+      </view>
     </view>
+    <view class="fixed bottom-3 left-0 right-0 px-20px">
+      <view class="flex gap-15px mt-20px">
+        <view class="flex-1" v-for="(item, index) in footbtn" :key="index">
+          <wd-button
+            :round="item.round"
+            block
+            :size="item.size"
+            :type="item.type"
+            :custom-class="item.customClass"
+            :plain="item.plain"
+            @click="btnClick2(item)"
+          >
+            {{ item.text }}
+          </wd-button>
+        </view>
+      </view>
+    </view>
+    <wd-popup
+      v-model="show"
+      custom-class="custom-class-popup"
+      lock-scroll
+      position="bottom"
+      :safe-area-inset-bottom="true"
+      :z-index="100"
+      :close-on-click-modal="true"
+    >
+      <view class="rounded-t-10px overflow-hidden">
+        <view class="flex justify-around items-center py-10px px-20px bg-#fff py-20px">
+          <!-- #ifdef H5 -->
+          <view class="flex justify-center gap-10px items-center" @click="wexinClick">
+            <wd-img :src="wx" width="24" height="19"></wd-img>
+            <view class="color-#888 text-14px">微信好友</view>
+          </view>
+          <!--  #endif -->
+          <!-- #ifdef MP-WEIXIN -->
+          <view class="flex justify-center gap-10px items-center">
+            <wd-button class="" type="text" open-type="share">
+              <view class="flex justify-center gap-10px items-center">
+                <wd-img :src="wx" width="24" height="19"></wd-img>
+                <view class="color-#888 text-14px">微信好友</view>
+              </view>
+            </wd-button>
+          </view>
+          <!--  #endif -->
+          <view class="color-#e8e8e8">|</view>
+          <view class="flex justify-center gap-10px items-center" @click="downLoadQrcode">
+            <wd-img :src="hb" width="24" height="19"></wd-img>
+            <view class="color-#888 text-14px">生成海报</view>
+          </view>
+        </view>
+        <view @click="handleClose" class="py-15px color-#000 text-center bt-1px_#E8E8E8">取消</view>
+      </view>
+    </wd-popup>
   </view>
+  <wd-overlay :show="showHb" :z-index="1000" :close-on-click-modal="false">
+    <view class="h-full flex flex-col justify-center items-center bg-#000/30 px-50px box-border">
+      <view class="text-right ml-auto mb-10px mx-[-30px]">
+        <wd-icon name="error-fill" size="30px" color="#fff" @click="showHbClose"></wd-icon>
+      </view>
+      <view class="bd-1px_#888 rounded-10px p-5px box-border bg-#fff">
+        <image :src="path" mode="widthFix" style="width: 320px; height: 100%"></image>
+      </view>
+      <!-- #ifdef H5-->
+      <view class="w-full mt-20px mx-[-15px]">
+        <wd-button
+          :round="false"
+          block
+          size="large"
+          type="error"
+          custom-class="custom-class-mine-error"
+        >
+          保存
+        </wd-button>
+      </view>
+
+      <!-- #endif -->
+    </view>
+  </wd-overlay>
+  <l-painter
+    isCanvasToTempFilePath
+    ref="painter"
+    @success="path = $event"
+    custom-style="position: fixed; left: 200%"
+    :painterConfig="poster"
+  />
 </template>
 
 <style lang="scss" scoped>
-.bg-sm {
-  background: linear-gradient(122deg, #ff9c06 0%, #ff181b 100%);
+.isShadow {
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.11);
+}
+:deep(.custom-class-popup) {
+  @apply overflow-hidden rounded-t-20px;
 }
 </style>
