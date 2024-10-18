@@ -27,6 +27,10 @@ import kabiangeng from '@/static/images/serve/kabiangeng.png'
 import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
 import xionganlebo from '@/static/images/serve/xionganlebo.png'
 
+import gjcz1 from '@/static/images/serve/gjcz1.png'
+
+import gjlu1 from '@/static/images/serve/gjlu1.png'
+
 import { useBaseStore } from '@/store/modules/base'
 import { openWxChart } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
@@ -40,109 +44,129 @@ const toast = useToast()
 const basestore = useBaseStore()
 const mainData1 = ref([
   {
-    title: '社保卡申领',
-    icon: 'card',
-    url: shebaoksl,
-    type: '2',
-    base: 'shebaoksl',
+    sTitle: '申领激活',
+    list: [
+      {
+        title: '社保卡申领',
+        icon: 'card',
+        url: shebaoksl,
+        type: '2',
+        base: 'shebaoksl',
+      },
+      {
+        title: '社保卡补换',
+        icon: 'order',
+        url: shebaokbh,
+        type: '2',
+        base: 'shebaokbh',
+      },
+      {
+        title: '制卡进度查询',
+        base: 'kajindu',
+        url: kajindu,
+        type: '3',
+      },
+      {
+        title: '社保卡启用',
+        icon: 'coupon',
+        url: shebaok,
+        type: '3',
+        base: 'cardSocialActive',
+      },
+    ],
   },
   {
-    title: '社保卡补换',
-    icon: 'order',
-    url: shebaokbh,
-    type: '2',
-    base: 'shebaokbh',
+    sTitle: '状态管理',
+    list: [
+      {
+        title: '社保卡挂失',
+        icon: 'coupon',
+        url: kaguas,
+        type: '3',
+        base: 'cardLoss',
+      },
+      {
+        title: '社保卡解挂',
+        icon: 'kajiegua',
+        url: kajiegua,
+        type: '3',
+        base: 'unboxingInfo',
+      },
+    ],
   },
   {
-    title: '制卡进度查询',
-    base: 'kajindu',
-    url: kajindu,
-    type: '3',
-  },
-  // {
-  //   title: '未成年人申领',
-  //   icon: 'star',
-  //   url: xinshenersl,
-  //   type: '2',
-  //   base: 'xinshenersl',
-  // },
-  // {
-  //   title: '未成年人申领查询',
-  //   icon: 'coupon',
-  //   url: xinshengrq,
-  // },
-  {
-    title: '社保卡启用',
-    icon: 'coupon',
-    url: shebaok,
-    type: '3',
-    base: 'cardSocialActive',
-  },
-  {
-    title: '社保卡挂失',
-    icon: 'coupon',
-    url: kaguas,
-    type: '3',
-    base: 'cardLoss',
-  },
-  {
-    title: '社保卡解挂',
-    icon: 'kajiegua',
-    url: kajiegua,
-    type: '3',
-    base: 'unboxingInfo',
+    sTitle: '信息与安全',
+    list: [
+      {
+        title: '基础信息查询',
+        icon: 'coupon',
+        url: kabase,
+        type: '1',
+        base: 'cardBaseInfo',
+      },
+
+      {
+        title: '社保信息变更',
+        icon: 'coupon',
+        url: kabiangeng,
+        type: '3',
+        base: 'cardChange',
+      },
+      {
+        title: '服务密码管理',
+        icon: 'coupon',
+        url: mimachongzhi,
+        type: '3',
+        base: 'changeCardPwd',
+      },
+    ],
   },
 ])
 
 const mainData2 = ref([
   {
-    title: '基础信息查询',
-    icon: 'coupon',
-    url: kabase,
-    type: '1',
-    base: 'cardBaseInfo',
-  },
-  // {
-  //   title: '服务密码修改',
-  //   icon: 'coupon',
-  //   url: mimaxiugai,
-  //   type: '3',
-  //   base: 'changeCardPwd',
-  // },
-  {
-    title: '社保信息变更',
-    icon: 'coupon',
-    url: kabiangeng,
-    type: '3',
-    base: 'cardChange',
-  },
-  {
-    title: '服务密码管理',
-    icon: 'coupon',
-    url: mimachongzhi,
-    type: '3',
-    base: 'changeCardPwd',
+    sTitle: '生活服务',
+    list: [
+      {
+        title: '雄安乐泊',
+        icon: 'coupon',
+        url: xionganlebo,
+        type: '4',
+        base: '',
+        appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+        path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
+      },
+      {
+        title: '雄安缴费通',
+        icon: 'coupon',
+        url: jiaofeitong,
+        type: '4',
+        base: '',
+        appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
+        path: 'pages/index/index',
+      },
+    ],
   },
 ])
-
 const mainData3 = ref([
   {
-    title: '雄安乐泊',
-    icon: 'coupon',
-    url: xionganlebo,
-    type: '4',
-    base: '',
-    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
-    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
-  },
-  {
-    title: '雄安缴费通',
-    icon: 'coupon',
-    url: jiaofeitong,
-    type: '4',
-    base: '',
-    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
-    path: 'pages/index/index',
+    sTitle: '公交服务',
+    list: [
+      {
+        title: '公交充值记录',
+        icon: 'jrcs',
+        url: gjcz1,
+        type: '6',
+        base: 'gjcz',
+      },
+      {
+        title: '公交乘车',
+        icon: 'jrcs',
+        url: gjlu1,
+        type: '6',
+        base: 'gjlu',
+      },
+    ],
   },
 ])
 
@@ -157,6 +181,7 @@ const mainData4 = ref([
 ])
 
 function gridClick(item: any) {
+  console.log('🦐[item]:', item)
   const { base, title } = item
   if (item.type === '1') {
     routeTo({
@@ -182,27 +207,21 @@ const itemScrollTop = ref<number[]>([])
 
 const categories = ref([
   {
-    label: '社保卡申领',
-    title: '标题一',
-    icon: 'thumb-up',
+    label: '社保卡服务',
     items: mainData1.value,
   },
   {
-    label: '社保卡服务',
-    title: '标题二',
-    icon: 'qrcode',
+    label: '生活服务',
+
     items: mainData2.value,
   },
   {
-    label: '生活服务',
-    title: '标题三',
-    icon: 'location',
+    label: '公交服务',
     items: mainData3.value,
   },
+
   // {
   //   label: '金融服务',
-  //   title: '标题四',
-  //   icon: 'location',
   //   items: mainData4.value,
   // },
 ])
@@ -241,6 +260,9 @@ function onScroll(e) {
   }
 }
 
+const toServhFor = (type) => {
+  routeTo({ url: '/pages-sub/serveMassage/serchFor/index', data: { type } })
+}
 onShow((options: any) => {
   active.value = basestore.active
 })
@@ -249,8 +271,8 @@ onMounted(() => {
   getRect('.category', true).then((rects) => {
     console.log('🍾[rects]:', rects)
     if (isArray(rects)) {
-      itemScrollTop.value = rects.map((item) => item.top - 210 || 0)
-      scrollTop.value = rects[active.value].top - 210 || 0
+      itemScrollTop.value = rects.map((item) => item.top - 240 || 0)
+      scrollTop.value = rects[active.value].top - 240 || 0
     }
   })
 })
@@ -279,32 +301,40 @@ onMounted(() => {
         :throttle="false"
         @scroll="onScroll"
       >
+        <view
+          class="py-10px flex justify-between items-center pl-20px pr-15px bg-#F7F7F7"
+          @click="toServhFor(2)"
+        >
+          <view class="text-14px color-#999">请输入关键词搜索</view>
+          <wd-icon name="search" size="12px" color="#999 "></wd-icon>
+        </view>
         <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
-          <view class="pl-10px">
-            <dy-title
-              :title="item.label"
-              class="pl-10px mb-0! py-10px"
-              customClass="customClass-title"
-            ></dy-title>
+          <view v-for="(s, si) in item.items" :key="si">
+            <view class="pl-10px">
+              <dy-title
+                :title="s.sTitle"
+                class="pl-10px mb-0! py-10px"
+                customClass="customClass-title"
+              ></dy-title>
+            </view>
+            <wd-grid :column="3" clickable>
+              <wd-grid-item
+                use-icon-slot
+                use-text-slot
+                v-for="(cell, index) in s.list"
+                :key="index"
+                custom-class="grid-item"
+                @itemclick="gridClick(cell)"
+              >
+                <template #icon>
+                  <image class="wh-42px rounded-10px" :src="cell.url" />
+                </template>
+                <template #text>
+                  <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
+                </template>
+              </wd-grid-item>
+            </wd-grid>
           </view>
-
-          <wd-grid :column="3" clickable>
-            <wd-grid-item
-              use-icon-slot
-              use-text-slot
-              v-for="(cell, index) in item.items"
-              :key="index"
-              custom-class="grid-item"
-              @itemclick="gridClick(cell)"
-            >
-              <template #icon>
-                <image class="wh-42px rounded-10px" :src="cell.url" />
-              </template>
-              <template #text>
-                <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
-              </template>
-            </wd-grid-item>
-          </wd-grid>
         </view>
       </scroll-view>
     </view>
