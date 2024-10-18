@@ -21,14 +21,22 @@ import out from '../static/images/logout.png'
 import mmdl from '../static/images/mmdl.png'
 import yhxy from '../static/images/yhxy.png'
 import yszc from '../static/images/yszc.png'
+import shdz from '../static/images/shdz.png'
 // import zhzx from '../static/images/zhzx.png'
 import { serveProps } from './utils/types'
+
 const message = useMessage()
 const serveList = ref<serveProps[]>([
   {
     icon: mmdl,
     title: '小程序免密登录',
     path: '/pages-sub/system/sysconfig/setting',
+    islink: true,
+  },
+  {
+    icon: shdz,
+    title: '收货地址',
+    path: '/pages-sub/userManager/address/list',
     islink: true,
   },
   {

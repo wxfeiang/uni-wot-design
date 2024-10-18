@@ -15,6 +15,8 @@ import h0 from '@/static/images/mine/h0.png'
 import h1 from '@/static/images/mine/h1.png'
 import sjfw from '@/static/images/mine/sjfw.png'
 import tygj from '@/static/images/mine/tygj.png'
+import gerenicon from '@/static/images/mine/gerenicon.png'
+import dhicon from '@/static/images/mine/dhicon.png'
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { storeToRefs } from 'pinia'
@@ -33,6 +35,7 @@ const {
   sendMyInfo,
   sendOrderStatistics,
   sendBusinessInfo,
+  grzqList,
 } = useInfo()
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
@@ -208,26 +211,68 @@ onShow(async () => {
         </view>
       </view>
     </view>
-    <view class="p-15px">
-      <view class="py-10px bg-#fff rounded-7px grid grid-cols-5 gap-2px">
-        <view
-          class="flex flex-col items-center py-10px"
-          v-for="(item, index) in serveOrderList"
-          :key="index"
-          @click="dingdan(item.path)"
-        >
-          <wd-badge :modelValue="item.value">
-            <view>
-              <wd-img :src="item.icon" width="26" height="26"></wd-img>
+    <view class="p-15px pt-0px">
+      <view class="p-10px bg-#fff rounded-7px">
+        <view class="flex justify-between items-center gap-10px mb-10px">
+          <view class="flex items-center gap-5px">
+            <view class="mt-3px">
+              <wd-img :src="gerenicon" width="18" height="18"></wd-img>
             </view>
-          </wd-badge>
+            <view class="text-16px font-600">个人专区</view>
+          </view>
+        </view>
+        <view class="grid grid-cols-3 gap-10px">
+          <view
+            class="flex items-center py-10px gap-5px"
+            v-for="(item, index) in grzqList"
+            :key="index"
+            @click="serveClick(item)"
+          >
+            <wd-badge :modelValue="item.value">
+              <view>
+                <wd-img :src="item.icon" width="33" height="33"></wd-img>
+              </view>
+            </wd-badge>
 
-          <view class="text-13px mt-10px">
-            {{ item.label }}
+            <view class="text-13px text-center">
+              {{ item.title }}
+            </view>
           </view>
         </view>
       </view>
     </view>
+    <!--  -->
+    <view class="p-15px pt-0px">
+      <view class="p-10px bg-#fff rounded-7px">
+        <view class="flex justify-between items-center gap-10px mb-10px">
+          <view class="flex items-center gap-5px">
+            <view class="mt-3px">
+              <wd-img :src="dhicon" width="18" height="18"></wd-img>
+            </view>
+            <view class="text-16px font-600">我的订单</view>
+          </view>
+        </view>
+        <view class="grid grid-cols-5 gap-2px">
+          <view
+            class="flex flex-col items-center py-10px"
+            v-for="(item, index) in serveOrderList"
+            :key="index"
+            @click="dingdan(item.path)"
+          >
+            <wd-badge :modelValue="item.value">
+              <view>
+                <wd-img :src="item.icon" width="26" height="26"></wd-img>
+              </view>
+            </wd-badge>
+
+            <view class="text-13px mt-10px">
+              {{ item.label }}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 商家 -->
     <view class="p-15px pt-0px" v-if="isLogined && userInfo.merchantId">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px" @click="toShopService">
@@ -253,19 +298,12 @@ onShow(async () => {
         </view>
       </view>
     </view>
+    <!-- 工具 -->
     <view class="p-15px pt-0px">
       <view class="p-10px bg-#fff rounded-7px">
-        <view class="flex justify-between items-center gap-10px" @click="toShopService">
-          <view class="flex items-center gap-5px">
-            <view class="mt-3px">
-              <wd-img :src="tygj" width="18" height="18"></wd-img>
-            </view>
-            <view class="text-16px font-600">通用工具</view>
-          </view>
-        </view>
-        <view class="flex items-center gap-10px flex-wrap mt-10px">
+        <view class="grid grid-cols-5">
           <view
-            class="w-22% flex flex-col items-center py-10px"
+            class="flex flex-col items-center py-10px"
             v-for="(item, index) in serveList"
             :key="index"
             @click="serveClick(item)"

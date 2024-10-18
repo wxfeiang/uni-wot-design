@@ -6,21 +6,18 @@ import type { msCountProps, serveListProps, serveProps } from '../utils/types'
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import { findmyInfo, findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
-import sfkb from '@/static/images/mine/sfkb.png'
-import shdz from '@/static/images/mine/shdz.png'
 import shezhi from '@/static/images/mine/shezhi.png'
-import smrz from '@/static/images/mine/smrz.png'
 import spsc from '@/static/images/mine/spsc.png'
-import wdjf from '@/static/images/mine/wdjf.png'
 
-import dpgz from '@/static/images/mine/dpgz.png'
 import jfscl from '@/static/images/mine/jfscl.png'
+import smrz from '@/static/images/mine/smrz.png'
 import tsjy from '@/static/images/mine/tsjy.png'
+import wdkb from '@/static/images/mine/wdkb.png'
+import wdsbk from '@/static/images/mine/wdsbk.png'
 import xxtz from '@/static/images/mine/xxtz.png'
-
 import { routeTo } from '@/utils'
 
-import { getMerchantServicesCount, getOrderStatistics, getBusinessInfo } from '@/service/api/shop'
+import { getBusinessInfo, getMerchantServicesCount, getOrderStatistics } from '@/service/api/shop'
 import daifahuo from '../../../static/images/mine/daifahuo.png'
 import dafukuan from '../../../static/images/mine/daifukuan.png'
 import daishouhuo from '../../../static/images/mine/daishouhuo.png'
@@ -105,30 +102,32 @@ const serveOrderList = ref<serveListProps[]>([
     path: '/pages-sub/order/orderList?tabsVal=20,21,22,23',
   },
 ])
-
-const serveList = ref<serveProps[]>([
+const grzqList = ref<serveProps[]>([
   {
     icon: smrz,
-    title: '实名认证',
+    title: '实名信息',
     path: '/pages/login/loginsmrz',
     islink: true,
   },
+
   {
-    icon: sfkb,
+    icon: wdsbk,
+    title: '我的社保',
+    path: '/pages-sub/userManager/SocialSecurityCard/index',
+    islink: true,
+  },
+  {
+    icon: wdkb,
     title: '身份卡包 ',
     path: '/pages-sub/userManager/cardManager/index',
     islink: true,
     isSign: true,
   },
-  {
-    icon: wdjf,
-    title: '我的积分 ',
-    path: '/pages-sub/marketManager/integral/index',
-    islink: true,
-  },
+])
+const serveList = ref<serveProps[]>([
   {
     icon: jfscl,
-    title: '积分商城 ',
+    title: '积分商城',
     path: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/list',
     islink: true,
   },
@@ -140,25 +139,25 @@ const serveList = ref<serveProps[]>([
   },
   {
     icon: spsc,
-    title: '商品收藏',
+    title: '我的收藏',
     path: '/pages-sub/userManager/collection/collection',
     islink: true,
   },
-  {
-    icon: dpgz,
-    title: '店铺关注',
-    path: '/pages-sub/userManager/collection/follow',
-    islink: true,
-  },
-  {
-    icon: shdz,
-    title: '收货地址',
-    path: '/pages-sub/userManager/address/list',
-    islink: true,
-  },
+  // {
+  //   icon: dpgz,
+  //   title: '店铺关注',
+  //   path: '/pages-sub/userManager/collection/follow',
+  //   islink: true,
+  // },
+  // {
+  //   icon: shdz,
+  //   title: '收货地址',
+  //   path: '/pages-sub/userManager/address/list',
+  //   islink: true,
+  // },
   {
     icon: xxtz,
-    title: '消息通知',
+    title: '我的通知',
     path: '/pages-sub/userManager/userCenter/myMessage/massage',
     islink: true,
   },
@@ -258,5 +257,6 @@ export default () => {
     sendMyInfo,
     sendOrderStatistics,
     sendBusinessInfo,
+    grzqList,
   }
 }
