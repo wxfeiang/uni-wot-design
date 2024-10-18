@@ -37,12 +37,11 @@ onShow(async () => {
 
 <template>
   <!-- #ifdef MP-WEIXIN -->
-
   <view v-if="closeAdFlog && showGHZ * 1 === 0">
     <wd-gap height="10" bg-color="#fff"></wd-gap>
     <view class="">
       <view
-        class="flex justify-between items-center p-10px bd-1px_solid_#FFE8C6 bg-#FFF6E9 relative rounded-4px gap-10px pr-30px"
+        class="flex justify-between items-center p-10px bd-1px_solid_#F7F7F7 bg-#F7F7F7 relative rounded-4px gap-10px pr-30px"
       >
         <view>
           <wd-img :src="logo" height="40" width="40"></wd-img>
@@ -52,17 +51,18 @@ onShow(async () => {
           <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
         </view>
         <view
-          class="px-10px py-3px color-#fff text-12px bg-#FF8902 rounded-1000"
+          class="px-10px py-3px color-#fff text-12px bg-#2D69EF rounded-1000"
           @click="toWxChart"
         >
           立即关注
         </view>
-        <view class="absolute top-0 right-0" @click="closeAd">
-          <wd-icon name="close-circle" size="22px" color="#E4C29C"></wd-icon>
+        <view class="absolute top-2px right-2px" @click="closeAd">
+          <wd-icon name="close-circle" size="22px" color="#C6C9CA"></wd-icon>
         </view>
       </view>
     </view>
   </view>
+
   <!-- #endif -->
 </template>
 
