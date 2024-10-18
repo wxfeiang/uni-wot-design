@@ -12,18 +12,12 @@ import wenhuatiyan from '@/static/images/index/6.png'
 import lvyouguanguang from '@/static/images/index/7.png'
 import jinxonghutong from '@/static/images/index/8.png'
 
-import xajft2 from '@/static/images/index/xajf.png'
-import xasb from '@/static/images/index/xasb.png'
-
 import { getActivityList } from '@/service/api/shop'
 import { List } from '@/service/model/baseModel'
 import jtcx from '@/static/images/index/jtcx.png'
 import kfw from '@/static/images/index/kfw.png'
 import mfw from '@/static/images/index/mfw.png'
 import saoyisao from '@/static/images/index/saoyisao.png'
-import xagd from '@/static/images/index/xagd.png'
-import xalb from '@/static/images/index/xalb.png'
-import xazx from '@/static/images/index/xazx.png'
 
 const topAction = ref([
   // {
@@ -69,42 +63,6 @@ const topAction = ref([
     type: 'switchTab',
     path: '/pages/serve/index',
     active: 0,
-  },
-])
-const topAction2 = ref([
-  {
-    icon: xasb,
-    text: '社保查询',
-    type: '',
-    path: '/pages-sub/serveMain/socialSecurityQuery',
-  },
-
-  {
-    icon: xajft2,
-    text: '雄安缴费通',
-    type: 'wxChart',
-    appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
-    path: 'pages/index/index',
-  },
-  {
-    icon: xalb,
-    text: '雄安乐泊',
-    type: 'wxChart',
-    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
-    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
-  },
-  {
-    icon: xazx,
-    text: '雄安甄选',
-    type: 'wxChart',
-    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
-    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
-  },
-  {
-    icon: xagd,
-    text: '更多',
-    type: '',
-    path: '/pages/serve/index',
   },
 ])
 
@@ -276,7 +234,7 @@ export default () => {
     swiperList,
     serviceArea,
     topAction,
-    topAction2,
+
     sendGetSpecialTypeList,
     specialTypeList,
     specialTypeLoading,

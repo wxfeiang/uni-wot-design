@@ -9,10 +9,10 @@
 </route>
 <script lang="ts" setup>
 import bgTip from '@/static/images/index/bgTip.png'
-import btnbg from '@/static/images/index/btnbg.png'
+import bszlicon from '@/static/images/index/bszlicon.png'
+import cjwticon from '@/static/images/index/cjwticon.png'
+import fwwdicon from '@/static/images/index/fwwdicon.png'
 import msgicon from '@/static/images/index/msgicon.png'
-import znbg from '@/static/images/index/znbg.png'
-import znlogo from '@/static/images/index/znlogo.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
@@ -120,8 +120,8 @@ function serveGuild() {
   routeTo({ url: '/pages-sub/serveMassage/workGuide/index' })
 }
 
-const toServhFor = () => {
-  routeTo({ url: '/pages-sub/serveMassage/serchFor/index' })
+const toServhFor = (type) => {
+  routeTo({ url: '/pages-sub/serveMassage/serchFor/index', data: { type } })
 }
 
 function toBusinessOutlets() {
@@ -143,18 +143,9 @@ const mess2 = ref<messProps[]>([])
 const topbgBase64 = ref(
   'https://oss.xay.xacloudy.cn/images/2024-10/3ce4fcc4-5f4e-4acd-a3e5-238085a09388j95TiPFo8STT8ed4b7daa361d320ff446f49a4aa7467.png',
 )
-const btnbgBase64 = ref('')
-const znbgBase64 = ref('')
-
 const topAction2 = ref<any>([])
 
 // 获取消息
-
-onLoad(async () => {
-  // 设置背景图片
-  btnbgBase64.value = await pathToBase64(btnbg)
-  znbgBase64.value = await pathToBase64(znbg)
-})
 
 onShow(async () => {
   await sendGetSpecialTypeList()
@@ -198,7 +189,10 @@ onPageScroll((e) => {
       </template>
     </wd-navbar>
     <!-- <wd-sticky :offset-top="navTop"> -->
-    <view class="w-100vw flex items-center justify-between gap-2px box-border" @click="toServhFor">
+    <view
+      class="w-100vw flex items-center justify-between gap-2px box-border"
+      @click="toServhFor(0)"
+    >
       <view class="flex-1 px-10px">
         <view
           class="flex justify-between items-center serch-bg px-10px py-10px color-#fff opacity-65"
@@ -308,71 +302,106 @@ onPageScroll((e) => {
   </view>
   <!-- 服务专区 -->
   <wd-gap height="10" bg-color="#fff"></wd-gap>
-  <view class="px-15px">
-    <view class="bsbg px-10px">
-      <dy-title title="服务专区" bottom></dy-title>
-      <view class="grid grid-cols-2 gap-10px mx-[-10px]">
+
+  <view class="px-15px bg-#fff">
+    <dy-title title="服务场景介绍" bottom></dy-title>
+    <scroll-view scroll-x class="navscroll py-10px">
+      <view class="flex overflow-x-auto gap-10px w-200%">
         <view
-          class="flex justify-between h-60px items-center overflow-hidden rounded-7px bg-#EBF3FE"
+          class="flex flex-col justify-center h-100px items-center overflow-hidden rounded-7px bg-#EBF3FE w-75px"
           v-for="(item, index) in serviceArea"
           :key="index"
           @click="serveClick(item)"
         >
-          <view class="flex-1 text-center text-14px my-10px">
-            {{ item.title }}
+          <view class="">
+            <wd-img :src="item.icon" width="42" height="42"></wd-img>
           </view>
-          <view class="px-10px">
-            <wd-img :src="item.icon" width="53" height="54"></wd-img>
+          <view class="text-center text-14px my-10px">
+            {{ item.title }}
           </view>
         </view>
       </view>
-    </view>
+    </scroll-view>
   </view>
   <!-- 办事指南 -->
-  <wd-gap height="10" bg-color="#fff"></wd-gap>
-  <view class="px-15px">
-    <view class="bsbg p-10px">
-      <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
-      <view class="mx-[-10px] relative">
-        <view
-          class="h-84px flex justify-center items-center rounded-6px bgzn1 bg-no-repeat"
-          :style="`background-image: url(${znbgBase64});background-size: 100%`"
-        >
-          <view class="flex gap-20px justify-around items-center">
-            <wd-img :width="140" :height="52" :src="znlogo" />
-            <view
-              class="flex gap-10px text-16px color-#fff items-center bg-cover w-153px h-38px justify-center"
-              :style="` background-image: url(${btnbgBase64})`"
-              @click="toBusinessOutlets"
-            >
-              <wd-icon name="search" size="16px"></wd-icon>
-              <view>网点一键查询</view>
-            </view>
+  <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
+  <view class="px-15px py-20px">
+    <!-- <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
+    <view class="mx-[-10px] relative">
+      <view
+        class="h-84px flex justify-center items-center rounded-6px bgzn1 bg-no-repeat"
+        :style="`background-image: url(${znbgBase64});background-size: 100%`"
+      >
+        <view class="flex gap-20px justify-around items-center">
+          <wd-img :width="140" :height="52" :src="znlogo" />
+          <view
+            class="flex gap-10px text-16px color-#fff items-center bg-cover w-153px h-38px justify-center"
+            :style="` background-image: url(${btnbgBase64})`"
+            @click="toBusinessOutlets"
+          >
+            <wd-icon name="search" size="16px"></wd-icon>
+            <view>网点一键查询</view>
           </view>
         </view>
-        <view
-          class="p-15px pb-10px mt-10px zn-item"
-          v-for="(item, index) in mess2"
-          :key="index"
-          @click="messageClick(item)"
-        >
-          <view style="display: flex">
-            <wd-skeleton
-              :custom-style="{ width: '100%' }"
-              animation="flashed"
-              theme="text"
-              :loading="messageLoading || mess2.length < 1"
-              :row="2"
-            >
-              <view class="color-#333 truncate-1 py-2px">{{ item.articleTitle }}</view>
-              <view class="flex gap-20px color-#888 text-14px py-2px">
-                <view>日期：{{ removeT(item.createTime) }}</view>
-                <view>
-                  <!-- <wd-icon name="browse" size="14px"></wd-icon>
-                {{ mess2[0].createBy }}次 -->
-                </view>
+      </view>
+      <view
+        class="p-15px pb-10px mt-10px zn-item"
+        v-for="(item, index) in mess2"
+        :key="index"
+        @click="messageClick(item)"
+      >
+        <view style="display: flex">
+          <wd-skeleton
+            :custom-style="{ width: '100%' }"
+            animation="flashed"
+            theme="text"
+            :loading="messageLoading || mess2.length < 1"
+            :row="2"
+          >
+            <view class="color-#333 truncate-1 py-2px">{{ item.articleTitle }}</view>
+            <view class="flex gap-20px color-#888 text-14px py-2px">
+              <view>日期：{{ removeT(item.createTime) }}</view>
+              <view>
+                <!~~ <wd-icon name="browse" size="14px"></wd-icon>
+                {{ mess2[0].createBy }}次 ~~>
               </view>
-            </wd-skeleton>
+            </view>
+          </wd-skeleton>
+        </view>
+      </view>
+    </view>-->
+    <view>
+      <view class="flex gap-10px justify-between">
+        <view class="w-40% cj1 box-border p-15px" @click="serveGuild">
+          <view class="text-16px font-600 color-#374A7B">办事指南</view>
+          <view class="bb-2px_#374A7B w-30px my-10px"></view>
+          <view class="color-#859ABE text-10px">如何快速了解一卡通,如何申领,如何使用</view>
+          <view class="mt-20px">
+            <wd-img :src="bszlicon" width="40" height="43"></wd-img>
+          </view>
+        </view>
+        <view class="w-60% flex flex-col justify-between gap-10px">
+          <view class="cj2 box-border p-15px flex justify-between" @click="toBusinessOutlets">
+            <view>
+              <view class="text-16px font-600 color-#DF3636">网点查询</view>
+              <view class="bb-2px_#DF3636 w-30px my-10px"></view>
+              <view class="color-#C9AAAA text-10px">查询附近社保业务办理网点</view>
+            </view>
+
+            <view class="self-end">
+              <wd-img :src="fwwdicon" width="40" height="43"></wd-img>
+            </view>
+          </view>
+          <view class="cj3 box-border p-15px flex justify-between" @click="toServhFor(1)">
+            <view class>
+              <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
+              <view class="bb-2px_#EC5E0C w-30px my-10px"></view>
+              <view class="color-#D2B783 text-10px">快速答疑</view>
+            </view>
+
+            <view class="self-end">
+              <wd-img :src="cjwticon" width="40" height="43"></wd-img>
+            </view>
           </view>
         </view>
       </view>
@@ -407,21 +436,6 @@ onPageScroll((e) => {
 .msg {
   background: linear-gradient(-74deg, transparent 10px, #2d69ef 0) top right;
 }
-
-.bsbg {
-  background: linear-gradient(189deg, #e7f1ff 0%, #feffff 16%, #ffffff 100%);
-  border-radius: 6px;
-}
-
-.bgzn1 {
-  background-color: linear-gradient(180deg, #d1e6ff 0%, #e6f4ff 100%);
-}
-
-.zn-item {
-  background: #f2f5f7;
-  border-radius: 6px;
-}
-
 .swiper {
   --wot-swiper-radius: 0;
   --wot-swiper-item-padding: 0 24 rpx;
@@ -434,5 +448,17 @@ onPageScroll((e) => {
 }
 :deep(.custom-class-swiper) {
   @apply rounded-4px! overflow-hidden!;
+}
+.cj1 {
+  background: linear-gradient(180deg, #ecf4ff 0%, #b9deff 100%);
+  border-radius: 3px 3px 3px 3px;
+}
+.cj2 {
+  background: linear-gradient(131deg, #fff4f2 0%, #ffd9d5 100%);
+  border-radius: 3px 3px 3px 3px;
+}
+.cj3 {
+  background: linear-gradient(131deg, #fffdef 0%, #ffebbc 100%);
+  border-radius: 3px 3px 3px 3px;
 }
 </style>

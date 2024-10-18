@@ -12,10 +12,11 @@
 import { getSerchList } from '@/service/api/source'
 import { List } from '@/service/model/baseModel'
 import { useBaseStore } from '@/store'
-import { routeTo } from '@/utils'
+import { routeTo, currRoute } from '@/utils'
 import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
 import kong from '../static/images/kong.png'
+import { computed } from 'vue'
 const { historySearch } = storeToRefs(useBaseStore())
 
 const serchValue = ref('')
@@ -83,10 +84,33 @@ const toDetile = (item: any) => {
     data: { type: item.articleId },
   })
 }
+const titleList = ref([
+  {
+    title: '搜索页',
+    type: 0,
+  },
+  {
+    title: '常见问题',
+    type: 1,
+  },
+  {
+    title: '服务功能',
+    type: 2,
+  },
+])
+const currentType = ref(0)
+const currentTypeData = computed(() => {
+  return titleList.value[currentType.value]
+})
+
+onLoad((options) => {
+  console.log('🥩[options]:', options)
+  currentType.value = Number(options.type) ?? 0
+})
 </script>
 
 <template>
-  <dy-navbar leftTitle="搜索页" left></dy-navbar>
+  <dy-navbar :leftTitle="currentTypeData.title" left></dy-navbar>
   <view class="p-10px">
     <view class="rounded-3px overflow-hidden bg-#C7C7C7/18 py-5px">
       <wd-search
