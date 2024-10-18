@@ -326,51 +326,7 @@ onPageScroll((e) => {
   <!-- 办事指南 -->
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
   <view class="px-15px py-20px">
-    <!-- <dy-title title="办事指南" more="查看更多" @moreClick="serveGuild" bottom></dy-title>
-    <view class="mx-[-10px] relative">
-      <view
-        class="h-84px flex justify-center items-center rounded-6px bgzn1 bg-no-repeat"
-        :style="`background-image: url(${znbgBase64});background-size: 100%`"
-      >
-        <view class="flex gap-20px justify-around items-center">
-          <wd-img :width="140" :height="52" :src="znlogo" />
-          <view
-            class="flex gap-10px text-16px color-#fff items-center bg-cover w-153px h-38px justify-center"
-            :style="` background-image: url(${btnbgBase64})`"
-            @click="toBusinessOutlets"
-          >
-            <wd-icon name="search" size="16px"></wd-icon>
-            <view>网点一键查询</view>
-          </view>
-        </view>
-      </view>
-      <view
-        class="p-15px pb-10px mt-10px zn-item"
-        v-for="(item, index) in mess2"
-        :key="index"
-        @click="messageClick(item)"
-      >
-        <view style="display: flex">
-          <wd-skeleton
-            :custom-style="{ width: '100%' }"
-            animation="flashed"
-            theme="text"
-            :loading="messageLoading || mess2.length < 1"
-            :row="2"
-          >
-            <view class="color-#333 truncate-1 py-2px">{{ item.articleTitle }}</view>
-            <view class="flex gap-20px color-#888 text-14px py-2px">
-              <view>日期：{{ removeT(item.createTime) }}</view>
-              <view>
-                <!~~ <wd-icon name="browse" size="14px"></wd-icon>
-                {{ mess2[0].createBy }}次 ~~>
-              </view>
-            </view>
-          </wd-skeleton>
-        </view>
-      </view>
-    </view>-->
-    <view>
+    <view class="bg-#fff">
       <view class="flex gap-10px justify-between">
         <view class="w-40% cj1 box-border p-15px" @click="serveGuild">
           <view class="text-16px font-600 color-#374A7B">办事指南</view>
