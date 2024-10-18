@@ -305,7 +305,7 @@ onPageScroll((e) => {
 
   <view class="px-15px bg-#fff">
     <dy-title title="服务场景介绍" bottom></dy-title>
-    <scroll-view scroll-x class="navscroll py-10px">
+    <scroll-view scroll-x class="navscroll pb-10px">
       <view class="flex overflow-x-auto gap-10px w-200%">
         <view
           class="flex flex-col justify-center h-100px items-center overflow-hidden rounded-7px bg-#EBF3FE w-75px"

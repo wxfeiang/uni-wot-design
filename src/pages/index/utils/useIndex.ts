@@ -11,38 +11,21 @@ import jinrongruwu from '@/static/images/index/5.png'
 import wenhuatiyan from '@/static/images/index/6.png'
 import lvyouguanguang from '@/static/images/index/7.png'
 import jinxonghutong from '@/static/images/index/8.png'
+import dzsbk from '@/static/images/index/dzsbk.png'
 
 import { getActivityList } from '@/service/api/shop'
 import { List } from '@/service/model/baseModel'
-import jtcx from '@/static/images/index/jtcx.png'
 import kfw from '@/static/images/index/kfw.png'
 import mfw from '@/static/images/index/mfw.png'
 import saoyisao from '@/static/images/index/saoyisao.png'
 
 const topAction = ref([
   // {
-  //   icon: dzsbk,
-  //   text: '电子社保卡',
+  //   icon: jtcx,
+  //   text: '公交出行',
   //   type: 'router',
-  //   path: '/pages-sub/userManager/SocialSecurityCard/index',
+  //   path: '/pages-sub/userManager/userCenter/transit/index', // 打开的页面路径，如果为空则打开首页
   // },
-  {
-    icon: saoyisao,
-    text: '扫一扫',
-    type: 'sacn',
-  },
-  {
-    icon: mfw,
-    text: '码服务',
-    type: 'router',
-    path: '/pages-sub/userManager/userCenter/codeServe/index',
-  },
-  {
-    icon: jtcx,
-    text: '公交出行',
-    type: 'router',
-    path: '/pages-sub/userManager/userCenter/transit/index', // 打开的页面路径，如果为空则打开首页
-  },
   // {
   //   icon: xajft,
   //   text: '雄安缴费通',
@@ -59,10 +42,28 @@ const topAction = ref([
   // },
   {
     icon: kfw,
-    text: '卡服务',
+    text: '社保卡服务',
     type: 'switchTab',
     path: '/pages/serve/index',
     active: 0,
+  },
+  {
+    icon: dzsbk,
+    text: '电子社保卡',
+    type: 'router',
+    path: '/pages-sub/userManager/SocialSecurityCard/index',
+  },
+
+  {
+    icon: saoyisao,
+    text: '扫一扫',
+    type: 'sacn',
+  },
+  {
+    icon: mfw,
+    text: '一码办事',
+    type: 'router',
+    path: '/pages-sub/userManager/userCenter/codeServe/index',
   },
 ])
 
