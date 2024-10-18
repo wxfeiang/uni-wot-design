@@ -11,7 +11,8 @@
 import { routeTo } from '@/utils'
 import SugItem from './components/SugItem.vue'
 import useSuggest from './utils/useSuggest'
-const { sendAdvicelist, advicelist } = useSuggest()
+
+const { sendAdvicelist } = useSuggest()
 
 const paging = ref(null)
 const dataList = ref([])
@@ -22,9 +23,10 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    await sendAdvicelist(params)
-    dataList.value = advicelist.value.content
-    paging.value.complete(advicelist.value.content)
+    const da: any = await sendAdvicelist(params)
+    dataList.value = da.content
+    paging.value.complete(dataList.value)
+    // paging.value.complete([])
   } catch (error) {
     paging.value.complete(false)
   }
@@ -33,17 +35,13 @@ const queryList = async (pageNo, pageSize) => {
 function toSuggest(e) {
   routeTo({ url: '/pages-sub/userManager/userCenter/suggest/suggest' })
 }
+
 function toDetil(item) {
   routeTo({
     url: '/pages-sub/userManager/userCenter/suggest/suggestDetil',
     data: { id: item.adviceId },
   })
 }
-onShow(() => {
-  if (paging.value.reload()) {
-    paging.value.reload()
-  }
-})
 </script>
 <template>
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
@@ -69,6 +67,7 @@ onShow(() => {
 :deep(.bg1) {
   background: #d6eafe !important;
 }
+
 :deep(.zp-paging-container) {
   background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
 }

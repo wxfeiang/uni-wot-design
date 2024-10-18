@@ -23,15 +23,22 @@ const statusList = ref([
 ])
 
 // 反馈列表
-const {
-  send: sendAdvicelist,
-  data: advicelist,
-  loading: advicelistLoading,
-} = useRequest((data) => getAdvicelist<List>(data), {
+// const {
+//   send: sendAdvicelist,
+//   data: advicelist,
+//   // loading: advicelistLoading,
+// } = useRequest((data) => getAdvicelist<List>(data), {
+//   immediate: false,
+//   loading: false,
+//   initialData: {} as any,
+// })
+// 反馈列表
+const { send: sendAdvicelist } = useRequest((data) => getAdvicelist(data), {
   immediate: false,
   loading: false,
-  initialData: {} as any,
+  initialData: {},
 })
+
 // 反馈详情
 const { send: sendDetail, data: detilData } = useRequest(
   (data) => getDetailByAdviceId<detilProp>(data),
@@ -114,8 +121,6 @@ export default () => {
     submit,
     adviceType,
     sendAdvicelist,
-    advicelist,
-    advicelistLoading,
     sendDetail,
     detilData,
     model,

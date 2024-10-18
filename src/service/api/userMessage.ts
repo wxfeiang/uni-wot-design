@@ -200,9 +200,15 @@ export function addBusinessAdvice(data) {
  * @param params 初始参数()
  * */
 export function getAdvicelist<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
   return request.Post<T>(
     GET_ADVICELIST, // 地址
     data,
+    {
+      meta,
+    },
   )
 }
 

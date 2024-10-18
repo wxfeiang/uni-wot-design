@@ -29,7 +29,7 @@ onShow(async () => {
   if (isLogined.value) {
     const data: any = await showTopGZH()
     console.log('🥒[data]:', data, closeAdFlog.value, data * 1 === 0 && closeAdFlog.value)
-    showGHZ.value = data
+    showGHZ.value = Number(data)
   }
 })
 // #endif
