@@ -330,6 +330,14 @@
           }
         },
         {
+          "path": "SocialSecurityCard/detil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "SocialSecurityCard/index",
           "type": "page",
           "layout": "default",
