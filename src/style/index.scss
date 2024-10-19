@@ -91,3 +91,9 @@ page {
   min-height: 100vh !important;
   background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
 }
+.safe-area-after::after {
+  height: calc(10px + var(--window-top));
+  height: calc(10px + var(--window-top) - constant(safe-area-inset-bottom));
+  height: calc(10px + var(--window-top) - env(safe-area-inset-bottom));
+  content: '';
+}

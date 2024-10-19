@@ -324,39 +324,37 @@ onPageScroll((e) => {
   </view>
   <!-- 办事指南 -->
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
-  <view class="px-15px py-20px">
-    <view class="bg-#fff">
-      <view class="flex gap-10px justify-between">
-        <view class="w-40% cj1 box-border p-15px" @click="serveGuild">
-          <view class="text-16px font-600 color-#374A7B">办事指南</view>
-          <view class="bb-2px_#374A7B w-30px my-10px"></view>
-          <view class="color-#859ABE text-10px">如何快速了解一卡通,如何申领,如何使用</view>
-          <view class="mt-20px">
-            <wd-img :src="bszlicon" width="40" height="43"></wd-img>
+  <view class="px-15px py-20px bg-#fff">
+    <view class="flex gap-10px justify-between">
+      <view class="w-40% cj1 box-border p-15px" @click="serveGuild">
+        <view class="text-16px font-600 color-#374A7B">办事指南</view>
+        <view class="bb-2px_#374A7B w-30px my-10px"></view>
+        <view class="color-#859ABE text-10px">如何快速了解一卡通,如何申领,如何使用</view>
+        <view class="mt-20px">
+          <wd-img :src="bszlicon" width="40" height="43"></wd-img>
+        </view>
+      </view>
+      <view class="w-60% flex flex-col justify-between gap-10px">
+        <view class="cj2 box-border p-15px flex justify-between" @click="toBusinessOutlets">
+          <view>
+            <view class="text-16px font-600 color-#DF3636">网点查询</view>
+            <view class="bb-2px_#DF3636 w-30px my-10px"></view>
+            <view class="color-#C9AAAA text-10px">查询附近社保业务办理网点</view>
+          </view>
+
+          <view class="self-end">
+            <wd-img :src="fwwdicon" width="40" height="43"></wd-img>
           </view>
         </view>
-        <view class="w-60% flex flex-col justify-between gap-10px">
-          <view class="cj2 box-border p-15px flex justify-between" @click="toBusinessOutlets">
-            <view>
-              <view class="text-16px font-600 color-#DF3636">网点查询</view>
-              <view class="bb-2px_#DF3636 w-30px my-10px"></view>
-              <view class="color-#C9AAAA text-10px">查询附近社保业务办理网点</view>
-            </view>
-
-            <view class="self-end">
-              <wd-img :src="fwwdicon" width="40" height="43"></wd-img>
-            </view>
+        <view class="cj3 box-border p-15px flex justify-between" @click="toServhFor(1)">
+          <view class>
+            <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
+            <view class="bb-2px_#EC5E0C w-30px my-10px"></view>
+            <view class="color-#D2B783 text-10px">快速答疑</view>
           </view>
-          <view class="cj3 box-border p-15px flex justify-between" @click="toServhFor(1)">
-            <view class>
-              <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
-              <view class="bb-2px_#EC5E0C w-30px my-10px"></view>
-              <view class="color-#D2B783 text-10px">快速答疑</view>
-            </view>
 
-            <view class="self-end">
-              <wd-img :src="cjwticon" width="40" height="43"></wd-img>
-            </view>
+          <view class="self-end">
+            <wd-img :src="cjwticon" width="40" height="43"></wd-img>
           </view>
         </view>
       </view>

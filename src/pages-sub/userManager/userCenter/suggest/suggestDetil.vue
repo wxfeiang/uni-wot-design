@@ -102,7 +102,7 @@ onLoad(async (option: any) => {
     </view>
 
     <view
-      class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff"
+      class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff safe-area-after"
       v-if="dataList[0].isDone === '0'"
     >
       <view class="flex gap-15px">

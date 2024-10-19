@@ -23,10 +23,8 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    const da: any = await sendAdvicelist(params)
-    dataList.value = da.content
-    paging.value.complete(dataList.value)
-    // paging.value.complete([])
+    const data: any = await sendAdvicelist(params)
+    paging.value.complete(data.content)
   } catch (error) {
     paging.value.complete(false)
   }
@@ -46,10 +44,8 @@ function toDetil(item) {
 <template>
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">
     <template #top>
-      <view class="bg1">
-        <!-- 顶部 -->
-        <dy-navbar leftTitle="投诉与建议" left isNavShow color="#000"></dy-navbar>
-      </view>
+      <!-- 顶部 -->
+      <dy-navbar leftTitle="投诉与建议" left isNavShow color="#000"></dy-navbar>
     </template>
     <view class="px-10px pt-10px dy-blue-bg2">
       <Sug-Item :dataList="dataList" @deitl="toDetil" />
@@ -64,11 +60,7 @@ function toDetil(item) {
 </template>
 
 <style lang="scss" scoped>
-:deep(.bg1) {
-  background: #d6eafe !important;
-}
-
-:deep(.zp-paging-container) {
+:deep(.z-paging-content) {
   background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
 }
 </style>
