@@ -161,7 +161,6 @@ onShow(async () => {
     location: 1,
   })
   mess1.value = messageData.value.content.filter((i) => i.articleType === '0').slice(0, 5)
-  mess2.value = messageData.value.content.filter((i) => i.articleType === '1').slice(0, 3)
 })
 
 // 正常情况下，导航栏背景色为透明，滚动距离超过50px时，导航栏背景色变为自生

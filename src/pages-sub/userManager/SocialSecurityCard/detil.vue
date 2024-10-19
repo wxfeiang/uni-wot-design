@@ -67,7 +67,7 @@ const privacyStatus = ref(false)
   <view class="w-100vw h-100vh dy-blue-bg box-border overflow-y-auto pb-100px">
     <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
     <view class="p-15px">
-      <view>
+      <view v-if="!dataList">
         <wd-cell-group>
           <wd-cell title-width="80%" clickable custom-class="custom-class-cell">
             <template #title>
@@ -117,7 +117,13 @@ const privacyStatus = ref(false)
           </view>
         </view>
       </view>
+      <template v-else>
+        <view class="bg-#fff py-20px">
+          <wd-status-tip image="search" tip="没有查询到该信息" />
+        </view>
+      </template>
     </view>
+    <view></view>
   </view>
 </template>
 
