@@ -12,8 +12,17 @@ import { routeTo } from '@/utils'
 import SugItem from './components/SugItem.vue'
 import useSuggest from './utils/useSuggest'
 
-const { sendAdvicelist } = useSuggest()
+const { sendAdvicelist, advicelist } = useSuggest()
+function toSuggest() {
+  routeTo({ url: '/pages-sub/userManager/userCenter/suggest/suggest' })
+}
 
+function toDetil(item) {
+  routeTo({
+    url: '/pages-sub/userManager/userCenter/suggest/suggestDetil',
+    data: { id: item.adviceId },
+  })
+}
 const paging = ref(null)
 const dataList = ref([])
 const queryList = async (pageNo, pageSize) => {
@@ -23,22 +32,11 @@ const queryList = async (pageNo, pageSize) => {
   }
   // 调用接口获取数据
   try {
-    const data: any = await sendAdvicelist(params)
-    paging.value.complete(data.content)
+    await sendAdvicelist(params)
+    paging.value.complete(advicelist.value.content)
   } catch (error) {
     paging.value.complete(false)
   }
-}
-
-function toSuggest(e) {
-  routeTo({ url: '/pages-sub/userManager/userCenter/suggest/suggest' })
-}
-
-function toDetil(item) {
-  routeTo({
-    url: '/pages-sub/userManager/userCenter/suggest/suggestDetil',
-    data: { id: item.adviceId },
-  })
 }
 </script>
 <template>
