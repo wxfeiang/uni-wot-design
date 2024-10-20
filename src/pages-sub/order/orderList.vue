@@ -89,31 +89,35 @@ function goEvaluate(orderId) {
   routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
 }
 
-function goRefund(orderId, note = '') {
-  uni.showModal({
-    title: '退款确认',
-    content: '您确定要申请退款吗',
-    success: async function (res) {
-      if (res.confirm) {
-        const da = {
-          orderId,
-          note,
-        }
-        const date = await sendRefund(da)
-        if (date.errCode === 'SUCCESS') {
-          routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
-        } else {
-          uni.showToast({
-            title: date.errMsg,
-            duration: 2000,
-          })
-        }
-      } else if (res.cancel) {
-        console.log('用户点击取消')
-      }
-    },
-  })
+function goRefund(orderId) {
+  routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPopTK: true } })
 }
+
+// function goRefund(orderId, note = '') {
+//   uni.showModal({
+//     title: '退款确认',
+//     content: '您确定要申请退款吗',
+//     success: async function (res) {
+//       if (res.confirm) {
+//         const da = {
+//           orderId,
+//           note,
+//         }
+//         const date = await sendRefund(da)
+//         if (date.errCode === 'SUCCESS') {
+//           routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
+//         } else {
+//           uni.showToast({
+//             title: date.errMsg,
+//             duration: 2000,
+//           })
+//         }
+//       } else if (res.cancel) {
+//         console.log('用户点击取消')
+//       }
+//     },
+//   })
+// }
 
 function goInfoQX(orderId) {
   routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPop: true } })

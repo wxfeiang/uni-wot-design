@@ -25,6 +25,7 @@ const {
   updateOrderBeanStatusById,
   sendOrderUpdate,
   sendRefund,
+  sendRefundReview,
   sendPostList,
   sendPostInfo,
   sendhuifu,
@@ -50,6 +51,8 @@ const postNumber = ref('')
 const postType = ref('')
 const postTypeName = ref('')
 const Columns = ref([])
+const auditNote = ref('')
+
 const canList = ref(['不想要了', '信息填错，重新下单', '卖家缺货', '物流原因', '其他原因'])
 
 function closePop() {
@@ -242,6 +245,41 @@ function submitHF(orderId) {
   }
 }
 
+function goTk(orderId) {
+  uni.showModal({
+    title: '退款确认',
+    content: '您确定要退款吗',
+    success: async function (res) {
+      if (res.confirm) {
+        const da = {
+          orderId,
+          auditStatus: 1,
+          auditNote: '同意',
+        }
+        const date: any = await sendRefundReview(da)
+        if (date.errCode === 'SUCCESS') {
+          const da2 = {
+            orderId,
+            note: '',
+          }
+          await sendRefund(da2)
+          uni.showToast({
+            title: '退款成功！',
+            duration: 2000,
+          })
+        } else {
+          uni.showToast({
+            title: date.errMsg,
+            duration: 2000,
+          })
+        }
+      } else if (res.cancel) {
+        console.log('用户点击取消')
+      }
+    },
+  })
+}
+
 function goRefund(orderId, note = '') {
   uni.showModal({
     title: '退款确认',
@@ -277,6 +315,35 @@ function gosure(orderId, status) {
   updateOrderBeanStatusById(data).then((res) => {
     uni.redirectTo({ url: '/pages-sub/order/orderInfoBusiness', query: { id: orderId } })
   })
+}
+
+function refuse(orderId) {
+  if (auditNote.value === '') {
+    uni.showToast({
+      title: '请填写拒绝理由',
+      duration: 2000,
+    })
+  } else {
+    uni.showModal({
+      title: '拒绝确认',
+      content: '您确定要拒绝退款吗',
+      success: async function (res) {
+        if (res.confirm) {
+          const da = {
+            orderId,
+            auditStatus: 2,
+            auditNote: auditNote.value,
+          }
+
+          sendRefundReview(da).then((res) => {
+            uni.redirectTo({ url: '/pages-sub/order/orderInfoBusiness', query: { id: orderId } })
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      },
+    })
+  }
 }
 
 onLoad(async (options) => {
@@ -330,6 +397,22 @@ onShow(async (options) => {
         <view class="flex justify-center items-center mt-1 mb-2">
           <wd-text text="预计7天内到货" size="14px" color="#777777" custom-class="ml-1"></wd-text>
         </view>
+      </view>
+      <view v-else-if="orderInfo.status === 25" class="flex justify-center items-center flex-col">
+        <wd-text
+          text="仅退款"
+          size="20px"
+          color="#333333"
+          custom-class="my-1 text-center font-bold"
+        ></wd-text>
+      </view>
+      <view v-else-if="orderInfo.status === 26" class="flex justify-center items-center flex-col">
+        <wd-text
+          text="退货退款"
+          size="20px"
+          color="#333333"
+          custom-class="my-1 text-center font-bold"
+        ></wd-text>
       </view>
       <view v-else-if="orderInfo.status === 2" class="flex justify-center items-center flex-col">
         <wd-text
@@ -658,6 +741,14 @@ onShow(async (options) => {
         </view>
       </wd-card>
 
+      <wd-card class="cardno mt-4" v-if="orderInfo.status === 25">
+        <view class="flex py-2 flex-col">
+          <wd-text text="拒绝理由" size="14px" bold color="#333" custom-class=" mb-1"></wd-text>
+
+          <textarea v-model.trim="auditNote" placeholder="请填写拒绝理由" class="liuyan" />
+        </view>
+      </wd-card>
+
       <view class="mt-8 mx-4 pb-80px">
         <view class="mb-20px">
           <!--          <wd-button block :round="false" custom-class="mb-4" @click="submitHF(orderInfo.orderId)">-->
@@ -682,6 +773,18 @@ onShow(async (options) => {
             </wd-button>
           </template>
           <template v-else-if="orderInfo.status === 11">
+            <wd-button block plain :round="false" @click="goLogistics(orderInfo.orderId)">
+              查看物流
+            </wd-button>
+          </template>
+
+          <template v-else-if="orderInfo.status === 25">
+            <wd-button block plain :round="false" @click="goTk(orderInfo.orderId)">
+              确认退款
+            </wd-button>
+            <wd-button block plain :round="false" @click="refuse(orderInfo.orderId)">
+              拒绝退款
+            </wd-button>
             <wd-button block plain :round="false" @click="goLogistics(orderInfo.orderId)">
               查看物流
             </wd-button>

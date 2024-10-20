@@ -20,6 +20,7 @@ const {
   sendOrderList,
   updateOrderBeanStatusById,
   sendRefund,
+  sendRefundReview,
   sendchangeOrderStatus,
 } = orderInter()
 const paging = ref(null)
@@ -121,6 +122,41 @@ function goInfoQX(orderId, note = '') {
   })
 }
 
+function goTk(orderId) {
+  uni.showModal({
+    title: '退款确认',
+    content: '您确定要退款吗',
+    success: async function (res) {
+      if (res.confirm) {
+        const da = {
+          orderId,
+          auditStatus: 1,
+          auditNote: '同意',
+        }
+        const date: any = await sendRefundReview(da)
+        if (date.errCode === 'SUCCESS') {
+          const da2 = {
+            orderId,
+            note: '',
+          }
+          await sendRefund(da2)
+          uni.showToast({
+            title: '退款成功！',
+            duration: 2000,
+          })
+        } else {
+          uni.showToast({
+            title: date.errMsg,
+            duration: 2000,
+          })
+        }
+      } else if (res.cancel) {
+        console.log('用户点击取消')
+      }
+    },
+  })
+}
+
 function gosure(orderId, status = 2) {
   const data = { orderId, status }
   updateOrderBeanStatusById(data).then((res) => {
@@ -193,6 +229,13 @@ onLoad((options) => {
               <wd-text
                 v-else-if="item.status === 11"
                 text="待收货"
+                size="14px"
+                color="#000000"
+                class=""
+              ></wd-text>
+              <wd-text
+                v-else-if="item.status === 25"
+                text="申请退款"
                 size="14px"
                 color="#000000"
                 class=""
@@ -327,6 +370,27 @@ onLoad((options) => {
                     @click="goInfoQX(item.orderId)"
                   >
                     取消订单
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    :round="false"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goLogistics(item.orderId)"
+                  >
+                    查看物流
+                  </wd-button>
+                </template>
+                <template v-else-if="item.status === 25">
+                  <wd-button
+                    size="small"
+                    plain
+                    :round="false"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goInfo(item.orderId)"
+                  >
+                    售后处理
                   </wd-button>
                   <wd-button
                     size="small"

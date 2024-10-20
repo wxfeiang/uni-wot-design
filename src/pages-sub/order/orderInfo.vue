@@ -14,6 +14,7 @@ import { getShopInfo } from '@/service/api/shop'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni/index'
 import { removeT, routeTo } from '@/utils'
+
 const toast = useToast()
 const {
   sendOrderInfo,
@@ -22,9 +23,12 @@ const {
   updateOrderBeanStatusById,
   sendOrderUpdate,
   sendRefund,
+  sendRefundRequest,
+  sendRefundReview,
 } = orderInter()
 const paging = ref(null)
 const chooseIndex = ref<number>(0)
+const chooseIndexTK = ref<number>(0)
 
 const title = ref('订单详情')
 
@@ -32,22 +36,36 @@ const orderInfo = ref({})
 const shopDetails = ref({})
 
 const showPop = ref(false)
+const showPopTK = ref(false)
 const orderID = ref('')
 
 function openPop(e) {
   showPop.value = true
 }
 
+function openPopTK(e) {
+  showPopTK.value = true
+}
+
 const time = ref<number>(108000)
 const dispay = ref(false)
 const canList = ref(['不想要了', '信息填错，重新下单', '卖家缺货', '物流原因', '其他原因'])
+const canListTK = ref(['不想要了', '信息填错，重新下单', '卖家缺货', '物流原因', '其他原因'])
 
 function closePop() {
   showPop.value = false
 }
 
+function closePopTK() {
+  showPopTK.value = false
+}
+
 function Choose(index) {
   chooseIndex.value = index.value
+}
+
+function ChooseTK(index) {
+  chooseIndexTK.value = index.value
 }
 
 function timefinish() {
@@ -167,9 +185,10 @@ function goRefund(orderId, note = '') {
       if (res.confirm) {
         const da = {
           orderId,
-          note,
+          note: canListTK.value[chooseIndexTK.value],
+          refundMethod: 1,
         }
-        const date = await sendRefund(da)
+        const date = await sendRefundRequest(da)
         if (date.errCode === 'SUCCESS') {
           routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
         } else {
@@ -194,6 +213,7 @@ function gosure(orderId, status) {
 
 onLoad(async (options) => {
   showPop.value = options.showPop ? options.showPop : false
+  showPopTK.value = options.showPopTK ? options.showPopTK : false
   orderID.value = options.id
 
   // getInfo(options.id)
@@ -556,9 +576,8 @@ onShow(async (options) => {
         </view>
       </view>
     </view>
-    <!--    <wd-overlay :show="showPop" @click="showPop = false"/>-->
+
     <wd-action-sheet v-model="showPop" v-if="showPop" @close="closePop" title="取消订单">
-      <!--  <wd-popup v-model="showPop" position="bottom" closable @close="closePop">-->
       <view class="px-4">
         <view class="pb-4">
           <wd-text text="请选择取消原因" size="14px" color="#777777"></wd-text>
@@ -570,8 +589,27 @@ onShow(async (options) => {
 
         <wd-button type="warning" custom-class="duihuanBtn   mt-4 " @click="cancal">确定</wd-button>
       </view>
+    </wd-action-sheet>
 
-      <!--  </wd-popup>-->
+    <wd-action-sheet v-model="showPopTK" v-if="showPopTK" @close="closePopTK" title="申请退款">
+      <view class="px-4">
+        <view class="pb-4">
+          <wd-text text="请选择退款原因" size="14px" color="#777777"></wd-text>
+        </view>
+
+        <wd-radio-group
+          v-model="chooseIndexTK"
+          shape="dot"
+          @change="Choose"
+          checked-color="#f44d24"
+        >
+          <wd-radio :value="index" v-for="(it, index) in canListTK" :key="index">{{ it }}</wd-radio>
+        </wd-radio-group>
+
+        <wd-button type="warning" custom-class="duihuanBtn   mt-4 " @click="goRefund">
+          确定
+        </wd-button>
+      </view>
     </wd-action-sheet>
   </view>
   <!-- </view> -->

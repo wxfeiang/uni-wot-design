@@ -32,6 +32,8 @@ const EVALUATION_ADD = baseUrlApi('/product/app/evaluation/saveOrUpdate')
 const GET_APP_TARGET_ORDER_ID_BY_SHOP = baseUrlApi('/order/app/getAppTargetOrderIdByShop')
 const GET_MERCHANT_SERVICES_COUNT = baseUrlApi('/order/manage/getMerchantServicesCount')
 const GET_REFUND = baseUrlApi('/trade/wxPay/wxRefund')
+const GET_REFUND_REQUEST = baseUrlApi('/order/app/manage/orderRefunds')
+const GET_REFUND_REVIEW = baseUrlApi('/order/app/manage/merchantAudit')
 const ORDER_UPDATE = baseUrlApi('/trade/app/XcxPayment/payAgain')
 const GET_ORDER_NUM = baseUrlApi('/order/app/manage/getOrderStatistics')
 const GET_BUSINESS_INFO = baseUrlApi('/order/app/manage/merchantIdOrderStatistics')
@@ -149,7 +151,7 @@ export function evaluationList(data) {
 }
 
 /**
- *   商品评价列表
+ *   商品退款
  * @param params 初始参数()
  * */
 export function getRefund(data) {
@@ -158,6 +160,40 @@ export function getRefund(data) {
   }
   return request.Post(
     GET_REFUND, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   商品退款申请
+ * @param params 初始参数()
+ * */
+export function getRefundRequest(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_REFUND_REQUEST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *   商品退款审核
+ * @param params 初始参数()
+ * */
+export function getRefundReview(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_REFUND_REVIEW, // 请求地址
     data,
     {
       meta,

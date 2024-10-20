@@ -5,6 +5,8 @@ import {
   updateOrderStatusById,
   changeOrderStatus,
   getRefund,
+  getRefundRequest,
+  getRefundReview,
   orderUpdate,
   logistics,
   getPostList,
@@ -42,6 +44,14 @@ const { send: sendRefund } = useRequest((data) => getRefund(data), {
   immediate: false,
   loading: false,
 })
+const { send: sendRefundRequest } = useRequest((data) => getRefundRequest(data), {
+  immediate: false,
+  loading: false,
+})
+const { send: sendRefundReview } = useRequest((data) => getRefundReview(data), {
+  immediate: false,
+  loading: false,
+})
 
 const { send: getLogistics } = useRequest((data) => logistics(data), {
   immediate: false,
@@ -71,6 +81,8 @@ export default () => {
     sendOrderList,
     sendchangeOrderStatus,
     sendRefund,
+    sendRefundRequest,
+    sendRefundReview,
     sendOrderUpdate,
     updateOrderBeanStatusById,
     getLogistics,
