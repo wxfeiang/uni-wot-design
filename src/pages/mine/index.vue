@@ -63,6 +63,9 @@ const qiandao = () => {
 const toShopService = () => {
   routeTo({ url: '/pages-sub/shopManager/index' })
 }
+const goUserInfo = () => {
+  routeTo({ url: '/pages-sub/system/userInfo/index' })
+}
 
 onShow(async () => {
   if (isLogined.value) {
@@ -118,7 +121,7 @@ onShow(async () => {
         <view class="flex items-center gap-20px">
           <template v-if="isLogined">
             <view class="flex gap-15px items-center">
-              <view>
+              <view @click="goUserInfo">
                 <view class="p-5px rounded-50% size-64px">
                   <wd-img :width="60" :height="60" :src="userInfo.userAvatar ?? anvter1" round />
                 </view>
@@ -144,11 +147,11 @@ onShow(async () => {
                 </view>
               </view>
               <view>
-                <view class="font-size-20px font-medium">
-                  {{ isLogined ? (userInfo.userName ?? '微信用户') : '立即登录' }}
+                <view class="font-size-20px font-medium" @click="goUserInfo">
+                  {{ userInfo.userName ?? '微信用户' }}
                 </view>
 
-                <view v-if="isLogined">
+                <view>
                   <view v-if="userGrade == 1" class="mt-2">
                     <img src="/src/static/images/mine/level1.png" alt="" class="userGradeBG" />
                     <span class="userGradeTitle l1">{{ userGradeTitle }}</span>
