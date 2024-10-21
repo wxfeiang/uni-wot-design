@@ -16,7 +16,7 @@ import lPainter from '@/components/lime-painter/components/l-painter/l-painter.v
 import { Constant } from '@/enums/constant'
 import { mainTypeEmums } from '@/enums/mainTypeEmum'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
-import { isLoginCheckd } from '@/interceptors/route'
+import { isRouterCheckd } from '@/interceptors/route'
 import { useUserStore } from '@/store'
 import { getBack, routeTo, sceneResult } from '@/utils'
 import PLATFORM from '@/utils/platform'
@@ -210,7 +210,7 @@ const btnClick2 = async (item) => {
       const currentPage = pages[pages.length - 1]
       // 获取当前页面的路径
       const currentPath = currentPage.route
-      isLoginCheckd(currentPath)
+      isRouterCheckd(currentPath)
     } else {
       const params = {
         couponId: couponInfoData.value.couponId,

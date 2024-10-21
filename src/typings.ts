@@ -35,6 +35,7 @@ type IUserInfo = {
   isBind?: boolean // 是否绑定手机号
   address?: string
   merchantId?: string // 商户id
+  cardId?: string // 卡id 社保卡详情用
 }
 
 enum TestEnum {

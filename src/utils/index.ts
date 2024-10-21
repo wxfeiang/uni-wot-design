@@ -331,9 +331,11 @@ export function dataDesensitization(
   flog = false,
   position: 'left' | 'right' | 'center',
 ) {
+  if (!data) return ''
   if (flog) {
     return data
   } else {
+    console.log('🥖', data)
     const l = data.length
     let str = '*'
     for (let i = 0; i < l - 2; i++) {

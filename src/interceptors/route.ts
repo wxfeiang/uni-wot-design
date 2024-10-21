@@ -48,19 +48,9 @@ const navigateToInterceptor = {
       return true
     } else {
       if (!hasLogin) {
-        isLoginCheckd(url)
+        isRouterCheckd(url)
       } else if (hasFeace && !isIdcard()) {
-        Modal({
-          title: '提示',
-          content: '您还没有实名认证,请先认证？',
-          showCancel: true,
-        }).then((res: any) => {
-          if (res.confirm) {
-            // 重定向
-            const redirectRoute = `${feaceRouter}?redirect=${encodeURIComponent(url)}`
-            uni.navigateTo({ url: redirectRoute })
-          }
-        })
+        isRouterCheckd(url, '您还没有实名认证,请先认证？')
       } else {
         return true
       }
@@ -69,10 +59,10 @@ const navigateToInterceptor = {
     }
   },
 }
-export const isLoginCheckd = (url) => {
+export const isRouterCheckd = (url, title?: string) => {
   Modal({
     title: '提示',
-    content: '您还没有登录,请先登录？',
+    content: title || '您还没有登录,请先登录？',
     showCancel: true,
   }).then((res: any) => {
     if (res.confirm) {

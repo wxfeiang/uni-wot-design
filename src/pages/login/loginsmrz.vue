@@ -7,8 +7,8 @@
 }
 </route>
 <script lang="ts" setup>
-import { dataDesensitization } from '@/utils/index'
 import { useUserStore } from '@/store/user'
+import { dataDesensitization } from '@/utils/index'
 import { storeToRefs } from 'pinia'
 import useLogin from './utils/useLogin'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
@@ -80,7 +80,7 @@ const iconColse = ref(false)
         <wd-cell title="证件类型" value="身份证" border></wd-cell>
         <wd-cell
           title="身份证号"
-          :value="dataDesensitization(userInfo.idCardNumber, iconColse)"
+          :value="dataDesensitization(userInfo.idCardNumber, iconColse, 'center')"
           border
         ></wd-cell>
       </wd-cell-group>
