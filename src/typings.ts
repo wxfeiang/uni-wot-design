@@ -36,6 +36,7 @@ type IUserInfo = {
   address?: string
   merchantId?: string // 商户id
   cardId?: string // 卡id 社保卡详情用
+  userAvatar?: string // 用户头像
 }
 
 enum TestEnum {

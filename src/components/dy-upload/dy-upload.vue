@@ -15,6 +15,8 @@ const defaultFormDarta = {
 const emit = defineEmits<{
   (e: 'submit', value: any): void
   (e: 'update:modelValue', value: any): string
+  (e: 'last', value: any): string // 最后一个数据
+  (e: 'success'): void
 }>()
 
 const fileList = ref<FilesList[]>([])
@@ -32,19 +34,17 @@ const initModelValues = () => {
         meta: { url: item, name: item },
       }
     })
-    // nextTick(() => {
+
     // 重新解析数据
     if (props.isAes) {
       narr.forEach(async (item) => {
         item.url = await useFilePase(item.name).fileData
       })
-      console.log('🍛11111>>>>>', narr)
       fileList.value = narr
     } else {
-      console.log('---------', narr)
       fileList.value = narr
+      emit('last', narr[narr.length - 1])
     }
-    // })
   }
 }
 // 初始化监听数据
@@ -63,6 +63,7 @@ onMounted(async () => {
 const handleChange = (e: any) => {
   const str = changeUploadUrl(e.fileList, 'data')
   emit('update:modelValue', str)
+  emit('success')
 }
 
 /* *
@@ -101,8 +102,12 @@ const buildFormData = ({ file, formData, resolve }) => {
     :build-form-data="buildFormData"
     v-if="props.showFileDy"
   >
-    <template #default>
+    <template #default v-if="props.defaultAttrs.btn">
       <slot></slot>
+    </template>
+    <template #preview-cover="{ file, index }" v-if="props.defaultAttrs.preview">
+      <!-- 小程序拿不到文件 -->
+      <slot name="preview" :file="file" :index="index"></slot>
     </template>
   </wd-upload>
   <wd-upload

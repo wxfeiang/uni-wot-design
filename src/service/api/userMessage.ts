@@ -28,7 +28,7 @@ const GET_ADVICELIST = baseUrlApi('/promotion/app/xcxUserAdvice/getAdvicelist')
 const GET_DETAIL_BY_ADVICE_ID = baseUrlApi('/promotion/app/xcxUserAdvice/getDetailByAdviceId')
 
 const GET_USER_CARD_DETAIL = baseUrlApi('/promotion/app/member/getUserCardDetail')
-
+const UPDATE_NICK_AND_AVATAR = baseUrlApi('/member/app/userInfo/updateNickAndAvatar')
 /**
  *  查询雄才卡信息
  * @param params
@@ -242,6 +242,23 @@ export function getUserCardDetail<T>(data) {
   }
   return request.Post<T>(
     GET_USER_CARD_DETAIL, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  修改用户昵称头像
+ * @param params 初始参数()
+ * */
+export function updateNickAndAvatar<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post<T>(
+    UPDATE_NICK_AND_AVATAR, // 地址
     data,
     {
       meta,

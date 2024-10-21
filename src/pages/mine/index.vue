@@ -11,12 +11,11 @@
 <script lang="ts" setup>
 import anvter from '@/static/images/mine/anvter.png'
 import anvter1 from '@/static/images/mine/anvter1.png'
+import dhicon from '@/static/images/mine/dhicon.png'
+import gerenicon from '@/static/images/mine/gerenicon.png'
 import h0 from '@/static/images/mine/h0.png'
 import h1 from '@/static/images/mine/h1.png'
 import sjfw from '@/static/images/mine/sjfw.png'
-import tygj from '@/static/images/mine/tygj.png'
-import gerenicon from '@/static/images/mine/gerenicon.png'
-import dhicon from '@/static/images/mine/dhicon.png'
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { storeToRefs } from 'pinia'
@@ -121,7 +120,7 @@ onShow(async () => {
             <view class="flex gap-15px items-center">
               <view>
                 <view class="p-5px rounded-50% size-64px">
-                  <wd-img :width="60" :height="60" :src="anvter1" round />
+                  <wd-img :width="60" :height="60" :src="userInfo.userAvatar ?? anvter1" round />
                 </view>
 
                 <view
