@@ -22,7 +22,7 @@ import mmdl from '../static/images/mmdl.png'
 import yhxy from '../static/images/yhxy.png'
 import yszc from '../static/images/yszc.png'
 import shdz from '../static/images/shdz.png'
-// import zhzx from '../static/images/zhzx.png'
+import zhzx from '../static/images/zhzx.png'
 import { serveProps } from './utils/types'
 
 const message = useMessage()
@@ -64,13 +64,13 @@ const serveList = ref<serveProps[]>([
     islink: false,
     value: 'V1.2.0',
   },
-  // {
-  //   icon: zhzx,
-  //   title: '账号账号',
-  //   path: 'min',
-  //   islink: false,
-  //   value: '注销后无法恢复，请谨慎操作',
-  // },
+  {
+    icon: zhzx,
+    title: '账号注销',
+    islink: true,
+    value: '注销后无法恢复，请谨慎操作',
+    path: '/pages-sub/system/sysconfig/cancellation',
+  },
   {
     icon: out,
     title: '退出登录',

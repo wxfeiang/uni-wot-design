@@ -26,6 +26,9 @@ const FIND_MY_INFO = baseUrlApi('/member/app/myInfo')
 
 const GET_ADVICELIST = baseUrlApi('/promotion/app/xcxUserAdvice/getAdvicelist')
 const GET_DETAIL_BY_ADVICE_ID = baseUrlApi('/promotion/app/xcxUserAdvice/getDetailByAdviceId')
+
+const GET_USER_CARD_DETAIL = baseUrlApi('/promotion/app/member/getUserCardDetail')
+
 /**
  *  查询雄才卡信息
  * @param params
@@ -222,6 +225,23 @@ export function getDetailByAdviceId<T>(data) {
   }
   return request.Post<T>(
     GET_DETAIL_BY_ADVICE_ID, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ * 我的社保卡详情
+ * @param params 初始参数()
+ * */
+export function getUserCardDetail<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post<T>(
+    GET_USER_CARD_DETAIL, // 地址
     data,
     {
       meta,

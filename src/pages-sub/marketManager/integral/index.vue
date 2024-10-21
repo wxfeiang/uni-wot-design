@@ -11,11 +11,11 @@
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
 import { useMessage } from 'wot-design-uni'
+import jifen from '../static/images/integral/jifen.png'
 import jinbi from '../static/images/integral/jinbi.png'
 import jinb2 from '../static/images/integral/jinbi2.png'
-import jifen from '../static/images/integral/jifen.png'
-import bg from '../static/images/integral/topbg.png'
 import quanbg from '../static/images/integral/quanbg.png'
+import bg from '../static/images/integral/topbg.png'
 import { signInFoProps, signMess } from './utils/types'
 import useInter from './utils/useInter'
 const message = useMessage()
@@ -112,7 +112,7 @@ onLoad(async () => {
     class="bg-no-repeat flex flex-col min-h-100vh bg-#f5f5f5"
     :style="`background-image: url(${topbgBase64}); background-size: 100% 240px`"
   >
-    <dy-navbar :leftTitle="title" center isNavShow></dy-navbar>
+    <dy-navbar :leftTitle="title" center isNavShow scrollColorClass="bg-#000"></dy-navbar>
     <view class="flex justify-between items-center mt-5px pl-25px pr-10px">
       <view class="flex justify-between flex-col">
         <view class="text-14px font-500 color-#fff">可用积分</view>
@@ -163,7 +163,7 @@ onLoad(async () => {
         <view class="mt-10px">
           <view class="grid grid-cols-4 gap-10px">
             <view
-              class="text-center rounded-md p-10px flex flex-col h-140rpx"
+              class="text-center rounded-md p-10px flex flex-col h-140rpx justify-center"
               :class="[
                 index === 6 ? 'text-left col-span-2' : '',
                 item.highlight == 1 ? 'bg-#FFE3CB' : 'bg-#FFF6EA ',

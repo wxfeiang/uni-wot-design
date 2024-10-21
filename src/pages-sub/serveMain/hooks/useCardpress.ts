@@ -22,10 +22,10 @@ const {
   resetAfterSubmiting: true,
   // 初始化表单数据
   initialForm: {
-    // xm: userInfo.userName,
-    xm: '王冬',
-    zjhm: '321087197912280054',
-    // zjhm: userInfo.idCardNumber,
+    xm: userInfo.userName,
+    zjhm: userInfo.idCardNumber,
+    // xm: '王冬',
+    // zjhm: '321087197912280054',
   },
 })
 const serchBtnStatus = ref(false)
@@ -55,10 +55,10 @@ const {
   loading: false,
   // 初始化表单数据
   initialForm: {
-    // xm: userInfo.userName,
-    // zjhm: userInfo.idCardNumber,
-    xm: '王冬',
-    zjhm: '321087197912280054',
+    xm: userInfo.userName,
+    zjhm: userInfo.idCardNumber,
+    // xm: '王冬',
+    // zjhm: '321087197912280054',
   },
   initialData: [],
 })

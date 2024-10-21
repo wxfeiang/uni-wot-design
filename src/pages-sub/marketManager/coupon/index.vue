@@ -33,11 +33,11 @@ async function queryList(pageNo: number, pageSize: number) {
   // 调用接口获取数据
   try {
     const data: any = await sendCouponList(params)
-    conponList.value = data.content
-    conponList.value.forEach((item) => {
+
+    data.content.forEach((item) => {
       item.couponStatus = 3
     })
-    paging.value.complete(conponList.value)
+    paging.value.complete(data.content)
   } catch (error) {
     paging.value.complete(false)
   }
@@ -84,9 +84,7 @@ onLoad(async () => {
   border: 0.9px solid rgba(255, 255, 255, 0.51);
   border-radius: 1000px;
 }
-.bg2 {
-  background: linear-gradient(127deg, #ea5233 0%, #eb8935 100%);
-}
+
 :deep(.custom-class-pop) {
   @apply w-80%  rounded-10px;
 }

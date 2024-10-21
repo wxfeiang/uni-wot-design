@@ -12,48 +12,74 @@
 }
 </route>
 <script lang="ts" setup>
-import logoTitle from '@/static/images/login/buchong.png'
+import logoTitle from '../static/images/zxyz.png'
 import phone from '@/static/images/login/phone.png'
 import user from '@/static/images/login/user.png'
 import yzm from '@/static/images/login/yzm.png'
 import logo from '@/static/images/logo.png'
-// import loginOuther from './components/loginOuther.vue'
+import { useMessage } from 'wot-design-uni'
+
 import useLogin from './utils/useLogin'
-const { model3, rules2, getCodeUrl, submitPhoneCode, countdown, sending, submitUpRealName } =
-  useLogin()
-const form = ref(null)
+const {
+  Login,
+  read,
+  model2,
+  rules2,
+  getCodeUrl,
+  submitPhoneCode,
+  countdown,
+  sending,
+  submitPhoneLogin,
+
+  toAgreement,
+} = useLogin()
 const form2 = ref(null)
 const { navTop } = useNav()
-onLoad((options) => {
-  console.log('🥒[options]:', options)
-  model3.value.userCardCode = options.userCardCode
-  model3.value.userId = options.userId
-})
+
+const message = useMessage()
+const unifiedLogin = (type: number, $event?: any) => {
+  if (read.value) {
+    readChange(type)
+  } else {
+    message
+      .confirm({
+        title: '提示',
+      })
+      .then(() => {
+        read.value = true
+        readChange(type)
+      })
+      .catch((error) => {
+        console.log(error)
+        read.value = false
+      })
+  }
+}
+
 onMounted(() => {
   getCodeUrl()
 })
 </script>
 <template>
   <view class="bg-#fff min-h-100vh">
-    <view class="bg-cover relative bg-#fff" :style="`padding-top:${navTop - 10}px`">
-      <dy-navbar leftTitle="完善手机号" left></dy-navbar>
+    <view class="relative bg-#fff" :style="`padding-top:${navTop - 10}px`">
+      <dy-navbar leftTitle="账户验证" left></dy-navbar>
       <view class="flex justify-center">
         <wd-img :width="97" :height="97" :src="logo" round />
       </view>
       <view class="flex justify-center mt-20px">
-        <wd-img :width="217" :height="54" :src="logoTitle" />
+        <wd-img :width="173" :height="54" :src="logoTitle" />
       </view>
     </view>
-
     <view class="mt-30px">
       <view class="px-30px">
-        <wd-form ref="form2" :model="model3">
+        <wd-form ref="form2" :model="model2">
           <wd-cell-group>
             <wd-input
               label-width="100px"
               placeholder="请输入手机号码"
               type="text"
-              v-model="model3.phone"
+              v-model="model2.phone"
               :rules="rules2.phone"
               prop="phone"
               use-prefix-slot
@@ -70,7 +96,7 @@ onMounted(() => {
             <wd-input
               label-width="100px"
               type="text"
-              v-model="model3.imgcode"
+              v-model="model2.imgcode"
               placeholder="请输入图形码"
               :rules="rules2.imgcode"
               prop="imgcode"
@@ -92,7 +118,7 @@ onMounted(() => {
             <wd-input
               label-width="100px"
               type="text"
-              v-model="model3.code"
+              v-model="model2.code"
               placeholder="请输入手机验证码"
               :rules="rules2.code"
               prop="code"
@@ -111,7 +137,7 @@ onMounted(() => {
                   size="small"
                   plain
                   custom-class="button"
-                  @click="submitPhoneCode(form2, model3)"
+                  @click="submitPhoneCode(form2, model2)"
                   :loading="sending"
                   :disabled="sending || countdown > 0"
                 >
@@ -122,18 +148,15 @@ onMounted(() => {
           </wd-cell-group>
         </wd-form>
         <view class="mt-15px">
-          <wd-button
-            block
-            custom-class="custom-class-mine-login"
-            @click="submitUpRealName(form2, 3)"
-          >
-            完 成
+          <wd-button block custom-class="custom-class-mine-login" @click="unifiedLogin(1)">
+            确认注销
           </wd-button>
         </view>
       </view>
     </view>
   </view>
 </template>
+
 <style lang="scss" scoped>
 :deep(.custom-cell) {
   @apply bg-#f7f7f7! py-5px! px-5px rounded-6px mb-10px;

@@ -319,3 +319,34 @@ export function getBack() {
     uni.navigateBack()
   }
 }
+
+/**
+ * @description: 数据脱敏显示
+ * @param {} data 数据
+ * @param {} flog 是否脱敏
+ * @return {}
+ */
+export function dataDesensitization(
+  data: string,
+  flog = false,
+  position: 'left' | 'right' | 'center',
+) {
+  if (!data) return ''
+  if (flog) {
+    return data
+  } else {
+    console.log('🥖', data)
+    const l = data.length
+    let str = '*'
+    for (let i = 0; i < l - 2; i++) {
+      str += '*'
+    }
+
+    if (position === 'left') {
+      return data.replace(/^(.{1})(?:\d+)/, `$1${str}`)
+    } else if (position === 'right') {
+      return data.replace(/^(?:\d+)(.{1})$/, `${str}$1`)
+    }
+    return data.replace(/^(.{1})(?:\d+)(.{1})$/, `$1${str}$2`)
+  }
+}

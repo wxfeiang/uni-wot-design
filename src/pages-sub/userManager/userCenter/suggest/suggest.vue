@@ -84,7 +84,7 @@ onUnload(() => {
       </view>
     </view>
 
-    <view class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff">
+    <view class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff safe-area-after">
       <wd-button block :round="false" @click="submit(form)">提 交</wd-button>
     </view>
   </view>

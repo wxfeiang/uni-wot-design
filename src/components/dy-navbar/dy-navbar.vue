@@ -14,7 +14,7 @@ const props = defineProps({
     default: false,
   },
   isNavShow: {
-    type: Boolean,
+    type: Boolean, // 是否透明
     default: false,
   },
   border: {
@@ -37,17 +37,23 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  scrollColorClass: {
+    type: String,
+    default: '',
+  },
 })
 function handleClickLeft() {
   getBack()
 }
+const navbg = ref('')
 onPageScroll((e) => {
-  console.log('🍓[e]:', e)
-  // if (e.scrollTop > 30) {
-  //   navbg.value = 'nav_hide'
-  // } else {
-  //   navbg.value = 'nav_show'
-  // }
+  console.log('🍓[e]--------:', e)
+  if (e.scrollTop > 30) {
+    navbg.value = 'nav_hide'
+  } else {
+    navbg.value = props.scrollColorClass ?? props.customClass
+    console.log('🍅[ navbg.value]:', navbg.value)
+  }
 })
 </script>
 <template>

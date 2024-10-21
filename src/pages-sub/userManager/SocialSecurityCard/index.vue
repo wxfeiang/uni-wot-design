@@ -101,8 +101,8 @@ const getSignValidH5 = async (data) => {
     params = {
       channelNo: '1331000204', // 前端可不传
       signNo: '', // 渠道号
-      aac002: '321087197912280054',
-      aac003: '王冬',
+      aac002: userInfo.value.idCardNumber,
+      aac003: userInfo.value.userName,
       aab301: '',
       isWeb: '1', // 默认1
       isWebView: '',
