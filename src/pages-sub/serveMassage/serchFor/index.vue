@@ -12,11 +12,11 @@
 import { getSerchList } from '@/service/api/source'
 import { List } from '@/service/model/baseModel'
 import { useBaseStore } from '@/store'
-import { routeTo, currRoute } from '@/utils'
+import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
-import kong from '../static/images/kong.png'
 import { computed } from 'vue'
+import kong from '../static/images/kong.png'
 const { historySearch } = storeToRefs(useBaseStore())
 
 const serchValue = ref('')
@@ -49,18 +49,18 @@ const search = async () => {
   if (serchValue.value.length === 0) {
     return
   }
-  uni.showLoading({ title: '加载中' })
+  const params = {
+    articleTitle: serchValue.value,
+    articleType: currentTypeData.value.type,
+  }
   // 发起请求
   try {
-    await sendSerchList({ articleTitle: serchValue.value })
+    await sendSerchList(params)
     if (!serchListData.value.content.length) {
       flog.value = true
     }
     useBaseStore().setHistorySearch(serchValue.value)
-  } catch (error) {
-  } finally {
-    uni.hideLoading()
-  }
+  } catch (error) {}
 }
 const change = () => {
   if (serchValue.value.length === 0) {
@@ -91,7 +91,7 @@ const titleList = ref([
   },
   {
     title: '常见问题',
-    type: 1,
+    type: 7,
   },
   {
     title: '服务功能',

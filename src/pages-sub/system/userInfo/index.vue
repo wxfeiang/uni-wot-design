@@ -14,12 +14,14 @@ import { useForm } from 'alova/client'
 import { storeToRefs } from 'pinia'
 import { useMessage } from 'wot-design-uni'
 import caeama from '../static/images/caeama.png'
+
+import anvter1 from '@/static/images/mine/anvter1.png'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const authStore = useUserStore()
 const message = useMessage()
 const title = ref('个人信息')
 
-const avatarArr = ref(userInfo.value.userAvatar ?? '')
+const avatarArr = ref(userInfo.value.userAvatar ?? anvter1)
 
 const lastStr = (file: any) => {
   model.value.userAvatar = file.url
@@ -52,7 +54,7 @@ const footerBtns = ref([
     size: 'medium',
     round: false,
     plain: true,
-
+    index: 0,
     customClass: 'custom-class-mine-dyinfo',
   },
   {
