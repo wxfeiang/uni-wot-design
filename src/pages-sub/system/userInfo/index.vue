@@ -191,13 +191,12 @@ const btnClick = async (item: any) => {
 
 :deep(.custom-class-upload) {
   @apply rounded-full! bg-#fff! wh-100%!;
-
-  :deep(.custom-preview-class:not(:first-child)) {
-    @apply hidden!;
-  }
+}
+:deep(.custom-preview-class:not(:first-child)) {
+  @apply hidden!;
 }
 :deep(.custom-class-popup) {
-  @apply overflow-hidden rounded-t-20px;
+  @apply overflow-hidden! rounded-t-20px;
 }
 :deep(.custom-input-class) {
   @apply bg-transparent!;
