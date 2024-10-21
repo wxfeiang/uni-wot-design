@@ -53,7 +53,7 @@ const tabslist = ref([
   { name: '待发货', value: '10' },
   { name: '待收货', value: '11' },
   { name: '已完成', value: '2' },
-  { name: '退换/取消', value: '20,21,22,23' },
+  { name: '退换/取消', value: '20,21,22,23,25' },
 ])
 const list = ref([])
 
@@ -234,8 +234,8 @@ onLoad((options) => {
                 class=""
               ></wd-text>
               <wd-text
-                v-else-if="item.status === 25"
-                text="申请退款"
+                v-else-if="item.status === 25 || item.status === 20"
+                text="申请仅退款"
                 size="14px"
                 color="#000000"
                 class=""
@@ -381,7 +381,7 @@ onLoad((options) => {
                     查看物流
                   </wd-button>
                 </template>
-                <template v-else-if="item.status === 25">
+                <template v-else-if="item.status === 25 || item.status === 20">
                   <wd-button
                     size="small"
                     plain

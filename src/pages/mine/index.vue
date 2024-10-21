@@ -87,7 +87,8 @@ onShow(async () => {
       serveOrderList.value[0].value = da.dfk ? da.dfk : 0
       serveOrderList.value[1].value = da.dfh ? da.dfh : 0
       serveOrderList.value[2].value = da.dsh ? da.dsh : 0
-      serveOrderList.value[3].value = da.ywc ? da.ywc : 0
+      // serveOrderList.value[3].value = da.ywc ? da.ywc : 0
+      serveOrderList.value[3].value = 0
       serveOrderList.value[4].value = da.sh ? da.sh : 0
     } catch {
       topList.value[0].value = 0

@@ -39,7 +39,7 @@ const serveOrderList = ref<serveListProps[]>([
     label: '售后订单',
     icon: shouhou,
     value: 0,
-    path: '/pages-sub/order/orderListBusiness?tabsVal=20,21,22,23',
+    path: '/pages-sub/order/orderListBusiness?tabsVal=20,21,22,23,25',
   },
 ])
 
