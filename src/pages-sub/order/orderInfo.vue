@@ -1,3 +1,4 @@
+'
 <route lang="json5" type="page">
 {
   layout: 'default',
@@ -177,7 +178,7 @@ function goEvaluate(orderId) {
   routeTo({ url: '/pages-sub/shopManager/addEvaluate', data: { id: orderId } })
 }
 
-function goRefund(orderId, note = '') {
+function goRefund(orderId, type) {
   uni.showModal({
     title: '退款确认',
     content: '您确定要申请退款吗',
@@ -189,11 +190,13 @@ function goRefund(orderId, note = '') {
           refundMethod: 1,
         }
         const date = await sendRefundRequest(da)
-        if (date.errCode === 'SUCCESS') {
+
+        if (date) {
+          showPopTK.value = false
           routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId } })
         } else {
           uni.showToast({
-            title: date.errMsg,
+            title: '申请失败',
             duration: 2000,
           })
         }
@@ -318,6 +321,17 @@ onShow(async (options) => {
           custom-class="my-1 text-center font-bold"
         ></wd-text>
       </view>
+      <view
+        v-else-if="orderInfo.status === 25 || orderInfo.status === 20"
+        class="flex justify-center items-center flex-col"
+      >
+        <wd-text
+          text="申请仅退款"
+          size="20px"
+          color="#333333"
+          custom-class="my-1 text-center font-bold"
+        ></wd-text>
+      </view>
       <view v-else class="flex justify-center items-center flex-col">
         <wd-text
           text="交易关闭"
@@ -384,6 +398,13 @@ onShow(async (options) => {
               class=""
             ></wd-text>
             <wd-text
+              v-else-if="orderInfo.status === 25 || orderInfo.status === 20"
+              text="申请仅退款"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text
               v-else-if="orderInfo.status === 2"
               text="已完成"
               size="14px"
@@ -441,6 +462,25 @@ onShow(async (options) => {
           </view>
         </view>
       </wd-card>
+
+      <wd-card class="cardno" v-if="orderInfo.merchantAuditStatus === '1'">
+        <view class="py-2">
+          <view class="flex justify-left items-center mb-1">
+            <wd-text text="申请退款:" size="14px" color="#777777" custom-class="tit"></wd-text>
+            <wd-text text="申请拒绝" size="14px" color="#333333" custom-class="ml-2"></wd-text>
+          </view>
+          <view class="flex justify-left items-center mb-1">
+            <wd-text text="拒绝原因" size="14px" color="#777777" custom-class="tit"></wd-text>
+            <wd-text
+              :text="orderInfo.merchantAuditNote"
+              size="14px"
+              color="#333333"
+              custom-class="ml-2"
+            ></wd-text>
+          </view>
+        </view>
+      </wd-card>
+
       <wd-card class="cardno">
         <view class="py-2">
           <view class="flex justify-between items-center mb-1">
@@ -554,22 +594,32 @@ onShow(async (options) => {
               block
               plain
               type="info"
-              custom-class="inline-block ml-2"
+              custom-class="inline-block mb-2"
               style="width: 5rem"
               @click="goRefund(orderInfo.orderId)"
             >
-              申请退款
+              {{ orderInfo.merchantAuditStatus === '1' ? '再次申请退款' : '申请退款' }}
             </wd-button>
           </template>
           <template v-else-if="orderInfo.status == 11">
             <wd-button
               block
               type="warning"
-              custom-class="inline-block ml-2"
+              custom-class="inline-block mb-2"
               style="width: 5rem"
               @click="goNext(orderInfo.orderId)"
             >
               确认收货
+            </wd-button>
+            <wd-button
+              block
+              plain
+              type="info"
+              custom-class="inline-block mb-2"
+              style="width: 5rem"
+              @click="goRefund(orderInfo.orderId)"
+            >
+              {{ orderInfo.merchantAuditStatus === '1' ? '再次申请退款' : '申请退款' }}
             </wd-button>
           </template>
           <template v-else></template>
@@ -606,7 +656,11 @@ onShow(async (options) => {
           <wd-radio :value="index" v-for="(it, index) in canListTK" :key="index">{{ it }}</wd-radio>
         </wd-radio-group>
 
-        <wd-button type="warning" custom-class="duihuanBtn   mt-4 " @click="goRefund">
+        <wd-button
+          type="warning"
+          custom-class="duihuanBtn   mt-4 "
+          @click="goRefund(orderInfo.orderId)"
+        >
           确定
         </wd-button>
       </view>
@@ -679,5 +733,9 @@ onShow(async (options) => {
   color: #333333;
   text-overflow: ellipsis; //溢出显示省略号
   white-space: nowrap; //不折行
+}
+:deep(.tabTool) {
+  height: 100%;
+  overflow: auto;
 }
 </style>

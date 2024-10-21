@@ -216,6 +216,13 @@ onLoad((options) => {
                 class=""
               ></wd-text>
               <wd-text
+                v-else-if="item.status === 25 || item.status === 20"
+                text="仅退款"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text
                 v-else-if="item.status === 2"
                 text="已完成"
                 size="14px"
@@ -351,6 +358,16 @@ onLoad((options) => {
                   <!--                  </wd-button>-->
                 </template>
                 <template v-else-if="item.status === 11">
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="goRefund(item.orderId)"
+                  >
+                    申请退款
+                  </wd-button>
                   <wd-button
                     size="small"
                     plain
