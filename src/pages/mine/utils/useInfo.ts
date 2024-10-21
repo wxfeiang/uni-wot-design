@@ -1,5 +1,3 @@
-import { logout } from '@/service/api/auth'
-import { useUserStore } from '@/store/user'
 import { useRequest } from 'alova/client'
 import type { msCountProps, serveListProps, serveProps } from '../utils/types'
 
@@ -32,22 +30,6 @@ const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
     loading: false,
   },
 )
-
-// 退出操作
-const { loading, send: sendLogOut } = useRequest(logout, {
-  immediate: false,
-  loading: false,
-})
-
-const { clearUserInfo, userInfo } = useUserStore()
-const LogOut = async () => {
-  try {
-    // await sendLogOut()
-    clearUserInfo()
-  } catch (error) {}
-  // TODO: 清除用户信息
-  clearUserInfo()
-}
 
 const topList = ref<serveProps[]>([
   {
@@ -113,7 +95,7 @@ const grzqList = ref<serveProps[]>([
   {
     icon: wdsbk,
     title: '我的社保',
-    path: '/pages-sub/userManager/SocialSecurityCard/index',
+    path: '/pages-sub/userManager/SocialSecurityCard/detil',
     islink: true,
   },
   {
@@ -242,8 +224,6 @@ const { send: sendMerchantServicesCount, data: msCount } = useRequest(
 
 export default () => {
   return {
-    LogOut,
-    loading,
     serveList,
     serveClick,
     sendIsReceiveCardInfo,

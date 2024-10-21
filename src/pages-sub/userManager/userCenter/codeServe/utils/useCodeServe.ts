@@ -25,7 +25,7 @@ const encrypt = (val: string, type: 'name' | 'cardNo', flag: boolean) => {
     case 'name':
       return val.replace(/.{2}$/, '**')
     case 'cardNo':
-      return val.replace(/(.{1}).{16}(.{1})/, '$1*********$2')
+      return val.replace(/^(.{1})(?:\d+)(.{1})$/, '$1*********$2')
   }
 }
 

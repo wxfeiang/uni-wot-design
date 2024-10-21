@@ -57,11 +57,10 @@ async function queryList(pageNo: number, pageSize: number) {
   // 调用接口获取数据
   try {
     const data: any = await sendUserCouponList(params)
-    conponList.value = data.coupons.content
     tablist.value.forEach((e, i) => {
       e.count = data[matchTab.value[i]]
     })
-    paging.value.complete(conponList.value)
+    paging.value.complete(data.coupons.content)
   } catch (error) {
     paging.value.complete(false)
   }

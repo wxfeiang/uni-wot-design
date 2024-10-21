@@ -66,7 +66,7 @@ const readChange = (type: number) => {
 }
 </script>
 <template>
-  <view class="w-100vw h-100vh flex flex-col justify-around">
+  <view class="w-100vw h-100vh flex flex-col justify-around bg-#fff">
     <view class="mt-18%">
       <view class="flex justify-center">
         <wd-img :width="97" :height="97" :src="logo" round />

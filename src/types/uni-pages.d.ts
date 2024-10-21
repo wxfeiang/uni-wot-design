@@ -27,8 +27,14 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
+       "/pages-sub/system/sysconfig/cancePhone" |
+       "/pages-sub/system/sysconfig/cancellation" |
        "/pages-sub/system/sysconfig/index" |
        "/pages-sub/system/sysconfig/setting" |
+       "/pages-sub/userManager/SocialSecurityCard/barcode" |
+       "/pages-sub/userManager/SocialSecurityCard/detil" |
+       "/pages-sub/userManager/SocialSecurityCard/index" |
+       "/pages-sub/userManager/SocialSecurityCard/indexback" |
        "/pages-sub/userManager/address/editor" |
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |

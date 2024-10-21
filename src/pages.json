@@ -295,6 +295,27 @@
       "root": "pages-sub/system",
       "pages": [
         {
+          "path": "sysconfig/cancePhone",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom",
+            "mp-alipay": {
+              "transparentTitle": "always",
+              "titlePenetrate": "YES"
+            }
+          }
+        },
+        {
+          "path": "sysconfig/cancellation",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "sysconfig/index",
           "type": "page",
           "needLogin": true,

@@ -7,6 +7,7 @@
 }
 </route>
 <script lang="ts" setup>
+import { dataDesensitization } from '@/utils/index'
 import { useUserStore } from '@/store/user'
 import { storeToRefs } from 'pinia'
 import useLogin from './utils/useLogin'
@@ -19,16 +20,6 @@ function handleClickLeft() {
 
 const data = ref([])
 const iconColse = ref(false)
-
-const encrypt = (val: string, type: 'name' | 'cardNo', flag: boolean) => {
-  if (flag) return val
-  switch (type) {
-    case 'name':
-      return val.replace(/.{2}$/, '**')
-    case 'cardNo':
-      return val.replace(/(.{1}).{16}(.{1})/, '$1*********$2')
-  }
-}
 </script>
 <template>
   <dy-navbar leftTitle="实名认证" left></dy-navbar>
@@ -83,13 +74,13 @@ const encrypt = (val: string, type: 'name' | 'cardNo', flag: boolean) => {
         </template>
         <wd-cell
           title="姓名"
-          :value="encrypt(userInfo.userName, 'name', iconColse)"
+          :value="dataDesensitization(userInfo.userName, iconColse, 'left')"
           border
         ></wd-cell>
         <wd-cell title="证件类型" value="身份证" border></wd-cell>
         <wd-cell
           title="身份证号"
-          :value="encrypt(userInfo.idCardNumber, 'cardNo', iconColse)"
+          :value="dataDesensitization(userInfo.idCardNumber, iconColse)"
           border
         ></wd-cell>
       </wd-cell-group>

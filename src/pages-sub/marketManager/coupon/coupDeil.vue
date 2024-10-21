@@ -365,7 +365,7 @@ onLoad(async (options) => {
 
 // 来自页面内分享按钮
 onShareAppMessage((res) => {
-  if (res.from === 'button' || res.from === 'menu') {
+  if (res.from === 'button') {
     show.value = false
     return {
       title: VITE_APP_LOGOTITLE,
