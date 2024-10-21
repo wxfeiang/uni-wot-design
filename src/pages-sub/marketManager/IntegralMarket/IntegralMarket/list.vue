@@ -122,16 +122,17 @@ onLoad(async () => {
                 class="w-full h-full pos-absolute pos-top-none pos-left-none flex flex-col justify-center items-center"
               >
                 <wd-text
-                  :text="满item.couponFillPrice + '元 可用'"
+                  :text="'满' + item.couponFillPrice + '元可用'"
                   size="14px"
                   color="#ff4345"
                   custom-class="mb-2"
                 ></wd-text>
                 <wd-text
-                  :text="item.ecouponPrice + couponType === '3' ? '折' : '元'"
+                  :text="item.couponPrice + (item.couponType === '3' ? '折' : '元')"
                   size="28px"
                   color="#ff4345"
                 ></wd-text>
+
                 <!-- <view class="mt-20px">
                   <wd-text text="100" size="42px" bold color="#ff4345"></wd-text>
                   <wd-text text="￥" size="20px" bold color="#ff4345"></wd-text>
