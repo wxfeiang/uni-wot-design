@@ -31,6 +31,7 @@ interface NavigateToOptions {
        "/pages-sub/system/sysconfig/cancellation" |
        "/pages-sub/system/sysconfig/index" |
        "/pages-sub/system/sysconfig/setting" |
+       "/pages-sub/system/userInfo/index" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/detil" |
        "/pages-sub/userManager/SocialSecurityCard/index" |

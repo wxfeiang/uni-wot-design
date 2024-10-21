@@ -149,7 +149,6 @@ const share = () => {
   emit('share')
 }
 const changeDate = (data: string) => {
-  console.log('🍲[data]:', data)
   if (!data) return false
   if (data.indexOf('9999') > -1 || data.indexOf('1000') > -1) {
     return '永久有效'

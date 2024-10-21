@@ -336,6 +336,14 @@
             "navigationBarBackgroundColor": "#fff",
             "navigationBarTextStyle": "black"
           }
+        },
+        {
+          "path": "userInfo/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     },

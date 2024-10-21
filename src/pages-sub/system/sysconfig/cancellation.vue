@@ -8,11 +8,11 @@
 </route>
 
 <script lang="ts" setup>
+import anvter1 from '@/static/images/mine/anvter1.png'
+import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/store/user'
-import anvter1 from '@/static/images/mine/anvter1.png'
-import { useMessage, useToast } from 'wot-design-uni'
+import { useMessage } from 'wot-design-uni'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 const title = ref('注销账户')
@@ -61,7 +61,7 @@ const btnClick = () => {
       <view class="text-16px color-#333 font-600 my-16px">请注意，注销后你将</view>
       <view class="p-15px bg-#fff rounded-6px">
         <view class="color-#888888 text-16px py-5px" v-for="(item, index) in list" :key="index">
-          {{ index }}、{{ item }}
+          {{ index + 1 }}、{{ item }}
         </view>
       </view>
     </view>
