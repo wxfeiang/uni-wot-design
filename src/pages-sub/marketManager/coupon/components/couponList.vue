@@ -148,6 +148,14 @@ const url = ref(
 const share = () => {
   emit('share')
 }
+const changeDate = (data: string) => {
+  if (!data) return false
+  if (data.indexOf('9999') > -1 || data.indexOf('0000') > -1) {
+    return '永久有效'
+  } else {
+    return false
+  }
+}
 </script>
 
 <template>
@@ -188,7 +196,14 @@ const share = () => {
           <view class="text-12px color-#999">
             <view class="">
               有效期:
-              {{ removeT(props.data.couponBeginDate) + ' 至 ' + removeT(props.data.couponEndDate) }}
+              <template v-if="changeDate(props.data.couponBeginDate)">
+                {{ changeDate(props.data.couponBeginDate) }}
+              </template>
+              <template v-else>
+                {{
+                  removeT(props.data.couponBeginDate) + ' 至 ' + removeT(props.data.couponEndDate)
+                }}
+              </template>
             </view>
             <view class="text-12px">{{ couponTypeText }}</view>
           </view>
@@ -225,7 +240,14 @@ const share = () => {
             </view>
             <view>
               有效期:
-              {{ removeT(props.data.couponBeginDate) + ' 至 ' + removeT(props.data.couponEndDate) }}
+              <template v-if="changeDate(props.data.couponBeginDate)">
+                {{ changeDate(props.data.couponBeginDate) }}
+              </template>
+              <template v-else>
+                {{
+                  removeT(props.data.couponBeginDate) + ' 至 ' + removeT(props.data.couponEndDate)
+                }}
+              </template>
             </view>
             <view>优惠内容: {{ '满 ' + props.data.couponFillPrice + ' 元可用' }}</view>
             <view v-if="props.data.type === 3">线下进店展码核销</view>
