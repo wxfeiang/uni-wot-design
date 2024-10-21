@@ -257,7 +257,7 @@ function goTk(orderId) {
           auditNote: '同意',
         }
         const date: any = await sendRefundReview(da)
-        if (date.errCode === 'SUCCESS') {
+        if (date) {
           const da2 = {
             orderId,
             note: '',
