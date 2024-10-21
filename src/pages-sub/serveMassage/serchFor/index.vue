@@ -51,7 +51,7 @@ const search = async () => {
   }
   const params = {
     articleTitle: serchValue.value,
-    articleType: currentTypeData.value.type,
+    articleType: currentTypeData.value.value,
   }
   // 发起请求
   try {
@@ -86,21 +86,21 @@ const toDetile = (item: any) => {
 }
 const titleList = ref([
   {
-    title: '搜索页',
-    type: 0,
+    label: '搜索页',
+    value: 0,
   },
   {
-    title: '常见问题',
-    type: 7,
+    label: '常见问题',
+    value: 7,
   },
   {
-    title: '服务功能',
-    type: 2,
+    label: '服务功能',
+    value: 2,
   },
 ])
 const currentType = ref(0)
 const currentTypeData = computed(() => {
-  return titleList.value[currentType.value]
+  return titleList.value.find((item: any) => item.value === currentType.value) ?? titleList.value[0]
 })
 
 onLoad((options) => {
@@ -110,7 +110,7 @@ onLoad((options) => {
 </script>
 
 <template>
-  <dy-navbar :leftTitle="currentTypeData.title" left></dy-navbar>
+  <dy-navbar :leftTitle="currentTypeData.label" left></dy-navbar>
   <view class="p-10px">
     <view class="rounded-3px overflow-hidden bg-#C7C7C7/18 py-5px">
       <wd-search
