@@ -88,6 +88,7 @@ declare global {
   const unref: typeof import('vue')['unref']
   const useAttrs: typeof import('vue')['useAttrs']
   const useColPickerData: typeof import('../hooks/useColPickerData')['useColPickerData']
+  const useCountdown: typeof import('../hooks/useCountdown')['useCountdown']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useFilePase: typeof import('../hooks/useFilePase')['default']
@@ -103,6 +104,7 @@ declare global {
   const useSystem: typeof import('../hooks/useSystemFig')['default']
   const useSystemFig: typeof import('../hooks/useSystemFig')['default']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
+  const useTimer: typeof import('../hooks/useCountdown')['useTimer']
   const useUpdateApp: typeof import('../hooks/useUpdateApp')['default']
   const useUpload: typeof import('../hooks/useUpload')['default']
   const useUpload2: typeof import('../hooks/useUpload2')['default']
@@ -193,6 +195,7 @@ declare module 'vue' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useColPickerData: UnwrapRef<typeof import('../hooks/useColPickerData')['useColPickerData']>
+    readonly useCountdown: UnwrapRef<typeof import('../hooks/useCountdown')['useCountdown']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>

@@ -15,11 +15,12 @@ import logo from '@/static/images/sblogo.png'
 import { useUserStore } from '@/store'
 import { dataDesensitization, getBack, routeTo } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
-import { useCaptcha, useRequest } from 'alova/client'
+import { useRequest } from 'alova/client'
 import { useMessage } from 'wot-design-uni'
 import stkts from '../static/image/sbkts.png'
 const { userInfo } = useUserStore()
 const message = useMessage()
+
 const opts = ref({
   lineColor: '#000000',
   fontSize: 20,
@@ -73,24 +74,18 @@ const model = ref({
 })
 
 //  验证是否有码
-const {
-  send: sendSignValid,
-  loading: LoadingValid,
-  countdown,
-} = useCaptcha((data) => getQrcodelnit(data), {
+const { send: sendSignValid, loading: LoadingValid } = useRequest((data) => getQrcodelnit(data), {
   immediate: false,
   loading: false,
-  initialCountdown: 60,
 })
 const { send: sendGenerate } = useRequest((data) => getGenerate(data), {
   immediate: false,
   loading: false,
 })
 const generateCode = async () => {
-  countdown.value = 60
+  countdown.resetTimer()
   try {
     const data: any = await sendGenerate(model.value)
-
     cfig.value.str = data.qrCode
     logcation.value = data.siRegionName
     opts.value.value = data.qrCode
@@ -100,15 +95,11 @@ const generateCode = async () => {
   }
 }
 
-watch(
-  () => countdown.value,
-  () => {
-    if (countdown.value === 0) {
-      generateCode()
-    }
-  },
-  { deep: true },
-)
+const countdown = useCountdown(60, (remainingSeconds) => {
+  if (remainingSeconds === 0) {
+    generateCode()
+  }
+})
 
 onLoad(async () => {
   try {
@@ -184,7 +175,7 @@ const barodeClick = () => {
           <view class="flex justify-center mt-10px flex-col items-center">
             <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
             <view>
-              <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
+              <text class="text-#999999 text-14px mr-10px">{{ countdown.seconds }}秒自动刷新</text>
               <wd-button type="text" @click="generateCode">手动刷新</wd-button>
             </view>
           </view>
