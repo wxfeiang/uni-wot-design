@@ -217,7 +217,7 @@ onLoad((options) => {
               ></wd-text>
               <wd-text
                 v-else-if="item.status === 25 || item.status === 20"
-                text="仅退款"
+                text="退款中"
                 size="14px"
                 color="#e3832a"
                 class=""
@@ -229,7 +229,21 @@ onLoad((options) => {
                 color="#e3832a"
                 class=""
               ></wd-text>
-              <wd-text v-else text="售后/退款" size="14px" color="#e3832a" class=""></wd-text>
+              <wd-text
+                v-else-if="item.status === 23"
+                text="退款失败"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text
+                v-else-if="item.status === 22"
+                text="退款成功"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text v-else text="已完成" size="14px" color="#e3832a" class=""></wd-text>
             </view>
           </template>
 

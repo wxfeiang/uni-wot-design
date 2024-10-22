@@ -431,6 +431,7 @@ onShow(async (options) => {
           custom-class="my-1 text-center font-bold"
         ></wd-text>
       </view>
+
       <view v-else-if="orderInfo.status === 2" class="flex justify-center items-center flex-col">
         <wd-text
           text="已完成"
