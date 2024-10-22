@@ -321,26 +321,29 @@ const footerBtns3 = ref([
 ])
 const cuButton = computed(() => {
   if (isLogined.value) {
-    console.log('🍨========', isShare.value)
     if (
       (isShare.value || shareType.value === mainTypeEmums.SHARE_COUPN) &&
       !lqStatus.value &&
       !lqError.value
     ) {
-      console.log('🍲')
       return footerBtns1.value
     } else {
-      console.log('<<<<<<<<<<<,=========')
       if (lqStatus.value) {
         console.log('🥤,=========')
         return footerBtns3.value
       } else if (lqError.value) {
         return footerBtns2.value
       } else {
-        return footerBtns1.value
+        console.log('🍖====', isShare.value)
+        if (isShare.value) {
+          return footerBtns1.value
+        } else {
+          return footerBtns3.value
+        }
       }
     }
   } else {
+    console.log('>>>>>>>>====')
     return footerBtns1.value
   }
 })

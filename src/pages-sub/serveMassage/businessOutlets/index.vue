@@ -11,7 +11,7 @@
 </route>
 
 <script lang="ts" setup>
-import defaultImg from '@/static/images/logo.png'
+import defaultImg from '@/static/images/sblogo.png'
 import { useBaseStore } from '@/store'
 import { getLocation } from '@/utils/uniapi'
 import gdyh from '../static/images/businessOutlets/gdyh.png'

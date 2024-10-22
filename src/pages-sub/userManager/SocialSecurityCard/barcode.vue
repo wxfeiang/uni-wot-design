@@ -13,32 +13,19 @@ const opts = ref({
   fontSize: 20,
   width: 2,
   textMargin: 0,
-  text: '1234567890657890',
-  value: '1234567890657890',
+  text: '',
+  value: '',
   displayValue: false,
   orientation: 'vertical', // 生成横向条形码
 })
 
-const show = ref(false)
-const rotate = ref(false)
-onMounted(() => {
-  setTimeout(() => {
-    opts.value = {
-      lineColor: '#000000',
-      fontSize: 20,
-      width: 2,
-      textMargin: 0,
-      text: '1234567890657890',
-      value: '1234567890657890',
-      displayValue: false,
-      orientation: 'vertical', // 生成横向条形码
-    }
-    show.value = true
-  }, 1000)
-})
 const barcodeBack = () => {
   uni.navigateBack()
 }
+onLoad((options) => {
+  opts.value.text = options.text
+  opts.value.value = options.text
+})
 </script>
 
 <template>
