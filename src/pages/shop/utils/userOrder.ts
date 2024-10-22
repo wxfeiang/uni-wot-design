@@ -24,9 +24,9 @@ const actions = ref<Array<any>>([
   {
     name: '上门自提',
   },
-  {
-    name: '同城配送',
-  },
+  // {
+  //   name: '同城配送',
+  // },
 ])
 
 const submit = () => {
