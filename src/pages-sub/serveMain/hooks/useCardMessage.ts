@@ -16,7 +16,7 @@ const {
   // 初始化表单数据
   resetAfterSubmiting: true,
   initialForm: {
-    xm: userInfo.userName,
+    xm: userInfo.cardName,
     zjhm: userInfo.idCardNumber,
     shbzhm: '',
   },

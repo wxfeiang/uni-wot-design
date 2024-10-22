@@ -7,7 +7,7 @@ import cloneDeep from 'lodash-es/cloneDeep'
 const read = ref(0)
 const { userInfo } = useUserStore()
 const serchData = ref({
-  xm: userInfo.userName,
+  xm: userInfo.cardName,
   zjhm: userInfo.idCardNumber,
   zjlx: '1',
   zkType: '1',
@@ -35,7 +35,7 @@ const modelPhoto = ref({
 // 卡信息提交
 const model = ref({
   // 代办人信息
-  dbrName: userInfo.userName,
+  dbrName: userInfo.cardName,
   dbrType: '',
   dbrZjhm: userInfo.idCardNumber,
   dbrSex: '',

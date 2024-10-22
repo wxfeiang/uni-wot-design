@@ -31,10 +31,10 @@ const {
   initialData: {},
   resetAfterSubmiting: true,
   initialForm: {
-    userName: userInfo.userName,
+    userName: userInfo.cardName,
     cardNumber: userInfo.idCardNumber,
     socialScCardNumber: '',
-    operator: userInfo.userName,
+    operator: userInfo.cardName,
   },
 })
 const statusDel = ref<statusTisProps>()

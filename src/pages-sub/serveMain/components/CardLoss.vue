@@ -29,7 +29,7 @@ const {
   loading: false,
   resetAfterSubmiting: true,
   initialForm: {
-    xm: userInfo.userName,
+    xm: userInfo.cardName,
     zjhm: userInfo.idCardNumber,
     zhbzkh: '',
     jbr: '',

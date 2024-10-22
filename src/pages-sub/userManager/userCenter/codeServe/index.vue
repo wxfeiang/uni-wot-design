@@ -160,7 +160,7 @@ onUnmounted(async () => {
             <view class="relative p-10px">
               <view class="">
                 <view class="text-14px py-5px">
-                  姓名：{{ encrypt(userInfo.userName, 'name', privacyStatus) }}
+                  姓名：{{ encrypt(userInfo.cardName, 'name', privacyStatus) }}
                 </view>
                 <view class="text-14px py-5px">
                   身份证号：{{ encrypt(userInfo.idCardNumber, 'cardNo', privacyStatus) }}
