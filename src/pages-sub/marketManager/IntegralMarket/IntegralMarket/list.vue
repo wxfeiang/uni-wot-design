@@ -123,15 +123,23 @@ onLoad(async () => {
               >
                 <wd-text
                   :text="'满' + item.couponFillPrice + '元可用'"
-                  size="14px"
+                  size="16px"
                   color="#ff4345"
                   custom-class="mb-2"
                 ></wd-text>
-                <wd-text
-                  :text="item.couponPrice + (item.couponType === '3' ? '折' : '元')"
-                  size="28px"
-                  color="#ff4345"
-                ></wd-text>
+                <view class="flex items-center justify-center">
+                  <wd-text
+                    :text="item.couponPrice + ' '"
+                    size="40px"
+                    custom-class="mr-1"
+                    color="#ff4345"
+                  ></wd-text>
+                  <wd-text
+                    :text="item.couponType === '3' ? '折' : '￥'"
+                    size="16px"
+                    color="#ff4345"
+                  ></wd-text>
+                </view>
 
                 <!-- <view class="mt-20px">
                   <wd-text text="100" size="42px" bold color="#ff4345"></wd-text>
@@ -141,7 +149,7 @@ onLoad(async () => {
             </view>
             <wd-img width="100%" :height="135" :src="item.goodImg" v-else />
           </view>
-          <view class="min-h-44px truncate-2 color-#999">
+          <view class="min-h-44px truncate-2 color-#000" style="font-size: 14px">
             {{ item.goodName }}
           </view>
 
@@ -206,6 +214,7 @@ onLoad(async () => {
 :deep(.duihuanBtn) {
   background: #f44d24 !important;
 }
+
 :deep(.wd-button) {
   margin: 0;
 }

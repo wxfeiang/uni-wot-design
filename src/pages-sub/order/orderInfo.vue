@@ -405,13 +405,27 @@ onShow(async (options) => {
               class=""
             ></wd-text>
             <wd-text
+              v-else-if="orderInfo.status === 23"
+              text="退款失败"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text
+              v-else-if="orderInfo.status === 22"
+              text="退款成功"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text
               v-else-if="orderInfo.status === 2"
               text="已完成"
               size="14px"
               color="#e3832a"
               class=""
             ></wd-text>
-            <wd-text v-else text="售后/退款" size="14px" color="#e3832a" class=""></wd-text>
+            <wd-text v-else text="已完成" size="14px" color="#e3832a" class=""></wd-text>
           </view>
         </template>
         <view v-for="(it, ind) in orderInfo.sysOrderItemBeans" :key="ind">
