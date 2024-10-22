@@ -76,9 +76,11 @@ const createImg = () => {
       width: '750rpx',
       margin: '0 auto',
       padding: '10px',
+      height: '1000rpx',
       borderRadius: '5px',
       position: 'relative',
-      backgroundImage: `url(${shareQbg.value})`,
+      // backgroundImage: url(${shareQbg.value})`,
+      background: '#EC542F',
       backgroundRepeat: 'no-repeat',
       // backgrounSize: '100%',
     },
@@ -164,7 +166,7 @@ const createImg = () => {
           width: '80px',
           height: '80px',
           padding: '10px',
-          margin: '20px  auto  0',
+          margin: '20px auto',
           borderRadius: '5px',
           color: '#000',
           background: '#fff',
@@ -205,7 +207,7 @@ const couponId = ref('')
 
 const btnClick2 = async (item) => {
   if (item.action === 'lq') {
-    routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil' })
+    routeTo({ url: '/pages-sub/marketManager/coupon/index' })
   } else if (item.action === 'myCoupon') {
     routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon' })
   } else if (item.action === 'uselq') {
@@ -467,7 +469,7 @@ onShareAppMessage((res) => {
         <wd-icon name="error-fill" size="30px" color="#fff" @click="showHbClose"></wd-icon>
       </view>
       <view class="bd-1px_#888 rounded-10px p-5px box-border bg-#fff">
-        <image :src="path" mode="widthFix" style="width: 320px; height: 100%"></image>
+        <image :src="path" mode="widthFix" style="width: 280px; height: 450px"></image>
       </view>
       <!-- #ifdef H5-->
       <view class="w-full mt-20px mx-[-15px]">
