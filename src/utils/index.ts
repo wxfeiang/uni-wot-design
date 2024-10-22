@@ -329,24 +329,33 @@ export function getBack() {
 export function dataDesensitization(
   data: string,
   flog = false,
-  position: 'left' | 'right' | 'center',
+  position: 'left' | 'right' | 'center' | 'last' | 'first',
 ) {
   if (!data) return ''
   if (flog) {
     return data
   } else {
-    console.log('🥖', data)
-    const l = data.length
+    const l = data.length === 2 ? 2 : data.length
     let str = '*'
     for (let i = 0; i < l - 2; i++) {
       str += '*'
     }
-
     if (position === 'left') {
       return data.replace(/^(.{1})(?:\d+)/, `$1${str}`)
     } else if (position === 'right') {
       return data.replace(/^(?:\d+)(.{1})$/, `${str}$1`)
+    } else if (position === 'last') {
+      return data.replace(/^(?:\d+)(.{4})$/, `${str}$1`)
+    } else if (position === 'first') {
+      console.log('🍫', str)
+      const dl = data.length
+      if (dl < 2) {
+        return '*' + data[data.length - 1]
+      } else {
+        return '**' + data[data.length - 1]
+      }
+    } else {
+      return data.replace(/^(.{1})(?:\d+)(.{1})$/, `$1${str}$2`)
     }
-    return data.replace(/^(.{1})(?:\d+)(.{1})$/, `$1${str}$2`)
   }
 }

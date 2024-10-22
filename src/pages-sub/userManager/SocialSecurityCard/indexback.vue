@@ -13,11 +13,11 @@ import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import { getGenerate, getQrcodelnit } from '@/service/api/cardServe'
 import logo from '@/static/images/sblogo.png'
 import { useUserStore } from '@/store'
-import { getBack, routeTo } from '@/utils'
+import { dataDesensitization, getBack, routeTo } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import { useCaptcha, useRequest } from 'alova/client'
-import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
+import stkts from '../static/image/sbkts.png'
 const { userInfo } = useUserStore()
 const message = useMessage()
 const opts = ref({
@@ -25,8 +25,8 @@ const opts = ref({
   fontSize: 20,
   width: 2,
   textMargin: 0,
-  text: '1234567890657890',
-  value: '6677878',
+  text: '',
+  value: '',
   displayValue: false,
 })
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
@@ -55,6 +55,7 @@ const textArr = ref([
 ])
 const lingdu = ref(0)
 const isShow = async () => {
+  console.log('🥗')
   routeTo({
     url: '/pages-sub/userManager/SocialSecurityCard/barcode',
     data: { isNeedPwdValid: isNeedPwdValid.value, text: opts.value.text },
@@ -79,17 +80,18 @@ const {
 } = useCaptcha((data) => getQrcodelnit(data), {
   immediate: false,
   loading: false,
-  initialCountdown: 90,
+  initialCountdown: 60,
 })
 const { send: sendGenerate } = useRequest((data) => getGenerate(data), {
   immediate: false,
   loading: false,
 })
 const generateCode = async () => {
+  countdown.value = 60
   try {
-    const data: any = await sendGenerate(model)
-    const qrcodeData = data
-    cfig.value.str = `${qs.stringify(qrcodeData)}`
+    const data: any = await sendGenerate(model.value)
+
+    cfig.value.str = data.qrCode
     logcation.value = data.siRegionName
     opts.value.value = data.qrCode
     opts.value.text = data.qrCode
@@ -110,7 +112,8 @@ watch(
 
 onLoad(async () => {
   try {
-    const data: any = await sendSignValid(model)
+    console.log('🎂', userInfo.cardName, model.value)
+    const data: any = await sendSignValid(model.value)
     console.log('🍮[data]:', data)
     if (data?.isNeedPwdValid === '0') {
       isNeedPwdValid.value = true
@@ -157,7 +160,7 @@ const barodeClick = () => {
 
 <template>
   <view v-if="!show">
-    <view class="bg-#2D69EF h-300px">
+    <view class="back">
       <dy-navbar leftTitle="电子社保卡" left isNavShow></dy-navbar>
       <view class="flex gap-5px items-center justify-center mt-15px">
         <view>
@@ -166,59 +169,49 @@ const barodeClick = () => {
         <view class="color-#fff font-600">电子社保卡</view>
       </view>
       <view class="color-#fff mt-10px pl-30px line-height-30px">
-        <view>姓名：{{ user.name }}</view>
-        <view>社会保障卡号：{{ user.shbzkh }}</view>
+        <view>姓名:{{ dataDesensitization(user.name, false, 'first') }}</view>
+        <view>社会保障号码:{{ dataDesensitization(user.shbzkh, false, 'last') }}</view>
       </view>
-    </view>
-    <view class="mt-[-120px] mb-20px px-15px">
-      <view class="bg-#fff pt-20px pb-5px rounded-10px overflow-hidden">
-        <view class="flex justify-center flex-col items-center" @click="barodeClick">
-          <dy-barcode :width="636" :option="opts"></dy-barcode>
-          <view class="color-#999 text-14px mt-[-16px]">{{ opts.value }}</view>
-        </view>
-
-        <view class="flex justify-center mt-10px flex-col items-center">
-          <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
-          <view>
-            <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
-            <wd-button type="text">手动刷新</wd-button>
+      <view class="mt-10px mb-20px px-15px">
+        <view class="bg-#fff pt-20px pb-5px rounded-10px overflow-hidden">
+          <view class="flex justify-center flex-col items-center">
+            <dy-barcode :width="636" :option="opts" @click="barodeClick"></dy-barcode>
+            <view class="color-#999 text-14px mt-[-16px]">
+              {{ dataDesensitization(opts.value, false, 'last') }}
+            </view>
           </view>
-        </view>
 
-        <view
-          class="flex justify-between items-center text-14px color-#555 bt-1px_dashed_#E2E2E2 py-10px px-15px mt-20px"
-        >
-          <view>参保地</view>
-          <view>
-            {{ logcation }}
+          <view class="flex justify-center mt-10px flex-col items-center">
+            <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
+            <view>
+              <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
+              <wd-button type="text" @click="generateCode">手动刷新</wd-button>
+            </view>
+          </view>
+
+          <view
+            class="flex justify-between items-center text-14px color-#555 bt-1px_dashed_#E2E2E2 py-10px px-15px mt-20px"
+          >
+            <view>参保地</view>
+            <view>
+              {{ logcation }}
+            </view>
           </view>
         </view>
       </view>
     </view>
   </view>
-  <!-- 横屏显示 -->
-  <!-- <wd-overlay :show="barcodeBg">
-    <view
-      class="size-full flex flex-col justify-center items-center bg-#fff relative z-99"
-      @click="barcodeBg = false"
-    >
-      <view>
-        <dy-barcode :width="636" :option="opts"></dy-barcode>
-        <view class="color-#999 text-14px mt-[-5px] text-center">{{ opts.value }}</view>
-      </view>
-    </view>
-  </wd-overlay> -->
 
   <!-- 提示信息 -->
   <wd-overlay :show="show">
     <view class="size-full flex flex-col justify-center items-center bg-#fff">
-      <!-- <wd-status-tip
+      <wd-status-tip
         :image="stkts"
         :image-size="{
           height: 132,
           width: 224,
         }"
-      /> -->
+      />
       <view class="mt-20px">
         <view class="mt-10px text-center" v-for="(item, index) in textArr" :key="index">
           <wd-text :text="item" color="#555"></wd-text>
@@ -233,9 +226,8 @@ const barodeClick = () => {
   </wd-overlay>
 </template>
 
-<style>
-page {
-  background: #f7f7f7;
+<style lang="scss" scoped>
+.back {
+  background: linear-gradient(to bottom, #2d69ef 40%, transparent 40%);
 }
 </style>
-<style lang="scss" scoped></style>

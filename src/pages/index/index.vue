@@ -58,6 +58,9 @@ async function actionTop2(item: any) {
     if (!item.specialJump) {
       toast.show('功能开发中，敬请期待!...')
     } else {
+      if (item.specialJump.indexOf('/pages/serve/index') > -1) {
+        return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.SWITCH_TAB })
+      }
       return routeTo({ url: item.specialJump, navType: NAVIGATE_TYPE.NAVIGATE_TO })
     }
   }

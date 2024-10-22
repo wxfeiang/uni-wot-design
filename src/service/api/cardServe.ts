@@ -36,8 +36,7 @@ const GET_SIGN_PARAM = baseUrlApi('/card/app/getSignParam')
 
 const GET_BRANCHES_INFO_SELECT = baseUrlApi('/card/app/getBranchesInfoSelect')
 
-const QRCODELNIT = baseUrlApi('/member/applications/csb/qrcodelnit')
-
+const QRCODELNIT = baseUrlApi('/member/applications/csb/qrcodeInit')
 const GET_GENERATE = baseUrlApi('/member/applications/csb/getGenerate')
 
 /**
@@ -345,7 +344,9 @@ export function getBranchesInfoSlect<T>(data: any) {
  */
 export function getQrcodelnit(data) {
   const meta: METHOD_INSTANCE = {
+    ignorEencrypt: true,
     loading: true,
+    Analysis: true,
   }
   return request.Post(QRCODELNIT, data, {
     meta,
@@ -358,6 +359,8 @@ export function getQrcodelnit(data) {
 export function getGenerate(data) {
   const meta: METHOD_INSTANCE = {
     loading: false,
+    ignorEencrypt: true,
+    Analysis: true,
   }
   return request.Post(GET_GENERATE, data, {
     meta,
