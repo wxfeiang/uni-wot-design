@@ -347,13 +347,7 @@ export function dataDesensitization(
     } else if (position === 'last') {
       return data.replace(/^(?:\d+)(.{4})$/, `${str}$1`)
     } else if (position === 'first') {
-      console.log('🍫', str)
-      const dl = data.length
-      if (dl < 2) {
-        return '*' + data[data.length - 1]
-      } else {
-        return '**' + data[data.length - 1]
-      }
+      return str + data[data.length - 1]
     } else {
       return data.replace(/^(.{1})(?:\d+)(.{1})$/, `$1${str}$2`)
     }

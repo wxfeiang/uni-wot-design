@@ -66,7 +66,7 @@ const iconColse = ref(false)
         <template #value>
           <view @click="iconColse = !iconColse">
             <wd-icon
-              :name="iconColse ? 'eye-close' : 'view'"
+              :name="iconColse ? 'view' : 'eye-close'"
               size="20px"
               :color="iconColse ? '#666' : '#2D69EF'"
             ></wd-icon>
@@ -74,7 +74,7 @@ const iconColse = ref(false)
         </template>
         <wd-cell
           title="姓名"
-          :value="dataDesensitization(userInfo.cardName, iconColse, 'left')"
+          :value="dataDesensitization(userInfo.cardName, iconColse, 'first')"
           border
         ></wd-cell>
         <wd-cell title="证件类型" value="身份证" border></wd-cell>

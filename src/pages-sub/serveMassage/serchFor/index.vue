@@ -17,6 +17,7 @@ import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import kong from '../static/images/kong.png'
+import quest from '../static/images/quest.png'
 const { historySearch } = storeToRefs(useBaseStore())
 
 const serchValue = ref('')
@@ -45,8 +46,8 @@ const {
   },
 })
 
-const search = async () => {
-  if (serchValue.value.length === 0) {
+async function search() {
+  if (serchValue.value.length === 0 && currentType.value !== 7) {
     return
   }
   const params = {
@@ -106,6 +107,11 @@ const currentTypeData = computed(() => {
 onLoad((options) => {
   console.log('🥩[options]:', options)
   currentType.value = Number(options.type) ?? 0
+
+  if (currentType.value === 7) {
+    console.log('🍶')
+    search()
+  }
 })
 </script>
 
@@ -148,7 +154,8 @@ onLoad((options) => {
       :key="index"
       @click="toDetile(item)"
     >
-      <wd-icon name="search" size="16px" color="#A7A7A7"></wd-icon>
+      <wd-icon name="search" size="16px" color="#A7A7A7" v-if="currentType !== 7"></wd-icon>
+      <wd-img :src="quest" width="24px" height="24px" v-else></wd-img>
       <view class="flex-1 text-16px truncate-1">{{ item.articleTitle }}</view>
       <wd-icon name="arrow-right" size="16px" color="#A7A7A7"></wd-icon>
     </view>
@@ -164,7 +171,10 @@ onLoad((options) => {
     />
   </view>
   <!-- history -->
-  <view class="px-20px mt-10px" v-if="historySearch && serchValue.length === 0">
+  <view
+    class="px-20px mt-10px"
+    v-if="historySearch && serchValue.length === 0 && currentType !== 7"
+  >
     <view class="flex justify-between items-center">
       <view class="text-16px font-semibold">历史搜索</view>
       <view @click="cleatHistory">
