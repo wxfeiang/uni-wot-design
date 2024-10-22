@@ -58,10 +58,31 @@ onLoad(async (option) => {
 <template>
   <view class="min-h-100vh bg-#f3f4f6">
     <view class="top-bg">
-      <dy-navbar :leftTitle="title" left isNavShow :placeholder="false"></dy-navbar>
+      <dy-navbar :leftTitle="title" left></dy-navbar>
       <!-- <view class="w-full h-200px flex justify-between items-baseline px-20px box-border pt-70px"> -->
-      <view class="w-full h-200px flex justify-center items-center px-20px box-border">
-        <wd-text :text="goodsInfoData.exchangeNotes" size="28px" bold color="#FF4345"></wd-text>
+      <view class="w-full h-200px flex justify-between items-center px-20px box-border">
+        <!--        <wd-text :text="goodsInfoData.exchangeNotes" size="28px" bold color="#FF4345"></wd-text>-->
+        <view class="w-full flex justify-between items-baseline">
+          <view class="flex items-baseline justify-center">
+            <wd-text
+              :text="goodsInfoData.couponPrice"
+              size="40px"
+              custom-class="mr-1"
+              color="#ff4345"
+            ></wd-text>
+            <wd-text
+              :text="goodsInfoData.couponType === '3' ? '折' : '￥'"
+              size="16px"
+              color="#ff4345"
+            ></wd-text>
+          </view>
+          <wd-text
+            :text="'满' + goodsInfoData.couponFillPrice + '元可用'"
+            size="16px"
+            color="#ff4345"
+            custom-class="mb-2"
+          ></wd-text>
+        </view>
         <!-- <view>
           <wd-text text="2000" size="68px" bold color="#FF4345"></wd-text>
           <wd-text text="￥" size="28px" bold color="#FF4345"></wd-text>
@@ -77,7 +98,7 @@ onLoad(async (option) => {
       <view class="flex justify-between items-center w-full mb-2">
         <view class="flex justify-left items-center">
           <wd-text
-            :text="goodsInfoData.coinPrice + ''"
+            :text="goodsInfoData.coinPrice"
             :lines="1"
             size="24px"
             color="#FB2549"
@@ -240,7 +261,8 @@ onLoad(async (option) => {
 </template>
 <style lang="scss" scoped>
 .top-bg {
-  background-image: url(../../static/images/integral/quanbg.png);
+  //background-image: url(../../static/images/integral/quanbg.png);
+  background: linear-gradient(200deg, #ffdfdf, #fff3e6);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 120% 100%;
@@ -248,12 +270,7 @@ onLoad(async (option) => {
 
 :deep(.wd-navbar) {
   width: 100%;
-  color: #ffffff !important;
   background-color: transparent !important;
-}
-
-:deep(.wd-navbar__title) {
-  color: #ffffff !important;
 }
 
 .cardtop {

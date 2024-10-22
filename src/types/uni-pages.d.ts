@@ -16,31 +16,31 @@ interface NavigateToOptions {
        "/pages/pay/sacnResult" |
        "/pages/serve/index" |
        "/pages/shop/index" |
-       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMain/cardApplyFromType" |
        "/pages-sub/serveMain/cardApplyType" |
        "/pages-sub/serveMain/cardFromType" |
        "/pages-sub/serveMain/cardMessType" |
        "/pages-sub/serveMain/jinrongType" |
+       "/pages-sub/serveMain/OcrCamera" |
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/webView/index" |
-       "/pages-sub/system/sysconfig/cancePhone" |
        "/pages-sub/system/sysconfig/cancellation" |
+       "/pages-sub/system/sysconfig/cancePhone" |
        "/pages-sub/system/sysconfig/index" |
        "/pages-sub/system/sysconfig/setting" |
        "/pages-sub/system/userInfo/index" |
-       "/pages-sub/userManager/SocialSecurityCard/barcode" |
-       "/pages-sub/userManager/SocialSecurityCard/detil" |
-       "/pages-sub/userManager/SocialSecurityCard/index" |
-       "/pages-sub/userManager/SocialSecurityCard/indexback" |
        "/pages-sub/userManager/address/editor" |
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
        "/pages-sub/userManager/collection/collection" |
        "/pages-sub/userManager/collection/follow" |
+       "/pages-sub/userManager/SocialSecurityCard/barcode" |
+       "/pages-sub/userManager/SocialSecurityCard/detil" |
+       "/pages-sub/userManager/SocialSecurityCard/index" |
+       "/pages-sub/userManager/SocialSecurityCard/indexback" |
        "/pages-sub/userManager/userCenter/user" |
        "/pages-sub/userManager/userCenter/codeServe/index" |
        "/pages-sub/userManager/userCenter/myMessage/massage" |
