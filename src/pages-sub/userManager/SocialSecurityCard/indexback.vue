@@ -95,11 +95,15 @@ const generateCode = async () => {
   }
 }
 
-const countdown = useCountdown(60, (remainingSeconds) => {
-  if (remainingSeconds === 0) {
-    generateCode()
-  }
-})
+const countdown = useCountdown(
+  60,
+  (remainingSeconds) => {
+    if (remainingSeconds === 0) {
+      generateCode()
+    }
+  },
+  false,
+)
 
 onLoad(async () => {
   try {
@@ -109,6 +113,7 @@ onLoad(async () => {
     if (data?.isNeedPwdValid === '0') {
       isNeedPwdValid.value = true
       // 调用二维码展示
+      countdown.startTimer()
       generateCode()
     } else {
       message

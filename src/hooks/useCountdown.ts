@@ -1,6 +1,6 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 
-export function useCountdown(initialSeconds: number, onTick: (arg0: number) => void) {
+export function useCountdown(initialSeconds: number, onTick: (arg0: number) => void, auto = true) {
   const seconds = ref(initialSeconds)
   const timerId: any = ref(null)
   const isActive = ref(false)
@@ -33,7 +33,7 @@ export function useCountdown(initialSeconds: number, onTick: (arg0: number) => v
   }
 
   onMounted(() => {
-    if (initialSeconds > 0) {
+    if (initialSeconds > 0 && auto) {
       startTimer()
     }
   })
