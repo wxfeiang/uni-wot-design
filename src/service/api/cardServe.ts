@@ -36,6 +36,10 @@ const GET_SIGN_PARAM = baseUrlApi('/card/app/getSignParam')
 
 const GET_BRANCHES_INFO_SELECT = baseUrlApi('/card/app/getBranchesInfoSelect')
 
+const QRCODELNIT = baseUrlApi('/member/applications/csb/qrcodelnit')
+
+const GET_GENERATE = baseUrlApi('/member/applications/csb/getGenerate')
+
 /**
  *  卡基础信息查询
  * @param params 初始参数()
@@ -332,6 +336,30 @@ export function getBranchesInfoSlect<T>(data: any) {
   }
 
   return request.Post<T>(GET_BRANCHES_INFO_SELECT, data, {
+    meta,
+  })
+}
+
+/**
+ * 电子社保卡 验码
+ */
+export function getQrcodelnit(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(QRCODELNIT, data, {
+    meta,
+  })
+}
+
+/**
+ * 电子社保卡 验码
+ */
+export function getGenerate(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: false,
+  }
+  return request.Post(GET_GENERATE, data, {
     meta,
   })
 }

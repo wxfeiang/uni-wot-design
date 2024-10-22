@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -8,39 +9,43 @@
 </route>
 
 <script lang="ts" setup>
-import { useRequest } from 'alova/client'
-
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
-import { getSignValid } from '@/service/api/cardServe'
-import logo from '@/static/images/logo.png'
-import { routeTo } from '@/utils'
+import { getGenerate, getQrcodelnit } from '@/service/api/cardServe'
+import logo from '@/static/images/sblogo.png'
+import { useUserStore } from '@/store'
+import { getBack, routeTo } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
-const { sendPhoneCode, countdown, sending } = usePhoneCode()
+import { useCaptcha, useRequest } from 'alova/client'
+import qs from 'qs'
+import { useMessage } from 'wot-design-uni'
+const { userInfo } = useUserStore()
+const message = useMessage()
 const opts = ref({
   lineColor: '#000000',
   fontSize: 20,
   width: 2,
   textMargin: 0,
   text: '1234567890657890',
-  value: '1234567890657890',
+  value: '6677878',
   displayValue: false,
 })
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
-const str = ref<any>('')
+
+const isNeedPwdValid = ref(false)
 
 const cfig = ref()
 cfig.value = {
   logoImage: logo,
-  str: str.value,
+  str: '',
   logoWidth: 60,
   logoHeight: 60,
   size: 440,
 }
-const barcodeBg = ref(false)
-const logcation = ref('北京市')
+
+const logcation = ref('')
 const user = ref({
-  name: '张三',
-  shbzkh: '1234567890657890',
+  name: userInfo.cardName,
+  shbzkh: userInfo.idCardNumber,
 })
 const show = ref(false)
 const textArr = ref([
@@ -50,66 +55,98 @@ const textArr = ref([
 ])
 const lingdu = ref(0)
 const isShow = async () => {
-  routeTo({ url: '/pages-sub/userManager/SocialSecurityCard/barcode' })
+  routeTo({
+    url: '/pages-sub/userManager/SocialSecurityCard/barcode',
+    data: { isNeedPwdValid: isNeedPwdValid.value, text: opts.value.text },
+  })
   show.value = !show.value
 }
-const sendTiem = ref(60)
-let timer = null
-const incrementCount = () => {
-  timer = setInterval(() => {
-    if (sendTiem.value > 0) {
-      sendTiem.value--
-    } else {
-      // 刷新二维码请求
-      sendTiem.value = 60
-    }
-  }, 1000)
-}
-function disableScreenCapture() {
-  // 判断当前环境是否支持setScreenCaptured方法
-  // uni.setUserCaptureScreen({
-  //   enable: false,
-  //   success: (res) => {
-  //     console.log('setUserCaptureScreen success: ' + JSON.stringify(res))
-  //   },
-  //   fail: (res) => {
-  //     console.log('setUserCaptureScreen fail: ' + JSON.stringify(res))
-  //   },
-  //   complete: (res) => {
-  //     console.log('setUserCaptureScreen complete: ' + JSON.stringify(res))
-  //   },
-  // })
-}
 
-const { send: sendSignValid, loading: LoadingValid } = useRequest((data) => getSignValid(data), {
+const model = ref({
+  // aac002: '321087197912280054',
+  // aac003: '王冬',
+  // deviceId: '',
+  aac002: userInfo.idCardNumber,
+  aac003: userInfo.cardName,
+  deviceId: '',
+})
+
+//  验证是否有码
+const {
+  send: sendSignValid,
+  loading: LoadingValid,
+  countdown,
+} = useCaptcha((data) => getQrcodelnit(data), {
+  immediate: false,
+  loading: false,
+  initialCountdown: 90,
+})
+const { send: sendGenerate } = useRequest((data) => getGenerate(data), {
   immediate: false,
   loading: false,
 })
+const generateCode = async () => {
+  try {
+    const data: any = await sendGenerate(model)
+    const qrcodeData = data
+    cfig.value.str = `${qs.stringify(qrcodeData)}`
+    logcation.value = data.siRegionName
+    opts.value.value = data.qrCode
+    opts.value.text = data.qrCode
+  } catch (error) {
+    console.log('🦑[error]:', error)
+  }
+}
 
 watch(
   () => countdown.value,
   () => {
     if (countdown.value === 0) {
-      sendPhoneCode()
+      generateCode()
     }
   },
   { deep: true },
 )
 
+onLoad(async () => {
+  try {
+    const data: any = await sendSignValid(model)
+    console.log('🍮[data]:', data)
+    if (data?.isNeedPwdValid === '0') {
+      isNeedPwdValid.value = true
+      // 调用二维码展示
+      generateCode()
+    } else {
+      message
+        .alert({
+          title: '提示',
+          msg: data?.msg,
+          closeOnClickModal: false,
+        })
+        .then((res) => {
+          getBack()
+        })
+    }
+  } catch (error) {
+    message
+      .alert({
+        title: '提示',
+        msg: error?.msg || '服务异常!',
+        closeOnClickModal: false,
+      })
+      .then((res) => {
+        getBack()
+      })
+  }
+})
 onMounted(async () => {
-  incrementCount()
-  disableScreenCapture()
-  sendPhoneCode()
   lingdu.value = (await usegetScreenBrightness()) as number
-
   setTimeout(async () => {
     await useSetScreenBrightness(1)
     await useSetKeepScreenOn(true)
   }, 3000)
 })
 onUnmounted(async () => {
-  timer && clearInterval(timer)
-
   await useSetKeepScreenOn(false)
   await useSetScreenBrightness(lingdu.value + 0.05)
 })

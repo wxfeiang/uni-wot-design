@@ -50,8 +50,8 @@ const topAction = ref([
   {
     icon: dzsbk,
     text: '电子社保卡',
-    type: 'router2222222',
-    path: '/pages-sub/userManager/SocialSecurityCard/index',
+    type: 'router',
+    path: '/pages-sub/userManager/SocialSecurityCard/indexback',
   },
 
   {
