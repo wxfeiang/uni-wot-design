@@ -76,9 +76,11 @@ const createImg = () => {
       width: '750rpx',
       margin: '0 auto',
       padding: '10px',
+      height: '1000rpx',
       borderRadius: '5px',
       position: 'relative',
-      backgroundImage: `url(${shareQbg.value})`,
+      // backgroundImage: url(${shareQbg.value})`,
+      background: '#EC542F',
       backgroundRepeat: 'no-repeat',
       // backgrounSize: '100%',
     },
@@ -106,9 +108,9 @@ const createImg = () => {
         css: {
           display: 'block',
           textAlign: 'center',
-          padding: '20px',
+          padding: '20px 0',
           color: '#fff',
-          fontSize: '20px',
+          fontSize: '30px',
         },
       },
       {
@@ -122,13 +124,12 @@ const createImg = () => {
         views: [
           {
             text: couponPrice,
-            // text: 20,
             type: 'text',
             css: {
               color: '#FFECBA',
               fontSize: '80px',
               fontWeight: '600',
-              lineHeight: '20px',
+              lineHeight: '100px',
               verticalAlign: 'bottom',
             },
           },
@@ -139,7 +140,7 @@ const createImg = () => {
               color: '#FFECBA',
               fontSize: '30px',
               fontWeight: '600',
-              lineHeight: '20px',
+              lineHeight: '50px',
               verticalAlign: 'bottom',
             },
           },
@@ -154,7 +155,7 @@ const createImg = () => {
           textAlign: 'center',
           padding: '20px 0',
           color: '#FFECBA',
-          fontSize: '14px',
+          fontSize: '30px',
         },
       },
       {
@@ -164,7 +165,7 @@ const createImg = () => {
           width: '80px',
           height: '80px',
           padding: '10px',
-          margin: '20px  auto  0',
+          margin: '20px auto',
           borderRadius: '5px',
           color: '#000',
           background: '#fff',
@@ -200,12 +201,13 @@ const showHbClose = () => {
   show.value = false
 }
 
-const lqStatus = ref(false)
+const lqStatus = ref(false) // 是否领取
+const lqError = ref(false) // 领取失败
 const couponId = ref('')
 
 const btnClick2 = async (item) => {
   if (item.action === 'lq') {
-    routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil' })
+    routeTo({ url: '/pages-sub/marketManager/coupon/index' })
   } else if (item.action === 'myCoupon') {
     routeTo({ url: '/pages-sub/marketManager/coupon/mycoupon' })
   } else if (item.action === 'uselq') {
@@ -229,12 +231,18 @@ const btnClick2 = async (item) => {
           lqStatus.value = true
         }
       } catch (error) {
-        lqStatus.value = false
+        if (error?.data?.msg === '已领取') {
+          lqStatus.value = true
+        } else {
+          console.log('🍡------')
+          lqStatus.value = false
+          // 异常 处理后
+          lqError.value = true
+        }
       }
     }
   } else if (item.action === 'useCoupon') {
     // 点击分享
-
     if (couponInfoData.value.type === 1) {
       const resData: any = await useScancode({ onlyFromCamera: true })
       const { status, url } = sceneResult(resData)
@@ -280,6 +288,17 @@ const footerBtns1 = ref([
     customClass: 'custom-class-mine-error',
   },
 ])
+const footerBtns2 = ref([
+  {
+    text: '领券中心',
+    size: 'medium',
+    round: false,
+    plain: true,
+    type: 'error',
+    action: 'lq',
+    customClass: 'custom-class-error-dyplain',
+  },
+])
 
 const footerBtns3 = ref([
   {
@@ -303,13 +322,20 @@ const footerBtns3 = ref([
 const cuButton = computed(() => {
   if (isLogined.value) {
     console.log('🍨========', isShare.value)
-    if ((isShare.value || shareType.value === mainTypeEmums.SHARE_COUPN) && !lqStatus.value) {
+    if (
+      (isShare.value || shareType.value === mainTypeEmums.SHARE_COUPN) &&
+      !lqStatus.value &&
+      !lqError.value
+    ) {
       console.log('🍲')
       return footerBtns1.value
     } else {
+      console.log('<<<<<<<<<<<,=========')
       if (lqStatus.value) {
         console.log('🥤,=========')
         return footerBtns3.value
+      } else if (lqError.value) {
+        return footerBtns2.value
       } else {
         return footerBtns1.value
       }
@@ -467,7 +493,7 @@ onShareAppMessage((res) => {
         <wd-icon name="error-fill" size="30px" color="#fff" @click="showHbClose"></wd-icon>
       </view>
       <view class="bd-1px_#888 rounded-10px p-5px box-border bg-#fff">
-        <image :src="path" mode="widthFix" style="width: 320px; height: 100%"></image>
+        <image :src="path" mode="widthFix" style="width: 280px; height: 450px"></image>
       </view>
       <!-- #ifdef H5-->
       <view class="w-full mt-20px mx-[-15px]">

@@ -74,7 +74,7 @@ const iconColse = ref(false)
         </template>
         <wd-cell
           title="姓名"
-          :value="dataDesensitization(userInfo.userName, iconColse, 'left')"
+          :value="dataDesensitization(userInfo.cardName, iconColse, 'left')"
           border
         ></wd-cell>
         <wd-cell title="证件类型" value="身份证" border></wd-cell>

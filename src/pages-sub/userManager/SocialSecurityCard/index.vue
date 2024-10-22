@@ -29,7 +29,7 @@ const sendSignValidFun = async () => {
     channelNo: '1331000204', // 前端可不传
     signNo: '', // 渠道号
     aac002: userInfo.value.idCardNumber,
-    aac003: userInfo.value.userName,
+    aac003: userInfo.value.cardName,
     aab301: '',
     isWeb: '1', // 默认1
     isWebView: '',
@@ -77,7 +77,7 @@ const getSignValidH5 = async (data) => {
       channelNo: '1331000204', // 前端可不传
       signNo: data.signNo, // 渠道号
       aac002: userInfo.value.idCardNumber,
-      aac003: userInfo.value.userName,
+      aac003: userInfo.value.cardName,
       aab301: '',
       isWeb: '1', // 默认1
       isWebView: '',
@@ -102,7 +102,7 @@ const getSignValidH5 = async (data) => {
       channelNo: '1331000204', // 前端可不传
       signNo: '', // 渠道号
       aac002: userInfo.value.idCardNumber,
-      aac003: userInfo.value.userName,
+      aac003: userInfo.value.cardName,
       aab301: '',
       isWeb: '1', // 默认1
       isWebView: '',

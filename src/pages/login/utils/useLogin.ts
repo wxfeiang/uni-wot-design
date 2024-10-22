@@ -324,7 +324,7 @@ const submitUpRealsfz = async (flog) => {
       const data = authStore.userInfo
       const newData = {
         idCardNumber: model.value.password,
-        userName: model.value.username,
+        cardName: model.value.username,
       }
       uni.showLoading({ title: '认证成功' })
       await resultData({ ...data, ...newData }, flog)
@@ -353,7 +353,7 @@ const resultData = async (data, flog = 2) => {
   if (data?.idCardNumber && flog !== 0) {
     try {
       const params = {
-        xm: authStore.userInfo.userName,
+        xm: authStore.userInfo.cardName,
         zjhm: authStore.userInfo.idCardNumber,
         zjlx: '1',
         zkType: '1',

@@ -22,7 +22,7 @@ const {
   resetAfterSubmiting: true,
   // 初始化表单数据
   initialForm: {
-    xm: userInfo.userName,
+    xm: userInfo.cardName,
     zjhm: userInfo.idCardNumber,
     // xm: '王冬',
     // zjhm: '321087197912280054',
@@ -55,7 +55,7 @@ const {
   loading: false,
   // 初始化表单数据
   initialForm: {
-    xm: userInfo.userName,
+    xm: userInfo.cardName,
     zjhm: userInfo.idCardNumber,
     // xm: '王冬',
     // zjhm: '321087197912280054',

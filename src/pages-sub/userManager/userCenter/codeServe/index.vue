@@ -13,6 +13,7 @@ import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import { Constant } from '@/enums/constant'
 import logo from '@/static/images/logo.png'
 import { useUserStore } from '@/store'
+import { dataDesensitization } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import qs from 'qs'
 import stkts from '../static/images/sbkts.png'
@@ -160,10 +161,12 @@ onUnmounted(async () => {
             <view class="relative p-10px">
               <view class="">
                 <view class="text-14px py-5px">
-                  姓名：{{ encrypt(userInfo.userName, 'name', privacyStatus) }}
+                  姓名：{{ dataDesensitization(userInfo.cardName, privacyStatus, 'left') }}
                 </view>
                 <view class="text-14px py-5px">
-                  身份证号：{{ encrypt(userInfo.idCardNumber, 'cardNo', privacyStatus) }}
+                  身份证号：{{
+                    dataDesensitization(userInfo.idCardNumber, privacyStatus, 'center')
+                  }}
                 </view>
               </view>
               <view class="absolute right-15px top-5px">

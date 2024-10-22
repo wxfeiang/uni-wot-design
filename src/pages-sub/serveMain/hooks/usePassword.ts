@@ -1,12 +1,12 @@
 import { useUserStore } from '@/store/user'
 const { userInfo } = useUserStore()
 const model = ref({
-  userName: userInfo.userName,
+  userName: userInfo.cardName,
   cardNumber: userInfo.idCardNumber,
   socialScCardNumber: '',
   password: '',
   resetPassword: '',
-  operator: userInfo.userName,
+  operator: userInfo.cardName,
 })
 const rules = {
   userName: [{ required: true, message: '请输入姓名' }],

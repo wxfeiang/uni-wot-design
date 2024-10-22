@@ -31,7 +31,7 @@ const {
   // 初始化表单数据
   resetAfterSubmiting: true,
   initialForm: {
-    xm: userInfo.userName,
+    xm: userInfo.cardName,
     zjhm: userInfo.idCardNumber,
     shbzhm: '',
   },
@@ -65,7 +65,7 @@ const {
 } = useForm(
   (formData) => {
     const params = {
-      name: userInfo.userName,
+      name: userInfo.cardName,
       idCardNumber: userInfo.idCardNumber,
       address: formData.address,
       phoneNumber: formData.phone,

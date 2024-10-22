@@ -8,7 +8,7 @@ import { statusTisProps } from '../types/types'
 const read = ref(0)
 const { userInfo } = useUserStore()
 const serchData = ref({
-  xm: userInfo.userName,
+  xm: userInfo.cardName,
   zjhm: userInfo.idCardNumber,
   zjlx: '1',
   zkType: '1',
@@ -45,7 +45,7 @@ const modelPhoto = ref({
 const bankBranchList = []
 // 补卡信息提交
 const model = ref({
-  name: userInfo.userName,
+  name: userInfo.cardName,
   idCardNumber: userInfo.idCardNumber,
   sex: userInfo.sex || 0,
   nation: '01',
