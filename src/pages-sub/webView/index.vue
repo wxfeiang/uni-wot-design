@@ -22,14 +22,17 @@ function handleClickLeft() {
 }
 
 const remark = ref(null)
-const showTop = ref(1)
+const showTop = ref(1) // 是否显示顶部
 const title = ref()
-const showType = ref()
+const showType = ref() // webView banner message
 const webUrl = ref('')
+const showTime = ref(true) // 是否显示时间
 const cuurentData = ref<any>({})
 onLoad(async (options) => {
   showType.value = options.showType
   showTop.value = options.showTop
+
+  showTime.value = !options.showTime
   title.value = options.title ? decodeURIComponent(options.title) : '详情'
   if (showType.value === 'webView') {
     webUrl.value = decodeURIComponent(options.url)
@@ -62,7 +65,7 @@ onLoad(async (options) => {
         <view class="line-height-40px text-26px">
           {{ cuurentData.articleTitle || cuurentData.title || cuurentData.shopHdTitle }}
         </view>
-        <view class="flex justify-center gap-20px mt-10px">
+        <view class="flex justify-center gap-20px mt-10px" v-if="showTime">
           <view class="text-center color-#999 font-size-12px line-height-20px">
             来源： {{ remark || '一卡通平台' }}
           </view>
