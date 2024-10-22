@@ -106,7 +106,7 @@ const createImg = () => {
         css: {
           display: 'block',
           textAlign: 'center',
-          padding: '0 0 20px',
+          padding: '20px',
           color: '#fff',
           fontSize: '20px',
         },
@@ -152,7 +152,7 @@ const createImg = () => {
         css: {
           display: 'block',
           textAlign: 'center',
-          padding: '10px 0',
+          padding: '20px 0',
           color: '#FFECBA',
           fontSize: '14px',
         },
@@ -164,7 +164,7 @@ const createImg = () => {
           width: '80px',
           height: '80px',
           padding: '10px',
-          margin: '0 auto',
+          margin: '20px  auto  0',
           borderRadius: '5px',
           color: '#000',
           background: '#fff',
@@ -199,6 +199,10 @@ const showHbClose = () => {
   showHb.value = false
   show.value = false
 }
+
+const lqStatus = ref(false)
+const couponId = ref('')
+
 const btnClick2 = async (item) => {
   if (item.action === 'lq') {
     routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil' })
@@ -221,8 +225,12 @@ const btnClick2 = async (item) => {
           setTimeout(() => {
             Toast('领取成功')
           }, 50)
+          // 改变按钮显示
+          lqStatus.value = true
         }
-      } catch (error) {}
+      } catch (error) {
+        lqStatus.value = false
+      }
     }
   } else if (item.action === 'useCoupon') {
     // 点击分享
@@ -272,25 +280,7 @@ const footerBtns1 = ref([
     customClass: 'custom-class-mine-error',
   },
 ])
-const footerBtns2 = ref([
-  {
-    text: '我的优惠券',
-    size: 'medium',
-    round: false,
-    plain: true,
-    type: 'error',
-    action: 'myCoupon',
-    customClass: 'custom-class-error-dyplain',
-  },
-  // {
-  //   text: '立即使用',
-  //   size: 'medium',
-  //   round: false,
-  //   type: 'error',
-  //   action: 'useCoupon',
-  //   customClass: 'custom-class-mine-error',
-  // },
-])
+
 const footerBtns3 = ref([
   {
     text: '我的优惠券',
@@ -310,7 +300,24 @@ const footerBtns3 = ref([
     customClass: 'custom-class-mine-error',
   },
 ])
-
+const cuButton = computed(() => {
+  if (isLogined.value) {
+    console.log('🍨========', isShare.value)
+    if ((isShare.value || shareType.value === mainTypeEmums.SHARE_COUPN) && !lqStatus.value) {
+      console.log('🍲')
+      return footerBtns1.value
+    } else {
+      if (lqStatus.value) {
+        console.log('🥤,=========')
+        return footerBtns3.value
+      } else {
+        return footerBtns1.value
+      }
+    }
+  } else {
+    return footerBtns1.value
+  }
+})
 const handleClose = () => {
   show.value = false
 }
@@ -321,21 +328,7 @@ const wexinClick = () => {
     console.log('🍲')
   }
 }
-const couponId = ref('')
-const footbtn = computed(() => {
-  if (isLogined.value) {
-    console.log('🍨========', isShare.value)
-    if (isShare.value || shareType.value === mainTypeEmums.SHARE_COUPN) {
-      console.log('🍲')
-      return footerBtns2.value
-    } else {
-      console.log('🍡')
-      return footerBtns3.value
-    }
-  } else {
-    return footerBtns1.value
-  }
-})
+
 onLoad(async (options) => {
   isShare.value = Number(options.isMain) === 1
   shareType.value = options.type
@@ -367,11 +360,13 @@ onLoad(async (options) => {
 onShareAppMessage((res) => {
   if (res.from === 'button') {
     show.value = false
+    const path = sharePath.value + `?type=${mainTypeEmums.SHARE_COUPN}&couponId=${couponId.value}`
+    console.log('🍣[path]:', path)
     return {
       title: VITE_APP_LOGOTITLE,
       desc: '我抢到优惠券啦!快来一起抢，名额有限!',
       imageUrl: shareQbg2.value,
-      path: sharePath.value + `?type=${mainTypeEmums.SHARE_COUPN}&couponId=${couponId.value}`,
+      path,
       complete: () => {
         handleClose()
       },
@@ -414,7 +409,7 @@ onShareAppMessage((res) => {
     </view>
     <view class="fixed bottom-3 left-0 right-0 px-20px">
       <view class="flex gap-15px mt-20px">
-        <view class="flex-1" v-for="(item, index) in footbtn" :key="index">
+        <view class="flex-1" v-for="(item, index) in cuButton" :key="index">
           <wd-button
             :round="item.round"
             block

@@ -17,9 +17,8 @@ import msgicon from '@/static/images/index/msgicon.png'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
 import { useUserStore } from '@/store/user'
-import { removeT, routeTo, sceneResult } from '@/utils'
+import { routeTo, sceneResult } from '@/utils'
 import { openWxChart, useScancode } from '@/utils/uniapi'
-import { pathToBase64 } from 'image-tools'
 import { storeToRefs } from 'pinia'
 import { useMessage, useToast } from 'wot-design-uni'
 import { messProps } from './utils/types'
@@ -346,7 +345,7 @@ onPageScroll((e) => {
             <wd-img :src="fwwdicon" width="40" height="43"></wd-img>
           </view>
         </view>
-        <view class="cj3 box-border p-15px flex justify-between" @click="toServhFor(1)">
+        <view class="cj3 box-border p-15px flex justify-between" @click="toServhFor(7)">
           <view class>
             <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
             <view class="bb-2px_#EC5E0C w-30px my-10px"></view>

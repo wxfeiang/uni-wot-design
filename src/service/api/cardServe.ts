@@ -62,6 +62,7 @@ export function getCardBasicInfo(data) {
 export function getCardScheduleInfo(data) {
   const meta: METHOD_INSTANCE = {
     loading: true,
+    Tips: true,
   }
 
   return request.Post(
