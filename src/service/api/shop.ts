@@ -480,7 +480,8 @@ const USE_RECORD = baseUrlApi('/promotion/app/coupon/useRecord')
 const USE_OFFLINE = baseUrlApi('/promotion/app/coupon/useOffline')
 
 const COUPON_INFO = baseUrlApi('/promotion/app/coupon/info')
-const LOG_ISTICS_INFO = baseUrlApi('/order/app/getPath')
+// const LOG_ISTICS_INFO = baseUrlApi('/order/app/getPath')
+const LOG_ISTICS_INFO = baseUrlApi('/order/app/manage/getLogistics')
 
 const GET_ORDER_INFO_JF = baseUrlApi('/promotion/app/h5/exchangeGoods/getExchangeGoodsInfo')
 const UPDATA_ORDER_STATUS = baseUrlApi('/order/app/manage/updateOrderBeanStatusById')
