@@ -9,7 +9,6 @@
 </route>
 
 <script lang="ts" setup>
-import { dataDesensitization } from '@/utils'
 const show = ref(true)
 const opts = ref({
   lineColor: '#000000',
@@ -38,7 +37,7 @@ onLoad((options) => {
       <view>
         <dy-barcode :width="636" :option="opts"></dy-barcode>
         <view class="color-#999 text-14px mt-[-5px] text-center">
-          {{ dataDesensitization(opts.value, false, 'last') }}
+          {{ opts.value }}
         </view>
       </view>
     </view>

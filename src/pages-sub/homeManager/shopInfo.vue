@@ -9,28 +9,30 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
-import { useUserStore } from '@/store'
-import shangdian from '@/static/images/shop/shangdian.png'
-import kefu from '@/static/images/shop/kefu.png'
-import gouwuche from '@/static/images/shop/gouwuche.png'
-import fenxiang from '@/static/images/shop/fenxiang.png'
-import shoucang from '@/static/images/shop/shoucang.png'
-import duihao from '@/static/images/shop/duihao.png'
-import shoucang1 from '@/static/images/shop/shoucang1.png'
-import morentouxiang from '@/pages-sub/shopManager/static/shoukuanma.png'
-
-import {
-  getGoodDetails,
-  favoritesList,
-  userFavorites,
-  unUserFavorites,
-  addCart,
-} from '@/service/api/shop'
 import vkDataGoodsSkuPopup from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup.vue'
-import { Toast, Modal } from '@/utils/uniapi/prompt'
-
-const userStore = useUserStore()
+import { Constant } from '@/enums/constant'
+import { mainTypeEmums } from '@/enums/mainTypeEmum'
+import morentouxiang from '@/pages-sub/shopManager/static/shoukuanma.png'
+import {
+  addCart,
+  favoritesList,
+  getGoodDetails,
+  unUserFavorites,
+  userFavorites,
+} from '@/service/api/shop'
+import duihao from '@/static/images/shop/duihao.png'
+import fenxiang from '@/static/images/shop/fenxiang.png'
+import gouwuche from '@/static/images/shop/gouwuche.png'
+import kefu from '@/static/images/shop/kefu.png'
+import shangdian from '@/static/images/shop/shangdian.png'
+import shoucang from '@/static/images/shop/shoucang.png'
+import shoucang1 from '@/static/images/shop/shoucang1.png'
+import { useUserStore } from '@/store'
+import { routeTo } from '@/utils'
+import { Modal, Toast } from '@/utils/uniapi/prompt'
+import { storeToRefs } from 'pinia'
+const { isLogined, userInfo } = storeToRefs(useUserStore())
+const productId = ref('')
 const current = ref<number>(0)
 const title = ref('商品详情')
 const isFavor = ref(false)
@@ -104,7 +106,7 @@ const getDetails = (spuId: number) => {
   })
 }
 const foverGoods = async () => {
-  if (!userStore.isLogined) {
+  if (!isLogined.value) {
     Modal({ title: '提示', content: '您还没有登录，请先登录？' }).then((res: any) => {
       if (res.confirm) {
         routeTo({ url: '/pages/login/index' })
@@ -171,10 +173,9 @@ const buyNow = (val: any) => {
   })
 }
 const addCar = (val: any) => {
-  console.log('加入购物车', val, userStore.userInfo)
-  if (userStore.isLogined) {
+  if (isLogined.value) {
     const obj = {
-      customerId: userStore.userInfo.userDId,
+      customerId: userInfo.value.userDId,
       shopId: details.shopId,
       skuId: val._id,
       itemNum: val.buy_num,
@@ -215,7 +216,7 @@ const getday = (sDate1: any) => {
 }
 
 onShow(() => {
-  if (userStore.isLogined) {
+  if (isLogined.value) {
     getFavoritesList()
   }
 })
@@ -226,23 +227,39 @@ const goList = () => {
 }
 onLoad(async (options) => {
   // await getList()
-  console.log('options', options, userStore.isLogined)
+  console.log('options', options)
+  productId.value = options.id
   getDetails(options.id)
 })
-onShareAppMessage((options) => {
-  const pageList = getCurrentPages<any>()
-  return {
-    title: details.spuName ? details.spuName : '商品',
-    path: pageList[pageList.length - 1].$page.fullPath,
-    imageUrl: details.rotationUrl[0],
+onShareAppMessage((res) => {
+  if (res.from === 'button') {
+    const path =
+      Constant.MAIN_PAGE +
+      `?type=${mainTypeEmums.SHARE_PROUDUCT}&shareUserId=${userInfo.value.userDId}&id=${productId.value}`
+    console.log('🍰', path)
+    return {
+      title: details.spuName ? details.spuName : '商品',
+      path,
+      imageUrl: details.rotationUrl[0],
+      complete: () => {
+        // 分享记录
+        useShare(path)
+      },
+    }
   }
 })
 onShareTimeline(() => {
-  const pageList = getCurrentPages<any>()
+  const path =
+    Constant.MAIN_PAGE +
+    `?type=${mainTypeEmums.SHARE_PROUDUCT}&shareUserId=${userInfo.value.userDId}&id=${productId.value}`
   return {
     title: details.spuName ? details.spuName : '商品',
-    path: pageList[pageList.length - 1].$page.fullPath,
+    path,
     imageUrl: details.rotationUrl[0],
+    complete: () => {
+      // 分享记录
+      useShare(path)
+    },
   }
 })
 </script>
@@ -292,7 +309,7 @@ onShareTimeline(() => {
         {{ details.spuName }}
       </view>
 
-      <view class="mt-10px flex items-center justify-left color-#999999">
+      <view class="mt-10px flex items-center justify-left color-#999999" v-if="isLogined">
         <button class="btn mr-20px" @click="foverGoods">
           <wd-img v-if="!isFavor" :width="16" :height="16" :src="shoucang"></wd-img>
           <wd-img v-else :width="16" :height="16" :src="shoucang1"></wd-img>

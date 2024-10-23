@@ -69,7 +69,7 @@ const createImg = () => {
     couponInfoData.value.couponFillPrice > 0
       ? '满' + couponInfoData.value.couponFillPrice + '元可用'
       : '无门槛'
-  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&couponCode=${couponInfoData.value.couponCode}`
+  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&shareUserId=${userInfo.value.userDId}&couponCode=${couponInfoData.value.couponCode}`
   return {
     css: {
       width: '750rpx',
@@ -161,10 +161,10 @@ const createImg = () => {
         type: 'qrcode',
         text: qrcodePath,
         css: {
-          width: '80px',
-          height: '80px',
+          width: '140px',
+          height: '140px',
           padding: '10px',
-          margin: '20px auto',
+          margin: '15px auto',
           borderRadius: '5px',
           color: '#000',
           background: '#fff',
@@ -203,6 +203,7 @@ const showHbClose = () => {
 const lqStatus = ref(false) // 是否领取
 const lqError = ref(false) // 领取失败
 const couponId = ref('')
+const couponCode = ref('')
 
 const btnClick2 = async (item) => {
   if (item.action === 'lq') {
@@ -264,6 +265,12 @@ const btnClick2 = async (item) => {
       }, 3000)
     }
     if (couponInfoData.value.type === 3) {
+      const qrcodeData = {
+        couponCode: couponCode.value,
+        qrCodeType: Constant.QR_CODE_FLAG,
+        actionType: Constant.QR_CODE_PAY,
+      }
+      cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
       cfigSatatus.value = true
     }
   }
@@ -361,14 +368,9 @@ onLoad(async (options) => {
   isShare.value = Number(options.isMain) === 1
   shareType.value = options.type
   couponId.value = options.couponId
+  couponCode.value = options.couponCode
   try {
     await sendCouponInfo({ couponCode: options.couponCode, couponId: couponId.value })
-    const qrcodeData = {
-      couponCode: options.couponCode,
-      qrCodeType: Constant.QR_CODE_FLAG,
-      actionType: Constant.QR_CODE_PAY,
-    }
-    cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
   } catch (error) {
     couponInfoData.value = {} as conponListProps
     message

@@ -274,6 +274,9 @@ export function updateNickAndAvatar<T>(data) {
  * @param params 初始参数()
  * */
 export function userShareLog<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    Tips: true,
+  }
   return request.Post<T>(
     ADD_SHARE_RECORD, // 地址
     data,

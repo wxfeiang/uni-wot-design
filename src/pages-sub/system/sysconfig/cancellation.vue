@@ -50,7 +50,7 @@ const btnClick = () => {
       <view class="my-10px">
         <view class="rounded-8px bg-#fff flex gap-10px my-10px p-10px">
           <view>
-            <wd-img :width="60" :height="60" :src="anvter1" />
+            <wd-img :width="60" :height="60" :src="userInfo.userAvatar ?? anvter1" />
           </view>
           <view class="flex flex-col justify-around">
             <view class="text-16px">{{ userInfo.userName }}</view>

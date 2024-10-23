@@ -122,10 +122,6 @@ export const useScancode = (options?: any) => {
         resolve(res)
       },
       fail: function (err) {
-        uni.showToast({
-          title: '无法识别此二维码',
-          icon: 'none',
-        })
         reject(err)
       },
     })

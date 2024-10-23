@@ -28,7 +28,7 @@ export declare interface List<T = any> {
 }
 
 // 字典类型接口
-export declare interface Dict<T = any> {
+export declare interface DICT<T = any> {
   label: any
   value: T
   type?: string

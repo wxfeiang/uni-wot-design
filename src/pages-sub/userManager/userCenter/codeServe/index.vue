@@ -161,7 +161,7 @@ onUnmounted(async () => {
             <view class="relative p-10px">
               <view class="">
                 <view class="text-14px py-5px">
-                  姓名：{{ dataDesensitization(userInfo.cardName, privacyStatus, 'left') }}
+                  姓名：{{ dataDesensitization(userInfo.cardName, privacyStatus, 'first') }}
                 </view>
                 <view class="text-14px py-5px">
                   身份证号：{{

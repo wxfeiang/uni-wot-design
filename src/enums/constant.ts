@@ -31,4 +31,7 @@ export enum Constant {
 
   // 优惠券入口地址
   COUPON_PATH = '/pages-sub/marketManager/coupon/coupDeil',
+
+  // 商品详情入口
+  GOODS_PATH = '/pages-sub/homeManager/shopInfo',
 }
