@@ -30,7 +30,13 @@ import shoucang1 from '@/static/images/shop/shoucang1.png'
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { Modal, Toast } from '@/utils/uniapi/prompt'
+import dayjs from 'dayjs'
+// eslint-disable-next-line import/extensions
+import 'dayjs/locale/zh-cn.js'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { storeToRefs } from 'pinia'
+dayjs.extend(relativeTime)
+
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const productId = ref('')
 const current = ref<number>(0)
@@ -197,24 +203,6 @@ const addCar = (val: any) => {
   }
 }
 
-const getday = (sDate1: any) => {
-  const sDate2 = new Date()
-
-  const Y = sDate2.getFullYear() + '-'
-  const M =
-    (sDate2.getMonth() + 1 < 10 ? '0' + (sDate2.getMonth() + 1) : sDate2.getMonth() + 1) + '-'
-  const D = sDate2.getDate() < 10 ? '0' + sDate2.getDate() : sDate2.getDate()
-
-  const oDate2 = new Date(sDate1).getTime() // 转换为yyyy-MM-dd格式
-  const oDate1 = new Date(Y + M + D).getTime() // 转换为yyyy-MM-dd格式
-
-  const iDays = Math.abs(oDate2 - oDate1) / 1000 / 60 / 60 / 24 // 把相差的毫秒数转换为天数
-  if (parseInt(iDays) <= 0) return 0
-  else {
-    return parseInt(iDays)
-  } // 返回相差天数
-}
-
 onShow(() => {
   if (isLogined.value) {
     getFavoritesList()
@@ -356,7 +344,7 @@ onShareTimeline(() => {
                 ></wd-text>
               </view>
               <wd-text
-                :text="`${getday(i.evaluationTime.slice(0, 10))}天前`"
+                :text="`${dayjs(i.evaluationTime).locale('zh-cn').fromNow()}`"
                 size="12px"
                 color="#999"
               ></wd-text>
