@@ -67,7 +67,7 @@ async function queryList(pageNo: number, pageSize: number) {
   }
 }
 function toMingxi(item) {
-  routeTo({ url: '/pages-sub/userManager/userCenter/transit/detil' })
+  routeTo({ url: '/pages-sub/userManager/transit/detil' })
 }
 </script>
 

@@ -39,17 +39,17 @@ interface NavigateToOptions {
        "/pages-sub/userManager/address/editor" |
        "/pages-sub/userManager/address/list" |
        "/pages-sub/userManager/cardManager/index" |
+       "/pages-sub/userManager/codeServe/index" |
        "/pages-sub/userManager/collection/collection" |
        "/pages-sub/userManager/collection/follow" |
+       "/pages-sub/userManager/myMessage/massage" |
+       "/pages-sub/userManager/suggest/list" |
+       "/pages-sub/userManager/suggest/suggest" |
+       "/pages-sub/userManager/suggest/suggestDetil" |
+       "/pages-sub/userManager/transit/detil" |
+       "/pages-sub/userManager/transit/index" |
+       "/pages-sub/userManager/transit/list" |
        "/pages-sub/userManager/userCenter/user" |
-       "/pages-sub/userManager/userCenter/codeServe/index" |
-       "/pages-sub/userManager/userCenter/myMessage/massage" |
-       "/pages-sub/userManager/userCenter/suggest/list" |
-       "/pages-sub/userManager/userCenter/suggest/suggest" |
-       "/pages-sub/userManager/userCenter/suggest/suggestDetil" |
-       "/pages-sub/userManager/userCenter/transit/detil" |
-       "/pages-sub/userManager/userCenter/transit/index" |
-       "/pages-sub/userManager/userCenter/transit/list" |
        "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |
        "/pages-sub/marketManager/coupon/mycoupon" |

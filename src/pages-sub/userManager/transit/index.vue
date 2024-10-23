@@ -12,7 +12,7 @@
 import tmQrcode from '@/components/dy-qrcode/dy-qrcode.vue'
 import logo from '@/static/images/logo.png'
 import { routeTo } from '@/utils'
-import stkts from '../../static/image/sbkts.png'
+import stkts from '../static/images/sbkts.png'
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 const cfig = ref({
   logoImage: logo,
@@ -24,7 +24,7 @@ const cfig = ref({
 
 const title = ref('公交出行')
 function toMingxi() {
-  routeTo({ url: '/pages-sub/userManager/userCenter/transit/list' })
+  routeTo({ url: '/pages-sub/userManager/transit/list' })
 }
 
 const status = ref(1)

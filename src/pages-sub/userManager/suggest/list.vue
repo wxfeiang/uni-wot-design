@@ -14,12 +14,12 @@ import useSuggest from './utils/useSuggest'
 
 const { sendAdvicelist, advicelist } = useSuggest()
 function toSuggest() {
-  routeTo({ url: '/pages-sub/userManager/userCenter/suggest/suggest' })
+  routeTo({ url: '/pages-sub/userManager/suggest/suggest' })
 }
 
 function toDetil(item) {
   routeTo({
-    url: '/pages-sub/userManager/userCenter/suggest/suggestDetil',
+    url: '/pages-sub/userManager/suggest/suggestDetil',
     data: { id: item.adviceId },
   })
 }

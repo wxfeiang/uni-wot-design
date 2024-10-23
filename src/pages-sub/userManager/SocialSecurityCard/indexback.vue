@@ -17,7 +17,7 @@ import { dataDesensitization, getBack, routeTo } from '@/utils'
 import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import { useRequest } from 'alova/client'
 import { useMessage } from 'wot-design-uni'
-import stkts from '../static/image/sbkts.png'
+import stkts from '../static/images/sbkts.png'
 const { userInfo } = useUserStore()
 const message = useMessage()
 

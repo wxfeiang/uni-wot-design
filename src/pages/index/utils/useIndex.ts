@@ -24,7 +24,7 @@ const topAction = ref([
   //   icon: jtcx,
   //   text: '公交出行',
   //   type: 'router',
-  //   path: '/pages-sub/userManager/userCenter/transit/index', // 打开的页面路径，如果为空则打开首页
+  //   path: '/pages-sub/userManager/transit/index', // 打开的页面路径，如果为空则打开首页
   // },
   // {
   //   icon: xajft,
@@ -63,7 +63,7 @@ const topAction = ref([
     icon: mfw,
     text: '一码办事',
     type: 'router',
-    path: '/pages-sub/userManager/userCenter/codeServe/index',
+    path: '/pages-sub/userManager/codeServe/index',
   },
 ])
 

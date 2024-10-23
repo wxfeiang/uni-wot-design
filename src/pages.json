@@ -411,6 +411,15 @@
           }
         },
         {
+          "path": "codeServe/index",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "collection/collection",
           "type": "page",
           "layout": "default",
@@ -433,76 +442,67 @@
           }
         },
         {
+          "path": "myMessage/massage",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "suggest/list",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "suggest/suggest",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "suggest/suggestDetil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "transit/detil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "transit/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "transit/list",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "userCenter/user",
           "type": "page",
           "layout": "default",
           "needLogin": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/codeServe/index",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/myMessage/massage",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/suggest/list",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/suggest/suggest",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/suggest/suggestDetil",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/transit/detil",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/transit/index",
-          "type": "page",
-          "layout": "default",
-          "needLogin": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "userCenter/transit/list",
-          "type": "page",
-          "layout": "default",
           "style": {
             "navigationStyle": "custom"
           }
