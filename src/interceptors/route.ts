@@ -50,7 +50,7 @@ const navigateToInterceptor = {
       if (!hasLogin) {
         isRouterCheckd(url)
       } else if (hasFeace && !isIdcard()) {
-        isRouterCheckd(url, '您还没有实名认证,请先认证？')
+        isRouterCheckd(url, true, '您还没有实名认证,请先认证？')
       } else {
         return true
       }
@@ -59,7 +59,7 @@ const navigateToInterceptor = {
     }
   },
 }
-export const isRouterCheckd = (url, title?: string) => {
+export const isRouterCheckd = (url, flog = false, title?: string) => {
   Modal({
     title: '提示',
     content: title || '您还没有登录,请先登录？',
@@ -67,7 +67,8 @@ export const isRouterCheckd = (url, title?: string) => {
   }).then((res: any) => {
     if (res.confirm) {
       // 重定向
-      const redirectRoute = `${loginRoute}?redirect=${encodeURIComponent(url)}`
+      const router = flog ? feaceRouter : loginRoute
+      const redirectRoute = `${router}?redirect=${encodeURIComponent(url)}`
       uni.navigateTo({ url: redirectRoute })
     }
   })
