@@ -11,8 +11,8 @@
 
 <script lang="ts" setup>
 import { removeT } from '@/utils/index'
+import guidIcon from '../static/images/guidIcon.png'
 import useNews from './hooks/useGurid'
-
 const { sendMessageList, messageData, messageClick } = useNews()
 
 defineOptions({
@@ -53,6 +53,11 @@ const queryList = async (pageNo, pageSize) => {
           @click="messageClick(item)"
           custom-class="custom-class-cell"
         >
+          <template #icon>
+            <view class="pt-5px mr-5px">
+              <wd-img :src="guidIcon" width="12" height="12"></wd-img>
+            </view>
+          </template>
           <template #title>
             <view class="truncate-1 text-16px">
               {{ item.articleTitle }}
@@ -84,8 +89,8 @@ const queryList = async (pageNo, pageSize) => {
   }
 }
 :deep(.custom-class-cell) {
-  background: linear-gradient(90deg, #e2f2ff 0%, #ffffff 100%);
+  // background: linear-gradient(90deg, #e2f2ff 0%, #ffffff 100%);
 
-  @apply rounded-6px my-10px;
+  @apply my-10px bb-1px_dashed_#CECACA;
 }
 </style>

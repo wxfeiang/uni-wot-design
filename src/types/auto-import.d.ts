@@ -179,7 +179,6 @@ declare module 'vue' {
     readonly onUnload: UnwrapRef<typeof import('@dcloudio/uni-app')['onUnload']>
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
-    readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly reactive: UnwrapRef<typeof import('vue')['reactive']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
@@ -200,14 +199,11 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useFilePase: UnwrapRef<typeof import('../hooks/useFilePase')['default']>
-    readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useImageVerify: UnwrapRef<typeof import('../hooks/useImageVerify')['default']>
-    readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useNav: UnwrapRef<typeof import('../hooks/useNav')['default']>
     readonly usePhoneCode: UnwrapRef<typeof import('../hooks/usePhoneCode')['default']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSystemFig: UnwrapRef<typeof import('../hooks/useSystemFig')['default']>
-    readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useUpdateApp: UnwrapRef<typeof import('../hooks/useUpdateApp')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>

@@ -54,18 +54,18 @@ onLoad(async (options) => {
 <template>
   <web-view :src="webUrl" v-if="showType === 'webView'"></web-view>
   <view class="" v-else>
-    <view class="bg-#F8F8F8">
+    <view class="bg-#Ffff">
       <dy-navbar
         :leftTitle="title"
         left
         color="#000"
-        custom-style="background-color: #F8F8F8"
+        custom-style="background-color: #fff"
       ></dy-navbar>
-      <view class="py-20px px-30px" v-if="!showTop">
-        <view class="line-height-40px text-26px">
+      <view class="pt-20px px-30px" v-if="!showTop">
+        <view class="line-height-40px text-26px text-center pb-10px">
           {{ cuurentData.articleTitle || cuurentData.title || cuurentData.shopHdTitle }}
         </view>
-        <view class="flex justify-center gap-20px mt-10px" v-if="showTime">
+        <view class="flex justify-center gap-20px bg-#F7F7F7 py-10px mx-[-30px]" v-if="showTime">
           <view class="text-center color-#999 font-size-12px line-height-20px">
             来源： {{ remark || '一卡通平台' }}
           </view>
@@ -75,7 +75,7 @@ onLoad(async (options) => {
         </view>
       </view>
     </view>
-    <view class="py-20px px-10px">
+    <view class="p-10px">
       <dy-richtext
         :html="cuurentData.content || cuurentData.articleContent || cuurentData.shopHdDesc"
       ></dy-richtext>
