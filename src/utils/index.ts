@@ -136,11 +136,19 @@ export const needLoginFeacePages: string[] = getAllPages('needLogin')
  * @description: 字典值解析
  * @param {} data 字典数组
  * @param {} value 当前比对值
- * @param {} key  要比对的key
+ * @param {} key  要比对的key 最终返回的key
  * @param {} val  要比对的val
+ * @param {} all  是否返回所有匹配的值
  */
-export const changeDict = (data: any, value: any, key: string = 'label', val: string = 'value') => {
-  return data.find((item: any) => item[val] === value)?.[key] ?? ''
+export const changeDict = (
+  data: any,
+  value: any,
+  key: string = 'label',
+  val: string = 'value',
+  all = false,
+) => {
+  const result = data.find((item: any) => item[val] === value)
+  return all ? (result ?? {}) : (result?.[key] ?? '')
 }
 
 /**

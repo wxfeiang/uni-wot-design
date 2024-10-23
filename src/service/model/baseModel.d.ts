@@ -26,3 +26,10 @@ export declare interface List<T = any> {
   numberOfElements?: number
   totalPages?: number
 }
+
+// 字典类型接口
+export declare interface Dict<T = any> {
+  label: any
+  value: T
+  type?: string
+}

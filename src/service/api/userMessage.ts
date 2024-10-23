@@ -29,6 +29,9 @@ const GET_DETAIL_BY_ADVICE_ID = baseUrlApi('/promotion/app/xcxUserAdvice/getDeta
 
 const GET_USER_CARD_DETAIL = baseUrlApi('/promotion/app/member/getUserCardDetail')
 const UPDATE_NICK_AND_AVATAR = baseUrlApi('/member/app/userInfo/updateNickAndAvatar')
+
+const ADD_SHARE_RECORD = baseUrlApi('/product/app/shareRecord/addShareRecord')
+
 /**
  *  查询雄才卡信息
  * @param params
@@ -263,5 +266,16 @@ export function updateNickAndAvatar<T>(data) {
     {
       meta,
     },
+  )
+}
+
+/**
+ *  用户分享行为 记录
+ * @param params 初始参数()
+ * */
+export function userShareLog<T>(data) {
+  return request.Post<T>(
+    ADD_SHARE_RECORD, // 地址
+    data,
   )
 }

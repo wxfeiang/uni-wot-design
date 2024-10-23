@@ -13,6 +13,7 @@ import { Constant } from '@/enums/constant'
 import { mainTypeEmums } from '@/enums/mainTypeEmum'
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { routeTo } from '@/utils'
+import qs from 'qs'
 //
 onLoad((options) => {
   uni.showLoading({ title: '加载中', mask: true })
@@ -24,6 +25,8 @@ onLoad((options) => {
       navType: NAVIGATE_TYPE.REDIRECT_TO,
     })
   }
+  const path = qs.stringify(options)
+  useShare(path)
   uni.hideLoading()
 })
 </script>

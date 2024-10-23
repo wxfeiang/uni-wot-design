@@ -120,6 +120,7 @@
     "useModel": true,
     "useTemplateRef": true,
     "useTimer": true,
-    "useCountdown": true
+    "useCountdown": true,
+    "useShare": true
   }
 }

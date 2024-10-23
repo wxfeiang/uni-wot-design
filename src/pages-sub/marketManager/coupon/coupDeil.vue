@@ -33,7 +33,6 @@ import userCoupon from './utils/userCoupon'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const message = useMessage()
 const { VITE_SERVER_BASEURL, VITE_APP_LOGOTITLE } = import.meta.env
-const sharePath = ref(Constant.MAIN_PAGE)
 
 const { sendCouponInfo, couponInfoData, sendReceiveCoupon } = userCoupon()
 
@@ -352,7 +351,7 @@ const handleClose = () => {
 }
 const wexinClick = () => {
   if (PLATFORM.platform === 'h5') {
-    console.log('🥧')
+    console.log('H5 调用')
   } else {
     console.log('🍲')
   }
@@ -361,7 +360,6 @@ const wexinClick = () => {
 onLoad(async (options) => {
   isShare.value = Number(options.isMain) === 1
   shareType.value = options.type
-
   couponId.value = options.couponId
   try {
     await sendCouponInfo({ couponCode: options.couponCode, couponId: couponId.value })
@@ -389,8 +387,10 @@ onLoad(async (options) => {
 onShareAppMessage((res) => {
   if (res.from === 'button') {
     show.value = false
-    const path = sharePath.value + `?type=${mainTypeEmums.SHARE_COUPN}&couponId=${couponId.value}`
-    console.log('🍣[path]:', path)
+    const path =
+      Constant.MAIN_PAGE +
+      `?type=${mainTypeEmums.SHARE_COUPN}&shareUserId=${userInfo.value.userDId}&couponId=${couponId.value}`
+
     return {
       title: VITE_APP_LOGOTITLE,
       desc: '我抢到优惠券啦!快来一起抢，名额有限!',
@@ -398,6 +398,8 @@ onShareAppMessage((res) => {
       path,
       complete: () => {
         handleClose()
+        // 分享记录
+        useShare(path)
       },
     }
   }
