@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 import { getUserCardDetail } from '@/service/api/userMessage'
 import { useUserStore } from '@/store'
-import { changeDict, dataDesensitization } from '@/utils/index'
+import { changeDict } from '@/utils/index'
 import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
 import userCardSev from './utils/userCardSev'
@@ -37,7 +37,6 @@ const dataList = ref([
   {
     title: '社会保障卡号码',
     props: 'socialCardNum',
-    showeys: true,
   },
   {
     title: '社会保障卡卡号',
@@ -46,7 +45,8 @@ const dataList = ref([
   },
   {
     title: '社保卡银行账户发卡行',
-    props: 'bankCard',
+    props: 'bankCode',
+    dict: true,
   },
   {
     title: '社保卡银行卡号',
@@ -66,19 +66,28 @@ const dataList = ref([
     props: 'cardStatus',
     isStatus: true,
   },
-  {
-    title: '发卡地',
-    props: 'cardIssueOrg',
-  },
-  {
-    title: '参保地',
-    props: 'cardIssueOrsdg',
-  },
+  // {
+  //   title: '发卡地',
+  //   props: 'cardIssueOrg',
+  // },
+  // {
+  //   title: '参保地',
+  //   props: 'cardIssueOrsdg',
+  // },
 ])
 const privacyStatus = ref(false)
 
 const status = ref(true)
-
+const bkdict = {
+  '102': '工商银行',
+  '103': '农业银行',
+  '104': '中国银行',
+  '105': '建设银行',
+  '301': '交通银行',
+  '302': '中信银行',
+  '303': '光大银行',
+  '402': '河北农信社',
+}
 onLoad(async () => {
   try {
     await sendCardDetail({ cardId: userInfo.value.cardId })
@@ -114,9 +123,9 @@ onLoad(async () => {
               <view class="relative w-60px h-50px">
                 <view
                   class="absolute top-[-10px] right-0 px-10px py-2px text-12px rounded-lb-15px"
-                  :style="changeDict(statusList, cardDetailData[dataList[6].props], 'bg', 'label')"
+                  :style="changeDict(statusList, cardDetailData[dataList[7].props], 'bg', 'label')"
                 >
-                  {{ cardDetailData[dataList[6].props] }}
+                  {{ cardDetailData[dataList[7].props] }}
                 </view>
               </view>
             </view>
@@ -131,9 +140,8 @@ onLoad(async () => {
                 </template>
                 <view class="flex items-center gap-10px justify-end">
                   <template v-if="item.showeys">
-                    {{ cardDetailData[item.props] }}
                     <view class="text-right color-#000">
-                      {{ dataDesensitization(cardDetailData[item.props], privacyStatus, 'center') }}
+                      {{ cardDetailData[item.props] }}
                     </view>
                     <!-- <wd-icon
                       :name="privacyStatus ? 'view' : 'eye-close'"
@@ -141,11 +149,16 @@ onLoad(async () => {
                       @click="privacyStatus = !privacyStatus"
                     ></wd-icon> -->
                   </template>
-                  <template v-if="item.isStatus">
+                  <template v-else-if="item.isStatus">
                     <view
                       :style="changeDict(statusList, cardDetailData[item.props], 'bg', 'label')"
                     >
                       {{ cardDetailData[item.props] }}
+                    </view>
+                  </template>
+                  <template v-else-if="item.dict">
+                    <view>
+                      {{ bkdict[cardDetailData[item.props]] }}
                     </view>
                   </template>
                   <template v-else>
