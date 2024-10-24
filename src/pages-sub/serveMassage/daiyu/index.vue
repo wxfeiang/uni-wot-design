@@ -106,7 +106,7 @@ const footerBtns2 = ref([
   },
 ])
 
-function btnClick(item) {
+function btnClick() {
   queryList()
 }
 </script>
@@ -190,7 +190,7 @@ function btnClick(item) {
                 :size="item.size"
                 :type="item.type"
                 :customClass="item.customClass"
-                @click="btnClick(item)"
+                @click="btnClick()"
               >
                 {{ item.text }}
               </wd-button>
