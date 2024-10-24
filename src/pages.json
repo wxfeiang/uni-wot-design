@@ -249,6 +249,15 @@
           }
         },
         {
+          "path": "huimingServe/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "jiaotong/index",
           "type": "page",
           "layout": "default",

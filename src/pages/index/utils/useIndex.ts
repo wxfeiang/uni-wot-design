@@ -138,11 +138,11 @@ const serviceArea = ref([
     id: '1710488285782016009',
   },
   {
-    title: '金融服务',
+    title: '慧明服务',
     icon: jinrongruwu,
     bgcolor: 'linear-gradient( 180deg, #FEFCF1 0%, #FFEA98 100%);',
     iconbg: '#F1C63A',
-    path: '/pages-sub/webView/index',
+    path: '/pages-sub/serveMassage/huimingServe/index',
     id: '1710488285782016011',
   },
   {

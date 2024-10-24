@@ -1,0 +1,127 @@
+<route lang="json5">
+{
+  layout: 'default',
+  needLogin: true,
+  style: {
+    navigationStyle: 'custom',
+  },
+}
+</route>
+
+<script lang="ts" setup>
+import { routeTo } from '@/utils'
+
+import { getActivityList } from '@/service/api/shop'
+import { List } from '@/service/model/baseModel'
+import { useRequest } from 'alova/client'
+import { useToast } from 'wot-design-uni'
+import bgimg from '../static/images/huiming/bgimg.png'
+import title from '../static/images/huiming/title.png'
+const toast = useToast()
+
+function toSuggest() {
+  routeTo({ url: '/pages-sub/userManager/suggest/suggest' })
+}
+
+function toDetil(item) {
+  routeTo({
+    url: '/pages-sub/userManager/suggest/suggestDetil',
+    data: { id: item.adviceId },
+  })
+}
+const paging = ref(null)
+const dataList = ref([])
+// 轮播图
+const {
+  send: sendSwiperList,
+  data: swiperListData,
+  loading: swiperListLoading,
+} = useRequest((data) => getActivityList<List>(data), {
+  immediate: false,
+  loading: true,
+  initialData: [] as List[],
+})
+const queryList = async (pageNo, pageSize) => {
+  const params = {
+    page: pageNo,
+    size: pageSize,
+  }
+  // 调用接口获取数据
+  try {
+    await sendSwiperList()
+
+    paging.value.complete(swiperListData.value)
+  } catch (error) {
+    paging.value.complete(false)
+  }
+}
+const timeShow = ref(false)
+const currentData = ref()
+function timeClick(item) {
+  currentData.value = item
+  timeShow.value = true
+}
+function timeclose(e) {
+  timeShow.value = false
+}
+
+function swiperClick(data) {
+  const { item } = data
+  if (item.shopHdType === 1) {
+    routeTo({ url: item.appUrl, data: { ...item.data } })
+  } else if (item.shopHdType === 0) {
+    routeTo({
+      url: '/pages-sub/webView/index',
+      data: { type: item.shopHdId, showType: 'banner' },
+    })
+  }
+}
+</script>
+<template>
+  <z-paging
+    ref="paging"
+    v-model="dataList"
+    @query="queryList"
+    :auto-show-system-loading="true"
+    :safe-area-inset-bottom="true"
+    :refresher-enabled="false"
+    :loading-more-enabled="false"
+    :show-loading-more-no-more-view="false"
+    :hide-empty-view="true"
+  >
+    <template #top>
+      <!-- 顶部 -->
+      <dy-navbar leftTitle="" left isNavShow color="#000"></dy-navbar>
+      <view class="flex justify-around items-center px-10px">
+        <wd-img :src="title" width="187" height="81"></wd-img>
+        <wd-img :src="bgimg" width="174" height="174"></wd-img>
+      </view>
+    </template>
+    <view class="px-10px">
+      <wd-skeleton
+        animation="flashed"
+        :row-col="[{ width: '100%', height: '135px' }]"
+        :loading="swiperListLoading"
+      >
+        <wd-swiper
+          :list="swiperListData!.content"
+          :autoplay="true"
+          :current="0"
+          :height="135"
+          @click="swiperClick"
+          :indicator="{ type: 'dots-bar' }"
+          custom-indicator-class="custom-indicator-class"
+          customClass="custom-class-swiper"
+          value-key="shopHdBanner"
+          imageMode="scaleToFill"
+        ></wd-swiper>
+      </wd-skeleton>
+    </view>
+  </z-paging>
+</template>
+
+<style lang="scss" scoped>
+:deep(.z-paging-content) {
+  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
+}
+</style>
