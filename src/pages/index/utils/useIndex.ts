@@ -110,7 +110,7 @@ const serviceArea = ref([
     icon: zhenwufuwu,
     bgcolor: 'linear-gradient( 180deg, #FFE8E8 0%, #FFCCCC 100%);',
     iconbg: '#D84D4C',
-    path: '/pages-sub/webView/index',
+    path: '/pages-sub/serveMassage/zhwuServe/index',
     id: '1710488285782016016',
   },
   {

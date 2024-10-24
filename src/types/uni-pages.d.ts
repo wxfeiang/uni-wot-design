@@ -26,6 +26,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/workGuide/index" |
+       "/pages-sub/serveMassage/zhwuServe/index" |
        "/pages-sub/webView/index" |
        "/pages-sub/system/sysconfig/cancePhone" |
        "/pages-sub/system/sysconfig/cancellation" |

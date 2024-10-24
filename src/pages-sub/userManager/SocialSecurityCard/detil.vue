@@ -40,6 +40,11 @@ const dataList = ref([
     showeys: true,
   },
   {
+    title: '社会保障卡卡号',
+    props: 'socialCard',
+    showeys: true,
+  },
+  {
     title: '社保卡银行账户发卡行',
     props: 'bankCard',
   },
@@ -118,7 +123,7 @@ onLoad(async () => {
           </wd-cell>
         </wd-cell-group>
         <view class="bg-#fff pt-40px pb-5px">
-          <view class="mt-[-20px]" v-for="item in dataList.slice(1)" :key="item.props">
+          <view class="mt-[-20px]" v-for="item in dataList.slice(2)" :key="item.props">
             <wd-cell-group>
               <wd-cell clickable custom-class="custom-class-cell">
                 <template #label>

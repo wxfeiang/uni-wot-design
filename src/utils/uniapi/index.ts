@@ -336,3 +336,18 @@ export const useRequestPayment = (data: payProps) => {
     })
   })
 }
+
+export const useToPhone = (e: any) => {
+  uni.makePhoneCall({
+    phoneNumber: e.phone,
+    fail: function (e) {},
+  })
+}
+export const useToLocation = (e: any) => {
+  uni.openLocation({
+    latitude: e.dimension * 1,
+    longitude: e.longitude * 1,
+    name: e.name,
+    address: e.address,
+  })
+}
