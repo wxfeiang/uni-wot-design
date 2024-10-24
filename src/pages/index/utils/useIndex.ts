@@ -138,7 +138,7 @@ const serviceArea = ref([
     id: '1710488285782016009',
   },
   {
-    title: '慧明服务',
+    title: '慧民服务',
     icon: jinrongruwu,
     bgcolor: 'linear-gradient( 180deg, #FEFCF1 0%, #FFEA98 100%);',
     iconbg: '#F1C63A',
@@ -158,7 +158,7 @@ const serviceArea = ref([
     icon: lvyouguanguang,
     bgcolor: 'linear-gradient( 180deg, #FEEEEF 0%, #FDC9C9 100%);',
     iconbg: '#F24848',
-    path: '/pages-sub/webView/index',
+    path: '/pages-sub/serveMassage/travel/index',
     id: '1710488285782016014',
   },
   {

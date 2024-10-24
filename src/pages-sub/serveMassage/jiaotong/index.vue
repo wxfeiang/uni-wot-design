@@ -11,6 +11,7 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 
+import { openWxChart } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
 import bgimg from '../static/images/jiaotong/bgimg.png'
 import chengche from '../static/images/jiaotong/chengche.png'
@@ -33,12 +34,12 @@ function toDetil(item) {
 const paging = ref(null)
 const dataList = ref([
   {
-    id: 1,
-    title: '乘公交',
-    btn: '去乘车',
+    title: '公交充值',
+    btn: '查看详情',
     icon: chengche,
     type: 'router',
-    path: '/pages-sub/userManager/transit/index',
+    path: '/pages-sub/webView/index',
+    id: '1710488285782016010',
   },
   {
     title: '乘车政策',
@@ -52,7 +53,10 @@ const dataList = ref([
     id: 1,
     title: '乘车缴费',
     btn: '去缴费',
+    type: 'WX',
     icon: jiaofei,
+    appId: 'wx6d1780b8d016147c', // 填入目标小程序的 appId
+    path: 'pages/index/index', // 打开的页面路径，如果为空则打开首页
   },
 ])
 const queryList = async (pageNo, pageSize) => {
@@ -79,7 +83,9 @@ function timeclose(e) {
 }
 
 async function btnClick(item) {
-  if (item.type === 'router') {
+  if (item.type === 'WX') {
+    openWxChart(item.appId, item.path)
+  } else if (item.type === 'router') {
     routeTo({
       url: item.path,
       data: { type: item.id, title: item.title },

@@ -285,6 +285,24 @@
           }
         },
         {
+          "path": "travel/detle",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "travel/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "workGuide/index",
           "type": "page",
           "layout": "default",

@@ -122,6 +122,6 @@ function swiperClick(data) {
 
 <style lang="scss" scoped>
 :deep(.z-paging-content) {
-  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
+  background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #fff 100%) !important;
 }
 </style>

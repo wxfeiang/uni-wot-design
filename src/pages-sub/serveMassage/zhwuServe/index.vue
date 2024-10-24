@@ -23,11 +23,6 @@ import zhenwuicon from '../static/images/zhenwu/zhenwuicon.png'
 // import useSuggest from './utils/useSuggest'
 const toast = useToast()
 
-// const { sendAdvicelist, advicelist } = useSuggest()
-function toSuggest() {
-  routeTo({ url: '/pages-sub/userManager/suggest/suggest' })
-}
-
 function toDetil(item) {
   routeTo({
     url: '/pages-sub/userManager/suggest/suggestDetil',
@@ -41,8 +36,9 @@ const dataList = ref([
     title: '雄安新区政务服务中心',
     address: '河北省雄安新区容城县奥威路16号（奥威路与罗萨大街交叉口西80米）',
     phone: '0312-5671358',
-    longitude: 115.877677,
-    latitude: 39.041988,
+    latitude: 115.877677,
+    longitude: 39.041988,
+
     processingTime: [
       '工作日:上午9:00-12:00，下午12:30-17:00;',
       '双休日、节假日“不打烊”办理时间:上午9:00-11:30，下午14:00-17:00',
@@ -53,8 +49,8 @@ const dataList = ref([
     title: '雄县政务服务中心',
     address: '河北雄安新区雄县鑫盛街40号',
     phone: '0312-5560006',
-    longitude: 116.09929,
-    latitude: 39.010136,
+    latitude: 116.09929,
+    longitude: 39.010136,
     processingTime: [
       '工作日:秋冬春季(9月1日-5月31日)上午8:30-12:00，下午13:30-17:30；',
       '夏季(6月1日-8月31日)上午8:30-12:00，下午14:30-17:30，法定节假日除外。',
@@ -65,8 +61,8 @@ const dataList = ref([
     title: '容城县政务服务中心',
     address: '河北省雄安新区容城县容美路38号',
     phone: '0312-5696927',
-    latitude: 39.034846,
-    longitude: 115.891159,
+    longitude: 39.034846,
+    latitude: 115.891159,
     processingTime: [
       '工作日:秋冬春季(9月1日-5月31日)上午8:30-12:00，下午13:30-17:30；',
       '夏季(6月1日-8月31日)上午8:30-12:00，下午14:30-17:30，法定节假日除外。',
@@ -77,8 +73,8 @@ const dataList = ref([
     title: '安新县政务服务中心',
     address: '河北省雄安新区安新县建设大街266号',
     phone: '0312-5355000',
-    latitude: 38.945836,
-    longitude: 115.932871,
+    longitude: 38.945836,
+    latitude: 115.932871,
     processingTime: [
       '工作日:秋冬春季(9月1日-5月31日)上午8:30-12:00，下午13:30-17:30；',
       '夏季(6月1日-8月31日)上午8:30-12:00，下午14:30-17:30，法定节假日除外。',
@@ -99,7 +95,18 @@ const queryList = async (pageNo, pageSize) => {
   }
 }
 const timeShow = ref(false)
-const currentData = ref()
+const currentData = ref({
+  id: 4,
+  title: '安新县政务服务中心',
+  address: '河北省雄安新区安新县建设大街266号',
+  phone: '0312-5355000',
+  longitude: 38.945836,
+  latitude: 115.932871,
+  processingTime: [
+    '工作日:秋冬春季(9月1日-5月31日)上午8:30-12:00，下午13:30-17:30；',
+    '夏季(6月1日-8月31日)上午8:30-12:00，下午14:30-17:30，法定节假日除外。',
+  ],
+})
 function timeClick(item) {
   currentData.value = item
   timeShow.value = true
@@ -164,7 +171,7 @@ async function btnClick(item) {
           </view>
         </view>
         <view
-          class="flex justify-between items-center py-10px bb-1px_#ECECEC ml-20px pr-10px text-14px color-#999"
+          class="flex justify-between items-center py-10px bb-1px_#ECECEC_dashed ml-20px pr-10px text-14px color-#999"
           @click="useToLocation(item)"
         >
           <view>地址: {{ item.address }}</view>
@@ -183,8 +190,8 @@ async function btnClick(item) {
         </view>
       </view>
     </view>
-    <template #bottom>
-      <!-- 底部 -->
+    <!-- <template #bottom>
+      <!~~ 底部 ~~>
       <view class="p-10px bg-#fff">
         <view class="flex gap-15px">
           <view class="flex-1" v-for="(item, index) in footerBtns2" :key="index">
@@ -201,7 +208,7 @@ async function btnClick(item) {
           </view>
         </view>
       </view>
-    </template>
+    </template>-->
   </z-paging>
   <wd-popup
     v-model="timeShow"
@@ -217,7 +224,7 @@ async function btnClick(item) {
 
       <view
         class="py-5px color-#555 text-16px px-15px"
-        v-for="(item, index) in currentData.processingTime"
+        v-for="(item, index) in currentData!.processingTime"
         :key="index"
       >
         {{ item }}
