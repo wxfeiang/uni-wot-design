@@ -15,7 +15,7 @@ const props = defineProps({
   <view
     class="h-100vh w-100% flex flex-col"
     :custom-style="props.customStyle"
-    :custom-class="props.customClass"
+    :class="props.customClass"
   >
     <slot name="top"></slot>
     <scroll-view scroll-y="true" class="scroll-Y">

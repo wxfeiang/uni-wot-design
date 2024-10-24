@@ -126,7 +126,7 @@ const serviceArea = ref([
     icon: jiyyigouyao,
     bgcolor: 'linear-gradient( 180deg, #D1F2FF 0%, #E2F1FF 100%);',
     iconbg: '#46ABFF',
-    path: '/pages-sub/webView/index',
+    path: '/pages-sub/serveMassage/yiyao/index',
     id: '1710488285782016013',
   },
   {
@@ -134,7 +134,7 @@ const serviceArea = ref([
     icon: daiyufafang,
     bgcolor: 'linear-gradient( 180deg, #FEFCF4 0%, #FFE3CE 100%);',
     iconbg: '#FC9559',
-    path: '/pages-sub/webView/index',
+    path: '/pages-sub/serveMassage/daiyu/index',
     id: '1710488285782016009',
   },
   {

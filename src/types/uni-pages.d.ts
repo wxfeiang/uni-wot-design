@@ -23,6 +23,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMain/cardMessType" |
        "/pages-sub/serveMain/jinrongType" |
        "/pages-sub/serveMassage/businessOutlets/index" |
+       "/pages-sub/serveMassage/daiyu/index" |
        "/pages-sub/serveMassage/huimingServe/index" |
        "/pages-sub/serveMassage/jiaotong/index" |
        "/pages-sub/serveMassage/messageList/index" |
@@ -30,6 +31,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/travel/detle" |
        "/pages-sub/serveMassage/travel/index" |
        "/pages-sub/serveMassage/workGuide/index" |
+       "/pages-sub/serveMassage/yiyao/index" |
        "/pages-sub/serveMassage/zhwuServe/index" |
        "/pages-sub/webView/index" |
        "/pages-sub/system/sysconfig/cancePhone" |

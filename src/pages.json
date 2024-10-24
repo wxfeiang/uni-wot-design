@@ -249,6 +249,15 @@
           }
         },
         {
+          "path": "daiyu/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "huimingServe/index",
           "type": "page",
           "layout": "default",
@@ -304,6 +313,15 @@
         },
         {
           "path": "workGuide/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "yiyao/index",
           "type": "page",
           "layout": "default",
           "needLogin": true,
