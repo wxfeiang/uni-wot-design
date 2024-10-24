@@ -268,10 +268,10 @@
         },
         {
           "path": "jiaotong/detil",
-          "type": "page",
+          "type": "home",
           "layout": "default",
           "style": {
-            "navigationBarTitleText": ""
+            "navigationStyle": "custom"
           }
         },
         {
@@ -312,6 +312,15 @@
         },
         {
           "path": "travel/index",
+          "type": "page",
+          "layout": "default",
+          "needLogin": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "wenhuaServe/index",
           "type": "page",
           "layout": "default",
           "needLogin": true,

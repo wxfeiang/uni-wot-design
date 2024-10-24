@@ -12,18 +12,31 @@
 import { routeTo } from '@/utils'
 import { useToLocation } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
-import bgimg from '../static/images/travel/bgimg.png'
-import title from '../static/images/travel/title.png'
+import bgimg from '../static/images/weuhua/bgimg.png'
+import title from '../static/images/weuhua/title.png'
 import dizhi from '../static/images/zhenwu/dizhi.png'
-import useTravel from './utils/useTravel'
-const { list, imgArr } = useTravel()
+
+import useWenhua from './utils/useWenhua'
+
+const { list, imgArr } = useWenhua()
+const tab = ref(0)
+const tablist = ref([
+  {
+    index: 0,
+    title: '体育馆',
+  },
+  {
+    index: 1,
+    title: '图书馆',
+  },
+])
 
 const toast = useToast()
 
-function toDetil(index) {
+function toDetil(item) {
   routeTo({
-    url: '/pages-sub/serveMassage/travel/detle',
-    data: { index },
+    url: '/pages-sub/userManager/suggest/suggestDetil',
+    data: { id: item.adviceId },
   })
 }
 const paging = ref(null)
@@ -36,17 +49,21 @@ const queryList = async (pageNo, pageSize) => {
   // 调用接口获取数据
   try {
     // await sendAdvicelist(params)
+    dataList.value = list[tab.value]
 
-    paging.value.complete(list.content)
+    paging.value.complete(dataList.value)
   } catch (error) {
     paging.value.complete(false)
   }
 }
 const timeShow = ref(false)
 
+function timeclose(e) {
+  timeShow.value = false
+}
 const footerBtns2 = ref([
   {
-    text: '出示二维码',
+    text: '办事预约',
     size: 'medium',
     round: false,
     plain: true,
@@ -55,7 +72,7 @@ const footerBtns2 = ref([
     customClass: 'btn-class',
   },
   {
-    text: '我的门票',
+    text: '预约记录',
     size: 'medium',
     round: false,
     plain: true,
@@ -66,6 +83,10 @@ const footerBtns2 = ref([
 ])
 async function btnClick(item) {
   toast.show('功能开发中，敬请期待!...')
+}
+const changeTab = (e) => {
+  tab.value = e.index
+  paging.value.reload()
 }
 </script>
 <template>
@@ -83,13 +104,17 @@ async function btnClick(item) {
         <wd-img :src="title" width="187" height="81"></wd-img>
         <wd-img :src="bgimg" width="174" height="174"></wd-img>
       </view>
+      <wd-tabs v-model="tab" @change="changeTab">
+        <block v-for="item in tablist" :key="item.index">
+          <wd-tab :title="item.title"></wd-tab>
+        </block>
+      </wd-tabs>
     </template>
     <view class="px-10px pt-10px">
       <view
         class="px-10px py-5px bg-#fff rounded-5px mb-10px flex items-center gap-10px"
         v-for="(item, index) in dataList"
         :key="index"
-        @click="toDetil(index)"
       >
         <view class="rounded-4px overflow-hidden h-74px">
           <wd-img :src="item.img" width="94" height="74"></wd-img>
@@ -141,7 +166,10 @@ async function btnClick(item) {
 :deep(.z-paging-content) {
   background: linear-gradient(180deg, #d6eafe 0%, #f3f4f6 40%, #f2f3f7 100%) !important;
 }
-:deep(.custom-class-pop) {
-  @apply w-80%  rounded-10px;
+:deep(.wd-tabs__nav-item) {
+  @apply bg-#D1E8FF!;
+}
+:deep(.is-active) {
+  @apply bg-#fff!;
 }
 </style>

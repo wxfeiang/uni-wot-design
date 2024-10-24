@@ -31,6 +31,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/travel/detle" |
        "/pages-sub/serveMassage/travel/index" |
+       "/pages-sub/serveMassage/wenhuaServe/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/serveMassage/yiyao/index" |
        "/pages-sub/serveMassage/zhwuServe/index" |

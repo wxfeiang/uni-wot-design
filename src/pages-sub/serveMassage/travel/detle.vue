@@ -15,7 +15,7 @@ import { useToLocation } from '@/utils/uniapi'
 import dizhi from '../static/images/zhenwu/dizhi.png'
 const { list, imgArr } = useTravel()
 const index = ref(0)
-const data = ref({})
+const data = ref<any>()
 onLoad((options) => {
   index.value = Number(options.index)
   data.value = list.content[index.value]
@@ -28,7 +28,7 @@ onLoad((options) => {
       <dy-navbar leftTitle="详情" left isNavShow color="#000" :placeholder="false"></dy-navbar>
       <wd-swiper
         :list="imgArr"
-        :autoplay="false"
+        :autoplay="true"
         :current="0"
         :height="300"
         custom-indicator-class="custom-indicator-class"
@@ -54,7 +54,7 @@ onLoad((options) => {
         </view>
         <view class="text-14px color-#333">开放时间</view>
         <view class="text-14px color-#999 mt-10px">
-          <view>冬季：8:00-18:00 | 夏季：8:00-20:00</view>
+          <view>冬季：{{ data.kTime }}</view>
         </view>
         <view class="bb-1px_#ECECEC_dashed my-20px"></view>
       </view>

@@ -150,7 +150,7 @@ const serviceArea = ref([
     icon: wenhuatiyan,
     bgcolor: 'linear-gradient( 180deg, #EFF4FE 0%, #CAE4FD 100%);',
     iconbg: '#2994FF',
-    path: '/pages-sub/webView/index',
+    path: '/pages-sub/serveMassage/wenhuaServe/index',
     id: '1710488285782016015',
   },
   {
