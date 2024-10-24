@@ -267,6 +267,14 @@
           }
         },
         {
+          "path": "jiaotong/detil",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationBarTitleText": ""
+          }
+        },
+        {
           "path": "jiaotong/index",
           "type": "page",
           "layout": "default",

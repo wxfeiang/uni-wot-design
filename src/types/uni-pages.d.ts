@@ -25,6 +25,7 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/daiyu/index" |
        "/pages-sub/serveMassage/huimingServe/index" |
+       "/pages-sub/serveMassage/jiaotong/detil" |
        "/pages-sub/serveMassage/jiaotong/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/serchFor/index" |

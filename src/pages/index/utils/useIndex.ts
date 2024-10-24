@@ -134,11 +134,11 @@ const serviceArea = ref([
     icon: daiyufafang,
     bgcolor: 'linear-gradient( 180deg, #FEFCF4 0%, #FFE3CE 100%);',
     iconbg: '#FC9559',
-    path: '/pages-sub/serveMassage/daiyu/index',
+    path: '/pages-sub/webView/index',
     id: '1710488285782016009',
   },
   {
-    title: '慧民服务',
+    title: '惠民服务',
     icon: jinrongruwu,
     bgcolor: 'linear-gradient( 180deg, #FEFCF1 0%, #FFEA98 100%);',
     iconbg: '#F1C63A',
