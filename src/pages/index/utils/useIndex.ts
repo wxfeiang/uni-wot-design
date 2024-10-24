@@ -118,7 +118,7 @@ const serviceArea = ref([
     icon: jiaotongchuxing,
     bgcolor: 'linear-gradient( 180deg, #F2FBF8 0%, #E6F8F0 100%);',
     iconbg: '#78CEA8',
-    path: '/pages-sub/webView/index',
+    path: '/pages-sub/serveMassage/jiaotong/index',
     id: '1710488285782016010',
   },
   {
