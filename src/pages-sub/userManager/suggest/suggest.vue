@@ -26,9 +26,7 @@ watchEffect(() => {
         confirmButtonText: '确定',
       })
       .then(() => {
-        setTimeout(() => {
-          uni.navigateBack()
-        }, 2000)
+        uni.navigateBack()
       })
   }
 })
@@ -74,7 +72,8 @@ onUnload(() => {
             <wd-input
               label="联系方式"
               :maxlength="11"
-              prop="phone"
+              prop="advicePhone"
+              :rules="rules.advicePhone"
               clearable
               v-model="model.advicePhone"
               placeholder="请输入联系电话(选填)"

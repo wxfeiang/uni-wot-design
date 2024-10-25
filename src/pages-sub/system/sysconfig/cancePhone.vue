@@ -12,25 +12,22 @@
 }
 </route>
 <script lang="ts" setup>
-import logoTitle from '../static/images/zxyz.png'
 import phone from '@/static/images/login/phone.png'
 import user from '@/static/images/login/user.png'
 import yzm from '@/static/images/login/yzm.png'
 import logo from '@/static/images/logo.png'
 import { useMessage } from 'wot-design-uni'
+import logoTitle from '../static/images/zxyz.png'
 
 import useCancel from './utils/useCancel'
 const {
-  Login,
-  read,
   model,
   rules,
   getCodeUrl,
   submitPhoneCode,
   countdown,
   sending,
-  submitPhoneLogin,
-  toAgreement,
+
   submitCance,
 } = useCancel()
 const form = ref(null)
@@ -48,7 +45,7 @@ onMounted(() => {
       <view class="flex justify-center">
         <wd-img :width="97" :height="97" :src="logo" round />
       </view>
-      <view class="flex justify-center mt-10px">
+      <view class="flex justify-center">
         <wd-img :width="173" :height="54" :src="logoTitle" />
       </view>
     </view>

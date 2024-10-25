@@ -309,7 +309,7 @@ onPageScroll((e) => {
   <wd-gap height="10" bg-color="#fff"></wd-gap>
 
   <view class="px-15px bg-#fff">
-    <dy-title title="服务场景介绍" bottom></dy-title>
+    <dy-title title="服务场景" bottom></dy-title>
     <scroll-view scroll-x class="navscroll pb-10px">
       <view class="flex overflow-x-auto gap-10px w-200%">
         <view
