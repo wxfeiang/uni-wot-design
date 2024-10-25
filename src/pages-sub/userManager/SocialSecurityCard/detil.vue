@@ -122,7 +122,7 @@ onLoad(async () => {
             <view class="flex">
               <view class="relative w-60px h-50px">
                 <view
-                  class="absolute top-[-10px] right-0 px-10px py-2px text-12px rounded-lb-15px"
+                  class="absolute top-[-15px] right-0 px-15px py-2px text-12px rounded-lb-15px"
                   :style="changeDict(statusList, cardDetailData[dataList[7].props], 'bg', 'label')"
                 >
                   {{ cardDetailData[dataList[7].props] }}
