@@ -78,11 +78,17 @@ async function getOrderMess() {
       }
       data = await sendPay(params)
     }
+    // 临界值
+    if (data.payType === 0) {
+      payStatus.value = true
+      return
+    }
     if (data.errCode === 'SUCCESS') {
       payListInfo.value = data
       payData.value[0].value = data.orderInformation
       payData.value[1].value = data.merOrderId
       payFlog.value = true
+
       const payRes: any = await useRequestPayment(payListInfo.value)
       console.log('🍦[payRes]:', payRes)
       if (payRes.errMsg === 'requestPayment:ok') {

@@ -110,6 +110,10 @@
     "useFilePase": true,
     "usePhoneCode": true,
     "useNav": true,
-    "useSoket": true
+    "useSoket": true,
+    "onWatcherCleanup": true,
+    "useId": true,
+    "useModel": true,
+    "useTemplateRef": true
   }
 }
