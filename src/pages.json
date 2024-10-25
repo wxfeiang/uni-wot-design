@@ -270,6 +270,7 @@
           "path": "jiaotong/detil",
           "type": "home",
           "layout": "default",
+          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }

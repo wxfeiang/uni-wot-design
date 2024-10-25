@@ -26,6 +26,8 @@ interface messProps {
   path?: string // 跳转路径
   type?: 'webView' | 'article' | 'router' // 跳转类型
   data?: any // 额外数据
+  linkType?: '0' | '1' // 0:内部链接 1:外部链接
+  linkUrl?: string // 外部链接
 }
 
 export type { bannerProps, messProps }

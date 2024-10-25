@@ -14,7 +14,11 @@ const { send: sendMessageList, data: messageData } = useRequest(
 function messageClick(item) {
   routeTo({
     url: '/pages-sub/webView/index',
-    data: { type: item.articleId },
+    data: {
+      type: item.articleId,
+      showType: item.linkType === '1' ? 'webView' : 'banner',
+      url: item.linkUrl,
+    },
   })
 }
 export default () => {

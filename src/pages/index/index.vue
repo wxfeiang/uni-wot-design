@@ -106,7 +106,11 @@ function swiperClick(data) {
   } else if (item.shopHdType === 0) {
     routeTo({
       url: '/pages-sub/webView/index',
-      data: { type: item.shopHdId, showType: 'banner' },
+      data: {
+        type: item.shopHdId,
+        showType: item.lineType === '1' ? 'webView' : '',
+        url: item.linkUrl,
+      },
     })
   }
 }

@@ -197,7 +197,12 @@ const {
 function messageClick(item: messProps) {
   routeTo({
     url: '/pages-sub/webView/index',
-    data: { type: item.articleId },
+    data: {
+      type: item.articleId,
+
+      showType: item.linkType === '1' ? 'webView' : '',
+      url: item.linkUrl,
+    },
   })
 }
 
