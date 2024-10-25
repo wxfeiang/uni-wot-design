@@ -2,6 +2,7 @@ import { userLogout } from '@/service/api/auth'
 
 import { useForm } from 'alova/client'
 
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { Toast } from '@/utils/uniapi/prompt'
@@ -84,7 +85,7 @@ const submitCance = (form) => {
 const LogOut = async () => {
   // TODO: 清除用户信息
   authStore.clearUserInfo()
-  routeTo({ url: '/pages/index/index' })
+  routeTo({ url: '/pages/index/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
 }
 
 export default () => {

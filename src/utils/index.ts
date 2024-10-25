@@ -320,9 +320,7 @@ export function sceneResult(resData: any) {
 export function getBack() {
   const pageList = getCurrentPages()
   if (pageList.length <= 1) {
-    uni.reLaunch({
-      url: '/pages/index/index',
-    })
+    routeTo({ url: '/pages/index/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
   } else {
     uni.navigateBack()
   }

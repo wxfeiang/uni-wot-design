@@ -9,9 +9,10 @@
 </route>
 
 <script lang="ts" setup>
+import { NAVIGATE_TYPE } from '@/enums/routerEnum'
+import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import orderInter from './utils/orderInter'
-import { useUserStore } from '@/store'
 
 const userStore = useUserStore()
 
@@ -53,9 +54,7 @@ const list = ref([])
 const goback = function (url, e) {
   const pageList = getCurrentPages()
   if (pageList.length <= 1) {
-    uni.reLaunch({
-      url: '/pages/index/index',
-    })
+    routeTo({ url: '/pages/index/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
   } else {
     uni.navigateBack()
   }
