@@ -12,7 +12,7 @@ import { removeT, routeTo } from '@/utils'
 import dayjs from 'dayjs'
 import todayImg from './static/payLog.png'
 import useShopServe from './utils/useShopServe'
-const title = ref('支付记录')
+const title = ref('商户收款记录')
 const { sendOrderIdByShop, shopPayList } = useShopServe()
 const maxDate = dayjs().valueOf()
 const cday = Date.now()
