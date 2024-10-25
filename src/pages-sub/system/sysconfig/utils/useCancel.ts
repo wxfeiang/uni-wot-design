@@ -76,6 +76,7 @@ const submitCance = (form) => {
         console.log('🍱=====[error]:', error)
       } finally {
         getCodeUrl()
+        uni.hideLoading()
       }
     }
   })
