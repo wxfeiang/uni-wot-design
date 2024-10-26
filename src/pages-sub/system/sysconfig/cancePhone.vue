@@ -67,7 +67,7 @@ onMounted(() => {
       <view class="flex justify-center">
         <wd-img :width="97" :height="97" :src="logo" round />
       </view>
-      <view class="flex justify-center mt-20px">
+      <view class="flex justify-center">
         <wd-img :width="173" :height="54" :src="logoTitle" />
       </view>
     </view>

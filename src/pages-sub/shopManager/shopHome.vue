@@ -159,7 +159,7 @@ onLoad(async (options) => {
             </view>
             <view class="w-full flex items-center" @click="call">
               <view class="mr-5px" style="font-size: 14px; color: #999999">
-                电话： {{ shopDetails.shopPhone }}
+                电话：{{ shopDetails.shopPhone }}
               </view>
               <wd-icon name="call" size="16px" color="#999999"></wd-icon>
             </view>
