@@ -415,20 +415,7 @@ onLoad(async () => {
               </view>
             </view>
           </view>
-          <view
-            class="box-border absolute right-0 overflow-hidden z-10"
-            style="
-              width: 120px;
-              background-image: linear-gradient(
-                -90deg,
-                #f7f7f7,
-                #f7f7f7,
-                #f7f7f7,
-                #f7f7f7,
-                rgba(255, 255, 255, 0)
-              );
-            "
-          >
+          <view class="box-border absolute right-0 overflow-hidden z-10 showmore">
             <view
               class="py-1 justify-right items-right overflow-hidden"
               style="padding-bottom: 10px; font-size: 14px"
@@ -834,5 +821,17 @@ onLoad(async () => {
   background-position: bottom center;
   background-size: 30px 25px;
   transition: all 0.3s;
+}
+
+.showmore {
+  width: 120px;
+  background-image: linear-gradient(
+    -90deg,
+    #f7f7f7,
+    #f7f7f7,
+    #f7f7f7,
+    #f7f7f7,
+    rgba(255, 255, 255, 0)
+  );
 }
 </style>
