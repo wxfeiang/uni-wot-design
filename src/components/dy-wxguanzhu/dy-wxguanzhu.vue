@@ -70,8 +70,8 @@ onShow(async () => {
         >
           立即关注
         </view>
-        <view class="absolute top-2px right-2px" @click="closeAd">
-          <wd-icon name="close" size="22px" color="#C6C9CA"></wd-icon>
+        <view class="absolute top-3px right-3px" @click="closeAd">
+          <wd-icon name="close" size="13px" color="#C6C9CA"></wd-icon>
         </view>
       </view>
     </view>
