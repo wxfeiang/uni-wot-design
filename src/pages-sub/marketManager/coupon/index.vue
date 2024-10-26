@@ -14,6 +14,8 @@ import hubgtitle from '../static/images/coupon/hubgtitle.png'
 import myyhbtn from '../static/images/coupon/myyhbtn.png'
 import bg from '../static/images/coupon/yhbg.png'
 import CouponList from './components/couponList.vue'
+import CouponListWX from './components/couponListWX.vue'
+
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
 const { sendCouponList } = userCoupon()
@@ -71,7 +73,18 @@ onLoad(async () => {
     <view class="bg-#ffff rounded-20px overflow-hidden mt-20px" style="min-height: 100px">
       <view class="pt-10px">
         <view class="" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item" @refresh="paging.reload()" isMain></Coupon-List>
+          <Coupon-List
+            v-if="item.type !== 4"
+            :data="item"
+            @refresh="paging.reload()"
+            isMain
+          ></Coupon-List>
+          <Coupon-ListWX
+            v-if="item.type === 4"
+            :data="item"
+            @refresh="paging.reload()"
+            isMain
+          ></Coupon-ListWX>
         </view>
       </view>
     </view>
