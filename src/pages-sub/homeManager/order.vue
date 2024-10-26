@@ -152,7 +152,7 @@ onShow(async (options) => {
 
             <view class="flex items-center justify-right">
               <wd-button type="warning" @click="goAddress" size="small">去新增</wd-button>
-              <wd-icon name="arrow-right" size="22px" color="#000"></wd-icon>
+              <!-- <wd-icon name="arrow-right" size="22px" color="#000"></wd-icon> -->
             </view>
           </view>
         </view>
