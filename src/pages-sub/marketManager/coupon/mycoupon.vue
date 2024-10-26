@@ -92,7 +92,7 @@ onLoad(async () => {
           <wd-img :src="myyhbtn" width="138" height="35"></wd-img>
         </view>
       </view>
-      <view class="bg-#C30000/56 mt-42px h-42px">
+      <view class="bg-#C30000 mt-42px h-42px">
         <wd-tabs v-model="tab" @change="changeTab" custom-class="custom-class-tab">
           <block v-for="item in tablist" :key="item.index">
             <wd-tab :title="`${item.title}   (${item.count})`"></wd-tab>
