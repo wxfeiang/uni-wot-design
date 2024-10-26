@@ -20,12 +20,14 @@ const userStore = useUserStore()
 const active = ref<number>(1)
 const scrollTop = ref<number>(0)
 const itemScrollTop = ref<number[]>([])
+
 function gopath(url, e) {
   routeTo({
     url,
     data: e,
   })
 }
+
 const categories = ref([])
 
 onLoad(async () => {
@@ -90,7 +92,7 @@ function onScroll(e) {
             :title="cell.name"
             @click="gopath('/pages-sub/shopManager/shopList?type=8&code=' + cell.code)"
           >
-            <wd-icon name="arrow-right" size="18px" color="#cecece"></wd-icon>
+            <wd-icon name="arrow-right" size="18px" color="#d9d9d9"></wd-icon>
           </wd-cell>
         </wd-cell-group>
       </view>
@@ -107,10 +109,31 @@ function onScroll(e) {
 .wraper {
   display: flex;
 }
-:deep(.wd-cell__wrapper) {
-  padding-left: 20px;
+
+:deep(.wd-sidebar-item) {
+  font-size: 14px !important;
 }
+
+:deep(.wd-sidebar-item--active) {
+  font-size: 16px !important;
+  font-weight: normal !important;
+}
+
+:deep(.wd-cell-group__left:before) {
+  display: inline-block;
+  width: 15px;
+  margin-right: 5px;
+  font-family: 'wd-icons' !important;
+  color: #7f7f7f !important;
+  text-align: left;
+  content: '\e6bc';
+}
+:deep(.wd-cell__wrapper) {
+  margin-left: 20px !important;
+}
+
 :deep(.wd-cell-group__title) {
-  color: #7f7f7f;
+  font-size: 14px !important;
+  color: #7f7f7f !important;
 }
 </style>

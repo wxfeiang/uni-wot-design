@@ -137,7 +137,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       subjectType: subjectType.value,
       shopName: shopName.value,
       labelName: labelName.value,
-      code: code.value,
+      secondCategoryId: code.value,
     })
     console.log('商城列表', res)
 
