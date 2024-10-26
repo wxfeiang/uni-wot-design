@@ -69,7 +69,7 @@ const createImg = () => {
     couponInfoData.value.couponFillPrice > 0
       ? '满' + couponInfoData.value.couponFillPrice + '元可用'
       : '无门槛'
-  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&shareUserId=${userInfo.value.userDId}&couponCode=${couponInfoData.value.couponCode}`
+  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&shareUserId=${userInfo.value.userDId}&couponCode=${couponCode.value}`
   return {
     css: {
       width: '750rpx',
@@ -259,8 +259,8 @@ const btnClick2 = async (item) => {
       }
     }
     if (couponInfoData.value.type === 2) {
+      Toast('即将前往商城城中心!')
       setTimeout(() => {
-        Toast('即将前往商城城中心!')
         routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
       }, 3000)
     }
@@ -404,6 +404,8 @@ onShareAppMessage((res) => {
         useShare(path)
       },
     }
+  } else {
+    return {}
   }
 })
 </script>

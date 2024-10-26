@@ -16,6 +16,7 @@ const url = ref(
 
 <template>
   <view class="min-h-100vh">
+    <dy-navbar leftTitle="" left isNavShow :placeholder="false" color="#000"></dy-navbar>
     <image :src="url" mode="widthFix" class="w-100% h-100%" lazy-load></image>
   </view>
 </template>
