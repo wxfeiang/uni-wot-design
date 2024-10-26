@@ -419,9 +419,8 @@ onLoad(async () => {
             <view
               class="py-1 justify-right items-right overflow-hidden"
               style="padding-bottom: 10px; font-size: 14px"
+              @click="gopath('/pages-sub/shopManager/shopCategory')"
             >
-              <!--              @click="gopath('/pages-sub/shopManager/shopCategory')"-->
-
               <wd-text
                 text="全部分类"
                 size="14px"

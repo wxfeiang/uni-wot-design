@@ -136,4 +136,7 @@ function onScroll(e) {
   flex: 1;
   background: #fff;
 }
+.wraper {
+  display: flex;
+}
 </style>
