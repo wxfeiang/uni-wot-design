@@ -24,7 +24,7 @@ export enum Constant {
   QR_CODE_CARD = 'card',
 
   // 统一分享基础地址
-  MAIN_PATH = 'https://ykt.xionganbc.com/wx/',
+  MAIN_PATH = 'https://ykt.xionganbc.com/wxcode',
 
   // 统一小程序入口地址
   MAIN_PAGE = '/pages/pay/mainResult',

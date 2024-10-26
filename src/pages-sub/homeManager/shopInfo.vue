@@ -234,6 +234,8 @@ onShareAppMessage((res) => {
         useShare(path)
       },
     }
+  } else {
+    return {}
   }
 })
 onShareTimeline(() => {
