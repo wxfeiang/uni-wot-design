@@ -754,7 +754,6 @@
           "path": "shopHome",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom"
           }
@@ -772,7 +771,6 @@
           "path": "shopListZY",
           "type": "page",
           "layout": "default",
-          "needLogin": true,
           "style": {
             "navigationStyle": "custom",
             "navigationBarTitleText": ""
