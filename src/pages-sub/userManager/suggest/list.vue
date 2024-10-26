@@ -38,6 +38,9 @@ const queryList = async (pageNo, pageSize) => {
     paging.value.complete(false)
   }
 }
+onShow(() => {
+  paging.value && paging.value.reload()
+})
 </script>
 <template>
   <z-paging ref="paging" v-model="dataList" @query="queryList" :auto-show-system-loading="true">

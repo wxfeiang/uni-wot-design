@@ -652,6 +652,7 @@ export function getGoodDetails(data) {
 export function getShopDetail<T>(data) {
   const meta: METHOD_INSTANCE = {
     Tips: true,
+    loading: true,
   }
   return request.Post<T>(
     GET_SHOP_DETAIL, // 请求地址

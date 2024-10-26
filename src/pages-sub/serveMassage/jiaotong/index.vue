@@ -51,7 +51,7 @@ const dataList = ref([
   },
   {
     id: 1,
-    title: '乘车缴费',
+    title: '停车缴费',
     btn: '去缴费',
     type: 'WX',
     icon: jiaofei,

@@ -18,6 +18,7 @@ import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } fr
 import { useRequest } from 'alova/client'
 import { useMessage } from 'wot-design-uni'
 import stkts from '../static/images/sbkts.png'
+import todo from '../static/images/todo.png'
 const { userInfo } = useUserStore()
 const message = useMessage()
 
@@ -105,12 +106,16 @@ const countdown = useCountdown(
   false,
 )
 
+const status = ref(false)
+const errorText = ref('数据处理中...')
+
 onLoad(async () => {
   try {
     console.log('🎂', userInfo.cardName, model.value)
     const data: any = await sendSignValid(model.value)
     console.log('🍮[data]:', data)
     if (data?.isNeedPwdValid === '0') {
+      status.value = true
       isNeedPwdValid.value = true
       // 调用二维码展示
       countdown.startTimer()
@@ -127,15 +132,8 @@ onLoad(async () => {
         })
     }
   } catch (error) {
-    message
-      .alert({
-        title: '提示',
-        msg: error?.msg || '服务异常!',
-        closeOnClickModal: false,
-      })
-      .then((res) => {
-        getBack()
-      })
+    status.value = false
+    errorText.value = error?.msg || '服务异常!'
   }
 })
 onMounted(async () => {
@@ -164,36 +162,57 @@ const barodeClick = () => {
         </view>
         <view class="color-#fff font-600">电子社保卡</view>
       </view>
-      <view class="color-#fff mt-10px pl-30px line-height-30px">
-        <view>姓名:{{ dataDesensitization(user.name, false, 'first') }}</view>
-        <view>社会保障号码:{{ dataDesensitization(user.shbzkh, false, 'last') }}</view>
-      </view>
-      <view class="mt-10px mb-20px px-15px">
-        <view class="bg-#fff pt-20px pb-5px rounded-10px overflow-hidden">
-          <view class="flex justify-center flex-col items-center">
-            <dy-barcode :width="636" :option="opts" @click="barodeClick"></dy-barcode>
-            <view class="color-#999 text-14px mt-[-16px]">
-              {{ dataDesensitization(opts.value, false, 'last') }}
+
+      <view class="px-10px">
+        <template v-if="status">
+          <view class="color-#fff mt-10px px-20px line-height-30px">
+            <view>姓名:{{ dataDesensitization(user.name, false, 'first') }}</view>
+            <view>社会保障号码:{{ dataDesensitization(user.shbzkh, false, 'last') }}</view>
+          </view>
+          <view class="mt-10px mb-20px px-15px mx-[-15px]">
+            <view class="bg-#fff pt-20px pb-5px rounded-10px overflow-hidden">
+              <view class="flex justify-center flex-col items-center">
+                <dy-barcode :width="636" :option="opts" @click="barodeClick"></dy-barcode>
+                <view class="color-#999 text-14px mt-[-16px]">
+                  {{ dataDesensitization(opts.value, false, 'last') }}
+                </view>
+              </view>
+
+              <view class="flex justify-center mt-10px flex-col items-center">
+                <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
+                <view>
+                  <text class="text-#999999 text-14px mr-10px">
+                    {{ countdown.seconds }}秒自动刷新
+                  </text>
+                  <wd-button type="text" @click="generateCode">手动刷新</wd-button>
+                </view>
+              </view>
+
+              <view
+                class="flex justify-between items-center text-14px color-#555 bt-1px_dashed_#E2E2E2 py-10px px-15px mt-20px"
+              >
+                <view>参保地</view>
+                <view>
+                  {{ logcation }}
+                </view>
+              </view>
             </view>
           </view>
-
-          <view class="flex justify-center mt-10px flex-col items-center">
-            <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
-            <view>
-              <text class="text-#999999 text-14px mr-10px">{{ countdown.seconds }}秒自动刷新</text>
-              <wd-button type="text" @click="generateCode">手动刷新</wd-button>
-            </view>
-          </view>
-
+        </template>
+        <template v-else>
           <view
-            class="flex justify-between items-center text-14px color-#555 bt-1px_dashed_#E2E2E2 py-10px px-15px mt-20px"
+            class="h-300px p-20px flex flex-col justify-center items-center rounded-5px bg-#fff"
           >
-            <view>参保地</view>
-            <view>
-              {{ logcation }}
-            </view>
+            <wd-status-tip
+              :image="todo"
+              :image-size="{
+                height: 132,
+                width: 224,
+              }"
+              :tip="errorText"
+            />
           </view>
-        </view>
+        </template>
       </view>
     </view>
   </view>

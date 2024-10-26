@@ -16,7 +16,7 @@ const UPDATE_REAL_NAME = baseUrlApi('/member/app/xcxLogin/updateRealName')
 
 const XCX_SCAN_FACE_REAL_NAME_AUTH = baseUrlApi('/member/app/xcxLogin/xcxScanFaceRealNameAuth')
 
-const LOGIN_OFF = baseUrlApi('/member/app/userInfo/loginOff')
+const LOGIN_OFF = baseUrlApi('/member/app/userInfo/lOginOff')
 
 /**
  * 获取 人脸识别Key
