@@ -69,7 +69,8 @@ const createImg = () => {
     couponInfoData.value.couponFillPrice > 0
       ? '满' + couponInfoData.value.couponFillPrice + '元可用'
       : '无门槛'
-  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&shareUserId=${userInfo.value.userDId}&couponCode=${couponCode.value}`
+  const qrcodePath = `${Constant.MAIN_PATH}?type=${mainTypeEmums.SHARE_COUPN}&shareUserId=${userInfo.value.userDId}&couponId=${couponId.value}`
+  console.log('🥠[qrcodePath]:', qrcodePath)
   return {
     css: {
       width: '750rpx',
@@ -118,7 +119,7 @@ const createImg = () => {
           display: 'block',
           textAlign: 'center',
           marginTop: '20px',
-          padding: '30px 0 ',
+          padding: '25px 0 ',
         },
         views: [
           {
