@@ -415,18 +415,7 @@ onLoad((options) => {
                     查看物流
                   </wd-button>
                 </template>
-                <template v-else>
-                  <wd-button
-                    size="small"
-                    type="text"
-                    :round="false"
-                    custom-class="inline-block ml-2"
-                    style="width: 5rem"
-                    @click="goInfo(item.orderId)"
-                  >
-                    退款成功
-                  </wd-button>
-                </template>
+                <template v-else></template>
               </view>
             </view>
           </template>

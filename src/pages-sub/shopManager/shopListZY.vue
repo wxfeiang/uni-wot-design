@@ -390,7 +390,10 @@ function handleChange(val, type) {
 .title {
   font-size: 14px;
 }
-
+.listname {
+  height: 48px;
+  line-height: 24px;
+}
 .brand {
   box-sizing: border-box;
   padding: 0 10px;

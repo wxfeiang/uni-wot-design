@@ -450,7 +450,7 @@ onLoad(async () => {
         >
           <wd-img width="100%" :height="160" :src="getUrl(item.saleUrl)" />
 
-          <view class="w-155px name mt-10px mb-5px m-auto float-left">
+          <view class="w-155px name listname mt-10px mb-5px m-auto float-left">
             <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
             {{ item.spuName }}
           </view>
@@ -513,7 +513,7 @@ onLoad(async () => {
         >
           <wd-img :width="86" :height="86" :src="getUrl(item.saleUrl)" />
           <div class="flex-1 ml-15px flex flex-col justify-between">
-            <view class="w-full name float-left">
+            <view class="w-full name listname float-left">
               <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
               {{ item.spuName }}
             </view>
@@ -832,5 +832,9 @@ onLoad(async () => {
     #f7f7f7,
     rgba(255, 255, 255, 0)
   );
+}
+.listname {
+  height: 48px;
+  line-height: 24px;
 }
 </style>

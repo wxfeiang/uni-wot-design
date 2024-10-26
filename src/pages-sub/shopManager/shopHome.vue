@@ -175,7 +175,9 @@ onLoad(async (options) => {
           <view
             class="flex items-center w-full p-15px box-border bg-white border-rd-8px overflow-hidden"
           >
-            <wd-img :width="57" :height="57" :src="shopDetails.shopAvatar" round c />
+            <view :class="shopDetails.name === '数城科技' ? 'ZYtag' : 'ZYtag'">
+              <wd-img :width="57" :height="57" :src="shopDetails.shopAvatar" round />
+            </view>
             <view class="ml-10px flex-1 overflow-hidden">
               <view class="w-full flex items-center justify-between">
                 <view class="name">
@@ -227,9 +229,7 @@ onLoad(async (options) => {
       v-for="item in goodList"
       :key="item.spuId"
     >
-      <view :class="item.name === '数城科技' ? 'ZYtag' : 'ZYtag'">
-        <wd-img :width="100" :height="100" :src="item.saleUrl" radius="5px" />
-      </view>
+      <wd-img :width="100" :height="100" :src="item.saleUrl" radius="5px" />
 
       <view
         class="flex-1 ml-15px py-2 flex flex-col justify-between overflow-hidden box-border"
@@ -299,18 +299,24 @@ onLoad(async (options) => {
   position: relative;
 }
 
-.ZYtag:before {
+.ZYtag:after {
   position: absolute;
+  bottom: 0;
+  left: 15%;
+  z-index: 10;
   display: inline-block;
-  padding: 2px 5px;
+  width: 70%;
+  padding: 2px 0px;
   margin-top: -1px;
   margin-right: 5px;
   overflow: hidden;
   font-size: 12px;
   line-height: 16px;
   color: #f54e24;
-  content: '';
-  background: #ffc0b5;
-  border-radius: 3px;
+  text-align: center;
+  content: '自营';
+  background: #ffdad3;
+  border-radius: 5px;
+  opacity: 0.95;
 }
 </style>

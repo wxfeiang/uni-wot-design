@@ -255,7 +255,7 @@ function handleChange(val, type) {
         @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
         <wd-img width="100%" :height="160" :src="getUrl(item.saleUrl)" />
-        <view class="w-155px name mt-10px mb-5px m-auto float-left">
+        <view class="w-155px name listname mt-10px mb-5px m-auto float-left">
           <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
           {{ item.spuName }}
         </view>
@@ -294,7 +294,7 @@ function handleChange(val, type) {
       >
         <wd-img :width="86" :height="86" :src="getUrl(item.saleUrl)" />
         <div class="flex-1 ml-15px flex flex-col justify-between">
-          <view class="w-full name float-left">
+          <view class="w-full name listname float-left">
             <text class="ZYtag" v-if="item.shopName === '数城科技店铺'">自营</text>
             {{ item.spuName }}
           </view>
@@ -474,6 +474,12 @@ function handleChange(val, type) {
 :deep(.wd-input__inner) {
   font-size: 12px !important;
 }
+
+.listname {
+  height: 48px;
+  line-height: 24px;
+}
+
 .ZYtag {
   padding: 2px 5px;
   margin-top: -1px;
