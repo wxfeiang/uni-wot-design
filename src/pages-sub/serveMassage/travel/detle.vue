@@ -12,7 +12,6 @@
 import useTravel from './utils/useTravel'
 
 import { useBaseStore } from '@/store'
-import { haversineDistance } from '@/utils'
 import { getLocation, useToLocation } from '@/utils/uniapi'
 import dizhi from '../static/images/travel/dzl.png'
 
@@ -62,7 +61,7 @@ onMounted(async () => {
         <view class="flex justify-between items-center my-10px">
           <view class="text-14px color-#999 line-height-20px mt-5px">
             <view class="">地址: {{ data.address }}</view>
-            <view>距您: {{ haversineDistance(baseStore.userLocation, data) }}</view>
+            <view>距您: {{ data.distance }}km</view>
           </view>
           <view @click="useToLocation(data)">
             <wd-img :src="dizhi" width="16" height="18"></wd-img>
