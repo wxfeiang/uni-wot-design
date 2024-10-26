@@ -60,19 +60,19 @@ onLoad(async (option) => {
     <view class="top-bg">
       <dy-navbar :leftTitle="title" left></dy-navbar>
       <!-- <view class="w-full h-200px flex justify-between items-baseline px-20px box-border pt-70px"> -->
-      <view class="w-full h-200px flex justify-between items-center px-20px box-border">
+      <view class="w-full h-150px flex justify-between items-center px-20px box-border">
         <!--        <wd-text :text="goodsInfoData.exchangeNotes" size="28px" bold color="#FF4345"></wd-text>-->
         <view class="w-full flex justify-between items-baseline">
-          <view class="flex items-baseline justify-center">
+          <view class="flex items-center justify-center">
             <wd-text
               :text="goodsInfoData.couponPrice"
-              size="40px"
+              size="68px"
               custom-class="mr-1"
               color="#ff4345"
             ></wd-text>
             <wd-text
               :text="goodsInfoData.couponType === '3' ? '折' : '￥'"
-              size="16px"
+              size="20px"
               color="#ff4345"
             ></wd-text>
           </view>
@@ -154,42 +154,42 @@ onLoad(async (option) => {
         <wd-text text="兑换说明" bold size="16px" color="#000"></wd-text>
         <view class="w-full flex flex-col mt-10px">
           <wd-text
-            text="1.本券不兑现、不找零，对应二维码仅能使用一次"
+            text="  1、本券不兑现、不找零、不可分享。"
             size="14px"
             color="#777777"
             custom-class="mt-5px "
           ></wd-text>
           <wd-text
-            text="2.本券不可分享"
+            text=" 2、该优惠券每次仅支持使用一张。"
             size="14px"
             color="#777777"
             custom-class="mt-5px "
           ></wd-text>
           <wd-text
-            text="3.单件商品限用1张券"
+            text=" 3、优惠券一经兑换无法退回，请谨慎兑换。"
             size="14px"
             color="#777777"
             custom-class="mt-5px "
           ></wd-text>
-          <wd-text
-            text="4.本券限购买全场商品单笔折后满100元使用1张"
-            size="14px"
-            color="#777777"
-            custom-class="mt-5px "
-          ></wd-text>
-          <wd-text
-            text="5.本券领取次日起7日内有效"
-            size="14px"
-            color="#777777"
-            custom-class="mt-5px "
-          ></wd-text>
-          <wd-text
-            text="6.优惠券一经兑换无法退回，请谨慎兑换"
-            size="14px"
-            color="#777777"
-            custom-class="mt-5px "
-          ></wd-text>
-          <wd-text text="*每日可兑1次" size="14px" color="#F44D24" custom-class="mt-5px "></wd-text>
+          <!--          <wd-text-->
+          <!--            text="4.本券限购买全场商品单笔折后满100元使用1张"-->
+          <!--            size="14px"-->
+          <!--            color="#777777"-->
+          <!--            custom-class="mt-5px "-->
+          <!--          ></wd-text>-->
+          <!--          <wd-text-->
+          <!--            text="5.本券领取次日起7日内有效"-->
+          <!--            size="14px"-->
+          <!--            color="#777777"-->
+          <!--            custom-class="mt-5px "-->
+          <!--          ></wd-text>-->
+          <!--          <wd-text-->
+          <!--            text="6.优惠券一经兑换无法退回，请谨慎兑换"-->
+          <!--            size="14px"-->
+          <!--            color="#777777"-->
+          <!--            custom-class="mt-5px "-->
+          <!--          ></wd-text>-->
+          <!--          <wd-text text="*每日可兑1次" size="14px" color="#F44D24" custom-class="mt-5px "></wd-text>-->
         </view>
       </view>
     </view>
