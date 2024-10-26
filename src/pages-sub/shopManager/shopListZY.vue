@@ -2,7 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
-
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
     navigationBarTitleText: '',

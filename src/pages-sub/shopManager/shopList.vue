@@ -2,7 +2,7 @@
 <route lang="json5">
 {
   layout: 'default',
-
+  needLogin: true,
   style: {
     navigationStyle: 'custom',
     navigationBarTitleText: '',
@@ -33,12 +33,19 @@ const sortIndex = ref(0)
 const subjectType = ref(0)
 const shopName = ref('')
 const labelName = ref('')
+const code = ref('')
 
 const model = reactive({
   pullTimeOrder: '', // 上架时间排序
   priceOrder: '', // 价格排序
 })
 onLoad(async (e) => {
+  if (e.code) {
+    code.value = e.code
+  } else {
+    code.value = ''
+  }
+
   if (e.type === '1') {
     // 热销商品
     topbgBase64.value = await pathToBase64(indexbg1)
@@ -130,6 +137,8 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       subjectType: subjectType.value,
       shopName: shopName.value,
       labelName: labelName.value,
+
+      code,
     })
     console.log('商城列表', res)
 

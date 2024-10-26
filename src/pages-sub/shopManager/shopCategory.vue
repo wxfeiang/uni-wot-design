@@ -20,7 +20,12 @@ const userStore = useUserStore()
 const active = ref<number>(1)
 const scrollTop = ref<number>(0)
 const itemScrollTop = ref<number[]>([])
-
+function gopath(url, e) {
+  routeTo({
+    url,
+    data: e,
+  })
+}
 const categories = ref([])
 
 onLoad(async () => {
@@ -83,7 +88,7 @@ function onScroll(e) {
             v-for="(cell, index) in item.items"
             :key="index"
             :title="cell.name"
-            @click="gopath('/pages-sub/shopManager/shopList?type=8')"
+            @click="gopath('/pages-sub/shopManager/shopList?type=8&code=' + cell.code)"
           >
             <wd-icon name="arrow-right" size="18px" color="#cecece"></wd-icon>
           </wd-cell>
