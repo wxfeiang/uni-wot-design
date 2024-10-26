@@ -7,7 +7,7 @@
 export function Toast(title: string, options?: Partial<UniApp.ShowToastOptions>) {
   uni.showToast({
     title,
-    duration: 2000,
+    duration: 3000,
     icon: 'none',
     mask: true,
     ...options,
