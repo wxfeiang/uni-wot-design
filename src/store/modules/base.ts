@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-type CameraData = {
-  id: string
-  url: string
-  data?: object
+type Location = {
+  latitude?: number
+  longitude?: number
 }
 
 export const useBaseStore = defineStore(
@@ -17,7 +16,7 @@ export const useBaseStore = defineStore(
     }
 
     // 当前用户坐标
-    const userLocation = ref({} as any)
+    const userLocation = ref({} as Location)
 
     const setLocation = (val) => {
       userLocation.value = val

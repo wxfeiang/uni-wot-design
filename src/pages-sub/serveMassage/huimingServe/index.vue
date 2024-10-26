@@ -74,7 +74,7 @@ function swiperClick(data) {
       url: '/pages-sub/webView/index',
       data: {
         type: item.shopHdId,
-        showType: item.lineType === '1' ? 'webView' : '',
+        showType: item.lineType === '1' ? 'webView' : 'banner',
         url: item.linkUrl,
       },
     })

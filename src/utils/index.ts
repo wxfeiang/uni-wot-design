@@ -359,3 +359,29 @@ export function dataDesensitization(
     }
   }
 }
+
+function toRadians(degrees: number): number {
+  return degrees * (Math.PI / 180)
+}
+
+export function haversineDistance(cdata: any, dData: any): string {
+  const default1 = 39.058663
+  const default2 = 115.878204
+  const { latitude: lat1 = default1, longitude: lon1 = default2 } = cdata
+
+  const { latitude: lat2, longitude: lon2 } = dData
+  const R = 6371 // 地球半径，单位为公里
+
+  const dLat = toRadians(lat2 - lat1)
+  const dLon = toRadians(lon2 - lon1)
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2)
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+  const distance = R * c // 返回的距离单位为公里
+
+  return distance.toFixed(2) + 'km'
+}

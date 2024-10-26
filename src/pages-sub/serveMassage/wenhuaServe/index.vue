@@ -9,16 +9,17 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
-import { useToLocation } from '@/utils/uniapi'
+import { useBaseStore } from '@/store'
+import { haversineDistance, routeTo } from '@/utils'
+import { getLocation, useToLocation } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
 import bgimg from '../static/images/weuhua/bgimg.png'
 import title from '../static/images/weuhua/title.png'
 import dizhi from '../static/images/zhenwu/dizhi.png'
-
 import useWenhua from './utils/useWenhua'
+const baseStore = useBaseStore()
 
-const { list, imgArr } = useWenhua()
+const { list } = useWenhua()
 const tab = ref(0)
 const tablist = ref([
   {
@@ -88,6 +89,21 @@ const changeTab = (e) => {
   tab.value = e.index
   paging.value.reload()
 }
+const location = async () => {
+  try {
+    if (baseStore.userLocation.latitude) {
+      return
+    }
+    const location = await getLocation()
+    await baseStore.setLocation(location)
+  } catch (error) {
+    console.log('🍈[error]:', error)
+    // uni.showToast({ title: '定位失败', icon: 'none' })
+  }
+}
+onMounted(async () => {
+  location()
+})
 </script>
 <template>
   <z-paging
@@ -96,6 +112,7 @@ const changeTab = (e) => {
     @query="queryList"
     :auto-show-system-loading="true"
     :safe-area-inset-bottom="true"
+    :loading-more-enabled="false"
   >
     <template #top>
       <!-- 顶部 -->
@@ -112,14 +129,14 @@ const changeTab = (e) => {
     </template>
     <view class="px-10px pt-10px">
       <view
-        class="px-10px py-5px bg-#fff rounded-5px mb-10px flex items-center gap-10px"
+        class="p-10px bg-#fff rounded-5px mb-10px flex items-center gap-10px"
         v-for="(item, index) in dataList"
         :key="index"
       >
-        <view class="rounded-4px overflow-hidden h-74px">
+        <view class="rounded-5px overflow-hidden h-74px">
           <wd-img :src="item.img" width="94" height="74"></wd-img>
         </view>
-        <view class="flex-1">
+        <view class="flex-1 pt-2px">
           <view class="text-16px font-600">
             {{ item.name }}
           </view>
@@ -129,12 +146,12 @@ const changeTab = (e) => {
             <view>地址: {{ item.address }}</view>
           </view>
           <view
-            class="flex justify-between items-center py-10px pr-10px text-14px color-#999"
+            class="flex justify-between items-center mt-5px line-height-20px pr-10px text-14px color-#999"
             @click.stop="useToLocation(item)"
           >
-            <view>距您: {{ item.distance }}</view>
-            <view>
-              <wd-img :src="dizhi" width="16" height="18"></wd-img>
+            <view>距您: {{ haversineDistance(baseStore.userLocation, item) }}</view>
+            <view class="mt-3px">
+              <wd-img :src="dizhi" width="14" height="16"></wd-img>
             </view>
           </view>
         </view>

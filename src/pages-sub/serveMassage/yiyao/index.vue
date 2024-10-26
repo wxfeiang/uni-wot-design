@@ -9,15 +9,16 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
-import { useToLocation } from '@/utils/uniapi'
+import { useBaseStore } from '@/store'
+import { haversineDistance, routeTo } from '@/utils'
+import { getLocation, useToLocation } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni'
 import bgimg from '../static/images/yiyao/bgimg.png'
 import title from '../static/images/yiyao/title.png'
 import icon from '../static/images/yiyao/yyicon.png'
 import dizhi from '../static/images/zhenwu/dizhi.png'
-
 import useYiyao from './utils/useYiyao'
+const baseStore = useBaseStore()
 
 const { list } = useYiyao()
 const tab = ref(0)
@@ -88,6 +89,20 @@ const changeTab = (e) => {
   tab.value = e.index
   paging.value.reload()
 }
+const location = async () => {
+  try {
+    if (baseStore.userLocation.latitude) {
+      return
+    }
+    const location = await getLocation()
+    await baseStore.setLocation(location)
+  } catch (error) {
+    console.log('🍺[error]:', error)
+  }
+}
+onMounted(async () => {
+  location()
+})
 </script>
 <template>
   <z-paging
@@ -96,6 +111,7 @@ const changeTab = (e) => {
     @query="queryList"
     :auto-show-system-loading="true"
     :safe-area-inset-bottom="true"
+    :loading-more-enabled="false"
   >
     <template #top>
       <!-- 顶部 -->
@@ -131,7 +147,8 @@ const changeTab = (e) => {
         <view
           class="flex justify-between items-center py-10px ml-20px pr-10px text-14px color-#999"
         >
-          <view>距您: {{ item.distance }}</view>
+          <!-- haversineDistance(item.distance) -->
+          <view>距您: {{ haversineDistance(baseStore.userLocation, item) }}</view>
           <view @click="useToLocation(item)">
             <wd-img :src="dizhi" width="16" height="18"></wd-img>
           </view>
