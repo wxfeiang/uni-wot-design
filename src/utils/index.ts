@@ -364,6 +364,12 @@ function toRadians(degrees: number): number {
   return degrees * (Math.PI / 180)
 }
 
+/**
+ * @description:  根据经纬度计算距离
+ * @param {} cdata 传入的1 {}
+ * @param {} dData 传入的2 {}
+ * @return {} 距离 保留了2位小数
+ */
 export function haversineDistance(cdata: any, dData: any): number {
   const default1 = 39.058663
   const default2 = 115.878204

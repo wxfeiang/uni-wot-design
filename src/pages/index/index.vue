@@ -352,7 +352,7 @@ onPageScroll((e) => {
   </view>
   <!-- 关注公众号 -->
   <view class="px-10px">
-    <dy-wxguanzhu customClass="bg-#fff"></dy-wxguanzhu>
+    <dy-wxguanzhu customClass="bg-#fff rounded-6px"></dy-wxguanzhu>
   </view>
   <!-- 办事指南 -->
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
