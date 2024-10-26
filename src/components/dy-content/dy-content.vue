@@ -8,6 +8,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  customClassCenter: {
+    type: String,
+    default: '',
+  },
+  customstyleCenter: {
+    type: String,
+    default: '',
+  },
 })
 </script>
 
@@ -18,9 +26,12 @@ const props = defineProps({
     :class="props.customClass"
   >
     <slot name="top"></slot>
-    <scroll-view scroll-y="true" class="scroll-Y">
-      <slot></slot>
-    </scroll-view>
+    <view :class="props.customClassCenter" :style="`${props.customstyleCenter}`">
+      <scroll-view scroll-y="true" class="scroll-Y">
+        <slot></slot>
+      </scroll-view>
+    </view>
+
     <slot name="bottom"></slot>
   </view>
 </template>

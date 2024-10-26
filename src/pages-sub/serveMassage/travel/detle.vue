@@ -38,7 +38,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <dy-content customClass="z-paging-content">
+  <dy-content customClass="z-paging-content" customClassCenter="customClassCenter">
     <template #top>
       <dy-navbar leftTitle="详情" left isNavShow color="#000" :placeholder="false"></dy-navbar>
       <wd-swiper
@@ -93,5 +93,8 @@ onMounted(async () => {
 }
 :deep(.wd-swiper__track) {
   @apply rounded-0!;
+}
+:deep(.customClassCenter) {
+  @apply mt-[-10px] !;
 }
 </style>

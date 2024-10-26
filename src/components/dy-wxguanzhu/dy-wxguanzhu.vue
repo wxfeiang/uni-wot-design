@@ -6,6 +6,20 @@ import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
+const props = defineProps({
+  customStyle: {
+    type: String,
+    default: '',
+  },
+  customClass: {
+    type: String,
+    default: '',
+  },
+  gap: {
+    type: Boolean,
+    default: true,
+  },
+})
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const closeAdFlog = ref(true)
 const closeAd = () => {
@@ -38,10 +52,10 @@ onShow(async () => {
 <template>
   <!-- #ifdef MP-WEIXIN -->
   <view v-if="closeAdFlog && showGHZ * 1 === 0">
-    <wd-gap height="10" bg-color="#fff"></wd-gap>
-    <view class="">
+    <wd-gap height="10" bg-color="#F2F3F7" v-if="props.gap"></wd-gap>
+    <view :class="props.customClass">
       <view
-        class="flex justify-between items-center p-10px bd-1px_solid_#F7F7F7 bg-#F7F7F7 relative rounded-4px gap-10px pr-30px"
+        class="flex justify-between items-center p-10px bd-1px_solid_#F7F7F7 relative rounded-4px gap-10px pr-30px"
       >
         <view>
           <wd-img :src="logo" height="40" width="40"></wd-img>
@@ -57,12 +71,11 @@ onShow(async () => {
           立即关注
         </view>
         <view class="absolute top-2px right-2px" @click="closeAd">
-          <wd-icon name="close-circle" size="22px" color="#C6C9CA"></wd-icon>
+          <wd-icon name="close" size="22px" color="#C6C9CA"></wd-icon>
         </view>
       </view>
     </view>
   </view>
-
   <!-- #endif -->
 </template>
 
