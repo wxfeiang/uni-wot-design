@@ -16,7 +16,7 @@ function messageClick(item) {
     url: '/pages-sub/webView/index',
     data: {
       type: item.articleId,
-      showType: item.linkType === '1' ? 'webView' : 'banner',
+      showType: item.linkType === '1' ? 'webView' : '',
       url: item.linkUrl,
     },
   })

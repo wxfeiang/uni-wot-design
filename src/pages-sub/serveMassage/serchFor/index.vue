@@ -83,7 +83,7 @@ const toDetile = (item: any) => {
   routeTo({
     url: '/pages-sub/webView/index',
     data: {
-      type: item.shopHdId,
+      type: item.articleId,
       showTime: 0,
       showType: item.linkType === '1' ? 'webView' : '',
       url: item.linkUrl,
