@@ -364,7 +364,7 @@ function toRadians(degrees: number): number {
   return degrees * (Math.PI / 180)
 }
 
-export function haversineDistance(cdata: any, dData: any): string {
+export function haversineDistance(cdata: any, dData: any): number {
   const default1 = 39.058663
   const default2 = 115.878204
   const { latitude: lat1 = default1, longitude: lon1 = default2 } = cdata
@@ -383,5 +383,5 @@ export function haversineDistance(cdata: any, dData: any): string {
 
   const distance = R * c // 返回的距离单位为公里
 
-  return distance.toFixed(2) + 'km'
+  return Number(distance.toFixed(2))
 }

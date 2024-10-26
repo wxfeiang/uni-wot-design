@@ -12,6 +12,7 @@
 import { useBaseStore } from '@/store'
 import { haversineDistance, routeTo } from '@/utils'
 import { getLocation, useToLocation } from '@/utils/uniapi'
+import orderBy from 'lodash-es/orderBy'
 import { useToast } from 'wot-design-uni'
 import bgimg from '../static/images/yiyao/bgimg.png'
 import title from '../static/images/yiyao/title.png'
@@ -51,8 +52,13 @@ const queryList = async (pageNo, pageSize) => {
   // 调用接口获取数据
   try {
     // await sendAdvicelist(params)
-    dataList.value = list[tab.value]
-    paging.value.complete(dataList.value)
+    let cList = list[tab.value]
+    cList.forEach((item) => {
+      item.distance = haversineDistance(baseStore.userLocation, item)
+    })
+    cList = orderBy(cList, ['distance'], ['asc'])
+
+    paging.value.complete(cList)
   } catch (error) {
     paging.value.complete(false)
   }
@@ -148,7 +154,7 @@ onMounted(async () => {
           class="flex justify-between items-center py-10px ml-20px pr-10px text-14px color-#999"
         >
           <!-- haversineDistance(item.distance) -->
-          <view>距您: {{ haversineDistance(baseStore.userLocation, item) }}</view>
+          <view>距您: {{ item.distance }}km</view>
           <view @click="useToLocation(item)">
             <wd-img :src="dizhi" width="16" height="18"></wd-img>
           </view>
