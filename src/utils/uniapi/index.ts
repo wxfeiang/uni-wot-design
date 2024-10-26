@@ -345,7 +345,7 @@ export const useToPhone = (e: any) => {
 }
 export const useToLocation = (e: any) => {
   uni.openLocation({
-    latitude: e.dimension * 1,
+    latitude: e.latitude * 1,
     longitude: e.longitude * 1,
     name: e.name,
     address: e.address,

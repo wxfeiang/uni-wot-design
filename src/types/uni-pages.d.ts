@@ -25,11 +25,13 @@ interface NavigateToOptions {
        "/pages-sub/serveMassage/businessOutlets/index" |
        "/pages-sub/serveMassage/daiyu/index" |
        "/pages-sub/serveMassage/huimingServe/index" |
+       "/pages-sub/serveMassage/jiaotong/detil" |
        "/pages-sub/serveMassage/jiaotong/index" |
        "/pages-sub/serveMassage/messageList/index" |
        "/pages-sub/serveMassage/serchFor/index" |
        "/pages-sub/serveMassage/travel/detle" |
        "/pages-sub/serveMassage/travel/index" |
+       "/pages-sub/serveMassage/wenhuaServe/index" |
        "/pages-sub/serveMassage/workGuide/index" |
        "/pages-sub/serveMassage/yiyao/index" |
        "/pages-sub/serveMassage/zhwuServe/index" |
@@ -73,8 +75,11 @@ interface NavigateToOptions {
        "/pages-sub/shopManager/addEvaluate" |
        "/pages-sub/shopManager/evaluateList" |
        "/pages-sub/shopManager/index" |
+       "/pages-sub/shopManager/shopCategory" |
        "/pages-sub/shopManager/shopCode" |
        "/pages-sub/shopManager/shopHome" |
+       "/pages-sub/shopManager/shopList" |
+       "/pages-sub/shopManager/shopListZY" |
        "/pages-sub/shopManager/shopPayList" |
        "/pages-sub/shopManager/shopPayMingxi" |
        "/pages-sub/order/logistics" |

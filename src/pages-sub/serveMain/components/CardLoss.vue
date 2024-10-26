@@ -32,7 +32,7 @@ const {
     xm: userInfo.cardName,
     zjhm: userInfo.idCardNumber,
     zhbzkh: '',
-    jbr: '',
+    jbr: userInfo.cardName,
   },
 })
 const statusDel = ref<statusTisProps>()

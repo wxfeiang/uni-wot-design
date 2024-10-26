@@ -184,11 +184,11 @@ onUnmounted(() => {
                 auto-height
               />
               <wd-input
-                label="移动电话:"
+                label="联系方式:"
                 label-width="100px"
                 type="text"
                 v-model="cardChangeInfo.phone"
-                placeholder="请输入移动电话"
+                placeholder="请输入联系方式"
                 custom-class="custom-cell"
                 custom-input-class="custom-input-right"
               />

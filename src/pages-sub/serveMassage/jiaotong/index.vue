@@ -27,7 +27,7 @@ function toSuggest() {
 
 function toDetil(item) {
   routeTo({
-    url: '/pages-sub/userManager/suggest/suggestDetil',
+    url: '/pages-sub/serveMassage/jiaotong/detil',
     data: { id: item.adviceId },
   })
 }
@@ -37,7 +37,7 @@ const dataList = ref([
     title: '公交充值',
     btn: '查看详情',
     icon: chengche,
-    type: 'router',
+    type: 'router1',
     path: '/pages-sub/webView/index',
     id: '1710488285782016010',
   },
@@ -91,7 +91,8 @@ async function btnClick(item) {
       data: { type: item.id, title: item.title },
     })
   } else {
-    toast.show('功能开发中，敬请期待!...')
+    toDetil(item)
+    // toast.show('功能开发中，敬请期待!...')
   }
 }
 </script>

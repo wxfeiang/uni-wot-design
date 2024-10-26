@@ -19,43 +19,24 @@ import yzm from '@/static/images/login/yzm.png'
 import logo from '@/static/images/logo.png'
 import { useMessage } from 'wot-design-uni'
 
-import useLogin from './utils/useLogin'
+import useCancel from './utils/useCancel'
 const {
   Login,
   read,
-  model2,
-  rules2,
+  model,
+  rules,
   getCodeUrl,
   submitPhoneCode,
   countdown,
   sending,
   submitPhoneLogin,
-
   toAgreement,
-} = useLogin()
-const form2 = ref(null)
+  submitCance,
+} = useCancel()
+const form = ref(null)
 const { navTop } = useNav()
 
 const message = useMessage()
-const unifiedLogin = (type: number, $event?: any) => {
-  if (read.value) {
-    readChange(type)
-  } else {
-    message
-      .confirm({
-        title: '提示',
-      })
-      .then(() => {
-        read.value = true
-        readChange(type)
-      })
-      .catch((error) => {
-        console.log(error)
-        read.value = false
-      })
-  }
-}
-
 onMounted(() => {
   getCodeUrl()
 })
@@ -67,26 +48,27 @@ onMounted(() => {
       <view class="flex justify-center">
         <wd-img :width="97" :height="97" :src="logo" round />
       </view>
-      <view class="flex justify-center">
+      <view class="flex justify-center mt-10px">
         <wd-img :width="173" :height="54" :src="logoTitle" />
       </view>
     </view>
     <view class="mt-30px">
       <view class="px-30px">
-        <wd-form ref="form2" :model="model2">
+        <wd-form ref="form" :model="model">
           <wd-cell-group>
             <wd-input
               label-width="100px"
               placeholder="请输入手机号码"
               type="text"
-              v-model="model2.phone"
-              :rules="rules2.phone"
+              v-model="model.phone"
+              :rules="rules.phone"
               prop="phone"
               use-prefix-slot
               custom-class="custom-cell"
               no-border
               clearable
               :maxlength="11"
+              disabled
             >
               <template #prefix>
                 <wd-img :src="phone" :width="32" :height="32"></wd-img>
@@ -96,9 +78,9 @@ onMounted(() => {
             <wd-input
               label-width="100px"
               type="text"
-              v-model="model2.imgcode"
+              v-model="model.imgcode"
               placeholder="请输入图形码"
-              :rules="rules2.imgcode"
+              :rules="rules.imgcode"
               prop="imgcode"
               use-prefix-slot
               use-suffix-slot
@@ -118,10 +100,10 @@ onMounted(() => {
             <wd-input
               label-width="100px"
               type="text"
-              v-model="model2.code"
+              v-model="model.phoneCode"
               placeholder="请输入手机验证码"
-              :rules="rules2.code"
-              prop="code"
+              :rules="rules.phoneCode"
+              prop="phoneCode"
               use-prefix-slot
               use-suffix-slot
               custom-class="custom-cell"
@@ -137,7 +119,7 @@ onMounted(() => {
                   size="small"
                   plain
                   custom-class="button"
-                  @click="submitPhoneCode(form2, model2)"
+                  @click="submitPhoneCode(form, model)"
                   :loading="sending"
                   :disabled="sending || countdown > 0"
                 >
@@ -148,7 +130,7 @@ onMounted(() => {
           </wd-cell-group>
         </wd-form>
         <view class="mt-15px">
-          <wd-button block custom-class="custom-class-mine-login" @click="unifiedLogin(1)">
+          <wd-button block custom-class="custom-class-mine-login" @click="submitCance(form)">
             确认注销
           </wd-button>
         </view>

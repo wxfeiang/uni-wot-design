@@ -120,7 +120,7 @@ async function getInfo(id: any) {
   const da = { orderId: id }
   orderInfo.value = await sendOrderInfo(da)
 
-  time.value = new Date(orderInfo.value.orderTime).getTime() + 1000 * 60 * 30 - new Date().getTime()
+  time.value = new Date(orderInfo.value.orderTime).getTime() + 1000 * 60 * 31 - new Date().getTime()
   if (orderInfo.value.status === 1 && time.value <= 0) {
     // 修改订单状态
     await sendchangeOrderStatus({ orderId: id, note: '' }).then((res) => {
@@ -421,6 +421,13 @@ onShow(async (options) => {
             <wd-text
               v-else-if="orderInfo.status === 2"
               text="已完成"
+              size="14px"
+              color="#e3832a"
+              class=""
+            ></wd-text>
+            <wd-text
+              v-else-if="orderInfo.status === 3"
+              text="已取消"
               size="14px"
               color="#e3832a"
               class=""

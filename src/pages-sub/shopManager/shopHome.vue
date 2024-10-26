@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
+
   style: {
     navigationStyle: 'custom',
   },
@@ -20,6 +20,7 @@ import {
 import { routeTo } from '@/utils'
 import { useUserStore } from '@/store'
 import { Modal } from '@/utils/uniapi/prompt'
+import shopIcon from '../../static/images/shop/shop_nav20.png'
 
 const userStore = useUserStore()
 
@@ -140,28 +141,58 @@ onLoad(async (options) => {
   <z-paging ref="paging" v-model="goodList" @query="getLsit" class="w-screen h-screen">
     <template #top>
       <dy-navbar leftTitle="店铺" left></dy-navbar>
+
+      <view class="pt-4 px-4 box-border">
+        <view
+          style="
+            height: 22px;
+            padding: 5px 15px;
+            background: #ffffff;
+            border: 1px solid #e9e9e9;
+            border-radius: 23px 23px 23px 23px;
+          "
+          class="rounded-3xl px-4 text-left overflow-hidden flex justify-left items-center"
+        >
+          <input class="text-16px flex" style="flex: 1" placeholder="请输入搜索关键词" />
+          <wd-icon name="search" size="16px" custom-class="ml-1 " color="#777777"></wd-icon>
+        </view>
+      </view>
+
       <view class="w-full p-15px box-border bg-#F3F4F6">
-        <view class="flex w-full p-15px box-border bg-white border-rd-10px overflow-hidden">
-          <wd-img :width="57" :height="57" :src="shopDetails.shopAvatar" round />
-          <view class="ml-10px flex-1 overflow-hidden">
-            <view class="w-full flex items-center justify-between">
-              <view class="name">
-                {{ shopDetails.name }}
+        <view class="w-full pt-5px box-border bg-#3A3A3A border-rd-10px overflow-hidden">
+          <view class="flex justify-between items-center px-4 pb-5px">
+            <view class="flex justify-left items-center">
+              <view class="color-#FFDEB2 font-14px mr-1" style="font-size: 12px">
+                {{ shopDetails.address }}
               </view>
-              <view v-if="!isFollow" class="guanzhu" @click="fllowShop">+关注</view>
-              <view v-else class="quxiao" @click="fllowShop">已关注</view>
+              <wd-icon name="location" size="12px" color="#FFDEB2"></wd-icon>
             </view>
-            <view class="w-full flex items-center" @click="getlocation">
-              <view class="mr-5px" style="font-size: 14px; color: #999999">
-                地址：{{ shopDetails.address }}
-              </view>
-              <wd-icon name="location" size="16px" color="#999999"></wd-icon>
+            <view class="flex justify-right items-center" @click="call">
+              <view class="color-#FFDEB2 mr-1" style="font-size: 14px">客服</view>
+              <wd-img :width="20" :height="20" :src="shopIcon" />
             </view>
-            <view class="w-full flex items-center" @click="call">
-              <view class="mr-5px" style="font-size: 14px; color: #999999">
-                电话：{{ shopDetails.shopPhone }}
+          </view>
+          <view
+            class="flex items-center w-full p-15px box-border bg-white border-rd-8px overflow-hidden"
+          >
+            <wd-img :width="57" :height="57" :src="shopDetails.shopAvatar" round c />
+            <view class="ml-10px flex-1 overflow-hidden">
+              <view class="w-full flex items-center justify-between">
+                <view class="name">
+                  {{ shopDetails.name }}
+                </view>
+                <view v-if="!isFollow" class="guanzhu" @click="fllowShop">+关注</view>
+                <view v-else class="quxiao" @click="fllowShop">已关注</view>
               </view>
-              <wd-icon name="call" size="16px" color="#999999"></wd-icon>
+              <view class="w-full flex items-center" @click="getlocation">
+                <view class="mr-5px" style="font-size: 14px; color: #999999">粉丝：0</view>
+              </view>
+              <!--              <view class="w-full flex items-center" @click="call">-->
+              <!--                <view class="mr-5px" style="font-size: 14px; color: #999999">-->
+              <!--                  电话： {{ shopDetails.shopPhone }}-->
+              <!--                </view>-->
+              <!--                <wd-icon name="call" size="16px" color="#999999"></wd-icon>-->
+              <!--              </view>-->
             </view>
           </view>
         </view>
@@ -196,7 +227,10 @@ onLoad(async (options) => {
       v-for="item in goodList"
       :key="item.spuId"
     >
-      <wd-img :width="100" :height="100" :src="item.saleUrl" radius="5px" />
+      <view :class="item.name === '数城科技' ? 'ZYtag' : 'ZYtag'">
+        <wd-img :width="100" :height="100" :src="item.saleUrl" radius="5px" />
+      </view>
+
       <view
         class="flex-1 ml-15px py-2 flex flex-col justify-between overflow-hidden box-border"
         style="height: 100px"
@@ -229,23 +263,23 @@ onLoad(async (options) => {
 }
 
 .quxiao {
-  width: 60px;
+  width: 80px;
   font-size: 14px;
   line-height: 25px;
   color: #b0b0b0;
   text-align: center;
   background: #ececec;
-  border-radius: 6px 6px 6px 6px;
+  border-radius: 13px;
 }
 
 .guanzhu {
-  width: 60px;
+  width: 80px;
   font-size: 14px;
   line-height: 25px;
   color: #fff;
   text-align: center;
   background: #f44d24;
-  border-radius: 6px 6px 6px 6px;
+  border-radius: 13px;
 }
 
 .name {
@@ -259,5 +293,24 @@ onLoad(async (options) => {
 
 :deep(.is-active::after) {
   display: none;
+}
+
+.ZYtag {
+  position: relative;
+}
+
+.ZYtag:before {
+  position: absolute;
+  display: inline-block;
+  padding: 2px 5px;
+  margin-top: -1px;
+  margin-right: 5px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  color: #f54e24;
+  content: '';
+  background: #ffc0b5;
+  border-radius: 3px;
 }
 </style>

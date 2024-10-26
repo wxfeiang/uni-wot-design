@@ -16,6 +16,8 @@ const UPDATE_REAL_NAME = baseUrlApi('/member/app/xcxLogin/updateRealName')
 
 const XCX_SCAN_FACE_REAL_NAME_AUTH = baseUrlApi('/member/app/xcxLogin/xcxScanFaceRealNameAuth')
 
+const LOGIN_OFF = baseUrlApi('/member/app/userInfo/loginOff')
+
 /**
  * 获取 人脸识别Key
  * @param params
@@ -133,4 +135,12 @@ export function logout(data) {
  */
 export function refreshToken() {
   return request.Post<LoginModel>(REFRESH_TOKEN, {})
+}
+
+/**
+ * 补充电话号码/实名认证
+ * @param params 初始参数()
+ * */
+export function userLogout(data) {
+  return request.Post(LOGIN_OFF, data)
 }

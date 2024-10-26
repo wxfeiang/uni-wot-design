@@ -81,7 +81,7 @@ const serveOrderList = ref<serveListProps[]>([
     label: '退款/售后',
     icon: shouhou,
     value: 0,
-    path: '/pages-sub/order/orderList?tabsVal=20,21,22,23',
+    path: '/pages-sub/order/orderList?tabsVal=20,21,22,23,3',
   },
 ])
 const grzqList = ref<serveProps[]>([

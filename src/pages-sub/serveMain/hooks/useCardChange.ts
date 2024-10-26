@@ -13,7 +13,7 @@ const rules = {
   zjhm: [{ required: true, message: '请输入证件号码' }],
   shbzhm: [{ required: true, message: '请输入社会保障号码' }],
   // address: [{ required: true, message: '请输入居住地址' }],
-  // phone: [{ required: true, message: '请输入移动电话' }],
+  // phone: [{ required: true, message: '请输入联系方式' }],
   // cardStartTime: [{ required: true, message: '请选择起始日期' }],
   // cardEndTime: [{ required: true, message: '请选择终止日期' }],
   zy: [{ required: true, message: '请选择职业' }],

@@ -46,7 +46,7 @@ const tabslist = ref([
   { name: '待发货', value: '10' },
   { name: '待收货', value: '11' },
   { name: '已完成', value: '2' },
-  { name: '退换/取消', value: '20,21,22,23' },
+  { name: '退换/取消', value: '20,21,22,23,3' },
 ])
 const list = ref([])
 
@@ -225,6 +225,13 @@ onLoad((options) => {
               <wd-text
                 v-else-if="item.status === 2"
                 text="已完成"
+                size="14px"
+                color="#e3832a"
+                class=""
+              ></wd-text>
+              <wd-text
+                v-else-if="item.status === 3"
+                text="已取消"
                 size="14px"
                 color="#e3832a"
                 class=""

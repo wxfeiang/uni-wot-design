@@ -33,11 +33,11 @@ const tabs = ref([
     value: '1',
     logo: '',
   },
-  {
-    name: '电子社保卡',
-    value: '2',
-    logo,
-  },
+  // {
+  //   name: '电子社保卡',
+  //   value: '2',
+  //   logo,
+  // },
   {
     name: '雄安数字身份',
     value: '3',
@@ -69,7 +69,7 @@ const cfig = ref({
   size: 440,
 })
 
-const show = ref(true)
+const show = ref(false)
 const textArr = ref([
   '电子社保卡二维码用于身份认证和支付',
   '结算时向商家出示',
@@ -114,7 +114,7 @@ watch(
   { deep: true },
 )
 const isShow = async () => {
-  show.value = !show.value
+  // show.value = !show.value
   if (!show.value) {
     codeRefsh()
     lingdu.value = (await usegetScreenBrightness()) as number
@@ -125,6 +125,7 @@ const isShow = async () => {
     }, 3000)
   }
 }
+isShow()
 
 onMounted(async () => {})
 onUnmounted(async () => {
@@ -137,11 +138,11 @@ onUnmounted(async () => {
 <template>
   <view v-if="!show" class="min-h-100vh bg-#F2F3F7">
     <view class="back">
-      <dy-navbar leftTitle="码服务" left isNavShow color="#000"></dy-navbar>
+      <dy-navbar leftTitle="一码办事" left isNavShow color="#000"></dy-navbar>
       <!-- 顶部切换 -->
       <view class="flex items-center justify-around gap-10px my-20px px-15px">
         <view
-          class="flex items-center px-10px text-center bg-#fff rounded-full h-35px line-height-35px relative"
+          class="flex flex-1 justify-center items-center px-10px text-center bg-#fff rounded-full h-35px line-height-35px relative"
           :class="active === index ? 'active' : ''"
           v-for="(item, index) in tabs"
           :key="index"

@@ -91,12 +91,15 @@ async function btnClick(item) {
         :key="index"
         @click="toDetil(index)"
       >
-        <view class="rounded-4px overflow-hidden h-70px">
-          <wd-img :src="imgArr[2]" width="94" height="70"></wd-img>
+        <view class="rounded-4px overflow-hidden h-74px">
+          <wd-img :src="item.img" width="94" height="74"></wd-img>
         </view>
         <view class="flex-1">
+          <view class="text-16px font-600">
+            {{ item.name }}
+          </view>
           <view
-            class="flex justify-between items-center py-10px bb-1px_#ECECEC pr-10px text-14px color-#999"
+            class="flex justify-between items-center bb-1px_#ECECEC pr-10px text-14px color-#999 truncate-1 line-height-30px"
           >
             <view>地址: {{ item.address }}</view>
           </view>

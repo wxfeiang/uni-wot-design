@@ -82,7 +82,12 @@ const histortSerch = (item: string) => {
 const toDetile = (item: any) => {
   routeTo({
     url: '/pages-sub/webView/index',
-    data: { type: item.articleId, showTime: 0 },
+    data: {
+      type: item.shopHdId,
+      showTime: 0,
+      showType: item.linkType === '1' ? 'webView' : '',
+      url: item.linkUrl,
+    },
   })
 }
 const titleList = ref([
