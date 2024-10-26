@@ -9,14 +9,7 @@
 </route>
 
 <script lang="ts" setup>
-import {
-  addUserShop,
-  delUserShop,
-  getUserShopList,
-  getShopInfo,
-  getShopGoods,
-  getShopDetail,
-} from '@/service/api/shop'
+import { getGoodType } from '@/service/api/shop'
 import { routeTo } from '@/utils'
 import { useUserStore } from '@/store'
 import { Modal } from '@/utils/uniapi/prompt'
@@ -28,44 +21,12 @@ const active = ref<number>(1)
 const scrollTop = ref<number>(0)
 const itemScrollTop = ref<number[]>([])
 
-const subCategories = new Array(24).fill({ title: '标题文字', label: '这是描述这是描述' }, 0, 24)
-const categories = ref([
-  {
-    label: '分类一',
-    title: '标题一',
-    items: subCategories,
-  },
-  {
-    label: '分类二',
-    title: '标题二',
-    items: subCategories,
-  },
-  {
-    label: '分类三',
-    title: '标题三',
-    items: subCategories.slice(0, 18),
-  },
-  {
-    label: '分类四',
-    title: '标题四',
-    items: subCategories.slice(0, 21),
-  },
-  {
-    label: '分类五',
-    title: '标题五',
-    items: subCategories,
-  },
-  {
-    label: '分类六',
-    title: '标题六',
-    items: subCategories.slice(0, 18),
-  },
-  {
-    label: '分类七',
-    title: '标题七',
-    items: subCategories,
-  },
-])
+const categories = ref([])
+
+onLoad(async () => {
+  const res = await getGoodType()
+  categories.value = res
+})
 
 onMounted(() => {
   getRect('.category', true).then((rects) => {
@@ -97,14 +58,14 @@ function onScroll(e) {
 }
 </script>
 <template>
-  <dy-navbar leftTitle="店铺" left></dy-navbar>
+  <dy-navbar leftTitle="全部分类" left></dy-navbar>
   <view class="wraper">
     <wd-sidebar v-model="active" @change="handleChange">
       <wd-sidebar-item
         v-for="(item, index) in categories"
         :key="index"
         :value="index"
-        :label="item.label"
+        :label="item.title"
       />
     </wd-sidebar>
     <scroll-view
@@ -118,12 +79,13 @@ function onScroll(e) {
       <view v-for="(item, index) in categories" :key="index" class="category">
         <wd-cell-group :title="item.title" border>
           <wd-cell
+            clickable
             v-for="(cell, index) in item.items"
             :key="index"
-            :title="cell.title"
-            :label="cell.label"
+            :title="cell.name"
+            @click="gopath('/pages-sub/shopManager/shopList?type=8')"
           >
-            <wd-icon name="github-filled" size="24px"></wd-icon>
+            <wd-icon name="arrow-right" size="18px" color="#cecece"></wd-icon>
           </wd-cell>
         </wd-cell-group>
       </view>
@@ -136,7 +98,14 @@ function onScroll(e) {
   flex: 1;
   background: #fff;
 }
+
 .wraper {
   display: flex;
+}
+:deep(.wd-cell__wrapper) {
+  padding-left: 20px;
+}
+:deep(.wd-cell-group__title) {
+  color: #7f7f7f;
 }
 </style>
