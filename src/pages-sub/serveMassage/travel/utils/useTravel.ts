@@ -58,7 +58,7 @@ const list = {
         '玛森林动物乐园坐落于雄安新区容城县郊野公园南街，南门总占地面积超过两百亩，园内栖息着六十多种动物，并配备了多样的游乐设施。这个乐园巧妙融合了可爱动物、科普教育和主题娱乐，创造出一个既有趣又富有教育意义的环境。活泼可爱的松鼠形象贯穿游乐主题，巧妙地将科技、动物与自然结合在一起，形成了一座独特的森林乐园。在乐园里，您可以近距离观察到众多珍稀动物，包括憨态可掬的大熊猫、灵动活泼的金丝猴、威风凛凛的白虎以及高大优雅的长颈鹿和黑白相间的斑马等。这些动物在宽敞舒适的环境中悠闲地生活，让您感受到大自然的奇妙之处。此外，乐园还设置了多个主题展区，如非洲草原、亚洲丛林和北极冰原等，孩子们在游玩的同时，可以学习到丰富的动物知识。',
       distance: '100km',
       kTime: '周一至周日09:00-18:00（最晚入园17:00）',
-      img: 'https://oss.xay.xacloudy.cn/images/2024-10/14d8f397-53a8-4d23-b705-fdca167f37e6jy1.png',
+      img: 'https://oss.xay.xacloudy.cn/images/2024-10/d0559d59-1cb4-4c13-9a0d-c06e654feb48ly2.png',
       imgArr: [
         'https://oss.xay.xacloudy.cn/images/2024-10/d0559d59-1cb4-4c13-9a0d-c06e654feb48ly2.png',
         'https://oss.xay.xacloudy.cn/images/2024-10/e039d250-796e-482b-ab6a-4f5ec92c5abbly3.png',
@@ -73,8 +73,9 @@ const list = {
       description:
         '雄安郊野公园以“生态雄安”为主题，集中体现大型林地的生态屏障、水源涵养功能，突出自然野趣、休闲游憩，强调生态、自然、人文特色。雄安郊野公园以河北省地市级行政区划为单元，11个地级市及雄安、定州、辛集14个城市各以自己区划的特色建一个展园，共14个展园，共同构成一个“林为体、水为脉、文为魂”的郊野公园。',
       kTime: '周一至周日07:00-18:00',
-      img: 'https://oss.xay.xacloudy.cn/images/2024-10/dbe0802b-299b-40f1-91a6-c1ba97c5679djy2.png',
+      img: 'https://oss.xay.xacloudy.cn/images/2024-10/14d8f397-53a8-4d23-b705-fdca167f37e6jy1.png',
       imgArr: [
+        'https://oss.xay.xacloudy.cn/images/2024-10/14d8f397-53a8-4d23-b705-fdca167f37e6jy1.png',
         'https://oss.xay.xacloudy.cn/images/2024-10/dbe0802b-299b-40f1-91a6-c1ba97c5679djy2.png',
         'https://oss.xay.xacloudy.cn/images/2024-10/46389d44-30d8-409d-bf2b-8c3f7731dec7jy3.png',
       ],
