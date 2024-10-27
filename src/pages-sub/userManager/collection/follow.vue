@@ -169,15 +169,6 @@ onLoad(async () => {
   /*background-color: #f5f6f8;*/
 }
 
-.mingxi {
-  padding: 2px 5px;
-  margin-left: 10px;
-  font-size: 12px;
-  color: #f44d24;
-  background: #ffece8;
-  border-radius: 2px 2px 2px 2px;
-}
-
 .img {
   overflow: hidden !important;
   border-radius: 5px;
@@ -187,14 +178,5 @@ onLoad(async () => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.num {
-  width: 25px;
-  line-height: 25px;
-  text-align: center;
-  background: #ffffff;
-  border: 1px solid #999999;
-  border-radius: 5px 5px 5px 5px;
 }
 </style>

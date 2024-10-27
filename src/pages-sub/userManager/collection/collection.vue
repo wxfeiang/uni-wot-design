@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import indexbg from '@/static/images/shop/navbg.png'
 import { pathToBase64 } from 'image-tools'
-import { favoritesList, unUserFavorites } from '@/service/api/shop'
+import { favoritesList, unUserFavorites, delUserShop, getUserShopList } from '@/service/api/shop'
 import { Toast } from '@/utils/uniapi/prompt'
 import { routeTo } from '@/utils'
 
@@ -24,32 +24,80 @@ const arrList = ref([])
 const allCheck = ref(false)
 const paging = ref(null)
 const goodList = ref([])
+const showGoods = ref(true)
+const tab = ref<number>(0)
+const goodsNum = ref(0)
+const shopNum = ref(0)
 const getLsit = async (pageNo: number, pageSize: number) => {
   try {
-    const res: any = await favoritesList({
-      current: pageNo,
-      size: pageSize,
-    })
-    res.content.forEach((el) => {
-      el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
-      el.isCheck = false
-    })
-
-    paging.value.complete(res.content)
+    if (showGoods.value) {
+      const res: any = await favoritesList({
+        current: pageNo,
+        size: pageSize,
+      })
+      res.content.forEach((el) => {
+        el.rotationUrl = JSON.parse(el.rotationUrl).map((item) => item.data)
+        el.isCheck = false
+      })
+      goodsNum.value = res.totalElements
+      paging.value.complete(res.content)
+    } else {
+      const res: any = await getUserShopList({
+        current: pageNo,
+        size: pageSize,
+      })
+      const arr = res.map((it) => {
+        it.isCheck = false
+        return it
+      })
+      console.log('关注店铺', res)
+      shopNum.value += arr.length
+      paging.value.complete(arr)
+    }
 
     // paging.value.complete([])
   } catch {
     paging.value.complete(false)
   }
 }
+
+const delFoverShop = (id = '') => {
+  const idList = id ? [id] : arrList.value
+
+  delUserShop({ idList }).then((res) => {
+    Toast('取消收藏成功')
+    paging.value.reload()
+  })
+}
+
 const handleChangeAll = ({ value }) => {
   if (value) {
-    arrList.value = goodList.value.map((it) => it.spuId)
+    if (showGoods.value) {
+      arrList.value = goodList.value.map((it) => it.spuId)
+    } else {
+      arrList.value = goodList.value.map((it) => it.shopBean.id)
+    }
   } else {
     arrList.value.length = 0
   }
 }
+const handleChange2 = ({ value }, id) => {
+  arrList.value.length = 0
+  if (value) {
+    arrList.value.push(id)
+  } else {
+    const idx = arrList.value.indexOf(id)
+    arrList.value.splice(idx, 1)
+  }
+  if (arrList.value.length === goodList.value.length) {
+    allCheck.value = true
+  } else {
+    allCheck.value = false
+  }
+  console.log('arrList.value', arrList.value)
+}
 const handleChange = ({ value }, id) => {
+  arrList.value.length = 0
   if (value) {
     arrList.value.push(id)
   } else {
@@ -67,6 +115,12 @@ const delFoverGoods = () => {
     paging.value.reload()
   })
 }
+const tabChange = ({ index, name }) => {
+  console.log(index, name)
+  showGoods.value = index === 0
+  goodList.value.length = 0
+  paging.value.reload()
+}
 const toString = (val: string) => {
   return JSON.parse(val)
 }
@@ -81,51 +135,115 @@ onLoad(async () => {
     v-model="goodList"
     @query="getLsit"
     class="list"
-    :class="isManage ? 'p-15px pb-80px' : 'p-15px'"
+    :class="isManage ? ' pb-80px' : ''"
   >
-    <template #top>
-      <view class="w-full font-600 flex items-center justify-between px-20px box-border">
-        <view class="line-height-50px">商品数量（{{ goodList.length }}）</view>
-        <view @click="isManage = !isManage">管理</view>
+    <view class="w-full font-600 flex items-center justify-between box-border bg-white pr-15px">
+      <view class="w-2/3">
+        <wd-tabs v-model="tab" @click="tabChange">
+          <block>
+            <wd-tab :title="`收藏商品·${goodsNum}`"></wd-tab>
+            <wd-tab :title="`关注店铺·${shopNum}`"></wd-tab>
+          </block>
+        </wd-tabs>
       </view>
-    </template>
+      <!-- <view class="line-height-50px">商品数量（{{ goodList.length }}）</view> -->
+      <view @click="isManage = !isManage">{{ isManage ? '退出管理' : '管理' }}</view>
+    </view>
 
-    <view
-      class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
-      v-for="item in goodList"
-      :key="item.spuId"
-      @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
-    >
-      <view class="w-full flex">
-        <view class="flex items-center">
-          <wd-checkbox
-            v-if="isManage"
-            v-model="item.isCheck"
-            @change="handleChange($event, item.spuId)"
-          ></wd-checkbox>
-        </view>
-        <wd-img
-          :width="105"
-          :height="105"
-          :src="toString(item.saleUrl)[0].data"
-          custom-class="img"
-        />
-        <view class="ml-15px flex-1 flex flex-col justify-between">
-          <view class="w-190px">
-            <view class="name mb-10px">{{ item.spuName }}</view>
-            <!-- <view style="font-size: 14px; color: #757575">灰色</view> -->
+    <view v-if="showGoods" class="p-15px">
+      <view
+        class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
+        v-for="item in goodList"
+        :key="item.spuId"
+        @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
+      >
+        <view class="w-full flex">
+          <view class="flex items-center">
+            <wd-checkbox
+              v-if="isManage"
+              v-model="item.isCheck"
+              @change="handleChange($event, item.spuId)"
+            ></wd-checkbox>
           </view>
-
-          <view class="w-full flex">
-            <view class="flex items-center" style="font-weight: 600; color: #f44d24">
-              <text style="font-size: 14px">￥</text>
-              <text style="font-size: 18px">{{ item.sellPrice }}</text>
+          <wd-img
+            :width="105"
+            :height="105"
+            :src="toString(item.saleUrl)[0].data"
+            custom-class="img"
+          />
+          <view class="ml-15px flex-1 flex flex-col justify-between">
+            <view class="w-190px">
+              <view class="name mb-10px">{{ item.spuName }}</view>
+              <!-- <view style="font-size: 14px; color: #757575">灰色</view> -->
             </view>
-            <!-- <view class="mingxi flex items-baseline">
+
+            <view class="w-full flex">
+              <view class="flex items-center" style="font-weight: 600; color: #f44d24">
+                <text style="font-size: 14px">￥</text>
+                <text style="font-size: 18px">{{ item.sellPrice }}</text>
+              </view>
+              <!-- <view class="mingxi flex items-baseline">
               <text>券后价</text>
               <text class="font-size-8px font-600 ml-5px">￥</text>
               <text class="font-size-14px font-600">{{item.sellPrice}}</text>
             </view> -->
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view v-else class="w-full p-15px box-border">
+      <view
+        class="bg-white border-rd-10px p-15px box-border w-full mb-10px overflow-hidden"
+        v-for="item in goodList"
+        :key="item.spuId"
+      >
+        <view class="w-full flex">
+          <view class="flex flex-col justify-center items-center">
+            <wd-checkbox
+              v-if="isManage"
+              v-model="item.isCheck"
+              @change="handleChange2($event, item.shopBean.id)"
+            ></wd-checkbox>
+          </view>
+
+          <view
+            class="flex-1 flex overflow-hidden"
+            @click="
+              routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: item.shopBean.id } })
+            "
+          >
+            <wd-img
+              :width="80"
+              :height="80"
+              :src="item.shopInfo.businessLicenseUrl"
+              custom-class="img"
+            />
+            <view class="ml-15px flex-1 flex flex-col justify-between overflow-hidden">
+              <view class="w-full mb-10px fw-600 flex justify-between items-center">
+                <view class="name flex-1">{{ item.shopInfo.name }}</view>
+                <view
+                  @click="delFoverShop(item.shopBean.id)"
+                  class="w-60px fw-400 h-25px line-height-25px font-size-14px text-center border-rd-6px bg-#FFF3F0 color-#F44D24"
+                >
+                  取关
+                </view>
+              </view>
+              <view class="w-full flex items-center">
+                <wd-text :text="`地址：${item.shopInfo.address}`" :lines="1" size="14px"></wd-text>
+                <wd-icon
+                  name="location"
+                  size="14px"
+                  color="#535F7B"
+                  custom-class="ml-5px"
+                ></wd-icon>
+              </view>
+              <view class="w-full flex items-center">
+                <wd-text :text="`电话：${item.shopInfo.phone}`" :lines="1" size="14px"></wd-text>
+                <wd-icon name="call" size="14px" color="#535F7B" custom-class="ml-5px"></wd-icon>
+              </view>
+            </view>
           </view>
         </view>
       </view>
@@ -166,6 +284,7 @@ onLoad(async () => {
   width: 100%;
   height: calc(100vh - 50px);
   margin-top: 50px;
+  background-color: rgb(244, 246, 248);
   /*background-color: #f5f6f8;*/
 }
 
