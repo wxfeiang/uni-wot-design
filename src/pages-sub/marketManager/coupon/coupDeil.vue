@@ -260,7 +260,7 @@ const btnClick2 = async (item) => {
       }
     }
     if (couponInfoData.value.type === 2) {
-      Toast('即将前往商城城中心!')
+      Toast('即将前往商城中心!')
       setTimeout(() => {
         routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
       }, 3000)

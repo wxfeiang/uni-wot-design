@@ -85,7 +85,10 @@ const submitCance = (form) => {
 const LogOut = async () => {
   // TODO: 清除用户信息
   authStore.clearUserInfo()
-  routeTo({ url: '/pages/index/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+  Toast('即将返回首页!')
+  setTimeout(() => {
+    routeTo({ url: '/pages/index/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+  }, 3000)
 }
 
 export default () => {
