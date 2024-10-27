@@ -779,11 +779,11 @@ export function changeOrderStatus<T>(data) {
  * @returns
  */
 
-export function getActivityList(data) {
+export function getActivityList<T>(data) {
   const meta: METHOD_INSTANCE = {
     loading: true,
   }
-  return request.Post(
+  return request.Post<T>(
     GET_ACTIVITY_LIST, // 请求地址
     data,
     {
