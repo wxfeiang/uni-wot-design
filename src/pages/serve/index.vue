@@ -268,11 +268,15 @@ onShow((options: any) => {
 })
 
 onMounted(() => {
+  let w = 260
+  w = 0.64 * uni.getSystemInfoSync().windowWidth
+  console.log('w', w)
+
   getRect('.category', true).then((rects) => {
     console.log('🍾[rects]:', rects)
     if (isArray(rects)) {
-      itemScrollTop.value = rects.map((item) => item.top - 240 || 0)
-      scrollTop.value = rects[active.value].top - 240 || 0
+      itemScrollTop.value = rects.map((item) => item.top - w || 0)
+      scrollTop.value = rects[active.value].top - w || 0
     }
   })
 })
