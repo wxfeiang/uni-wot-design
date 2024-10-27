@@ -407,7 +407,7 @@ onMounted(() => {
 
 .search {
   position: absolute;
-  top: 3px;
+  bottom: 6px;
   left: 20px;
   box-sizing: border-box;
   width: 60%;

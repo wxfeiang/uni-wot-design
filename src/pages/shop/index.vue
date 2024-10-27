@@ -196,6 +196,7 @@ const getUrl = (str) => {
     return ''
   }
 }
+
 function getTagList() {
   const taglist = [
     '五星好评',
@@ -206,6 +207,8 @@ function getTagList() {
     '本月畅销',
     '同款低价',
     '平台好店',
+    '五星好评',
+    '即将售罄',
   ]
   const r1 = (Math.random() * 10).toFixed(0)
   const r2 = (Math.random() * 7.99).toFixed(0)
@@ -445,21 +448,21 @@ onLoad(async () => {
           <view class="box-border absolute right-0 overflow-hidden z-10 showmore">
             <view
               class="py-1 justify-right items-right overflow-hidden"
-              style="padding-bottom: 10px; font-size: 14px"
+              style="padding-bottom: 8px; font-size: 14px"
               @click="gopath('/pages-sub/shopManager/shopCategory')"
             >
               <wd-text
                 text="全部"
                 size="14px"
-                color="#333"
+                color="#666"
                 custom-class="ml-1   float-right "
-                custom-style=" padding-bottom: 10px;"
+                custom-style=" padding-bottom: 10px;line-height: 22px;"
               ></wd-text>
               <wd-icon
                 name="bulletpoint"
-                size="18px"
+                size="14px"
                 custom-class="float-right "
-                custom-style=" padding-bottom: 10px;"
+                custom-style=" padding-bottom: 10px;line-height: 22px;"
               ></wd-icon>
             </view>
           </view>
@@ -480,21 +483,21 @@ onLoad(async () => {
             custom-style="max-height:46vw;border-radius:5px 5px 0 0;overflow: hidden;"
           />
 
-          <view class="w-155px name listname mt-10px mb-5px m-auto float-left">
+          <view class="w-155px name listname mt-5px mb-5px m-auto float-left">
             <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
             {{ item.spuName }}
           </view>
-          <view class="w-full flex mb-10px">
+          <view class="w-full flex mb-5px mx-5px">
             <view
               v-for="(it, ind) in getTagList()"
               :key="ind"
-              class="bg-#FFF0EC border-rd-3px px-5px color-#DF7D65 font-size-10px line-height-15px ml-4px"
+              class="bg-#FFF0EC border-rd-3px px-5px color-#DF7D65 font-size-10px line-height-15px mr-4px"
             >
               {{ it }}
             </view>
           </view>
-          <view>
-            <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
+          <view class="mx-5px">
+            <text style="font-size: 12px; color: #f44d24">￥</text>
             <text style="font-size: 18px; font-weight: 600; color: #f44d24">
               {{ item.sellPrice }}
             </text>
@@ -560,7 +563,7 @@ onLoad(async () => {
               <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
               {{ item.spuName }}
             </view>
-            <view class="w-full flex items-center">
+            <view class="w-full flex items-center mb-5px">
               <view
                 v-for="(it, ind) in getTagList()"
                 :key="ind"
@@ -577,7 +580,7 @@ onLoad(async () => {
                 </text>
 
                 <wd-text
-                  text="￥22"
+                  :text="'￥' + item.originalPrice"
                   size="12px"
                   color="#999999"
                   decoration="line-through"
@@ -696,6 +699,7 @@ onLoad(async () => {
   width: 100%;
   height: 100px;
 }
+
 .tag {
   border: 1px solid #f44d24;
   border-radius: 3px;
