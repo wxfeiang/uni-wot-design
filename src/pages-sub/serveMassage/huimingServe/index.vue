@@ -49,8 +49,15 @@ const queryList = async (pageNo, pageSize) => {
   // 调用接口获取数据
   try {
     await sendSwiperList()
-
-    paging.value.complete(swiperListData.value)
+    const cList = swiperListData.value.content.filter((item) => {
+      return (
+        item.shopHdTitle.indexOf('惠民') > -1 ||
+        item.shopHdTitle.indexOf('雄安一卡通优惠活动火热进行中') > -1
+      )
+    })
+    console.log('🍝[cList]:', cList)
+    dataList.value = cList
+    paging.value.complete(cList)
   } catch (error) {
     paging.value.complete(false)
   }
@@ -65,8 +72,8 @@ function timeclose(e) {
   timeShow.value = false
 }
 
-function swiperClick(data) {
-  const { item } = data
+function swiperClick(item) {
+  // const { item } = data
   if (item.shopHdType === 1) {
     routeTo({ url: item.appUrl, data: { ...item.data } })
   } else if (item.shopHdType === 0) {
@@ -88,10 +95,6 @@ function swiperClick(data) {
     @query="queryList"
     :auto-show-system-loading="true"
     :safe-area-inset-bottom="true"
-    :refresher-enabled="false"
-    :loading-more-enabled="false"
-    :show-loading-more-no-more-view="false"
-    :hide-empty-view="true"
   >
     <template #top>
       <!-- 顶部 -->
@@ -101,7 +104,7 @@ function swiperClick(data) {
         <wd-img :src="bgimg" width="174" height="174"></wd-img>
       </view>
     </template>
-    <view class="px-10px">
+    <!-- <view class="px-10px">
       <wd-skeleton
         animation="flashed"
         :row-col="[{ width: '100%', height: '135px' }]"
@@ -120,6 +123,16 @@ function swiperClick(data) {
           imageMode="scaleToFill"
         ></wd-swiper>
       </wd-skeleton>
+    </view> -->
+    <view class="px-10px">
+      <view v-for="(item, index) in dataList" :key="index" class="mb-10px">
+        <wd-img
+          :src="item.shopHdBanner"
+          width="100%"
+          height="135"
+          @click="swiperClick(item)"
+        ></wd-img>
+      </view>
     </view>
   </z-paging>
 </template>

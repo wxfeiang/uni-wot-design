@@ -8,6 +8,7 @@
 </route>
 
 <script lang="ts" setup>
+import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { pathToBase64 } from 'image-tools'
 import { useMessage } from 'wot-design-uni'
@@ -19,6 +20,7 @@ import bg from '../static/images/integral/topbg.png'
 import { signInFoProps, signMess } from './utils/types'
 import useInter from './utils/useInter'
 const message = useMessage()
+const userStore = useUserStore()
 
 const { sendInterInfo, sendSign, sendInterProductList } = useInter()
 const topbgBase64 = ref('')
@@ -60,6 +62,7 @@ const qiandao = async () => {
     if (qiandaoMsg.value.msg === '签到成功') {
       tips.value = true
       getInterInfo()
+      userStore.setTntegralSataus(true)
     } else {
       message.alert({ msg: qiandaoMsg.value.msg, title: '提示' })
     }

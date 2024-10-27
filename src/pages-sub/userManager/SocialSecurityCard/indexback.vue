@@ -132,8 +132,9 @@ onLoad(async () => {
         })
     }
   } catch (error) {
+    console.log('🥗[error]:', error)
     status.value = false
-    errorText.value = error?.msg || '服务异常!'
+    errorText.value = error?.msg ?? error?.message ?? '服务异常!'
   }
 })
 onMounted(async () => {
@@ -201,7 +202,7 @@ const barodeClick = () => {
         </template>
         <template v-else>
           <view
-            class="h-300px p-20px flex flex-col justify-center items-center rounded-5px bg-#fff"
+            class="h-300px mt-15px p-20px flex flex-col justify-center items-center rounded-5px bg-#fff shadow-lg shadow-blue-500/50"
           >
             <wd-status-tip
               :image="todo"

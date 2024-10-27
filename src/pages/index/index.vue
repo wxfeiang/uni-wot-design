@@ -12,7 +12,6 @@ import bgTip from '@/static/images/index/bgTip.png'
 import bszlicon from '@/static/images/index/bszlicon.png'
 import cjwticon from '@/static/images/index/cjwticon.png'
 import fwwdicon from '@/static/images/index/fwwdicon.png'
-import msgicon from '@/static/images/index/msgicon.png'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useBaseStore } from '@/store'
@@ -149,6 +148,18 @@ const mess2 = ref<messProps[]>([])
 const topbgBase64 = ref(
   'https://oss.xay.xacloudy.cn/images/2024-10/3ce4fcc4-5f4e-4acd-a3e5-238085a09388j95TiPFo8STT8ed4b7daa361d320ff446f49a4aa7467.png',
 )
+const bszlbg = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/7042a1ab-7ecd-4d04-b133-318373b867f1bslbg.png',
+)
+const fwwdbg = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/f04c66e4-56d5-4d4b-95dd-dac4135de0c3fwwdbg.png',
+)
+const cjwtbg = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/a8ce20f6-474c-4b81-9481-6de668f27abbcjwtbg.png',
+)
+const tzxxbg = ref(
+  'https://oss.xay.xacloudy.cn/images/2024-10/838fb3d9-1010-49dd-9901-a255c5b33135tzxx_bg.png',
+)
 const topAction2 = ref<any>([])
 
 // 获取消息
@@ -246,15 +257,20 @@ onPageScroll((e) => {
 
   <!-- 消息 -->
 
-  <wd-gap height="10" bg-color="#fff"></wd-gap>
+  <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
   <view class="px-15px">
-    <view class="h-40px bg-#F1F3FF rounded-6px flex items-center overflow-hidden pr-10px relative">
-      <view class="w-53px h-full bg-#D6E6F9 mr-10px flex box-border pl-15px pt-10px rounded-r-full">
+    <view class="h-40px bg-#fff rounded-6px flex items-center overflow-hidden pr-10px relative">
+      <view class="flex box-border pl-10px">
         <wd-badge :is-dot="false">
-          <wd-img :width="20" :height="20" :src="msgicon" />
+          <view
+            class="w-64px text-#2D69EF text-12px box-border px-5px py-2px rounded-4px text-center"
+            :style="`background-image: url(${tzxxbg}); background-size: 100%`"
+          >
+            平台公告
+          </view>
         </wd-badge>
       </view>
-      <view class="flex-1">
+      <view class="flex-1 pl-10px">
         <wd-skeleton
           animation="flashed"
           :loading="messageLoading || mess1.length < 1"
@@ -280,7 +296,7 @@ onPageScroll((e) => {
   </view>
 
   <!-- 广告位 -->
-  <wd-gap height="10" bg-color="#fff"></wd-gap>
+  <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
   <view class="py-3px h-135px swiper px-15px">
     <wd-skeleton
       animation="flashed"
@@ -301,73 +317,103 @@ onPageScroll((e) => {
       ></wd-swiper>
     </wd-skeleton>
   </view>
-  <!-- 关注公众号 -->
-  <view class="px-15px">
-    <dy-wxguanzhu></dy-wxguanzhu>
-  </view>
-  <!-- 服务专区 -->
-  <wd-gap height="10" bg-color="#fff"></wd-gap>
 
-  <view class="px-15px bg-#fff">
-    <dy-title title="服务场景" bottom></dy-title>
-    <scroll-view scroll-x class="navscroll pb-10px">
-      <view class="flex overflow-x-auto gap-10px w-200%">
-        <view
-          class="flex flex-col justify-center h-100px items-center overflow-hidden rounded-7px bg-#EBF3FE w-80px"
-          v-for="(item, index) in serviceArea"
-          :key="index"
-          @click="serveClick(item)"
-        >
-          <view class="">
-            <wd-img :src="item.icon" width="42" height="42"></wd-img>
-          </view>
-          <view class="text-center text-14px my-10px">
-            {{ item.title }}
+  <!-- 服务专区 -->
+  <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
+  <view class="px-10px">
+    <view class="p-12px pb-3px bg-#fff rounded-6px">
+      <dy-title title="服务专区" bottom></dy-title>
+      <scroll-view scroll-x class="navscroll pb-10px">
+        <view class="flex overflow-x-auto gap-10px w-200%">
+          <view
+            class="flex flex-col h-100px overflow-hidden w-80px bg-no-repeat box-border"
+            v-for="(item, index) in serviceArea"
+            :key="index"
+            @click="serveClick(item)"
+            :style="`background-image: url(${item.bgimg}); background-size: 100% `"
+          >
+            <view class="text-center text-14px line-height-20px mt-10px color-#4B78DC font-600">
+              {{ item.title }}
+            </view>
+
+            <view class="mt-5px ml-10px mr-auto">
+              <wd-img
+                :src="item.texticon"
+                :width="item.width ?? '59'"
+                :height="item.height ?? '21'"
+              ></wd-img>
+            </view>
+            <view class="w-13px h-3px bg-#4B78DC rounded-3px ml-10px mr-auto"></view>
           </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+      <view class="w-50px h-4px bg-#D1DBF0 rounded-3px mx-auto"></view>
+    </view>
+  </view>
+  <!-- 关注公众号 -->
+  <view class="px-10px">
+    <dy-wxguanzhu customClass="bg-#fff rounded-6px"></dy-wxguanzhu>
   </view>
   <!-- 办事指南 -->
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
-  <view class="px-15px py-20px bg-#fff">
-    <view class="flex gap-10px justify-between">
-      <view class="w-40% cj1 box-border p-15px" @click="serveGuild">
-        <view class="text-16px font-600 color-#374A7B">办事指南</view>
-        <view class="bb-2px_#374A7B w-30px my-10px"></view>
-        <view class="color-#859ABE text-10px">如何快速了解一卡通,如何申领,如何使用</view>
-        <view class="mt-20px">
-          <wd-img :src="bszlicon" width="40" height="43"></wd-img>
-        </view>
-      </view>
-      <view class="w-60% flex flex-col justify-between gap-10px">
-        <view class="cj2 box-border p-15px flex justify-between" @click="toBusinessOutlets">
-          <view>
-            <view class="text-16px font-600 color-#DF3636">网点查询</view>
-            <view class="bb-2px_#DF3636 w-30px my-10px"></view>
-            <view class="color-#C9AAAA text-10px">查询附近社保业务办理网点</view>
-          </view>
+  <view class="px-10px">
+    <view class="p-10px rounded-6px bg-#fff">
+      <view class="flex gap-10px justify-between">
+        <view
+          class="w-40% box-border p-15px bg-no-repeat box-border"
+          @click="serveGuild"
+          :style="`background-image: url(${bszlbg}); background-size: 100% 110%;`"
+        >
+          <view class="text-16px font-600 color-#374A7B">办事指南</view>
+          <view class="color-#859ABE text-10px my-10px">如何快速了解一卡通,如何申领,如何使用</view>
+          <view class="bb-2px_#374A7B w-30px"></view>
 
-          <view class="self-end">
-            <wd-img :src="fwwdicon" width="40" height="43"></wd-img>
+          <view class="mt-20px flex justify-end">
+            <wd-img :src="bszlicon" width="43" height="43"></wd-img>
           </view>
         </view>
-        <view class="cj3 box-border p-15px flex justify-between" @click="toServhFor(7)">
-          <view class>
-            <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
-            <view class="bb-2px_#EC5E0C w-30px my-10px"></view>
-            <view class="color-#D2B783 text-10px">快速答疑</view>
-          </view>
+        <view class="w-60% flex flex-col justify-between gap-10px">
+          <view
+            class="bg-no-repeat box-border py-15px pl-15px pr-10px flex justify-between"
+            :style="`background-image: url(${fwwdbg}); background-size: 100% 130%;`"
+            @click="toBusinessOutlets"
+          >
+            <view>
+              <view class="text-16px font-600 color-#DF3636">网点查询</view>
+              <view class="color-#C9AAAA text-10px my-10px">查询附近社保业务办理网点</view>
+              <view class="bb-2px_#DF3636 w-30px"></view>
+            </view>
 
-          <view class="self-end">
-            <wd-img :src="cjwticon" width="40" height="43"></wd-img>
+            <view class="self-end">
+              <wd-img :src="fwwdicon" width="43" height="43"></wd-img>
+            </view>
+          </view>
+          <view
+            class="bg-no-repeat box-border py-15px pl-15px pr-10px flex justify-between"
+            :style="`background-image: url(${cjwtbg}); background-size: 100% 130%;`"
+            @click="toServhFor(7)"
+          >
+            <view class>
+              <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
+              <view class="color-#D2B783 text-10px my-10px">快速答疑</view>
+              <view class="bb-2px_#EC5E0C w-30px"></view>
+            </view>
+
+            <view class="self-end">
+              <wd-img :src="cjwticon" width="43" height="43"></wd-img>
+            </view>
           </view>
         </view>
       </view>
     </view>
   </view>
+  <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
 </template>
-
+<style>
+page {
+  background: #f2f3f7;
+}
+</style>
 <style>
 :deep(.nav_show) {
   @apply bg-transparent!;
@@ -391,10 +437,6 @@ onPageScroll((e) => {
   content: '';
   background: rgba(255, 255, 255, 0.65);
 }
-
-.msg {
-  background: linear-gradient(-74deg, transparent 10px, #2d69ef 0) top right;
-}
 .swiper {
   --wot-swiper-radius: 0;
   --wot-swiper-item-padding: 0 24 rpx;
@@ -407,17 +449,5 @@ onPageScroll((e) => {
 }
 :deep(.custom-class-swiper) {
   @apply rounded-4px! overflow-hidden!;
-}
-.cj1 {
-  background: linear-gradient(180deg, #ecf4ff 0%, #b9deff 100%);
-  border-radius: 3px 3px 3px 3px;
-}
-.cj2 {
-  background: linear-gradient(131deg, #fff4f2 0%, #ffd9d5 100%);
-  border-radius: 3px 3px 3px 3px;
-}
-.cj3 {
-  background: linear-gradient(131deg, #fffdef 0%, #ffebbc 100%);
-  border-radius: 3px 3px 3px 3px;
 }
 </style>

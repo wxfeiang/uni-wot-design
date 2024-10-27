@@ -37,7 +37,7 @@ import { useToast } from 'wot-design-uni'
 import { getRect, isArray } from 'wot-design-uni/components/common/util'
 
 const bg = ref(
-  'https://oss.xay.xacloudy.cn/images/2024-09/21c5af79-c081-48d8-8e4b-18f406d52b25serbg.png',
+  'https://oss.xay.xacloudy.cn/images/2024-10/627a5948-4f0a-49c7-b76d-77b5acd3eb4ey.png',
 )
 const dyheight = ref('100%')
 const toast = useToast()

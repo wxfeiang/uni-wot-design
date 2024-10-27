@@ -71,7 +71,8 @@ const submitCance = (form) => {
     if (valid) {
       try {
         uni.showLoading({ title: '注销中...' })
-        const data: any = await sendUserLogout()
+        await sendUserLogout()
+        Toast('账号注销成功,即将返回首页!')
         LogOut()
       } catch (error) {
         console.log('🍱=====[error]:', error)
@@ -85,7 +86,9 @@ const submitCance = (form) => {
 const LogOut = async () => {
   // TODO: 清除用户信息
   authStore.clearUserInfo()
-  routeTo({ url: '/pages/index/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+  setTimeout(() => {
+    routeTo({ url: '/pages/index/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
+  }, 3000)
 }
 
 export default () => {
