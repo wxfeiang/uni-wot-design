@@ -33,16 +33,17 @@ import nav8 from '../../static/images/shop/shop_nav8.jpg'
 import nav9 from '../../static/images/shop/shop_nav9.jpg'
 import { pathToBase64 } from 'image-tools'
 
-import { getGoodList, getGoodListByType } from '@/service/api/shop'
+import { getGoodList, getGoodListByType, getActivityList } from '@/service/api/shop'
 
 import { routeTo } from '@/utils'
 import useUserOrder from './utils/userOrder'
 
-const { sendGetActivityList: getActivityList } = useUserOrder()
+// const { sendGetActivityList: getActivityList } = useUserOrder()
 const pageOption = ref<PageOption>({
   page: 1,
   size: 10,
-  bannerFlag: 1,
+  // bannerFlag: 1,
+  location: 2,
 })
 const swiperList = ref<IActivityBanner[]>([])
 const current = ref(0)
@@ -189,7 +190,6 @@ async function getLsit(pageNo: number, pageSize: number) {
 
 // /product/manage/itemCategory/categoryList
 const getUrl = (str) => {
-  console.log(str)
   if (str) {
     return JSON.parse(str)[0].data
   } else {
@@ -206,6 +206,7 @@ onLoad(async () => {
   getLsitZY()
   getLabelLsit()
   getLsitBytype()
+
   const { content = [] } = await getActivityList(pageOption.value)
   swiperList.value = content
 })
@@ -448,7 +449,12 @@ onLoad(async () => {
           :key="item.spuId"
           @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
         >
-          <wd-img width="100%" :height="160" :src="getUrl(item.saleUrl)" />
+          <wd-img
+            width="100%"
+            mode="widthFix"
+            :src="getUrl(item.saleUrl)"
+            custom-style="max-height:46vw;border-radius:5px 5px 0 0;overflow: hidden;"
+          />
 
           <view class="w-155px name listname mt-10px mb-5px m-auto float-left">
             <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
@@ -511,7 +517,12 @@ onLoad(async () => {
           v-for="item in LabelList"
           :key="item.spuId"
         >
-          <wd-img :width="86" :height="86" :src="getUrl(item.saleUrl)" />
+          <wd-img
+            :width="86"
+            :height="86"
+            :src="getUrl(item.saleUrl)"
+            custom-style="border-radius: 5px ;overflow: hidden;"
+          />
           <div class="flex-1 ml-15px flex flex-col justify-between">
             <view class="w-full name listname float-left">
               <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
@@ -833,6 +844,7 @@ onLoad(async () => {
     rgba(255, 255, 255, 0)
   );
 }
+
 .listname {
   height: 48px;
   line-height: 24px;

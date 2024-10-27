@@ -9,6 +9,8 @@ import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
+import url from '../../static/images/coupon/cardbg.png'
+
 const { sendReceiveCoupon } = userCoupon()
 
 const { isLogined, userInfo } = storeToRefs(useUserStore())
@@ -98,15 +100,12 @@ const statusBg = computed(() => {
   return props.data.couponStatus === 3 || props.data.couponStatus === 0
 })
 const handleReceive = async (item) => {
-  routeTo({ url: '/pages-sub/marketManager/coupon/coupwebview?state=' + item.couponId })
+  routeTo({ url: '/pages-sub/marketManager/coupon/webview?state=' + item.couponId })
 }
 const toDetil = () => {
-  routeTo({ url: '/pages-sub/marketManager/coupon/coupwebview?state=' + item.couponId })
+  routeTo({ url: '/pages-sub/marketManager/coupon/webview?state=' + item.couponId })
 }
 
-const url = ref(
-  'https://oss.xay.xacloudy.cn/images/2024-09/0791669c-1691-416f-bc2f-1523986a55e9WechatIMG248.jpg',
-)
 const share = () => {
   emit('share')
 }
@@ -132,7 +131,7 @@ const changeDate = (data: string) => {
           class="flex flex-col item-content justify-center gap-10px h-106px w-116px bg-no-repeat"
           :style="`background-image: url(${url});background-size:  100% `"
         >
-          <view class="color-#FF4345 text-center">
+          <view class="color-#22a540 text-center">
             <view class="text-14px">
               {{
                 props.data.couponFillPrice > 0
@@ -141,7 +140,7 @@ const changeDate = (data: string) => {
               }}
             </view>
           </view>
-          <view class="color-#FF4345 flex items-end px-15px justify-between">
+          <view class="color-#22a540 flex items-end px-15px justify-between">
             <view class="text-30px text-center flex-1">
               {{
                 props.data.couponType == 3 ? props.data.couponPrice * 10 : props.data.couponPrice
@@ -171,12 +170,12 @@ const changeDate = (data: string) => {
           </view>
 
           <view class="flex justify-between items-center" v-if="props.actionShow">
-            <view class="color-#FF4345 text-12px flex items-center" @click.stop="showDetil">
+            <view class="color-#22a540 text-12px flex items-center" @click.stop="showDetil">
               查看使用说明
-              <wd-icon name="fill-arrow-down" color="#FF4345" size="16px"></wd-icon>
+              <wd-icon name="fill-arrow-down" color="#22a540" size="16px"></wd-icon>
             </view>
             <view
-              class="px-15px py-2px rounded-full bd-1px_#FF4345 color-#FF4345 text-12px"
+              class="px-15px py-2px rounded-full bd-1px_#22a540 color-#22a540 text-12px"
               @click.stop="handleReceive(props.data)"
               v-if="statusCoupopn.btnShow"
             >
@@ -191,7 +190,7 @@ const changeDate = (data: string) => {
       <!-- 详情显示1 -->
       <view :class="open ? 'block' : 'hidden'" class="mx-[-20px] mb-[-10px] bg-#fff">
         <view class="px-30px">
-          <view class="p-10px bg-#FFE8E3 color-#FF4345 text-12px line-height-20px">
+          <view class="p-10px bg-#FFE8E3 color-#22a540 text-12px line-height-20px">
             <view v-if="props.data.couponReceiveBeginDate">
               领取时间:
               {{
@@ -222,8 +221,8 @@ const changeDate = (data: string) => {
         v-if="statusBg && props.isShare && isLogined"
       >
         <view class="flex justify-center items-center gap-5px" @click.stop="share">
-          <wd-icon name="share" size="12px" color="#FF4345"></wd-icon>
-          <text class="color-#FF4345 text-12px">分享</text>
+          <wd-icon name="share" size="12px" color="#22a540"></wd-icon>
+          <text class="color-#22a540 text-12px">分享</text>
         </view>
       </view>
     </view>

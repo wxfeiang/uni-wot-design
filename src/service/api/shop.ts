@@ -778,7 +778,19 @@ export function changeOrderStatus<T>(data) {
  * @param params 分页
  * @returns
  */
-export const getActivityList = <T>(params) => request.Post<T>(GET_ACTIVITY_LIST, params)
+
+export function getActivityList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_ACTIVITY_LIST, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  * 活动详情

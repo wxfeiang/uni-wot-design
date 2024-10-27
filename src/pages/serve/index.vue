@@ -279,64 +279,76 @@ onMounted(() => {
 </script>
 
 <template>
-  <view
-    class="wraper bg-#F2F3F7 box-border overflow-hidden! bg-no-repeat"
-    :style="`background-image: url(${bg}) ;background-size: 100% 250px`"
-  >
-    <wd-sidebar v-model="active" @change="handleChange" customClass="customClass-warp">
-      <wd-sidebar-item
-        v-for="(item, index) in categories"
-        :key="index"
-        :value="index"
-        :label="item.label"
-        customClass="customClass"
-      />
-    </wd-sidebar>
-    <view class="flex-1 right-h bg-#fff mt-190px mr-10px rounded-10px mb-20px">
-      <scroll-view
-        class="content"
-        scroll-y
-        scroll-with-animation
-        :scroll-top="scrollTop"
-        :throttle="false"
-        @scroll="onScroll"
-      >
-        <view
-          class="py-10px flex justify-between items-center pl-20px pr-15px bg-#F7F7F7"
-          @click="toServhFor(2)"
-        >
-          <view class="text-14px color-#999">请输入关键词搜索</view>
-          <wd-icon name="search" size="12px" color="#999 "></wd-icon>
-        </view>
-        <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
-          <view v-for="(s, si) in item.items" :key="si">
-            <view class="pl-10px">
-              <dy-title
-                :title="s.sTitle"
-                class="pl-10px mb-0! py-10px"
-                customClass="customClass-title"
-              ></dy-title>
-            </view>
-            <wd-grid :column="3" clickable>
-              <wd-grid-item
-                use-icon-slot
-                use-text-slot
-                v-for="(cell, index) in s.list"
+  <view style="height: 100vh">
+    <view
+      class="wraper bg-#F2F3F7 box-border overflow-hidden! bg-no-repeat h-250px"
+      :style="`background-image: url(${bg}) ;background-size: 100% 250px`"
+    >
+      <!--    <view-->
+      <!--      class="py-10px flex justify-between items-center pl-20px pr-15px bg-#F7F7F7"-->
+      <!--      @click="toServhFor(2)"-->
+      <!--    >-->
+      <!--      <view class="text-14px color-#999">请输入关键词搜索</view>-->
+      <!--      <wd-icon name="search" size="12px" color="#999 "></wd-icon>-->
+      <!--    </view>-->
+
+      <view style="height: calc(100vh - 250px)">
+        <wd-sidebar v-model="active" @change="handleChange" customClass="customClass-warp">
+          <wd-sidebar-item
+            v-for="(item, index) in categories"
+            :key="index"
+            :value="index"
+            :label="item.label"
+            customClass="customClass"
+          />
+        </wd-sidebar>
+        <view class="right-h bg-#fff mt-190px mr-10px rounded-10px mb-20px" style="flex: 1">
+          <scroll-view
+            class="content"
+            scroll-y
+            scroll-with-animation
+            :scroll-top="scrollTop"
+            :throttle="false"
+            @scroll="onScroll"
+          >
+            <view style="padding-bottom: 90vh">
+              <view
+                v-for="(item, index) in categories"
                 :key="index"
-                custom-class="grid-item"
-                @itemclick="gridClick(cell)"
+                class="category"
+                :id="'id' + index"
               >
-                <template #icon>
-                  <image class="wh-42px rounded-10px" :src="cell.url" />
-                </template>
-                <template #text>
-                  <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
-                </template>
-              </wd-grid-item>
-            </wd-grid>
-          </view>
+                <view v-for="(s, si) in item.items" :key="si">
+                  <view class="pl-10px">
+                    <dy-title
+                      :title="s.sTitle"
+                      class="pl-10px mb-0! py-10px"
+                      customClass="customClass-title"
+                    ></dy-title>
+                  </view>
+                  <wd-grid :column="3" clickable>
+                    <wd-grid-item
+                      use-icon-slot
+                      use-text-slot
+                      v-for="(cell, index) in s.list"
+                      :key="index"
+                      custom-class="grid-item"
+                      @itemclick="gridClick(cell)"
+                    >
+                      <template #icon>
+                        <image class="wh-42px rounded-10px" :src="cell.url" />
+                      </template>
+                      <template #text>
+                        <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
+                      </template>
+                    </wd-grid-item>
+                  </wd-grid>
+                </view>
+              </view>
+            </view>
+          </scroll-view>
         </view>
-      </scroll-view>
+      </view>
     </view>
   </view>
 </template>
@@ -349,17 +361,21 @@ onMounted(() => {
 :deep(.wd-grid-item) {
   @apply justify-start! py-1px!;
 }
+
 :deep(.wd-grid-item__content) {
   @apply py-1px!;
 }
+
 :deep(.wd-sidebar) {
   @apply bg-#F2F3F7!;
 }
+
 :deep(.wd-sidebar-item--active) {
   @apply color-#2D69EF;
   background: linear-gradient(270deg, #f2f3f7 0%, #d1e8ff 100%) !important;
   border-radius: 0px 10px 0px 0px !important;
 }
+
 .wraper {
   display: flex;
   height: calc(100vh - var(--window-top));
@@ -379,6 +395,7 @@ onMounted(() => {
   // border-radius: 0 10px 10px 0;
   // box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
 }
+
 .right-h {
   height: calc(100vh - 180px);
 }
@@ -386,9 +403,11 @@ onMounted(() => {
 :deep(.customClass-warp) {
   @apply mt-190px;
 }
+
 :deep(.customClass) {
   @apply text-12px!;
 }
+
 :deep(.customClass-title) {
   text {
     @apply font-400! text-14px!;

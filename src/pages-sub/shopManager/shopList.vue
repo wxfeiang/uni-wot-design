@@ -132,7 +132,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
   try {
     const res: any = await getRecommendProductList({
       current: pageNo,
-      size: pageSize,
+      size: 20,
       ...model,
       subjectType: subjectType.value,
       shopName: shopName.value,

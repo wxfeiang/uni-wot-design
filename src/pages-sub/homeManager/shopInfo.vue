@@ -262,13 +262,10 @@ onShareTimeline(() => {
       value-key="data"
       autoplay
       v-model:current="current"
-      height="400px"
-      customStyle="border-radius: 0"
+      height="100vw"
+      customStyle="border-radius: 10px;overflow:hidden"
     ></wd-swiper>
-    <view
-      class="bg-#F5F6F8 w-full pos-absolute p-20px box-border overflow-hidden p-b-100px"
-      style="top: 420px; border-radius: 20px 20px 0 0"
-    >
+    <view class="bg-#F5F6F8 w-full pos-relative p-20px box-border overflow-hidden p-b-100px">
       <view class="w-full flex justify-between items-center">
         <view class="flex items-center">
           <wd-text text="￥" color="#F44D24" size="16px"></wd-text>
