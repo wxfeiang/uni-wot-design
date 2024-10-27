@@ -347,6 +347,7 @@ export function getQrcodelnit(data) {
     ignorEencrypt: true,
     loading: true,
     Analysis: true,
+    Tips: true,
   }
   return request.Post(QRCODELNIT, data, {
     meta,

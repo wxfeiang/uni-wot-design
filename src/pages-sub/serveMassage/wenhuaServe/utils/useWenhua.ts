@@ -20,7 +20,7 @@ const list = {
       img: 'https://oss.xay.xacloudy.cn/images/2024-10/3648635c-0439-40b1-a227-59f87340a7dcdd.jpg',
     },
     {
-      name: '安体育中心(建设中)',
+      name: '雄安体育中心(建设中)',
       address: '河北省雄安新区容城县雄安体育中心项目北京城建集团工程总承包部北侧210米',
       latitude: 39.040806,
       longitude: 115.967103,

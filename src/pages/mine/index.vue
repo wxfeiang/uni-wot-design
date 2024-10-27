@@ -226,7 +226,7 @@ onShow(async () => {
         </view>
         <view class="grid grid-cols-3 gap-10px">
           <view
-            class="flex items-center py-10px gap-5px"
+            class="flex items-center py-10px gap-5px place-items-center"
             v-for="(item, index) in grzqList"
             :key="index"
             @click="serveClick(item)"
