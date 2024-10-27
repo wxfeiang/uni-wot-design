@@ -228,7 +228,7 @@ onPageScroll((e) => {
         @click="actionTop(item)"
       >
         <wd-img :width="50" :height="50" :src="item.icon" />
-        <view class="mt-4px text-14px">{{ item.text }}</view>
+        <view class="text-14px">{{ item.text }}</view>
       </view>
     </view>
     <view class="flex justify-center absolute bottom-6px w-full">
@@ -258,7 +258,7 @@ onPageScroll((e) => {
   <!-- 消息 -->
 
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
-  <view class="px-15px">
+  <view class="px-12px">
     <view class="h-40px bg-#fff rounded-6px flex items-center overflow-hidden pr-10px relative">
       <view class="flex box-border pl-10px">
         <wd-badge :is-dot="false">
@@ -297,7 +297,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
-  <view class="py-3px h-135px swiper px-15px">
+  <view class="py-3px h-135px swiper px-12px">
     <wd-skeleton
       animation="flashed"
       :row-col="[{ width: '100%', height: '135px' }]"
@@ -336,7 +336,7 @@ onPageScroll((e) => {
               {{ item.title }}
             </view>
 
-            <view class="mt-5px ml-10px mr-auto">
+            <view class="my-3px ml-10px mr-auto h-21px flex justify-start">
               <wd-img
                 :src="item.texticon"
                 :width="item.width ?? '59'"
@@ -365,7 +365,7 @@ onPageScroll((e) => {
           :style="`background-image: url(${bszlbg}); background-size: 100% 110%;`"
         >
           <view class="text-16px font-600 color-#374A7B">办事指南</view>
-          <view class="color-#859ABE text-10px my-10px">如何快速了解一卡通,如何申领,如何使用</view>
+          <view class="color-#859ABE text-10px my-5px">如何快速了解一卡通,如何申领,如何使用</view>
           <view class="bb-2px_#374A7B w-30px"></view>
 
           <view class="mt-20px flex justify-end">
@@ -380,7 +380,7 @@ onPageScroll((e) => {
           >
             <view>
               <view class="text-16px font-600 color-#DF3636">网点查询</view>
-              <view class="color-#C9AAAA text-10px my-10px">查询附近社保业务办理网点</view>
+              <view class="color-#C9AAAA text-10px my-5px">查询附近社保业务办理网点</view>
               <view class="bb-2px_#DF3636 w-30px"></view>
             </view>
 
@@ -395,7 +395,7 @@ onPageScroll((e) => {
           >
             <view class>
               <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
-              <view class="color-#D2B783 text-10px my-10px">快速答疑</view>
+              <view class="color-#D2B783 text-10px my-5px">快速答疑</view>
               <view class="bb-2px_#EC5E0C w-30px"></view>
             </view>
 

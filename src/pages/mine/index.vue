@@ -226,7 +226,7 @@ onShow(async () => {
         </view>
         <view class="grid grid-cols-3 gap-10px">
           <view
-            class="flex items-center py-10px gap-5px place-items-center"
+            class="flex items-center pt-10px gap-5px place-items-center"
             v-for="(item, index) in grzqList"
             :key="index"
             @click="serveClick(item)"
@@ -237,7 +237,7 @@ onShow(async () => {
               </view>
             </wd-badge>
 
-            <view class="text-13px text-center">
+            <view class="text-13px text-center mb-4px">
               {{ item.title }}
             </view>
           </view>
@@ -313,7 +313,7 @@ onShow(async () => {
       <view class="p-10px bg-#fff rounded-7px">
         <view class="grid grid-cols-5">
           <view
-            class="flex flex-col items-center py-10px"
+            class="flex flex-col items-center pt-10px"
             v-for="(item, index) in serveList"
             :key="index"
             @click="serveClick(item)"
@@ -324,7 +324,7 @@ onShow(async () => {
               </view>
             </wd-badge>
 
-            <view class="text-13px mt-10px text-center">
+            <view class="text-13px mt-5px text-center">
               {{ item.title }}
             </view>
           </view>

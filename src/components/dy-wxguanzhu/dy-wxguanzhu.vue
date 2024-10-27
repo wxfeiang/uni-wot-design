@@ -55,14 +55,14 @@ onShow(async () => {
     <wd-gap height="10" bg-color="#F2F3F7" v-if="props.gap"></wd-gap>
     <view :class="props.customClass">
       <view
-        class="flex justify-between items-center p-10px bd-1px_solid_#F7F7F7 relative rounded-4px gap-10px pr-30px"
+        class="flex justify-between items-center px-10px py-5px bd-1px_solid_#F7F7F7 relative rounded-4px gap-10px pr-30px"
       >
         <view>
           <wd-img :src="logo" height="40" width="40"></wd-img>
         </view>
         <view class="flex-1">
           <view class="text-14px">关注雄安一卡通公众号</view>
-          <view class="color-#B1B1B1 text-12px mt-5px">雄安新区社会保障卡一卡通服务</view>
+          <view class="color-#B1B1B1 text-12px mt-3px">雄安新区社会保障卡一卡通服务</view>
         </view>
         <view
           class="px-10px py-3px color-#fff text-12px bg-#2D69EF rounded-1000"
