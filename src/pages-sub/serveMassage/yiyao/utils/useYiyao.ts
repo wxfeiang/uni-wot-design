@@ -111,10 +111,10 @@ const list = {
       distance: '10km',
     },
     {
-      name: '容城县人民医院-体检',
-      address: '河北省雄安新区容城县西关金台路78号',
-      latitude: '39.052051',
-      longitude: '115.861903',
+      name: '北京大学人民医院雄安健康管理中心',
+      address: '河北省雄安新区商服中心5号楼A座1楼',
+      latitude: 39.054372,
+      longitude: 115.91337,
       description:
         '雄安新区体检中心是雄安新区的一所体检中心，提供全面的体检服务，包括常规体检、专业体检等。',
       distance: '10km',

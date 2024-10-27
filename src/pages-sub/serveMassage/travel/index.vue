@@ -123,7 +123,7 @@ onMounted(async () => {
           <view
             class="flex justify-between items-center bb-1px_#ECECEC pr-10px text-14px color-#999 truncate-1 line-height-30px"
           >
-            <view>地址: {{ item.address }}</view>
+            <view @click="useToLocation(item)">地址: {{ item.address }}</view>
           </view>
           <view
             class="flex justify-between items-center line-height-20px pr-10px text-14px color-#999 mt-5px"

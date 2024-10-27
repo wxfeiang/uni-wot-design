@@ -266,7 +266,7 @@ onPageScroll((e) => {
             class="w-64px text-#2D69EF text-12px box-border px-5px py-2px rounded-4px text-center"
             :style="`background-image: url(${tzxxbg}); background-size: 100%`"
           >
-            消息通知
+            平台公告
           </view>
         </wd-badge>
       </view>

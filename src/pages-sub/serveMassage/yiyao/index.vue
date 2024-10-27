@@ -147,7 +147,7 @@ onMounted(async () => {
         <view
           class="flex justify-between items-center py-10px bb-1px_#ECECEC_dashed ml-20px pr-10px text-14px color-#999"
         >
-          <view>地址: {{ item.address }}</view>
+          <view @click="useToLocation(item)">地址: {{ item.address }}</view>
           <view></view>
         </view>
         <view

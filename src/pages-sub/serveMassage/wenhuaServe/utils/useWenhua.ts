@@ -19,6 +19,15 @@ const list = {
       distance: '20km',
       img: 'https://oss.xay.xacloudy.cn/images/2024-10/3648635c-0439-40b1-a227-59f87340a7dcdd.jpg',
     },
+    {
+      name: '安体育中心(建设中)',
+      address: '河北省雄安新区容城县雄安体育中心项目北京城建集团工程总承包部北侧210米',
+      latitude: 39.040806,
+      longitude: 115.967103,
+      description: '666',
+      img: 'https://oss.xay.xacloudy.cn/images/2024-10/47bca059-062f-47c1-a57f-fffe63071aeftyzx.png',
+      distance: '10km',
+    },
   ],
 
   1: [
@@ -50,7 +59,7 @@ const list = {
       description:
         '雄安新区体检中心是雄安新区的一所体检中心，提供全面的体检服务，包括常规体检、专业体检等。',
       distance: '10km',
-      img: 'https://oss.xay.xacloudy.cn/images/2024-10/13e542f4-d576-4a19-823a-ee8e7841bbae%E6%82%A6%E5%AE%B91%20(1).png',
+      img: 'https://oss.xay.xacloudy.cn/images/2024-10/1e0aad8f-50d2-43e7-9ea3-627a22469c01tsg.png',
     },
   ],
 }
