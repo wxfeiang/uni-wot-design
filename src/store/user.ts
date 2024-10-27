@@ -44,6 +44,12 @@ export const useUserStore = defineStore(
       noLoginRequired.value = val
     }
 
+    // 记录是是否已经积分签到
+    const integralSataus = ref(false)
+    function setTntegralSataus(val: boolean) {
+      integralSataus.value = val
+    }
+
     return {
       userInfo,
       setUserInfo,
@@ -54,6 +60,8 @@ export const useUserStore = defineStore(
       isTokenExpired,
       noLoginRequired,
       setNoLoginRequired,
+      integralSataus,
+      setTntegralSataus,
     }
   },
   {

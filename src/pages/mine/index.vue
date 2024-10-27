@@ -36,7 +36,7 @@ const {
   sendBusinessInfo,
   grzqList,
 } = useInfo()
-const { isLogined, userInfo } = storeToRefs(useUserStore())
+const { isLogined, userInfo, integralSataus } = storeToRefs(useUserStore())
 const message = useMessage()
 
 function login() {
@@ -193,7 +193,7 @@ onShow(async () => {
           v-if="isLogined"
         >
           <i class="iconfont xa-jinbi2 text-20px"></i>
-          <text>签到</text>
+          <text>{{ integralSataus ? '已签到' : '签到' }}</text>
         </view>
       </view>
       <view class="py-10px mt-3%">
