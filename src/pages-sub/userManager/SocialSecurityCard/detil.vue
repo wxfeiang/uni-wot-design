@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 import { getUserCardDetail } from '@/service/api/userMessage'
 import { useUserStore } from '@/store'
-import { changeDict } from '@/utils/index'
+import { changeDict, routeTo } from '@/utils/index'
 import { useRequest } from 'alova/client'
 import { storeToRefs } from 'pinia'
 import userCardSev from './utils/userCardSev'
@@ -88,13 +88,15 @@ const bkdict = {
   '303': '光大银行',
   '402': '河北农信社',
 }
+const toShebao = () => {
+  routeTo({
+    url: '/pages-sub/serveMain/cardApplyType',
+    data: { base: 'shebaoksl', title: '社保卡申领' },
+  })
+}
 onLoad(async () => {
   try {
     await sendCardDetail({ cardId: userInfo.value.cardId })
-    console.log('🍰', cardDetailData.value)
-    // if(cardDetailData.value && cardDetailData.value.bankCard) {
-
-    // }
   } catch (error) {
     console.log('🍡[error]:', error)
     status.value = false
@@ -176,7 +178,14 @@ onLoad(async () => {
       </view>
       <template v-else>
         <view class="bg-#fff py-20px">
-          <wd-status-tip image="search" tip="没有查询到该信息" />
+          <wd-status-tip image="search" />
+          <view>
+            <view class="text-12px text-center">
+              未查询到您在雄安新区的社保信息，请先申领社保卡!
+              <!-- <wd-button size="small" type="text" @click="toShebao">申领社保卡</wd-button> -->
+              ！
+            </view>
+          </view>
         </view>
       </template>
     </view>
