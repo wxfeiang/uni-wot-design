@@ -128,7 +128,7 @@ function swiperClick(item) {
       <view v-for="(item, index) in dataList" :key="index" class="mb-10px">
         <wd-img
           :src="item.shopHdBanner"
-          width="345"
+          width="100%"
           height="135"
           @click="swiperClick(item)"
         ></wd-img>
