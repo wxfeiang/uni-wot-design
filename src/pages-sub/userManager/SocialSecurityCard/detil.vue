@@ -181,7 +181,7 @@ onLoad(async () => {
           <wd-status-tip image="search" />
           <view>
             <view class="text-12px text-center">
-              未查询到您在雄安新区的社保信息，请先申领社保卡!
+              未查询到您在雄安新区的社保信息，请先申领社保卡
               <!-- <wd-button size="small" type="text" @click="toShebao">申领社保卡</wd-button> -->
               ！
             </view>
