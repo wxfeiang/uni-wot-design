@@ -279,76 +279,67 @@ onMounted(() => {
 </script>
 
 <template>
-  <view style="height: 100vh">
-    <view
-      class="wraper bg-#F2F3F7 box-border overflow-hidden! bg-no-repeat h-250px"
-      :style="`background-image: url(${bg}) ;background-size: 100% 250px`"
-    >
-      <!--    <view-->
-      <!--      class="py-10px flex justify-between items-center pl-20px pr-15px bg-#F7F7F7"-->
-      <!--      @click="toServhFor(2)"-->
-      <!--    >-->
-      <!--      <view class="text-14px color-#999">请输入关键词搜索</view>-->
-      <!--      <wd-icon name="search" size="12px" color="#999 "></wd-icon>-->
-      <!--    </view>-->
+  <view class="flex flex-col justify-between" style="height: calc(100vh)">
+    <view class="topBg">
+      <wd-navbar safeAreaInsetTop fixed custom-style="background: transparent;">
+        <template #title>
+          <view class="flex justify-between items-center bg-#F7F7F7 search" @click="toServhFor(2)">
+            <view class="text-14px color-#999">请输入关键词搜索</view>
+            <wd-icon name="search" size="12px" color="#999 "></wd-icon>
+          </view>
+        </template>
+      </wd-navbar>
+    </view>
 
-      <view style="height: calc(100vh - 250px)">
-        <wd-sidebar v-model="active" @change="handleChange" customClass="customClass-warp">
-          <wd-sidebar-item
-            v-for="(item, index) in categories"
-            :key="index"
-            :value="index"
-            :label="item.label"
-            customClass="customClass"
-          />
-        </wd-sidebar>
-        <view class="right-h bg-#fff mt-190px mr-10px rounded-10px mb-20px" style="flex: 1">
-          <scroll-view
-            class="content"
-            scroll-y
-            scroll-with-animation
-            :scroll-top="scrollTop"
-            :throttle="false"
-            @scroll="onScroll"
-          >
-            <view style="padding-bottom: 90vh">
-              <view
-                v-for="(item, index) in categories"
-                :key="index"
-                class="category"
-                :id="'id' + index"
-              >
-                <view v-for="(s, si) in item.items" :key="si">
-                  <view class="pl-10px">
-                    <dy-title
-                      :title="s.sTitle"
-                      class="pl-10px mb-0! py-10px"
-                      customClass="customClass-title"
-                    ></dy-title>
-                  </view>
-                  <wd-grid :column="3" clickable>
-                    <wd-grid-item
-                      use-icon-slot
-                      use-text-slot
-                      v-for="(cell, index) in s.list"
-                      :key="index"
-                      custom-class="grid-item"
-                      @itemclick="gridClick(cell)"
-                    >
-                      <template #icon>
-                        <image class="wh-42px rounded-10px" :src="cell.url" />
-                      </template>
-                      <template #text>
-                        <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
-                      </template>
-                    </wd-grid-item>
-                  </wd-grid>
-                </view>
-              </view>
+    <view class="wraper bg-#fff" style="height: calc(100vh - 64vw)">
+      <wd-sidebar v-model="active" @change="handleChange">
+        <wd-sidebar-item
+          v-for="(item, index) in categories"
+          :key="index"
+          :value="index"
+          :label="item.label"
+          customClass="customClass"
+        />
+      </wd-sidebar>
+
+      <scroll-view
+        class="content"
+        scroll-y
+        scroll-with-animation
+        :throttle="false"
+        :scroll-top="scrollTop"
+        @scroll="onScroll"
+      >
+        <view v-for="(item, index) in categories" :key="index" class="category" :id="'id' + index">
+          <view v-for="(s, si) in item.items" :key="si">
+            <view class="pl-10px">
+              <dy-title
+                :title="s.sTitle"
+                class="pl-10px mb-0! py-10px"
+                customClass="customClass-title"
+              ></dy-title>
             </view>
-          </scroll-view>
+            <wd-grid :column="3" clickable>
+              <wd-grid-item
+                use-icon-slot
+                use-text-slot
+                v-for="(cell, index) in s.list"
+                :key="index"
+                custom-class="grid-item"
+                @itemclick="gridClick(cell)"
+              >
+                <template #icon>
+                  <image class="wh-42px rounded-10px" :src="cell.url" />
+                </template>
+                <template #text>
+                  <view class="text-center py-15px color-#7B838D">{{ cell.title }}</view>
+                </template>
+              </wd-grid-item>
+            </wd-grid>
+          </view>
         </view>
-      </view>
+        <view style="height: calc(100vh - 64vw - 130px)"></view>
+      </scroll-view>
     </view>
   </view>
 </template>
@@ -378,9 +369,8 @@ onMounted(() => {
 
 .wraper {
   display: flex;
-  height: calc(100vh - var(--window-top));
-  height: calc(100vh - var(--window-top) - constant(safe-area-inset-bottom));
-  height: calc(100vh - var(--window-top) - env(safe-area-inset-bottom));
+  height: 100%;
+  overflow: auto;
 }
 
 .content {
@@ -396,14 +386,6 @@ onMounted(() => {
   // box-shadow: 0px 0px 12px 1px rgba(114, 114, 114, 0.08);
 }
 
-.right-h {
-  height: calc(100vh - 180px);
-}
-
-:deep(.customClass-warp) {
-  @apply mt-190px;
-}
-
 :deep(.customClass) {
   @apply text-12px!;
 }
@@ -412,5 +394,28 @@ onMounted(() => {
   text {
     @apply font-400! text-14px!;
   }
+}
+
+.topBg {
+  height: 64vw;
+  background-color: #d1e8ff;
+  background-image: url('https://oss.xay.xacloudy.cn/images/2024-10/627a5948-4f0a-49c7-b76d-77b5acd3eb4ey.png');
+  background-repeat: no-repeat;
+  background-position: center bottom -40px;
+  background-size: 100% auto;
+}
+
+.search {
+  position: absolute;
+  top: 3px;
+  left: 20px;
+  box-sizing: border-box;
+  width: 60%;
+  height: 32px;
+  padding: 0 15px;
+  overflow: hidden;
+  font-weight: normal;
+  line-height: 32px;
+  border-radius: 24px;
 }
 </style>

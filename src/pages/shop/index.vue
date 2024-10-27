@@ -196,7 +196,31 @@ const getUrl = (str) => {
     return ''
   }
 }
-onPageScroll((e) => {})
+function getTagList() {
+  const taglist = [
+    '五星好评',
+    '即将售罄',
+    '复购最高',
+    '优惠降价',
+    '历史低价',
+    '本月畅销',
+    '同款低价',
+    '平台好店',
+  ]
+  const r1 = (Math.random() * 10).toFixed(0)
+  const r2 = (Math.random() * 7.99).toFixed(0)
+  const r3 = (Math.random() * 7.99).toFixed(0)
+  const list = []
+  if (r1 % 2 === 0) {
+    list.push(taglist[r2])
+  } else {
+    list.push(taglist[r2])
+    if (r2 !== r3) {
+      list.push(taglist[r3])
+    }
+  }
+  return list
+}
 
 onLoad(async () => {
   // 设置背景图片
@@ -398,7 +422,7 @@ onLoad(async () => {
           <view
             class="flex z-0"
             style="
-              width: calc(100% - 90px);
+              width: calc(100% - 60px);
               overflow-x: hidden;
               overflow-x: auto;
               white-space: nowrap;
@@ -412,7 +436,9 @@ onLoad(async () => {
                 v-for="(it, index) in goodListType"
                 :key="index"
               >
-                <view class="navType" :class="actCode === it.code ? 'act' : ''">{{ it.name }}</view>
+                <view class="navType" :class="actCode === it.code ? 'act' : ''" v-if="index < 4">
+                  {{ it.name }}
+                </view>
               </view>
             </view>
           </view>
@@ -423,7 +449,7 @@ onLoad(async () => {
               @click="gopath('/pages-sub/shopManager/shopCategory')"
             >
               <wd-text
-                text="全部分类"
+                text="全部"
                 size="14px"
                 color="#333"
                 custom-class="ml-1   float-right "
@@ -431,12 +457,10 @@ onLoad(async () => {
               ></wd-text>
               <wd-icon
                 name="bulletpoint"
-                size="22px"
+                size="18px"
                 custom-class="float-right "
                 custom-style=" padding-bottom: 10px;"
-              >
-                全部分类
-              </wd-icon>
+              ></wd-icon>
             </view>
           </view>
         </view>
@@ -460,7 +484,15 @@ onLoad(async () => {
             <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
             {{ item.spuName }}
           </view>
-
+          <view class="w-full flex mb-10px">
+            <view
+              v-for="(it, ind) in getTagList()"
+              :key="ind"
+              class="bg-#FFF0EC border-rd-3px px-5px color-#DF7D65 font-size-10px line-height-15px ml-4px"
+            >
+              {{ it }}
+            </view>
+          </view>
           <view>
             <text style="margin-left: 10px; font-size: 12px; color: #f44d24">￥</text>
             <text style="font-size: 18px; font-weight: 600; color: #f44d24">
@@ -528,7 +560,15 @@ onLoad(async () => {
               <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
               {{ item.spuName }}
             </view>
-
+            <view class="w-full flex items-center">
+              <view
+                v-for="(it, ind) in getTagList()"
+                :key="ind"
+                class="tag color-#F44D24 font-size-10px line-height-17px px-3px mr-4px"
+              >
+                {{ it }}
+              </view>
+            </view>
             <view class="flex justify-between">
               <view>
                 <text style="font-size: 12px; color: #f44d24">￥</text>
@@ -655,6 +695,10 @@ onLoad(async () => {
   position: relative;
   width: 100%;
   height: 100px;
+}
+.tag {
+  border: 1px solid #f44d24;
+  border-radius: 3px;
 }
 
 .swiper-item {
@@ -834,7 +878,7 @@ onLoad(async () => {
 }
 
 .showmore {
-  width: 120px;
+  width: 70px;
   background-image: linear-gradient(
     -90deg,
     #f7f7f7,
