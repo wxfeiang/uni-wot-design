@@ -92,11 +92,19 @@ const chooseact = (item, ind) => {
 }
 
 onLoad(async (options) => {
-  // console.log('传参', JSON.parse(decodeURIComponent(options.obj)))
+  console.log('传参', JSON.parse(decodeURIComponent(options.obj)))
   orderDetails.value = JSON.parse(decodeURIComponent(options.obj))
   couponList.value = []
   couponS.value = []
+
   orderDetails.value.forEach((element, index) => {
+    const arr = element.deliveryMode.split(',')
+    actions.value.forEach((it, idx) => {
+      if (arr.includes(idx)) {
+        it.disabled = false
+      }
+    })
+    console.log('actions.value', arr, actions.value)
     element.userId = userStore.userInfo.userDId
     element.appKey = 1
     totalPrice.value = orderDetails.value.reduce((a, b) => a + b.deliveryAmount, 0)

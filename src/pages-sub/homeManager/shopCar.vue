@@ -30,8 +30,21 @@ const userStore = useUserStore()
 const isManage = ref(false)
 const topbgBase64 = ref('')
 const submitData = ref([])
+const totalPrice = ref(0)
 
+// 计算价格
+const getTotalPrice = () => {
+  totalPrice.value = 0
+  goodList.value[0].shopCartProductResp.forEach((it) => {
+    console.log('it', it)
+    if (it.isCheck) {
+      console.log('价格', it.sellingPrice * it.itemNum)
+      totalPrice.value += Math.floor(it.sellingPrice * it.itemNum * 1000) / 1000
+    }
+  })
+}
 const handleShop = ({ value }, id) => {
+  changeArr.value.length = 0
   if (id === 'all') {
     goodList.value.forEach((el) => {
       el.isCheck = value
@@ -44,7 +57,6 @@ const handleShop = ({ value }, id) => {
         }
       })
     })
-    allValue.value = value
   } else {
     goodList.value.forEach((el) => {
       if (el.shopId === id) {
@@ -60,8 +72,9 @@ const handleShop = ({ value }, id) => {
       }
     })
   }
-
-  allValue.value = total.value === changeArr.value.length
+  getTotalPrice()
+  allValue.value = value
+  // allValue.value = total.value === changeArr.value.length
 }
 
 const deleteCart = async () => {
@@ -101,6 +114,7 @@ const handleGood = ({ value }, id) => {
     }
     allValue.value = total.value === changeArr.value.length
   })
+  getTotalPrice()
   console.log('???', changeArr.value.length)
 }
 const goSubmitOrder = () => {
@@ -301,7 +315,7 @@ onLoad(async () => {
         合计：
         <view style="color: #f44d24">
           <text style="font-size: 14px">￥</text>
-          <text style="font-size: 20px">0</text>
+          <text style="font-size: 20px">{{ totalPrice }}</text>
         </view>
       </view>
       <view class="submit" @click="goSubmitOrder">结算（{{ changeArr.length }}）</view>

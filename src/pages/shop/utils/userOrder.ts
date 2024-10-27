@@ -20,9 +20,11 @@ const adsList = ref<any>([])
 const actions = ref<Array<any>>([
   {
     name: '快递配送',
+    disabled: true,
   },
   {
     name: '上门自提',
+    disabled: true,
   },
   // {
   //   name: '同城配送',

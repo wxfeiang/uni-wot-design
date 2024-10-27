@@ -155,7 +155,7 @@ const buyNow = (val: any) => {
       shopAvatar,
       receiveAddrId: '', // 收货地址Id
       deliveryAmount: Number((val.buy_num * val.price).toFixed(2)), // 订单金额
-      deliveryMode: 0, // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
+      deliveryMode: details.logisticsType, // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
       orderNote: '', // 订单备注
       receiveId: '', // 收货人Id
       couponId: '', // 优惠券ID
