@@ -258,8 +258,8 @@ onShow(async () => {
             class="flex items-center"
             @click="routeTo({ url: '/pages-sub/order/orderList?tabsVal=-1' })"
           >
-            <view>全部订单</view>
-            <wd-icon name="arrow-right" size="18px" color="#000"></wd-icon>
+            <view style="font-size: 14px">全部订单</view>
+            <wd-icon name="arrow-right" size="14px" color="#000"></wd-icon>
           </view>
         </view>
         <view class="grid grid-cols-5 gap-2px">
