@@ -235,7 +235,7 @@ onPageScroll((e) => {
       <wd-img :width="207" :height="44" :src="bgTip" />
     </view>
   </view>
-  <view class="px-20px pt-10px">
+  <view class="px-10px pt-10px">
     <wd-skeleton :row-col="specialTypeskeleton" :loading="specialTypeLoading" animation="flashed">
       <view class="grid grid-cols-5">
         <view
@@ -258,7 +258,7 @@ onPageScroll((e) => {
   <!-- 消息 -->
 
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
-  <view class="px-12px">
+  <view class="px-10px">
     <view class="h-40px bg-#fff rounded-6px flex items-center overflow-hidden pr-10px relative">
       <view class="flex box-border pl-10px">
         <wd-badge :is-dot="false">
@@ -297,7 +297,7 @@ onPageScroll((e) => {
 
   <!-- 广告位 -->
   <wd-gap height="10" bg-color="#F2F3F7"></wd-gap>
-  <view class="py-3px h-135px swiper px-12px">
+  <view class="py-3px h-135px swiper px-10px">
     <wd-skeleton
       animation="flashed"
       :row-col="[{ width: '100%', height: '135px' }]"
