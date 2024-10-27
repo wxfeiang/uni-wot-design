@@ -39,7 +39,7 @@ const dataList = ref([
     props: 'socialCardNum',
   },
   {
-    title: '社会保障卡卡号',
+    title: '社会保障卡号',
     props: 'socialCard',
     showeys: true,
   },
@@ -116,7 +116,7 @@ onLoad(async () => {
             </template>
             <template #label>
               <view class="flex gap-20px color-#888 text-14px mt-10px">
-                社会保障卡号码: {{ cardDetailData[dataList[1].props] }}
+                社会保障号码: {{ cardDetailData[dataList[1].props] }}
               </view>
             </template>
             <view class="flex">
