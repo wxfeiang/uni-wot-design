@@ -125,7 +125,7 @@ function onScroll(e) {
             </template>
           </wd-grid>
 
-          <wd-text text="推荐好物" custom-class="mx-2 mb-4" color="#333" size="16px"></wd-text>
+          <wd-text text="热门推荐" custom-class="mx-2 mb-4" color="#333" size="16px"></wd-text>
 
           <view class="w-full box-border my-4">
             <view

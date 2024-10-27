@@ -30,6 +30,32 @@ const goodList = ref([])
 const isGrid = ref(true)
 const sortIndex = ref(0)
 
+function getTagList() {
+  const taglist = [
+    '五星好评',
+    '即将售罄',
+    '复购最高',
+    '优惠降价',
+    '历史低价',
+    '本月畅销',
+    '同款低价',
+    '平台好店',
+  ]
+  const r1: any = (Math.random() * 10).toFixed(0)
+  const r2: any = (Math.random() * 7.99).toFixed(0)
+  const r3: any = (Math.random() * 7.99).toFixed(0)
+  const list = []
+  if (r1 % 2 === 0) {
+    list.push(taglist[r2])
+  } else {
+    list.push(taglist[r2])
+    if (r2 !== r3) {
+      list.push(taglist[r3])
+    }
+  }
+  return list
+}
+
 const subjectType = ref(0)
 const shopName = ref('')
 const labelName = ref('')
@@ -254,17 +280,19 @@ function handleChange(val, type) {
         :key="item.spuId"
         @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
-        <wd-img width="100%" :height="160" :src="getUrl(item.saleUrl)" />
+        <wd-img width="100%" :height="160" :src="getUrl(item.rotationUrl)" />
         <view class="w-155px name listname mt-10px mb-5px m-auto float-left">
           <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
           {{ item.spuName }}
         </view>
         <view class="w-full flex mb-10px">
-          <!--          <view-->
-          <!--            class="bg-#FFF0EC border-rd-3px px-5px color-#DF7D65 font-size-10px line-height-15px mr-4px"-->
-          <!--          >-->
-          <!--            复购第一-->
-          <!--          </view>-->
+          <view
+            v-for="(it, ind) in getTagList()"
+            :key="ind"
+            class="bg-#FFF0EC border-rd-3px px-5px color-#DF7D65 font-size-10px line-height-15px ml-4px"
+          >
+            {{ it }}
+          </view>
         </view>
         <view class="flex justify-between items-center">
           <view>
@@ -292,16 +320,20 @@ function handleChange(val, type) {
         :key="item.spuId"
         @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
-        <wd-img :width="86" :height="86" :src="getUrl(item.saleUrl)" />
+        <wd-img :width="86" :height="86" :src="getUrl(item.rotationUrl)" />
         <div class="flex-1 ml-15px flex flex-col justify-between">
           <view class="w-full name listname float-left">
             <text class="ZYtag" v-if="item.shopName === '数城科技店铺'">自营</text>
             {{ item.spuName }}
           </view>
           <view class="w-full flex items-center">
-            <!--            <view class="tag color-#F44D24 font-size-10px line-height-17px px-3px mr-4px">-->
-            <!--              清肺止咳-->
-            <!--            </view>-->
+            <view
+              v-for="(it, ind) in getTagList()"
+              :key="ind"
+              class="tag color-#F44D24 font-size-10px line-height-17px px-3px mr-4px"
+            >
+              {{ it }}
+            </view>
           </view>
           <view class="flex justify-between">
             <view>
