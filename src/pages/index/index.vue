@@ -360,47 +360,47 @@ onPageScroll((e) => {
     <view class="p-10px rounded-6px bg-#fff">
       <view class="flex gap-10px justify-between">
         <view
-          class="w-40% box-border p-15px bg-no-repeat box-border"
+          class="w-40% box-border p-15px bg-no-repeat box-border h-168px"
           @click="serveGuild"
-          :style="`background-image: url(${bszlbg}); background-size: 100% 110%;`"
+          :style="`background-image: url(${bszlbg}); background-size: 100% `"
         >
           <view class="text-16px font-600 color-#374A7B">办事指南</view>
           <view class="color-#859ABE text-10px my-5px">如何快速了解一卡通,如何申领,如何使用</view>
-          <view class="bb-2px_#374A7B w-30px"></view>
+          <view class="bb-2px_#374A7B w-30px mt-10px"></view>
 
-          <view class="mt-20px flex justify-end">
-            <wd-img :src="bszlicon" width="43" height="43"></wd-img>
+          <view class="mt-10px flex justify-end">
+            <wd-img :src="bszlicon" width="60" height="60"></wd-img>
           </view>
         </view>
-        <view class="w-60% flex flex-col justify-between gap-10px">
+        <view class="w-60% flex flex-col justify-between h-168px">
           <view
-            class="bg-no-repeat box-border py-15px pl-15px pr-10px flex justify-between"
-            :style="`background-image: url(${fwwdbg}); background-size: 100% 130%;`"
+            class="bg-no-repeat box-border py-15px pl-10px flex justify-between h-80px"
+            :style="`background-image: url(${fwwdbg}); background-size: 100% 110%`"
             @click="toBusinessOutlets"
           >
             <view>
               <view class="text-16px font-600 color-#DF3636">网点查询</view>
-              <view class="color-#C9AAAA text-10px my-5px">查询附近社保业务办理网点</view>
-              <view class="bb-2px_#DF3636 w-30px"></view>
+              <view class="color-#C9AAAA text-10px line-height-24px">查询附近社保业务办理网点</view>
+              <view class="bb-2px_#DF3636 w-30px mt-5px"></view>
             </view>
 
-            <view class="self-end">
-              <wd-img :src="fwwdicon" width="43" height="43"></wd-img>
+            <view class="self-end mt-auto">
+              <wd-img :src="fwwdicon" width="60" height="60"></wd-img>
             </view>
           </view>
           <view
-            class="bg-no-repeat box-border py-15px pl-15px pr-10px flex justify-between"
-            :style="`background-image: url(${cjwtbg}); background-size: 100% 130%;`"
+            class="bg-no-repeat box-border py-15px pl-10px flex justify-between h-80px"
+            :style="`background-image: url(${cjwtbg}); background-size: 100% 110%`"
             @click="toServhFor(7)"
           >
             <view class>
               <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
-              <view class="color-#D2B783 text-10px my-5px">快速答疑</view>
-              <view class="bb-2px_#EC5E0C w-30px"></view>
+              <view class="color-#D2B783 text-10px line-height-24px">快速答疑</view>
+              <view class="bb-2px_#EC5E0C w-30px mt-5px"></view>
             </view>
 
-            <view class="self-end">
-              <wd-img :src="cjwticon" width="43" height="43"></wd-img>
+            <view class="self-end mt-auto">
+              <wd-img :src="cjwticon" width="60" height="60"></wd-img>
             </view>
           </view>
         </view>
