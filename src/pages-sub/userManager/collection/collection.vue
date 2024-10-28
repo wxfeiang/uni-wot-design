@@ -51,7 +51,7 @@ const getLsit = async (pageNo: number, pageSize: number) => {
         return it
       })
       console.log('关注店铺', res)
-      shopNum.value += arr.length
+      shopNum.value = arr.length
       paging.value.complete(arr)
     }
 
