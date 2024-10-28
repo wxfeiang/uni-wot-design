@@ -16,12 +16,12 @@ import gerenicon from '@/static/images/mine/gerenicon.png'
 import h0 from '@/static/images/mine/h0.png'
 import h1 from '@/static/images/mine/h1.png'
 import sjfw from '@/static/images/mine/sjfw.png'
+import tygj from '@/static/images/mine/tygj.png'
 import { useUserStore } from '@/store/user'
 import { routeTo } from '@/utils'
 import { storeToRefs } from 'pinia'
 import { useMessage, useToast } from 'wot-design-uni'
 import useInfo from './utils/useInfo'
-
 const { navTop } = useNav()
 
 const {
@@ -214,7 +214,8 @@ onShow(async () => {
         </view>
       </view>
     </view>
-    <view class="p-15px pt-0px">
+
+    <view class="px-15px pb-10px">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px mb-10px">
           <view class="flex items-center gap-5px">
@@ -244,8 +245,36 @@ onShow(async () => {
         </view>
       </view>
     </view>
-    <!--  -->
-    <view class="p-15px pt-0px">
+
+    <!-- 商家 -->
+    <view class="px-15px pb-10px" v-if="isLogined && userInfo.merchantId">
+      <view class="p-10px bg-#fff rounded-7px">
+        <view class="flex justify-between items-center gap-10px" @click="toShopService">
+          <view class="flex items-center gap-5px">
+            <view class="mt-3px">
+              <wd-img :src="sjfw" width="18" height="18"></wd-img>
+            </view>
+            <view class="text-16px font-600">商家服务</view>
+          </view>
+          <view>
+            <wd-icon name="chevron-right" size="14px"></wd-icon>
+          </view>
+        </view>
+        <view class="flex justify-around items-center gap-10px before-shu">
+          <view class="text-center">
+            <view class="text-14px color-#999 py-10px">今日收款 (元)</view>
+            <view>{{ msCount.totalMoneyDay }}</view>
+          </view>
+          <view class="text-center">
+            <view class="text-14px color-#999 py-10px">今日订单</view>
+            <view>{{ msCount.totalOrderNumDay }}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!--我的  -->
+    <view class="px-15px pb-10px">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px mb-10px">
           <view class="flex items-center gap-5px">
@@ -275,45 +304,28 @@ onShow(async () => {
               </view>
             </wd-badge>
 
-            <view class="text-13px mt-10px">
+            <view class="text-13px">
               {{ item.label }}
             </view>
           </view>
         </view>
       </view>
     </view>
-    <!-- 商家 -->
-    <view class="p-15px pt-0px" v-if="isLogined && userInfo.merchantId">
+
+    <!-- 工具 -->
+    <view class="px-15px pb-10px">
       <view class="p-10px bg-#fff rounded-7px">
-        <view class="flex justify-between items-center gap-10px" @click="toShopService">
+        <view class="flex justify-between items-center gap-10px mb-10px" @click="toShopService">
           <view class="flex items-center gap-5px">
             <view class="mt-3px">
-              <wd-img :src="sjfw" width="18" height="18"></wd-img>
+              <wd-img :src="tygj" width="18" height="18"></wd-img>
             </view>
-            <view class="text-16px font-600">商家服务</view>
-          </view>
-          <view>
-            <wd-icon name="chevron-right" size="14px"></wd-icon>
+            <view class="text-16px font-600">通用工具</view>
           </view>
         </view>
-        <view class="flex justify-around items-center gap-10px before-shu">
-          <view class="text-center">
-            <view class="text-14px color-#999 py-10px">今日收款 (元)</view>
-            <view>{{ msCount.totalMoneyDay }}</view>
-          </view>
-          <view class="text-center">
-            <view class="text-14px color-#999 py-10px">今日订单</view>
-            <view>{{ msCount.totalOrderNumDay }}</view>
-          </view>
-        </view>
-      </view>
-    </view>
-    <!-- 工具 -->
-    <view class="p-15px pt-0px">
-      <view class="p-10px bg-#fff rounded-7px">
-        <view class="grid grid-cols-5">
+        <view class="grid grid-cols-5 gap-10px">
           <view
-            class="flex flex-col items-center pt-10px"
+            class="flex flex-col items-center pt-5px mb-5px"
             v-for="(item, index) in serveList"
             :key="index"
             @click="serveClick(item)"
@@ -324,7 +336,7 @@ onShow(async () => {
               </view>
             </wd-badge>
 
-            <view class="text-13px mt-5px text-center">
+            <view class="text-13px text-center color-#4C5158">
               {{ item.title }}
             </view>
           </view>
