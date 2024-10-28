@@ -299,9 +299,11 @@ onLoad(async () => {
               class="uni-input m-l-10px flex-1"
               confirm-type="search"
               placeholder="请输入搜索关键词"
-              @focus="routeTo({ url: '/pages-sub/homeManager/chooseAndBuy' })"
+              @focus="routeTo({ url: '/pages-sub/homeManager/goodsSearch' })"
             />
-            <view class="searchbtn">搜索</view>
+            <view class="searchbtn" @focus="routeTo({ url: '/pages-sub/homeManager/goodsSearch' })">
+              搜索
+            </view>
           </view>
           <view class="caricon" @click="goCar">
             <wd-img :width="30" :height="28" :src="carIcon" />

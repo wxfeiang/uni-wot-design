@@ -128,7 +128,7 @@ function handleChange(val, type) {
     class="box-border h-153px fixed pos-top-none bg-no-repeat bg-cover z-999"
     :style="` background-image: url(${topbgBase64});background-size: 100% 99%`"
   >
-    <dy-navbar :leftTitle="'商品搜索'" custom-class="nav_custom" left></dy-navbar>
+    <dy-navbar :leftTitle="'商品搜索'" custom-class="nav_custom" left isNavShow></dy-navbar>
     <!--    <wd-navbar safeAreaInsetTop placeholder  :bordered="false">-->
     <!--      <template #left>-->
     <!--        <view class="flex gap-10px items-center">-->
