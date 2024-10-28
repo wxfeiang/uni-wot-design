@@ -100,7 +100,7 @@ onLoad(async (e) => {
     labelName.value = ''
   } else if (e.type === '5') {
     // 平台自营
-    topbgBase64.value = await pathToBase64(indexbg5)
+    topbgBase64.value = await pathToBase64(indexbg8)
     subjectType.value = 5
     shopName.value = '数城公司'
     labelName.value = ''
@@ -283,7 +283,7 @@ function handleChange(val, type) {
         @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
         <wd-img width="100%" :height="160" :src="getUrl(item.rotationUrl)" />
-        <view class="w-155px name listname mt-5px mb-5px m-auto float-left">
+        <view class="name listname m-5px float-left">
           <!--          <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>-->
           {{ item.spuName }}
         </view>
@@ -303,7 +303,12 @@ function handleChange(val, type) {
               {{ item.sellPrice }}
             </text>
             <text
-              style="margin-left: 8px; font-size: 12px; color: #999999"
+              style="
+                margin-left: 8px;
+                font-size: 12px;
+                color: #999999;
+                text-decoration: line-through;
+              "
               decoration="line-through"
             >
               {{ '￥' + item.originalPrice }}
