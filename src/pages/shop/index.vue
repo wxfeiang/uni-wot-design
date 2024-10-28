@@ -386,7 +386,7 @@ onLoad(async () => {
                           width="35%"
                           height="100%"
                           mode="aspectFill"
-                          :src="getUrl(item.saleUrl)"
+                          :src="getUrl(item.rotationUrl)"
                           radius="4"
                         ></wd-img>
                         <view
@@ -512,7 +512,7 @@ onLoad(async () => {
           <wd-img
             width="100%"
             mode="widthFix"
-            :src="getUrl(item.saleUrl)"
+            :src="getUrl(item.rotationUrl)"
             custom-style="max-height:46vw;border-radius:5px 5px 0 0;overflow: hidden;"
           />
 
@@ -588,7 +588,7 @@ onLoad(async () => {
           <wd-img
             :width="86"
             :height="86"
-            :src="getUrl(item.saleUrl)"
+            :src="getUrl(item.rotationUrl)"
             custom-style="border-radius: 5px ;overflow: hidden;"
           />
           <div class="flex-1 ml-15px flex flex-col justify-between">

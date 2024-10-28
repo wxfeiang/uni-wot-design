@@ -167,16 +167,13 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       labelName: labelName.value,
       secondCategoryId: code.value,
     })
-    console.log('商城列表', res)
 
     paging.value.complete(res.content)
   } catch {
-    console.log('????')
     paging.value.complete(false)
   }
 }
 const getUrl = (str) => {
-  console.log(str)
   if (str) {
     return JSON.parse(str)[0].data
   } else {
