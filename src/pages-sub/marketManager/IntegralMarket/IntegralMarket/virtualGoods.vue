@@ -224,9 +224,13 @@ onLoad(async (option) => {
         <view
           class="pos-absolute w-full h-full pos-top-none flex flex-col items-center justify-center"
         >
-          <wd-text text="满100可用" size="8px" color="#FF4345"></wd-text>
+          <wd-text
+            :text="`满${goodsInfoData.couponFillPrice}可用`"
+            size="8px"
+            color="#FF4345"
+          ></wd-text>
           <view class="mt-10px">
-            <wd-text text="20" bold size="28px" color="#FF4345"></wd-text>
+            <wd-text :text="goodsInfoData.couponPrice" bold size="28px" color="#FF4345"></wd-text>
             <wd-text text="￥" bold size="12px" color="#FF4345"></wd-text>
           </view>
         </view>

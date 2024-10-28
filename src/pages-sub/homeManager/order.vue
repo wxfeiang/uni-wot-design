@@ -40,6 +40,7 @@ const model = reactive({
   value1: '',
   value2: '',
 })
+const actions1 = ref([])
 const couponS = ref([])
 const avtCcoupon = ref(0)
 const disCount = ref(false)
@@ -100,8 +101,8 @@ onLoad(async (options) => {
   orderDetails.value.forEach((element, index) => {
     const arr = element.deliveryMode + ''.split(',')
     actions.value.forEach((it, idx) => {
-      if (arr.includes(idx)) {
-        it.disabled = false
+      if (arr.includes(it.id)) {
+        actions1.value.push(it)
       }
     })
     console.log('actions.value', arr, actions.value)
@@ -288,7 +289,7 @@ onShow(async (options) => {
       <view class="submit" @click="submit">提交订单</view>
     </view>
     <!--  配送方式 -->
-    <wd-action-sheet v-model="showPop.showDeliveryMode" :actions="actions" @select="select" />
+    <wd-action-sheet v-model="showPop.showDeliveryMode" :actions="actions1" @select="select" />
 
     <!--     券明细 -->
     <wd-popup

@@ -17,7 +17,7 @@ const title = ref('积分兑换结果')
 const description = ref('积分商品一但兑换不支持退换')
 const gopath = () => {
   routeTo({
-    url: '/pages-sub/marketManager/IntegralMarket/IntegralMarket/list',
+    url: '/pages/shop/index',
     navType: NAVIGATE_TYPE.SWITCH_TAB,
   })
 }

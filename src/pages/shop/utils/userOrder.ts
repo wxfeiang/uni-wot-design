@@ -19,12 +19,12 @@ const isExtractList = ref<any>([])
 const adsList = ref<any>([])
 const actions = ref<Array<any>>([
   {
+    id: 0,
     name: '快递配送',
-    disabled: true,
   },
   {
+    id: 1,
     name: '上门自提',
-    disabled: true,
   },
   // {
   //   name: '同城配送',
