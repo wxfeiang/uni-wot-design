@@ -183,7 +183,7 @@ const topAction2 = ref<any>([])
 
 // 获取消息
 
-onShow(async () => {
+onLoad(async () => {
   await sendGetSpecialTypeList()
   topAction2.value = specialTypeList.value
 
