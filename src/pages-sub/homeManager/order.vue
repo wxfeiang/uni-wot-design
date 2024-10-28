@@ -91,6 +91,13 @@ const chooseact = (item, ind) => {
     cid: item.couponId ? item.couponId : '',
   }
 }
+const chooseactNo = (item, ind) => {
+  couponList.value[disCountInd.value] = {
+    act: -1,
+    id: '',
+    cid: '',
+  }
+}
 
 onLoad(async (options) => {
   console.log('传参', JSON.parse(decodeURIComponent(options.obj)))
@@ -225,13 +232,21 @@ onShow(async (options) => {
             <view class="mr-50px">优惠券</view>
 
             <view
-              style="color: #777777"
-              v-if="couponS[idx] !== null && couponS[idx][0]"
+              style="font-size: 14px; color: #777777"
+              v-if="couponS[idx] !== null && couponS[idx][0] && couponList[disCountInd].act >= 0"
               @click="openCount(true, idx)"
             >
               {{ couponS[idx][0].couponName }}
             </view>
-            <view style="color: #777777" v-else>暂无可用优惠券</view>
+
+            <view
+              style="font-size: 14px; color: #777777"
+              v-else-if="couponList[disCountInd].act === -1"
+              @click="openCount(true, idx)"
+            >
+              不使用优惠券
+            </view>
+            <view style="font-size: 14px; color: #777777" v-else>暂无可用优惠券</view>
           </view>
 
           <view class="w-full flex justify-between items-center mt-15px">
@@ -242,9 +257,12 @@ onShow(async (options) => {
           </view>
           <view class="w-full flex justify-between items-center mt-15px">
             <view class="mr-50px">配送方式</view>
-            <view class="flex items-center" @click="checkDriver('showDeliveryMode', idx)">
-              <text class="mr-5px">{{ actions[item.deliveryMode].name }}</text>
-              <wd-icon name="arrow-right" size="20px"></wd-icon>
+            <!--            <view class="flex items-center" @click="checkDriver('showDeliveryMode', idx)">-->
+            <view class="flex items-center">
+              <text class="mr-5px" style="font-size: 14px; color: #777777">
+                {{ actions[item.deliveryMode].name }}
+              </text>
+              <wd-icon name="arrow-right" size="16px" color="#777777"></wd-icon>
             </view>
           </view>
           <view
@@ -339,6 +357,12 @@ onShow(async (options) => {
               <text class="reduct_desc">满{{ item.couponFillPrice }}元可用</text>
             </div>
           </view>
+        </view>
+        <view
+          @click="chooseactNo(item, index)"
+          :class="couponList[disCountInd].act === -1 ? 'yUse' : 'noUse'"
+        >
+          暂不使用
         </view>
       </view>
     </wd-popup>
@@ -457,6 +481,23 @@ onShow(async (options) => {
   color: #f44d24;
 }
 
+.noUse {
+  text-align: center;
+  padding: 10px;
+  color: #999;
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.yUse {
+  text-align: center;
+  padding: 10px;
+  color: #fff;
+  border: 1px solid #4bbefd;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #4bbefd;
+}
 .list {
   box-sizing: border-box;
   width: 100%;
