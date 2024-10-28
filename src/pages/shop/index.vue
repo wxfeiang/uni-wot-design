@@ -483,7 +483,7 @@ onLoad(async () => {
             custom-style="max-height:46vw;border-radius:5px 5px 0 0;overflow: hidden;"
           />
 
-          <view class="w-155px name listname mt-5px mb-5px m-auto float-left">
+          <view class="name listname m-5px float-left">
             <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
             {{ item.spuName }}
           </view>
