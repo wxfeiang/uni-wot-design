@@ -298,8 +298,9 @@ onLoad(async () => {
             <input
               class="uni-input m-l-10px flex-1"
               confirm-type="search"
+              readonly
               placeholder="请输入搜索关键词"
-              @focus="routeTo({ url: '/pages-sub/homeManager/goodsSearch' })"
+              @click="routeTo({ url: '/pages-sub/homeManager/goodsSearch' })"
             />
             <view class="searchbtn" @focus="routeTo({ url: '/pages-sub/homeManager/goodsSearch' })">
               搜索
