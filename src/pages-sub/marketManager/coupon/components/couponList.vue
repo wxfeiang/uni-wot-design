@@ -156,7 +156,7 @@ const handleReceive = async (item) => {
 }
 const toDetil = () => {
   if (statusBg.value) {
-    console.log('props.data.type', statusBg.value)
+    console.log('props.data.type', props.data)
     if (props.data.type === 1) {
       // 平台券
       const data = {
@@ -170,6 +170,7 @@ const toDetil = () => {
         couponCode: props.data.couponCode,
         isMain: props.isMain ? 1 : 0,
         couponId: props.data.couponId,
+        couponStatus: props.data.couponStatus,
       }
 
       routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })

@@ -205,7 +205,7 @@ const lqStatus = ref(false) // 是否领取
 const lqError = ref(false) // 领取失败
 const couponId = ref('')
 const couponCode = ref('')
-
+const couponStatus = ref(null)
 const btnClick2 = async (item) => {
   if (item.action === 'lq') {
     routeTo({ url: '/pages-sub/marketManager/coupon/index' })
@@ -374,6 +374,8 @@ onLoad(async (options) => {
   shareType.value = options.type
   couponId.value = options.couponId
   couponCode.value = options.couponCode
+  couponStatus.value = options.couponStatus
+  console.log('couponStatus.value', couponStatus.value)
   try {
     await sendCouponInfo({ couponCode: options.couponCode, couponId: couponId.value })
   } catch (error) {
@@ -429,8 +431,7 @@ onShareAppMessage((res) => {
             @share="share"
           ></Coupon-List>
         </view>
-
-        <view class="pb-30px" v-if="couponInfoData.type === 3 && isLogined">
+        <view class="pb-30px" v-if="couponInfoData.type === 3 && couponStatus !== '3' && isLogined">
           <view class="py-10px text-16px text-center">券码：{{ couponInfoData.couponCode }}</view>
           <view class="flex justify-center mt-10px flex-col items-center">
             <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
