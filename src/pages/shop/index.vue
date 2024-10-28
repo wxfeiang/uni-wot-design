@@ -42,7 +42,6 @@ import useUserOrder from './utils/userOrder'
 const pageOption = ref<PageOption>({
   page: 1,
   size: 10,
-  // bannerFlag: 1,
   location: 2,
 })
 const swiperList = ref<IActivityBanner[]>([])
@@ -77,8 +76,41 @@ const navList = ref([
 
 const navListType = ref({})
 
-const handleClick = (e: { item: IActivityBanner }) => {
-  gopath('/pages-sub/homeManager/action', { id: e.item.itemId })
+// const handleClick = (e: { item: IActivityBanner }) => {
+//   gopath('/pages-sub/homeManager/action', { id: e.item.itemId })
+// }
+function handleClick(data) {
+  const { item } = data
+  if (item.shopHdType === 1 || item.shopHdType === 3) {
+    routeTo({ url: item.appUrl, data: { ...item.data } })
+  } else if (item.shopHdType === 0) {
+    routeTo({
+      url: '/pages-sub/webView/index',
+      data: {
+        type: item.shopHdId,
+        showType: 'banner',
+        url: item.linkUrl,
+      },
+    })
+  } else if (item.shopHdType === 4) {
+    // H5
+    routeTo({
+      url: '/pages-sub/webView/index',
+      data: {
+        type: item.shopHdId,
+        showType: 'webView',
+        url: item.linkUrl,
+      },
+    })
+  } else {
+    // 活动
+    routeTo({
+      url: '/pages-sub/homeManager/action',
+      data: {
+        id: item.itemId,
+      },
+    })
+  }
 }
 
 const paging = ref(null)
