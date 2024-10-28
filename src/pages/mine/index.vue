@@ -128,13 +128,13 @@ onShow(async () => {
 
                 <view
                   class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]"
-                  v-if="userInfo.cardType === '3'"
+                  v-if="userInfo.socialCardType === '1'"
                 >
                   <wd-img :src="h1" width="22" height="18"></wd-img>
                   <view
                     class="color-#fff text-10px text-center h-bg rounded-100 px-10px ml-[-10px] mt-2px"
                   >
-                    已申领
+                    一卡通
                   </view>
                 </view>
                 <view class="flex items-center mt-[-15px] relative z-9 pl-10px ml-[-10px]" v-else>

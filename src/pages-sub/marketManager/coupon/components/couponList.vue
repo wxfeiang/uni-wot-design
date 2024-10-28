@@ -39,7 +39,7 @@ const props = defineProps({
   },
   isShare: {
     type: Boolean,
-    default: false,
+    default: false, // true 显示    是否显示分享按钮
   },
   isMain: {
     type: Boolean,
@@ -139,6 +139,7 @@ const toDetil = () => {
     isMain: props.isMain ? 1 : 0,
     couponId: props.data.couponId,
   }
+
   routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
 }
 

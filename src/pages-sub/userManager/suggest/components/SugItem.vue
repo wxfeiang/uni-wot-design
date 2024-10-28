@@ -56,7 +56,7 @@ const defaultAttrs = {
         <view class="flex">
           <view class="relative w-60px h-50px">
             <view
-              class="absolute top-[-10px] right-0 px-10px py-2px text-12px rounded-lb-15px"
+              class="absolute top-[-10px] right-[-6px] px-10px py-2px text-12px rounded-lb-15px"
               :style="changeDict(statusList, item.adviceState, 'bg')"
             >
               {{ changeDict(statusList, item.adviceState) }}
@@ -99,7 +99,7 @@ export default {
   @apply rounded-6px! mb-10px! overflow-hidden!;
 }
 :deep(.wd-cell__wrapper) {
-  @apply items-center!;
+  @apply items-center! overflow-hidden!;
 }
 .custom-class-cell {
   @apply rounded-6px! mb-10px! overflow-hidden!;

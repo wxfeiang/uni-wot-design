@@ -345,7 +345,11 @@ const cuButton = computed(() => {
         if (isShare.value) {
           return footerBtns1.value
         } else {
-          return footerBtns3.value
+          if (couponInfoData.value.couponStatus === 0) {
+            return footerBtns3.value
+          } else {
+            return footerBtns2.value
+          }
         }
       }
     }
