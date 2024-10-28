@@ -61,6 +61,15 @@ const getLsit = async (pageNo: number, pageSize: number) => {
   }
 }
 
+const getShopNum = () => {
+  getUserShopList({
+    current: 1,
+    size: 10,
+  }).then((res) => {
+    console.log('ressss', res)
+    shopNum.value = res.length
+  })
+}
 const delFoverShop = (id = '') => {
   const idList = id ? [id] : arrList.value
 
@@ -72,12 +81,19 @@ const delFoverShop = (id = '') => {
 
 const handleChangeAll = ({ value }) => {
   if (value) {
+    goodList.value.forEach((it) => {
+      it.isCheck = true
+    })
     if (showGoods.value) {
       arrList.value = goodList.value.map((it) => it.spuId)
     } else {
       arrList.value = goodList.value.map((it) => it.shopBean.id)
     }
+    console.log('arrList.value', arrList.value)
   } else {
+    goodList.value.forEach((it) => {
+      it.isCheck = false
+    })
     arrList.value.length = 0
   }
 }
@@ -110,20 +126,32 @@ const handleChange = ({ value }, id) => {
   console.log('arrList.value', arrList.value)
 }
 const delFoverGoods = () => {
-  unUserFavorites({ productSpuIds: arrList.value }).then((res) => {
-    Toast('取消收藏成功')
-    paging.value.reload()
-  })
+  if (showGoods.value) {
+    unUserFavorites({ productSpuIds: arrList.value }).then((res) => {
+      Toast('取消收藏成功')
+      paging.value.reload()
+    })
+  } else {
+    delFoverShop()
+  }
 }
 const tabChange = ({ index, name }) => {
   console.log(index, name)
   showGoods.value = index === 0
   goodList.value.length = 0
+  arrList.value.length = 0
+  allCheck.value = false
+  goodList.value.forEach((it) => {
+    it.isCheck = false
+  })
   paging.value.reload()
 }
 const toString = (val: string) => {
   return JSON.parse(val)
 }
+onShow(() => {
+  getShopNum()
+})
 onLoad(async () => {
   topbgBase64.value = await pathToBase64(indexbg)
   // 设置背景图片
@@ -155,38 +183,38 @@ onLoad(async () => {
         class="bg-white border-rd-10px p-15px box-border w-full mb-10px"
         v-for="item in goodList"
         :key="item.spuId"
-        @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
         <view class="w-full flex">
-          <view class="flex items-center">
+          <view class="flex items-center mr-20px" v-if="isManage">
             <wd-checkbox
-              v-if="isManage"
               v-model="item.isCheck"
               @change="handleChange($event, item.spuId)"
             ></wd-checkbox>
           </view>
-          <wd-img
-            :width="105"
-            :height="105"
-            :src="toString(item.saleUrl)[0].data"
-            custom-class="img"
-          />
-          <view class="ml-15px flex-1 flex flex-col justify-between">
-            <view class="w-190px">
-              <view class="name mb-10px">{{ item.spuName }}</view>
-              <!-- <view style="font-size: 14px; color: #757575">灰色</view> -->
-            </view>
+          <view
+            class="flex flex-1 overflow-hidden"
+            @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
+          >
+            <wd-img
+              :width="105"
+              :height="105"
+              :src="toString(item.saleUrl)[0].data"
+              custom-class="img"
+            />
+            <view class="ml-15px flex-1 flex flex-col justify-between overflow-hidden">
+              <view class="name mb-10px">{{ item.spuName }} {{ item.spuName }}</view>
 
-            <view class="w-full flex">
-              <view class="flex items-center" style="font-weight: 600; color: #f44d24">
-                <text style="font-size: 14px">￥</text>
-                <text style="font-size: 18px">{{ item.sellPrice }}</text>
-              </view>
-              <!-- <view class="mingxi flex items-baseline">
+              <view class="w-full flex">
+                <view class="flex items-center" style="font-weight: 600; color: #f44d24">
+                  <text style="font-size: 14px">￥</text>
+                  <text style="font-size: 18px">{{ item.sellPrice }}</text>
+                </view>
+                <!-- <view class="mingxi flex items-baseline">
               <text>券后价</text>
               <text class="font-size-8px font-600 ml-5px">￥</text>
               <text class="font-size-14px font-600">{{item.sellPrice}}</text>
             </view> -->
+              </view>
             </view>
           </view>
         </view>
@@ -200,9 +228,8 @@ onLoad(async () => {
         :key="item.spuId"
       >
         <view class="w-full flex">
-          <view class="flex flex-col justify-center items-center">
+          <view class="flex flex-col justify-center items-center mr-20px" v-if="isManage">
             <wd-checkbox
-              v-if="isManage"
               v-model="item.isCheck"
               @change="handleChange2($event, item.shopBean.id)"
             ></wd-checkbox>
@@ -224,7 +251,7 @@ onLoad(async () => {
               <view class="w-full mb-10px fw-600 flex justify-between items-center">
                 <view class="name flex-1">{{ item.shopInfo.name }}</view>
                 <view
-                  @click="delFoverShop(item.shopBean.id)"
+                  @click.stop="delFoverShop(item.shopBean.id)"
                   class="w-60px fw-400 h-25px line-height-25px font-size-14px text-center border-rd-6px bg-#FFF3F0 color-#F44D24"
                 >
                   取关

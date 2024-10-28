@@ -102,6 +102,7 @@ const getDetails = (spuId: number) => {
     res.rotationUrl = JSON.parse(res.rotationUrl).map((item) => item.data)
     res.remarkUrl = JSON.parse(res.remarkUrl).map((item) => item.data)
     res.skuUrl = JSON.parse(res.skuUrl).map((item) => item.data)
+    res.logisticsType = res.logisticsType.split(',')
     res.evaList.forEach((el) => {
       el.userNickname = el.userNickname || '匿名用户'
       el.evaluationContent = el.evaluationContent || '该用户没有填写评价'
@@ -310,11 +311,17 @@ onShareTimeline(() => {
 
       <view class="w-full bg-white p-15px box-border flex items-center border-rd-10px mt-10px">
         <view>配送</view>
-        <view class="flex items-center color-#999 ml-15px">
+        <view
+          class="flex items-center color-#999 ml-15px"
+          v-if="details.logisticsType.includes('0')"
+        >
           <wd-img :width="16" :height="16" :src="duihao"></wd-img>
           <text class="ml-5px">快递配送</text>
         </view>
-        <view class="flex items-center color-#999 ml-15px">
+        <view
+          class="flex items-center color-#999 ml-15px"
+          v-if="details.logisticsType.includes('1')"
+        >
           <wd-img :width="16" :height="16" :src="duihao"></wd-img>
           <text class="ml-5px">到店自提</text>
         </view>
