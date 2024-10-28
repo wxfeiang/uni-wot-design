@@ -124,6 +124,7 @@ const data = ref<dataType[]>([
   },
 ])
 const cardInfoData = ref<any[]>([])
+const errotText = ref<string>('没有查询到该信息')
 onMounted(async () => {
   try {
     const res: any = await getCadInfo()
@@ -136,6 +137,7 @@ onMounted(async () => {
       })
     })
   } catch (error) {
+    errotText.value = error?.data?.message
     console.log('🧀[error]:', error)
   }
 })
@@ -147,7 +149,7 @@ onUnmounted(() => {
   <view class="p-15px">
     <view class="rounded-10px overflow-hidden bg-#fff pb-10px">
       <template v-if="cardInfoData.length === 0 && !loading">
-        <wd-status-tip image="search" tip="没有查询到该信息" />
+        <wd-status-tip image="search" :tip="errotText" />
       </template>
       <template v-else>
         <wd-cell-group title="基本信息" border>
