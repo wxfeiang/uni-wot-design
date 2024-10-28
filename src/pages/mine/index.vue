@@ -214,7 +214,8 @@ onShow(async () => {
         </view>
       </view>
     </view>
-    <view class="p-15px pt-0px">
+
+    <view class="px-15px pb-10px">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px mb-10px">
           <view class="flex items-center gap-5px">
@@ -244,8 +245,9 @@ onShow(async () => {
         </view>
       </view>
     </view>
+
     <!-- 商家 -->
-    <view class="p-15px pt-0px" v-if="isLogined && userInfo.merchantId">
+    <view class="px-15px pb-10px" v-if="isLogined && userInfo.merchantId">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px" @click="toShopService">
           <view class="flex items-center gap-5px">
@@ -270,8 +272,9 @@ onShow(async () => {
         </view>
       </view>
     </view>
+
     <!--我的  -->
-    <view class="p-15px pt-0px">
+    <view class="px-15px pb-10px">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px mb-10px">
           <view class="flex items-center gap-5px">
@@ -310,7 +313,7 @@ onShow(async () => {
     </view>
 
     <!-- 工具 -->
-    <view class="p-15px pt-0px">
+    <view class="px-15px pb-10px">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px mb-10px" @click="toShopService">
           <view class="flex items-center gap-5px">

@@ -76,7 +76,7 @@ onUnload(() => {
               :rules="rules.advicePhone"
               clearable
               v-model="model.advicePhone"
-              placeholder="请输入联系电话(选填)"
+              placeholder="请输入联系电话"
             />
           </wd-cell-group>
         </wd-form>
