@@ -257,6 +257,14 @@ const getLsit = async () => {
     paging.value.complete(false)
   }
 }
+const getUrl = (str) => {
+  if (str) {
+    return JSON.parse(str)[0].data
+  } else {
+    return ''
+  }
+}
+
 onShow(() => {
   submitData.value.length = 0
 })
@@ -314,7 +322,7 @@ onLoad(async () => {
             @change="handleGood($event, it.shopCartId)"
           ></wd-checkbox>
         </view>
-        <wd-img :width="105" :height="105" :src="it.skuUrl" custom-class="img" />
+        <wd-img :width="105" :height="95" :src="getUrl(it.rotationUrl)" custom-class="img" />
         <view
           class="ml-15px flex-1 flex flex-col justify-between"
           @click="goDetails('goods', it.spuId)"
@@ -373,6 +381,7 @@ onLoad(async () => {
 }
 
 .img {
+  display: inline-block;
   overflow: hidden !important;
   border-radius: 5px;
 }
