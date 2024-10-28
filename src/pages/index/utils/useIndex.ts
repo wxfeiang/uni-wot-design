@@ -113,9 +113,10 @@ const serviceArea = ref([
     path: '/pages-sub/serveMassage/zhwuServe/index',
     id: '1710488285782016016',
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/589c9c72-1622-47d7-b7b3-03abbd571e951.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/b797aa2c-93ff-4eb7-bf89-10c6a974111f1.png',
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/606b8995-655e-4121-b793-fc8ef33bfc57政务服务.png',
+    stext: 'GOVERNMENT AFFAIRS',
   },
   {
     title: '交通出行',
@@ -129,7 +130,8 @@ const serviceArea = ref([
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/368b8902-aba2-4378-8f0c-fb8a1007c00c交通出行.png',
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/70170b13-7834-48fe-b914-7b6acc6a521e2.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/0b6d3a43-0825-4787-ab18-a901169cb3f42.png',
+    stext: 'TRAFFIC',
   },
   {
     title: '就医购药',
@@ -139,9 +141,10 @@ const serviceArea = ref([
     path: '/pages-sub/serveMassage/yiyao/index',
     id: '1710488285782016013',
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/59098836-2a17-4412-a857-0eb9728e3b6a3.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/67a7f9f6-eb4b-441c-b1de-42c27cf430d43.png',
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/68fe5b58-0339-45d4-a32c-a77945ebf8f1就医购药.png',
+    stext: 'BUYING  SERVEMEDICINE',
   },
   {
     title: '待遇发放',
@@ -151,9 +154,10 @@ const serviceArea = ref([
     path: '/pages-sub/webView/index',
     id: '1710488285782016009',
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/26ea5a14-f7e0-4480-9b1c-4fe999ffd80e4.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/005b21d2-9c79-4912-935e-b7d977b43b014.png',
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/42e5430c-be51-4da1-ba99-e10963deb63a待遇发放.png',
+    stext: 'SALARY DISTRIBUTION',
   },
   {
     title: '惠民服务',
@@ -165,9 +169,10 @@ const serviceArea = ref([
     height: 10,
     width: 33,
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/c8788979-66a5-47f2-9947-ae6968e04bbb5.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/a91456af-74e2-4261-818a-e1561e1959315.png',
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/0b560526-9f44-4431-9d66-d6a31d5473d2惠民服务.png',
+    stext: 'HUIMIN SERVICE',
   },
   {
     title: '文化体验',
@@ -177,9 +182,10 @@ const serviceArea = ref([
     path: '/pages-sub/serveMassage/wenhuaServe/index',
     id: '1710488285782016015',
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/e7eb8a2e-5dd1-43e7-8134-c8eead6411e16.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/9c94efdf-dbad-4a13-8c06-e9576f840d4aWechatIMG407.png',
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/642c0e30-27de-4071-b44f-c78f55c66e19文化体验.png',
+    stext: 'CULTURAL EXPERIENCE',
   },
   {
     title: '旅游观光',
@@ -191,9 +197,10 @@ const serviceArea = ref([
     height: 10,
     width: 33,
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/9b55e166-cfc1-4d1d-976f-d7b37623ac7a7.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/b04a69cb-455a-4728-a637-3fe79a7072bb7.png',
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/01c01602-7ba0-4990-bf6d-b14ef868b76d旅游观光.png',
+    stext: 'TOURISM_AND SIGHTSEEING',
   },
   {
     title: '京雄互通',
@@ -203,9 +210,10 @@ const serviceArea = ref([
     path: '/pages-sub/webView/index',
     id: '1710488285782016012',
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/44b84355-7421-443c-9df7-5b45085bf5f88.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/f1a997ca-99b0-4388-ba4d-d62816b4a03c8.png',
     bgimg:
       'https://oss.xay.xacloudy.cn/images/2024-10/d2a908e0-bdb6-4789-8399-80d6dab41cf8京雄互通.png',
+    stext: 'JINGXIONG INTERCHANGE',
   },
 ])
 

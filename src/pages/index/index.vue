@@ -326,28 +326,28 @@ onPageScroll((e) => {
       <scroll-view scroll-x class="navscroll pb-10px">
         <view class="flex overflow-x-auto gap-10px w-200%">
           <view
-            class="flex flex-col h-100px overflow-hidden w-80px bg-no-repeat box-border"
+            class="flex flex-col h-100px overflow-hidden w-90px bg-no-repeat box-border"
             v-for="(item, index) in serviceArea"
             :key="index"
             @click="serveClick(item)"
             :style="`background-image: url(${item.bgimg}); background-size: 100% `"
           >
-            <view class="text-center text-14px line-height-20px mt-10px color-#4B78DC font-600">
+            <view class="pl-10px text-14px line-height-20px mt-13px color-#4B78DC font-600">
               {{ item.title }}
             </view>
 
-            <view class="my-3px ml-10px mr-auto h-21px flex justify-start">
-              <wd-img
-                :src="item.texticon"
-                :width="item.width ?? '59'"
-                :height="item.height ?? '21'"
-              ></wd-img>
+            <view class="my-4px ml-10px mr-auto h-21px flex justify-start">
+              <!-- <view class="text-8px break-word color-#BDD2FF line-height-11px">
+                {{ item.stext }}
+              </view> -->
+              <!-- <wd-img :src="item.texticon" width="60" height="auto"></wd-img> -->
+              <image :src="item.texticon" mode="widthFix" style="width: 65px" />
             </view>
-            <view class="w-13px h-3px bg-#4B78DC rounded-3px ml-10px mr-auto"></view>
+            <view class="w-13px h-3px mt-2px bg-#4B78DC rounded-3px ml-10px mr-auto"></view>
           </view>
         </view>
       </scroll-view>
-      <view class="w-50px h-4px bg-#D1DBF0 rounded-3px mx-auto"></view>
+      <view class="w-50px h-4px bg-#D1DBF0 rounded-3px mx-auto mt-[-4px]"></view>
     </view>
   </view>
   <!-- 关注公众号 -->
@@ -380,7 +380,7 @@ onPageScroll((e) => {
           >
             <view>
               <view class="text-16px font-600 color-#DF3636">网点查询</view>
-              <view class="color-#C9AAAA text-10px line-height-24px">查询附近社保业务办理网点</view>
+              <view class="color-#C9AAAA text-10px line-height-18px">查询附近社保业务办理网点</view>
               <view class="bb-2px_#DF3636 w-30px mt-5px"></view>
             </view>
 
@@ -395,7 +395,7 @@ onPageScroll((e) => {
           >
             <view class>
               <view class="text-16px font-600 color-#EC5E0C">常见问题</view>
-              <view class="color-#D2B783 text-10px line-height-24px">快速答疑</view>
+              <view class="color-#D2B783 text-10px line-height-18px">快速答疑</view>
               <view class="bb-2px_#EC5E0C w-30px mt-5px"></view>
             </view>
 

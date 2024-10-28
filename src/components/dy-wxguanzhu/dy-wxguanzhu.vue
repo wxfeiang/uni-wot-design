@@ -62,7 +62,7 @@ onShow(async () => {
         </view>
         <view class="flex-1">
           <view class="text-14px">关注雄安一卡通公众号</view>
-          <view class="color-#B1B1B1 text-12px mt-3px">雄安新区社会保障卡一卡通服务</view>
+          <view class="color-#B1B1B1 text-12px mt-1px">雄安新区社会保障卡一卡通服务</view>
         </view>
         <view
           class="px-10px py-3px color-#fff text-12px bg-#2D69EF rounded-1000"
