@@ -124,7 +124,7 @@ onLoad(async () => {
             <view class="flex">
               <view class="relative w-60px h-50px">
                 <view
-                  class="absolute top-[-15px] right-0 px-15px py-3px text-12px rounded-lb-15px"
+                  class="absolute top-[-16px] right-[-6px] px-15px py-3px text-12px rounded-lb-15px"
                   :style="changeDict(statusList, cardDetailData[dataList[7].props], 'bg', 'label')"
                 >
                   {{ cardDetailData[dataList[7].props] }}
@@ -202,6 +202,6 @@ onLoad(async () => {
   @apply rounded-6px! mb-10px! overflow-hidden!;
 }
 :deep(.wd-cell__wrapper) {
-  @apply items-center!;
+  @apply items-center! overflow-hidden!;
 }
 </style>
