@@ -51,7 +51,10 @@ const handleShop = ({ value }, id) => {
       el.shopCartProductResp.forEach((key) => {
         key.isCheck = value
         if (value) {
-          changeArr.value.push(key.shopCartId)
+          changeArr.value.push({
+            shopId: el.shopId,
+            shopCartId: key.shopCartId,
+          })
         } else {
           changeArr.value.length = 0
         }
@@ -64,9 +67,12 @@ const handleShop = ({ value }, id) => {
         el.shopCartProductResp.forEach((key) => {
           key.isCheck = value
           if (value) {
-            changeArr.value.push(key.shopCartId)
+            changeArr.value.push({
+              shopId: el.shopId,
+              shopCartId: key.shopCartId,
+            })
           } else {
-            changeArr.value = changeArr.value.filter((item) => item !== key.shopCartId)
+            changeArr.value = changeArr.value.filter((item) => item.shopCartId !== key.shopCartId)
           }
         })
       }
@@ -76,7 +82,18 @@ const handleShop = ({ value }, id) => {
   allValue.value = value
   // allValue.value = total.value === changeArr.value.length
 }
-
+const goDetails = (type, id) => {
+  console.log('点击')
+  if (isManage.value) {
+    return false
+  } else {
+    if (type === 'shop') {
+      routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id } })
+    } else {
+      routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id } })
+    }
+  }
+}
 const deleteCart = async () => {
   if (changeArr.value.length === 0) {
     Toast('请选择要删除的商品')
@@ -84,7 +101,7 @@ const deleteCart = async () => {
   }
   try {
     const res = await delCart({
-      shopCartIds: changeArr.value,
+      shopCartIds: changeArr.value.map((item) => item.shopCartId),
     })
     console.log('删除', res)
     Toast('删除成功')
@@ -99,9 +116,12 @@ const handleGood = ({ value }, id) => {
       if (key.shopCartId === id) {
         key.isCheck = value
         if (value) {
-          changeArr.value.push(id)
+          changeArr.value.push({
+            shopId: el.shopId,
+            shopCartId: id,
+          })
         } else {
-          changeArr.value = changeArr.value.filter((item) => item !== id)
+          changeArr.value = changeArr.value.filter((item) => item.shopId !== id)
           allValue.value = false
         }
       }
@@ -117,14 +137,19 @@ const handleGood = ({ value }, id) => {
   getTotalPrice()
   console.log('???', changeArr.value.length)
 }
+
 const goSubmitOrder = () => {
+  const subAr = [...new Set(changeArr.value.map((it) => it.shopId))]
+  console.log('changeArr.value ', subAr)
   if (changeArr.value.length === 0) {
     toast.warning('未选择任何商品')
-  } else if (changeArr.value.length === 1) {
+  } else if (subAr.length > 1) {
+    toast.warning('暂不支持多店铺下单，请选择一个店铺下单吧~')
+  } else {
     goodList.value.forEach((it, idx) => {
       if (it.isCheck) {
         const deliveryAmount = it.shopCartProductResp.reduce((a, b) => {
-          return a + Number((b.sellingPrice * b.itemNum).toFixed(2))
+          return a + Math.floor(b.sellingPrice * b.itemNum * 1000) / 1000
         }, 0)
         console.log('deliveryAmount', deliveryAmount)
         submitData.value.push({
@@ -155,7 +180,7 @@ const goSubmitOrder = () => {
             const index = submitData.value.findIndex((k) => k.shopId === it.shopId)
             if (index !== -1) {
               const count = Number(
-                (item.sellingPrice * item.itemNum).toFixed(2) +
+                Math.floor(item.sellingPrice * item.itemNum * 1000) / 1000 +
                   submitData.value[index].deliveryAmount,
               )
               submitData.value[index].deliveryAmount = count
@@ -175,7 +200,7 @@ const goSubmitOrder = () => {
                 shopName: it.shopName,
                 receiveAddrId: '', // 收货地址Id
                 deliveryAmount: count, // 订单金额 Number((val.buy_num * val.price).toFixed(2))
-                deliveryMode: 0, // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
+                deliveryMode: '0', // 配送方式  0: 快递配送 ,1: 上门自提 ,2: 同城配送
                 orderNote: '', // 订单备注
                 receiveId: '', // 收货人Id
                 couponId: '', // 优惠券ID
@@ -200,8 +225,6 @@ const goSubmitOrder = () => {
 
     routeTo({ url: '/pages-sub/homeManager/order?obj=' + JSON.stringify(submitData.value) })
     console.log('submitData.value', submitData.value)
-  } else {
-    toast.warning('暂不支持多店铺下单，请选择一个店铺下单吧~')
   }
 }
 const getLsit = async () => {
@@ -213,8 +236,10 @@ const getLsit = async () => {
     })
     res.forEach((el) => {
       el.isCheck = false
+      el.disabled = false
       el.shopCartProductResp.forEach((key) => {
         key.isCheck = false
+        key.disabled = false
         key.skuName = Object.values(JSON.parse(key.skuName)).join(',')
         key.skuUrl = JSON.parse(key.skuUrl)[0].data
       })
@@ -232,6 +257,9 @@ const getLsit = async () => {
     paging.value.complete(false)
   }
 }
+onShow(() => {
+  submitData.value.length = 0
+})
 onLoad(async () => {
   topbgBase64.value = await pathToBase64(indexbg)
   // 设置背景图片
@@ -244,7 +272,7 @@ onLoad(async () => {
       <text style="margin-right: 10px; color: #f44d24" v-if="isManage" @click="deleteCart">
         删除
       </text>
-      <text @click="isManage = !isManage">管理</text>
+      <text @click="isManage = !isManage">{{ isManage ? '退出管理' : '管理' }}</text>
     </view>
   </view>
   <z-paging
@@ -255,7 +283,7 @@ onLoad(async () => {
       'box-sizing': 'border-box',
       width: '100%',
       height: ' calc(100vh - 50px)',
-      padding: '15px',
+      padding: '15px 20px',
       'padding-bottom': '80px',
       'background-color': '#f5f6f8',
       'margin-top': '50px',
@@ -267,20 +295,30 @@ onLoad(async () => {
       :key="item.shopId"
     >
       <div class="flex items-center">
-        <wd-checkbox v-model="item.isCheck" @change="handleShop($event, item.shopId)"></wd-checkbox>
-        <view>{{ item.shopName }}</view>
-        <wd-icon name="arrow-right" size="20px" color=""></wd-icon>
+        <wd-checkbox
+          v-model="item.isCheck"
+          :disabled="item.disabled"
+          @change="handleShop($event, item.shopId)"
+        ></wd-checkbox>
+        <view class="flex items-center" @click="goDetails('shop', item.shopId)">
+          <view>{{ item.shopName }}</view>
+          <wd-icon name="arrow-right" size="20px" color=""></wd-icon>
+        </view>
       </div>
 
       <view class="w-full mt-15px flex" v-for="it in item.shopCartProductResp" :key="it.spuId">
         <view class="flex items-center">
           <wd-checkbox
             v-model="it.isCheck"
+            :disabled="it.disabled"
             @change="handleGood($event, it.shopCartId)"
           ></wd-checkbox>
         </view>
         <wd-img :width="105" :height="105" :src="it.skuUrl" custom-class="img" />
-        <view class="ml-15px flex-1 flex flex-col justify-between">
+        <view
+          class="ml-15px flex-1 flex flex-col justify-between"
+          @click="goDetails('goods', it.spuId)"
+        >
           <view class="w-190px name">{{ it.spuName }}</view>
           <view style="font-size: 14px; color: #757575">{{ it.skuName }}</view>
           <view class="w-full">

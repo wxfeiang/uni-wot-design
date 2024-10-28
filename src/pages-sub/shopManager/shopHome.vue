@@ -97,12 +97,10 @@ const getLsit = async (pageNo: number, pageSize: number) => {
       size: pageSize,
       ...model,
     })
-    console.log('res111111', res)
-    res.forEach((el) => {
+    res.content.forEach((el) => {
       el.saleUrl = JSON.parse(el.rotationUrl).data
     })
-    console.log('goodList', res)
-    paging.value.complete(res)
+    paging.value.complete(res.content)
     // paging.value.complete([])
   } catch {
     paging.value.complete(false)
@@ -126,6 +124,34 @@ function handleChange(val, type) {
 
   console.log('sort', sort)
   paging.value.reload()
+}
+
+function getTagList() {
+  const taglist = [
+    '五星好评',
+    '即将售罄',
+    '复购最高',
+    '优惠降价',
+    '历史低价',
+    '本月畅销',
+    '同款低价',
+    '平台好店',
+    '五星好评',
+    '即将售罄',
+  ]
+  const r1 = (Math.random() * 10).toFixed(0)
+  const r2 = (Math.random() * 7.99).toFixed(0)
+  const r3 = (Math.random() * 7.99).toFixed(0)
+  const list = []
+  if (r1 % 2 === 0) {
+    list.push(taglist[r2])
+  } else {
+    list.push(taglist[r2])
+    if (r2 !== r3) {
+      list.push(taglist[r3])
+    }
+  }
+  return list
 }
 
 onLoad(async (options) => {
@@ -153,7 +179,7 @@ onLoad(async (options) => {
           "
           class="rounded-3xl px-4 text-left overflow-hidden flex justify-left items-center"
         >
-          <input class="text-16px flex" style="flex: 1" placeholder="请输入搜索关键词" />
+          <input class="text-14px flex" style="flex: 1" placeholder="请输入搜索关键词" />
           <wd-icon name="search" size="16px" custom-class="ml-1 " color="#777777"></wd-icon>
         </view>
       </view>
@@ -175,7 +201,8 @@ onLoad(async (options) => {
           <view
             class="flex items-center w-full p-15px box-border bg-white border-rd-8px overflow-hidden"
           >
-            <view :class="shopDetails.name === '数城科技' ? 'ZYtag' : 'ZYtag'">
+            <!--            <view :class="shopDetails.name === '数城科技' ? 'ZYtag' : 'ZYtag'">-->
+            <view>
               <wd-img :width="57" :height="57" :src="shopDetails.shopAvatar" round />
             </view>
             <view class="ml-10px flex-1 overflow-hidden">
@@ -235,9 +262,21 @@ onLoad(async (options) => {
         class="flex-1 ml-15px py-2 flex flex-col justify-between overflow-hidden box-border"
         style="height: 100px"
       >
-        <view class="w-full name">
-          {{ item.spuName }}
+        <view>
+          <view class="w-full name">
+            {{ item.spuName }}
+          </view>
+          <view class="w-full flex my-5px">
+            <view
+              v-for="(it, ind) in getTagList()"
+              :key="ind"
+              class="bg-#FFF0EC border-rd-3px px-5px color-#DF7D65 font-size-10px line-height-15px mr-4px"
+            >
+              {{ it }}
+            </view>
+          </view>
         </view>
+
         <view class="flex justify-between">
           <view>
             <text style="font-size: 12px; color: #f44d24">￥</text>

@@ -284,7 +284,7 @@ function handleChange(val, type) {
       >
         <wd-img width="100%" :height="160" :src="getUrl(item.rotationUrl)" />
         <view class="w-155px name listname mt-5px mb-5px m-auto float-left">
-          <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
+          <!--          <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>-->
           {{ item.spuName }}
         </view>
         <view class="w-full flex mb-5px mx-5px">
@@ -328,7 +328,7 @@ function handleChange(val, type) {
         <wd-img :width="86" :height="86" :src="getUrl(item.rotationUrl)" />
         <div class="flex-1 ml-15px flex flex-col justify-between">
           <view class="w-full name listname float-left">
-            <text class="ZYtag" v-if="item.shopName === '数城科技店铺'">自营</text>
+            <!--            <text class="ZYtag" v-if="item.shopName === '数城科技店铺'">自营</text>-->
             {{ item.spuName }}
           </view>
           <view class="w-full flex items-center mb-2">

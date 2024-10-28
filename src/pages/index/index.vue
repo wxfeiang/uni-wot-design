@@ -100,15 +100,33 @@ async function actionTop(item: any) {
 
 function swiperClick(data) {
   const { item } = data
-  if (item.shopHdType === 1) {
+  if (item.shopHdType === 1 || item.shopHdType === 3) {
     routeTo({ url: item.appUrl, data: { ...item.data } })
   } else if (item.shopHdType === 0) {
     routeTo({
       url: '/pages-sub/webView/index',
       data: {
         type: item.shopHdId,
-        showType: item.lineType === '1' ? 'webView' : 'banner',
+        showType: 'banner',
         url: item.linkUrl,
+      },
+    })
+  } else if (item.shopHdType === 4) {
+    // H5
+    routeTo({
+      url: '/pages-sub/webView/index',
+      data: {
+        type: item.shopHdId,
+        showType: 'webView',
+        url: item.linkUrl,
+      },
+    })
+  } else {
+    // 活动
+    routeTo({
+      url: '/pages-sub/homeManager/action',
+      data: {
+        id: item.itemId,
       },
     })
   }
@@ -437,6 +455,7 @@ page {
   content: '';
   background: rgba(255, 255, 255, 0.65);
 }
+
 .swiper {
   --wot-swiper-radius: 0;
   --wot-swiper-item-padding: 0 24 rpx;
@@ -447,6 +466,7 @@ page {
 :deep(.custom-class-noticebar) {
   @apply p-0! bg-transparent!  color-#333! text-14px! w-60vw overflow-hidden truncate-1!;
 }
+
 :deep(.custom-class-swiper) {
   @apply rounded-4px! overflow-hidden!;
 }

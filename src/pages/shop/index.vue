@@ -42,7 +42,6 @@ import useUserOrder from './utils/userOrder'
 const pageOption = ref<PageOption>({
   page: 1,
   size: 10,
-  // bannerFlag: 1,
   location: 2,
 })
 const swiperList = ref<IActivityBanner[]>([])
@@ -77,8 +76,41 @@ const navList = ref([
 
 const navListType = ref({})
 
-const handleClick = (e: { item: IActivityBanner }) => {
-  gopath('/pages-sub/homeManager/action', { id: e.item.itemId })
+// const handleClick = (e: { item: IActivityBanner }) => {
+//   gopath('/pages-sub/homeManager/action', { id: e.item.itemId })
+// }
+function handleClick(data) {
+  const { item } = data
+  if (item.shopHdType === 1 || item.shopHdType === 3) {
+    routeTo({ url: item.appUrl, data: { ...item.data } })
+  } else if (item.shopHdType === 0) {
+    routeTo({
+      url: '/pages-sub/webView/index',
+      data: {
+        type: item.shopHdId,
+        showType: 'banner',
+        url: item.linkUrl,
+      },
+    })
+  } else if (item.shopHdType === 4) {
+    // H5
+    routeTo({
+      url: '/pages-sub/webView/index',
+      data: {
+        type: item.shopHdId,
+        showType: 'webView',
+        url: item.linkUrl,
+      },
+    })
+  } else {
+    // 活动
+    routeTo({
+      url: '/pages-sub/homeManager/action',
+      data: {
+        id: item.itemId,
+      },
+    })
+  }
 }
 
 const paging = ref(null)
@@ -483,8 +515,8 @@ onLoad(async () => {
             custom-style="max-height:46vw;border-radius:5px 5px 0 0;overflow: hidden;"
           />
 
-          <view class="w-155px name listname mt-5px mb-5px m-auto float-left">
-            <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
+          <view class="name listname m-5px float-left">
+            <!--            <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>-->
             {{ item.spuName }}
           </view>
           <view class="w-full flex mb-5px mx-5px">
@@ -560,7 +592,7 @@ onLoad(async () => {
           />
           <div class="flex-1 ml-15px flex flex-col justify-between">
             <view class="w-full name listname float-left">
-              <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
+              <!--              <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>-->
               {{ item.spuName }}
             </view>
             <view class="w-full flex items-center mb-5px">
