@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { removeT, routeTo } from '@/utils'
+import { removeT, routeTo, sceneResult } from '@/utils'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useUserStore } from '@/store'
@@ -9,9 +9,12 @@ import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
+import { openWxChart, useScancode } from '@/utils/uniapi'
+import { useMessage, useToast } from 'wot-design-uni'
 const { sendReceiveCoupon } = userCoupon()
 
 const { isLogined, userInfo } = storeToRefs(useUserStore())
+const message = useMessage()
 defineOptions({
   name: 'couponList',
 })
@@ -110,13 +113,21 @@ const handleReceive = async (item) => {
       }
       routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
     } else if (item.type === 1) {
-      uni.scanCode({
-        scanType: ['qrcode'],
-        success: function (res) {
-          console.log('条码类型：' + res.scanType)
-          console.log('条码内容：' + res.result)
-        },
-      })
+      const resData: any = await useScancode({ onlyFromCamera: true })
+
+      const { status, url } = sceneResult(resData)
+      console.log('🍟[status, url ]:', status, url)
+      if (status) {
+        routeTo({
+          url: '/pages/pay/index',
+          data: { url },
+        })
+      } else {
+        message.alert({
+          msg: '未识别到二维码内容',
+          title: '提示',
+        })
+      }
     } else if (item.type === 2) {
       // 商城跳转
       routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
@@ -144,14 +155,25 @@ const handleReceive = async (item) => {
   }
 }
 const toDetil = () => {
-  if (props.data.type === 2 || props.data.type === 3) {
-    const data = {
-      couponCode: props.data.couponCode,
-      isMain: props.isMain ? 1 : 0,
-      couponId: props.data.couponId,
+  if (statusBg.value) {
+    console.log('props.data.type', statusBg.value)
+    if (props.data.type === 1) {
+      // 平台券
+      const data = {
+        couponId: props.data.couponId,
+        couponCode: props.data.couponCode,
+        couponType: props.data.couponType,
+      }
     }
+    if (props.data.type === 2 || props.data.type === 3) {
+      const data = {
+        couponCode: props.data.couponCode,
+        isMain: props.isMain ? 1 : 0,
+        couponId: props.data.couponId,
+      }
 
-    routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
+      routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
+    }
   }
 }
 
@@ -244,8 +266,8 @@ const changeDate = (data: string) => {
         </view>
       </view>
       <view class="absolute top-50% mt-[-33px] right-10px z-99" v-if="!statusBg">
-        <wd-img :src="status1" :width="66" :height="66" v-if="props.data.couponStatus === 2" />
-        <wd-img :src="status2" :width="66" :height="66" v-if="props.data.couponStatus === 3" />
+        <wd-img :src="status1" :width="66" :height="66" v-if="props.data.couponStatus === 3" />
+        <wd-img :src="status2" :width="66" :height="66" v-if="props.data.couponStatus === 2" />
       </view>
       <!-- 详情显示1 -->
       <view :class="open ? 'block' : 'hidden'" class="mx-[-20px] mb-[-10px] bg-#fff">

@@ -46,7 +46,7 @@ const avtCcoupon = ref(0)
 const disCount = ref(false)
 const getCouponOver = ref(null)
 const disCountInd = ref(0)
-
+const deliveryMode: any = ref([])
 const instance = getCurrentInstance()
 
 const getCoupon = async (data, index) => {
@@ -99,13 +99,14 @@ onLoad(async (options) => {
   couponS.value = []
 
   orderDetails.value.forEach((element, index) => {
-    const arr = element.deliveryMode + ''.split(',')
+    deliveryMode.value = element.deliveryMode + ''.split(',')
     actions.value.forEach((it, idx) => {
-      if (arr.includes(it.id)) {
+      if (deliveryMode.value.includes(it.id)) {
         actions1.value.push(it)
       }
     })
-    console.log('actions.value', arr, actions.value)
+    console.log('actions.value', deliveryMode.value, actions.value)
+    element.deliveryMode = deliveryMode.value[0]
     element.userId = userStore.userInfo.userDId
     element.appKey = 1
     totalPrice.value = totalPrice.value + element.deliveryAmount

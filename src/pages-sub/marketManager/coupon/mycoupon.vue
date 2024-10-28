@@ -60,6 +60,7 @@ async function queryList(pageNo: number, pageSize: number) {
     tablist.value.forEach((e, i) => {
       e.count = data[matchTab.value[i]]
     })
+    console.log('优惠券', data)
     paging.value.complete(data.coupons.content)
   } catch (error) {
     paging.value.complete(false)
