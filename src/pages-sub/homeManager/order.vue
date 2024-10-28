@@ -98,7 +98,7 @@ onLoad(async (options) => {
   couponS.value = []
 
   orderDetails.value.forEach((element, index) => {
-    const arr = element.deliveryMode.split(',')
+    const arr = element.deliveryMode + ''.split(',')
     actions.value.forEach((it, idx) => {
       if (arr.includes(idx)) {
         it.disabled = false
@@ -107,7 +107,7 @@ onLoad(async (options) => {
     console.log('actions.value', arr, actions.value)
     element.userId = userStore.userInfo.userDId
     element.appKey = 1
-    totalPrice.value = orderDetails.value.reduce((a, b) => a + b.deliveryAmount, 0)
+    totalPrice.value = totalPrice.value + element.deliveryAmount
     const da = { shopId: element.shopId, productsList: [] }
     element.payShopListReqVo.forEach((e) => {
       da.productsList.push({ productId: e.spuId, price: e.price, num: e.spuNum })
