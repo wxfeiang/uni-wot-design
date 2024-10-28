@@ -142,7 +142,7 @@ function onScroll(e) {
               />
               <div class="flex-1 ml-15px flex flex-col justify-between">
                 <view class="w-full name listname float-left">
-                  <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
+                  <!--                  <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>-->
                   {{ item.spuName }}
                 </view>
 
