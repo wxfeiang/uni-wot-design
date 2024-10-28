@@ -201,7 +201,8 @@ onLoad(async (options) => {
           <view
             class="flex items-center w-full p-15px box-border bg-white border-rd-8px overflow-hidden"
           >
-            <view :class="shopDetails.name === '数城科技' ? 'ZYtag' : 'ZYtag'">
+            <!--            <view :class="shopDetails.name === '数城科技' ? 'ZYtag' : 'ZYtag'">-->
+            <view>
               <wd-img :width="57" :height="57" :src="shopDetails.shopAvatar" round />
             </view>
             <view class="ml-10px flex-1 overflow-hidden">

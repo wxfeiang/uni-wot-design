@@ -484,7 +484,7 @@ onLoad(async () => {
           />
 
           <view class="name listname m-5px float-left">
-            <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
+            <!--            <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>-->
             {{ item.spuName }}
           </view>
           <view class="w-full flex mb-5px mx-5px">
@@ -560,7 +560,7 @@ onLoad(async () => {
           />
           <div class="flex-1 ml-15px flex flex-col justify-between">
             <view class="w-full name listname float-left">
-              <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>
+              <!--              <text class="ZYtag" v-if="item.shopName === '数城科技'">自营</text>-->
               {{ item.spuName }}
             </view>
             <view class="w-full flex items-center mb-5px">
