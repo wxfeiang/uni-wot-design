@@ -3,7 +3,6 @@ import { request } from '@/utils/http'
 import { METHOD_INSTANCE } from '../model/baseModel'
 
 const WX_PAY = baseUrlApi('/trade/wxPay/wxPay')
-// const GET_SHOP_DETAIL = baseUrlApi('/product/app/shop/getDetail')
 
 const GET_SHOP_DETAIL = baseUrlApi('/product/app/shop/getShopDetail')
 const GET_GOOD_LIST = baseUrlApi('/product/app/productSpu/listPage')

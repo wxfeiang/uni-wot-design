@@ -350,23 +350,23 @@ const resultData = async (data, flog = 2) => {
   // 保存
   authStore.setUserInfo(data)
   // cardType 是否申请过雄安一卡通卡：3，已申领；0、1、2，未申领
-  if (data?.idCardNumber && flog !== 0) {
-    try {
-      const params = {
-        xm: authStore.userInfo.cardName,
-        zjhm: authStore.userInfo.idCardNumber,
-        zjlx: '1',
-        zkType: '1',
-        wdcode: '999-130632004',
-        areaCode: 'CHN',
-      }
-      const rData: any = await sendIsReceiveCardInfo(params)
-      console.log('renzhen===[rData]:', rData)
-      authStore.userInfo.cardType = rData.cardType
-    } catch (error) {
-      console.log('🍡[error]:', error)
-    }
-  }
+  // if (data?.idCardNumber && flog !== 0) {
+  //   try {
+  //     const params = {
+  //       xm: authStore.userInfo.cardName,
+  //       zjhm: authStore.userInfo.idCardNumber,
+  //       zjlx: '1',
+  //       zkType: '1',
+  //       wdcode: '999-130632004',
+  //       areaCode: 'CHN',
+  //     }
+  //     const rData: any = await sendIsReceiveCardInfo(params)
+  //     console.log('renzhen===[rData]:', rData)
+  //     authStore.userInfo.cardType = rData.cardType
+  //   } catch (error) {
+  //     console.log('🍡[error]:', error)
+  //   }
+  // }
 
   // 小程序登录成功后更新或新增 openId 和 unionId
   await updateUnionId()

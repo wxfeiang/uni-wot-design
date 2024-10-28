@@ -139,7 +139,6 @@ function next() {
       closeOnClickModal: false,
     })
   }
-  steep.value = 2
 }
 </script>
 <template>

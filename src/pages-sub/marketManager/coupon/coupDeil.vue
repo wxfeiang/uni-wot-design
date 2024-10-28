@@ -118,8 +118,8 @@ const createImg = () => {
         css: {
           display: 'block',
           textAlign: 'center',
-          marginTop: '20px',
-          padding: '25px 0 ',
+          marginTop: '15px',
+          padding: '20px 0 ',
         },
         views: [
           {

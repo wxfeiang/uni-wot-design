@@ -70,6 +70,7 @@ async function actionTop(item: any) {
     const resData: any = await useScancode({ onlyFromCamera: true })
 
     const { status, url } = sceneResult(resData)
+    console.log('🍟[status, url ]:', status, url)
     if (status) {
       routeTo({
         url: '/pages/pay/index',
