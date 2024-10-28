@@ -430,7 +430,7 @@ onShareAppMessage((res) => {
           ></Coupon-List>
         </view>
 
-        <view class="pb-30px" v-if="couponInfoData.type === 3 && cfigSatatus && isLogined">
+        <view class="pb-30px" v-if="couponInfoData.type === 3 && isLogined">
           <view class="py-10px text-16px text-center">券码：{{ couponInfoData.couponCode }}</view>
           <view class="flex justify-center mt-10px flex-col items-center">
             <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
@@ -447,7 +447,7 @@ onShareAppMessage((res) => {
         </view>
       </view>
     </view>
-    <view class="fixed bottom-3 left-0 right-0 px-20px">
+    <view class="fixed bottom-3 left-0 right-0 px-20px" v-if="couponInfoData.type === 2">
       <view class="flex gap-15px mt-20px">
         <view class="flex-1" v-for="(item, index) in cuButton" :key="index">
           <wd-button

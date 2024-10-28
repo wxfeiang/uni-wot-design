@@ -55,22 +55,22 @@ const showDetil = () => {
 const statusCoupopnList = ref([
   {
     statsSrc: '',
-    btnText: '去使用',
+    btnText: '去扫码',
     btnShow: true,
   },
   {
     statsSrc: status1,
-    btnText: '已使用',
-    btnShow: false,
+    btnText: '去使用',
+    btnShow: true,
   },
   {
     statsSrc: status2,
-    btnText: '已过期',
-    btnShow: false,
+    btnText: '查看码',
+    btnShow: true,
   },
   {
     statsSrc: '',
-    btnText: '领取',
+    btnText: '去领取',
     btnShow: true,
   },
 ])
@@ -88,31 +88,41 @@ const couponTypeText = computed(() => {
 })
 // 券3种状态
 const statusCoupopn = computed(() => {
-  return statusCoupopnList.value[props.data.couponStatus ?? 3]
+  return statusCoupopnList.value[props.data.type - 1]
 })
 // 平台券，商家券判断条件
 const sourceStu = computed(() => {
   return props.data.type === 1
 })
 const statusBg = computed(() => {
-  return props.data.couponStatus === 3 || props.data.couponStatus === 0
+  return props.data.couponStatus === 0 || props.data.couponStatus === 3
 })
 const handleReceive = async (item) => {
-  console.log('🍸', props.data)
-  if (props.data.couponStatus === 0) {
+  console.log('item', item.couponStatus, item.type)
+  if (item.couponStatus === 0) {
     // 去使用
     // type：2商品卷3线下核销卷
     // coupon_scop：4全部商品，5指定商品
-    if (props.data.type === 3) {
+    if (item.type === 3) {
       // 展示优惠券码
       const data = {
-        couponCode: props.data.couponCode,
+        couponCode: item.couponCode,
       }
       routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
-    } else {
+    } else if (item.type === 1) {
+      uni.scanCode({
+        scanType: ['qrcode'],
+        success: function (res) {
+          console.log('条码类型：' + res.scanType)
+          console.log('条码内容：' + res.result)
+        },
+      })
+    } else if (item.type === 2) {
       // 商城跳转
       routeTo({ url: '/pages/shop/index', navType: NAVIGATE_TYPE.SWITCH_TAB })
       // Toast('功能开发中...')
+    } else {
+      routeTo({ url: '/pages-sub/marketManager/coupon/webview?state=' + item.couponId })
     }
   } else {
     console.log('🍕', props.data)
@@ -134,13 +144,15 @@ const handleReceive = async (item) => {
   }
 }
 const toDetil = () => {
-  const data = {
-    couponCode: props.data.couponCode,
-    isMain: props.isMain ? 1 : 0,
-    couponId: props.data.couponId,
-  }
+  if (props.data.type === 2 || props.data.type === 3) {
+    const data = {
+      couponCode: props.data.couponCode,
+      isMain: props.isMain ? 1 : 0,
+      couponId: props.data.couponId,
+    }
 
-  routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
+    routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
+  }
 }
 
 const url = ref(
@@ -217,15 +229,23 @@ const changeDate = (data: string) => {
             <view
               class="px-15px py-2px rounded-full bd-1px_#FF4345 color-#FF4345 text-12px"
               @click.stop="handleReceive(props.data)"
-              v-if="statusCoupopn.btnShow"
+              v-if="props.data.couponStatus === 0"
             >
               {{ statusCoupopn.btnText }}
+            </view>
+            <view
+              class="px-15px py-2px rounded-full bd-1px_#FF4345 color-#FF4345 text-12px"
+              @click.stop="handleReceive(props.data)"
+              v-if="props.data.couponStatus === 3"
+            >
+              领取
             </view>
           </view>
         </view>
       </view>
       <view class="absolute top-50% mt-[-33px] right-10px z-99" v-if="!statusBg">
-        <wd-img :src="statusCoupopn.statsSrc" :width="66" :height="66" />
+        <wd-img :src="status1" :width="66" :height="66" v-if="props.data.couponStatus === 2" />
+        <wd-img :src="status2" :width="66" :height="66" v-if="props.data.couponStatus === 3" />
       </view>
       <!-- 详情显示1 -->
       <view :class="open ? 'block' : 'hidden'" class="mx-[-20px] mb-[-10px] bg-#fff">
@@ -250,7 +270,9 @@ const changeDate = (data: string) => {
                 }}
               </template>
             </view>
-            <view>优惠内容: {{ '满 ' + props.data.couponFillPrice + ' 元可用' }}</view>
+            <view v-if="props.data.couponFillPrice">
+              优惠内容: {{ '满 ' + props.data.couponFillPrice + ' 元可用' }}
+            </view>
             <view v-if="props.data.type === 3">线下进店展码核销</view>
           </view>
         </view>
