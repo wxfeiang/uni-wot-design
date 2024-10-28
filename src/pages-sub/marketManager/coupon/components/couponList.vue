@@ -139,6 +139,7 @@ const toDetil = () => {
     isMain: props.isMain ? 1 : 0,
     couponId: props.data.couponId,
   }
+
   routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
 }
 

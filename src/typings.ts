@@ -38,6 +38,7 @@ type IUserInfo = {
   cardId?: string // 卡id 社保卡详情用
   userAvatar?: string // 用户头像
   cardName?: string // 用户身份证姓名
+  socialCardType?: string // 是否一卡通用户  0未申领  //1一卡通
 }
 
 enum TestEnum {
