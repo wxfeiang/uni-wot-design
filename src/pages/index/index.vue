@@ -345,7 +345,7 @@ onPageScroll((e) => {
       <scroll-view scroll-x class="navscroll pb-10px">
         <view class="flex overflow-x-auto gap-10px w-200%">
           <view
-            class="flex flex-col h-100px overflow-hidden w-90px bg-no-repeat box-border"
+            class="flex flex-col h-100px overflow-hidden w-90px bg-no-repeat box-border rounded-b-6px overflow-hidden"
             v-for="(item, index) in serviceArea"
             :key="index"
             @click="serveClick(item)"
