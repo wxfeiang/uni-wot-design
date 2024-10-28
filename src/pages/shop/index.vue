@@ -319,14 +319,15 @@ onLoad(async () => {
       /> -->
       <wd-swiper
         :list="swiperList"
-        autoplay
-        loop
-        height="135px"
-        v-model:current="current"
+        :autoplay="true"
+        :current="0"
+        :height="135"
         value-key="shopHdBanner"
         :indicator="{ type: 'dots-bar' }"
-        :display-multiple-items="0"
         @click="handleClick"
+        custom-indicator-class="custom-indicator-class"
+        customClass="custom-class-swiper"
+        imageMode="scaleToFill"
       ></wd-swiper>
 
       <view class="w-full px-4 pt-4 pb-1 flex justify-between box-border items-center pos-relative">
