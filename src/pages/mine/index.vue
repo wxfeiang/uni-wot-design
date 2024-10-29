@@ -36,8 +36,11 @@ const {
   sendOrderStatistics,
   sendBusinessInfo,
   grzqList,
+  sendUserHasMerchantAuth,
+  hasMerchantAutData,
 } = useInfo()
 const { isLogined, userInfo, integralSataus } = storeToRefs(useUserStore())
+const authStore = useUserStore()
 const message = useMessage()
 
 function login() {
@@ -68,6 +71,24 @@ const goUserInfo = () => {
   routeTo({ url: '/pages-sub/system/userInfo/index' })
 }
 
+// 查询商户权限
+async function merchantAuth() {
+  await sendUserHasMerchantAuth()
+
+  if (hasMerchantAutData.value) {
+    if (userInfo.value.merchantId) {
+      // 查询商户统计
+      const datas: any = await sendBusinessInfo()
+      msCount.value.totalMoneyDay = datas.todayAmount ? datas.todayAmount : 0
+      msCount.value.totalOrderNumDay = datas.todayOrderNum ? datas.todayOrderNum : 0
+    }
+  } else {
+    const olduserInfo = JSON.parse(JSON.stringify(userInfo.value))
+    olduserInfo.merchantId = null
+    authStore.setUserInfo(olduserInfo)
+  }
+}
+
 onShow(async () => {
   if (isLogined.value) {
     try {
@@ -78,14 +99,6 @@ onShow(async () => {
       topList.value[2].value = countInfo.pocketNum
       userGradeTitle.value = countInfo.userGradeName
 
-      if (userInfo.value.merchantId) {
-        // 查询商户统计
-        const datas: any = await sendBusinessInfo()
-
-        msCount.value.totalMoneyDay = datas.todayAmount ? datas.todayAmount : 0
-        msCount.value.totalOrderNumDay = datas.todayOrderNum ? datas.todayOrderNum : 0
-      }
-
       const da: any = await sendOrderStatistics({ type: 1 })
       serveOrderList.value[0].value = da.dfk ? da.dfk : 0
       serveOrderList.value[1].value = da.dfh ? da.dfh : 0
@@ -93,6 +106,8 @@ onShow(async () => {
       // serveOrderList.value[3].value = da.ywc ? da.ywc : 0
       serveOrderList.value[3].value = 0
       serveOrderList.value[4].value = da.sh ? da.sh : 0
+
+      merchantAuth()
     } catch {
       topList.value[0].value = 0
       topList.value[1].value = 0
@@ -248,7 +263,7 @@ onShow(async () => {
     </view>
 
     <!-- 商家 -->
-    <view class="px-15px pb-10px" v-if="isLogined && userInfo.merchantId">
+    <view class="px-15px pb-10px" v-if="isLogined && hasMerchantAutData">
       <view class="p-10px bg-#fff rounded-7px">
         <view class="flex justify-between items-center gap-10px" @click="toShopService">
           <view class="flex items-center gap-5px">

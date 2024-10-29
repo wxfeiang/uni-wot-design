@@ -2,7 +2,12 @@ import { useRequest } from 'alova/client'
 import type { msCountProps, serveListProps, serveProps } from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
-import { findmyInfo, findXcxScoreUser, getUserCouponList } from '@/service/api/userMessage'
+import {
+  findmyInfo,
+  findXcxScoreUser,
+  getUserCouponList,
+  userHasMerchantAuth,
+} from '@/service/api/userMessage'
 import linquan from '@/static/images/mine/linquan.png'
 import shezhi from '@/static/images/mine/shezhi.png'
 import spsc from '@/static/images/mine/spsc.png'
@@ -214,6 +219,13 @@ const { send: sendMerchantServicesCount, data: msCount } = useRequest(
     },
   },
 )
+const { send: sendUserHasMerchantAuth, data: hasMerchantAutData } = useRequest(
+  (data) => userHasMerchantAuth<boolean>(data),
+  {
+    immediate: false,
+    loading: false,
+  },
+)
 
 export default () => {
   return {
@@ -231,5 +243,7 @@ export default () => {
     sendOrderStatistics,
     sendBusinessInfo,
     grzqList,
+    sendUserHasMerchantAuth,
+    hasMerchantAutData,
   }
 }
