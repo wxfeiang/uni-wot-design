@@ -147,18 +147,35 @@ const serviceArea = ref([
     stext: 'BUYING  SERVEMEDICINE',
   },
   {
-    title: '待遇发放',
-    icon: daiyufafang,
-    bgcolor: 'linear-gradient( 180deg, #FEFCF4 0%, #FFE3CE 100%);',
-    iconbg: '#FC9559',
-    path: '/pages-sub/webView/index',
-    id: '1710488285782016009',
+    title: '旅游观光',
+    icon: lvyouguanguang,
+    bgcolor: 'linear-gradient( 180deg, #FEEEEF 0%, #FDC9C9 100%);',
+    iconbg: '#F24848',
+    path: '/pages-sub/serveMassage/travel/index',
+    id: '1710488285782016014',
+    height: 10,
+    width: 33,
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/005b21d2-9c79-4912-935e-b7d977b43b014.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/b04a69cb-455a-4728-a637-3fe79a7072bb7.png',
     bgimg:
-      'https://oss.xay.xacloudy.cn/images/2024-10/42e5430c-be51-4da1-ba99-e10963deb63a待遇发放.png',
-    stext: 'SALARY DISTRIBUTION',
+      'https://oss.xay.xacloudy.cn/images/2024-10/01c01602-7ba0-4990-bf6d-b14ef868b76d旅游观光.png',
+    stext: 'TOURISM_AND SIGHTSEEING',
   },
+
+  {
+    title: '文化体验',
+    icon: wenhuatiyan,
+    bgcolor: 'linear-gradient( 180deg, #EFF4FE 0%, #CAE4FD 100%);',
+    iconbg: '#2994FF',
+    path: '/pages-sub/serveMassage/wenhuaServe/index',
+    id: '1710488285782016015',
+    texticon:
+      'https://oss.xay.xacloudy.cn/images/2024-10/9c94efdf-dbad-4a13-8c06-e9576f840d4aWechatIMG407.png',
+    bgimg:
+      'https://oss.xay.xacloudy.cn/images/2024-10/642c0e30-27de-4071-b44f-c78f55c66e19文化体验.png',
+    stext: 'CULTURAL EXPERIENCE',
+  },
+
   {
     title: '惠民服务',
     icon: jinrongruwu,
@@ -174,33 +191,19 @@ const serviceArea = ref([
       'https://oss.xay.xacloudy.cn/images/2024-10/0b560526-9f44-4431-9d66-d6a31d5473d2惠民服务.png',
     stext: 'HUIMIN SERVICE',
   },
+
   {
-    title: '文化体验',
-    icon: wenhuatiyan,
-    bgcolor: 'linear-gradient( 180deg, #EFF4FE 0%, #CAE4FD 100%);',
-    iconbg: '#2994FF',
-    path: '/pages-sub/serveMassage/wenhuaServe/index',
-    id: '1710488285782016015',
+    title: '待遇发放',
+    icon: daiyufafang,
+    bgcolor: 'linear-gradient( 180deg, #FEFCF4 0%, #FFE3CE 100%);',
+    iconbg: '#FC9559',
+    path: '/pages-sub/webView/index',
+    id: '1710488285782016009',
     texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/9c94efdf-dbad-4a13-8c06-e9576f840d4aWechatIMG407.png',
+      'https://oss.xay.xacloudy.cn/images/2024-10/005b21d2-9c79-4912-935e-b7d977b43b014.png',
     bgimg:
-      'https://oss.xay.xacloudy.cn/images/2024-10/642c0e30-27de-4071-b44f-c78f55c66e19文化体验.png',
-    stext: 'CULTURAL EXPERIENCE',
-  },
-  {
-    title: '旅游观光',
-    icon: lvyouguanguang,
-    bgcolor: 'linear-gradient( 180deg, #FEEEEF 0%, #FDC9C9 100%);',
-    iconbg: '#F24848',
-    path: '/pages-sub/serveMassage/travel/index',
-    id: '1710488285782016014',
-    height: 10,
-    width: 33,
-    texticon:
-      'https://oss.xay.xacloudy.cn/images/2024-10/b04a69cb-455a-4728-a637-3fe79a7072bb7.png',
-    bgimg:
-      'https://oss.xay.xacloudy.cn/images/2024-10/01c01602-7ba0-4990-bf6d-b14ef868b76d旅游观光.png',
-    stext: 'TOURISM_AND SIGHTSEEING',
+      'https://oss.xay.xacloudy.cn/images/2024-10/42e5430c-be51-4da1-ba99-e10963deb63a待遇发放.png',
+    stext: 'SALARY DISTRIBUTION',
   },
   {
     title: '京雄互通',

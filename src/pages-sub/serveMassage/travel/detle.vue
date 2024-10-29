@@ -38,7 +38,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <dy-content customClass="z-paging-content" customClassCenter="customClassCenter">
+  <dy-content customClass="z-paging-content">
     <template #top>
       <dy-navbar leftTitle="详情" left isNavShow color="#000" :placeholder="false"></dy-navbar>
       <wd-swiper
@@ -69,7 +69,7 @@ onMounted(async () => {
         </view>
         <view class="text-14px color-#333">开放时间</view>
         <view class="text-14px color-#999 mt-10px">
-          <view>冬季：{{ data.kTime }}</view>
+          <view>{{ data.kTime }}</view>
         </view>
         <view class="bb-1px_#ECECEC_dashed my-20px"></view>
       </view>
@@ -93,8 +93,5 @@ onMounted(async () => {
 }
 :deep(.wd-swiper__track) {
   @apply rounded-0!;
-}
-:deep(.customClassCenter) {
-  @apply mt-[-10px] !;
 }
 </style>
