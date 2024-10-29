@@ -168,6 +168,20 @@ const changeDe = (data) => {
               <view class="color-#999 truncate-2" @click="toLocation(item)">
                 地址: {{ item.address }}
               </view>
+              <view class="flex gap-5px">
+                <view
+                  v-if="item.mail === '1'"
+                  class="bg-#E9F0FF px-10px rounded-4px color-#4E85FF bb-1px_#D5E3FF text-12px mt-5px"
+                >
+                  网点邮寄
+                </view>
+                <view
+                  v-if="item.mail === '1' || item.mail === '0'"
+                  class="bg-#FFF4E9 px-10px rounded-4px color-#FF8A24 bb-1px_#FFE8D1 text-12px mt-5px"
+                >
+                  网点自取
+                </view>
+              </view>
             </template>
 
             <view class="pt-10px">

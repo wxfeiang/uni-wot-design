@@ -66,6 +66,9 @@ const removeHtmlStyle = (html) => {
   }
   return newHtml
 }
+onShow(() => {
+  paging.value && paging.value.reload()
+})
 </script>
 <template>
   <z-paging
