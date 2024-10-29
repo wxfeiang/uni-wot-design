@@ -102,7 +102,7 @@ const handleReceive = async (item) => {
     url:
       '/pages-sub/marketManager/coupon/webview?state=' +
       item.couponId +
-      '%' +
+      'W' +
       userInfo.value.userDId,
   })
 }
@@ -111,7 +111,7 @@ const toDetil = () => {
     url:
       '/pages-sub/marketManager/coupon/webview?state=' +
       props.data.couponId +
-      '%' +
+      'W' +
       userInfo.value.userDId,
   })
 }

@@ -648,6 +648,7 @@ onShow(async (options) => {
               :round="false"
               @click="goEvaluate(orderInfo.orderId)"
               custom-class="duihuanBtn  mb-2"
+              v-if="orderInfo.isEvaluatio === '0'"
             >
               去评价
             </wd-button>
