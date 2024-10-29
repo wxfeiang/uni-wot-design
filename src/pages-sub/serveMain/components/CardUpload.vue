@@ -29,7 +29,7 @@ const data = ref([
   },
   {
     type: 1,
-    name: '身份证正面照片',
+    name: '身份证人像照片',
     url: card1,
   },
   {

@@ -28,11 +28,11 @@ const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 const countdown = ref(60)
 const timer = ref(null)
 const tabs = ref([
-  // {
-  //   name: '一卡通',
-  //   value: '1',
-  //   logo: '',
-  // },
+  {
+    name: '一卡通',
+    value: '1',
+    logo: '',
+  },
   // {
   //   name: '电子社保卡',
   //   value: '2',
@@ -140,7 +140,7 @@ onUnmounted(async () => {
     <view class="back">
       <dy-navbar leftTitle="一码办事" left isNavShow color="#000"></dy-navbar>
       <!-- 顶部切换 -->
-      <view class="flex items-center justify-around gap-10px my-20px px-15px">
+      <!-- <view class="flex items-center justify-around gap-10px my-20px px-15px">
         <view
           class="flex flex-1 justify-center items-center px-10px text-center bg-#fff rounded-full h-35px line-height-35px relative"
           :class="active === index ? 'active' : ''"
@@ -154,7 +154,7 @@ onUnmounted(async () => {
             <wd-icon name="fill-arrow-down" size="40px" color="#2D69EF"></wd-icon>
           </view>
         </view>
-      </view>
+      </view> -->
       <!-- 中间内容 -->
       <view class="mt-20px px-15px">
         <view class="bg-#2D69EF color-#fff rounded-10px">

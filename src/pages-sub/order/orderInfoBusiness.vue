@@ -720,7 +720,10 @@ onShow(async (options) => {
 
       <wd-card class="cardno mt-4" v-if="orderInfo.status === 2">
         <view class="flex py-2 flex-col">
-          <view class="flex mt-10px mb-10px" v-if="orderInfo.productEvaluationList">
+          <view
+            class="flex mt-10px mb-10px"
+            v-if="orderInfo.productEvaluationList && orderInfo.productEvaluationList.length > 0"
+          >
             <wd-img :width="45" :height="45" :src="morentouxiang" round></wd-img>
             <view class="flex-1 overflow-hidden ml-10px">
               <view class="w-full flex items-center justify-between">
@@ -751,7 +754,13 @@ onShow(async (options) => {
         <view class="flex py-2 flex-col">
           <wd-text text="回复买家" size="14px" bold color="#333" custom-class=" mb-1"></wd-text>
 
-          <view v-if="orderInfo.productEvaluationList[0].replyList?.length > 0">
+          <view
+            v-if="
+              orderInfo.productEvaluationList &&
+              orderInfo.productEvaluationList[0] &&
+              orderInfo.productEvaluationList[0].replyList?.length > 0
+            "
+          >
             {{ orderInfo.productEvaluationList[0].replyList[0].replyContent }}
           </view>
 
@@ -832,7 +841,11 @@ onShow(async (options) => {
             <wd-button
               block
               :round="false"
-              v-if="orderInfo.productEvaluationList[0].replyList?.length === 0"
+              v-if="
+                orderInfo.productEvaluationList &&
+                orderInfo.productEvaluationList[0] &&
+                orderInfo.productEvaluationList[0].replyList?.length === 0
+              "
               custom-class="mb-2"
               @click="submitHF(orderInfo.orderId)"
             >

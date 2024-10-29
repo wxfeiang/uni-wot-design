@@ -3,14 +3,14 @@ import { removeT, routeTo, sceneResult } from '@/utils'
 
 import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useUserStore } from '@/store'
+import { useScancode } from '@/utils/uniapi'
 import { Toast } from '@/utils/uniapi/prompt'
 import { storeToRefs } from 'pinia'
+import { useMessage } from 'wot-design-uni'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
-import { openWxChart, useScancode } from '@/utils/uniapi'
-import { useMessage, useToast } from 'wot-design-uni'
 const { sendReceiveCoupon } = userCoupon()
 
 const { isLogined, userInfo } = storeToRefs(useUserStore())
@@ -141,9 +141,9 @@ const handleReceive = async (item) => {
       couponId: props.data.couponId,
     }
     try {
-      const data: any = await sendReceiveCoupon(params)
-      console.log('🍊[data]:', data)
-      if (data === true) {
+      const rdata: any = await sendReceiveCoupon(params)
+
+      if (rdata.couponCode) {
         emit('refresh')
         setTimeout(() => {
           Toast('领取成功')
@@ -155,27 +155,13 @@ const handleReceive = async (item) => {
   }
 }
 const toDetil = () => {
-  if (statusBg.value) {
-    console.log('props.data.type', props.data)
-    if (props.data.type === 1) {
-      // 平台券
-      const data = {
-        couponId: props.data.couponId,
-        couponCode: props.data.couponCode,
-        couponType: props.data.couponType,
-      }
-    }
-    if (props.data.type === 2 || props.data.type === 3) {
-      const data = {
-        couponCode: props.data.couponCode,
-        isMain: props.isMain ? 1 : 0,
-        couponId: props.data.couponId,
-        couponStatus: props.data.couponStatus,
-      }
-
-      routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
-    }
+  console.log('🍕', props.data)
+  const data = {
+    couponCode: props.data.couponCode,
+    isMain: props.isMain ? 1 : 0,
+    couponId: props.data.couponId,
   }
+  routeTo({ url: '/pages-sub/marketManager/coupon/coupDeil', data })
 }
 
 const url = ref(

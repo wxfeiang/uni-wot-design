@@ -448,14 +448,7 @@ const handleChange = async (pickerView, value, columnIndex, resolve) => {
             :rules="rules.nation"
             prop="nation"
           />
-          <wd-picker
-            :columns="areaCodeList"
-            custom-value-class="custom-input-right"
-            label="区域代码"
-            v-model="model.areaCode"
-            :rules="rules.areaCode"
-            prop="areaCode"
-          />
+
           <wd-input
             label="移动电话:"
             label-width="100px"

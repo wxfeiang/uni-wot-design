@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import { removeT, routeTo } from '@/utils'
 
-import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useUserStore } from '@/store'
-import { Toast } from '@/utils/uniapi/prompt'
 import { storeToRefs } from 'pinia'
+import url from '../../static/images/coupon/cardbg.png'
 import status1 from '../../static/images/coupon/status1.png'
 import status2 from '../../static/images/coupon/status2.png'
 import { conponListProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
-import url from '../../static/images/coupon/cardbg.png'
 
 const { sendReceiveCoupon } = userCoupon()
 
@@ -112,7 +110,7 @@ const toDetil = () => {
   routeTo({
     url:
       '/pages-sub/marketManager/coupon/webview?state=' +
-      item.couponId +
+      props.data.couponId +
       '%' +
       userInfo.value.userDId,
   })
