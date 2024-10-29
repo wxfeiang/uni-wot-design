@@ -28,11 +28,11 @@ const goodList = ref([])
 const isGrid = ref(true)
 const showSearch = ref(false)
 const sort = reactive({
-  pullTimeOrder: 1, // 上架时间排序
-  salesVolumeOrder: 1, // 销量排序
-  priceOrder: 1, // 价格排序
+  pullTimeOrder: 0, // 上架时间排序
+  salesVolumeOrder: 0, // 销量排序
+  priceOrder: 0, // 价格排序
 })
-let model = reactive({
+const model = reactive({
   pullTimeOrder: 1, // 上架时间排序
   salesVolumeOrder: 1, // 销量排序
   priceOrder: 1, // 价格排序
@@ -58,10 +58,10 @@ function changeGrid() {
 }
 
 const reset = () => {
-  model = reactive({
-    pullTimeOrder: 1, // 上架时间排序
-    salesVolumeOrder: 1, // 销量排序
-    priceOrder: 1, // 价格排序
+  any = reactive({
+    pullTimeOrder: '', // 上架时间排序
+    salesVolumeOrder: '', // 销量排序
+    priceOrder: '', // 价格排序
     brandId: '', // 品牌id
     shopId: '', // 店铺id
     spuName: '', // 商品名称
@@ -119,7 +119,16 @@ function changeSearch() {
 }
 
 function handleChange(val, type) {
-  model[type] = val === 1 ? 1 : 2
+  model.pullTimeOrder = '' // 上架时间排序
+  model.salesVolumeOrder = '' // 销量排序
+  model.priceOrder = ''
+
+  sort.pullTimeOrder = 0
+  sort.salesVolumeOrder = 0
+  sort.priceOrder = 0
+
+  model[type] = val.value === 1 ? 2 : 1
+  sort[type] = val.value === 1 ? 1 : -1
   paging.value.reload()
 }
 </script>
