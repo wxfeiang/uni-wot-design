@@ -211,15 +211,15 @@ function handleChange(val, type) {
   >
     <view
       v-if="isGrid"
-      class="pt-15px grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border"
+      class="w-full pt-15px grid grid-cols-2 gap-row-15px gap-col-13px px-15px box-border"
     >
       <view
-        class="flex flex-col border-rd-6px overflow-hidden w-175px bg-white pb-5px"
+        class="flex flex-col border-rd-6px overflow-hidden w-full bg-white pb-5px"
         v-for="item in goodList"
         :key="item.spuId"
         @click="routeTo({ url: '/pages-sub/homeManager/shopInfo', data: { id: item.spuId } })"
       >
-        <wd-img :width="175" :height="160" :src="getUrl(item.saleUrl)" />
+        <wd-img width="100%" :height="160" :src="getUrl(item.saleUrl)" />
         <view class="w-155px name my-10px m-auto">
           {{ item.spuName }}
         </view>

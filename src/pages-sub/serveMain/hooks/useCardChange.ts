@@ -1,4 +1,4 @@
-import { getCardBasicInfo } from '@/service/api/cardServe'
+import { getCardBasicInfo, personInfoChange } from '@/service/api/cardServe'
 import { useUserStore } from '@/store/user'
 import { Toast } from '@/utils/uniapi/prompt'
 import { useForm } from 'alova/client'
@@ -74,7 +74,7 @@ const {
       work: formData.zy,
     }
     // 可以在此转换表单数据并提交
-    return getCardBasicInfo(params)
+    return personInfoChange(params)
   },
   {
     immediate: false,
