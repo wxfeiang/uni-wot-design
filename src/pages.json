@@ -179,6 +179,15 @@
       "root": "pages-sub/serveMain",
       "pages": [
         {
+          "path": "OcrCamera",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
           "path": "cardApplyFromType",
           "type": "page",
           "layout": "default",
@@ -216,15 +225,6 @@
         },
         {
           "path": "jinrongType",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "OcrCamera",
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
@@ -376,14 +376,6 @@
       "root": "pages-sub/system",
       "pages": [
         {
-          "path": "sysconfig/cancellation",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "sysconfig/cancePhone",
           "type": "page",
           "layout": "default",
@@ -394,6 +386,14 @@
               "transparentTitle": "always",
               "titlePenetrate": "YES"
             }
+          }
+        },
+        {
+          "path": "sysconfig/cancellation",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
           }
         },
         {
@@ -431,6 +431,41 @@
     {
       "root": "pages-sub/userManager",
       "pages": [
+        {
+          "path": "SocialSecurityCard/barcode",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/detil",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/index",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "SocialSecurityCard/indexback",
+          "type": "page",
+          "layout": "default",
+          "realNameAuthentication": true,
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
         {
           "path": "address/editor",
           "type": "page",
@@ -491,41 +526,6 @@
           "path": "myMessage/massage",
           "type": "page",
           "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/barcode",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/detil",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/index",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "SocialSecurityCard/indexback",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
