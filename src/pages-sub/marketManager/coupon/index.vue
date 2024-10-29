@@ -51,9 +51,7 @@ onLoad(async () => {
 })
 
 onShow(async () => {
-  if (paging.value.reload) {
-    paging.value.reload()
-  }
+  paging.value && paging.value.reload()
 })
 </script>
 
