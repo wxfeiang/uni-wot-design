@@ -86,6 +86,7 @@ const detilId = ref('')
 async function getDetil() {
   await sendDetail({ id: detilId.value })
   dataList.value = [detilData.value]
+  console.log('🥕[ dataList.value]:', dataList.value)
 }
 
 onLoad(async (option: any) => {
@@ -103,7 +104,7 @@ onLoad(async (option: any) => {
 
     <view
       class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff safe-area-after"
-      v-if="dataList[0]?.isDone === '0'"
+      v-if="dataList[0]?.adviceState !== '2'"
     >
       <view class="flex gap-15px">
         <view class="flex-1" v-for="(item, index) in footerBtns2" :key="index">
