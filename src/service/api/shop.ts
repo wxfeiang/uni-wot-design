@@ -122,15 +122,9 @@ export function getsubmitTickets(data) {
  * @param params 初始参数()
  * */
 export function getOrderStatistics(data) {
-  const meta: METHOD_INSTANCE = {
-    loading: true,
-  }
   return request.Post(
     GET_ORDER_NUM, // 请求地址
     data,
-    {
-      meta,
-    },
   )
 }
 /**
@@ -138,15 +132,9 @@ export function getOrderStatistics(data) {
  * @param params 初始参数()
  * */
 export function getBusinessInfo(data) {
-  const meta: METHOD_INSTANCE = {
-    loading: true,
-  }
   return request.Post(
     GET_BUSINESS_INFO, // 请求地址
     data,
-    {
-      meta,
-    },
   )
 }
 
