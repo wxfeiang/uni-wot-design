@@ -12,6 +12,7 @@ import {
   getPostList,
   getPostInfo,
   gethuifu,
+  getsubmitTickets,
 } from '@/service/api/shop'
 
 import { useRequest } from 'alova/client'
@@ -74,6 +75,10 @@ const { send: sendhuifu } = useRequest((data) => gethuifu(data), {
   immediate: false,
   loading: false,
 })
+const { send: submitTickets } = useRequest((data) => getsubmitTickets(data), {
+  immediate: false,
+  loading: false,
+})
 
 export default () => {
   return {
@@ -89,5 +94,6 @@ export default () => {
     sendPostList,
     sendPostInfo,
     sendhuifu,
+    submitTickets,
   }
 }

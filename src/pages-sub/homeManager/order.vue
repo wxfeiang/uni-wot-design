@@ -55,6 +55,8 @@ const getCoupon = async (data, index) => {
 
   couponList.value[index].id = res[0] ? res[0].receiveId : ''
   couponList.value[index].cid = res[0] ? res[0].couponId : ''
+  couponList.value[index].couponPrice = res[0] ? res[0].couponPrice : 0
+
   console.log(' couponS.value[index]!~~~~~~~~~~~~~~~~~~~~', couponS.value[index])
   instance.proxy.$forceUpdate()
   let fl = true
@@ -89,6 +91,7 @@ const chooseact = (item, ind) => {
     act: ind,
     id: item.receiveId ? item.receiveId : '',
     cid: item.couponId ? item.couponId : '',
+    couponPrice: item.couponPrice ? item.couponPrice : 0,
   }
 }
 const chooseactNo = (item, ind) => {
@@ -96,6 +99,7 @@ const chooseactNo = (item, ind) => {
     act: -1,
     id: '',
     cid: '',
+    couponPrice: 0,
   }
 }
 
@@ -230,39 +234,47 @@ onShow(async (options) => {
           <!--          getCouponOver{{ getCouponOver }}-->
           <view class="w-full flex justify-between items-center mt-15px" v-if="getCouponOver">
             <view class="mr-50px">优惠券</view>
+            <view class="flex justify-right items-center">
+              <view
+                style="font-size: 14px; color: #333333"
+                v-if="couponS[idx] !== null && couponS[idx][0] && couponList[disCountInd].act >= 0"
+                @click="openCount(true, idx)"
+              >
+                {{ couponS[idx][0].couponName }}
+              </view>
 
-            <view
-              style="font-size: 14px; color: #777777"
-              v-if="couponS[idx] !== null && couponS[idx][0] && couponList[disCountInd].act >= 0"
-              @click="openCount(true, idx)"
-            >
-              {{ couponS[idx][0].couponName }}
+              <view
+                style="font-size: 14px; color: #333333"
+                v-else-if="couponList[disCountInd].act === -1"
+                @click="openCount(true, idx)"
+              >
+                不使用优惠券
+              </view>
+              <view style="font-size: 14px; color: #333333" v-else>暂无可用优惠券</view>
+              <wd-icon name="arrow-right" size="18px" color="#333333"></wd-icon>
             </view>
-
-            <view
-              style="font-size: 14px; color: #777777"
-              v-else-if="couponList[disCountInd].act === -1"
-              @click="openCount(true, idx)"
-            >
-              不使用优惠券
-            </view>
-            <view style="font-size: 14px; color: #777777" v-else>暂无可用优惠券</view>
           </view>
 
           <view class="w-full flex justify-between items-center mt-15px">
-            <view class="mr-50px">实际支付</view>
+            <view class="mr-50px">原价</view>
             <view class="color-#F44D24" style="font-size: 16px">
-              <text>￥{{ item.deliveryAmount }}</text>
+              <text>￥{{ totalPrice }}</text>
+            </view>
+          </view>
+          <view class="w-full flex justify-between items-center mt-15px">
+            <view class="mr-50px">优惠金额</view>
+            <view class="color-#F44D24" style="font-size: 16px">
+              <text>￥{{ couponList[disCountInd].couponPrice.toFixed(2) }}</text>
             </view>
           </view>
           <view class="w-full flex justify-between items-center mt-15px">
             <view class="mr-50px">配送方式</view>
             <!--            <view class="flex items-center" @click="checkDriver('showDeliveryMode', idx)">-->
             <view class="flex items-center">
-              <text class="mr-5px" style="font-size: 14px; color: #777777">
+              <text class="mr-5px" style="font-size: 14px; color: #333333">
                 {{ actions[item.deliveryMode].name }}
               </text>
-              <wd-icon name="arrow-right" size="16px" color="#777777"></wd-icon>
+              <!--              <wd-icon name="arrow-right" size="18px" color="#333333"></wd-icon>-->
             </view>
           </view>
           <view
@@ -298,7 +310,10 @@ onShow(async (options) => {
       <view class="flex flex-col">
         <view style="color: #f44d24" class="font-600">
           <text style="font-size: 14px">￥</text>
-          <text style="font-size: 20px">{{ totalPrice }}</text>
+
+          <text style="font-size: 20px">
+            {{ (totalPrice - couponList[disCountInd].couponPrice).toFixed(2) }}
+          </text>
         </view>
         <!-- <view class="mingxi flex items-center">
           <text>已优惠￥55.34 明细</text>
@@ -489,6 +504,7 @@ onShow(async (options) => {
   border-radius: 5px;
   font-size: 14px;
 }
+
 .yUse {
   text-align: center;
   padding: 10px;
@@ -498,6 +514,7 @@ onShow(async (options) => {
   font-size: 14px;
   background-color: #4bbefd;
 }
+
 .list {
   box-sizing: border-box;
   width: 100%;

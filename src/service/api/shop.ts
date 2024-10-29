@@ -48,6 +48,8 @@ const GET_POST_LIST = baseUrlApi('/order/app/xcxWaybillBiz')
 const GET_POST_INFO = baseUrlApi('/order/app/manage/orderBeanSend')
 const GET_HUIFU = baseUrlApi('/product/app/evaluation/reply')
 const GET_RECOMMEND_PRODUCT_LIST = baseUrlApi('/product/app/productSpu/getRecommendProductList')
+const GET_SUBMIT_TICKETS = baseUrlApi('/')
+
 /**
  *   商品列表
  * @param params 初始参数()
@@ -93,6 +95,21 @@ export function gethuifu(data) {
   }
   return request.Post(
     GET_HUIFU, // 请求地址
+    data,
+    {
+      meta,
+    },
+  )
+} /**
+ *   商品评价新增
+ * @param params 初始参数()
+ * */
+export function getsubmitTickets(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_SUBMIT_TICKETS, // 请求地址
     data,
     {
       meta,
