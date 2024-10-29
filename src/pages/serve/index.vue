@@ -22,6 +22,7 @@ import kajindu from '@/static/images/serve/kajindu.png'
 import jrcs from '@/static/images/serve/jrcs.png'
 import kabase from '@/static/images/serve/kabase.png'
 
+import { Modal } from '@/utils/uniapi/prompt'
 import jiaofeitong from '@/static/images/serve/jiaofeitong.png'
 import kabiangeng from '@/static/images/serve/kabiangeng.png'
 import mimachongzhi from '@/static/images/serve/mimachongzhi.png'
@@ -148,13 +149,13 @@ const mainData2 = ref([
         appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
         path: 'pages/index/index',
       },
-      {
-        title: '智慧食堂',
-        icon: 'coupon',
-        url: jiaofeitong,
-        type: '9',
-        base: '',
-      },
+      // {
+      //   title: '智慧食堂',
+      //   icon: 'coupon',
+      //   url: jiaofeitong,
+      //   type: '9',
+      //   base: '',
+      // },
     ],
   },
 ])
@@ -207,20 +208,48 @@ function gridClick(item: any) {
   } else if (item.type === '4') {
     openWxChart(item.appId, item.path)
   } else if (item.type === '7') {
-    routeTo({
-      url: '/pages-sub/userManager/transit/rechargeRecord',
-      data: { base, title },
-    })
-    if (userInfo.cardId) {
+    if (!userInfo.value.idCardNumber) {
+      Modal({
+        title: '提示',
+        content: '您还没有实名认证,请先认证？',
+        showCancel: true,
+      }).then((res: any) => {
+        if (res.confirm) {
+          // 重定向
+          const router = '/pages/login/loginsmrz'
+          const redirectRoute = `${router}?redirect=${encodeURIComponent('/pages-sub/userManager/transit/rechargeRecord')}`
+          uni.navigateTo({ url: redirectRoute })
+        }
+      })
+    } else if (!userInfo.value.cardId) {
       return toast.show('未查询到您的交通卡号！')
+    } else {
+      routeTo({
+        url: '/pages-sub/userManager/transit/rechargeRecord',
+        data: { base, title },
+      })
     }
   } else if (item.type === '8') {
-    routeTo({
-      url: '/pages-sub/userManager/transit/list',
-      data: { base, title },
-    })
-    if (userInfo.cardId) {
+    if (!userInfo.value.idCardNumber) {
+      Modal({
+        title: '提示',
+        content: '您还没有实名认证,请先认证？',
+        showCancel: true,
+      }).then((res: any) => {
+        if (res.confirm) {
+          // 重定向
+          const router = '/pages/login/loginsmrz'
+          const redirectRoute = `${router}?redirect=${encodeURIComponent('/pages-sub/userManager/transit/list')}`
+          uni.navigateTo({ url: redirectRoute })
+        }
+      })
+    } else if (!userInfo.value.cardId) {
       return toast.show('未查询到您的交通卡号！')
+    } else {
+      routeTo({
+        url: '/pages-sub/userManager/transit/list',
+        data: { base, title },
+      })
     }
   } else if (item.type === '9') {
     routeTo({
