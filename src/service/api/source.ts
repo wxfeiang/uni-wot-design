@@ -127,6 +127,7 @@ export function getSerchList<T>(data: any) {
     ignorEencrypt: true,
     ignorToken: true,
     Analysis: true,
+    loading: true,
   }
 
   return request.Post<T>(MESSAGE_LIST, data, {

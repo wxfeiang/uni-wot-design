@@ -9,16 +9,9 @@
 </route>
 
 <script lang="ts" setup>
-import {
-  addUserShop,
-  delUserShop,
-  getUserShopList,
-  getShopInfo,
-  getShopGoods,
-  getShopDetail,
-} from '@/service/api/shop'
-import { routeTo } from '@/utils'
+import { addUserShop, delUserShop, getShopGoods, getShopInfo } from '@/service/api/shop'
 import { useUserStore } from '@/store'
+import { routeTo } from '@/utils'
 import { Modal } from '@/utils/uniapi/prompt'
 import shopIcon from '../../static/images/shop/shop_nav20.png'
 
@@ -214,7 +207,9 @@ onLoad(async (options) => {
                 <view v-else class="quxiao" @click="fllowShop">已关注</view>
               </view>
               <view class="w-full flex items-center" @click="getlocation">
-                <view class="mr-5px" style="font-size: 14px; color: #999999">粉丝：0</view>
+                <view class="mr-5px" style="font-size: 14px; color: #999999">
+                  粉丝：{{ shopDetails.shopFansCount }}
+                </view>
               </view>
               <!--              <view class="w-full flex items-center" @click="call">-->
               <!--                <view class="mr-5px" style="font-size: 14px; color: #999999">-->

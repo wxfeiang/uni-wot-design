@@ -223,15 +223,20 @@ const btnClick2 = async (item) => {
         couponId: couponInfoData.value.couponId,
       }
       try {
-        const data: any = await sendReceiveCoupon(params)
-        if (data === true) {
+        const rdata: any = await sendReceiveCoupon(params)
+        console.log('🍎[rdata]:', rdata)
+        await sendCouponInfo({ couponId: couponId.value })
+        if (rdata.couponCode) {
           setTimeout(() => {
             Toast('领取成功')
           }, 50)
+          couponCode.value = rdata.couponCode
+          await sendCouponInfo({ couponCode: rdata.couponCode, couponId: couponId.value })
           // 改变按钮显示
           lqStatus.value = true
         }
       } catch (error) {
+        console.log('🥑[error]:', error)
         if (error?.data?.msg === '已领取') {
           lqStatus.value = true
         } else {
@@ -266,13 +271,14 @@ const btnClick2 = async (item) => {
       }, 3000)
     }
     if (couponInfoData.value.type === 3) {
+      console.log('🍧', couponInfoData.value)
+      cfigSatatus.value = true
       const qrcodeData = {
         couponCode: couponCode.value,
         qrCodeType: Constant.QR_CODE_FLAG,
-        actionType: Constant.QR_CODE_PAY,
+        actionType: Constant.QR_CODE_OFF,
       }
       cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
-      cfigSatatus.value = true
     }
   }
 }
@@ -318,7 +324,7 @@ const footerBtns3 = ref([
     customClass: 'custom-class-error-dyplain',
   },
   {
-    text: '立即使用',
+    text: '',
     size: 'medium',
     round: false,
     type: 'error',
@@ -337,7 +343,8 @@ const cuButton = computed(() => {
     } else {
       if (lqStatus.value) {
         console.log('🥤,=========')
-        return footerBtns3.value
+
+        return changeText()
       } else if (lqError.value) {
         return footerBtns2.value
       } else {
@@ -346,7 +353,7 @@ const cuButton = computed(() => {
           return footerBtns1.value
         } else {
           if (couponInfoData.value.couponStatus === 0) {
-            return footerBtns3.value
+            return changeText()
           } else {
             return footerBtns2.value
           }
@@ -369,13 +376,24 @@ const wexinClick = () => {
   }
 }
 
+function changeText() {
+  console.log('🥛', couponInfoData.value.type)
+  let text = ''
+  if (couponInfoData.value.type === 1) {
+    text = '去扫码'
+  } else if (couponInfoData.value.type === 2) {
+    text = '去使用'
+  } else if (couponInfoData.value.type === 3) {
+    text = '查看码'
+  }
+  footerBtns3.value[1].text = text
+  return footerBtns3.value
+}
 onLoad(async (options) => {
   isShare.value = Number(options.isMain) === 1
   shareType.value = options.type
   couponId.value = options.couponId
   couponCode.value = options.couponCode
-  couponStatus.value = options.couponStatus
-  console.log('couponStatus.value', couponStatus.value)
   try {
     await sendCouponInfo({ couponCode: options.couponCode, couponId: couponId.value })
   } catch (error) {
@@ -391,7 +409,6 @@ onLoad(async (options) => {
       })
   }
 })
-
 // 来自页面内分享按钮
 onShareAppMessage((res) => {
   if (res.from === 'button') {
@@ -431,7 +448,7 @@ onShareAppMessage((res) => {
             @share="share"
           ></Coupon-List>
         </view>
-        <view class="pb-30px" v-if="couponInfoData.type === 3 && couponStatus !== '3' && isLogined">
+        <view class="pb-30px" v-if="cfigSatatus && isLogined">
           <view class="py-10px text-16px text-center">券码：{{ couponInfoData.couponCode }}</view>
           <view class="flex justify-center mt-10px flex-col items-center">
             <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
@@ -448,7 +465,7 @@ onShareAppMessage((res) => {
         </view>
       </view>
     </view>
-    <view class="fixed bottom-3 left-0 right-0 px-20px" v-if="couponInfoData.type === 2">
+    <view class="fixed bottom-3 left-0 right-0 px-20px">
       <view class="flex gap-15px mt-20px">
         <view class="flex-1" v-for="(item, index) in cuButton" :key="index">
           <wd-button
