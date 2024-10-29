@@ -624,7 +624,7 @@ onShow(async (options) => {
             </wd-button>
             <wd-button
               size="small"
-              plain
+              block
               type="info"
               custom-class="inline-block  mb-2"
               style="width: 5rem"
