@@ -99,6 +99,9 @@ const rules = {
   idCardFrontPhotoId: [{ required: true, message: '请上传身份证正面照片' }],
   idCardBackPhotoId: [{ required: true, message: '请上传身份证反面照片' }],
   isPostcard: [{ required: true, message: '请选择是否邮寄' }],
+  postcardName: [{ required: true, message: '请输入收件人地址姓名', trigger: 'blur' }],
+  postcardPhone: [{ required: true, message: '请输入收件人地址手机号', trigger: 'blur' }],
+  postcardAddress: [{ required: true, message: '请输入收件人地址地址', trigger: 'blur' }],
 }
 const { loading: loading2, send: sendCardData } = useRequest(
   (data) => cardFirstDbrApplication(data),
@@ -110,30 +113,38 @@ const { loading: loading2, send: sendCardData } = useRequest(
 
 const submitStatus = ref(0)
 const statusDel = ref('')
-const submitCard = (form) => {
-  form.validate().then(async ({ valid, errors }) => {
-    if (valid) {
-      try {
-        const params = cloneDeep(model.value)
-        params.birthdate = dayjs(params.birthdate).format('YYYYMMDD')
-        params.startDate = dayjs(params.startDate).format('YYYYMMDD')
-        params.endDate = dayjs(params.endDate).format('YYYYMMDD')
-        console.log('🌮[params]:', params)
+const submitCard = async (form, flog?: any, all?: any) => {
+  if (all) {
+    return allsubmit()
+  }
+  const { valid } = await form.validate()
+  if (flog) {
+    return valid
+  }
+  if (valid) {
+    return allsubmit()
+  }
+}
+async function allsubmit() {
+  try {
+    const params = cloneDeep(model.value)
+    params.birthdate = dayjs(params.birthdate).format('YYYYMMDD')
+    params.startDate = dayjs(params.startDate).format('YYYYMMDD')
+    params.endDate = dayjs(params.endDate).format('YYYYMMDD')
+    console.log('🌮[params]:', params)
 
-        const data: any = await sendCardData(params)
+    const data: any = await sendCardData(params)
 
-        if (data.message) {
-          submitStatus.value = 2
-          statusDel.value = data.message
-        } else {
-          submitStatus.value = 1
-          statusDel.value = '提交成功了!'
-        }
-      } catch (error) {
-        console.log('数据校验失败')
-      }
+    if (data.message) {
+      submitStatus.value = 2
+      statusDel.value = data.message
+    } else {
+      submitStatus.value = 1
+      statusDel.value = '提交成功了!'
     }
-  })
+  } catch (error) {
+    console.log('数据校验失败')
+  }
 }
 
 export default () => {

@@ -4,6 +4,7 @@ import { changeDict } from '@/utils'
 import dayjs from 'dayjs'
 import qs from 'qs'
 import { useMessage } from 'wot-design-uni'
+import useCardBhk from '../hooks/useCardBhk'
 import useCardJuvenApply from '../hooks/useCardJuvenApply'
 import {
   applicantList,
@@ -23,7 +24,7 @@ const minDate = dayjs('191000101').valueOf()
 const maxDate = dayjs('20991225').valueOf()
 const userStore = useUserStore()
 const { userInfo } = userStore
-
+const { sendBranches } = useCardBhk()
 const visible = ref<boolean>(false)
 
 function showKeyBoard() {
@@ -149,11 +150,14 @@ const footerBtns1 = ref([
     customClass: 'btn-class',
   },
 ])
-function btnClick1(item) {
+async function btnClick1(item) {
   if (item.text === '上一步') {
     steep.value = 1
   } else {
-    steep.value = 3
+    const status = await submitCard(form.value, 'next')
+    if (status) {
+      steep.value = 3
+    }
   }
 }
 
@@ -175,11 +179,14 @@ const footerBtns2 = ref([
     customClass: 'btn-class',
   },
 ])
-function btnClick2(item) {
+async function btnClick2(item) {
   if (item.text === '上一步') {
     steep.value = 2
   } else {
-    steep.value = 4
+    const status = await submitCard(form.value, 'next')
+    if (status) {
+      steep.value = 4
+    }
   }
 }
 
@@ -206,7 +213,7 @@ function btnClick3(item) {
     steep.value = 3
   } else if (item.text === '确认提交') {
     if (model.value.idCardFrontPhotoId && model.value.idCardBackPhotoId && model.value.photoId) {
-      submitCard(form)
+      submitCard(form.value, 'submit', true)
     } else {
       message.alert({
         msg: '请先上传身份证证件照/人像照片',
@@ -215,7 +222,33 @@ function btnClick3(item) {
       })
     }
   }
+  submitCard(form.value, 'submit', true)
 }
+
+const bankBranchList = ref([])
+// 查询邮寄银行网点
+const handleChange = async (pickerView, value, columnIndex, resolve) => {
+  try {
+    const params = {
+      yhdm: model.value.bankCode,
+      areaCode: model.value.areaCode,
+      isMail: model.value.isPostcard,
+    }
+
+    const data: any = await sendBranches(params)
+
+    bankBranchList.value = data?.length
+      ? data.map((v) => {
+          return { value: v.wdCode, label: v.name }
+        })
+      : [{ value: '', label: '暂无数据,请重新选择网点!' }]
+    console.log('🥦', bankBranchList.value)
+  } catch (error) {
+    bankBranchList.value = []
+  }
+}
+
+steep.value = 4
 </script>
 <template>
   <view class="p-10px py-20px" v-if="steep == 1">
@@ -481,28 +514,40 @@ function btnClick3(item) {
             prop="work"
           />
           <wd-picker
-            :columns="bankCodeList"
-            custom-value-class="custom-input-right"
-            label="银行代码"
-            v-model="model.bankCode"
-            :rules="rules.bankCode"
-            prop="bankCode"
-          />
-          <wd-picker
-            :columns="areaCodeList"
-            custom-value-class="custom-input-right"
-            label="网点编码"
-            v-model="model.bankBranchCode"
-            :rules="rules.bankBranchCode"
-            prop="bankBranchCode"
-          />
-          <wd-picker
             :columns="isMailList"
             custom-value-class="custom-input-right"
             label="是否邮寄"
             v-model="model.isPostcard"
             :rules="rules.isPostcard"
             prop="isPostcard"
+            @confirm="handleChange"
+          />
+          <wd-picker
+            :columns="areaCodeList"
+            custom-value-class="custom-input-right"
+            label="申领地区"
+            v-model="model.areaCode"
+            :rules="rules.areaCode"
+            prop="areaCode"
+            @confirm="handleChange"
+          />
+          <wd-picker
+            :columns="bankCodeList"
+            custom-value-class="custom-input-right"
+            label="申领银行"
+            v-model="model.bankCode"
+            :rules="rules.bankCode"
+            prop="bankCode"
+            @confirm="handleChange"
+          />
+          <wd-picker
+            :columns="bankBranchList"
+            custom-value-class="custom-input-right"
+            label="申领网点"
+            v-model="model.bankBranchCode"
+            :rules="rules.bankBranchCode"
+            prop="bankBranchCode"
+            :disabled="!model.areaCode"
           />
           <template v-if="model.isPostcard == '1'">
             <wd-input
