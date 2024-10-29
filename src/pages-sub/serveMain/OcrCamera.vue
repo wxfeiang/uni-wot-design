@@ -55,13 +55,13 @@ const currData = ref<Camera>({
 onLoad((options: any) => {
   console.log('🥩[options]:', options)
   const { photoType, camerType: opcamerType } = options
-  let imgType = photoType * 1
-  if (photoType * 1 === 3) {
-    imgType = 1
-  }
-  if (photoType * 1 === 4) {
-    imgType = 2
-  }
+  const imgType = photoType * 1
+  // if (photoType * 1 === 3) {
+  //   imgType = 1
+  // }
+  // if (photoType * 1 === 4) {
+  //   imgType = 2
+  // }
 
   currData.value = dataList.value.find((item) => {
     return item.imgType === imgType
