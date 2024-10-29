@@ -537,6 +537,7 @@ function btnClick3(item) {
             />
           </template>
           <wd-input
+            v-if="model.idCardType === '18'"
             label="永居证中文名"
             v-model="model.idName"
             :rules="rules.idName"
