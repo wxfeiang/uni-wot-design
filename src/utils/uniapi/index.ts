@@ -280,9 +280,10 @@ export const downSaveImage = (imgurl: string) => {
  * @return {}
  */
 export const useSaveImageToPhotosAlbum = (path: string) => {
-  console.log('🍮[path]:', path)
+  const filePath = wx.env.USER_DATA_PATH + '/分享海报' + +'.jpg' // 这边就是为了安卓做的兼容，因为安卓机有可能会将图片地址的后缀名读取为：unknow
   uni.downloadFile({
     url: path,
+    filePath,
     success: (res) => {
       console.log('🥫[res]:', res)
       if (res.statusCode === 200) {
