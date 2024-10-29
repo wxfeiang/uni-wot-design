@@ -222,7 +222,6 @@ function btnClick3(item) {
       })
     }
   }
-  submitCard(form.value, 'submit', true)
 }
 
 const bankBranchList = ref([])
@@ -247,8 +246,6 @@ const handleChange = async (pickerView, value, columnIndex, resolve) => {
     bankBranchList.value = []
   }
 }
-
-steep.value = 4
 </script>
 <template>
   <view class="p-10px py-20px" v-if="steep == 1">
