@@ -43,6 +43,16 @@ const dataList = ref<Camera[]>([
     imgType: 2,
     devicePosition: 'back',
   },
+  {
+    title: '代办人脸正面照片',
+    imgType: 3,
+    devicePosition: 'front',
+  },
+  {
+    title: '代身份证人像面',
+    imgType: 4,
+    devicePosition: 'back',
+  },
 ])
 
 const currentParams = ref(null)
