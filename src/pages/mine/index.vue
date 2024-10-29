@@ -15,6 +15,7 @@ import dhicon from '@/static/images/mine/dhicon.png'
 import gerenicon from '@/static/images/mine/gerenicon.png'
 import h0 from '@/static/images/mine/h0.png'
 import h1 from '@/static/images/mine/h1.png'
+import jinbi from '@/static/images/mine/jinbi.png'
 import sjfw from '@/static/images/mine/sjfw.png'
 import tygj from '@/static/images/mine/tygj.png'
 import { useUserStore } from '@/store/user'
@@ -192,7 +193,7 @@ onShow(async () => {
           @click="qiandao"
           v-if="isLogined"
         >
-          <i class="iconfont xa-jinbi2 text-20px"></i>
+          <wd-img :src="jinbi" width="18" height="18"></wd-img>
           <text>{{ integralSataus ? '已签到' : '签到' }}</text>
         </view>
       </view>
