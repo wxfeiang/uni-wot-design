@@ -1,5 +1,5 @@
 import { gethdShophddetail } from '@/service/api/shop'
-import { getArtacleDetail, getDetailUpdateRead } from '@/service/api/source'
+import { getArtacleDetail, getDetailUpdateRead, setMessageRead } from '@/service/api/source'
 import { useRequest } from 'alova/client'
 const content = ref('')
 const articleTitle = ref('')
@@ -34,6 +34,12 @@ const {
   initialData: {},
 })
 
+const { send: sendMessageRead } = useRequest((data) => setMessageRead(data), {
+  immediate: false,
+  loading: false,
+  initialData: {},
+})
+
 export default () => {
   return {
     content,
@@ -46,5 +52,6 @@ export default () => {
     ReadData,
     ArticleData,
     bannerDaata,
+    sendMessageRead,
   }
 }
