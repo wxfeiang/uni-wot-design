@@ -276,7 +276,7 @@ const btnClick2 = async (item) => {
       const qrcodeData = {
         couponCode: couponCode.value,
         qrCodeType: Constant.QR_CODE_FLAG,
-        actionType: Constant.QR_CODE_PAY,
+        actionType: Constant.QR_CODE_OFF,
       }
       cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
     }
