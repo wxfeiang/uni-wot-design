@@ -163,7 +163,7 @@ const footerBtns2 = ref([
     size: 'medium',
     round: false,
     plain: true,
-    type: '',
+    type: 'info',
     customClass: 'btn-class',
   },
   {
@@ -171,7 +171,7 @@ const footerBtns2 = ref([
     size: 'medium',
     round: false,
     plain: true,
-    type: '',
+    type: 'primary',
     customClass: 'btn-class',
   },
 ])
@@ -190,7 +190,7 @@ const footerBtns3 = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
-    type: '',
+    type: 'info',
   },
   {
     text: '确认提交',
@@ -198,7 +198,7 @@ const footerBtns3 = ref([
     round: false,
     plain: true,
     customClass: 'btn-class',
-    type: '',
+    type: 'primary',
   },
 ])
 function btnClick3(item) {
