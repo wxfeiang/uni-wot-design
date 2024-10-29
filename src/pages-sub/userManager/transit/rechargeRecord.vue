@@ -60,7 +60,7 @@ async function queryList(pageNo: number, pageSize: number) {
       page: pageNo,
       size: pageSize,
       rectype: '1',
-      orderby: '1',
+      orderby: '0',
     }
     getTransitCardTradeDetails(obj).then((res) => {
       console.log('交通卡充值记录', res)
@@ -96,7 +96,10 @@ onShow(() => {
   })
 })
 function toMingxi(item) {
-  routeTo({ url: '/pages-sub/userManager/transit/detil', data: { ...item, cardno: form.cardno } })
+  routeTo({
+    url: '/pages-sub/userManager/transit/detil',
+    data: { ...item, type: 2, cardno: form.cardno },
+  })
 }
 </script>
 
@@ -119,12 +122,12 @@ function toMingxi(item) {
             <wd-img :src="putongka" :width="60" :height="30" v-if="form.cardtype === '0100'" />
             <view class="name">{{ userInfo.cardName }}</view>
           </div>
-          <div class="font-600 color-white font-size-24px">{{ form.cardno }}</div>
+          <div class="font-600 color-white font-size-22px">{{ form.cardno }}</div>
         </view>
         <view>
           <wd-img :src="laoniankaicon" :width="54" :height="63" v-if="form.cardtype === '0301'" />
           <wd-img :src="xueshengkaicon" :width="54" :height="63" v-if="form.cardtype === '0201'" />
-          <wd-img :src="putongkaicon" :width="54" :height="63" v-if="form.cardtype === '0100'" />
+          <wd-img :src="putongkaicon" :width="65" :height="63" v-if="form.cardtype === '0100'" />
         </view>
       </view>
       <!-- <wd-datetime-picker
@@ -175,7 +178,11 @@ function toMingxi(item) {
         </view>
         <view class="mb-3px">
           <wd-text text="充值金额：" size="12px" color="#999999"></wd-text>
-          <wd-text :text="`￥${item.txnamt}元`" size="12px" color="#FF0000"></wd-text>
+          <wd-text
+            :text="`￥${(item.txnamt / 100).toFixed(2)}元`"
+            size="12px"
+            color="#FF0000"
+          ></wd-text>
         </view>
         <view>
           <wd-text text="充值时间：" size="12px" color="#999999"></wd-text>

@@ -11,6 +11,7 @@
 import dayjs from 'dayjs'
 const title = ref('充值记录详情')
 const data = reactive({})
+const desc = ref('-')
 
 const formatTime = (val) => {
   if (val.length === 8) {
@@ -22,6 +23,8 @@ const formatTime = (val) => {
 onLoad((options) => {
   console.log('传参', options)
   Object.assign(data, options)
+  title.value = options.type === '1' ? '消费记录详情' : '充值记录详情'
+  desc.value = options.type === '1' ? '-' : '+'
 })
 </script>
 
@@ -47,7 +50,7 @@ onLoad((options) => {
             </view>
             <view class="my-15px flex flex-col items-center">
               <view class="text-44px font-600 color-#000 py-5px">
-                +{{ Number(data.txnamt).toFixed(2) }}
+                {{ desc }}{{ Number(data.txnamt).toFixed(2) }}
               </view>
               <!-- <view class="text-16px color-#999 py-3px mt-10px">已扣款</view> -->
             </view>

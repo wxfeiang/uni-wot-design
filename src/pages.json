@@ -591,6 +591,7 @@
           "path": "transit/list",
           "type": "page",
           "layout": "default",
+          "realNameAuthentication": true,
           "style": {
             "navigationStyle": "custom"
           }
