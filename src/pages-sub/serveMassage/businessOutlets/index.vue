@@ -157,7 +157,7 @@ const changeDe = (data) => {
             title-width="60%"
           >
             <template #icon>
-              <view class="mt-10px mr-10px">
+              <view class="mt-10px mr-10px flex flex-col items-center justify-center">
                 <wd-img :src="getLogo(item.name)" :width="30" :height="30"></wd-img>
               </view>
             </template>
