@@ -82,7 +82,7 @@ const rules = {
   isPostcard: [{ required: true, message: '请选择是否邮寄' }],
   postcardName: [{ required: true, message: '请输入邮寄人姓名', trigger: 'blur' }],
   postcardPhone: [{ required: true, message: '请输入邮寄人手机号', trigger: 'blur' }],
-  postcardAddress: [{ required: true, message: '请输入', trigger: 'blur' }],
+  postcardAddress: [{ required: true, message: '请输入邮寄地址', trigger: 'blur' }],
 }
 const { loading: loading2, send: sendCardData } = useRequest((data) => cardFirstApplication(data), {
   immediate: false,

@@ -1,4 +1,4 @@
-import { HideLoading, Modal, Toast } from './prompt'
+import { Modal, Toast } from './prompt'
 const { VITE_HALF_APPID } = import.meta.env
 /**
  * @description: 打开第三方小程序
@@ -280,32 +280,89 @@ export const downSaveImage = (imgurl: string) => {
  * @return {}
  */
 export const useSaveImageToPhotosAlbum = (path: string) => {
-  console.log('🍮[path]:', path)
+  // const filePath = wx.env.USER_DATA_PATH + '/分享海报' + +'.jpg' // 这边就是为了安卓做的兼容，因为安卓机有可能会将图片地址的后缀名读取为：unknow
+  // uni.downloadFile({
+  //   url: path,
+  //   filePath,
+  //   success: (res) => {
+  //     console.log('🥫[res]:', res)
+  //     if (res.statusCode === 200) {
+  //       uni.saveImageToPhotosAlbum({
+  //         filePath: res.tempFilePath,
+  //         success: function () {
+  //           Toast('保存成功', { icon: 'success' })
+  //         },
+  //         fail: function (err) {
+  //           console.log('🍜[err]:', err)
+  //           Toast('保存失败，请稍后重试')
+  //         },
+  //         complete: function () {
+  //           HideLoading()
+  //         },
+  //       })
+  //     }
+  //   },
+  //   fail(result) {
+  //     console.log('🍭[result]:', result)
+  //   },
+  //   complete: function (complete) {
+  //     console.log('🍭[complete]:', complete)
+  //   },
+  // })
+  const fileName = new Date().valueOf()
+  const filePath = wx.env.USER_DATA_PATH + '/' + fileName + '.jpg' // 这边就是为了安卓做的兼容，因为安卓机有可能会将图片地址的后缀名读取为：unknow
   uni.downloadFile({
-    url: path,
-    success: (res) => {
-      console.log('🥫[res]:', res)
-      if (res.statusCode === 200) {
-        uni.saveImageToPhotosAlbum({
-          filePath: res.tempFilePath,
-          success: function () {
-            Toast('保存成功', { icon: 'success' })
-          },
-          fail: function (err) {
-            console.log('🍜[err]:', err)
-            Toast('保存失败，请稍后重试')
-          },
-          complete: function () {
-            HideLoading()
-          },
-        })
-      }
+    url: path, // 需要保存的图片地址
+    filePath,
+    success: function (res) {
+      // 保存图片到系统相册
+      uni.saveImageToPhotosAlbum({
+        filePath,
+        success(data) {
+          console.log('🍋[data]:', data)
+          const fileMgr = uni.getFileSystemManager()
+          fileMgr.unlink({
+            filePath,
+            success() {
+              uni.hideLoading()
+              uni.showToast({
+                title: '图片保存成功',
+                icon: 'none',
+              })
+            },
+          })
+        },
+        fail(err) {
+          console.log('🍻[err]:', err)
+          if (
+            err.errMsg === 'saveImageToPhotosAlbum:fail:auth denied' ||
+            err.errMsg === 'saveImageToPhotosAlbum:fail auth deny' ||
+            err.errMsg === 'saveImageToPhotosAlbum:fail authorize no response'
+          ) {
+            wx.showModal({
+              title: '提示',
+              content: '需要您授权保存相册',
+              showCancel: false,
+              success: (modalSuccess) => {
+                wx.openSetting({
+                  success(settingdata) {
+                    uni.hideLoading()
+                    if (settingdata.authSetting['scope.writePhotosAlbum']) {
+                      console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
+                    } else {
+                      console.log('获取权限失败，给出不给权限就无法正常使用的提示')
+                    }
+                  },
+                })
+              },
+            })
+          }
+        },
+      })
     },
-    fail(result) {
-      console.log('🍭[result]:', result)
-    },
-    complete: function (complete) {
-      console.log('🍭[complete]:', complete)
+    complete: function (res) {
+      console.log('🍵[fall==]:', res)
+      uni.hideLoading()
     },
   })
 }

@@ -92,7 +92,7 @@ onShow(() => {
     <!-- leibiao  -->
     <view v-for="(item, index) in dataList" :key="index" class="px-15px">
       <view class="text-14px color-#999999 py-10px text-center mt-10px">
-        {{ removeT(item.createTime) }}
+        {{ removeT(item.sendTime) }}
       </view>
       <view class="rounded-10px overflow-hidden">
         <wd-cell-group use-slot clickable border>
@@ -103,6 +103,7 @@ onShow(() => {
               </view>
               <view
                 class="w-10px h-10px rounded-100 absolute top-[-2px] left-[-5px] bg-#E81010"
+                v-if="item.isRead !== '1'"
               ></view>
             </view>
           </template>

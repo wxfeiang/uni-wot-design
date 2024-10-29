@@ -888,6 +888,14 @@
           "style": {
             "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "tickets",
+          "type": "page",
+          "layout": "default",
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     },

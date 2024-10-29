@@ -12,8 +12,15 @@
 import { useBaseStore, useUserStore } from '@/store'
 import { removeT } from '@/utils'
 import useWebview from './hooks/useWebview'
-const { sedAarData, ArticleData, bannerDaata, getbanner, sendDetailUpdateRead, ReadData } =
-  useWebview()
+const {
+  sedAarData,
+  ArticleData,
+  bannerDaata,
+  getbanner,
+  sendDetailUpdateRead,
+  ReadData,
+  sendMessageRead,
+} = useWebview()
 const userStore = useUserStore()
 const basestore = useBaseStore()
 const types = ref(null)
@@ -41,6 +48,7 @@ onLoad(async (options) => {
     cuurentData.value = bannerDaata.value
   } else if (showType.value === 'message') {
     await sendDetailUpdateRead({ id: options.type })
+    await sendMessageRead({ id: options.type, isRead: '1' })
     cuurentData.value = ReadData.value
   } else {
     types.value = options.type
@@ -70,7 +78,9 @@ onLoad(async (options) => {
             来源： {{ remark || '一卡通平台' }}
           </view>
           <view class="color-#999 font-size-12px line-height-20px">
-            发布时间：{{ removeT(cuurentData.createTime || cuurentData.shopHdStartT) }}
+            发布时间：{{
+              removeT(cuurentData.createTime || cuurentData.shopHdStartT || cuurentData.sendTime)
+            }}
           </view>
         </view>
       </view>

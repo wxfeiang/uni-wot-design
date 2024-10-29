@@ -93,6 +93,7 @@ interface NavigateToOptions {
        "/pages-sub/order/orderInfoJF" |
        "/pages-sub/order/orderList" |
        "/pages-sub/order/orderListBusiness" |
+       "/pages-sub/order/tickets" |
        "/pages-sub/homeManager/action" |
        "/pages-sub/homeManager/goodsSearch" |
        "/pages-sub/homeManager/order" |

@@ -108,7 +108,7 @@ const createImg = () => {
         css: {
           display: 'block',
           textAlign: 'center',
-          padding: '20px 0',
+          padding: '10px 0',
           color: '#fff',
           fontSize: '30px',
         },
@@ -118,7 +118,7 @@ const createImg = () => {
         css: {
           display: 'block',
           textAlign: 'center',
-          marginTop: '15px',
+          marginTop: '10px',
           padding: '20px 0 ',
         },
         views: [
@@ -140,7 +140,7 @@ const createImg = () => {
               color: '#FFECBA',
               fontSize: '30px',
               fontWeight: '600',
-              lineHeight: '50px',
+              lineHeight: '36px',
               verticalAlign: 'bottom',
             },
           },

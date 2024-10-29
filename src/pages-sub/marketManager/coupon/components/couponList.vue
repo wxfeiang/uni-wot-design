@@ -267,7 +267,7 @@ const changeDate = (data: string) => {
         </view>
       </view>
       <view class="absolute top-50% mt-[-33px] right-10px z-99" v-if="!statusBg">
-        <wd-img :src="status1" :width="66" :height="66" v-if="props.data.couponStatus === 3" />
+        <wd-img :src="status1" :width="66" :height="66" v-if="props.data.couponStatus === 1" />
         <wd-img :src="status2" :width="66" :height="66" v-if="props.data.couponStatus === 2" />
       </view>
       <!-- 详情显示1 -->

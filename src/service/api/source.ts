@@ -12,6 +12,9 @@ const GET_SPECIAL_TYPE_LIST = baseUrlApi('/promotion/app/xcxUserAdvice/getSpecia
 const GET_HISTORY_PAGE_BY_USER_ID = baseUrlApi('/user/app/history/getHistoryPageByUserId')
 const GET_DETAIL_UPDATE_READ = baseUrlApi('/user/app/history/getDetailUpdateRead')
 const GET_SHOW_TOP_GZH = baseUrlApi('/member/app/userInfo/getUserGzh')
+
+const SET_STATUS_UPDATE = baseUrlApi('/user/app/history/statusUpdate')
+
 /**
  * @description: 获取消息列表
  * @param {} data
@@ -39,6 +42,18 @@ export function getShowTopGZH<T>(data) {
 export function getDetailUpdateRead(data) {
   return request.Post(
     GET_DETAIL_UPDATE_READ, // 请求地址
+    data,
+  )
+}
+
+/**
+ * @description: 我的-消息-已读
+ * @param {} data
+ * @return {}
+ */
+export function setMessageRead(data) {
+  return request.Post(
+    SET_STATUS_UPDATE, // 请求地址
     data,
   )
 }

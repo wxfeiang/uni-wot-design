@@ -206,6 +206,17 @@ function goRefund(orderId, type) {
     },
   })
 }
+function gotickets(orderId) {
+  routeTo({ url: '/pages-sub/order/tickets', data: { id: orderId } })
+}
+
+function call(Phone) {
+  if (Phone) {
+    uni.makePhoneCall({
+      phoneNumber: Phone,
+    })
+  }
+}
 
 function gosure(orderId, status) {
   const data = { orderId, status }
@@ -602,10 +613,30 @@ onShow(async (options) => {
           </template>
           <template v-else-if="orderInfo.status == 2">
             <wd-button
+              size="small"
+              block
+              type="info "
+              custom-class="inline-block  mb-2"
+              style="width: 5rem"
+              @click="call(orderInfo.shopPhone)"
+            >
+              联系商家
+            </wd-button>
+            <wd-button
+              size="small"
+              block
+              type="info"
+              custom-class="inline-block  mb-2"
+              style="width: 5rem"
+              @click="gotickets(orderInfo.orderId)"
+            >
+              平台介入
+            </wd-button>
+            <wd-button
               block
               :round="false"
               @click="goEvaluate(orderInfo.orderId)"
-              custom-class="duihuanBtn"
+              custom-class="duihuanBtn  mb-2"
             >
               去评价
             </wd-button>

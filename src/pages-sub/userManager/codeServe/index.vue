@@ -28,21 +28,21 @@ const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 const countdown = ref(60)
 const timer = ref(null)
 const tabs = ref([
-  {
-    name: '一卡通',
-    value: '1',
-    logo: '',
-  },
+  // {
+  //   name: '一卡通',
+  //   value: '1',
+  //   logo: '',
+  // },
   // {
   //   name: '电子社保卡',
   //   value: '2',
   //   logo,
   // },
-  {
-    name: '雄安数字身份',
-    value: '3',
-    logo: '',
-  },
+  // {
+  //   name: '雄安数字身份',
+  //   value: '3',
+  //   logo: '',
+  // },
 ])
 const active = ref(0)
 function changeClick(index) {

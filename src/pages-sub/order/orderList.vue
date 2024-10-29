@@ -47,7 +47,7 @@ const tabslist = ref([
   { name: '待发货', value: '10' },
   { name: '待收货', value: '11' },
   { name: '已完成', value: '2' },
-  { name: '退换/取消', value: '20,21,22,23,3' },
+  { name: '退款/售后', value: '20,21,22,23,25,26' },
 ])
 const list = ref([])
 
@@ -90,6 +90,18 @@ function goEvaluate(orderId) {
 
 function goRefund(orderId) {
   routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPopTK: true } })
+}
+
+function gotickets(orderId) {
+  routeTo({ url: '/pages-sub/order/tickets', data: { id: orderId } })
+}
+
+function call(Phone) {
+  if (Phone) {
+    uni.makePhoneCall({
+      phoneNumber: Phone,
+    })
+  }
 }
 
 // function goRefund(orderId, note = '') {
@@ -263,7 +275,6 @@ onLoad((options) => {
                   size="16px"
                   color="#000000"
                   custom-class="font-bold"
-                  @click.self="gopath('/pages-sub/homeManager/shopInfo', { id: it.productSpuId })"
                 ></wd-text>
                 <wd-text
                   :text="item.skuName"
@@ -337,9 +348,19 @@ onLoad((options) => {
                     type="info "
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="goInfo(item.orderId)"
+                    @click="call(item.shopPhone)"
                   >
-                    查看详情
+                    联系商家
+                  </wd-button>
+                  <wd-button
+                    size="small"
+                    plain
+                    type="info"
+                    custom-class="inline-block ml-2"
+                    style="width: 5rem"
+                    @click="gotickets(item.orderId)"
+                  >
+                    平台介入
                   </wd-button>
 
                   <wd-button
