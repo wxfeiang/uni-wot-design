@@ -329,10 +329,10 @@ onLoad(async () => {
         >
           <view class="w-190px name">{{ it.spuName }}</view>
           <view style="font-size: 14px; color: #757575">{{ it.skuName }}</view>
-          <view class="w-full">
-            <wd-tag color="#FAA21E" bg-color="#FF6609" plain>7天无理由退货</wd-tag>
-            <wd-tag color="#FAA21E" bg-color="#FF6609" plain custom-class="ml-1">运费险</wd-tag>
-          </view>
+          <!--          <view class="w-full">-->
+          <!--            <wd-tag color="#FAA21E" bg-color="#FF6609" plain>7天无理由退货</wd-tag>-->
+          <!--            <wd-tag color="#FAA21E" bg-color="#FF6609" plain custom-class="ml-1">运费险</wd-tag>-->
+          <!--          </view>-->
           <view class="w-full flex justify-between">
             <view class="flex items-center" style="font-weight: 600; color: #f44d24">
               <text style="font-size: 14px">￥</text>
