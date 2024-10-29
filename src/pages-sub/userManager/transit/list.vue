@@ -16,41 +16,75 @@ import xueshengkaicon from '@/static/images/transit/xueshengkaicon.png'
 import putongka from '@/static/images/transit/putongka.png'
 import putongkaicon from '@/static/images/transit/putongkaicon.png'
 import { routeTo } from '@/utils'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
+import {
+  getCardInfo,
+  getTransitCardTradeDetails,
+  cardRealNameQuery,
+  getUserCard,
+} from '@/service/api/userMessage'
 import dayjs from 'dayjs'
 
 // import userCoupon from './utils/userCoupon'
 // const { sendUseRecord } = userCoupon()
 
+const { userInfo } = storeToRefs(useUserStore())
 const title = ref('乘车记录')
 const paging = ref(null)
 const form = reactive({
-  cardno: '3104951799000000904',
+  cardno: '',
   cardtype: '',
   name: '',
 })
-const conponList = ref([{}, {}])
+const conponList = ref([])
 
 async function queryList(pageNo: number, pageSize: number) {
-  const params = {
-    page: pageNo,
-    size: pageSize,
-  }
-  // 调用接口获取数据
   try {
-    // const data: any = await sendUseRecord(params)
-    // conponList.value = data.content as couponDetailProps[]
-    paging.value.complete(conponList.value)
+    const obj = {
+      cardno: form.cardno,
+      page: pageNo,
+      size: pageSize,
+      rectype: '2',
+      orderby: '1',
+    }
+    getTransitCardTradeDetails(obj).then((res) => {
+      console.log('交通卡消费记录', res)
+      conponList.value = res.txndetail
+      paging.value.complete(res.txndetail)
+    })
   } catch (error) {
-    // conponList.value = []
-    paging.value.complete(conponList.value)
     paging.value.complete(false)
   }
 }
 function toMingxi(item) {
   routeTo({ url: '/pages-sub/userManager/transit/travelRecord' })
 }
+const getCardinfo = () => {
+  getCardInfo({ cardno: form.cardno }).then((res) => {
+    console.log('交通卡信息', res)
+    form.cardtype = res.cardtype
+  })
+}
+const formatTime = (val) => {
+  if (val.length === 8) {
+    return dayjs(val).format('YYYY-MM-DD')
+  } else {
+    return val.substring(0, 2) + ':' + val.substring(2, 4) + ':' + val.substring(4)
+  }
+}
 onLoad((options) => {
   console.log('传参', options)
+})
+onShow(() => {
+  console.log('userInfo', userInfo.value)
+  getUserCard({ cardId: userInfo.value.cardId }).then((res) => {
+    console.log('ress', res)
+    form.cardno = res.trafficNumber
+    console.log('form', form)
+    getCardinfo()
+    paging.value.reload()
+  })
 })
 </script>
 
@@ -70,7 +104,7 @@ onLoad((options) => {
             <wd-img :src="laonianka" :width="60" :height="30" v-if="form.cardtype === '0301'" />
             <wd-img :src="xueshengka" :width="60" :height="30" v-if="form.cardtype === '0201'" />
             <wd-img :src="putongka" :width="60" :height="30" v-if="form.cardtype === '0100'" />
-            <view class="name">{{ form.name }}</view>
+            <view class="name">{{ userInfo.cardName }}</view>
           </div>
           <div class="font-600 color-white font-size-24px">{{ form.cardno }}</div>
         </view>
@@ -91,18 +125,31 @@ onLoad((options) => {
         <view class="flex justify-between items-center mb-14px px-15px border-box">
           <view class="flex justify-between items-center">
             <wd-img :src="bus" :width="22" :height="22"></wd-img>
-            <wd-text text="214" size="16px" color="#000" bold custom-class="ml-8px"></wd-text>
+            <wd-text
+              :text="item.txntypedesc"
+              size="16px"
+              color="#000"
+              bold
+              custom-class="ml-8px"
+            ></wd-text>
           </view>
           <wd-text text="已支付" size="14px" color="#2D69EF"></wd-text>
         </view>
 
         <view class="bt-1px_dashed_#999 px-15px border-box">
-          <view class="text-16px font-600 color-#000 mt-11px">在哪里 上车</view>
+          <view class="text-16px font-600 color-#000 mt-11px">{{ item.txntypedesc }}</view>
           <view class="flex justify-between items-center">
-            <view class="text-12px color-#999 py-3px">乘车时间：2024-08-21 12:23:21</view>
+            <view class="py-3px">
+              <wd-text text="乘车时间" size="12px" color="#999999"></wd-text>
+              <wd-text
+                :text="formatTime(item.txndate) + ' ' + formatTime(item.txntime)"
+                size="12px"
+                color="#999999"
+              ></wd-text>
+            </view>
 
             <view class="color-#999999 text-14px mt-5px">
-              <text class="color-#F44D24">￥2元</text>
+              <text class="color-#F44D24">￥{{ item.txnamt }}元</text>
             </view>
           </view>
         </view>
