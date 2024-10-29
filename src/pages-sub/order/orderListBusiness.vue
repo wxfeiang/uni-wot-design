@@ -54,7 +54,7 @@ const tabslist = ref([
   { name: '待发货', value: '10' },
   { name: '待收货', value: '11' },
   { name: '已完成', value: '2' },
-  { name: '退换/取消', value: '20,21,22,23,25' },
+  { name: '退款/售后', value: '20,21,22,23,25,26' },
 ])
 const list = ref([])
 
