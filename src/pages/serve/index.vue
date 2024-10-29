@@ -30,6 +30,8 @@ import xionganlebo from '@/static/images/serve/xionganlebo.png'
 import gjcz1 from '@/static/images/serve/gjcz1.png'
 
 import gjlu1 from '@/static/images/serve/gjlu1.png'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
 
 import { useBaseStore } from '@/store/modules/base'
 import { openWxChart } from '@/utils/uniapi'
@@ -39,6 +41,7 @@ import { getRect, isArray } from 'wot-design-uni/components/common/util'
 const bg = ref(
   'https://oss.xay.xacloudy.cn/images/2024-10/627a5948-4f0a-49c7-b76d-77b5acd3eb4ey.png',
 )
+const { userInfo } = storeToRefs(useUserStore())
 const dyheight = ref('100%')
 const toast = useToast()
 const basestore = useBaseStore()
@@ -145,6 +148,13 @@ const mainData2 = ref([
         appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
         path: 'pages/index/index',
       },
+      {
+        title: '智慧食堂',
+        icon: 'coupon',
+        url: jiaofeitong,
+        type: '9',
+        base: '',
+      },
     ],
   },
 ])
@@ -163,7 +173,7 @@ const mainData3 = ref([
         title: '公交乘车',
         icon: 'jrcs',
         url: gjlu1,
-        type: '6',
+        type: '8',
         base: 'gjlu',
       },
     ],
@@ -199,6 +209,19 @@ function gridClick(item: any) {
   } else if (item.type === '7') {
     routeTo({
       url: '/pages-sub/userManager/transit/rechargeRecord',
+      data: { base, title },
+    })
+    if (userInfo.cardId) {
+      return toast.show('未查询到您的交通卡号！')
+    }
+  } else if (item.type === '8') {
+    routeTo({
+      url: '/pages-sub/userManager/transit/index',
+      data: { base, title },
+    })
+  } else if (item.type === '9') {
+    routeTo({
+      url: '/pages-sub/userManager/smartCanteen/index',
       data: { base, title },
     })
   } else {
