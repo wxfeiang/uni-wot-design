@@ -8,75 +8,53 @@
 </route>
 
 <script lang="ts" setup>
-import dayjs from 'dayjs'
-const title = ref('充值记录详情')
-const data = reactive({})
-
-const formatTime = (val) => {
-  if (val.length === 8) {
-    return dayjs(val).format('YYYY-MM-DD')
-  } else {
-    return val.substring(0, 2) + ':' + val.substring(2, 4) + ':' + val.substring(4)
-  }
-}
-onLoad((options) => {
-  console.log('传参', options)
-  Object.assign(data, options)
-})
+const title = ref('乘车记录详情')
 </script>
 
 <template>
-  <view class="h-100vh flex flex-col mainbg">
-    <dy-navbar
-      :leftTitle="title"
-      left
-      isNavShow
-      color="#000"
-      style="background: transparent"
-    ></dy-navbar>
+  <view class="dy-blue-bg">
+    <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
 
-    <view class="rounded-6px flex-1 bg-#fff">
-      <view class="">
-        <view class="mt-10px p-15px">
+    <view class="">
+      <view class="px-15px">
+        <view class="my-10px p-15px bg-#fff rounded-6px">
           <view>
             <view class="flex justify-center items-center">
-              <view class="flex items-center color-#555555 font-size-20px">
+              <view class="flex items-center">
                 <!-- <wd-ing></wd-ing> -->
-                <view>{{ data.txntypedesc }}</view>
+                <view>公交</view>
               </view>
             </view>
             <view class="my-15px flex flex-col items-center">
-              <view class="text-44px font-600 color-#000 py-5px">
-                +{{ Number(data.txnamt).toFixed(2) }}
-              </view>
-              <!-- <view class="text-16px color-#999 py-3px mt-10px">已扣款</view> -->
+              <view class="text-44px font-600 color-#000 py-5px">-150.0</view>
+              <view class="text-16px color-#999 py-3px mt-10px">已扣款</view>
             </view>
           </view>
         </view>
       </view>
-      <view class="">
-        <view class="p-15px">
+      <view class="px-15px">
+        <view class="my-10px p-15px bg-#fff rounded-6px">
           <view class="flex justify-between text-16px py-10px items-center">
             <view class="color-#999999">交易卡号:</view>
             <view class="color-#000 text-14px">
-              {{ data.cardno }}
+              {{ 777 }}
             </view>
           </view>
           <view class="flex justify-between text-16px py-10px items-center">
             <view class="color-#999999">交易时间:</view>
             <view class="color-#000 text-14px">
-              {{ formatTime(data.txndate) + ' ' + formatTime(data.txntime) }}
+              {{ 777 }}
             </view>
           </view>
           <view class="flex justify-between text-16px py-10px items-center">
             <view class="color-#999999">交易类型:</view>
             <view class="color-#000 text-14px">
-              {{ data.txntypedesc }}
+              {{ 777 }}
             </view>
           </view>
           <view class="flex justify-between text-16px py-10px items-center">
             <view class="color-#999999">交易流水号:</view>
-            <view class="color-#000 text-14px">{{ data.index }}</view>
+            <view class="color-#000 text-14px">¥{{ 777 }}</view>
           </view>
         </view>
       </view>
@@ -92,9 +70,7 @@ onLoad((options) => {
     @apply hidden !;
   }
 }
-.mainbg {
-  background: #f3f4f6;
-}
+
 :deep(.custom-view-picker) {
   @apply flex justify-between items-center;
 }

@@ -77,7 +77,10 @@ const alovaInstance = createAlova({
           const resAllData = meta?.Analysis ? rawData : responseAes(response)
           const { data: rdata, code: rode, msg: rmsg } = resAllData
           console.log(method.url + '====>🍯[解析后的数据]:', resAllData)
-          if (rode !== ResultEnum.CODE || (rdata.code && rdata.code * 1 !== ResultEnum.CODE)) {
+          if (
+            Number(rode) !== ResultEnum.CODE ||
+            (rdata.code && rdata.code * 1 !== ResultEnum.CODE)
+          ) {
             !meta?.Tips &&
               rmsg &&
               checkStatus(statusCode, rdata?.message ?? rdata?.msg ?? rmsg ?? '')

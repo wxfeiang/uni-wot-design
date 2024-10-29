@@ -156,7 +156,7 @@ const mainData3 = ref([
         title: '公交充值记录',
         icon: 'jrcs',
         url: gjcz1,
-        type: '6',
+        type: '7',
         base: 'gjcz',
       },
       {
@@ -196,6 +196,11 @@ function gridClick(item: any) {
     routeTo({ url: '/pages-sub/serveMain/jinrongType', data: { base, title } })
   } else if (item.type === '4') {
     openWxChart(item.appId, item.path)
+  } else if (item.type === '7') {
+    routeTo({
+      url: '/pages-sub/userManager/transit/rechargeRecord',
+      data: { base, title },
+    })
   } else {
     toast.show('功能开发中，敬请期待!...')
   }

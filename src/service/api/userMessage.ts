@@ -32,6 +32,65 @@ const UPDATE_NICK_AND_AVATAR = baseUrlApi('/member/app/userInfo/updateNickAndAva
 
 const ADD_SHARE_RECORD = baseUrlApi('/product/app/shareRecord/addShareRecord')
 
+const GET_CARD_INFO = baseUrlApi('/third/app/transit/getCardInfoByCardNo')
+const GET_CARD_REALNAME = baseUrlApi('/third/app/transit/cardRealNameQuery')
+const GET_CARD_RECORD = baseUrlApi('/third/app/transit/getTransitCardTradeDetails')
+
+/**
+ *  查询公交卡充值记录
+ * @param params
+ * */
+export function getTransitCardTradeDetails(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    Analysis: true,
+  }
+  return request.Post(
+    GET_CARD_RECORD, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  查询公交卡实名信息
+ * @param params
+ * */
+export function cardRealNameQuery(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    Analysis: true,
+  }
+  return request.Post(
+    GET_CARD_REALNAME, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  查询公交卡信息
+ * @param params
+ * */
+export function getCardInfo(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    Analysis: true,
+    ignorEencrypt: true,
+  }
+  return request.Post(
+    GET_CARD_INFO, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
 /**
  *  查询雄才卡信息
  * @param params
