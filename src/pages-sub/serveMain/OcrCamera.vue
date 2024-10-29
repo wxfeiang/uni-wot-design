@@ -46,7 +46,7 @@ const dataList = ref<Camera[]>([
   {
     title: '代办人脸正面照片',
     imgType: 3,
-    devicePosition: 'front',
+    devicePosition: 'back',
   },
   {
     title: '代身份证人像面',
@@ -83,7 +83,12 @@ onLoad((options: any) => {
   console.log('🍵[photoType]:', currentParams.value, photoType)
 })
 
-const copData = ref<any>(null)
+const copData = ref<any>({
+  left: 0,
+  top: 0,
+  width: 0,
+  height: 0,
+})
 
 // 生成截图
 function loadTempImagePath(url) {
@@ -151,7 +156,8 @@ const chooseImage = () => {
         // 上传
         upload(pressUrl)
       } catch (error) {
-        toast.error('图片拍照失败')
+        console.log('🍨[error]:', error)
+        toast.error('图片拍照失败!')
       }
     },
     fail: (err) => {
@@ -174,12 +180,13 @@ const takePhoto = () => {
         // 上传
         upload(pressUrl)
       } catch (error) {
-        toast.error('图片拍照失败')
+        console.log('🥧[error]:', error)
+        toast.error('图片拍照失')
       }
     },
     fail: (err) => {
       console.log('🍚[err]:', err)
-      toast.error('图片拍照失败')
+      toast.error('图片拍照失败3333')
       toast.close()
     },
   })
@@ -289,14 +296,14 @@ onMounted(() => {
           <cover-image
             ref="cover"
             id="cover"
-            v-if="currData.imgType == 1"
+            v-if="currData.imgType == 1 || currData.imgType == 3"
             class="w-350px h-500px"
             :src="card1"
           />
           <!-- 背面 -->
           <cover-image
             ref="cover"
-            v-if="currData.imgType == 2"
+            v-if="currData.imgType == 2 || currData.imgType == 4"
             class="w-350px h-500px"
             :src="card2"
             id="cover"
@@ -323,7 +330,7 @@ onMounted(() => {
           <view @click="takePhoto" hover-class="color-red">
             <view class="i-carbon-circle-filled font-size-50px color-#fff"></view>
           </view>
-          <view @click="reverseCamera">
+          <view @click="chooseImage">
             <wd-icon name="refresh1" size="22px" color="#fff"></wd-icon>
           </view>
         </view>
