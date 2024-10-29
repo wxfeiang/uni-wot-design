@@ -114,15 +114,15 @@ const handleChange = async (pickerView, value, columnIndex, resolve) => {
       areaCode: model.value.areaCode,
       isMail: model.value.isPostcard,
     }
-    console.log('🥦', params)
+
     const data: any = await sendBranches(params)
-    console.log('🥃[data]:', data)
 
     bankBranchList.value = data?.length
       ? data.map((v) => {
-          return { value: v.wdcode, label: v.name }
+          return { value: v.wdCode, label: v.name }
         })
       : [{ value: '', label: '暂无数据,请重新选择网点!' }]
+    console.log('🥦', bankBranchList.value)
   } catch (error) {
     bankBranchList.value = []
   }
