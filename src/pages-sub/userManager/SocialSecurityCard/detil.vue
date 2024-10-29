@@ -36,7 +36,7 @@ const dataList = ref([
   },
   {
     title: '社会保障卡号码',
-    props: 'socialCardNum',
+    props: 'cardCode',
   },
   {
     title: '社会保障卡号',
