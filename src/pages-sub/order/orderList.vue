@@ -13,7 +13,9 @@ import { NAVIGATE_TYPE } from '@/enums/routerEnum'
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import orderInter from './utils/orderInter'
+import { useMessage } from 'wot-design-uni'
 
+const message = useMessage()
 const userStore = useUserStore()
 
 const { sendOrderInfo, sendOrderList, updateOrderBeanStatusById, sendRefund } = orderInter()
@@ -92,8 +94,15 @@ function goRefund(orderId) {
   routeTo({ url: '/pages-sub/order/orderInfo', data: { id: orderId, showPopTK: true } })
 }
 
-function gotickets(orderId) {
-  routeTo({ url: '/pages-sub/order/tickets', data: { id: orderId } })
+function gotickets(e) {
+  if (e.orderInterfereList && e.orderInterfereList.length > 0) {
+    message.alert({
+      msg: '您有一条平台介入工单正在处理中，我们会全力加快处理进度。',
+      title: '提示',
+    })
+  } else {
+    routeTo({ url: '/pages-sub/order/tickets', data: { id: e.orderId } })
+  }
 }
 
 function call(Phone) {
@@ -358,7 +367,7 @@ onLoad((options) => {
                     type="info"
                     custom-class="inline-block ml-2"
                     style="width: 5rem"
-                    @click="gotickets(item.orderId)"
+                    @click="gotickets(item)"
                   >
                     平台介入
                   </wd-button>

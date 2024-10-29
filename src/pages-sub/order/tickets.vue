@@ -13,7 +13,7 @@
 import orderInter from './utils/orderInter'
 import { getShopInfo } from '@/service/api/shop'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
-import { useToast } from 'wot-design-uni/index'
+import { useToast, useMessage } from 'wot-design-uni/index'
 import { removeT, routeTo } from '@/utils'
 import { useUserStore } from '@/store'
 
@@ -37,10 +37,17 @@ const ticketsInfo = ref({
 const userStore = useUserStore()
 const imageList = ref([])
 const time = ref<number>(108000)
-const reasonList = ['不想要了', '信息填错，重新下单', '卖家缺货', '物流原因', '其他原因']
-// import {useMessage} from '@/uni_modules/wot-design-uni'
-//
-// const message = useMessage()
+const reasonList = [
+  { value: 1, label: '虚假发货' },
+  { value: 2, label: '卖家拒绝开发票' },
+  { value: 3, label: '不发货/拒绝发货' },
+  {
+    value: 4,
+    label: '其他',
+  },
+]
+
+const message = useMessage()
 
 function submit() {
   if (ticketsInfo.value.description === '') {
@@ -58,7 +65,7 @@ function submit() {
   } else {
     const da = {
       orderId: orderID.value,
-      reasonType: reasonList[ticketsInfo.value.reasonInd],
+      reasonType: ticketsInfo.value.reasonInd + 1,
       interfereContent: ticketsInfo.value.description,
       voucherUrl: ticketsInfo.value.imageListstr,
       createPhone: ticketsInfo.value.phone,
@@ -66,7 +73,17 @@ function submit() {
     }
 
     submitTickets(da).then((res) => {
-      uni.redirectTo({ url: '/pages-sub/order/orderList' })
+      message
+        .alert({
+          msg: '已收到您的反馈，平台将在1-3工作日联系您!',
+          title: '提示',
+        })
+        .then(() => {
+          uni.redirectTo({ url: '/pages-sub/order/orderList?tabsVal=2' })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     })
   }
 }
@@ -94,6 +111,10 @@ const gopath = function (url, e) {
 
 function goback(url, e) {
   uni.navigateBack()
+}
+
+function handleConfirm(e) {
+  ticketsInfo.value.reasonInd = e.value
 }
 
 onLoad(async (options) => {
@@ -186,11 +207,11 @@ onLoad(async (options) => {
                 <wd-picker
                   custom-style="padding:0"
                   :columns="reasonList"
-                  v-model="ticketsInfo.reasonInd"
+                  v-model="ticketsInfo.reason"
                   @confirm="handleConfirm"
                 />
 
-                <view>{{ ticketsInfo.reason }}</view>
+                <!--                <view>{{ ticketsInfo.reason }}</view>-->
               </wd-cell-group>
             </view>
           </view>
@@ -206,7 +227,7 @@ onLoad(async (options) => {
                   v-model.trim="ticketsInfo.description"
                   placeholder="请填问题描述"
                 />
-                <view>{{ ticketsInfo.description }}</view>
+                <!--                <view>{{ ticketsInfo.description }}</view>-->
               </wd-cell-group>
             </view>
           </view>
@@ -217,7 +238,7 @@ onLoad(async (options) => {
             </view>
             <view>
               <dy-upload v-model="ticketsInfo.imageListstr"></dy-upload>
-              <wd-img :width="100" :height="100" radius="7" :src="ticketsInfo.imageListstr" />
+              <!--              <wd-img :width="100" :height="100" radius="7" :src="ticketsInfo.imageListstr"/>-->
             </view>
           </view>
           <view class="border"></view>
@@ -228,8 +249,7 @@ onLoad(async (options) => {
             <view>
               <wd-cell-group>
                 <wd-input v-model.trim="ticketsInfo.phone" placeholder="请输入联系电话" no-border />
-
-                <view>{{ ticketsInfo.phone }}</view>
+                <!--                <view>{{ ticketsInfo.phone }}</view>-->
               </wd-cell-group>
             </view>
           </view>

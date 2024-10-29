@@ -13,9 +13,10 @@
 import orderInter from './utils/orderInter'
 import { getShopInfo } from '@/service/api/shop'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
-import { useToast } from 'wot-design-uni/index'
+import { useToast, useMessage } from 'wot-design-uni/index'
 import { removeT, routeTo } from '@/utils'
 
+const message = useMessage()
 const toast = useToast()
 const {
   sendOrderInfo,
@@ -206,8 +207,18 @@ function goRefund(orderId, type) {
     },
   })
 }
-function gotickets(orderId) {
-  routeTo({ url: '/pages-sub/order/tickets', data: { id: orderId } })
+// function gotickets(orderId) {
+//   routeTo({ url: '/pages-sub/order/tickets', data: { id: orderId } })
+// }
+function gotickets(e) {
+  if (e.orderInterfereList && e.orderInterfereList.length > 0) {
+    message.alert({
+      msg: '您有一条平台介入工单正在处理中，我们会全力加快处理进度。',
+      title: '提示',
+    })
+  } else {
+    routeTo({ url: '/pages-sub/order/tickets', data: { id: e.orderId } })
+  }
 }
 
 function call(Phone) {
@@ -613,22 +624,22 @@ onShow(async (options) => {
           </template>
           <template v-else-if="orderInfo.status == 2">
             <wd-button
-              size="small"
+              :round="false"
               block
               type="info "
               custom-class="inline-block  mb-2"
-              style="width: 5rem"
+              plain
               @click="call(orderInfo.shopPhone)"
             >
               联系商家
             </wd-button>
             <wd-button
-              size="small"
+              plain
               block
+              :round="false"
               type="info"
               custom-class="inline-block  mb-2"
-              style="width: 5rem"
-              @click="gotickets(orderInfo.orderId)"
+              @click="gotickets(orderInfo)"
             >
               平台介入
             </wd-button>
