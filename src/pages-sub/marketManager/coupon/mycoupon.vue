@@ -14,8 +14,10 @@ import myyhbtn from '../static/images/coupon/lingqu.png'
 import bg from '../static/images/coupon/myuhbg.png'
 import hubgtitle from '../static/images/coupon/tomyh.png'
 import CouponList from './components/couponList.vue'
+import CouponListWX2 from './components/couponListWX2.vue'
 import { conponListProps } from './utils/types'
 import userCoupon from './utils/userCoupon'
+
 const { sendUserCouponList } = userCoupon()
 
 const topbgBase64 = ref('')
@@ -66,6 +68,7 @@ async function queryList(pageNo: number, pageSize: number) {
     paging.value.complete(false)
   }
 }
+
 function toYouhuiquan() {
   routeTo({ url: '/pages-sub/marketManager/coupon/index' })
 }
@@ -104,7 +107,8 @@ onLoad(async () => {
     <view>
       <view class="py-10px">
         <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item"></Coupon-List>
+          <Coupon-List :data="item" v-if="item.type !== 4"></Coupon-List>
+          <Coupon-ListWX2 v-else :data="item"></Coupon-ListWX2>
         </view>
       </view>
     </view>
@@ -116,13 +120,16 @@ onLoad(async () => {
 :deep(.custom-class-tab .wd-tabs__nav) {
   @apply bg-transparent!;
 }
+
 :deep(.custom-class-tab) {
   .wd-tabs__nav-item {
     @apply text-#D8B9B9;
   }
+
   .wd-tabs__nav-item.is-active {
     @apply color-#fff;
   }
+
   .wd-tabs__line {
     @apply top-0  w-33% bg-#fff h-1px;
   }
