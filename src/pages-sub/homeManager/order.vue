@@ -292,8 +292,9 @@ onShow(async (options) => {
             <view class="mr-50px">备注留言</view>
             <wd-input
               type="text"
-              v-model="item.orderNote"
+              v-model.trim="item.orderNote"
               placeholder="无备注"
+              :maxlength="20"
               no-border
               custom-input-class="inp"
               style="flex: 1; text-align: right"

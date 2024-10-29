@@ -48,7 +48,7 @@ const GET_POST_LIST = baseUrlApi('/order/app/xcxWaybillBiz')
 const GET_POST_INFO = baseUrlApi('/order/app/manage/orderBeanSend')
 const GET_HUIFU = baseUrlApi('/product/app/evaluation/reply')
 const GET_RECOMMEND_PRODUCT_LIST = baseUrlApi('/product/app/productSpu/getRecommendProductList')
-const GET_SUBMIT_TICKETS = baseUrlApi('/')
+const GET_SUBMIT_TICKETS = baseUrlApi('/order/app/manage/editOrderInterfere')
 
 /**
  *   商品列表

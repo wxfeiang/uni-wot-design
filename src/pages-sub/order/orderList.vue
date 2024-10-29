@@ -275,7 +275,6 @@ onLoad((options) => {
                   size="16px"
                   color="#000000"
                   custom-class="font-bold"
-                  @click.self="gopath('/pages-sub/homeManager/shopInfo', { id: it.productSpuId })"
                 ></wd-text>
                 <wd-text
                   :text="item.skuName"
