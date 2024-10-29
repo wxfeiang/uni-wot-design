@@ -103,6 +103,7 @@ onShow(() => {
               </view>
               <view
                 class="w-10px h-10px rounded-100 absolute top-[-2px] left-[-5px] bg-#E81010"
+                v-if="item.isRead !== '1'"
               ></view>
             </view>
           </template>
