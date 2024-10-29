@@ -287,8 +287,8 @@ onShow(async () => {
             class="flex items-center"
             @click="routeTo({ url: '/pages-sub/order/orderList?tabsVal=-1' })"
           >
-            <view style="font-size: 14px">全部订单</view>
-            <wd-icon name="arrow-right" size="14px" color="#000"></wd-icon>
+            <view class="text-12px color-#999">全部订单</view>
+            <wd-icon name="arrow-right" size="14px" color="#999"></wd-icon>
           </view>
         </view>
         <view class="grid grid-cols-5 gap-2px">
@@ -304,7 +304,7 @@ onShow(async () => {
               </view>
             </wd-badge>
 
-            <view class="text-13px">
+            <view class="text-13px mt-3px">
               {{ item.label }}
             </view>
           </view>
@@ -323,7 +323,7 @@ onShow(async () => {
             <view class="text-16px font-600">通用工具</view>
           </view>
         </view>
-        <view class="grid grid-cols-5 gap-10px">
+        <view class="grid grid-cols-5 gap-col-10px">
           <view
             class="flex flex-col items-center pt-5px mb-5px"
             v-for="(item, index) in serveList"
