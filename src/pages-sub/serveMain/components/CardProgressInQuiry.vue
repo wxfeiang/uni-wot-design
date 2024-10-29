@@ -107,6 +107,16 @@ onUnmounted(() => {
         <wd-form ref="form" :model="model">
           <wd-cell-group border>
             <wd-input
+              label="姓名:"
+              label-width="100px"
+              type="text"
+              v-model="model.xm"
+              placeholder="请输入姓名"
+              :rules="rules.xm"
+              prop="xm"
+              custom-input-class="custom-input-right"
+            />
+            <wd-input
               label="身份证号码:"
               label-width="100px"
               type="text"
@@ -126,17 +136,6 @@ onUnmounted(() => {
               extra-key="X"
               close-text="完成"
             ></wd-number-keyboard>
-
-            <wd-input
-              label="姓名:"
-              label-width="100px"
-              type="text"
-              v-model="model.xm"
-              placeholder="请输入姓名"
-              :rules="rules.xm"
-              prop="xm"
-              custom-input-class="custom-input-right"
-            />
           </wd-cell-group>
         </wd-form>
       </view>

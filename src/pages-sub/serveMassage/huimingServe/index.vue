@@ -125,13 +125,18 @@ function swiperClick(item) {
       </wd-skeleton>
     </view> -->
     <view class="px-10px">
-      <view v-for="(item, index) in dataList" :key="index" class="mb-10px">
-        <wd-img
+      <view
+        v-for="(item, index) in dataList"
+        :key="index"
+        class="mb-10px rounded-6px overflow-hidden"
+      >
+        <image :src="item.shopHdBanner" mode="widthFix" style="width: 100%" />
+        <!-- <wd-img
           :src="item.shopHdBanner"
           width="100%"
           height="135"
           @click="swiperClick(item)"
-        ></wd-img>
+        ></wd-img> -->
       </view>
     </view>
   </z-paging>
