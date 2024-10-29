@@ -78,7 +78,9 @@ onLoad(async (options) => {
             来源： {{ remark || '一卡通平台' }}
           </view>
           <view class="color-#999 font-size-12px line-height-20px">
-            发布时间：{{ removeT(cuurentData.createTime || cuurentData.shopHdStartT) }}
+            发布时间：{{
+              removeT(cuurentData.createTime || cuurentData.shopHdStartT || cuurentData.sendTime)
+            }}
           </view>
         </view>
       </view>

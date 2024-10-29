@@ -60,9 +60,11 @@ const data1 = ref([
     prop: 'yjCompany',
   },
 ])
+const outherData = ref<any>(null)
 onUnmounted(() => {
   cardInfoData.value = null
 })
+
 const suMit1 = ref(true)
 // 您未在本平台申领社保卡，未查询到您的制卡进度
 function juvenClick(form) {
@@ -89,10 +91,10 @@ watchEffect(async () => {
   }
   if (cardInfoData.value) {
     try {
-      await sendCardMail()
+      const rdata: any = await sendCardMail()
+      outherData.value = rdata.data
     } catch (error) {
       cardMailData.value = null
-      console.log('🥨[error]:', error)
     }
   }
 })
@@ -171,21 +173,23 @@ onUnmounted(() => {
             v-for="(item, index) in data"
             :key="index"
           ></wd-cell>
-          <template v-if="cardMailData">
-            <wd-cell :title="item.title" border v-for="(item, index) in data1" :key="index">
-              <view>
-                <view class="flex gap-10px items-center justify-end">
-                  <text>{{ cardMailData[item.prop] }}</text>
-                  <wd-icon
-                    name="file-copy"
-                    size="18px"
-                    color="#1890ff"
-                    v-if="item.action && item.action == 'copy'"
-                    @click="SetClipboardData(cardMailData[item.prop])"
-                  ></wd-icon>
+          <template v-if="outherData">
+            <template v-for="(item, index) in data1">
+              <wd-cell :title="item.title" border :key="index" v-if="outherData[item.prop]">
+                <view>
+                  <view class="flex gap-10px items-center justify-end">
+                    <text>{{ outherData[item.prop] }}</text>
+                    <wd-icon
+                      name="file-copy"
+                      size="18px"
+                      color="#1890ff"
+                      v-if="item.action && item.action == 'copy'"
+                      @click="SetClipboardData(outherData[item.prop])"
+                    ></wd-icon>
+                  </view>
                 </view>
-              </view>
-            </wd-cell>
+              </wd-cell>
+            </template>
           </template>
         </wd-cell-group>
       </view>
