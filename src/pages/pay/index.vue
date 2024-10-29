@@ -137,7 +137,7 @@ function itmeClick(item: couponProps, index) {
     cyhqje.value = item.couponName
     if (item.couponType === 1) {
       sjyhje.value = item.couponPrice * 1
-      const value = inValue.value * 1 - item.couponPrice * 1
+      const value = Number((inValue.value * 1 - item.couponPrice * 1).toFixed(2))
       actualPrice.value = value < 0 ? 0 : value
     }
     if (item.couponType === 3) {
@@ -180,7 +180,7 @@ async function goPay() {
     payStatus: 1,
     payType: 'scan',
   }
-  console.log('🍩', params)
+  console.log('🍩========>', params)
   await openEmbeddedMiniProgram('/pages/pay/index', { ...params })
 }
 
@@ -189,7 +189,7 @@ onLoad(async (options) => {
   urlData.value = qs.parse(decodeURIComponent(options.url) || options.url)
   console.log('地址数据======', urlData.value)
   try {
-    await sendShopDetail({ shopId: urlData.value.merchantId })
+    await sendShopDetail({ shopId: '1835238852856737794' }) // urlData.value.merchantId
     // const shopdata: any =
     // console.log('🥒[shopMessage.value]:', JSON.stringify(shopdata))
     // shopMessage.value = shopdata
