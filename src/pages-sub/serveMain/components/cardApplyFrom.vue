@@ -120,7 +120,7 @@ const handleChange = async (pickerView, value, columnIndex, resolve) => {
 
     bankBranchList.value = data?.length
       ? data.map((v) => {
-          return { value: v.areaCode, label: v.name }
+          return { value: v.wdcode, label: v.name }
         })
       : [{ value: '', label: '暂无数据,请重新选择网点!' }]
   } catch (error) {
