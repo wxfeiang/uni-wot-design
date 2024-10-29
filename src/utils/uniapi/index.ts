@@ -223,33 +223,6 @@ export const useSetKeepScreenOn = (flog = false) => {
 }
 
 /**
- * @description: 保存图片到相册
- * @return {}
- */
-export const useSaveImageToPhotosAlbum = (path: string) => {
-  uni.downloadFile({
-    url: path,
-    success: (res) => {
-      console.log('🥫[res]:', res)
-      if (res.statusCode === 200) {
-        uni.saveImageToPhotosAlbum({
-          filePath: res.tempFilePath,
-          success: function () {
-            Toast('保存成功', { icon: 'success' })
-          },
-          fail: function (err) {
-            console.log('🍜[err]:', err)
-            Toast('保存失败，请稍后重试')
-          },
-          complete: function () {
-            HideLoading()
-          },
-        })
-      }
-    },
-  })
-}
-/**
  * @description: 文件下载
  * @return {}
  */
@@ -257,7 +230,6 @@ export const useSaveImageToPhotosAlbum = (path: string) => {
 export const downSaveImage = (imgurl: string) => {
   uni.getSetting({
     success(res) {
-      console.log('🥨[res]:', res)
       if (res.authSetting['scope.writePhotosAlbum']) {
         // 已授权，直接保存图片
         useSaveImageToPhotosAlbum(imgurl)
@@ -299,6 +271,41 @@ export const downSaveImage = (imgurl: string) => {
     },
     fail(err) {
       console.log('🍭[err]:', err)
+    },
+  })
+}
+
+/**
+ * @description: 保存图片到相册
+ * @return {}
+ */
+export const useSaveImageToPhotosAlbum = (path: string) => {
+  console.log('🍮[path]:', path)
+  uni.downloadFile({
+    url: path,
+    success: (res) => {
+      console.log('🥫[res]:', res)
+      if (res.statusCode === 200) {
+        uni.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: function () {
+            Toast('保存成功', { icon: 'success' })
+          },
+          fail: function (err) {
+            console.log('🍜[err]:', err)
+            Toast('保存失败，请稍后重试')
+          },
+          complete: function () {
+            HideLoading()
+          },
+        })
+      }
+    },
+    fail(result) {
+      console.log('🍭[result]:', result)
+    },
+    complete: function (complete) {
+      console.log('🍭[complete]:', complete)
     },
   })
 }

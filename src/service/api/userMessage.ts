@@ -31,6 +31,7 @@ const GET_USER_CARD_DETAIL = baseUrlApi('/promotion/app/member/getUserCardDetail
 const UPDATE_NICK_AND_AVATAR = baseUrlApi('/member/app/userInfo/updateNickAndAvatar')
 
 const ADD_SHARE_RECORD = baseUrlApi('/product/app/shareRecord/addShareRecord')
+const HAS_MERCHANT_AUTH = baseUrlApi('/member/app/userInfo/hasMerchantAuth')
 
 const GET_CARD_INFO = baseUrlApi('/third/app/transit/getCardInfoByCardNo')
 const GET_CARD_REALNAME = baseUrlApi('/third/app/transit/cardRealNameQuery')
@@ -338,6 +339,20 @@ export function userShareLog<T>(data) {
   }
   return request.Post<T>(
     ADD_SHARE_RECORD, // 地址
+    data,
+  )
+}
+
+/**
+ *  查询用户是否商户权限
+ * @param params 初始参数()
+ * */
+export function userHasMerchantAuth<T>(data) {
+  const meta: METHOD_INSTANCE = {
+    Tips: true,
+  }
+  return request.Post<T>(
+    HAS_MERCHANT_AUTH, // 地址
     data,
   )
 }

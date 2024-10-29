@@ -87,10 +87,21 @@ const footerBtns = ref([
     data: { base: 'shebaoksl', title: '社保卡申领信息' },
   },
 ])
-
+const isFirstEnter = ref(true)
 const isApply = ref(null)
 onLoad(async () => {
   read.value = false
+})
+onShow(async () => {
+  if (isFirstEnter.value) {
+    // 如果isFirstEnter为true，表示这是第一次进入页面
+    console.log('页面初次进入')
+    isFirstEnter.value = false // 更新标志，后续的onShow不再是初次进入
+  } else {
+    // 如果isFirstEnter为false，表示这是返回进入页面
+    console.log('页面返回进入')
+    read.value = false
+  }
 })
 onMounted(async () => {
   showData.value = dataInfo[0]

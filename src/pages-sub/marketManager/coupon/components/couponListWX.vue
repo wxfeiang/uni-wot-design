@@ -100,10 +100,22 @@ const statusBg = computed(() => {
   return props.data.couponStatus === 3 || props.data.couponStatus === 0
 })
 const handleReceive = async (item) => {
-  routeTo({ url: '/pages-sub/marketManager/coupon/webview?state=' + item.couponId })
+  routeTo({
+    url:
+      '/pages-sub/marketManager/coupon/webview?state=' +
+      item.couponId +
+      '%' +
+      userInfo.value.userDId,
+  })
 }
 const toDetil = () => {
-  routeTo({ url: '/pages-sub/marketManager/coupon/webview?state=' + item.couponId })
+  routeTo({
+    url:
+      '/pages-sub/marketManager/coupon/webview?state=' +
+      item.couponId +
+      '%' +
+      userInfo.value.userDId,
+  })
 }
 
 const share = () => {

@@ -49,6 +49,10 @@ onLoad(async () => {
   // 设置背景图片
   topbgBase64.value = await pathToBase64(bg)
 })
+
+onShow(async () => {
+  paging.value && paging.value.reload()
+})
 </script>
 
 <template>

@@ -17,10 +17,13 @@ import lPainter from '@/components/lime-painter/components/l-painter/l-painter.v
 import { Constant } from '@/enums/constant'
 import { routeTo } from '@/utils'
 import { downSaveImage } from '@/utils/uniapi'
+
+import { useUserStore } from '@/store/user'
 import qs from 'qs'
 import todo from './static/todo.png'
 import { shopDetilProps } from './utils/types'
 import useShopServe from './utils/useShopServe'
+const { userInfo } = useUserStore()
 const { shopMessage, sendShopDetail } = useShopServe()
 const topbgBase64 = ref('')
 const { VITE_SERVER_BASEURL } = import.meta.env
@@ -148,7 +151,7 @@ const errorText = ref('收款码数据处理中...')
 onLoad(async (options) => {
   topbgBase64.value = await pathToBase64(tobg)
   try {
-    await sendShopDetail()
+    await sendShopDetail({ shopId: userInfo.merchantId })
     const qrcodeData = {
       merchantId: shopMessage.value.merchantId,
       qrCodeType: Constant.QR_CODE_FLAG,
