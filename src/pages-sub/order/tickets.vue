@@ -15,6 +15,7 @@ import { getShopInfo } from '@/service/api/shop'
 import { openEmbeddedMiniProgram } from '@/utils/uniapi'
 import { useToast } from 'wot-design-uni/index'
 import { removeT, routeTo } from '@/utils'
+import { useUserStore } from '@/store'
 
 const toast = useToast()
 
@@ -27,24 +28,47 @@ const orderID = ref('')
 
 const ticketsInfo = ref({
   reason: '',
-  reasonInd: '',
+  reasonInd: 0,
   description: '',
   imageListstr: '',
   phone: '',
 })
 
+const userStore = useUserStore()
 const imageList = ref([])
 const time = ref<number>(108000)
-const reasonList = ref(['不想要了', '信息填错，重新下单', '卖家缺货', '物流原因', '其他原因'])
-
-function choose() {
-  showPop.value = false
-}
+const reasonList = ['不想要了', '信息填错，重新下单', '卖家缺货', '物流原因', '其他原因']
+// import {useMessage} from '@/uni_modules/wot-design-uni'
+//
+// const message = useMessage()
 
 function submit() {
-  submitTickets({ orderId: orderInfo.value.orderId }).then((res) => {
-    uni.redirectTo({ url: '/pages-sub/order/orderList' })
-  })
+  if (ticketsInfo.value.description === '') {
+    uni.showToast({
+      title: '请填写问题描述',
+      duration: 2000,
+      icon: 'none',
+    })
+  } else if (ticketsInfo.value.phone === '') {
+    uni.showToast({
+      title: '请填写联系方式',
+      duration: 2000,
+      icon: 'none',
+    })
+  } else {
+    const da = {
+      orderId: orderID.value,
+      reasonType: reasonList[ticketsInfo.value.reasonInd],
+      interfereContent: ticketsInfo.value.description,
+      voucherUrl: ticketsInfo.value.imageListstr,
+      createPhone: ticketsInfo.value.phone,
+      userId: userStore.userInfo.userDId,
+    }
+
+    submitTickets(da).then((res) => {
+      uni.redirectTo({ url: '/pages-sub/order/orderList' })
+    })
+  }
 }
 
 const showSKU = function (obj) {
@@ -58,7 +82,7 @@ async function getInfo(id: any) {
   // 这里是请求数据
   const da = { orderId: id }
   orderInfo.value = await sendOrderInfo(da)
-  time.value = new Date(orderInfo.value.orderTime).getTime() + 1000 * 60 * 31 - new Date().getTime()
+  ticketsInfo.value.phone = orderInfo.value.receiverTel
 }
 
 const gopath = function (url, e) {
@@ -76,6 +100,17 @@ onLoad(async (options) => {
   orderID.value = options.id
   if (orderID.value) {
     await getInfo(orderID.value)
+    // if () {
+    //   message.alert({
+    //     msg: '已收到您的反馈，平台将在1-3工作日联系您!',
+    //     title: '提示'
+    //   })
+    // } else if () {
+    //   message.alert({
+    //     msg: '您有一条平台介入工单正在处理中，我们会全力加快处理进度。',
+    //     title: '提示'
+    //   })
+    // }
   }
 })
 </script>
@@ -154,6 +189,8 @@ onLoad(async (options) => {
                   v-model="ticketsInfo.reasonInd"
                   @confirm="handleConfirm"
                 />
+
+                <view>{{ ticketsInfo.reason }}</view>
               </wd-cell-group>
             </view>
           </view>
@@ -166,9 +203,10 @@ onLoad(async (options) => {
               <wd-cell-group>
                 <wd-textarea
                   custom-style="padding:0"
-                  v-model="ticketsInfo.description"
+                  v-model.trim="ticketsInfo.description"
                   placeholder="请填问题描述"
                 />
+                <view>{{ ticketsInfo.description }}</view>
               </wd-cell-group>
             </view>
           </view>
@@ -179,6 +217,7 @@ onLoad(async (options) => {
             </view>
             <view>
               <dy-upload v-model="ticketsInfo.imageListstr"></dy-upload>
+              <wd-img :width="100" :height="100" radius="7" :src="ticketsInfo.imageListstr" />
             </view>
           </view>
           <view class="border"></view>
@@ -188,7 +227,9 @@ onLoad(async (options) => {
             </view>
             <view>
               <wd-cell-group>
-                <wd-input v-model="ticketsInfo.phone" placeholder="请输入联系电话" no-border />
+                <wd-input v-model.trim="ticketsInfo.phone" placeholder="请输入联系电话" no-border />
+
+                <view>{{ ticketsInfo.phone }}</view>
               </wd-cell-group>
             </view>
           </view>
@@ -199,13 +240,15 @@ onLoad(async (options) => {
     <view class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff safe-area-after">
       <wd-button block :round="false" @click="submit(ticketsInfo)">提 交</wd-button>
     </view>
+
+    <wd-message-box />
   </view>
   <!-- </view> -->
 </template>
 <style lang="scss" scoped>
 .pageBoxBg {
   position: relative;
-  background-image: linear-gradient(#daebfd, #fff);
+  background-image: linear-gradient(#daebfd, #f3f4f6);
 }
 
 .con {
