@@ -209,9 +209,9 @@ const changeDate = (data: string) => {
           <view class="color-#FF4345 text-center">
             <view class="text-14px">
               {{
-                props.data.couponFillPrice > 0
-                  ? '满' + props.data.couponFillPrice + '元可用'
-                  : '无门槛'
+                props.data.couponType === 2
+                  ? '无门槛'
+                  : '满' + props.data.couponFillPrice + '元可用'
               }}
             </view>
           </view>
