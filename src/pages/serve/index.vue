@@ -170,7 +170,7 @@ const mainData3 = ref([
         base: 'gjcz',
       },
       {
-        title: '公交乘车',
+        title: '公交乘车记录',
         icon: 'jrcs',
         url: gjlu1,
         type: '8',
@@ -216,9 +216,12 @@ function gridClick(item: any) {
     }
   } else if (item.type === '8') {
     routeTo({
-      url: '/pages-sub/userManager/transit/index',
+      url: '/pages-sub/userManager/transit/list',
       data: { base, title },
     })
+    if (userInfo.cardId) {
+      return toast.show('未查询到您的交通卡号！')
+    }
   } else if (item.type === '9') {
     routeTo({
       url: '/pages-sub/userManager/smartCanteen/index',
