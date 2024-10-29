@@ -8,6 +8,13 @@
 </route>
 
 <script lang="ts" setup>
+import bus from '@/static/images/transit/bus.png'
+import laonianka from '@/static/images/transit/laonianka.png'
+import laoniankaicon from '@/static/images/transit/laoniankaicon.png'
+import xueshengka from '@/static/images/transit/xueshengka.png'
+import xueshengkaicon from '@/static/images/transit/xueshengkaicon.png'
+import putongka from '@/static/images/transit/putongka.png'
+import putongkaicon from '@/static/images/transit/putongkaicon.png'
 import { routeTo } from '@/utils'
 import dayjs from 'dayjs'
 
@@ -16,44 +23,17 @@ import dayjs from 'dayjs'
 
 const title = ref('乘车记录')
 const paging = ref(null)
-const maxDate = dayjs().add(1, 'day').valueOf()
-
-const timer = ref<number[]>([Date.now(), dayjs().add(1, 'day').valueOf()])
-const timerShow = ref([
-  dayjs(timer.value[0]).format('YYYY-MM-DD'),
-  dayjs(timer.value[1]).format('YYYY-MM-DD'),
-])
-
-function handleConfirm({ value }) {
-  timerShow.value[0] = dayjs(value[0]).format('YYYY-MM-DD')
-  timerShow.value[1] = dayjs(value[1]).format('YYYY-MM-DD')
-  timer.value = value
-  paging.value.reload()
-}
-
-const conponList = ref([
-  {
-    time: '2023-01-01 12:00:00',
-    title: '优惠券名称',
-    status: '已核销',
-    price: '100',
-    type: '代金券',
-  },
-  {
-    time: '2023-01-01 12:00:00',
-    title: '优惠券名称',
-    status: '已核销',
-    price: '100',
-    type: '代金券',
-  },
-])
+const form = reactive({
+  cardno: '3104951799000000904',
+  cardtype: '',
+  name: '',
+})
+const conponList = ref([{}, {}])
 
 async function queryList(pageNo: number, pageSize: number) {
   const params = {
     page: pageNo,
     size: pageSize,
-    createStartTime: timerShow.value[0],
-    createEndTime: timerShow.value[1],
   }
   // 调用接口获取数据
   try {
@@ -67,8 +47,11 @@ async function queryList(pageNo: number, pageSize: number) {
   }
 }
 function toMingxi(item) {
-  routeTo({ url: '/pages-sub/userManager/transit/detil' })
+  routeTo({ url: '/pages-sub/userManager/transit/travelRecord' })
 }
+onLoad((options) => {
+  console.log('传参', options)
+})
 </script>
 
 <template>
@@ -81,62 +64,45 @@ function toMingxi(item) {
   >
     <template #top>
       <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-      <wd-datetime-picker
-        v-model="timer"
-        placeholder="请选择日期"
-        @confirm="handleConfirm"
-        custom-value-class="custom-view-picker"
-        custom-cell-class="custom-cell-picker"
-        use-default-slot
-        :maxDate="maxDate"
-        type="date"
-      >
-        <view
-          class="flex justify-between items-center p-10px px-20px color-#666 bg-#Ffff text-14px"
-        >
-          <view>
-            {{ timerShow[0] ? timerShow[0] : '开始时间' }}
-            <wd-icon name="arrow-down" size="12px"></wd-icon>
-          </view>
-
-          <view>至</view>
-          <view>
-            {{ timerShow[1] ? timerShow[1] : '结束时间' }}
-            <wd-icon name="arrow-down" size="12px"></wd-icon>
-          </view>
+      <view class="topbg flex justify-between items-center">
+        <view class="flex flex-col justify-between">
+          <div class="flex items-end mb4px">
+            <wd-img :src="laonianka" :width="60" :height="30" v-if="form.cardtype === '0301'" />
+            <wd-img :src="xueshengka" :width="60" :height="30" v-if="form.cardtype === '0201'" />
+            <wd-img :src="putongka" :width="60" :height="30" v-if="form.cardtype === '0100'" />
+            <view class="name">{{ form.name }}</view>
+          </div>
+          <div class="font-600 color-white font-size-24px">{{ form.cardno }}</div>
         </view>
-      </wd-datetime-picker>
+        <view>
+          <wd-img :src="laoniankaicon" :width="54" :height="63" v-if="form.cardtype === '0301'" />
+          <wd-img :src="xueshengkaicon" :width="54" :height="63" v-if="form.cardtype === '0201'" />
+          <wd-img :src="putongkaicon" :width="54" :height="63" v-if="form.cardtype === '0100'" />
+        </view>
+      </view>
     </template>
-    <view class="">
-      <view class="px-10px">
-        <view
-          class="my-10px p-15px bg-#fff rounded-6px"
-          v-for="(item, index) in conponList"
-          :key="index"
-        >
-          <view>
-            <view class="flex justify-between items-center">
-              <view class="flex items-center">
-                <!-- <wd-ing></wd-ing> -->
-                <view>公交</view>
-              </view>
-              <view class="color-#2D69EF">
-                {{ '已完成' }}
-              </view>
-            </view>
-            <view class="my-15px">
-              <view class="text-16px font-600 color-#000 py-5px">雄安一卡通</view>
-              <view class="text-12px color-#999 py-3px">乘车时间：2024-08-21 12:23:21</view>
-            </view>
-            <view
-              class="flex justify-between items-center bt-1px_dashed_#999"
-              @click="toMingxi(item)"
-            >
-              <view class="color-#999999 text-14px py-10px mt-5px">
-                行程票价：
-                <text class="color-#F44D24">￥2元</text>
-              </view>
-              <view class="color-#999999 text-14px py-10px mt-5px">查看详情</view>
+    <view class="px-15px">
+      <view
+        class="my-10px py-15px bg-#fff rounded-6px border-box"
+        v-for="(item, index) in conponList"
+        :key="index"
+        @click="toMingxi(item)"
+      >
+        <view class="flex justify-between items-center mb-14px px-15px border-box">
+          <view class="flex justify-between items-center">
+            <wd-img :src="bus" :width="22" :height="22"></wd-img>
+            <wd-text text="214" size="16px" color="#000" bold custom-class="ml-8px"></wd-text>
+          </view>
+          <wd-text text="已支付" size="14px" color="#2D69EF"></wd-text>
+        </view>
+
+        <view class="bt-1px_dashed_#999 px-15px border-box">
+          <view class="text-16px font-600 color-#000 mt-11px">在哪里 上车</view>
+          <view class="flex justify-between items-center">
+            <view class="text-12px color-#999 py-3px">乘车时间：2024-08-21 12:23:21</view>
+
+            <view class="color-#999999 text-14px mt-5px">
+              <text class="color-#F44D24">￥2元</text>
             </view>
           </view>
         </view>
@@ -153,7 +119,25 @@ function toMingxi(item) {
     @apply hidden !;
   }
 }
-
+.topbg {
+  box-sizing: border-box;
+  width: calc(100% - 30px);
+  padding: 14px 20px;
+  margin: 10px auto;
+  background: linear-gradient(48deg, #2bc5ff 0%, #1d4adc 100%);
+  border-radius: 8px 8px 8px 8px;
+  .name {
+    box-sizing: border-box;
+    height: 21px;
+    padding: 0 31px 0 11px;
+    margin-left: 10px;
+    font-size: 14px;
+    line-height: 21px;
+    color: #fff;
+    background: linear-gradient(90deg, #3561ef 0%, rgba(36, 140, 239, 0) 100%);
+    border-radius: 11px 11px 11px 11px;
+  }
+}
 :deep(.custom-view-picker) {
   @apply flex justify-between items-center;
 }

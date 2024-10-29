@@ -1,6 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -17,17 +18,23 @@ import xueshengka from '@/static/images/transit/xueshengka.png'
 import xueshengkaicon from '@/static/images/transit/xueshengkaicon.png'
 import putongka from '@/static/images/transit/putongka.png'
 import putongkaicon from '@/static/images/transit/putongkaicon.png'
+import { useUserStore } from '@/store/user'
+import { storeToRefs } from 'pinia'
+import { useToast } from 'wot-design-uni'
 import {
   getCardInfo,
   getTransitCardTradeDetails,
   cardRealNameQuery,
+  getUserCard,
 } from '@/service/api/userMessage'
 
+const toast = useToast()
+const { userInfo } = storeToRefs(useUserStore())
 const title = ref('公交充值记录')
 const paging = ref(null)
 const conponList = ref([])
 const form = reactive({
-  cardno: '3104951799000000904',
+  cardno: '',
   cardtype: '',
   name: '',
 })
@@ -50,8 +57,8 @@ async function queryList(pageNo: number, pageSize: number) {
   try {
     const obj = {
       cardno: form.cardno,
-      page: 1,
-      size: 10,
+      page: pageNo,
+      size: pageSize,
       rectype: '1',
       orderby: '1',
     }
@@ -64,12 +71,7 @@ async function queryList(pageNo: number, pageSize: number) {
     paging.value.complete(false)
   }
 }
-const getCardRealname = () => {
-  cardRealNameQuery({ cardno: form.cardno }).then((res) => {
-    console.log('交通卡实名信息', res)
-    form.name = res.custinfo.name
-  })
-}
+
 const getCardinfo = () => {
   getCardInfo({ cardno: form.cardno }).then((res) => {
     console.log('交通卡信息', res)
@@ -84,8 +86,14 @@ const formatTime = (val) => {
   }
 }
 onShow(() => {
-  getCardinfo()
-  getCardRealname()
+  console.log('userInfo', userInfo.value)
+  getUserCard({ cardId: userInfo.value.cardId }).then((res) => {
+    console.log('ress', res)
+    form.cardno = res.trafficNumber
+    console.log('form', form)
+    getCardinfo()
+    paging.value.reload()
+  })
 })
 function toMingxi(item) {
   routeTo({ url: '/pages-sub/userManager/transit/detil', data: { ...item, cardno: form.cardno } })
@@ -97,6 +105,7 @@ function toMingxi(item) {
     ref="paging"
     v-model="conponList"
     @query="queryList"
+    :auto="false"
     :auto-show-system-loading="true"
     class="flex flex-col bg-no-repeat h-100vh dy-blue-bg"
   >
@@ -108,7 +117,7 @@ function toMingxi(item) {
             <wd-img :src="laonianka" :width="60" :height="30" v-if="form.cardtype === '0301'" />
             <wd-img :src="xueshengka" :width="60" :height="30" v-if="form.cardtype === '0201'" />
             <wd-img :src="putongka" :width="60" :height="30" v-if="form.cardtype === '0100'" />
-            <view class="name">{{ form.name }}</view>
+            <view class="name">{{ userInfo.cardName }}</view>
           </div>
           <div class="font-600 color-white font-size-24px">{{ form.cardno }}</div>
         </view>

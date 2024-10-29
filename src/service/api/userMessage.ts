@@ -36,6 +36,24 @@ const HAS_MERCHANT_AUTH = baseUrlApi('/member/app/userInfo/hasMerchantAuth')
 const GET_CARD_INFO = baseUrlApi('/third/app/transit/getCardInfoByCardNo')
 const GET_CARD_REALNAME = baseUrlApi('/third/app/transit/cardRealNameQuery')
 const GET_CARD_RECORD = baseUrlApi('/third/app/transit/getTransitCardTradeDetails')
+const GET_USER_CARD = baseUrlApi('/member/app/userInfo/userCardInfo ')
+
+/**
+ *  查询公交卡信息
+ * @param params
+ * */
+export function getUserCard(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+  }
+  return request.Post(
+    GET_USER_CARD, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
 
 /**
  *  查询公交卡充值记录

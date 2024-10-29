@@ -48,6 +48,8 @@ interface NavigateToOptions {
        "/pages-sub/userManager/collection/collection" |
        "/pages-sub/userManager/collection/follow" |
        "/pages-sub/userManager/myMessage/massage" |
+       "/pages-sub/userManager/smartCanteen/index" |
+       "/pages-sub/userManager/smartCanteen/rechargeAndSonsumption" |
        "/pages-sub/userManager/SocialSecurityCard/barcode" |
        "/pages-sub/userManager/SocialSecurityCard/detil" |
        "/pages-sub/userManager/SocialSecurityCard/index" |

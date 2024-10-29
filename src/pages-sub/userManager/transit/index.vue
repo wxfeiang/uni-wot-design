@@ -1,7 +1,7 @@
-<route lang="json5">
+<route lang="json5" type="page">
 {
   layout: 'default',
-  needLogin: true,
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
