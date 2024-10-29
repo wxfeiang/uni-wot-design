@@ -189,7 +189,7 @@ onLoad(async (options) => {
   urlData.value = qs.parse(decodeURIComponent(options.url) || options.url)
   console.log('地址数据======', urlData.value)
   try {
-    await sendShopDetail({ shopId: '1835238852856737794' }) // urlData.value.merchantId
+    await sendShopDetail({ shopId: urlData.value.merchantId }) //
     // const shopdata: any =
     // console.log('🥒[shopMessage.value]:', JSON.stringify(shopdata))
     // shopMessage.value = shopdata
