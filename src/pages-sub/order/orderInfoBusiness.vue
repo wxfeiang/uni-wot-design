@@ -720,7 +720,10 @@ onShow(async (options) => {
 
       <wd-card class="cardno mt-4" v-if="orderInfo.status === 2">
         <view class="flex py-2 flex-col">
-          <view class="flex mt-10px mb-10px" v-if="orderInfo.productEvaluationList">
+          <view
+            class="flex mt-10px mb-10px"
+            v-if="orderInfo.productEvaluationList && orderInfo.productEvaluationList.length > 0"
+          >
             <wd-img :width="45" :height="45" :src="morentouxiang" round></wd-img>
             <view class="flex-1 overflow-hidden ml-10px">
               <view class="w-full flex items-center justify-between">
