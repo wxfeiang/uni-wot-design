@@ -20,7 +20,7 @@ import loginOuther from './components/loginOuther.vue'
 import useLogin from './utils/useLogin'
 const {
   Login,
-
+  getWxCode,
   read,
 
   submitPhoneLogin,
@@ -29,6 +29,10 @@ const {
   goPhoneLogin,
   toAgreement,
 } = useLogin()
+
+// 获取微信登录code
+getWxCode()
+
 const form = ref(null)
 const form2 = ref(null)
 
