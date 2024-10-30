@@ -40,6 +40,8 @@ const {
   hasMerchantAutData,
   cLeavel,
   shopOrederData,
+  sendInterInfo,
+  interInfoData,
 } = useInfo()
 const { isLogined, userInfo, integralSataus } = storeToRefs(useUserStore())
 const authStore = useUserStore()
@@ -88,7 +90,9 @@ onShow(async () => {
   if (isLogined.value) {
     try {
       await sendMyInfo()
+      await sendInterInfo()
       await sendOrderStatistics({ type: 1 })
+      console.log('🌯========>', interInfoData.value)
       merchantAuth()
     } catch (err) {
       console.log('🍯', err)
@@ -165,7 +169,7 @@ onShow(async () => {
           v-if="isLogined"
         >
           <wd-img :src="jinbi" width="18" height="18"></wd-img>
-          <text>{{ integralSataus ? '已签到' : '签到' }}</text>
+          <text>{{ interInfoData.today ? '已签到' : '签到' }}</text>
         </view>
       </view>
       <view class="py-10px mt-3%">

@@ -45,5 +45,22 @@ interface shopOrederProps {
   couponsVerification: number
   todayAmount: number
 }
+interface integralProps {
+  todayIntegral: number
+  stageList: any[]
+  today: boolean
+  surplusIntegral: number
+  lxSignInDay: number
+  totalSignInDay: number
+  totalIntegral: number
+}
 
-export type { MyOrderProps, msCountProps, myInfoProps, serveListProps, serveProps, shopOrederProps }
+export type {
+  MyOrderProps,
+  integralProps,
+  msCountProps,
+  myInfoProps,
+  serveListProps,
+  serveProps,
+  shopOrederProps,
+}

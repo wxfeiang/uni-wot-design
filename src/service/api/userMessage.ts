@@ -220,11 +220,11 @@ export function findmyInfo<T>(data) {
  *  积分信息
  * @param params 初始参数()
  * */
-export function findXcxScoreUser(data, flog?: boolean) {
+export function findXcxScoreUser<T>(data, flog?: boolean) {
   const meta: METHOD_INSTANCE = {
     loading: !flog,
   }
-  return request.Post(
+  return request.Post<T>(
     FIND_XCX_SCORE_USER, // 地址
     data,
     {

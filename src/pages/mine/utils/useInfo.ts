@@ -1,5 +1,6 @@
 import { useRequest } from 'alova/client'
 import type {
+  integralProps,
   myInfoProps,
   MyOrderProps,
   serveListProps,
@@ -208,11 +209,15 @@ const {
   immediate: false,
   loading: false,
 })
-// 查询信息
-const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true), {
-  immediate: false,
-  loading: false,
-})
+// 查询积分信息信息
+const { send: sendInterInfo, data: interInfoData } = useRequest(
+  (data) => findXcxScoreUser<integralProps>(data, true),
+  {
+    immediate: false,
+    loading: false,
+    initialData: {},
+  },
+)
 
 const { send: sendMyInfo, data: myInfoData } = useRequest((data) => findmyInfo<myInfoProps>(data), {
   immediate: false,
@@ -288,6 +293,7 @@ export default () => {
     topList,
     sendUserCouponList,
     sendInterInfo,
+    interInfoData,
     serveOrderList,
     toContent,
 
