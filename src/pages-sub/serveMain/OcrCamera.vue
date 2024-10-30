@@ -330,7 +330,7 @@ onMounted(() => {
           <view @click="takePhoto" hover-class="color-red">
             <view class="i-carbon-circle-filled font-size-50px color-#fff"></view>
           </view>
-          <view @click="chooseImage">
+          <view @click="reverseCamera">
             <wd-icon name="refresh1" size="22px" color="#fff"></wd-icon>
           </view>
         </view>
