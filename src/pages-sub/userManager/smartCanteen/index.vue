@@ -36,7 +36,6 @@ const GInfoId = () => {
   getInfoId({
     pageNo: 1,
     pageSize: 10,
-    phone: userStore.userInfo.userPhone,
   }).then((res) => {
     console.log('卡信息', res)
     if (res.data.data.list.length === 0) {
