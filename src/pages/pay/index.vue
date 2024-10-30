@@ -191,7 +191,7 @@ onLoad(async (options) => {
   console.log('地址数据======', urlData.value)
   try {
     await sendShopDetail({
-      shopId: '1835238852856737794', // urlData.value.merchantId
+      shopId: urlData.value.merchantId, // '1835238852856737794',
     }) //
     // const shopdata: any =
     // console.log('🥒[shopMessage.value]:', JSON.stringify(shopdata))
