@@ -38,6 +38,10 @@ const GET_CARD_REALNAME = baseUrlApi('/third/app/transit/cardRealNameQuery')
 const GET_CARD_RECORD = baseUrlApi('/third/app/transit/getTransitCardTradeDetails')
 const GET_USER_CARD = baseUrlApi('/member/app/userInfo/userCardInfo ')
 
+const GET_INFO_ID = baseUrlApi('/third/app/canteen/getCanteenPersonList')
+const GET_CARD_INFO2 = baseUrlApi('/third/app/canteen/getAccountBalance')
+const GET_INFO_LIST = baseUrlApi('/third/app/canteen/getCanteenRechargeRecord')
+
 /**
  *  查询公交卡信息
  * @param params
@@ -48,6 +52,63 @@ export function getUserCard(data) {
   }
   return request.Post(
     GET_USER_CARD, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  查询公交卡信息
+ * @param params
+ * */
+export function getInfoId(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    resAll: true,
+    ignorEencrypt: true,
+  }
+  return request.Post(
+    GET_INFO_ID, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  查询公交卡信息
+ * @param params
+ * */
+export function getCardInfo2(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    resAll: true,
+    ignorEencrypt: true,
+  }
+  return request.Post(
+    GET_CARD_INFO2, // 地址
+    data,
+    {
+      meta,
+    },
+  )
+}
+
+/**
+ *  查询公交卡信息
+ * @param params
+ * */
+export function getInfoList(data) {
+  const meta: METHOD_INSTANCE = {
+    loading: true,
+    resAll: true,
+    ignorEencrypt: true,
+  }
+  return request.Post(
+    GET_INFO_LIST, // 地址
     data,
     {
       meta,
@@ -273,6 +334,7 @@ export function addBusinessAdvice(data) {
     data,
   )
 }
+
 /**
  * 用户反馈建议列表
  * @param params 初始参数()
