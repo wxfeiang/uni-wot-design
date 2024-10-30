@@ -149,13 +149,13 @@ const mainData2 = ref([
         appId: 'wx0f343dd3b89d6f07', // 填入目标小程序的 appId
         path: 'pages/index/index',
       },
-      // {
-      //   title: '智慧食堂',
-      //   icon: 'coupon',
-      //   url: jiaofeitong,
-      //   type: '9',
-      //   base: '',
-      // },
+      {
+        title: '智慧食堂',
+        icon: 'coupon',
+        url: jiaofeitong,
+        type: '9',
+        base: '',
+      },
     ],
   },
 ])
