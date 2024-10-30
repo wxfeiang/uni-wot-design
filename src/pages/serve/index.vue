@@ -164,14 +164,7 @@ const mainData3 = ref([
     sTitle: '公交服务',
     list: [
       {
-        title: '公交充值记录',
-        icon: 'jrcs',
-        url: gjcz1,
-        type: '7',
-        base: 'gjcz',
-      },
-      {
-        title: '公交乘车记录',
+        title: '消费记录',
         icon: 'jrcs',
         url: gjlu1,
         type: '8',
@@ -207,28 +200,6 @@ function gridClick(item: any) {
     routeTo({ url: '/pages-sub/serveMain/jinrongType', data: { base, title } })
   } else if (item.type === '4') {
     openWxChart(item.appId, item.path)
-  } else if (item.type === '7') {
-    if (!userInfo.value.idCardNumber) {
-      Modal({
-        title: '提示',
-        content: '您还没有实名认证,请先认证？',
-        showCancel: true,
-      }).then((res: any) => {
-        if (res.confirm) {
-          // 重定向
-          const router = '/pages/login/loginsmrz'
-          const redirectRoute = `${router}?redirect=${encodeURIComponent('/pages-sub/userManager/transit/rechargeRecord')}`
-          uni.navigateTo({ url: redirectRoute })
-        }
-      })
-    } else if (!userInfo.value.cardId) {
-      return toast.show('未查询到您的交通卡号！')
-    } else {
-      routeTo({
-        url: '/pages-sub/userManager/transit/rechargeRecord',
-        data: { base, title },
-      })
-    }
   } else if (item.type === '8') {
     if (!userInfo.value.idCardNumber) {
       Modal({
