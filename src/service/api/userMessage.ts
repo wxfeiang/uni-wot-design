@@ -148,16 +148,10 @@ export function setXinCangCardAuthorize(data) {
  *  查询积分，优惠券，金额，等级
  * @param params
  * */
-export function findmyInfo(data) {
-  const meta: METHOD_INSTANCE = {
-    loading: true,
-  }
-  return request.Post(
+export function findmyInfo<T>(data) {
+  return request.Post<T>(
     FIND_MY_INFO, // 地址
     data,
-    {
-      meta,
-    },
   )
 }
 

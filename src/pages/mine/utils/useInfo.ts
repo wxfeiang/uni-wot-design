@@ -1,5 +1,11 @@
 import { useRequest } from 'alova/client'
-import type { msCountProps, serveListProps, serveProps } from '../utils/types'
+import type {
+  myInfoProps,
+  MyOrderProps,
+  serveListProps,
+  serveProps,
+  shopOrederProps,
+} from '../utils/types'
 
 import { getIsReceiveCardInfo } from '@/service/api/cardServe'
 import {
@@ -20,12 +26,18 @@ import wdsbk from '@/static/images/mine/wdsbk.png'
 import xxtz from '@/static/images/mine/xxtz.png'
 import { routeTo } from '@/utils'
 
-import { getBusinessInfo, getMerchantServicesCount, getOrderStatistics } from '@/service/api/shop'
+import { getBusinessInfo, getOrderStatistics } from '@/service/api/shop'
 import daifahuo from '../../../static/images/mine/daifahuo.png'
 import dafukuan from '../../../static/images/mine/daifukuan.png'
 import daishouhuo from '../../../static/images/mine/daishouhuo.png'
 import shouhou from '../../../static/images/mine/shouhoudd.png'
 import yiwancheng from '../../../static/images/mine/yiwancheng.png'
+
+import level1 from '@/static/images/mine/level1.png'
+import level2 from '@/static/images/mine/level2.png'
+import level3 from '@/static/images/mine/level3.png'
+import level4 from '@/static/images/mine/level4.png'
+import level5 from '@/static/images/mine/level5.png'
 
 // 查询user列表
 const { send: sendUserCouponList, loading: listLoading2 } = useRequest(
@@ -42,18 +54,21 @@ const topList = ref<serveProps[]>([
     value: 0,
     path: '/pages-sub/marketManager/integral/interList',
     islink: true,
+    props: 'pointsNum',
   },
   {
     title: '优惠券',
     value: 0,
     path: '/pages-sub/marketManager/coupon/mycoupon',
     islink: true,
+    props: 'couponNum',
   },
   {
     title: '钱包',
     value: 0,
     path: '',
     islink: false,
+    props: 'pocketNum',
   },
 ])
 
@@ -63,30 +78,35 @@ const serveOrderList = ref<serveListProps[]>([
     icon: dafukuan,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=1',
+    props: 'dfk',
   },
   {
     label: '待发货',
     icon: daifahuo,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=10',
+    props: 'dfh',
   },
   {
     label: '待收货',
     icon: daishouhuo,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=11',
+    props: 'dsh',
   },
   {
     label: '已完成',
     icon: yiwancheng,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=2',
+    props: 'ywc',
   },
   {
     label: '退款/售后',
     icon: shouhou,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=20,21,22,23,25,26',
+    props: 'sh',
   },
 ])
 const grzqList = ref<serveProps[]>([
@@ -194,31 +214,29 @@ const { send: sendInterInfo } = useRequest((data) => findXcxScoreUser(data, true
   loading: false,
 })
 
-const { send: sendMyInfo } = useRequest((data) => findmyInfo(data), {
+const { send: sendMyInfo, data: myInfoData } = useRequest((data) => findmyInfo<myInfoProps>(data), {
   immediate: false,
   loading: false,
+  initialData: {},
 })
-const { send: sendOrderStatistics } = useRequest((data) => getOrderStatistics(data), {
-  immediate: false,
-  loading: false,
-})
-
-const { send: sendBusinessInfo } = useRequest((data) => getBusinessInfo(data), {
-  immediate: false,
-  loading: false,
-})
-
-const { send: sendMerchantServicesCount, data: msCount } = useRequest(
-  (data) => getMerchantServicesCount<msCountProps>(data),
+const { send: sendOrderStatistics, data: myOrderData } = useRequest(
+  (data) => getOrderStatistics<MyOrderProps>(data),
   {
     immediate: false,
     loading: false,
-    initialData: {
-      totalMoneyDay: 0,
-      totalOrderNumDay: 0,
-    },
+    initialData: {},
   },
 )
+
+const { send: sendBusinessInfo, data: shopOrederData } = useRequest(
+  (data) => getBusinessInfo<shopOrederProps>(data),
+  {
+    immediate: false,
+    loading: false,
+    initialData: {},
+  },
+)
+
 const { send: sendUserHasMerchantAuth, data: hasMerchantAutData } = useRequest(
   (data) => userHasMerchantAuth<boolean>(data),
   {
@@ -226,6 +244,41 @@ const { send: sendUserHasMerchantAuth, data: hasMerchantAutData } = useRequest(
     loading: false,
   },
 )
+const userLeavel = ref([
+  {
+    leavel: 1,
+    color: '#548d33',
+    bgImg: level1,
+  },
+  {
+    leavel: 2,
+    color: '#898989',
+    bgImg: level2,
+  },
+  {
+    leavel: 3,
+    color: '#ff8000',
+    bgImg: level3,
+  },
+  {
+    leavel: 4,
+    color: '#f9f0ea',
+    bgImg: level4,
+  },
+  {
+    leavel: 5,
+    color: '#f9f0ea',
+    bgImg: level5,
+  },
+])
+// const cLeavel = ref<any>(userLeavel.value[0])
+
+const cLeavel = computed(() => {
+  return (
+    userLeavel.value.find((item) => item.leavel === myInfoData.value?.userGrade) ??
+    userLeavel.value[0]
+  )
+})
 
 export default () => {
   return {
@@ -237,13 +290,16 @@ export default () => {
     sendInterInfo,
     serveOrderList,
     toContent,
-    sendMerchantServicesCount,
-    msCount,
+
+    shopOrederData,
     sendMyInfo,
+    myInfoData,
     sendOrderStatistics,
+    myOrderData,
     sendBusinessInfo,
     grzqList,
     sendUserHasMerchantAuth,
     hasMerchantAutData,
+    cLeavel,
   }
 }

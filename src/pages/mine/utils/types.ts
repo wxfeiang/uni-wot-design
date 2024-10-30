@@ -7,12 +7,14 @@ interface serveProps {
   value?: string | number
   id?: string
   data?: any
+  props?: any // 对应字段
 }
 interface serveListProps {
   label: string
   value: number
   icon: string
   path: string
+  props?: any // 对应字段
 }
 interface msCountProps {
   totalOrderNumDay?: string // 今日订单数
@@ -22,4 +24,26 @@ interface msCountProps {
   notMoneyDay?: string // 今日待收款金额
 }
 
-export type { msCountProps, serveListProps, serveProps }
+interface myInfoProps {
+  couponNum: number
+  userGradeName: string
+  userGrade: number
+  pocketNum: number
+  pointsNum: number
+}
+interface MyOrderProps {
+  ywc: number
+  sh: number
+  dfh: number
+  dfk: number
+  dsh: number
+}
+interface shopOrederProps {
+  couponsReceive: number
+  dskAmount: number
+  todayOrderNum: number
+  couponsVerification: number
+  todayAmount: number
+}
+
+export type { MyOrderProps, msCountProps, myInfoProps, serveListProps, serveProps, shopOrederProps }

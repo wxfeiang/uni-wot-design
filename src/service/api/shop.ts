@@ -121,18 +121,18 @@ export function getsubmitTickets(data) {
  *   获取订单数量
  * @param params 初始参数()
  * */
-export function getOrderStatistics(data) {
-  return request.Post(
+export function getOrderStatistics<T>(data) {
+  return request.Post<T>(
     GET_ORDER_NUM, // 请求地址
     data,
   )
 }
 /**
- *   获取订单数量
+ *   获取商户订单数量
  * @param params 初始参数()
  * */
-export function getBusinessInfo(data) {
-  return request.Post(
+export function getBusinessInfo<T>(data) {
+  return request.Post<T>(
     GET_BUSINESS_INFO, // 请求地址
     data,
   )
@@ -785,15 +785,9 @@ export function changeOrderStatus<T>(data) {
  */
 
 export function getActivityList<T>(data) {
-  const meta: METHOD_INSTANCE = {
-    loading: true,
-  }
   return request.Post<T>(
     GET_ACTIVITY_LIST, // 请求地址
     data,
-    {
-      meta,
-    },
   )
 }
 

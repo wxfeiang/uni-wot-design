@@ -16,12 +16,19 @@ import { useMessage } from 'wot-design-uni'
 import caeama from '../static/images/caeama.png'
 
 import anvter1 from '@/static/images/mine/anvter1.png'
+import { computed } from 'vue'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const authStore = useUserStore()
 const message = useMessage()
 const title = ref('个人信息')
 
-const avatarArr = ref(userInfo.value.userAvatar ?? anvter1)
+const avatarArr = computed(() => {
+  const a = userInfo.value.userAvatar ?? anvter1
+  console.log('🍯[a ]:', a)
+  return a
+})
+
+// ref(userInfo.value.userAvatar ?? anvter1)
 
 const lastStr = (file: any) => {
   model.value.userAvatar = file.url
@@ -158,6 +165,7 @@ const btnClick = async (item: any) => {
               placeholder="请输入昵称"
               no-border
               custom-class="custom-input-class"
+              :cursorSpacing="10"
             />
           </view>
           <view class="mt-10px mb-40px">

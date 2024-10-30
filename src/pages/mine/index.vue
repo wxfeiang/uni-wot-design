@@ -30,14 +30,16 @@ const {
   serveClick,
   topList,
   serveOrderList,
-  sendMerchantServicesCount,
-  // msCount,
   sendMyInfo,
+  myInfoData,
   sendOrderStatistics,
+  myOrderData,
   sendBusinessInfo,
   grzqList,
   sendUserHasMerchantAuth,
   hasMerchantAutData,
+  cLeavel,
+  shopOrederData,
 } = useInfo()
 const { isLogined, userInfo, integralSataus } = storeToRefs(useUserStore())
 const authStore = useUserStore()
@@ -51,11 +53,6 @@ const toast = useToast()
 const bgUrlBase64 = ref(
   'https://oss.xay.xacloudy.cn/images/2024-10/0d9fe262-f40e-4115-9173-e9f89d24828aJZDxK0DIw9Ta144dbd42ab626884a3018ec3ecaf2d6d.png',
 )
-const userGrade = ref(1)
-const msCount = ref({
-  totalMoneyDay: 0,
-  totalOrderNumDay: 0,
-})
 
 const userGradeTitle = ref('')
 const dingdan = (e) => {
@@ -78,9 +75,7 @@ async function merchantAuth() {
   if (hasMerchantAutData.value) {
     if (userInfo.value.merchantId) {
       // 查询商户统计
-      const datas: any = await sendBusinessInfo()
-      msCount.value.totalMoneyDay = datas.todayAmount ? datas.todayAmount : 0
-      msCount.value.totalOrderNumDay = datas.todayOrderNum ? datas.todayOrderNum : 0
+      await sendBusinessInfo()
     }
   } else {
     const olduserInfo = JSON.parse(JSON.stringify(userInfo.value))
@@ -92,37 +87,12 @@ async function merchantAuth() {
 onShow(async () => {
   if (isLogined.value) {
     try {
-      const countInfo: any = await sendMyInfo()
-      userGrade.value = countInfo.userGrade
-      topList.value[0].value = countInfo.pointsNum
-      topList.value[1].value = countInfo.couponNum
-      topList.value[2].value = countInfo.pocketNum
-      userGradeTitle.value = countInfo.userGradeName
-
-      const da: any = await sendOrderStatistics({ type: 1 })
-      serveOrderList.value[0].value = da.dfk ? da.dfk : 0
-      serveOrderList.value[1].value = da.dfh ? da.dfh : 0
-      serveOrderList.value[2].value = da.dsh ? da.dsh : 0
-      // serveOrderList.value[3].value = da.ywc ? da.ywc : 0
-      serveOrderList.value[3].value = 0
-      serveOrderList.value[4].value = da.sh ? da.sh : 0
-
+      await sendMyInfo()
+      await sendOrderStatistics({ type: 1 })
       merchantAuth()
-    } catch {
-      topList.value[0].value = 0
-      topList.value[1].value = 0
-      topList.value[2].value = 0
+    } catch (err) {
+      console.log('🍯', err)
     }
-  } else {
-    serveOrderList.value[0].value = 0
-    serveOrderList.value[1].value = 0
-    serveOrderList.value[2].value = 0
-    serveOrderList.value[3].value = 0
-    serveOrderList.value[4].value = 0
-
-    topList.value[0].value = 0
-    topList.value[1].value = 0
-    topList.value[2].value = 0
   }
 })
 </script>
@@ -168,25 +138,11 @@ onShow(async () => {
                 </view>
 
                 <view>
-                  <view v-if="userGrade == 1" class="mt-2">
-                    <img src="/src/static/images/mine/level1.png" alt="" class="userGradeBG" />
-                    <span class="userGradeTitle l1">{{ userGradeTitle }}</span>
-                  </view>
-                  <view v-else-if="userGrade == 2" class="mt-2">
-                    <img src="/src/static/images/mine/level2.png" alt="" class="userGradeBG" />
-                    <span class="userGradeTitle l2">{{ userGradeTitle }}</span>
-                  </view>
-                  <view v-else-if="userGrade == 3" class="mt-2">
-                    <img src="/src/static/images/mine/level3.png" alt="" class="userGradeBG" />
-                    <span class="userGradeTitle l3">{{ userGradeTitle }}</span>
-                  </view>
-                  <view v-else-if="userGrade == 4" class="mt-2">
-                    <img src="/src/static/images/mine/level4.png" alt="" class="userGradeBG" />
-                    <span class="userGradeTitle l4">{{ userGradeTitle }}</span>
-                  </view>
-                  <view v-else-if="userGrade == 5" class="mt-2">
-                    <img src="/src/static/images/mine/level5.png" alt="" class="userGradeBG" />
-                    <span class="userGradeTitle l5">{{ userGradeTitle }}</span>
+                  <view class="mt-2">
+                    <image :src="cLeavel.bgImg" alt="" class="userGradeBG" />
+                    <text class="userGradeTitle" :style="`color: ${cLeavel.bgImg} `">
+                      {{ myInfoData.userGradeName }}
+                    </text>
                   </view>
                 </view>
               </view>
@@ -221,7 +177,7 @@ onShow(async () => {
             @click="serveClick(item)"
           >
             <view class="text-20px">
-              {{ isLogined ? item.value : 0 }}
+              {{ isLogined ? (myInfoData![item.props] ?? 0) : 0 }}
             </view>
             <view class="text-14px mt-10px">
               {{ item.title }}
@@ -279,11 +235,11 @@ onShow(async () => {
         <view class="flex justify-around items-center gap-10px before-shu">
           <view class="text-center">
             <view class="text-14px color-#999 py-10px">今日收款 (元)</view>
-            <view>{{ msCount.totalMoneyDay }}</view>
+            <view>{{ shopOrederData!.todayAmount ?? 0 }}</view>
           </view>
           <view class="text-center">
             <view class="text-14px color-#999 py-10px">今日订单</view>
-            <view>{{ msCount.totalOrderNumDay }}</view>
+            <view>{{ shopOrederData!.todayOrderNum ?? 0 }}</view>
           </view>
         </view>
       </view>
@@ -314,12 +270,11 @@ onShow(async () => {
             :key="index"
             @click="dingdan(item.path)"
           >
-            <wd-badge :modelValue="item.value">
+            <wd-badge :modelValue="myOrderData![item.props] ?? 0">
               <view>
                 <wd-img :src="item.icon" width="26" height="26"></wd-img>
               </view>
             </wd-badge>
-
             <view class="text-13px mt-3px">
               {{ item.label }}
             </view>
