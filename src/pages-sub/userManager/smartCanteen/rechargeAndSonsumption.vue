@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import { routeTo } from '@/utils'
 import dayjs from 'dayjs'
-import recordicon from '@/static/images/transit/recordicon.png'
+// import recordicon from '@/static/images/transit/recordicon.png'
 import {
   getCardInfo,
   getTransitCardTradeDetails,
@@ -98,7 +98,7 @@ onLoad((options) => {
       >
         <view class="flex justify-between items-center mb-14px">
           <view class="flex justify-between items-center">
-            <wd-img :src="recordicon" :width="22" :height="22"></wd-img>
+            <!--            <wd-img :src="recordicon" :width="22" :height="22"></wd-img>-->
             <wd-text
               :text="item.txntypedesc"
               size="16px"
