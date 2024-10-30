@@ -212,7 +212,7 @@ async function upload(ress) {
         type: currentParams.value.photoType * 1,
         url: ress,
         id: resData.id,
-        data: currData.value.imgType === 0 ? {} : JSON.parse(resData.identifyCardInfo),
+        data: currData.value.imgType === 0 ? {} : JSON.parse(resData?.identifyCardInfo ?? '{}'), // 识别信息
       }
 
       eventChannel.emit('camera', {
