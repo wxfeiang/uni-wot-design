@@ -57,11 +57,8 @@ interface NavigateToOptions {
        "/pages-sub/userManager/suggest/list" |
        "/pages-sub/userManager/suggest/suggest" |
        "/pages-sub/userManager/suggest/suggestDetil" |
-       "/pages-sub/userManager/transit/detil" |
        "/pages-sub/userManager/transit/index" |
        "/pages-sub/userManager/transit/list" |
-       "/pages-sub/userManager/transit/rechargeRecord" |
-       "/pages-sub/userManager/transit/travelRecord" |
        "/pages-sub/userManager/userCenter/user" |
        "/pages-sub/marketManager/coupon/coupDeil" |
        "/pages-sub/marketManager/coupon/index" |

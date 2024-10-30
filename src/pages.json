@@ -571,14 +571,6 @@
           }
         },
         {
-          "path": "transit/detil",
-          "type": "page",
-          "layout": "default",
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
           "path": "transit/index",
           "type": "page",
           "layout": "default",
@@ -592,23 +584,6 @@
           "type": "page",
           "layout": "default",
           "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "transit/rechargeRecord",
-          "type": "page",
-          "layout": "default",
-          "realNameAuthentication": true,
-          "style": {
-            "navigationStyle": "custom"
-          }
-        },
-        {
-          "path": "transit/travelRecord",
-          "type": "page",
-          "layout": "default",
           "style": {
             "navigationStyle": "custom"
           }

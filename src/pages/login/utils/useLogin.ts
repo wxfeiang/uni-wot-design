@@ -19,6 +19,16 @@ import { routeTo } from '@/utils'
 import { getLoginCode, startFacialRecognitionVerify } from '@/utils/uniapi'
 import { Toast } from '@/utils/uniapi/prompt'
 import { loginListProps } from './types'
+
+// 微信登录
+let wxLoginCode = ''
+const getWxCode = () => {
+  getLoginCode().then((res) => {
+    wxLoginCode = res
+    console.log('wxLoginCode', wxLoginCode)
+  })
+}
+
 // 获取验证码
 const { getCodeUrl, codeflog } = useImageVerify()
 const { sendPhoneCode, countdown, sending } = usePhoneCode()
@@ -234,8 +244,6 @@ const getphonenumberLogin = async (e) => {
   if (e.errMsg === 'getPhoneNumber:ok') {
     try {
       uni.showLoading({ title: '登录中...' })
-      // 微信登录
-      const wxLoginCode = await getLoginCode()
       // openid
       const { openId }: any = await sendOpenIdCode({ code: wxLoginCode })
       const param = {
@@ -412,9 +420,9 @@ const { loading: unionLoading, send: sendUpdateOpenIdAndUnionId } = useRequest(
 
 const updateUnionId = async () => {
   // 微信登录
-  const wxLoginCode = await getLoginCode()
+  const wxLoginCode1 = await getLoginCode()
   // openid
-  await sendUpdateOpenIdAndUnionId({ code: wxLoginCode, appKey: Constant.APP_KEY })
+  await sendUpdateOpenIdAndUnionId({ code: wxLoginCode1, appKey: Constant.APP_KEY })
 }
 
 export default () => {
@@ -448,5 +456,6 @@ export default () => {
     userLogin,
     ablistShow,
     loginUserList,
+    getWxCode,
   }
 }

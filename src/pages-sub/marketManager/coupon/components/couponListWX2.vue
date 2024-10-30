@@ -56,7 +56,7 @@ const statusCoupopnList = ref([
   {
     statsSrc: '',
     btnText: '去使用',
-    btnShow: true,
+    btnShow: false,
   },
   {
     statsSrc: status1,
@@ -71,7 +71,7 @@ const statusCoupopnList = ref([
   {
     statsSrc: '',
     btnText: '领取',
-    btnShow: true,
+    btnShow: false,
   },
 ])
 
