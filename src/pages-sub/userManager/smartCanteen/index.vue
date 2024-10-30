@@ -10,13 +10,13 @@
 
 <script lang="ts" setup>
 import { getCardInfo2, getInfoId, getInfoList } from '@/service/api/userMessage'
-import foodicon01 from '@/static/images/smartCanteen/foodicon01.png'
-import foodicon02 from '@/static/images/smartCanteen/foodicon02.png'
-import foodicon03 from '@/static/images/smartCanteen/foodicon03.png'
-import logo from '@/static/images/smartCanteen/logo.png'
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
 import { useMessage, useToast } from 'wot-design-uni'
+import foodicon01 from '../static/images/smartCanteen/foodicon01.png'
+import foodicon02 from '../static/images/smartCanteen/foodicon02.png'
+import foodicon03 from '../static/images/smartCanteen/foodicon03.png'
+import logo from '../static/images/smartCanteen/logo.png'
 
 // realNameAuthentication: true,
 const userStore = useUserStore()
