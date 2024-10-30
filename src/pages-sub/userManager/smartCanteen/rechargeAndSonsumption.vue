@@ -8,14 +8,14 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
-import dayjs from 'dayjs'
-import recordicon from '@/static/images/transit/recordicon.png'
 import {
+  cardRealNameQuery,
   getCardInfo,
   getTransitCardTradeDetails,
-  cardRealNameQuery,
 } from '@/service/api/userMessage'
+
+import { routeTo } from '@/utils'
+import dayjs from 'dayjs'
 
 const title = ref('')
 const paging = ref(null)
@@ -98,7 +98,7 @@ onLoad((options) => {
       >
         <view class="flex justify-between items-center mb-14px">
           <view class="flex justify-between items-center">
-            <wd-img :src="recordicon" :width="22" :height="22"></wd-img>
+            <!-- <wd-img :src="recordicon" :width="22" :height="22"></wd-img> -->
             <wd-text
               :text="item.txntypedesc"
               size="16px"

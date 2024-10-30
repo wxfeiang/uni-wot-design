@@ -9,26 +9,21 @@
 </route>
 
 <script lang="ts" setup>
-import yue from '@/static/images/transit/yue.png'
-import chongzhi from '@/static/images/transit/chongzhi.png'
-import xiaofei from '@/static/images/transit/xiaofei.png'
-import laonianka from '@/static/images/transit/laonianka.png'
-import laoniankabg from '@/static/images/transit/laoniankabg.png'
-import laoniankaicon from '@/static/images/transit/laoniankaicon.png'
-import xueshengka from '@/static/images/transit/xueshengka.png'
-import xueshengkabg from '@/static/images/transit/xueshengkabg.png'
-import xueshengkaicon from '@/static/images/transit/xueshengkaicon.png'
-import putongka from '@/static/images/transit/putongka.png'
-import putongkaicon from '@/static/images/transit/putongkaicon.png'
-import putongkabg from '@/static/images/transit/putongkabg.png'
+import { getCardInfo, getTransitCardTradeDetails, getUserCard } from '@/service/api/userMessage'
 import { useUserStore } from '@/store/user'
 import { storeToRefs } from 'pinia'
-import {
-  getCardInfo,
-  getTransitCardTradeDetails,
-  cardRealNameQuery,
-  getUserCard,
-} from '@/service/api/userMessage'
+import chongzhi from '../static/images/transit/chongzhi.png'
+import laonianka from '../static/images/transit/laonianka.png'
+import laoniankabg from '../static/images/transit/laoniankabg.png'
+import laoniankaicon from '../static/images/transit/laoniankaicon.png'
+import putongka from '../static/images/transit/putongka.png'
+import putongkabg from '../static/images/transit/putongkabg.png'
+import putongkaicon from '../static/images/transit/putongkaicon.png'
+import xiaofei from '../static/images/transit/xiaofei.png'
+import xueshengka from '../static/images/transit/xueshengka.png'
+import xueshengkabg from '../static/images/transit/xueshengkabg.png'
+import xueshengkaicon from '../static/images/transit/xueshengkaicon.png'
+import yue from '../static/images/transit/yue.png'
 
 const { userInfo } = storeToRefs(useUserStore())
 const title = ref('公交乘车记录')

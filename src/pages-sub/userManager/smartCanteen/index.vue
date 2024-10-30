@@ -9,16 +9,15 @@
 </route>
 
 <script lang="ts" setup>
-import { routeTo } from '@/utils'
-import { useToast } from 'wot-design-uni'
-import dayjs from 'dayjs'
+import { getCardInfo2, getInfoId, getInfoList } from '@/service/api/userMessage'
 import { useUserStore } from '@/store'
-import foodicon01 from '@/static/images/smartCanteen/foodicon01.png'
-import foodicon02 from '@/static/images/smartCanteen/foodicon02.png'
-import foodicon03 from '@/static/images/smartCanteen/foodicon03.png'
-import logo from '@/static/images/smartCanteen/logo.png'
+import { routeTo } from '@/utils'
+import foodicon01 from '../static/images/smartCanteen/foodicon01.png'
+import foodicon02 from '../static/images/smartCanteen/foodicon02.png'
+import foodicon03 from '../static/images/smartCanteen/foodicon03.png'
+import logo from '../static/images/smartCanteen/logo.png'
 
-import { getInfoId, getCardInfo2, getInfoList } from '@/service/api/userMessage'
+import { useToast } from 'wot-design-uni'
 // realNameAuthentication: true,
 const userStore = useUserStore()
 
