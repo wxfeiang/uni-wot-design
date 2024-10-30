@@ -46,11 +46,19 @@ onUnload(() => {
               反馈类型
               <text class="color-red">*</text>
             </view>
-            <wd-radio-group v-model="model.adviceType" cell shape="button" checked-color="#1890ff">
-              <wd-radio :value="item.value" v-for="(item, index) in adviceType" :key="index">
-                {{ item.label }}
-              </wd-radio>
-            </wd-radio-group>
+            <view class="mx-[-5px]">
+              <wd-radio-group
+                v-model="model.adviceType"
+                cell
+                shape="button"
+                checked-color="#1890ff"
+              >
+                <wd-radio :value="item.value" v-for="(item, index) in adviceType" :key="index">
+                  {{ item.label }}
+                </wd-radio>
+              </wd-radio-group>
+            </view>
+
             <view class="pt-10px px-10px color-#000 font-600 text-14px">
               问题描述
               <text class="color-red">*</text>
