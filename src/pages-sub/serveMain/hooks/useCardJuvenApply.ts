@@ -79,7 +79,6 @@ const rules = {
   familyRelation: [{ required: true, message: '请选择亲属关系' }],
   dbrPhone: [{ required: true, message: '请输入代办人联系手机' }],
   dbrAddress: [{ required: true, message: '请输入代办人地址' }],
-
   name: [{ required: true, message: '请输入姓名' }],
   idCardNumber: [{ required: true, message: '请输入证件号码' }],
   idCardType: [{ required: true, message: '请选择证件类型' }],
@@ -102,6 +101,7 @@ const rules = {
   postcardName: [{ required: true, message: '请输入收件人地址姓名', trigger: 'blur' }],
   postcardPhone: [{ required: true, message: '请输入收件人地址手机号', trigger: 'blur' }],
   postcardAddress: [{ required: true, message: '请输入收件人地址地址', trigger: 'blur' }],
+  idName: [{ required: true, message: '请输入永居证证姓名', trigger: 'blur' }],
 }
 const { loading: loading2, send: sendCardData } = useRequest(
   (data) => cardFirstDbrApplication(data),

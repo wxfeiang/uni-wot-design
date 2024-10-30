@@ -177,6 +177,7 @@ async function goPay() {
     actualPrice: actualPrice.value, // 实际支付金额
     merchantId: shopMessage.value.merchantId,
     couponId: yhList.value[activeIndex.value]?.couponId ?? '',
+    receiveId: yhList.value[activeIndex.value]?.receiveId ?? '',
     payStatus: 1,
     payType: 'scan',
   }
@@ -189,7 +190,9 @@ onLoad(async (options) => {
   urlData.value = qs.parse(decodeURIComponent(options.url) || options.url)
   console.log('地址数据======', urlData.value)
   try {
-    await sendShopDetail({ shopId: urlData.value.merchantId }) //
+    await sendShopDetail({
+      shopId: '1835238852856737794', // urlData.value.merchantId
+    }) //
     // const shopdata: any =
     // console.log('🥒[shopMessage.value]:', JSON.stringify(shopdata))
     // shopMessage.value = shopdata
