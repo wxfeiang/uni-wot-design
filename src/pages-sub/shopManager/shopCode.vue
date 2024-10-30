@@ -38,89 +38,93 @@ cfig.value = {
 }
 // background: 'linear-gradient(131deg, #72c2fe 0%, #4055fe 100%)',
 const painter = ref()
-const poster = ref({
-  css: {
-    width: '750rpx',
-    margin: '0 auto',
-    background: '#4055fe',
-    opcity: '0.5',
-    padding: '0 20px',
-    borderRadius: '10px',
-  },
-  views: [
-    {
-      text: '商户收款码',
-      type: 'text',
-      css: {
-        display: 'block',
-        textAlign: 'center',
-        padding: '20px 0 ',
-        color: '#fff',
-        fontSize: '24px',
-        fontWeight: '600',
-      },
+const poster = ref()
+const createImg = () => {
+  return {
+    css: {
+      width: '750rpx',
+      margin: '0 auto',
+      background: '#4055fe',
+      opcity: '0.5',
+      padding: '0 20px',
+      borderRadius: '10px',
     },
-    {
-      type: 'view',
-      css: {
-        padding: '10px 20px 40px',
-        borderRadius: '10px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        boxSizing: 'border-box',
-        margin: '0 auto',
-        background: '#fff',
-      },
-      views: [
-        {
-          text: shopMessage.value.merchantName,
-          type: 'text',
-          css: {
-            display: 'block',
-            textAlign: 'center',
-            padding: '20px 0',
-            color: '#000',
-            fontSize: '18px',
-            height: '20px',
-          },
+    views: [
+      {
+        text: '商户收款码',
+        type: 'text',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          padding: '20px 0 ',
+          color: '#fff',
+          fontSize: '24px',
+          fontWeight: '600',
         },
-        {
-          type: 'view',
-          css: {
-            width: '232px',
-            height: '232px',
-          },
-          views: [
-            {
-              type: 'image',
-              src: qrCodeImg,
-              css: {
-                width: '100%',
-                height: '100%',
-              },
+      },
+      {
+        type: 'view',
+        css: {
+          padding: '10px 20px 40px',
+          borderRadius: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxSizing: 'border-box',
+          margin: '0 auto',
+          background: '#fff',
+        },
+        views: [
+          {
+            text: shopMessage.value.merchantName,
+            type: 'text',
+            css: {
+              display: 'block',
+              textAlign: 'center',
+              padding: '20px 0',
+              color: '#000',
+              fontSize: '18px',
+              height: '20px',
             },
-          ],
-        },
-      ],
-    },
-    {
-      text: '打开雄安一卡通【扫一扫】',
-      type: 'text',
-      css: {
-        display: 'block',
-        textAlign: 'center',
-        padding: '20px 0 ',
-        color: '#fff',
-        fontSize: '16px',
+          },
+          {
+            type: 'view',
+            css: {
+              width: '232px',
+              height: '232px',
+            },
+            views: [
+              {
+                type: 'image',
+                src: qrCodeImg,
+                css: {
+                  width: '100%',
+                  height: '100%',
+                },
+              },
+            ],
+          },
+        ],
       },
-    },
-  ],
-})
+      {
+        text: '打开雄安一卡通【扫一扫】',
+        type: 'text',
+        css: {
+          display: 'block',
+          textAlign: 'center',
+          padding: '20px 0 ',
+          color: '#fff',
+          fontSize: '16px',
+        },
+      },
+    ],
+  }
+}
 const downLoadQrcode = () => {
   qrcode.value?.save().then((img) => {
     show.value = true
     qrCodeImg.value = img
+    poster.value = createImg()
     painter.value.render(poster.value)
     painter.value.canvasToTempFilePathSync({
       // 在nvue里是jpeg
