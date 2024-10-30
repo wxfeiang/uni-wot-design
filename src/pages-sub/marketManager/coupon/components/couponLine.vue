@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { removeT } from '@/utils/index'
 import status3 from '../../static/images/coupon/status3.png'
 import { couponDetailProps } from '../utils/types'
 import userCoupon from '../utils/userCoupon'
@@ -69,7 +70,7 @@ const url = ref(
           <view class="text-16px">{{ props.data.price }}元无门槛优惠券红包</view>
           <view v-if="props.status">
             <view>核销人: {{ props.data.bUserName }}</view>
-            <view>核销时间: {{ props.data.createTime }}</view>
+            <view>核销时间: {{ removeT(props.data.createTime) }}</view>
             <view>使用人员: {{ props.data.aUserName }}</view>
           </view>
         </view>
