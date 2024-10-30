@@ -16,25 +16,19 @@ import { useMessage } from 'wot-design-uni'
 import caeama from '../static/images/caeama.png'
 
 import anvter1 from '@/static/images/mine/anvter1.png'
-import { computed } from 'vue'
 const { isLogined, userInfo } = storeToRefs(useUserStore())
 const authStore = useUserStore()
 const message = useMessage()
 const title = ref('个人信息')
 
-const avatarArr = computed(() => {
-  const a = userInfo.value.userAvatar ?? anvter1
-  console.log('🍯[a ]:', a)
-  return a
-})
+const avatarArr = ref(userInfo.value.userAvatar ?? anvter1)
 
-// ref(userInfo.value.userAvatar ?? anvter1)
+// computed(() => {
+//   return userInfo.value.userAvatar ?? anvter1
+// })
 
 const lastStr = (file: any) => {
   model.value.userAvatar = file.url
-}
-const upsuccess = () => {
-  submit()
 }
 
 const {
@@ -77,6 +71,7 @@ const submit = async () => {
     const data: any = await sendUseInfo()
     show.value = false
     authStore.setUserInfo({ ...userInfo.value, ...data })
+    avatarArr.value = data.userAvatar
   } catch (error) {
     console.log('🍉[error]:', error)
   }
@@ -107,7 +102,7 @@ const btnClick = async (item: any) => {
                 :limit="20"
                 :showFileList="true"
                 @last="lastStr"
-                @success="upsuccess"
+                @success="submit"
                 :defaultAttrs="{
                   btn: true,
                   preview: true,
@@ -126,7 +121,7 @@ const btnClick = async (item: any) => {
                     <wd-img
                       :width="80"
                       :height="80"
-                      :src="model.userAvatar"
+                      :src="avatarArr"
                       round
                       :enable-preview="true"
                     />
