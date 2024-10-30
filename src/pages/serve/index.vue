@@ -214,7 +214,7 @@ function gridClick(item: any) {
           uni.navigateTo({ url: redirectRoute })
         }
       })
-    } else if (!userInfo.value.cardId) {
+    } else if (userInfo.value.socialCardType === '0') {
       return toast.show('未查询到您的交通卡号！')
     } else {
       routeTo({

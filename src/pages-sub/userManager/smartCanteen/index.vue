@@ -1,7 +1,7 @@
 <route lang="json5" type="page">
 {
   layout: 'default',
-
+  realNameAuthentication: true,
   style: {
     navigationStyle: 'custom',
   },
@@ -10,14 +10,14 @@
 
 <script lang="ts" setup>
 import { getCardInfo2, getInfoId, getInfoList } from '@/service/api/userMessage'
+import foodicon01 from '@/static/images/smartCanteen/foodicon01.png'
+import foodicon02 from '@/static/images/smartCanteen/foodicon02.png'
+import foodicon03 from '@/static/images/smartCanteen/foodicon03.png'
+import logo from '@/static/images/smartCanteen/logo.png'
 import { useUserStore } from '@/store'
 import { routeTo } from '@/utils'
-import foodicon01 from '../static/images/smartCanteen/foodicon01.png'
-import foodicon02 from '../static/images/smartCanteen/foodicon02.png'
-import foodicon03 from '../static/images/smartCanteen/foodicon03.png'
-import logo from '../static/images/smartCanteen/logo.png'
+import { useMessage, useToast } from 'wot-design-uni'
 
-import { useToast } from 'wot-design-uni'
 // realNameAuthentication: true,
 const userStore = useUserStore()
 
@@ -29,33 +29,42 @@ const info: any = ref({})
 const name: any = ref('')
 const money: any = ref({})
 const lists: any = ref([])
-
+const message = useMessage()
 const show = ref(false)
 const GInfoId = () => {
   getInfoId({
     pageNo: 1,
     pageSize: 10,
-    // phone: userStore.userInfo.userPhone
-    phone: '19933331858',
   }).then((res) => {
     console.log('卡信息', res)
-    info.value = res.data.data.list[0] ? res.data.data.list[0] : {}
-
-    if (info.value.personName.length === 2) {
-      name.value = info.value.personName.slice(0, 1) + '*'
-    } else if (info.value.personName.length === 3) {
-      name.value = info.value.personName.slice(0, 1) + '*' + info.value.personName.slice(2, 3)
+    if (res.data.data.list.length === 0) {
+      message
+        .alert({
+          msg: '未查询到您的食堂卡号！',
+          title: '提示',
+        })
+        .then((e) => {
+          uni.navigateBack()
+        })
     } else {
-      name.value =
-        info.value.personName.slice(0, 1) +
-        '*' +
-        info.value.personName.slice(2, info.value.personName.length)
-    }
+      info.value = res.data.data.list[0] ? res.data.data.list[0] : {}
 
-    personId.value = res.data.data.list[0].personId
-    console.log(info.value)
-    Gcardinfo()
-    GinfoList()
+      if (info.value.personName.length === 2) {
+        name.value = info.value.personName.slice(0, 1) + '*'
+      } else if (info.value.personName.length === 3) {
+        name.value = info.value.personName.slice(0, 1) + '*' + info.value.personName.slice(2, 3)
+      } else {
+        name.value =
+          info.value.personName.slice(0, 1) +
+          '*' +
+          info.value.personName.slice(2, info.value.personName.length)
+      }
+
+      personId.value = res.data.data.list[0].personId
+      console.log(info.value)
+      Gcardinfo()
+      GinfoList()
+    }
   })
 }
 
@@ -107,7 +116,13 @@ function toMingxi(item) {
 <template>
   <view class="flex flex-col bg-no-repeat dy-blue-bg2" style="min-height: 100vh">
     <view>
-      <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
+      <dy-navbar
+        :leftTitle="title"
+        left
+        isNavShow
+        color="#000"
+        custom-style="background:#f2f3f7;position: relative;"
+      ></dy-navbar>
       <view class="topbg pos-relative">
         <!--        <view-->
         <!--          class="brge pos-absolute pos-top-none pos-right-none flex justify-center items-center"-->
@@ -293,13 +308,6 @@ function toMingxi(item) {
 }
 
 .dy-blue-bg2 {
-  background: linear-gradient(
-    180deg,
-    #d6eafe 0%,
-    #d6eafe 0%,
-    #d6eafe 0%,
-    #f3f4f6 40%,
-    #f2f3f7 100%
-  ) !important;
+  background: linear-gradient(180deg, #f3f4f6, #f3f4f6, #f3f4f6, #f3f4f6, #f2f3f7) !important;
 }
 </style>
