@@ -24,6 +24,7 @@ const couponId = ref('')
 const orderId = ref('')
 const PayType = ref('scan')
 const userId = ref('')
+const receiveId = ref()
 
 actualPrice.value = inValue.value
 const payFlog = ref(false)
@@ -75,6 +76,7 @@ async function getOrderMess() {
         merchantId: merchantId.value, // '1833701004270182401', // 商户Id
         openId: store.opendId, // 用户子标识 // 'o9c597VL1g5NaeyE4bolz1PKs2SA',
         couponId: couponId.value, //
+        receiveId: receiveId.value, //   优惠券id
       }
       data = await sendPay(params)
     }
@@ -133,6 +135,8 @@ onShow(async () => {
   merchantId.value = data.referrerInfo?.extraData?.merchantId
   couponId.value = data.referrerInfo?.extraData?.couponId
   userId.value = data.referrerInfo?.extraData?.userId
+  receiveId.value = data.referrerInfo?.extraData?.receiveId
+
   // 支付状态false 携带支付
   if (!payFlog.value && data.referrerInfo?.extraData?.payStatus === 1) {
     await getOrderMess()
