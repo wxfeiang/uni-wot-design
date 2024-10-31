@@ -201,27 +201,10 @@ function gridClick(item: any) {
   } else if (item.type === '4') {
     openWxChart(item.appId, item.path)
   } else if (item.type === '8') {
-    if (!userInfo.value.idCardNumber) {
-      Modal({
-        title: '提示',
-        content: '您还没有实名认证,请先认证？',
-        showCancel: true,
-      }).then((res: any) => {
-        if (res.confirm) {
-          // 重定向
-          const router = '/pages/login/loginsmrz'
-          const redirectRoute = `${router}?redirect=${encodeURIComponent('/pages-sub/userManager/transit/list')}`
-          uni.navigateTo({ url: redirectRoute })
-        }
-      })
-    } else if (userInfo.value.socialCardType === '0') {
-      return toast.show('未查询到您的交通卡号！')
-    } else {
-      routeTo({
-        url: '/pages-sub/userManager/transit/list',
-        data: { base, title },
-      })
-    }
+    routeTo({
+      url: '/pages-sub/userManager/transit/list',
+      data: { base, title },
+    })
   } else if (item.type === '9') {
     routeTo({
       url: '/pages-sub/userManager/smartCanteen/index',

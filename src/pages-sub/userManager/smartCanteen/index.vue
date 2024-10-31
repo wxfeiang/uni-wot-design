@@ -21,7 +21,18 @@ import logo from '../static/images/smartCanteen/logo.png'
 // realNameAuthentication: true,
 const userStore = useUserStore()
 
-const value = ref('1')
+const canteenNameList = {
+  B5: {
+    name: 'B5食堂',
+    value: 'B5',
+  },
+  B7: {
+    name: 'B7食堂',
+    value: 'B7',
+  },
+}
+
+const value = ref('B7')
 const toast = useToast()
 const title = ref('智慧食堂')
 const personId: any = ref('')
@@ -38,6 +49,7 @@ const GInfoId = () => {
   }).then((res) => {
     console.log('卡信息', res)
     if (res.data.data.list.length === 0) {
+      info.value = ''
       message
         .alert({
           msg: '未查询到您的食堂卡号！',
@@ -69,10 +81,12 @@ const GInfoId = () => {
 }
 
 function Gcardinfo() {
-  getCardInfo2({ personId: personId.value }).then((res) => {
-    console.log('卡余额', res)
-    money.value = res.data.data.totalAccount / 100
-  })
+  getCardInfo2({ personId: personId.value, canteenName: canteenNameList[value.value].value }).then(
+    (res) => {
+      console.log('卡余额', res)
+      money.value = res.data.data.totalAccount / 100
+    },
+  )
 }
 
 function GinfoList() {
@@ -81,6 +95,8 @@ function GinfoList() {
     pageNo: 1,
     pageSize: 999,
     transactionTypes: '1,5',
+
+    canteenName: canteenNameList[value.value].value,
     endTime:
       new Date(new Date().getTime() + 1000 * 60 * 60 * 8).toISOString().slice(0, 19) + '+08:00',
     startTime:
@@ -91,6 +107,12 @@ function GinfoList() {
     console.log('列表', res)
     lists.value = res.data.data.rows
   })
+}
+
+function change() {
+  show.value = false
+  GinfoList()
+  Gcardinfo()
 }
 
 const formatTimeA = (val) => {
@@ -125,17 +147,22 @@ function toMingxi(item) {
         color="#000"
         custom-style="background: transparent;position: relative;"
       ></dy-navbar>
-      <view class="topbg pos-relative">
-        <!--        <view-->
-        <!--          class="brge pos-absolute pos-top-none pos-right-none flex justify-center items-center"-->
-        <!--          @click="show = true"-->
-        <!--        >-->
-        <!--          <wd-img :src="qiehuan" :width="13" :height="11" custom-class="mr-5px"></wd-img>-->
-        <!--          <wd-text text="切换食堂" color="#A5D8FF" size="12px"></wd-text>-->
-        <!--        </view>-->
+      <view class="topbg pos-relative" v-if="personId">
+        <view
+          class="brge pos-absolute pos-top-none pos-right-none flex justify-center items-center"
+          @click="show = true"
+        >
+          <wd-img :src="qiehuan" :width="13" :height="11" custom-class="mr-5px"></wd-img>
+          <wd-text text="切换食堂" color="#A5D8FF" size="12px"></wd-text>
+        </view>
         <view class="flex items-center">
           <wd-img :src="logo" :width="40" :height="40" custom-class="mr-11px"></wd-img>
-          <wd-text text="智慧食堂" size="20px" color="#fff" lineHeight="28px"></wd-text>
+          <wd-text
+            :text="canteenNameList[value].name"
+            size="20px"
+            color="#fff"
+            lineHeight="28px"
+          ></wd-text>
         </view>
         <!--        <view class="flex justify-end">-->
         <!--          <wd-text text="￥200" size="26px" color="#fff" bold></wd-text>-->
@@ -155,7 +182,7 @@ function toMingxi(item) {
         </view>
       </view>
     </view>
-    <view class="px-15px box-border">
+    <view class="px-15px box-border" v-if="personId">
       <view
         class="mb-10px p-15px bg-#fff rounded-6px box-border w-full flex justify-between items-center"
       >
@@ -179,71 +206,74 @@ function toMingxi(item) {
       </view>
 
       <wd-text text="近期交易记录" size="14px" color="#333" bold custom-class="py-2"></wd-text>
+      <view v-if="lists.length > 0">
+        <view v-for="(it, ind) in lists" :key="ind">
+          <view
+            v-if="it.transactionType === 1"
+            class="my-10px p-15px bg-#fff rounded-6px box-border w-full flex justify-between items-center"
+          >
+            <view class="flex items-center justify-left">
+              <view class="">
+                <view class="mb-5px flex items-center justify-left">
+                  <wd-img :width="22" :height="22" :src="foodicon02" custom-class="mr-5px"></wd-img>
+                  <wd-text text="充值" size="14px" color="#000" bold></wd-text>
+                </view>
+                <view class="flex items-center justify-left">
+                  <wd-text
+                    :text="formatTimeA(it.debitTime)"
+                    size="12px"
+                    color="#999"
+                    custom-class="mr-10px"
+                  ></wd-text>
+                  <wd-text :text="formatTimeB(it.debitTime)" size="12px" color="#999"></wd-text>
+                </view>
+              </view>
+            </view>
+            <view>
+              <wd-text
+                :text="it.deduction / 100"
+                size="14px"
+                color="#49940f"
+                mode="price"
+                suffix="元"
+              ></wd-text>
+            </view>
+          </view>
+          <view
+            v-if="it.transactionType === 5"
+            class="my-10px p-15px bg-#fff rounded-6px box-border w-full flex justify-between items-center"
+          >
+            <view class="flex items-center justify-left">
+              <view class="">
+                <view class="mb-5px flex items-center justify-left">
+                  <wd-img :width="22" :height="22" :src="foodicon03" custom-class="mr-5px"></wd-img>
+                  <wd-text text="消费" size="14px" color="#000" bold></wd-text>
+                </view>
+                <view class="flex items-center justify-left">
+                  <wd-text
+                    :text="formatTimeA(it.debitTime)"
+                    size="12px"
+                    color="#999"
+                    custom-class="mr-10px"
+                  ></wd-text>
+                  <wd-text :text="formatTimeB(it.debitTime)" size="12px" color="#999"></wd-text>
+                </view>
+              </view>
+            </view>
+            <view>
+              <wd-text
+                :text="it.deduction / 100"
+                size="14px"
+                color="#f28b89"
+                mode="price"
+                suffix="元"
+              ></wd-text>
+            </view>
+          </view>
+        </view>
+      </view>
 
-      <template v-for="(it, ind) in lists" :key="ind">
-        <view
-          v-if="it.transactionType === 1"
-          class="my-10px p-15px bg-#fff rounded-6px box-border w-full flex justify-between items-center"
-        >
-          <view class="flex items-center justify-left">
-            <view class="">
-              <view class="mb-5px flex items-center justify-left">
-                <wd-img :width="22" :height="22" :src="foodicon02" custom-class="mr-5px"></wd-img>
-                <wd-text text="充值" size="14px" color="#000" bold></wd-text>
-              </view>
-              <view class="flex items-center justify-left">
-                <wd-text
-                  :text="formatTimeA(it.debitTime)"
-                  size="12px"
-                  color="#999"
-                  custom-class="mr-10px"
-                ></wd-text>
-                <wd-text :text="formatTimeB(it.debitTime)" size="12px" color="#999"></wd-text>
-              </view>
-            </view>
-          </view>
-          <view>
-            <wd-text
-              :text="it.deduction / 100"
-              size="14px"
-              color="#49940f"
-              mode="price"
-              suffix="元"
-            ></wd-text>
-          </view>
-        </view>
-        <view
-          v-if="it.transactionType === 5"
-          class="my-10px p-15px bg-#fff rounded-6px box-border w-full flex justify-between items-center"
-        >
-          <view class="flex items-center justify-left">
-            <view class="">
-              <view class="mb-5px flex items-center justify-left">
-                <wd-img :width="22" :height="22" :src="foodicon03" custom-class="mr-5px"></wd-img>
-                <wd-text text="消费" size="14px" color="#000" bold></wd-text>
-              </view>
-              <view class="flex items-center justify-left">
-                <wd-text
-                  :text="formatTimeA(it.debitTime)"
-                  size="12px"
-                  color="#999"
-                  custom-class="mr-10px"
-                ></wd-text>
-                <wd-text :text="formatTimeB(it.debitTime)" size="12px" color="#999"></wd-text>
-              </view>
-            </view>
-          </view>
-          <view>
-            <wd-text
-              :text="it.deduction / 100"
-              size="14px"
-              color="#f28b89"
-              mode="price"
-              suffix="元"
-            ></wd-text>
-          </view>
-        </view>
-      </template>
+      <wd-status-tip image="content" tip="暂无数据" v-else />
     </view>
   </view>
   <wd-popup
@@ -259,14 +289,20 @@ function toMingxi(item) {
     </view>
     <view class="flex-1 overflow-y-auto mt-30px">
       <wd-radio-group v-model="value" inline shape="dot" checked-color="#F44D24">
-        <view class="w-full flex items-center mb-10px" v-for="i in 20" :key="i">
-          <wd-radio value="1"></wd-radio>
-          <wd-text :text="'单选框' + i" size="18px" color="#000000"></wd-text>
+        <view class="w-full flex items-center mb-10px">
+          <wd-radio value="B7"></wd-radio>
+          <wd-text :text="'B7 食堂'" size="18px" color="#000000"></wd-text>
+        </view>
+        <view class="w-full flex items-center mb-10px">
+          <wd-radio value="B5"></wd-radio>
+          <wd-text :text="'B5 食堂'" size="18px" color="#000000"></wd-text>
         </view>
       </wd-radio-group>
     </view>
+
     <view
       class="w-full h-40px flex justify-center items-center bg-#2D69EF color-#fff border-rd-6px mt-30px"
+      @click="change"
     >
       确认切换
     </view>

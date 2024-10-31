@@ -24,11 +24,13 @@ import xueshengka from '../static/images/transit/xueshengka.png'
 import xueshengkabg from '../static/images/transit/xueshengkabg.png'
 import xueshengkaicon from '../static/images/transit/xueshengkaicon.png'
 import yue from '../static/images/transit/yue.png'
+import { useMessage } from 'wot-design-uni/index'
 
 const { userInfo } = storeToRefs(useUserStore())
 const title = ref('公交乘车记录')
 const paging = ref(null)
 const conponList: any = ref([])
+const message = useMessage()
 const form = reactive({
   cardno: '',
   cardtype: '',
@@ -48,6 +50,7 @@ const nameHide = (name) => {
     return name // 王五哈哈显示为王**哈
   }
 }
+
 async function queryList(pageNo: number, pageSize: number) {
   // 调用接口获取数据
   try {
@@ -78,9 +81,21 @@ const getCardinfo = () => {
 onShow(() => {
   console.log('userInfo', userInfo.value)
   getUserCard({ cardId: userInfo.value.cardId }).then((res: any) => {
-    form.cardno = res.trafficNumber
-    getCardinfo()
-    paging.value.reload()
+    if (!res.trafficNumber) {
+      form.cardno = ''
+      message
+        .alert({
+          msg: '未查询到您的公交卡号！',
+          title: '提示',
+        })
+        .then((e) => {
+          uni.navigateBack()
+        })
+    } else {
+      form.cardno = res.trafficNumber
+      getCardinfo()
+      paging.value.reload()
+    }
   })
 })
 </script>
@@ -96,7 +111,7 @@ onShow(() => {
   >
     <template #top>
       <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-      <view class="px-15px box-border">
+      <view class="px-15px box-border" v-if="form.cardno">
         <view class="topbg flex justify-between items-center pos-relative">
           <view class="flex flex-col justify-around py-11px box-border h-full">
             <view class="pl-20px">
