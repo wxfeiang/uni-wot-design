@@ -123,6 +123,7 @@ export function getInfoList(data) {
 export function getTransitCardTradeDetails(data) {
   const meta: METHOD_INSTANCE = {
     loading: true,
+    resAll: true,
     Analysis: true,
   }
   return request.Post(
@@ -159,7 +160,7 @@ export function cardRealNameQuery(data) {
 export function getCardInfo(data) {
   const meta: METHOD_INSTANCE = {
     loading: true,
-    Analysis: true,
+    resAll: true,
     ignorEencrypt: true,
   }
   return request.Post(

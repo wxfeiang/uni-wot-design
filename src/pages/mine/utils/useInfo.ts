@@ -101,6 +101,7 @@ const serveOrderList = ref<serveListProps[]>([
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=2',
     props: 'ywc',
+    hidden: true,
   },
   {
     label: '退款/售后',

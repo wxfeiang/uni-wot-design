@@ -164,7 +164,7 @@ const mainData3 = ref([
     sTitle: '公交服务',
     list: [
       {
-        title: '消费记录',
+        title: '余额查询',
         icon: 'jrcs',
         url: gjlu1,
         type: '8',

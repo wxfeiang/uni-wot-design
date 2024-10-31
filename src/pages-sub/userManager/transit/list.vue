@@ -60,7 +60,7 @@ async function queryList(pageNo: number, pageSize: number) {
     }
     getTransitCardTradeDetails(obj).then((res: any) => {
       console.log('交通卡充值记录', res)
-      paging.value.complete(res.txndetail)
+      paging.value.complete(res.data.data.txndetail)
     })
   } catch (error) {
     paging.value.complete(false)
@@ -69,9 +69,9 @@ async function queryList(pageNo: number, pageSize: number) {
 
 const getCardinfo = () => {
   getCardInfo({ cardno: form.cardno }).then((res: any) => {
-    console.log('交通卡信息', res)
-    form.cardtype = res.cardtype
-    form.cardbal = res.cardbal
+    console.log('交通卡信息', res.data.data)
+    form.cardtype = res.data.data.cardtype
+    form.cardbal = res.data.data.cardbal
   })
 }
 
@@ -96,54 +96,62 @@ onShow(() => {
   >
     <template #top>
       <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-      <view class="topbg flex justify-between items-center pos-relative">
-        <view class="flex flex-col justify-around py-11px box-border h-full">
-          <view class="pl-20px">
-            <wd-text :text="nameHide(userInfo.cardName)" size="16px" color="#FFF"></wd-text>
+      <view class="px-15px box-border">
+        <view class="topbg flex justify-between items-center pos-relative">
+          <view class="flex flex-col justify-around py-11px box-border h-full">
+            <view class="pl-20px">
+              <wd-text :text="nameHide(userInfo.cardName)" size="16px" color="#FFF"></wd-text>
+            </view>
+            <view class="w-247px h-35px cardno pl-20px box-border">
+              <wd-text text="卡号：" size="16px" bold color="#fff"></wd-text>
+              <wd-text :text="form.cardno" size="16px" bold color="#fff"></wd-text>
+            </view>
+            <view class="pl-20px" v-if="false">
+              <wd-text text="年检时间：" size="12px" color="#C5DEFF"></wd-text>
+              <wd-text text="2020年10月20日" size="12px" color="#C5DEFF"></wd-text>
+            </view>
           </view>
-          <view class="w-247px h-35px cardno pl-20px box-border">
-            <wd-text text="卡号：" size="16px" bold color="#fff"></wd-text>
-            <wd-text :text="form.cardno" size="16px" bold color="#fff"></wd-text>
+          <view class="pos-absolute pos-top--2px pos-right--2px">
+            <wd-img :src="laoniankabg" :width="104" :height="37" v-if="form.cardtype === '0301'" />
+            <wd-img :src="xueshengkabg" :width="104" :height="37" v-if="form.cardtype === '0201'" />
+            <wd-img :src="putongkabg" :width="104" :height="37" v-if="form.cardtype === '0100'" />
           </view>
-          <view class="pl-20px" v-if="false">
-            <wd-text text="年检时间：" size="12px" color="#C5DEFF"></wd-text>
-            <wd-text text="2020年10月20日" size="12px" color="#C5DEFF"></wd-text>
+          <view class="pos-absolute pos-top-4px pos-right-20px">
+            <wd-img :src="laonianka" :width="48" :height="22" v-if="form.cardtype === '0301'" />
+            <wd-img :src="xueshengka" :width="48" :height="22" v-if="form.cardtype === '0201'" />
+            <wd-img :src="putongka" :width="48" :height="22" v-if="form.cardtype === '0100'" />
+          </view>
+          <view class="pos-absolute pos-bottom-10px pos-right-22px">
+            <wd-img :src="laoniankaicon" :width="54" :height="63" v-if="form.cardtype === '0301'" />
+            <wd-img
+              :src="xueshengkaicon"
+              :width="54"
+              :height="58"
+              v-if="form.cardtype === '0201'"
+            />
+            <wd-img :src="putongkaicon" :width="65" :height="63" v-if="form.cardtype === '0100'" />
           </view>
         </view>
-        <view class="pos-absolute pos-top--2px pos-right--2px">
-          <wd-img :src="laoniankabg" :width="104" :height="37" v-if="form.cardtype === '0301'" />
-          <wd-img :src="xueshengkabg" :width="104" :height="37" v-if="form.cardtype === '0201'" />
-          <wd-img :src="putongkabg" :width="104" :height="37" v-if="form.cardtype === '0100'" />
+
+        <view
+          class="w-full flex items-center justify-between px-13px py-15px box-border bg-white border-rd-5px"
+        >
+          <view class="flex items-center">
+            <wd-img :src="yue" :width="22" :height="22"></wd-img>
+            <wd-text text="余额" size="16px" color="#000" custom-class="ml-8px"></wd-text>
+          </view>
+          <wd-text
+            :text="`￥${(form.cardbal / 100).toFixed(2)}元`"
+            size="16px"
+            color="#F44D24"
+          ></wd-text>
         </view>
-        <view class="pos-absolute pos-top-4px pos-right-20px">
-          <wd-img :src="laonianka" :width="48" :height="22" v-if="form.cardtype === '0301'" />
-          <wd-img :src="xueshengka" :width="48" :height="22" v-if="form.cardtype === '0201'" />
-          <wd-img :src="putongka" :width="48" :height="22" v-if="form.cardtype === '0100'" />
+        <view class="my-14px">
+          <wd-text text="近期交易记录" size="16px" bold color="#000"></wd-text>
         </view>
-        <view class="pos-absolute pos-bottom-10px pos-right-22px">
-          <wd-img :src="laoniankaicon" :width="54" :height="63" v-if="form.cardtype === '0301'" />
-          <wd-img :src="xueshengkaicon" :width="54" :height="58" v-if="form.cardtype === '0201'" />
-          <wd-img :src="putongkaicon" :width="65" :height="63" v-if="form.cardtype === '0100'" />
-        </view>
-      </view>
-      <view
-        class="w-full flex items-center justify-between px-13px py-15px box-border bg-white border-rd-5px"
-      >
-        <view class="flex items-center">
-          <wd-img :src="yue" :width="22" :height="22"></wd-img>
-          <wd-text text="余额" size="16px" color="#000" custom-class="ml-8px"></wd-text>
-        </view>
-        <wd-text
-          :text="`￥${(form.cardbal / 100).toFixed(2)}元`"
-          size="16px"
-          color="#F44D24"
-        ></wd-text>
-      </view>
-      <view class="my-14px">
-        <wd-text text="近期交易记录" size="16px" bold color="#000"></wd-text>
       </view>
     </template>
-    <view>
+    <view class="px-15px box-border">
       <view
         class="my-10px p-15px bg-#fff rounded-6px box-border"
         v-for="(item, index) in conponList"

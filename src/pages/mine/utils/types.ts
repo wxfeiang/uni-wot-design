@@ -15,6 +15,7 @@ interface serveListProps {
   icon: string
   path: string
   props?: any // 对应字段
+  hidden?: boolean
 }
 interface msCountProps {
   totalOrderNumDay?: string // 今日订单数
