@@ -81,7 +81,7 @@ const getCardinfo = () => {
 onShow(() => {
   console.log('userInfo', userInfo.value)
   getUserCard({ cardId: userInfo.value.cardId }).then((res: any) => {
-    if (res.trafficNumber) {
+    if (!res.trafficNumber) {
       message
         .alert({
           msg: '未查询到您的公交卡号！',
