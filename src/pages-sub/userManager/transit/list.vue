@@ -82,6 +82,7 @@ onShow(() => {
   console.log('userInfo', userInfo.value)
   getUserCard({ cardId: userInfo.value.cardId }).then((res: any) => {
     if (!res.trafficNumber) {
+      form.cardno = ''
       message
         .alert({
           msg: '未查询到您的公交卡号！',
@@ -110,7 +111,7 @@ onShow(() => {
   >
     <template #top>
       <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-      <view class="px-15px box-border">
+      <view class="px-15px box-border" v-if="form.cardno">
         <view class="topbg flex justify-between items-center pos-relative">
           <view class="flex flex-col justify-around py-11px box-border h-full">
             <view class="pl-20px">
