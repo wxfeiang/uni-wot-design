@@ -320,7 +320,7 @@ onPageScroll((e) => {
     <wd-skeleton
       animation="flashed"
       :row-col="[{ width: '100%', height: '135px' }]"
-      :loading="swiperListLoading"
+      :loading="swiperListLoading && !swiperListData!.content"
     >
       <wd-swiper
         :list="swiperListData!.content"
