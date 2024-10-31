@@ -28,11 +28,11 @@ import xxtz from '@/static/images/mine/xxtz.png'
 import { routeTo } from '@/utils'
 
 import { getBusinessInfo, getOrderStatistics } from '@/service/api/shop'
-import daifahuo from '../../../static/images/mine/daifahuo.png'
-import dafukuan from '../../../static/images/mine/daifukuan.png'
-import daishouhuo from '../../../static/images/mine/daishouhuo.png'
-import shouhou from '../../../static/images/mine/shouhoudd.png'
-import yiwancheng from '../../../static/images/mine/yiwancheng.png'
+import daifahuo1 from '@/static/images/mine/daifahuo1.png'
+import dafukuan1 from '@/static/images/mine/daifukuan1.png'
+import daishouhuo1 from '@/static/images/mine/daishouhuo1.png'
+import shouhou1 from '@/static/images/mine/shouhoudd1.png'
+import yiwancheng1 from '@/static/images/mine/yiwancheng1.png'
 
 import level1 from '@/static/images/mine/level1.png'
 import level2 from '@/static/images/mine/level2.png'
@@ -76,28 +76,28 @@ const topList = ref<serveProps[]>([
 const serveOrderList = ref<serveListProps[]>([
   {
     label: '待付款',
-    icon: dafukuan,
+    icon: dafukuan1,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=1',
     props: 'dfk',
   },
   {
     label: '待发货',
-    icon: daifahuo,
+    icon: daifahuo1,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=10',
     props: 'dfh',
   },
   {
     label: '待收货',
-    icon: daishouhuo,
+    icon: daishouhuo1,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=11',
     props: 'dsh',
   },
   {
     label: '已完成',
-    icon: yiwancheng,
+    icon: yiwancheng1,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=2',
     props: 'ywc',
@@ -105,7 +105,7 @@ const serveOrderList = ref<serveListProps[]>([
   },
   {
     label: '退款/售后',
-    icon: shouhou,
+    icon: shouhou1,
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=20,21,22,23,25,26',
     props: 'sh',
