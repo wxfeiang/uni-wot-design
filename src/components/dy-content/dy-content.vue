@@ -26,7 +26,7 @@ const props = defineProps({
     :class="props.customClass"
   >
     <slot name="top"></slot>
-    <view :class="props.customClassCenter" :style="`${props.customstyleCenter}`">
+    <view class="flex-1" :class="props.customClassCenter" :style="`${props.customstyleCenter}`">
       <scroll-view scroll-y="true" class="scroll-Y">
         <slot></slot>
       </scroll-view>
@@ -39,6 +39,5 @@ const props = defineProps({
 <style lang="scss" scoped>
 .scroll-Y {
   position: relative;
-  flex: 1;
 }
 </style>
