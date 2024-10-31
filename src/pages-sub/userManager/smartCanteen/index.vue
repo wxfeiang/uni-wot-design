@@ -81,10 +81,12 @@ function GinfoList() {
     pageNo: 1,
     pageSize: 999,
     transactionTypes: '1,5',
-    endTime: new Date().toISOString().slice(0, 19) + '+08:00',
+    endTime:
+      new Date(new Date().getTime() + 1000 * 60 * 60 * 8).toISOString().slice(0, 19) + '+08:00',
     startTime:
-      new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30).toISOString().slice(0, 19) +
-      '+08:00',
+      new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30 + 1000 * 60 * 60 * 8)
+        .toISOString()
+        .slice(0, 19) + '+08:00',
   }).then((res) => {
     console.log('列表', res)
     lists.value = res.data.data.rows
@@ -121,7 +123,7 @@ function toMingxi(item) {
         left
         isNavShow
         color="#000"
-        custom-style="background:#f2f3f7;position: relative;"
+        custom-style="background: transparent;position: relative;"
       ></dy-navbar>
       <view class="topbg pos-relative">
         <!--        <view-->
@@ -308,6 +310,6 @@ function toMingxi(item) {
 }
 
 .dy-blue-bg2 {
-  background: linear-gradient(180deg, #f3f4f6, #f3f4f6, #f3f4f6, #f3f4f6, #f2f3f7) !important;
+  background: linear-gradient(180deg, #d1e9fe, #f3f4f6, #f3f4f6, #f3f4f6) !important;
 }
 </style>
