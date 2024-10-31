@@ -19,6 +19,7 @@ const userStore = useUserStore()
 
 const isFollow = ref(false)
 const topbgBase64 = ref('')
+const searchData = ref('')
 const paging = ref(null)
 const shopDetails: any = ref({})
 const goodList = ref([])
@@ -32,6 +33,7 @@ const model = reactive({
   frequently: '', // 销量排序
   sellPrice: '', // 价格排序
   shopId: '', // 店铺id
+  spuName: '',
 })
 const fllowShop = () => {
   if (!userStore.isLogined) {
@@ -61,19 +63,19 @@ const getShopDetails = () => {
   })
 }
 const getlocation = () => {
-  // const { lat, lon } = shopDetails.value
-  // uni.openLocation({
-  //   latitude: Number(lat),
-  //   longitude: Number(lon),
-  //   name: 'name',
-  //   address: '详细说明',
-  //   success: function () {
-  //     console.log('success')
-  //   },
-  //   fail: function (res) {
-  //     console.log(res)
-  //   },
-  // })
+  const { latitude, longitude } = shopDetails.value
+  uni.openLocation({
+    latitude: Number(latitude),
+    longitude: Number(longitude),
+    name: 'name',
+    address: '详细说明',
+    success: function () {
+      console.log('success')
+    },
+    fail: function (res) {
+      console.log(res)
+    },
+  })
 }
 const call = () => {
   console.log('打电话', shopDetails.value.shopPhone)
@@ -146,7 +148,11 @@ function getTagList() {
   }
   return list
 }
-
+const searchGoods = () => {
+  console.log('索索')
+  model.spuName = searchData.value
+  paging.value.reload()
+}
 onLoad(async (options) => {
   model.shopId = options.id
   console.log('model', model)
@@ -172,15 +178,37 @@ onLoad(async (options) => {
           "
           class="rounded-3xl px-4 text-left overflow-hidden flex justify-left items-center"
         >
-          <input class="text-14px flex" style="flex: 1" placeholder="请输入搜索关键词" />
-          <wd-icon name="search" size="16px" custom-class="ml-1 " color="#777777"></wd-icon>
+          <wd-input
+            v-model="searchData"
+            suffix-icon="search"
+            @confirm="searchGoods"
+            @clicksuffixicon="searchGoods"
+            style="width: 100%"
+            placeholder="请输入搜索关键词"
+            confirm-type="search "
+          />
+          <!-- <input
+            v-model="searchData"
+            class="text-14px flex"
+            style="flex: 1"
+            @input="onKeyInput"
+            confirm-type="search"
+            placeholder="请输入搜索关键词"
+          />
+          <wd-icon
+            name="search"
+            size="16px"
+            custom-class="ml-1 "
+            @click="searchGoods"
+            color="#777777"
+          ></wd-icon> -->
         </view>
       </view>
 
       <view class="w-full p-15px box-border bg-#F3F4F6">
         <view class="w-full pt-5px box-border bg-#3A3A3A border-rd-10px overflow-hidden">
           <view class="flex justify-between items-center px-4 pb-5px">
-            <view class="flex justify-left items-center">
+            <view class="flex justify-left items-center" @click="getlocation">
               <view class="color-#FFDEB2 font-14px mr-1" style="font-size: 12px">
                 {{ shopDetails.address }}
               </view>
@@ -206,7 +234,7 @@ onLoad(async (options) => {
                 <view v-if="!isFollow" class="guanzhu" @click="fllowShop">+关注</view>
                 <view v-else class="quxiao" @click="fllowShop">已关注</view>
               </view>
-              <view class="w-full flex items-center" @click="getlocation">
+              <view class="w-full flex items-center">
                 <view class="mr-5px" style="font-size: 14px; color: #999999">
                   粉丝：{{ shopDetails.shopFansCount }}
                 </view>
