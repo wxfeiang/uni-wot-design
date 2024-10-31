@@ -23,11 +23,11 @@ const userStore = useUserStore()
 
 const canteenNameList = {
   B5: {
-    name: 'B5食堂',
+    name: '智慧食堂B5',
     value: 'B5',
   },
   B7: {
-    name: 'B7食堂',
+    name: '智慧食堂B7',
     value: 'B7',
   },
 }
@@ -43,9 +43,16 @@ const lists: any = ref([])
 const message = useMessage()
 const show = ref(false)
 const GInfoId = () => {
+  show.value = false
+  personId.value = ''
+  info.value = {}
+  name.value = ''
+  money.value = {}
+  lists.value = []
   getInfoId({
     pageNo: 1,
     pageSize: 10,
+    canteenName: canteenNameList[value.value].value,
   }).then((res) => {
     console.log('卡信息', res)
     if (res.data.data.list.length === 0) {
@@ -110,9 +117,7 @@ function GinfoList() {
 }
 
 function change() {
-  show.value = false
-  GinfoList()
-  Gcardinfo()
+  GInfoId()
 }
 
 const formatTimeA = (val) => {

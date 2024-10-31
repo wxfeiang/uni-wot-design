@@ -274,12 +274,11 @@ onShow(async () => {
             :key="index"
             @click="dingdan(item.path)"
           >
-            <!-- <wd-badge :modelValue="myOrderData![item.props] ?? 0">
-             
-            </wd-badge> -->
-            <view>
-              <wd-img :src="item.icon" width="26" height="26"></wd-img>
-            </view>
+            <wd-badge :modelValue="myOrderData![item.props] ?? 0" :hidden="item.hidden">
+              <view>
+                <wd-img :src="item.icon" width="26" height="26"></wd-img>
+              </view>
+            </wd-badge>
             <view class="text-13px mt-3px">
               {{ item.label }}
             </view>

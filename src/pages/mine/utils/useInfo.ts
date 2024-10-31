@@ -25,16 +25,14 @@ import tsjy from '@/static/images/mine/tsjy.png'
 import wdkb from '@/static/images/mine/wdkb.png'
 import wdsbk from '@/static/images/mine/wdsbk.png'
 import xxtz from '@/static/images/mine/xxtz.png'
-
-import daifahuo1 from '@/static/images/mine/daifahuo1.png'
-import dafukuan1 from '@/static/images/mine/daifukuan1.png'
-import daishouhuo1 from '@/static/images/mine/daishouhuo1.png'
-import shouhou1 from '@/static/images/mine/shouhoudd1.png'
-import yiwancheng1 from '@/static/images/mine/yiwancheng1.png'
-
 import { routeTo } from '@/utils'
 
 import { getBusinessInfo, getOrderStatistics } from '@/service/api/shop'
+import daifahuo1 from '../../../static/images/mine/daifahuo1.png'
+import dafukuan1 from '../../../static/images/mine/daifukuan1.png'
+import daishouhuo1 from '../../../static/images/mine/daishouhuo1.png'
+import shouhou1 from '../../../static/images/mine/shouhoudd1.png'
+import yiwancheng1 from '../../../static/images/mine/yiwancheng1.png'
 
 import level1 from '@/static/images/mine/level1.png'
 import level2 from '@/static/images/mine/level2.png'
@@ -82,6 +80,7 @@ const serveOrderList = ref<serveListProps[]>([
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=1',
     props: 'dfk',
+    hidden: false,
   },
   {
     label: '待发货',
@@ -89,6 +88,7 @@ const serveOrderList = ref<serveListProps[]>([
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=10',
     props: 'dfh',
+    hidden: false,
   },
   {
     label: '待收货',
@@ -96,6 +96,7 @@ const serveOrderList = ref<serveListProps[]>([
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=11',
     props: 'dsh',
+    hidden: false,
   },
   {
     label: '已完成',
@@ -111,6 +112,7 @@ const serveOrderList = ref<serveListProps[]>([
     value: 0,
     path: '/pages-sub/order/orderList?tabsVal=20,21,22,23,25,26',
     props: 'sh',
+    hidden: false,
   },
 ])
 const grzqList = ref<serveProps[]>([

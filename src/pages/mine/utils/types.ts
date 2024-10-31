@@ -15,7 +15,7 @@ interface serveListProps {
   icon: string
   path: string
   props?: any // 对应字段
-  hidden?: boolean
+  hidden?: boolean // 是否隐藏badge
 }
 interface msCountProps {
   totalOrderNumDay?: string // 今日订单数
