@@ -107,7 +107,11 @@ onLoad(async () => {
     <view>
       <view class="py-10px">
         <view class="rounded-4px overflow-hidden" v-for="(item, index) in conponList" :key="index">
-          <Coupon-List :data="item" v-if="item.type !== 4"></Coupon-List>
+          <Coupon-List
+            :data="item"
+            v-if="item.type !== 4"
+            :detil="item.couponStatus !== 2 && item.couponStatus !== 1"
+          ></Coupon-List>
           <Coupon-ListWX2 v-else :data="item"></Coupon-ListWX2>
         </view>
       </view>

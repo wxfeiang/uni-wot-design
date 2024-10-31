@@ -241,12 +241,7 @@ onLoad(async () => {
               routeTo({ url: '/pages-sub/shopManager/shopHome', data: { id: item.shopBean.id } })
             "
           >
-            <wd-img
-              :width="80"
-              :height="80"
-              :src="item.shopInfo.businessLicenseUrl"
-              custom-class="img"
-            />
+            <wd-img :width="80" :height="80" :src="item.shopBean.shopAvatar" custom-class="img" />
             <view class="ml-15px flex-1 flex flex-col justify-between overflow-hidden">
               <view class="w-full mb-10px fw-600 flex justify-between items-center">
                 <view class="name flex-1">{{ item.shopInfo.name }}</view>
