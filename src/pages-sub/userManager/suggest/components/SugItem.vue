@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { changeDict, removeT } from '@/utils'
+import { detilProp } from '../utils/types'
 import useSuggest from '../utils/useSuggest'
 const { statusList, adviceType } = useSuggest()
 
@@ -12,8 +13,8 @@ const emit = defineEmits<{
 
 const props = defineProps({
   dataList: {
-    type: Array as any,
-    default: () => [],
+    type: Object as PropType<detilProp[]>,
+    required: true,
   },
   status: {
     type: Boolean,
@@ -23,10 +24,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  objData: {
+    type: Object as PropType<detilProp>,
+    default: () => ({}),
+  },
 })
-const defaultAttrs = {
-  disabled: true,
-}
 </script>
 
 <template>
@@ -65,22 +67,31 @@ const defaultAttrs = {
         </view>
       </wd-cell>
     </wd-cell-group>
-    <view v-if="props.status" class="bg-#fff rounded-6px overflow-hidden p-10px mt-10px">
-      <view class="flex justify-between items-center py-10px">
-        <text class="font-600 text-14px">反馈内容</text>
-        <text class="color-#999 text-14px">{{ removeT(props.dataList[0]!.createTime) }}</text>
+    <template v-if="props.status">
+      <view class="bg-#fff rounded-6px overflow-hidden p-10px mt-10px">
+        <view class="flex justify-between items-center py-10px">
+          <text class="font-600 text-14px">反馈内容</text>
+          <text class="color-#999 text-14px">{{ removeT(props.objData!.createTime) }}</text>
+        </view>
+        <view class="mt-10px">
+          <wd-text color="#777777" lineHeight="26px" :text="props.objData!.adviceContent"></wd-text>
+        </view>
+        <view class="mt-20px" v-if="props.objData!.adviceImg">
+          <dy-upload v-model="props.objData!.adviceImg" disabled></dy-upload>
+        </view>
       </view>
-      <view class="mt-10px">
-        <wd-text
-          color="#777777"
-          lineHeight="26px"
-          :text="props.dataList[0]!.adviceContent"
-        ></wd-text>
+      <view
+        class="bg-#fff rounded-6px overflow-hidden p-10px mt-10px"
+        v-if="props.objData!.replyContent"
+      >
+        <view class="flex justify-between items-center py-10px">
+          <text class="font-600 text-14px">平台回复</text>
+        </view>
+        <view class="mt-10px">
+          <wd-text color="#777777" lineHeight="26px" :text="props.objData!.replyContent"></wd-text>
+        </view>
       </view>
-      <view class="mt-20px" v-if="props.dataList[0]!.adviceImg">
-        <dy-upload v-model="props.dataList[0]!.adviceImg" disabled></dy-upload>
-      </view>
-    </view>
+    </template>
   </view>
 </template>
 <script lang="ts">

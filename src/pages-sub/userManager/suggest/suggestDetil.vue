@@ -96,31 +96,37 @@ onLoad(async (option: any) => {
 </script>
 
 <template>
-  <view class="w-100vw h-100vh dy-blue-bg box-border overflow-y-auto pb-100px">
-    <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
-    <view class="p-15px">
-      <Sug-Item :dataList="dataList" :status="true" />
-    </view>
-
-    <view
-      class="px-10px py-10px fixed bottom-0 left-0 right-0 bg-#fff safe-area-after"
-      v-if="dataList[0]?.adviceState !== '2'"
-    >
-      <view class="flex gap-15px">
-        <view class="flex-1" v-for="(item, index) in footerBtns2" :key="index">
-          <wd-button
-            :round="item.round"
-            block
-            :size="item.size"
-            :type="item.type"
-            @click="btnClick2(item)"
-          >
-            {{ item.text }}
-          </wd-button>
-        </view>
+  <dy-content customClass="dy-blue-bg">
+    <template #top>
+      <dy-navbar :leftTitle="title" left isNavShow color="#000"></dy-navbar>
+    </template>
+    <view class="">
+      <view class="p-15px">
+        <Sug-Item :dataList="dataList" :status="true" :objData="dataList[0]" />
       </view>
     </view>
-  </view>
+    <template #bottom>
+      <view class="px-10px py-10px safe-area-after bg-#fff" v-if="dataList[0]?.adviceState !== '2'">
+        <view class="flex gap-15px">
+          <view class="flex-1" v-for="(item, index) in footerBtns2" :key="index">
+            <wd-button
+              :round="item.round"
+              block
+              :size="item.size"
+              :type="item.type"
+              @click="btnClick2(item)"
+            >
+              {{ item.text }}
+            </wd-button>
+          </view>
+        </view>
+      </view>
+    </template>
+  </dy-content>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// :deep(.z-paging-content) {
+//   @apply dy-blue-bg;
+// }
+</style>
