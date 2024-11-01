@@ -299,7 +299,11 @@ export function sceneResult(resData: any) {
       status = url[1].indexOf('xaCard') > -1
       path = `merchantId=${url[1][0].replace('scene=', '')}&type=${url[1][1]}&actionType=${url[1][2]}`
     }
-  } else if (resData.scanType === 'QR_CODE' || resData.type === 'qrcode') {
+  } else if (
+    resData.scanType === 'QR_CODE' ||
+    resData.type === 'QR_CODE' ||
+    resData.type === 'qrcode'
+  ) {
     url = decodeURIComponent(resData.result).split('?')
     if (isArray(url) && url[1]) {
       console.log('🥫[url]:', url)
