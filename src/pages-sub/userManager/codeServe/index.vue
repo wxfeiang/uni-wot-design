@@ -14,7 +14,6 @@ import { Constant } from '@/enums/constant'
 import logo from '@/static/images/logo.png'
 import { useUserStore } from '@/store'
 import { dataDesensitization } from '@/utils'
-import { usegetScreenBrightness, useSetKeepScreenOn, useSetScreenBrightness } from '@/utils/uniapi'
 import qs from 'qs'
 import stkts from '../static/images/sbkts.png'
 import todo from '../static/images/todo.png'
@@ -25,7 +24,7 @@ const { userInfo } = useUserStore()
 
 const qrcode = ref<InstanceType<typeof tmQrcode> | null>(null)
 // TODO:临时使用
-const countdown = ref(60)
+
 const timer = ref(null)
 const tabs = ref([
   {
@@ -47,20 +46,9 @@ const tabs = ref([
 const active = ref(0)
 function changeClick(index) {
   active.value = index
-  codeRefsh()
+  generateCode()
 }
-const incrementCount = () => {
-  timer.value && clearInterval(timer.value)
-  countdown.value = 60
-  timer.value = setInterval(() => {
-    if (countdown.value > 0) {
-      countdown.value--
-    } else {
-      // 刷新二维码请求
-      countdown.value = 60
-    }
-  }, 1000)
-}
+
 const cfig = ref({
   logoImage: logo,
   str: '',
@@ -78,7 +66,8 @@ const textArr = ref([
 const lingdu = ref(0)
 
 const privacyStatus = ref(false)
-const codeRefsh = async () => {
+const generateCode = async () => {
+  countdown.resetTimer()
   // const params = {
   //   appId: 'KB23GNsIXC',
   //   appSign: '一卡通个人码',
@@ -99,39 +88,20 @@ const codeRefsh = async () => {
     actionType: Constant.QR_CODE_CARD,
   }
   cfig.value.str = `${VITE_SERVER_BASEURL}?${qs.stringify(qrcodeData)}`
-  incrementCount()
 }
 
-watch(
-  () => countdown.value,
-  () => {
-    if (countdown.value === 0) {
-      timer.value = null
-      countdown.value = 60
-      codeRefsh()
+const countdown = useCountdown(
+  60,
+  (remainingSeconds) => {
+    if (remainingSeconds === 0) {
+      generateCode()
     }
   },
-  { deep: true },
+  false,
 )
-const isShow = async () => {
-  // show.value = !show.value
-  if (!show.value) {
-    codeRefsh()
-    lingdu.value = (await usegetScreenBrightness()) as number
-
-    setTimeout(async () => {
-      await useSetScreenBrightness(1)
-      await useSetKeepScreenOn(true)
-    }, 3000)
-  }
-}
-isShow()
-
-onMounted(async () => {})
-onUnmounted(async () => {
-  await useSetKeepScreenOn(false)
-  await useSetScreenBrightness(lingdu.value + 0.05)
-  timer.value && clearInterval(timer.value)
+onLoad(() => {
+  generateCode()
+  countdown.startTimer()
 })
 </script>
 
@@ -194,8 +164,10 @@ onUnmounted(async () => {
                 </view>
                 <dy-qrcode ref="qrcode" :option="cfig"></dy-qrcode>
                 <view>
-                  <text class="text-#999999 text-14px mr-10px">{{ countdown }}秒自动刷新</text>
-                  <wd-button type="text" @click="codeRefsh">手动刷新</wd-button>
+                  <text class="text-#999999 text-14px mr-10px">
+                    {{ countdown.seconds }}秒自动刷新
+                  </text>
+                  <wd-button type="text" @click="generateCode">手动刷新</wd-button>
                 </view>
               </view>
             </template>
