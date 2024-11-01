@@ -90,6 +90,9 @@ const props = defineProps({
         <view class="mt-10px">
           <wd-text color="#777777" lineHeight="26px" :text="props.objData!.replyContent"></wd-text>
         </view>
+        <view class="mt-20px" v-if="props.objData!.replyImg">
+          <dy-upload v-model="props.objData!.replyImg" disabled></dy-upload>
+        </view>
       </view>
     </template>
   </view>

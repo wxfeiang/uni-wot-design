@@ -14,5 +14,6 @@ interface detilProp {
   adviceType: string
   status: string
   replyContent?: string
+  replyImg?: string
 }
 export type { detilProp }
