@@ -63,12 +63,12 @@ const getShopDetails = () => {
   })
 }
 const getlocation = () => {
-  const { latitude, longitude } = shopDetails.value
+  const { latitude, longitude, name, shopDesc } = shopDetails.value
   uni.openLocation({
     latitude: Number(latitude),
     longitude: Number(longitude),
-    name: 'name',
-    address: '详细说明',
+    name,
+    address: shopDesc,
     success: function () {
       console.log('success')
     },
@@ -183,7 +183,6 @@ onLoad(async (options) => {
             suffix-icon="search"
             @confirm="searchGoods"
             @clicksuffixicon="searchGoods"
-            style="width: 100%"
             placeholder="请输入搜索关键词"
             confirm-type="search "
           />
@@ -319,7 +318,10 @@ onLoad(async (options) => {
   </z-paging>
 </template>
 
-<style>
+<style lang="scss" scoped>
+:deep(.wd-input) {
+  width: 100%;
+}
 :deep(.z-paging-content) {
   background: #f3f4f6;
 }
