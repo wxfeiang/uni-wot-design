@@ -28,7 +28,7 @@ const orderID = ref('')
 
 const ticketsInfo = ref({
   reason: '',
-  reasonInd: 0,
+  reasonInd: 1,
   description: '',
   imageListstr: '',
   phone: '',
@@ -65,7 +65,7 @@ function submit() {
   } else {
     const da = {
       orderId: orderID.value,
-      reasonType: ticketsInfo.value.reasonInd + 1,
+      reasonType: ticketsInfo.value.reasonInd,
       interfereContent: ticketsInfo.value.description,
       voucherUrl: ticketsInfo.value.imageListstr,
       createPhone: ticketsInfo.value.phone,
